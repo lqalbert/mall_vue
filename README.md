@@ -1,6 +1,11 @@
 # mall-backend-front
 
-> A Vue.js project
+> 电商后台前端
+
+## install step
+cnpm install
+
+
 
 ## Build Setup
 

@@ -163,7 +163,7 @@ export default {
         }
     },
     mounted:function(){
-        this.navChange('MsgBox');
+        this.navChange('Cosmetics');
     }
 }
 </script>

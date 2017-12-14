@@ -58,7 +58,7 @@
 
         <el-row>
             <el-col>
-                <el-table :data="tableData" v-loading.body="dataLoad" style="width: 100%" border>
+                <el-table :data="tableData" v-loading="dataLoad" style="width: 100%" border>
                     <el-table-column label="序号" width="70" type="index">
                     </el-table-column>
 

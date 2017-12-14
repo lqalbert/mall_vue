@@ -20,70 +20,54 @@ export default {
     return {
       nav:[
         {
-          text:"百宝箱",
+          text:"产品类型",
           icon:"el-icon-message",
           subNav:[
-            {text:'消息盒子', index:"MsgBox"},
-            {text:'系统公告', index:'SysNotice'},
-            {text:'部门公告', index:'DepartmentNotice'},
-            {text:'集思信箱', index:'GatherAdvice'},
-            {text:'工作总结', index:'WorkSummary'}
+            {text:'化妆品', index:"Cosmetics"},
+            {text:'保健品', index:'HealthProducts'},
           ]
         },
-          {
-              text:'推广素材',
-              icon:null,
-              subNav:[
-                  {text:'注册信息', index:'RegisterInfo'}
-                  ]
-          },
+
         {
-          text:'组织员工',
+          text:'员工管理',
           icon:null,
           subNav:[
             {text:'组织单位', index:'Department'},
-            // {text:'组织区', index:'DepartmentDivision'},
             {text:'团队小组', index:'Group'},
-            {text:'员工管理', index:'Employee'},
-            {text:'角色管理', index:'Role'},
-            {text:'权限管理', index:'Node'},
-            {text:'菜单管理', index:'Menus'}
+            {text:'员工信息', index:'Employee'},
+
           ]
         },
         {
-          text:'日常工作',
+          text:'客户管理',
           icon:null,
           subNav:[
-            { text:'客户管理', index:'Customer' },
-            { text:'行情资讯', index:'CounselArticle' },
-            { text:'推广客户', index:'DistributeCustomerB' },
-            { text:'员工查询', index:'EmployeeSelect' },
-            { text:'待开单客户', index:'MakeOrder' }, //材料员工
-            { text:'客户预查', index:'PreCheck' },
-            { text:'部门客户', index:'DepartmentCustomer' },
-            { text:'产品管理', index:'Products' },
-            { text:'推广部客户', index:'SpreadDepartmentCustomer' },
+            { text:'客户资料', index:'CustomerInformation' },
+            { text:'购买订单', index:'BuyOrders' },
           ]
         },
         {
-          text:'统计报表',
+          text:'订单管理',
           icon:null,
           subNav:[
-              { text:'业绩排名', index:'AchievementRank' },
-              { text:'销售业绩报表', index:'Performance' },
-              { text:'推广业绩报表', index:'PerformanceForSpread' },
-              { text:'销售量化统计', index:'QuantizationCount' },
-              { text:'推广量化统计', index:'SpreadQuantizationCount' },
-              { text:'成交客户', index:'TradeCustomers' },
+              { text:'订单列表', index:'OrderList' },
           ]
         },
         {
-          text:'客服服务',
+          text:'库存管理',
           icon:null,
           subNav:[
-              { text:'审核审查', index:'RiskCheck' },
-              { text:'购买审核', index:'BuyCheck' },
-              { text:'购买流程', index:'RiskManager' },
+              { text:'库存列表', index:'InventoryList' },
+              { text:'商品入库', index:'GoodsInto' },
+              { text:'商品出库', index:'GoodsOut' },
+          ]
+        },
+        {
+          text:'配送管理',
+          icon:null,
+          subNav:[
+              { text:'物流信息', index:'ExpressInfo' },
+
           ]
         }
       ]   

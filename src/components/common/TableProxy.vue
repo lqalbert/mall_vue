@@ -1,0 +1,177 @@
+<template>
+
+    <div>
+
+        <!-- 下面这些事件怎么写一个通用的？ -->
+            <!-- @select="selectChange" 
+            select 当用户手动勾选数据行的 Checkbox 时触发的事件	selection, row
+            @selection-change="selectionChange" 	
+            select-all	当用户手动勾选全选 Checkbox 时触发的事件	selection
+            selection-change	当选择项发生变化时会触发该事件	selection
+            cell-mouse-enter	当单元格 hover 进入时会触发该事件	row, column, cell, event
+            cell-mouse-leave	当单元格 hover 退出时会触发该事件	row, column, cell, event
+            cell-click	当某个单元格被点击时会触发该事件	row, column, cell, event
+            cell-dblclick	当某个单元格被双击击时会触发该事件	row, column, cell, event
+            row-click	当某一行被点击时会触发该事件	row, event, column
+            row-contextmenu	当某一行被鼠标右键点击时会触发该事件	row, event
+            row-dblclick	当某一行被双击时会触发该事件	row, event
+            header-click	当某一列的表头被点击时会触发该事件	column, event
+            sort-change	当表格的排序条件发生变化的时候会触发该事件	{ column, prop, order }
+            filter-change	当表格的筛选条件发生变化的时候会触发该事件，参数的值是一个对象，对象的 key 是 column 的 columnKey，对应的 value 为用户选择的筛选条件的数组。	filters
+            current-change	当表格的当前行发生变化的时候会触发该事件，如果要高亮当前行，请打开表格的 highlight-current-row 属性	currentRow, oldCurrentRow
+            header-dragend	当拖动表头改变了列的宽度的时候会触发该事件	newWidth, oldWidth, column, event
+            expand -->
+        <el-table
+            ref="proxyTable"
+            :data="mainData"
+            v-loading.body="dataLoad"
+            border
+            style="width: 100%"
+            @sort-change="sortChange"
+            >
+            <slot></slot>
+        </el-table>
+      <el-row >
+        <el-col :span="12">
+            <slot name="buttonbar"></slot>            
+        </el-col>
+                <div class="pull-right">
+                    <el-col :span="12">
+                            <el-pagination
+                            :current-page="currentPage"
+                            :page-size="100"
+                            layout="total, prev, pager, next, jumper"
+                            :total="total"
+                            @current-change="currentChange">
+                            </el-pagination>
+                    </el-col>
+
+                </div>
+        </el-row>
+    </div>
+  </template>
+  
+  <script>
+
+  import DataProxy from '../../packages/DataProxy';
+
+
+  export default {
+    name: 'TableProxy',
+    props:{
+        
+        param:{
+            type: String,
+            default: ''
+        },
+        url:{
+            type: String,
+            default:''
+        },
+        pageSize:{
+            type:Number,
+            default: 100
+        },
+        bubble:{
+            type: Object,
+            default:null
+        }
+    },
+    data () {
+      return {
+        currentPage:1,
+        msg:'asdf',
+        mainData:[],
+        dataLoad:false,
+        realParam:null,
+        total:0,
+
+        multipleSelection: []
+      }
+    },
+    methods:{
+        dataLoaded(data){
+            this.toggleTableLoad();
+            this.mainData = data.items;
+            this.total = data.total
+        },
+        toggleTableLoad(){
+           this.dataLoad = !this.dataLoad;
+        },
+        currentChange(v){
+            this.mainProxy.setPage(v).load();
+        },
+
+        sortChange(prop){
+            this.mainProxy.setOrder(prop.prop, prop.order).load();
+        },
+
+        handleSelectionChange(val) {
+            
+            this.multipleSelection = val;
+            this.$emit('selection-change', this.multipleSelection);
+        },
+
+        bubleEvents(){
+            console.log(arguments);
+            
+        },
+        onError(){
+            this.dataLoad = false;
+        }
+
+        
+    },
+    watch:{
+        param:function(val, oldVal){
+            this.realParam = JSON.parse(val);
+            this.mainProxy.setExtraParam(this.realParam).load();
+        }
+    },
+    created(){
+        if (this.param) {
+            this.realParam = JSON.parse(val);
+        }
+        this.toggleTableLoad();
+        let mainProxy = new DataProxy(this.url, this.pageSize, this.dataLoaded, this, this.onError);
+        
+        if (this.realParam) {
+            mainProxy.setExtraParam(this.realParam);
+        }
+        mainProxy.load();
+        this.mainProxy = mainProxy;
+
+       
+       
+    },
+
+    mounted(){
+         // refs 在 created里还没有
+        // 查看这的 答案 https://segmentfault.com/q/1010000010145270 在mounted之后才有对象
+        if(this.bubble){
+            for (const key in this.bubble) {
+                if (this.bubble.hasOwnProperty(key)) {
+                    const element = this.bubble[key];
+                    this.$refs.proxyTable.$on(key, element);
+                    
+                }
+            }
+            // for (let index = 0; index < this.bubble.length; index++) {
+            //     console.log(this.bubble[index]);
+            //     // const element = array[index];
+            //     console.log(this.$refs);
+            //     this.$refs.proxyTable.$on(this.bubble[index], this.bubleEvents, this.bubble[index]);
+            // }
+            
+        }
+    }
+  }
+  </script>
+  
+  <!-- Add "scoped" attribute to limit CSS to this component only -->
+  <style scoped>
+    .pull-right {
+        float: right;
+    }
+  </style>
+  

@@ -67,8 +67,8 @@
             </el-col>
         </el-row>
         <el-row >
-            <el-col :span="12" :offset="12">
-                <div style="float:right">
+            <div class="pull-right" style="float: right;margin-top: 5px">
+                <el-col :span="12">
                     <el-pagination
                             :current-page="currentPage4"
                             :page-size="100"
@@ -76,8 +76,8 @@
                             :total="total"
                             @current-change="currentChange">
                     </el-pagination>
-                </div>
-            </el-col>
+                </el-col>
+            </div>
         </el-row>
         <el-row>
             <el-col :span="24">

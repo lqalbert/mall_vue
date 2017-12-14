@@ -41,12 +41,13 @@
         </el-row>
         <el-row >
             <el-col :span="12">
-                <div class="grid-content bg-purple">
+                <div class="grid-content bg-purple" style="float: left;margin-top: 5px">
                     <el-button size="small" type="primary">审核</el-button>
                     <el-button size="small" type="primary">刷新</el-button>
                 </div>
             </el-col>
-                <el-col :span="12" >
+            <div class="pull-right" style="float: right;margin-top: 5px">
+                <el-col :span="12">
                     <el-pagination
                             :current-page="currentPage4"
                             :page-size="100"
@@ -55,6 +56,7 @@
                             @current-change="currentChange">
                     </el-pagination>
                 </el-col>
+            </div>
         </el-row>
         <el-row>
             <el-col :span="24">

@@ -2,48 +2,37 @@
     <div class="hello">
         <el-row>
             <el-form :inline="true" ref="searchForm" :model="searchForm" >
-                <el-form-item prop="start">
+                <el-form-item prop="start" >
                     <el-date-picker size="small" v-model="searchForm.start"
-                                    placeholder="时间区间开始"
-                                    @change="startDateChange">
+                                    placeholder="下单开始时间"
+                                    @change="startDateChange"
+                                    :editable="false">
                     </el-date-picker>
                 </el-form-item>
 
                 <el-form-item prop="end">
                     <el-date-picker size="small" v-model="searchForm.end"
-                                    placeholder="时间区间截止"
-                                    @change="endDateChange">
+                                    placeholder="下单截止时间"
+                                    @change="endDateChange"
+                                    :editable="false">
                     </el-date-picker>
                 </el-form-item>
 
-                <el-form-item prop="department" label="请选择部门:"  label-width="100px">
-                    <el-radio-group v-model="searchForm.department" >
-                        <el-radio label="1" >推广部</el-radio>
-                        <el-radio label="2" >销售部</el-radio>
-                    </el-radio-group>
+                <el-form-item prop="number">
+                    <el-input size="small" v-model="searchForm.number" placeholder="请输入订单编号"></el-input>
                 </el-form-item>
 
-                <el-form-item prop="condition">
-                    <el-dropdown trigger="click" menu-align="start" @command="typeChange" >
-                        <el-button type="primary" size="small">
-                            {{typeName}}<i class="el-icon-caret-bottom el-icon--right"></i>
-                        </el-button>
-                        <el-dropdown-menu slot="dropdown">
-                            <el-dropdown-item v-for="(item,index) in conditions" 
-                            :key="index" :command="index.toString()" v-text="item"></el-dropdown-item>
-                        </el-dropdown-menu>
-                    </el-dropdown>
-                </el-form-item>
-
-                <el-form-item prop="field" v-show="false">
-                    <input type="hidden" size="small" v-model="searchForm.field"/>
-                </el-form-item>
 
                 <el-form-item>
-                    <el-button size="small" type="info" @click="setField('lastWeek')">上周</el-button>
-                    <el-button size="small" type="info" @click="setField('lastMonth')">上月</el-button>
-                    <el-button size="small" type="info" @click="setField('week')">本周</el-button>
-                    <el-button size="small" type="info" @click="setField('month')">本月</el-button>
+                    <el-button size="small" type="info" >全部</el-button>
+                    <el-button size="small" type="info" >待付款</el-button>
+                    <el-button size="small" type="info" >待确认</el-button>
+                    <el-button size="small" type="info" >待发货</el-button>
+                    <el-button size="small" type="info" >已发货</el-button>
+                    <el-button size="small" type="info" >已收货</el-button>
+                    <el-button size="small" type="info" >已完成</el-button>
+                    <el-button size="small" type="info" >已关闭</el-button>
+                    <el-button size="small" type="info" >退款中</el-button>
                 </el-form-item>
 
                 <el-form-item label-width="5px">
@@ -59,49 +48,42 @@
             </el-form>
         </el-row>
 
-        <el-row :gutter="20" type="flex" v-loading="dataLoad">
-            <el-col :span="8">
-                <el-card class="box-card" style="border: 1px solid #ff4949;">
-                    <div slot="header">
-                        <el-alert :closable="false" title="部门/单位排名" type="error"></el-alert>
-                    </div>
-                    <div class="text item">
-                        <el-table :data="tableDataDep"  height="401" highlight-current-row empty-text="暂无数据,请录入客户！" :show-header="false">
-                            <el-table-column prop="name" label="名称"></el-table-column>
-                            <el-table-column label="序号"  align="center" type="index" width="65"></el-table-column>
-                        </el-table>
-                    </div>
-                </el-card>
-            </el-col>
-            <el-col :span="8" >
-                <el-card class="box-card"  style="border: 1px solid #50bfff;">
-                    <div slot="header">
-                        <el-alert :closable="false" title="团队/小组排名" type="info"></el-alert>
-                    </div>
-                    <div class="text item">
-                        <el-table :data="tableDataGroup" height="401" highlight-current-row empty-text="暂无数据,请录入客户！" :show-header="false">
-                            <el-table-column prop="name" label="名称"></el-table-column>
-                            <el-table-column label="序号"  align="center" type="index" width="65"></el-table-column>
-                        </el-table>
-                    </div>
-                </el-card>
-            </el-col>
-            <el-col :span="8" >
-                <el-card class="box-card"  style="border: 1px solid #f7ba2a;">
-                    <div slot="header">
-                        <el-alert :closable="false" title="个人排名" type="warning"></el-alert>
-                    </div>
-                    <div class="text item">
-                        <el-table :data="tableDataUser"  height="401" highlight-current-row empty-text="暂无数据,请录入客户！" :show-header="false">
-                            <el-table-column prop="name" label="名称"></el-table-column>
-                            <el-table-column label="序号"  align="center" type="index" width="65"></el-table-column>
-                        </el-table>
-                    </div>
-                </el-card>
+        <el-row>
+            <el-col>
+                <el-table :data="tableData" v-loading="dataLoad" border style="width: 100%">
+                    <el-table-column type="selection" align="center" width="50"></el-table-column>
+                    <el-table-column label="序号" align="center" type="index" width="65"></el-table-column>
+                    <el-table-column prop="order_sn" label="订单编号" width="200" align="center">
+                    </el-table-column>
+                    <el-table-column prop="goods_name" label="商品名称" align="center">
+                    </el-table-column>
+                    <el-table-column prop="consignee" label="收货人信息" align="center">
+                    </el-table-column>
+                    <el-table-column prop="order_all_money" label="总金额" align="center" width="100">
+                    </el-table-column>
+                    <el-table-column prop="order_pay_money" label="应付金额" align="center" width="100">
+                    </el-table-column>
+                    <el-table-column prop="order_status" label="订单状态" align="center">
+                    </el-table-column>
+                    <el-table-column prop="pay_name" label="支付方式" align="center" width="100">
+                    </el-table-column>
+                    <el-table-column prop="shipping_status" label="发货状态" align="center" width="100">
+                    </el-table-column>
+                    <el-table-column prop="shipping_name" label="配送方式" align="center" width="100">
+                    </el-table-column>
+                    <el-table-column prop="order_time" label="下单时间" align="center">
+                    </el-table-column>
+                    <el-table-column  label="操作" align="center" width="140">
+                        <template slot-scope="scope">
+                            <el-button type="info"    size="small">查看</el-button>
+                            <el-button type="danger"  size="small">删除</el-button>
+                        </template>
+                    </el-table-column>
+                </el-table>
             </el-col>
         </el-row>
 
-        <div class="pull-right" hidden>
+        <div class="pull-right" style="float:right;margin-top: 5px" >
             <el-col :span="12">
                 <el-pagination
                         :current-page="currentPage4"
@@ -132,13 +114,13 @@ export default {
             conditions:["录入个数", "成交金额", "成交个数"],
             searchForm:{
                 start:'',
-                department_id:'',
+                number:'',
                 end:'',
                 condition:'',
                 department:'1'
             },
             currentPage4:1,
-            tableDataDep:[{name:'新乡部'}, {name:'周口二部'}, {name:'许昌部'}, {name:'信阳部'},],
+            tableData:[],
             tableDataGroup:[{name:'新乡部-胜利队'}, {name:'周口二部-超越队'}, {name:'许昌部-亮剑队'}, {name:'信阳部-猛虎队'},],
             tableDataUser:[{name:'周口一部-超越队-王宁'}, {name:'平顶山部-启航队-王鹏瑞'}, {name:'新乡部-突击队-赵康'}, {name:'新乡部-胜利队-何落落'},]
 
@@ -157,11 +139,10 @@ export default {
         },
         endDateChange:function(v){
             this.searchForm.end = v;
-        }, mainTableLoad(data){
+        },
+        mainTableLoad(data){
             this.toggleTableLoad();
-            this.tableDataDep = data.items;
-            this.tableDataGroup = data.items1;
-            this.tableDataUser = data.items2;
+            this.tableData = data.items;
             this.total = data.total;
         },
         currentChange(v){
@@ -181,36 +162,12 @@ export default {
             this.mainProxy.setExtraParam(null).load();
             this.toggleTableLoad();
         },
-        setField(field){
-            let param = {};
-            switch (field) {
-                case 'lastWeek':
-                    param.start = '2017-11-27';
-                    param.end = '2017-12-03';
-                    break;
-                case 'lastMonth':
-                    param.start = '2017-11-01';
-                    param.end = '2017-11-30';
-                    break;
-                case 'week':
-                    param.start = '2017-12-04';
-                    param.end = '2017-12-10';
-                    break;
-                case 'month':
-                    param.start = '2017-12-01';
-                    param.end = '2017-12-31';
-                    break;
-                default:
-                    break;
-            }
-            
-            this.$emit('search-tool-change',param);
-        }
+
 
     },
     created(){
         this.toggleTableLoad();
-        let mainProxy = new DataProxy("/achievementrank", this.pageSize, this.mainTableLoad, this);
+        let mainProxy = new DataProxy("/orderlist", this.pageSize, this.mainTableLoad, this);
         this.mainProxy = mainProxy;
         this.mainProxy.load();
 

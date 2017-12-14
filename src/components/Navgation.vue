@@ -20,11 +20,12 @@ export default {
     return {
       nav:[
         {
-          text:"产品类型",
-          icon:"el-icon-message",
+          text:"商品管理",
+          icon:null,
           subNav:[
-            {text:'化妆品', index:"Cosmetics"},
-            {text:'保健品', index:'HealthProducts'},
+            {text:'商品列表', index:"Cosmetics"},
+            // {text:'化妆品', index:"Cosmetics"},
+            // {text:'保健品', index:'HealthProducts'},
           ]
         },
 

@@ -3,8 +3,14 @@
         <el-row>
             <el-form :inline="true" :model="searchForm" ref="searchForm" class="demo-form-inline" size="small">
                 <el-form-item prop="user">
-                    <el-input v-model="searchForm.user" placeholder="请输入标题关键字"></el-input>
+                    <el-input v-model="searchForm.user" placeholder="请输入商品名称"></el-input>
                 </el-form-item>
+                <el-form-item>
+                    <el-button size="small" type="info" >全部</el-button>
+                    <el-button size="small" type="info" >化妆品</el-button>
+                    <el-button size="small" type="info" >保健品</el-button>
+                </el-form-item>
+
                 <el-form-item>
                     <el-button type="primary" size="small" icon="search" @click="searchToolChange('searchForm')">查询
                     </el-button>
@@ -19,16 +25,34 @@
 
                     <el-table-column label="序号" align="center" type="index" width="65"></el-table-column>
 
-                    <el-table-column prop="title" label="标题" width="180" align="center">
+                    <el-table-column prop="title" label="商品名称" width="180" align="center">
                     </el-table-column>
 
-                    <el-table-column prop="content" label="内容" align="center">
+                    <el-table-column prop="content" label="商品价格" align="center">
                     </el-table-column>
 
-                    <el-table-column prop="time" label="发送时间" align="center">
+                    <el-table-column prop="time" label="商品分类" align="center">
                     </el-table-column>
+                    <el-table-column prop="time" label="总库存量" align="center">
+                    </el-table-column>
+                    <el-table-column prop="time" label="已销售量" align="center">
+                    </el-table-column>
+                    <el-table-column prop="time" label="剩余库存" align="center">
+                    </el-table-column>
+                    <el-table-column prop="time" label="新品" align="center">
+                    </el-table-column>
+                    <el-table-column prop="time" label="热卖" align="center">
+                    </el-table-column>
+                    <el-table-column prop="time" label="推荐" align="center">
+                    </el-table-column>
+                    <el-table-column prop="time" label="上下架" align="center">
+                    </el-table-column>
+                    <el-table-column  label="操作" align="center" width="140">
+                        <template slot-scope="scope">
+                            <el-button type="info"    size="small">编辑</el-button>
+                            <el-button type="danger"  size="small">删除</el-button>
+                        </template>
 
-                    <el-table-column prop="operator" label="操作人员" align="center">
                     </el-table-column>
                 </el-table>
             </el-col>
@@ -36,14 +60,14 @@
 
         <el-row>
             <el-col :span="12">
-                <div class="grid-content bg-purple">
+                <div class="grid-content bg-purple" style="float: left;margin-top: 5px">
                     <el-tooltip content="多选批量删除" placement="right">
                         <el-button size="small" type="warning" icon="delete" @click="handleDeletes">批量删除
                         </el-button>
                     </el-tooltip>
                 </div>
             </el-col>
-            <div class="pull-right">
+            <div class="pull-right" style="float: right;margin-top: 5px">
                 <el-col :span="12">
                     <el-pagination
                             :current-page="currentPage4"
@@ -57,49 +81,49 @@
         </el-row>
 	<el-row>
             
-            <TableProxy 
-                :url="mainurl" 
-                :param="mainparam"
-                :bubble="tableEvents"
-                >
-                <el-table-column type="selection" align="center" width="50"></el-table-column>
-                <el-table-column label="序号" align="center"  type="index" width="80"></el-table-column>
-                <el-table-column
-                    prop="title"
-                    label="标题"
-                    width="180"
-                    align="center"
-                    sortable='custom'>
-                </el-table-column>
-                <el-table-column
-                    prop="content"
-                    label="内容"
-                    align="center"
-                >
-                </el-table-column>
-                <el-table-column
-                    prop="time"
-                    label="发送时间"
-                    align="center">
-                </el-table-column>
-                <el-table-column
-                    prop="operator"
-                    label="操作人员"
-                    align="center">
-                </el-table-column>
-                <el-table-column
-                prop="operator"
-                label="操作人员"
-                align="center">
-                    <template slot-scope="scope">
-                        <el-button size="small" type="primary" @click="buy(scope.row)">购买</el-button>
-                        <el-button size="small" type="info">续费</el-button>
-                    </template>
-                </el-table-column>
-                <div slot="buttonbar">
-                    <el-button>abc</el-button>
-                </div>
-            </TableProxy>
+            <!--<TableProxy -->
+                <!--:url="mainurl" -->
+                <!--:param="mainparam"-->
+                <!--:bubble="tableEvents"-->
+                <!--&gt;-->
+                <!--<el-table-column type="selection" align="center" width="50"></el-table-column>-->
+                <!--<el-table-column label="序号" align="center"  type="index" width="80"></el-table-column>-->
+                <!--<el-table-column-->
+                    <!--prop="title"-->
+                    <!--label="标题"-->
+                    <!--width="180"-->
+                    <!--align="center"-->
+                    <!--sortable='custom'>-->
+                <!--</el-table-column>-->
+                <!--<el-table-column-->
+                    <!--prop="content"-->
+                    <!--label="内容"-->
+                    <!--align="center"-->
+                <!--&gt;-->
+                <!--</el-table-column>-->
+                <!--<el-table-column-->
+                    <!--prop="time"-->
+                    <!--label="发送时间"-->
+                    <!--align="center">-->
+                <!--</el-table-column>-->
+                <!--<el-table-column-->
+                    <!--prop="operator"-->
+                    <!--label="操作人员"-->
+                    <!--align="center">-->
+                <!--</el-table-column>-->
+                <!--<el-table-column-->
+                <!--prop="operator"-->
+                <!--label="操作人员"-->
+                <!--align="center">-->
+                    <!--<template slot-scope="scope">-->
+                        <!--<el-button size="small" type="primary" @click="buy(scope.row)">购买</el-button>-->
+                        <!--<el-button size="small" type="info">续费</el-button>-->
+                    <!--</template>-->
+                <!--</el-table-column>-->
+                <!--<div slot="buttonbar">-->
+                    <!--<el-button>abc</el-button>-->
+                <!--</div>-->
+            <!--</TableProxy>-->
 
 
 
@@ -115,7 +139,7 @@
 
     export default {
         name: 'Cosmetics',
-        pageTitle: "化妆品",
+        pageTitle: "商品列表",
         mixins: [PageMix, SearchTool],
 	    components:{TableProxy},
         data() {

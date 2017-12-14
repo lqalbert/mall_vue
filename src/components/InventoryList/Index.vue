@@ -84,17 +84,17 @@
                 </el-table>
             </el-col>
         </el-row>
-        <br>
+
         <el-row >
             <el-col :span="12">
-                <div class="grid-content bg-purple">
+                <div class="grid-content bg-purple" style="float: left;margin-top: 5px">
                     <el-button size="small" type="primary">录入跟踪</el-button>
                     <el-button size="small" type="primary">客户投诉</el-button>
                     <el-button size="small" type="primary">审核</el-button>
                     <el-button size="small" type="primary">聊天记录</el-button>
                 </div>
             </el-col>
-            <div class="pull-right">
+            <div class="pull-right" style="float: right;margin-top: 5px">
                 <el-col :span="12">
                     <el-pagination
                             :current-page="currentPage4"

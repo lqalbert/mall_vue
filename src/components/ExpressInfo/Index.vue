@@ -15,8 +15,8 @@
         <el-row>
             <el-col>
                 <el-table :data="tableData" v-loading.body="dataLoad" border style="width: 100%">
-                    <el-table-column label="序号" align="center"  type="index" width="65">
-                    </el-table-column>
+                    <el-table-column label="序号" align="center"  type="index" width="65"></el-table-column>
+
                     <el-table-column prop="order_number" label="订单号" align="center">
                     </el-table-column>
                     <el-table-column prop="express" label="配送物流" align="center">

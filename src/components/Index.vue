@@ -43,9 +43,14 @@
         </div>
     </div>
   </div>
+
+
+
+
 </template>
 
 <script>
+
 // import Navgation from './Navgation.vue';
 import PageList from "./PageList";
 export default {
@@ -157,7 +162,9 @@ export default {
     position: fixed;
     left: 0;
     top: 63px;
+    bottom:0px;
     width: 200px;
+    background-color: #324157;
 }
 .main-hook{
     padding:0 10px 0;
@@ -171,7 +178,7 @@ export default {
   z-index:99999;
 }
 .big-title{
-  line-height: 55px;font-size:22px;margin-left:2px;
+  line-height:55px;font-size:22px;margin-left:2px
 }
 .top-date{
   color:#d85126;float:left;margin-left:100px;margin-top:18px;

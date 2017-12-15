@@ -51,6 +51,7 @@
         <el-row>
             <el-col>
                 <el-table :data="tableData" v-loading="dataLoad" border style="width: 100%">
+                    <el-table-column type="selection" align="center" width="50"></el-table-column>
                     <el-table-column label="序号" align="center" type="index" width="65"></el-table-column>
                     <el-table-column prop="order_sn" label="订单编号" width="200" align="center">
                     </el-table-column>

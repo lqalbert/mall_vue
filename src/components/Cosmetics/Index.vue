@@ -180,9 +180,20 @@
                 currentPage4: 1,
                 total: 100,
                 dataLoad: false,
-                tableData: [
-                    {title: '预查冲突', content: '手机号冲突:15642104241', time: '2017-11-23 10:19:20', operator: '王姣姣'},
-                ],
+                tableData:[ {
+
+                    'goods_name':'自然堂护肤品',
+                    'goods_price':'399.00',
+                    'goods_number':25468137,
+                    'goods_type':'化妆品',
+                    'goods_sum':20,
+                    'sale_goods':5,
+                    'surplus_goods':15,
+                    'new_goods':1,
+                    'hot_goods':1,
+                    'recommend_goods':1,
+                    'status':1
+                },],
 
                 tableEvents:{
                     'row-click':this.onRowclick
@@ -208,12 +219,15 @@
             mainTableLoad(data) {
                 this.toggleTableLoad();
                 let res_data = data.items;
-                for(var x in res_data){
-                    res_data[x].new_goods = res_data[x].new_goods ==1 ? true : false;
-                    res_data[x].hot_goods = res_data[x].hot_goods ==1 ? true : false;
-                    res_data[x].recommend_goods = res_data[x].recommend_goods ==1 ? true : false;
-                    res_data[x].status = res_data[x].status ==1 ? true : false;
-                }
+              for(var x in res_data){
+                  // console.log(res_data[x]);
+                  res_data[x].new_goods = res_data[x].new_goods ==1 ? true : false;
+                  res_data[x].hot_goods = res_data[x].hot_goods ==1 ? true : false;
+                  res_data[x].recommend_goods = res_data[x].recommend_goods ==1 ? true : false;
+                  res_data[x].status = res_data[x].status ==1 ? true : false;
+
+              }
+                 console.log(res_data);
                 this.tableData = res_data;
                 this.total = data.total;
             },

@@ -2,28 +2,18 @@
 <template>
 
   <div>
-    <!--<div  id="top" style="height: 55px;border-bottom: 2px solid #ea4b4b;">-->
-      <!--<div>-->
-        <!--<el-row>-->
-          <!--<el-col :span="12">-->
-            <!--<div class="big-title">CRM客户关系管理系统</div>-->
-          <!--</el-col>-->
-          <!--<el-col  :span="12">-->
-            <!--<div class="top-date">北京时间 2017年12月05日 18:18:18 星期二</div>-->
-            <!--<div class="top-name">欢迎您大佬大佬</div>-->
-            <!--<el-menu class="el-menu-demo" id="top-css" mode="horizontal" @select="handleSelect">-->
-            <!--<el-submenu index="999">-->
-                <!--<template slot="title">大佬大佬</template>-->
-                <!--<el-menu-item index="UserInfo"><i class="el-icon-setting"></i>个人信息</el-menu-item>-->
-                <!--<el-menu-item index="UserSetting"><i class="el-icon-setting"></i>设置密码</el-menu-item>-->
-                <!--<el-menu-item index="Logout"><i class="el-icon-circle-close"></i>退出登录</el-menu-item>-->
-            <!--</el-submenu>-->
-            <!--</el-menu>-->
-          <!--</el-col>-->
 
-
-        <!--</el-row>-->
-
+     <div  id="top" style="height: 55px; border-bottom: 2px solid #ea4b4b;">
+            <el-row>
+              <el-col :span="12">
+                <div class="big-title">化妆品商城后台系统</div>
+              </el-col>
+              <el-col  :span="12">
+                <div class="top-date">北京时间 2017年12月05日 18:18:18 星期二</div>
+                <div class="top-name">欢迎您老大</div>
+              </el-col>
+            </el-row>
+      </div>
 
     <div style="padding-left: 200px">
         <div class="Navgation" >
@@ -175,7 +165,7 @@ export default {
 .Navgation{
     position: fixed;
     left: 0;
-    top: 57px;
+    top: 63px;
     width: 200px;
 }
 .main-hook{
@@ -190,7 +180,7 @@ export default {
   z-index:99999;
 }
 .big-title{
-  font-size:22px;margin-top:14px;margin-left:2px
+  line-height:55px;font-size:22px;margin-left:2px
 }
 .top-date{
   color:#d85126;float:left;margin-left:100px;margin-top:18px;

@@ -1,6 +1,6 @@
 <template>
   <div >
-      <el-menu    theme="dark" @select="handleSelect" >
+      <el-menu  :unique-opened="true"   theme="dark" @select="handleSelect" >
        <el-submenu v-for="(ni,index) in nav" :key="index" :index="index+''" >
         <template slot="title">
           <i v-if="ni.icon" :class="ni.icon"></i>
@@ -24,7 +24,7 @@ export default {
           icon:null,
           subNav:[
             {text:'商品列表', index:"Cosmetics"},
-            // {text:'化妆品', index:"Cosmetics"},
+             {text:'商品分类', index:"Category"},
             // {text:'保健品', index:'HealthProducts'},
           ]
         },

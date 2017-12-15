@@ -17,6 +17,7 @@ const PageList = {
     'GoodsInto':(resolve)=>{ require(['./GoodsInto/Index.vue'], resolve)},
     'GoodsOut':(resolve)=>{ require(['./GoodsOut/Index.vue'], resolve)},
     'ExpressInfo':(resolve)=>{ require(['./ExpressInfo/Index.vue'], resolve)},
+    'Category':(resolve)=>{ require(['./Category/Index.vue'], resolve)},
 
 
 

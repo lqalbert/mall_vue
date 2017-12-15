@@ -89,32 +89,32 @@
                 <el-table :data="tableData" v-loading.body="dataLoad" empty-text="请录入客户信息" 
                 highlight-current-row border ref="select" style="width: 100%">
                     <el-table-column label="序号" width="65" type="index" align="center"></el-table-column>
-                    <el-table-column prop="name" label="客户姓名" width="200" header-align="center"></el-table-column>
-                    <el-table-column prop="type" label="客户类型" width="140" header-align="center"></el-table-column>
-                    <el-table-column prop="realname" label="跟踪员工" width="200" header-align="center"></el-table-column>
-                    <el-table-column prop="lock_name" label="锁定员工" width="200" header-align="center"></el-table-column>
-                    <el-table-column prop="qq" label="QQ号" width="200" header-align="center"></el-table-column>
+                    <el-table-column prop="name" label="客户姓名" width="200" align="center"></el-table-column>
+                    <el-table-column prop="type" label="客户类型" width="140" align="center"></el-table-column>
+                    <el-table-column prop="realname" label="跟踪员工" width="200" align="center"></el-table-column>
+                    <el-table-column prop="lock_name" label="锁定员工" width="200" align="center"></el-table-column>
+                    <el-table-column prop="qq" label="QQ号" width="200" align="center"></el-table-column>
                     <el-table-column prop="qq_nickname" label="QQ昵称" width="200"
-                                     header-align="center"></el-table-column>
-                    <el-table-column prop="phone" label="手机" width="200" header-align="center"></el-table-column>
+                                     align="center"></el-table-column>
+                    <el-table-column prop="phone" label="手机" width="200" align="center"></el-table-column>
                     <el-table-column prop="weixin_nickname" label="微信昵称" width="200"
-                                     header-align="center"></el-table-column>
-                    <el-table-column prop="dis_time" label="分配时间" width="180" header-align="center"></el-table-column>
-                    <el-table-column prop="recommend" label="是否推荐" width="140" header-align="center"></el-table-column>
-                    <el-table-column prop="important" label="是否自选" width="140" header-align="center"></el-table-column>
+                                     align="center"></el-table-column>
+                    <el-table-column prop="dis_time" label="分配时间" width="180" align="center"></el-table-column>
+                    <el-table-column prop="recommend" label="是否推荐" width="140" align="center"></el-table-column>
+                    <el-table-column prop="important" label="是否自选" width="140" align="center"></el-table-column>
                     <el-table-column prop="last_track" label="最后跟踪时间" width="180"
-                                     header-align="center"></el-table-column>
+                                     align="center"></el-table-column>
                     <el-table-column prop="share_benefit" label="分成比例" width="140"
-                                     header-align="center"></el-table-column>
-                    <el-table-column prop="plan" label="计划跟踪时间" width="180" header-align="center"></el-table-column>
-                    <el-table-column prop="conflict" label="最后冲突时间" width="180" header-align="center"></el-table-column>
+                                     align="center"></el-table-column>
+                    <el-table-column prop="plan" label="计划跟踪时间" width="180" align="center"></el-table-column>
+                    <el-table-column prop="conflict" label="最后冲突时间" width="180" align="center"></el-table-column>
                     <el-table-column prop="province_name" label="地区" width="100"
-                                     header-align="center"></el-table-column>
-                    <el-table-column prop="sex" label="性别" width="80" header-align="center"></el-table-column>
-                    <el-table-column label="操作" width="180" fixed="right" header-align="center">
+                                     align="center"></el-table-column>
+                    <el-table-column prop="sex" label="性别" width="80" align="center"></el-table-column>
+                    <el-table-column label="操作" width="180" fixed="right" align="center">
                         <template slot-scope="scope">
                             <el-button size="small" type="primary">购买</el-button>
-                            <el-button size="small" type="info">续费</el-button>
+                            <!--<el-button size="small" type="info">续费</el-button>-->
                         </template>
                     </el-table-column>
                 </el-table>
@@ -181,16 +181,16 @@
                     <el-tabs type="border-card">
                         <el-tab-pane label="跟踪记录">
                             <el-table :data="tableData1" empty-text="请点击客户显示跟踪信息" border style="width: 100%">
-                                <el-table-column prop="user" label="操作员工" header-align="center">
+                                <el-table-column prop="user" label="操作员工" align="center">
                                 </el-table-column>
 
-                                <el-table-column prop="type" label="客户类型(当前)" header-align="center">
+                                <el-table-column prop="type" label="客户类型(当前)" align="center">
                                 </el-table-column>
 
-                                <el-table-column prop="name" label="客户姓名" header-align="center">
+                                <el-table-column prop="name" label="客户姓名" align="center">
                                 </el-table-column>
 
-                                <el-table-column label="内容" header-align="center">
+                                <el-table-column label="内容" align="center">
                                     <template slot-scope="scope">
                                         {{scope.row.content | handleString}}
                                     </template>
@@ -199,7 +199,7 @@
                                 <el-table-column prop="created_at" label="跟踪时间" width="180" align="center">
                                 </el-table-column>
 
-                                <el-table-column prop="track_text" label="跟踪类型" header-align="center">
+                                <el-table-column prop="track_text" label="跟踪类型" align="center">
                                 </el-table-column>
 
                             </el-table>
@@ -209,10 +209,10 @@
                         <el-tab-pane label="通话记录">通话记录</el-tab-pane> -->
                         <el-tab-pane label="投诉记录">
                             <el-table :data="tableData2" empty-text="请点击客户显示跟踪信息" border style="width: 100%">
-                                <el-table-column prop="user" label="操作员工" header-align="center">
+                                <el-table-column prop="user" label="操作员工" align="center">
                                 </el-table-column>
 
-                                <el-table-column label="投诉内容" header-align="center">
+                                <el-table-column label="投诉内容" align="center">
                                     <template slot-scope="scope">
                                         {{scope.row.content | handleString}}
                                     </template>
@@ -337,7 +337,7 @@
         },
         created() {
             this.toggleTableLoad();
-            let mainProxy = new DataProxy("/customer", this.pageSize, this.mainTableLoad, this);
+            let mainProxy = new DataProxy("/customerinformation", this.pageSize, this.mainTableLoad, this);
             this.mainProxy = mainProxy;
             this.mainProxy.load();
 

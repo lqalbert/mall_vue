@@ -3,7 +3,7 @@
         <el-row>
             <el-form :inline="true" :model="searchForm" ref="searchForm" class="demo-form-inline" size="small">
                 <el-form-item prop="Keyword">
-                    <el-input v-model="searchForm.Keyword" placeholder="请输入标题关键字"></el-input>
+                    <el-input v-model="searchForm.Keyword" placeholder="请输入订单号"></el-input>
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" size="small" icon="search" @click="searchToolChange('searchForm')">查询</el-button>
@@ -17,16 +17,19 @@
                 <el-table :data="tableData" v-loading.body="dataLoad" border style="width: 100%">
                     <el-table-column label="序号" align="center"  type="index" width="65"></el-table-column>
 
-                    <el-table-column prop="type" label="公告类型" align="center">
+                    <el-table-column prop="order_number" label="订单号" align="center">
                     </el-table-column>
-
-                    <el-table-column prop="title" label="公告标题" align="center">
+                    <el-table-column prop="express" label="配送物流" align="center">
                     </el-table-column>
-
-                    <el-table-column prop="content" label="公告内容(点击查看详细)" align="center">
+                    <el-table-column prop="express_status" label="物流状态" align="center">
                     </el-table-column>
-
-                    <el-table-column prop="user" label="发布人" align="center">
+                    <el-table-column prop="express_time" label="发货时间" align="center">
+                    </el-table-column>
+                    <el-table-column prop="express_name" label="联系人" align="center">
+                    </el-table-column>
+                    <el-table-column prop="express_phone" label="联系电话" align="center">
+                    </el-table-column>
+                    <el-table-column prop="address" label="地址" align="center">
                     </el-table-column>
                   </el-table>
             </el-col>
@@ -129,7 +132,7 @@
     },
     created(){
         this.toggleTableLoad();
-        let mainProxy = new DataProxy("/departmentnotice", this.pageSize, this.mainTableLoad, this);
+        let mainProxy = new DataProxy("/expressinfo", this.pageSize, this.mainTableLoad, this);
         this.mainProxy = mainProxy;
         this.mainProxy.load();
         this.$on('search-tool-change', this.onSearchChange);

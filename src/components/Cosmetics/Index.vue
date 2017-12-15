@@ -25,27 +25,57 @@
 
                     <el-table-column label="序号" align="center" type="index" width="65"></el-table-column>
 
-                    <el-table-column prop="title" label="商品名称" width="180" align="center">
+                    <el-table-column prop="goods_name" label="商品名称" width="180" align="center">
                     </el-table-column>
 
-                    <el-table-column prop="content" label="商品价格" align="center">
+                    <el-table-column prop="goods_price" label="商品价格" align="center">
+                    </el-table-column>
+                    <el-table-column prop="goods_number" label="商品货号" align="center">
                     </el-table-column>
 
-                    <el-table-column prop="time" label="商品分类" align="center">
+                    <el-table-column prop="goods_type" label="商品分类" align="center">
                     </el-table-column>
-                    <el-table-column prop="time" label="总库存量" align="center">
+                    <el-table-column prop="goods_sum" label="总库存量" align="center">
                     </el-table-column>
-                    <el-table-column prop="time" label="已销售量" align="center">
+                    <el-table-column prop="sale_goods" label="已销售量" align="center">
                     </el-table-column>
-                    <el-table-column prop="time" label="剩余库存" align="center">
+                    <el-table-column prop="surplus_goods" label="剩余库存" align="center">
                     </el-table-column>
-                    <el-table-column prop="time" label="新品" align="center">
+                    <el-table-column prop="new_goods" label="新品" align="center">
+                        <template slot-scope="scope">
+                            <el-switch
+                                    v-model="scope.row.new_goods"
+                                    on-color="#13ce66"
+                                    off-color="#ff4949">
+                            </el-switch>
+                        </template>
                     </el-table-column>
-                    <el-table-column prop="time" label="热卖" align="center">
+                    <el-table-column prop="hot_goods" label="热卖" align="center">
+                        <template slot-scope="scope">
+                            <el-switch
+                                    v-model="scope.row.hot_goods"
+                                    on-color="#13ce66"
+                                    off-color="#ff4949">
+                            </el-switch>
+                        </template>
                     </el-table-column>
-                    <el-table-column prop="time" label="推荐" align="center">
+                    <el-table-column prop="recommend_goods" label="推荐" align="center">
+                        <template slot-scope="scope">
+                            <el-switch
+                                    v-model="scope.row.recommend_goods"
+                                    on-color="#13ce66"
+                                    off-color="#ff4949">
+                            </el-switch>
+                        </template>
                     </el-table-column>
-                    <el-table-column prop="time" label="上下架" align="center">
+                    <el-table-column prop="status" label="上下架" align="center">
+                        <template slot-scope="scope">
+                            <el-switch
+                                    v-model="scope.row.status"
+                                    on-color="#13ce66"
+                                    off-color="#ff4949">
+                            </el-switch>
+                        </template>
                     </el-table-column>
                     <el-table-column  label="操作" align="center" width="140">
                         <template slot-scope="scope">
@@ -166,18 +196,28 @@
         },
         methods: {
             dataReload: function () {
-                console.log(this.searchForm.user);
+
                 this.mainProxy.load();
             },
             searchReset: function () {
-                this.searchForm.user = '';
+
             },
             handleDeletes: function () {
-                this.searchForm.user = '';
+
             },
             mainTableLoad(data) {
                 this.toggleTableLoad();
-                this.tableData = data.items;
+                let res_data = data.items;
+              for(var x in res_data){
+                  // console.log(res_data[x]);
+                  res_data[x].new_goods = res_data[x].new_goods ==1 ? true : false;
+                  res_data[x].hot_goods = res_data[x].hot_goods ==1 ? true : false;
+                  res_data[x].recommend_goods = res_data[x].recommend_goods ==1 ? true : false;
+                  res_data[x].status = res_data[x].status ==1 ? true : false;
+
+              }
+                 console.log(res_data);
+                this.tableData = res_data;
                 this.total = data.total;
             },
             currentChange(v) {
@@ -211,7 +251,7 @@
 
         created() {
             this.toggleTableLoad();
-            let mainProxy = new DataProxy("/msgbox", this.pageSize, this.mainTableLoad, this);
+            let mainProxy = new DataProxy("/cosmetics", this.pageSize, this.mainTableLoad, this);
             this.mainProxy = mainProxy;
             this.mainProxy.load();
 

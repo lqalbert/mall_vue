@@ -163,7 +163,9 @@ export default {
     position: fixed;
     left: 0;
     top: 63px;
+    bottom:0px;
     width: 200px;
+    background-color: #324157;
 }
 .main-hook{
     padding:0 10px 0;

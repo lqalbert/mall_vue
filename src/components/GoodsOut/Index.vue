@@ -51,7 +51,6 @@
         <el-row>
             <el-col>
                 <el-table :data="tableData" v-loading="dataLoad" border style="width: 100%">
-                    <el-table-column type="selection" align="center" width="50"></el-table-column>
                     <el-table-column label="序号" align="center" type="index" width="65"></el-table-column>
                     <el-table-column prop="order_sn" label="订单编号" width="200" align="center">
                     </el-table-column>
@@ -179,19 +178,78 @@ export default {
             currentPage4:1,
             tableData:[
                 {
-                    type:'购买',
-                    cb_name:'李四',
-                    db_realname:'李曼曼',
-                    product_name:'点金手高端版',
-                    product_money:'8888',
-                    risk_state:'通过',
-                    risk_name:'审查专员',
-                    callback_state:'通过',
-                    callback_name:'回访A',
-                    buy_time:'2017-11-28',
-                    datastaff_name:'刘科',
-                    status:'已开单',
+                    order_sn:'201710281532580000',
+                    goods_name:'华硕笔记本电脑',
+                    consignee:'张三:18236521452',
+                    order_all_money:'5999.00',
+                    order_pay_money:'5999.00',
+                    order_status:'待确认',
+                    pay_name:'支付宝',
+                    shipping_status:'待发货',
+                    shipping_name:'顺丰',
+                    order_time:'2017-10-28 15:32:24',
                 },
+                {
+                    order_sn:'201710281532580000',
+                    goods_name:'华硕笔记本电脑',
+                    consignee:'张三:18236521452',
+                    order_all_money:'5999.00',
+                    order_pay_money:'5999.00',
+                    order_status:'待确认',
+                    pay_name:'支付宝',
+                    shipping_status:'待发货',
+                    shipping_name:'顺丰',
+                    order_time:'2017-10-28 15:32:24',
+                },
+                {
+                    order_sn:'201710281532580000',
+                    goods_name:'华硕笔记本电脑',
+                    consignee:'张三:18236521452',
+                    order_all_money:'5999.00',
+                    order_pay_money:'5999.00',
+                    order_status:'待确认',
+                    pay_name:'支付宝',
+                    shipping_status:'待发货',
+                    shipping_name:'顺丰',
+                    order_time:'2017-10-28 15:32:24',
+                },
+                {
+                    order_sn:'201710281532580000',
+                    goods_name:'华硕笔记本电脑',
+                    consignee:'张三:18236521452',
+                    order_all_money:'5999.00',
+                    order_pay_money:'5999.00',
+                    order_status:'待确认',
+                    pay_name:'支付宝',
+                    shipping_status:'待发货',
+                    shipping_name:'顺丰',
+                    order_time:'2017-10-28 15:32:24',
+                },
+                {
+                    order_sn:'201710281532580000',
+                    goods_name:'华硕笔记本电脑',
+                    consignee:'张三:18236521452',
+                    order_all_money:'5999.00',
+                    order_pay_money:'5999.00',
+                    order_status:'待确认',
+                    pay_name:'支付宝',
+                    shipping_status:'待发货',
+                    shipping_name:'顺丰',
+                    order_time:'2017-10-28 15:32:24',
+                },
+                {
+                    order_sn:'201710281532580000',
+                    goods_name:'华硕笔记本电脑',
+                    consignee:'张三:18236521452',
+                    order_all_money:'5999.00',
+                    order_pay_money:'5999.00',
+                    order_status:'待确认',
+                    pay_name:'支付宝',
+                    shipping_status:'待发货',
+                    shipping_name:'顺丰',
+                    order_time:'2017-10-28 15:32:24',
+                },
+                
             ],
             tableData1:[],
             tableData2:[],
@@ -246,14 +304,14 @@ export default {
 
 
     },
-    created(){
-        this.toggleTableLoad();
-        let mainProxy = new DataProxy("/goodsout", this.pageSize, this.mainTableLoad, this);
-        this.mainProxy = mainProxy;
-        this.mainProxy.load();
+    // created(){
+    //     this.toggleTableLoad();
+    //     let mainProxy = new DataProxy("/goodsout", this.pageSize, this.mainTableLoad, this);
+    //     this.mainProxy = mainProxy;
+    //     this.mainProxy.load();
         
-        this.$on('search-tool-change',this.onSearchChange);
-    }
+    //     this.$on('search-tool-change',this.onSearchChange);
+    // }
 }
 </script>
 

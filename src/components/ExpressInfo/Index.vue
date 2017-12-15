@@ -15,8 +15,8 @@
         <el-row>
             <el-col>
                 <el-table :data="tableData" v-loading.body="dataLoad" border style="width: 100%">
-                    <el-table-column label="序号" align="center"  type="index" width="65"></el-table-column>
-
+                    <el-table-column label="序号" align="center"  type="index" width="65">
+                    </el-table-column>
                     <el-table-column prop="order_number" label="订单号" align="center">
                     </el-table-column>
                     <el-table-column prop="express" label="配送物流" align="center">
@@ -75,10 +75,60 @@
             currentPage4:1,
             total:100,
             tableData:[
-            {type:'系统维护',title:'索取功能暂时关闭',content:'由于员工反应系统索取功能问题，目前将此功能关闭，对您造成的不便在这里我们深表歉意。',user:'王姣姣'},
-            {type:'功能升级',title:'关于使用问题(单击我！)',content:'关于新CRM的使用以及数据问题，请联系部门经理或者系统管理员！',user:'王姣姣'},
-            {type:'系统维护',title:'索取功能暂时关闭',content:'由于员工反应系统索取功能问题，目前将此功能关闭，对您造成的不便在这里我们深表歉意。',user:'王姣姣'},
-
+                {
+                    order_number:'354628754',
+                    express:'顺丰',
+                    express_status:'运送中',
+                    express_time:'2017-12-15',
+                    express_name:'李四',
+                    express_phone:'13562478625',
+                    address:'四川成都青羊区'
+                },
+                {
+                    order_number:'354628754',
+                    express:'顺丰',
+                    express_status:'运送中',
+                    express_time:'2017-12-15',
+                    express_name:'李四',
+                    express_phone:'13562478625',
+                    address:'四川成都青羊区'
+                },
+                {
+                    order_number:'354628754',
+                    express:'顺丰',
+                    express_status:'运送中',
+                    express_time:'2017-12-15',
+                    express_name:'李四',
+                    express_phone:'13562478625',
+                    address:'四川成都青羊区'
+                },
+                {
+                    order_number:'354628754',
+                    express:'顺丰',
+                    express_status:'运送中',
+                    express_time:'2017-12-15',
+                    express_name:'李四',
+                    express_phone:'13562478625',
+                    address:'四川成都青羊区'
+                },
+                {
+                    order_number:'354628754',
+                    express:'顺丰',
+                    express_status:'运送中',
+                    express_time:'2017-12-15',
+                    express_name:'李四',
+                    express_phone:'13562478625',
+                    address:'四川成都青羊区'
+                },
+                {
+                    order_number:'354628754',
+                    express:'顺丰',
+                    express_status:'运送中',
+                    express_time:'2017-12-15',
+                    express_name:'李四',
+                    express_phone:'13562478625',
+                    address:'四川成都青羊区'
+                },
             ]
         }
     },
@@ -131,11 +181,11 @@
 
     },
     created(){
-        this.toggleTableLoad();
-        let mainProxy = new DataProxy("/expressinfo", this.pageSize, this.mainTableLoad, this);
-        this.mainProxy = mainProxy;
-        this.mainProxy.load();
-        this.$on('search-tool-change', this.onSearchChange);
+        // this.toggleTableLoad();
+        // let mainProxy = new DataProxy("/expressinfo", this.pageSize, this.mainTableLoad, this);
+        // this.mainProxy = mainProxy;
+        // this.mainProxy.load();
+        // this.$on('search-tool-change', this.onSearchChange);
     }
 }
 </script>

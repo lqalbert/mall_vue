@@ -51,7 +51,6 @@
         <el-row>
             <el-col>
                 <el-table :data="tableData" v-loading="dataLoad" border style="width: 100%">
-                    <el-table-column type="selection" align="center" width="50"></el-table-column>
                     <el-table-column label="序号" align="center" type="index" width="65"></el-table-column>
                     <el-table-column prop="order_sn" label="订单编号" width="200" align="center">
                     </el-table-column>
@@ -120,10 +119,80 @@ export default {
                 department:'1'
             },
             currentPage4:1,
-            tableData:[],
-            tableDataGroup:[{name:'新乡部-胜利队'}, {name:'周口二部-超越队'}, {name:'许昌部-亮剑队'}, {name:'信阳部-猛虎队'},],
-            tableDataUser:[{name:'周口一部-超越队-王宁'}, {name:'平顶山部-启航队-王鹏瑞'}, {name:'新乡部-突击队-赵康'}, {name:'新乡部-胜利队-何落落'},]
-
+            tableData:[
+                {
+                    order_sn:'201710281532582903',
+                    goods_name:'华硕笔记本电脑',
+                    consignee:'张三:18236521452',
+                    order_all_money:'5999.00',
+                    order_pay_money:'5999.00',
+                    order_status:'待确认',
+                    pay_name:'支付宝',
+                    shipping_status:'待发货',
+                    shipping_name:'顺丰',
+                    order_time:'2017-10-28 15:32:24',
+                },
+                {
+                    order_sn:'201710281532582903',
+                    goods_name:'华硕笔记本电脑',
+                    consignee:'张三:18236521452',
+                    order_all_money:'5999.00',
+                    order_pay_money:'5999.00',
+                    order_status:'待确认',
+                    pay_name:'支付宝',
+                    shipping_status:'待发货',
+                    shipping_name:'顺丰',
+                    order_time:'2017-10-28 15:32:24',
+                },
+                {
+                    order_sn:'201710281532582903',
+                    goods_name:'华硕笔记本电脑',
+                    consignee:'张三:18236521452',
+                    order_all_money:'5999.00',
+                    order_pay_money:'5999.00',
+                    order_status:'待确认',
+                    pay_name:'支付宝',
+                    shipping_status:'待发货',
+                    shipping_name:'顺丰',
+                    order_time:'2017-10-28 15:32:24',
+                },
+                {
+                    order_sn:'201710281532582903',
+                    goods_name:'华硕笔记本电脑',
+                    consignee:'张三:18236521452',
+                    order_all_money:'5999.00',
+                    order_pay_money:'5999.00',
+                    order_status:'待确认',
+                    pay_name:'支付宝',
+                    shipping_status:'待发货',
+                    shipping_name:'顺丰',
+                    order_time:'2017-10-28 15:32:24',
+                },
+                {
+                    order_sn:'201710281532582903',
+                    goods_name:'华硕笔记本电脑',
+                    consignee:'张三:18236521452',
+                    order_all_money:'5999.00',
+                    order_pay_money:'5999.00',
+                    order_status:'待确认',
+                    pay_name:'支付宝',
+                    shipping_status:'待发货',
+                    shipping_name:'顺丰',
+                    order_time:'2017-10-28 15:32:24',
+                },
+                {
+                    order_sn:'201710281532582903',
+                    goods_name:'华硕笔记本电脑',
+                    consignee:'张三:18236521452',
+                    order_all_money:'5999.00',
+                    order_pay_money:'5999.00',
+                    order_status:'待确认',
+                    pay_name:'支付宝',
+                    shipping_status:'待发货',
+                    shipping_name:'顺丰',
+                    order_time:'2017-10-28 15:32:24',
+                },
+            ],
         }
     },
     methods:{
@@ -166,12 +235,12 @@ export default {
 
     },
     created(){
-        this.toggleTableLoad();
-        let mainProxy = new DataProxy("/orderlist", this.pageSize, this.mainTableLoad, this);
-        this.mainProxy = mainProxy;
-        this.mainProxy.load();
+        // this.toggleTableLoad();
+        // let mainProxy = new DataProxy("/orderlist", this.pageSize, this.mainTableLoad, this);
+        // this.mainProxy = mainProxy;
+        // this.mainProxy.load();
 
-        this.$on('search-tool-change',this.onSearchChange);
+        // this.$on('search-tool-change',this.onSearchChange);
 
     }
 }

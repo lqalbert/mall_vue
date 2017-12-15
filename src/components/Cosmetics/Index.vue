@@ -208,15 +208,12 @@
             mainTableLoad(data) {
                 this.toggleTableLoad();
                 let res_data = data.items;
-              for(var x in res_data){
-                  // console.log(res_data[x]);
-                  res_data[x].new_goods = res_data[x].new_goods ==1 ? true : false;
-                  res_data[x].hot_goods = res_data[x].hot_goods ==1 ? true : false;
-                  res_data[x].recommend_goods = res_data[x].recommend_goods ==1 ? true : false;
-                  res_data[x].status = res_data[x].status ==1 ? true : false;
-
-              }
-                 console.log(res_data);
+                for(var x in res_data){
+                    res_data[x].new_goods = res_data[x].new_goods ==1 ? true : false;
+                    res_data[x].hot_goods = res_data[x].hot_goods ==1 ? true : false;
+                    res_data[x].recommend_goods = res_data[x].recommend_goods ==1 ? true : false;
+                    res_data[x].status = res_data[x].status ==1 ? true : false;
+                }
                 this.tableData = res_data;
                 this.total = data.total;
             },

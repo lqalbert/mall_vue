@@ -1,6 +1,6 @@
 <template>
   <div >
-      <el-menu    theme="dark" @select="handleSelect" >
+      <el-menu :unique-opened="true" theme="dark" @select="handleSelect" >
        <el-submenu v-for="(ni,index) in nav" :key="index" :index="index+''" >
         <template slot="title">
           <i v-if="ni.icon" :class="ni.icon"></i>

@@ -3,36 +3,43 @@
         <el-row>
             <el-col>
                 <el-form :inline="true" ref="searchForm" class="demo-form-inline"  :model="searchForm">
-                    <el-form-item  style="width:170px" prop="name">
-                        <el-input v-model="searchForm.name" size="small" placeholder="请输入查询姓名"></el-input>
+                    <el-form-item prop="pdt_name">
+                        <el-input v-model="searchForm.pdt_name" size="small" placeholder="产品名称"></el-input>
                     </el-form-item>
 
-                    <el-form-item prop="department_id">
-                        <el-select size="small" placeholder="审查专员" v-model="searchForm.department_id">
-                            <el-option value="1" label="未审核"></el-option>
-                            <el-option value="2" label="审核通过"></el-option>
-                            <el-option value="3" label="审核未通过"></el-option>
+                    <el-form-item prop="pdt_type">
+                        <el-select size="small" placeholder="产品种类" v-model="searchForm.pdt_type">
+                            <el-option value="1" label="化妆品"></el-option>
+                            <el-option value="2" label="保健品"></el-option>
                         </el-select>
                     </el-form-item>
 
-                    <el-form-item prop="group_id">
-                        <el-select size="small" placeholder="回访专员" v-model="searchForm.group_id">
-                            <el-option value="1" label="未审核"></el-option>
-                            <el-option value="2" label="审核通过"></el-option>
-                            <el-option value="3" label="审核未通过"></el-option>
-                        </el-select>
+                    <el-form-item prop="out_time">
+                        <el-date-picker size="small" v-model="searchForm.out_time"
+                                        placeholder="出库时间"
+                                        @change="outTimeDateChange"
+                                        :editable="false">
+                        </el-date-picker>
                     </el-form-item>
 
-                    <el-form-item prop="user_id">
-                        <el-select size="small" placeholder="材料专员" v-model="searchForm.user_id" >
-                            <el-option value="1" label="未开单"></el-option>
-                            <el-option value="2" label="已开单"></el-option>
-                        </el-select>
+                    <el-form-item prop="sale_time">
+                        <el-date-picker size="small" v-model="searchForm.sale_time"
+                                        placeholder="销售时间"
+                                        @change="saleTimeDateChange"
+                                        :editable="false">
+                        </el-date-picker>
                     </el-form-item>
 
+                    <el-form-item prop="check_time">
+                        <el-date-picker size="small" v-model="searchForm.check_time"
+                                        placeholder="订单审核时间"
+                                        @change="checkTimeDateChange"
+                                        :editable="false">
+                        </el-date-picker>
+                    </el-form-item>
                     <el-form-item>
                         <el-button type="info" size="small" icon="search" @click="searchToolChange('searchForm')">查询</el-button>
-                        <el-button type="info" size="small" icon="search"  @click="addDialog = true">高级查询</el-button>
+                        <el-button type="info" size="small" icon="search"  @click="addDialog = false">高级查询</el-button>
                         <el-button type="info" size="small" @click="searchToolReset('searchForm')">重置</el-button>
                         <el-tooltip content="点击刷新当前页面" placement="right"  style="margin-left:15px;">
                             <el-button  size="small" type="danger">刷新</el-button>
@@ -41,26 +48,34 @@
                 </el-form>
             </el-col>
         </el-row>
-        
         <el-row>
             <el-col>
                 <el-table :data="tableData" v-loading="dataLoad" border style="width: 100%">
-                    <el-table-column label="序号" align="center"  type="index" width="65"></el-table-column>
-                    <el-table-column prop="type" label="类型" width="180" align="center"></el-table-column>
-                    <el-table-column prop="cb_name" label="客户姓名" align="center"></el-table-column>
-                    <el-table-column prop="db_realname" label="跟踪员工" align="center"></el-table-column>
-                    <el-table-column prop="product_name" label="商品名称" align="center"></el-table-column>
-                    <el-table-column prop="product_money" label="商品价格" align="center"></el-table-column>
-                    <el-table-column prop="risk_state" label="风控审核" align="center"></el-table-column>
-                    <el-table-column prop="risk_name" label="审查专员" align="center"></el-table-column>
-                    <el-table-column prop="callback_state" label="回访审核" align="center"></el-table-column>
-                    <el-table-column prop="callback_name" label="回访专员" align="center"></el-table-column>
-                    <el-table-column prop="buy_time" label="购买时间" align="center"></el-table-column>
-                    <el-table-column prop="datastaff_name" label="材料专员" align="center"></el-table-column>
-                    <el-table-column prop="status" label="开单" align="center"></el-table-column>
-                    <el-table-column prop="name13" label="操作" align="center">
+                    <el-table-column type="selection" align="center" width="50"></el-table-column>
+                    <el-table-column label="序号" align="center" type="index" width="65"></el-table-column>
+                    <el-table-column prop="order_sn" label="订单编号" width="200" align="center">
+                    </el-table-column>
+                    <el-table-column prop="goods_name" label="商品名称" align="center">
+                    </el-table-column>
+                    <el-table-column prop="consignee" label="收货人信息" align="center">
+                    </el-table-column>
+                    <el-table-column prop="order_all_money" label="总金额" align="center" width="100">
+                    </el-table-column>
+                    <el-table-column prop="order_pay_money" label="应付金额" align="center" width="100">
+                    </el-table-column>
+                    <el-table-column prop="order_status" label="订单状态" align="center">
+                    </el-table-column>
+                    <el-table-column prop="pay_name" label="支付方式" align="center" width="100">
+                    </el-table-column>
+                    <el-table-column prop="shipping_status" label="发货状态" align="center" width="100">
+                    </el-table-column>
+                    <el-table-column prop="shipping_name" label="配送方式" align="center" width="100">
+                    </el-table-column>
+                    <el-table-column prop="order_time" label="下单时间" align="center">
+                    </el-table-column>
+                    <el-table-column  label="操作" align="center" width="140">
                         <template slot-scope="scope">
-                            <el-button size="small" type="info" >查看客户</el-button>
+                            <el-button type="info" size="small" @click="goodsOutDialog = true">商品出库</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -79,7 +94,7 @@
                 </el-col>
             </div>
         </el-row>
-        <el-row>
+<!--         <el-row>
             <el-col :span="24">
                 <el-tabs  type="border-card">
                     <el-tab-pane label="跟踪记录">
@@ -127,14 +142,16 @@
                     </el-tab-pane>
                 </el-tabs>
             </el-col>
-        </el-row>
+        </el-row> -->
 
         <addDialog :add-open="addDialog" @add-window-close="handleAddWindow"/>
+        <goodsOutDialog :out-open="goodsOutDialog" @goodsout-window-close="handleOutWindow"/>
     </div>
 </template>
       
 <script>
     import addDialog from './addDialog';
+    import goodsOutDialog from './goodsOutDialog';
     import PageMix from '../../mix/Page';
     import DataProxy from '../../packages/DataProxy';
     import SearchTool from '../../mix/SearchTool';
@@ -143,18 +160,21 @@ export default {
     pageTitle:"商品出库",
     mixins: [PageMix,SearchTool],
     components: {
-        addDialog
+        addDialog,
+        goodsOutDialog
     },
     data () {
         return {
             total:100,
             dataLoad:false,
             addDialog:false,
+            goodsOutDialog:false,
             searchForm:{
-                name:'',
-                department_id:'',
-                group_id:'',
-                user_id:''
+                pdt_name:'',
+                pdt_type:'',
+                out_time:'',
+                sale_time:'',
+                check_time:'',
             },
             currentPage4:1,
             tableData:[
@@ -191,6 +211,9 @@ export default {
         handleAddWindow(){
             this.addDialog = false;
         },
+        handleOutWindow(){
+            this.goodsOutDialog = false;
+        },
         mainTableLoad(data){
             this.toggleTableLoad();
             this.tableData = data.items;
@@ -210,13 +233,22 @@ export default {
           this.toggleTableLoad();
           this.mainProxy.setExtraParam(param).load();
           this.toggleTableLoad();
-        }
+        },
+        outTimeDateChange(v){
+            this.searchForm.out_time = v;
+        },
+        checkTimeDateChange(v){
+            this.searchForm.sale_time = v;
+        },
+        saleTimeDateChange(v){
+            this.searchForm.sale_time = v;
+        },
 
 
     },
     created(){
         this.toggleTableLoad();
-        let mainProxy = new DataProxy("/riskmanager", this.pageSize, this.mainTableLoad, this);
+        let mainProxy = new DataProxy("/goodsout", this.pageSize, this.mainTableLoad, this);
         this.mainProxy = mainProxy;
         this.mainProxy.load();
         
@@ -226,8 +258,14 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-  .el-form-item {
-      margin-bottom: 2px;
-  }
+<style>
+.el-form-item{
+    margin-bottom: 5px;
+}
+.el-tabs__header {
+    border-bottom: 1px solid #d1dbe5;
+    padding: 0;
+    position: relative;
+    margin: 0 0 5px;
+}
 </style>

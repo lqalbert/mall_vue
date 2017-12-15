@@ -227,22 +227,8 @@
 
             onSearchChange(param) {
                 this.toggleTableLoad();
-
                 this.mainProxy.setExtraParam(JSON.stringify(param)).load();
             },
-
-            showTrack(field) {
-                let param = {
-                    user_id: 1,
-                    track_num: 1212,
-                }
-                this.$emit('search-tool-change', param);
-            },
-
-            onRowclick(asdf){
-
-            }
-
 
         },
 
@@ -252,7 +238,6 @@
             this.mainProxy = mainProxy;
             this.mainProxy.load();
 
-            this.$on('search-tool-change', this.onSearchChange);
 
         }
 

@@ -39,7 +39,7 @@
                     <section class="main-hook">
                         <transition name="el-fade-in-linear" mode="out-in" >
                             <keep-alive>
-                                <component v-bind:is="currentView" @page-loaded="pageLoad"   @search-tool-change="test"></component>
+                                <component v-bind:is="currentView" @page-loaded="pageLoad"   ></component>
                             </keep-alive>
                         </transition>
                     </section>
@@ -106,10 +106,7 @@ export default {
         activeTab(tab){
              //console.log('点击了'+tab);
             this.currentView = tab.name;
-        },test(v){
-            console.log(v);
         },
-
         navChange(name){
             //console.log(name);
             //let component = this.getPageComponent(name);

@@ -135,7 +135,6 @@
         let mainProxy = new DataProxy("/expressinfo", this.pageSize, this.mainTableLoad, this);
         this.mainProxy = mainProxy;
         this.mainProxy.load();
-        this.$on('search-tool-change', this.onSearchChange);
     }
 }
 </script>

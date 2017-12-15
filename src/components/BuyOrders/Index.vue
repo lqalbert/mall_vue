@@ -133,7 +133,7 @@ export default {
         let mainProxy = new DataProxy("/counselarticle", this.pageSize, this.mainTableLoad, this);
         this.mainProxy = mainProxy;
         this.mainProxy.load();
-        this.$on('search-tool-change', this.onSearchChange);
+
 
     },
     filters: {

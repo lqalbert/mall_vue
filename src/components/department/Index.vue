@@ -236,7 +236,7 @@ export default {
         let mainProxy = new DataProxy("/department", this.pageSize, this.mainTableLoad, this);
         this.mainProxy = mainProxy;
         this.mainProxy.load();
-        this.$on('search-tool-change', this.onSearchChange);
+
 
     }
 }

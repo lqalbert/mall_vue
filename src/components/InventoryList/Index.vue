@@ -191,7 +191,6 @@ export default {
         this.employeeProxy = employeeProxy;
         this.employeeProxy.load();
 
-        this.$on('search-tool-change',this.onSearchChange);
     }
 }
 </script>

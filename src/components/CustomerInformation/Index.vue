@@ -341,7 +341,6 @@
             this.mainProxy = mainProxy;
             this.mainProxy.load();
 
-            this.$on('search-tool-change', this.onSearchChange);
 
 
         },

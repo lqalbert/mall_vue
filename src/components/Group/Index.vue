@@ -253,7 +253,6 @@
             this.groupProxy = groupProxy;
             this.groupProxy.load();
 
-            this.$on('search-tool-change', this.onSearchChange);
 
         }
     }

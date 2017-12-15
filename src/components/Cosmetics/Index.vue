@@ -180,9 +180,20 @@
                 currentPage4: 1,
                 total: 100,
                 dataLoad: false,
-                tableData: [
-                    {title: '预查冲突', content: '手机号冲突:15642104241', time: '2017-11-23 10:19:20', operator: '王姣姣'},
-                ],
+                tableData:[ {
+
+                    'goods_name':'自然堂护肤品',
+                    'goods_price':'399.00',
+                    'goods_number':25468137,
+                    'goods_type':'化妆品',
+                    'goods_sum':20,
+                    'sale_goods':5,
+                    'surplus_goods':15,
+                    'new_goods':1,
+                    'hot_goods':1,
+                    'recommend_goods':1,
+                    'status':1
+                },],
 
                 tableEvents:{
                     'row-click':this.onRowclick
@@ -232,14 +243,14 @@
 
         },
 
-        created() {
-            this.toggleTableLoad();
-            let mainProxy = new DataProxy("/cosmetics", this.pageSize, this.mainTableLoad, this);
-            this.mainProxy = mainProxy;
-            this.mainProxy.load();
-
-
-        }
+        // created() {
+        //     this.toggleTableLoad();
+        //     let mainProxy = new DataProxy("/cosmetics", this.pageSize, this.mainTableLoad, this);
+        //     this.mainProxy = mainProxy;
+        //     this.mainProxy.load();
+        //
+        //
+        // }
 
     }
 </script>

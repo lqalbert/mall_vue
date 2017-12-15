@@ -95,13 +95,7 @@ export default {
           {type_text:'股票推荐',title:'oioiooo',content:'我们不是纯生意人，我们追求利润，但不追求利润最大化',creator:'系统管理员'},
           {type_text:'股票推荐',title:'oioiooo',content:'我们不是纯生意人，我们追求利润，但不追求利润最大化',creator:'系统管理员'},
           {type_text:'股票推荐',title:'oioiooo',content:'我们不是纯生意人，我们追求利润，但不追求利润最大化',creator:'系统管理员'},
-          {type_text:'股票推荐',title:'oioiooo',content:'我们不是纯生意人，我们追求利润，但不追求利润最大化',creator:'系统管理员'},
-          {type_text:'股票推荐',title:'oioiooo',content:'我们不是纯生意人，我们追求利润，但不追求利润最大化',creator:'系统管理员'},
-          {type_text:'股票推荐',title:'oioiooo',content:'我们不是纯生意人，我们追求利润，但不追求利润最大化',creator:'系统管理员'},
-          {type_text:'股票推荐',title:'oioiooo',content:'我们不是纯生意人，我们追求利润，但不追求利润最大化',creator:'系统管理员'},
-          {type_text:'股票推荐',title:'oioiooo',content:'我们不是纯生意人，我们追求利润，但不追求利润最大化',creator:'系统管理员'},
-          {type_text:'股票推荐',title:'oioiooo',content:'我们不是纯生意人，我们追求利润，但不追求利润最大化',creator:'系统管理员'},
-          {type_text:'股票推荐',title:'oioiooo',content:'我们不是纯生意人，我们追求利润，但不追求利润最大化',creator:'系统管理员'},
+
         ],
       }
     },
@@ -128,14 +122,14 @@ export default {
       
     },
 
-    created(){
-        this.toggleTableLoad();
-        let mainProxy = new DataProxy("/counselarticle", this.pageSize, this.mainTableLoad, this);
-        this.mainProxy = mainProxy;
-        this.mainProxy.load();
-
-
-    },
+    // created(){
+    //     this.toggleTableLoad();
+    //     let mainProxy = new DataProxy("/counselarticle", this.pageSize, this.mainTableLoad, this);
+    //     this.mainProxy = mainProxy;
+    //     this.mainProxy.load();
+    //
+    //
+    // },
     filters: {
       handleString: function (v) {
         if(v.length > 16){

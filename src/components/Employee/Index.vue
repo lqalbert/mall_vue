@@ -304,22 +304,22 @@
             },
 
         },
-        created() {
-            this.toggleTableLoad();
-            let mainProxy = new DataProxy("/employee", this.pageSize, this.mainTableLoad, this);
-            this.mainProxy = mainProxy;
-            this.mainProxy.load();
-
-            let departProxy = new DepartSelectProxy({'type': 'sale'}, this.loadDepartment, this);
-            this.departProxy = departProxy;
-            this.departProxy.load();
-
-            let groupProxy = new GroupSelectProxy({'depart_id': 1}, this.loadGroup, this);
-            this.groupProxy = groupProxy;
-            this.groupProxy.load();
-
-
-        }
+        // created() {
+        //     this.toggleTableLoad();
+        //     let mainProxy = new DataProxy("/employee", this.pageSize, this.mainTableLoad, this);
+        //     this.mainProxy = mainProxy;
+        //     this.mainProxy.load();
+        //
+        //     let departProxy = new DepartSelectProxy({'type': 'sale'}, this.loadDepartment, this);
+        //     this.departProxy = departProxy;
+        //     this.departProxy.load();
+        //
+        //     let groupProxy = new GroupSelectProxy({'depart_id': 1}, this.loadGroup, this);
+        //     this.groupProxy = groupProxy;
+        //     this.groupProxy.load();
+        //
+        //
+        // }
     }
 </script>
 

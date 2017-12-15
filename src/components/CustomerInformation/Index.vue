@@ -335,15 +335,15 @@
                 this.$emit('search-tool-change', data);
             }
         },
-        created() {
-            this.toggleTableLoad();
-            let mainProxy = new DataProxy("/customerinformation", this.pageSize, this.mainTableLoad, this);
-            this.mainProxy = mainProxy;
-            this.mainProxy.load();
-
-
-
-        },
+        // created() {
+        //     this.toggleTableLoad();
+        //     let mainProxy = new DataProxy("/customerinformation", this.pageSize, this.mainTableLoad, this);
+        //     this.mainProxy = mainProxy;
+        //     this.mainProxy.load();
+        //
+        //
+        //
+        // },
         filters: {
             handleString: function (v) {
                 if (v.length > 6) {

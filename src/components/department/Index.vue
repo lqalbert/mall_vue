@@ -231,14 +231,14 @@ export default {
         }
 
     },
-    created(){
-        this.toggleTableLoad();
-        let mainProxy = new DataProxy("/department", this.pageSize, this.mainTableLoad, this);
-        this.mainProxy = mainProxy;
-        this.mainProxy.load();
-
-
-    }
+    // created(){
+    //     this.toggleTableLoad();
+    //     let mainProxy = new DataProxy("/department", this.pageSize, this.mainTableLoad, this);
+    //     this.mainProxy = mainProxy;
+    //     this.mainProxy.load();
+    //
+    //
+    // }
 }
 </script>
 

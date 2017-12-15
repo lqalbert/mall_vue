@@ -105,27 +105,14 @@ export default {
             currentPage4:1,
             tableData:[
                 {
-                    name:'张三',
-                    type_text:'普通客户',
-                    phone:'1352123542',
-                    qq:'654123552',
-                    weixin:'fdsfsd',
-                    address:'成都市',
-                    id_card:'15645555555555',
-                    user:'李四',
-                    user_phone:'1374542445',
-                    state_text:'通过',
-                    time_text:'2016-10-23 17:30:14',
-                    type:'精品',
-                    product_name:'23',
-                    product_money:'30000',
-                    buy_time:'2016-10-23 17:30:14',
-                    dis_time:'2016-10-23 17:30:14',
-                    qq2:'3465465465',
-                    qq_nickname2:'规定发给',
-                    phone2:'1344646548',
-                    weixin2:'sgs',
-                    weixin_nickname2:'好地方'},
+                    name:'老白金',
+                    type_text:'保健品',
+                    phone:'15',
+                    qq:'324568554',
+                    weixin:'012',
+                    address:'15645555555555',
+                    id_card:'李清',
+                  },
             ],
             tableData1:[],
             tableData2:[],
@@ -173,25 +160,25 @@ export default {
         }
 
     },
-    created(){
-        this.toggleTableLoad();
-        let mainProxy = new DataProxy("/riskcheck", this.pageSize, this.mainTableLoad, this);
-        this.mainProxy = mainProxy;
-        this.mainProxy.load();
-
-        let departProxy = new DepartSelectProxy({'type': 'sale'}, this.loadDepartment, this);
-        this.departProxy = departProxy;
-        this.departProxy.load();
-
-        let groupProxy = new GroupSelectProxy({'depart_id':1}, this.loadGroup, this);
-        this.groupProxy = groupProxy;
-        this.groupProxy.load();
-
-        let employeeProxy = new EmployeeSelectProxy({'depart_id':1,'group_id':1}, this.loadEmployee, this);
-        this.employeeProxy = employeeProxy;
-        this.employeeProxy.load();
-
-    }
+    // created(){
+    //     this.toggleTableLoad();
+    //     let mainProxy = new DataProxy("/riskcheck", this.pageSize, this.mainTableLoad, this);
+    //     this.mainProxy = mainProxy;
+    //     this.mainProxy.load();
+    //
+    //     let departProxy = new DepartSelectProxy({'type': 'sale'}, this.loadDepartment, this);
+    //     this.departProxy = departProxy;
+    //     this.departProxy.load();
+    //
+    //     let groupProxy = new GroupSelectProxy({'depart_id':1}, this.loadGroup, this);
+    //     this.groupProxy = groupProxy;
+    //     this.groupProxy.load();
+    //
+    //     let employeeProxy = new EmployeeSelectProxy({'depart_id':1,'group_id':1}, this.loadEmployee, this);
+    //     this.employeeProxy = employeeProxy;
+    //     this.employeeProxy.load();
+    //
+    // }
 }
 </script>
 

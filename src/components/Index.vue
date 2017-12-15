@@ -2,7 +2,7 @@
 <template>
 
   <div>
-    <div  id="top" style="height: 55px;border-bottom: 2px solid #ea4b4b;">
+    <div  id="top" >
         <el-row>
             <el-col :span="12">
                 <div class="big-title">化妆品商城后台系统</div>
@@ -13,11 +13,11 @@
             </el-col>
         </el-row>
     </div>
-    <div style="padding-left: 200px">
+    <div class='bottom' >
         <div class="Navgation" >
             <Navgation @nav-change="navChange" />
         </div>
-        <div style="width: 100%;">
+        <div>
             <el-tabs
                     v-model="editableTabsValue"
                     type="card"
@@ -155,9 +155,7 @@ export default {
 </script>
 
 <style scoped>
-*{
-    font-family: 'Microsoft YaHei';
-}
+
 .Navgation{
     position: fixed;
     left: 0;
@@ -196,6 +194,9 @@ export default {
     padding: 0;
     position: relative;
     margin: 0 0 5px;
+}
+.bottom {
+    padding-left: 200px
 }
 </style>
 

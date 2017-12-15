@@ -261,12 +261,12 @@
         },
 
         created() {
-            this.toggleTableLoad();
-            let mainProxy = new DataProxy("/cosmetics", this.pageSize, this.mainTableLoad, this);
-            this.mainProxy = mainProxy;
-            this.mainProxy.load();
+            // this.toggleTableLoad();
+            // let mainProxy = new DataProxy("/cosmetics", this.pageSize, this.mainTableLoad, this);
+            // this.mainProxy = mainProxy;
+            // this.mainProxy.load();
 
-            this.$on('search-tool-change', this.onSearchChange);
+            // this.$on('search-tool-change', this.onSearchChange);
 
         }
 

@@ -98,6 +98,8 @@
                         <el-button size="small" icon="plus" type="info" @click="addDialog = true" >添加</el-button>
                     </el-tooltip>
 
+                    <el-button size="small" icon="plus" type="info" @click="showAdd" >新dialog</el-button>
+
                     <el-button size="small" type="info" >人事专员</el-button>
                 </div>
             </el-col>
@@ -127,12 +129,15 @@
 
         <!-- / 修改公告 -->
 
+        <Add name='add-department'></Add>
+
     </div>
 
 </template>
 
 <script>
 import addDialog from './addDialog';
+import Add from './Add';
 import editDialog from './editDialog';
 import PageMix from '../../mix/Page';
 import DataProxy from '../../packages/DataProxy';
@@ -144,7 +149,8 @@ export default {
     mixins: [PageMix,SearchTool],
     components: {
         addDialog,
-       editDialog
+       editDialog,
+       Add
     },
     data () {
         return {
@@ -228,6 +234,11 @@ export default {
         onSearchChange(param){
             this.toggleTableLoad();
             this.mainProxy.setExtraParam(param).load();
+        },
+
+        showAdd(){
+            console.log('aa');
+            this.$modal.show('add-department');
         }
 
     },

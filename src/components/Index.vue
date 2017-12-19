@@ -3,7 +3,7 @@
 
   <div>
     <div  id="top" >
-        <el-row>
+        <!-- <el-row>
             <el-col :span="12">
                 <div class="big-title">化妆品商城后台系统</div>
             </el-col>
@@ -11,7 +11,7 @@
                 <div class="top-date">北京时间 2017年12月05日 18:18:18 星期二</div>
                 <div class="top-name">欢迎您大佬大佬</div>
             </el-col>
-        </el-row>
+        </el-row> -->
     </div>
     <div class='bottom' >
         <div class="Navgation" >

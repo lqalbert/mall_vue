@@ -6,9 +6,14 @@ import App from './App'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
 
+import VModal from 'vue-js-modal'
+
 // import Mock from './mock/mock';
 
+Vue.use(VModal);
 
+import newDialog from './components/common/Dialog';
+Vue.component('Dialog',newDialog)
 
 
 Vue.use(ElementUI);

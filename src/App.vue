@@ -17,6 +17,8 @@
 </script>
 
 <style>
-
+    .pull-right{
+        float: right;
+    }
 </style>
 

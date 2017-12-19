@@ -1,12 +1,12 @@
 <template>
     <div >
-        <Dialog title="出库资料填写" :name="name" :width="width" :height="height">
+        <Dialog title="入库资料填写" :name="name" :width="width" :height="height">
             <el-form :model="goodsOutForm" ref="goodsOutForm" :label-width="labelWidth" :label-position="labelPosition">
                 <el-row>
                     <el-col :span="12">
-                        <el-form-item  label="出库日期" prop="out_time">
-                            <el-date-picker v-model="goodsOutForm.datetime" type="datetime" placeholder="选择日期时间" 
-                                @change="outTimeDateChange" :editable="false">
+                        <el-form-item  label="入库日期" prop="into_time">
+                            <el-date-picker v-model="goodsOutForm.into_time" type="datetime" placeholder="选择日期时间" 
+                                @change="intoTimeDateChange" :editable="false">
                             </el-date-picker>
                         </el-form-item>
                     </el-col>
@@ -34,55 +34,27 @@
                 </el-row>
                 <el-row>
                     <el-col :span='12'>
-                        <el-form-item label="销售人员" prop="sale_name">
-                            <el-select  size="small" clearable v-model="goodsOutForm.sale_name">
+                        <el-form-item label="入库人员" prop="sale_name">
+                            <el-select  size="small" clearable v-model="goodsOutForm.into_name">
                                 <el-option label="张三" value="1"></el-option>
                                 <el-option label="李四" value="2"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span='12'>
-                        <el-form-item  label="销售日期" prop="sale_time">
-                          <el-date-picker v-model="goodsOutForm.sale_time" type="datetime" placeholder="选择日期时间" 
-                               @change="saleTimeDateChange" :editable="false">
+                        <el-form-item  label="有效期" prop="expiry_date">
+                          <el-date-picker v-model="goodsOutForm.expiry_date" type="datetime" placeholder="选择有效期" 
+                               @change="expiryDateDateChange" :editable="false">
                           </el-date-picker>
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row>
                     <el-col :span='12'>
-                        <el-form-item label="订单审核员" prop="check_name">
-                            <el-select  size="small" clearable v-model="goodsOutForm.check_name">
-                                <el-option label="特朗普" value="1"></el-option>
-                                <el-option label="普京" value="2"></el-option>
-                            </el-select>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span='12'>
-                        <el-form-item  label="审核日期" prop="check_time">
-                          <el-date-picker v-model="goodsOutForm.check_time" type="datetime" placeholder="选择日期时间" 
-                               @change="checkTimeDateChange" :editable="false">
+                        <el-form-item  label="生产日期" prop="pdt_time">
+                          <el-date-picker v-model="goodsOutForm.pdt_time" type="datetime" placeholder="选择有效期" 
+                               @change="pdtTimeDateChange" :editable="false">
                           </el-date-picker>
-                        </el-form-item>
-                    </el-col>
-                </el-row>
-                <el-row>
-                    <el-col :span='12'>
-                        <el-form-item  label="出库人" prop="out_name">
-                          <el-select size="small" placeholder="出库人" v-model="goodsOutForm.out_name">
-                              <el-option value="1" label="魑"></el-option>
-                              <el-option value="2" label="魅"></el-option>
-                              <el-option value="3" label="魍"></el-option>
-                          </el-select>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span='12'>
-                        <el-form-item  label="选择物流" prop="express">
-                          <el-select size="small" placeholder="选择物流" v-model="goodsOutForm.express">
-                              <el-option value="1" label="申通"></el-option>
-                              <el-option value="2" label="顺丰"></el-option>
-                              <el-option value="3" label="韵达"></el-option>
-                          </el-select>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -97,8 +69,8 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span='12'>
-                        <el-form-item  label="快递单号" prop="express_num">
-                          <el-input v-model="goodsOutForm.express_num" size="small" placeholder="快递单号"></el-input>  
+                        <el-form-item  label="价格" prop="pdt_price">
+                          <el-input v-model="goodsOutForm.pdt_price" size="small" placeholder="价格"></el-input>  
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -124,18 +96,15 @@
                 labelPosition:"right",
                 labelWidth:'100px',
                 goodsOutForm:{
-                    datetime:'',
+                    into_time:'',
                     pdt_type:'',
                     pdt_name:'',
                     goods_num:'',
                     sale_name:'',
-                    sale_time:'',
-                    check_name:'',
-                    check_time:'',
-                    express:'',
-                    out_name:'',
+                    expiry_date:'',
+                    pdt_time:'',
                     batch_no:'',
-                    express_num:'',
+                    pdt_price:'',
                 },
 
             }
@@ -155,11 +124,14 @@
             goodsNumChange(v){
                 this.goodsOutForm.goods_num = v;
             },
-            saleTimeDateChange(v){
-                this.goodsOutForm.sale_time = v;
+            expiryDateDateChangeDateChange(v){
+                this.goodsOutForm.expiry_date = v;
             },
             checkTimeDateChange(v){
                 this.goodsOutForm.check_time = v;
+            },
+            pdtTimeDateChange(v){
+                this.goodsOutForm.pdt_time = v;
             }
         },
     }

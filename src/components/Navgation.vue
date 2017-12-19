@@ -44,21 +44,21 @@ export default {
           icon:null,
           subNav:[
             { text:'客户资料', index:'CustomerInformation' },
-            { text:'购买订单', index:'BuyOrders' },
           ]
         },
         {
           text:'订单管理',
           icon:null,
           subNav:[
-              { text:'订单列表', index:'OrderList' },
+              { text:'订单详情', index:'OrderList' },
+              { text:'订单审核', index:'BuyOrders' },
           ]
         },
         {
           text:'库存管理',
           icon:null,
           subNav:[
-              { text:'库存列表', index:'InventoryList' },
+              { text:'库存信息', index:'InventoryList' },
               { text:'商品入库', index:'GoodsInto' },
               { text:'商品出库', index:'GoodsOut' },
           ]

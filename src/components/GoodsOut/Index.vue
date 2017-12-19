@@ -7,13 +7,6 @@
                         <el-input v-model="searchForm.pdt_name" size="small" placeholder="产品名称"></el-input>
                     </el-form-item>
 
-                    <el-form-item prop="pdt_type">
-                        <el-select size="small" placeholder="产品种类" v-model="searchForm.pdt_type">
-                            <el-option value="1" label="化妆品"></el-option>
-                            <el-option value="2" label="保健品"></el-option>
-                        </el-select>
-                    </el-form-item>
-
                     <el-form-item prop="out_time">
                         <el-date-picker size="small" v-model="searchForm.out_time"
                                         placeholder="出库时间"
@@ -21,25 +14,9 @@
                                         :editable="false">
                         </el-date-picker>
                     </el-form-item>
-
-                    <el-form-item prop="sale_time">
-                        <el-date-picker size="small" v-model="searchForm.sale_time"
-                                        placeholder="销售时间"
-                                        @change="saleTimeDateChange"
-                                        :editable="false">
-                        </el-date-picker>
-                    </el-form-item>
-
-                    <el-form-item prop="check_time">
-                        <el-date-picker size="small" v-model="searchForm.check_time"
-                                        placeholder="订单审核时间"
-                                        @change="checkTimeDateChange"
-                                        :editable="false">
-                        </el-date-picker>
-                    </el-form-item>
                     <el-form-item>
                         <el-button type="info" size="small" icon="search" @click="searchToolChange('searchForm')">查询</el-button>
-                        <el-button type="info" size="small" icon="search"  @click="addDialog = false">高级查询</el-button>
+                        <el-button type="info" size="small" icon="search"  @click="$modal.show('advance')">高级查询</el-button>
                         <el-button type="info" size="small" @click="searchToolReset('searchForm')">重置</el-button>
                         <el-tooltip content="点击刷新当前页面" placement="right"  style="margin-left:15px;">
                             <el-button  size="small" type="danger">刷新</el-button>
@@ -75,7 +52,7 @@
                     </el-table-column>
                     <el-table-column  label="操作" align="center" width="140">
                         <template slot-scope="scope">
-                            <el-button type="info" size="small" @click="goodsOutDialog = true">商品出库</el-button>
+                            <el-button type="info" size="small" @click="$modal.show('goodsOut')">商品出库</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -94,64 +71,16 @@
                 </el-col>
             </div>
         </el-row>
-<!--         <el-row>
-            <el-col :span="24">
-                <el-tabs  type="border-card">
-                    <el-tab-pane label="跟踪记录">
-                        <el-table :data="tableData1" empty-text="请点击客户显示跟踪信息" border style="width: 100%">
-                            <el-table-column prop="user" label="操作员工" header-align="center">
-                            </el-table-column>
-                            <el-table-column prop="content" label="内容" header-align="center">
 
-                            </el-table-column>
-
-                            <el-table-column prop="created_at" label="跟踪时间" width="180" align="center">
-                            </el-table-column>
-
-                            <el-table-column prop="track_text" label="跟踪类型" header-align="center">
-                            </el-table-column>
-                        </el-table>
-                    </el-tab-pane>
-                    <el-tab-pane label="购买纪录">
-                        <el-table :data="tableData2" empty-text="请点击客户显示其客户资料" border style="width: 100%">
-                            <el-table-column label="产品金额" prop="product_money" header-align="center">
-                            </el-table-column>
-                            <el-table-column label="产品名称" prop="product_name" header-align="center">
-                            </el-table-column>
-                            <el-table-column label="产品周期" prop="product_t" header-align="center">
-                            </el-table-column>
-                            <el-table-column label="购买时间" prop="buy_time" align="center">
-                            </el-table-column>
-                        </el-table>
-                    </el-tab-pane>
-                    <el-tab-pane label="投诉记录">
-                        <el-table :data="tableData3"  empty-text="请点击客户显示跟踪信息" border style="width: 100%">
-                            <el-table-column prop="user" label="操作员工" header-align="center">
-                            </el-table-column>
-
-                            <el-table-column prop="content" label="投诉内容" header-align="center">
-
-                            </el-table-column>
-
-                            <el-table-column prop="created_at" label="投诉时间" width="180" align="center">
-                            </el-table-column>
-
-                            <el-table-column prop="type_text" label="投诉类型" align="center">
-                            </el-table-column>
-                        </el-table>
-                    </el-tab-pane>
-                </el-tabs>
-            </el-col>
-        </el-row> -->
-
-        <addDialog :add-open="addDialog" @add-window-close="handleAddWindow"/>
-        <goodsOutDialog :out-open="goodsOutDialog" @goodsout-window-close="handleOutWindow"/>
+        <advanceDialog name="advance"/>
+        <goodsOutDialog name="goodsOut"/>
     </div>
 </template>
       
 <script>
-    import addDialog from './addDialog';
+    import advanceDialog from './advanceDialog';
     import goodsOutDialog from './goodsOutDialog';
+
     import PageMix from '../../mix/Page';
     import DataProxy from '../../packages/DataProxy';
     import SearchTool from '../../mix/SearchTool';
@@ -160,7 +89,7 @@ export default {
     pageTitle:"商品出库",
     mixins: [PageMix,SearchTool],
     components: {
-        addDialog,
+        advanceDialog,
         goodsOutDialog
     },
     data () {

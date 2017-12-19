@@ -17,7 +17,7 @@
                 </el-form-item>
 
                 <el-form-item prop="department_id">
-                    <el-select v-model="searchForm.department_id" placeholder="部门">
+                    <el-select size="small" v-model="searchForm.department_id" placeholder="部门">
                         <el-option v-for="v in departments" :label="v.name" 
                         :value="v.id" :key="v.id">
                         </el-option>
@@ -25,7 +25,7 @@
                 </el-form-item>
 
                 <el-form-item prop="group_id">
-                    <el-select v-model="searchForm.group_id" placeholder="团队小组">
+                    <el-select size="small" v-model="searchForm.group_id" placeholder="团队小组">
                         <el-option v-for="v in groups" :label="v.name" 
                         :value="v.id" :key="v.id">
                         </el-option>
@@ -124,9 +124,9 @@
 
                     <el-table-column fixed="right" label="操作" width="220" align="center">
                         <template slot-scope="scope">
-                            <el-button type="success"  size="small">编辑
+                            <el-button type="success"  size="small" @click="showEdit">编辑
                             </el-button>
-                            <el-button type="info" size="small">职能</el-button>
+                            <el-button type="info" size="small" @click="showRole">职能</el-button>
                             <el-button type="danger" size="small">离职</el-button>
                         </template>
                     </el-table-column>
@@ -134,12 +134,12 @@
             </el-col>
         </el-row>
         <el-row>
-            <div class="pull-right">
+
                 <el-col :span="12">
-                    <div class="grid-content bg-purple">
-                        <el-button type="primary" size="small" @click="addDialog = true">添加员工</el-button>
-                        <el-button type="primary" size="small">修改账号密码</el-button>
-                    </div>
+
+                        <el-button type="primary" size="small" @click="showAdd">添加员工</el-button>
+                        <el-button type="primary" size="small" @click="showEditPassWord">修改密码</el-button>
+
                 </el-col>
                 <el-col :span="12">
                     <el-pagination
@@ -150,7 +150,7 @@
                             @current-change="currentChange">
                     </el-pagination>
                 </el-col>
-            </div>
+
         </el-row>
 
 
@@ -165,12 +165,21 @@
 
         <!-- / 修改公告 -->
 
+
+        <Add name='add-employee'></Add>
+        <Edit name='edit-employee'></Edit>
+        <Role name='role'></Role>
+        <EditPassWord name='editpassword'></EditPassWord>
     </div>
 
 
 </template>
 
 <script>
+    import Add from './Add';
+    import Edit from './Edit';
+    import Role from './Role';
+    import EditPassWord from './EditPassWord';
     import addDialog from './addDialog';
     import editDialog from './editDialog';
     import PageMix from '../../mix/Page';
@@ -184,8 +193,11 @@
         pageTitle: "员工管理",
         mixins: [PageMix, SearchTool],
         components: {
-            addDialog,
-            editDialog
+            Add,
+            Edit,
+            Role,
+            editDialog,
+            EditPassWord
         },
         data() {
             return {
@@ -244,6 +256,20 @@
             }
         },
         methods: {
+        showAdd(){
+
+            this.$modal.show('add-employee');
+        },  showRole(){
+
+            this.$modal.show('role');
+        }, showEdit(){
+
+            this.$modal.show('edit-employee');
+        },
+            showEditPassWord(){
+
+            this.$modal.show('editpassword');
+        },
             dataReload: function () {
                 console.log(this.searchForm);
             },

@@ -82,7 +82,7 @@
 
                     <el-table-column  :context="_self"  align="center" width="250" fixed="right"  label="操作"  >
                         <template slot-scope="scope">
-                            <el-button type="success" @click="editDialog = true"     size="small">编辑</el-button>
+                            <el-button type="success" @click="showEdit"     size="small">编辑</el-button>
                             <el-button type="danger"  @click="handleDelete()"   size="small" >删除</el-button>
                             <el-button type="info"  size="small"> 导出人员 </el-button>
                         </template>
@@ -94,13 +94,10 @@
         <el-row >
             <el-col :span="12">
                 <div class="grid-content bg-purple">
-                    <el-tooltip content="点击填写公告并发布" placement="right">
-                        <el-button size="small" icon="plus" type="info" @click="addDialog = true" >添加</el-button>
-                    </el-tooltip>
 
-                    <el-button size="small" icon="plus" type="info" @click="showAdd" >新dialog</el-button>
+                    <el-button size="small" icon="plus" type="info" @click="showAdd" >添加</el-button>
 
-                    <el-button size="small" type="info" >人事专员</el-button>
+                    <el-button size="small" type="info" @click="showSetHr">人事专员</el-button>
                 </div>
             </el-col>
             <div class="pull-right">
@@ -131,14 +128,21 @@
 
         <Add name='add-department'></Add>
 
+
+        <Edit name='edit-department'></Edit>
+
+        <SetHr name='sethr-department'></SetHr>
+
     </div>
 
 </template>
 
 <script>
-import addDialog from './addDialog';
+
 import Add from './Add';
-import editDialog from './editDialog';
+import Edit from './Edit';
+import SetHr from './SetHr';
+
 import PageMix from '../../mix/Page';
 import DataProxy from '../../packages/DataProxy';
 import SearchTool from '../../mix/SearchTool';
@@ -148,9 +152,9 @@ export default {
     pageTitle:"组织单位",
     mixins: [PageMix,SearchTool],
     components: {
-        addDialog,
-       editDialog,
-       Add
+        Add,
+        Edit,
+        SetHr
     },
     data () {
         return {
@@ -239,6 +243,14 @@ export default {
         showAdd(){
             console.log('aa');
             this.$modal.show('add-department');
+        } ,
+        showEdit(){
+            console.log('bb');
+            this.$modal.show('edit-department');
+        } ,
+        showSetHr(){
+            console.log('bb');
+            this.$modal.show('sethr-department');
         }
 
     },

@@ -1,47 +1,48 @@
 <template>
     <div >
         <Dialog title="添加" :name="name" :width="width" :height="height">
-            <el-form :model="addForm" :inline="true" ref="addForm" :label-width="labelWidth"   :label-position="labelPosition">
+            <el-form :model="addForm" ref="addForm"  :label-width="labelWidth"   :label-position="labelPosition">
                 <el-row>
                     <el-col :span="12">
-                        <el-form-item label="单位名" prop="name">
-                            <el-input class="name-input" v-model="addForm.name"  auto-complete="off" placeholder="请填写单位名称"></el-input>
+                        <el-form-item label="商品名称" prop="goods_name" >
+                            <el-input class="name-input" v-model="addForm.goods_name"  auto-complete="off" placeholder="请填写商品名称"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="类型"  prop="type">
-                            <el-select  v-model="addForm.type"  placeholder="请选择类型"  >
+                        <el-form-item label="商品类型"  prop="goods_type">
+                            <el-select  v-model="addForm.goods_type"  placeholder="请选择类型"  >
                                 <el-option  v-for='(item,key) in typeList' :label="item" :value="key" :key="key"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
                 </el-row>
+
                 <el-row>
                     <el-col :span="12">
-                        <el-form-item label="部门经理"  prop="contact">
-                            <el-select v-model='addForm.user_id'>
-                                <el-option v-for="user in computedusers" :label="user.realname"
-                                           :value="user.user_id" :key="user.user_id">
+                        <el-form-item label="商品价格"  prop="goods_price">
+                            <el-input class="name-input" v-model="addForm.goods_price"  auto-complete="off" placeholder="请填写商品价格"></el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="12">
+                        <el-form-item label="商品货号"  prop="goods_number">
+                            <el-input class="name-input" v-model="addForm.goods_number"  auto-complete="off" placeholder="请填写商品货号"></el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="12">
+                        <el-form-item label="单位类型"  prop="unit_type">
+                            <el-select v-model='addForm.unit_type'>
+                                <el-option v-for="(v,key) in unit_types" :label="v.name"
+                                           :value="v.id" :key="key">
                                 </el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="是否启用" prop="status">
-                            <el-radio-group v-model="addForm.status">
-                                <el-radio :label="1">启用</el-radio>
-                                <el-radio :label="0">禁用</el-radio>
-                            </el-radio-group>
-                        </el-form-item>
-                    </el-col>
                 </el-row>
-                <el-row>
-                    <el-col :span="24">
-                        <el-form-item label="备注"  prop="remark">
-                            <el-input  auto-complete="off" v-model="addForm.remark" placeholder="请填写备注"></el-input>
-                        </el-form-item>
-                    </el-col>
-                </el-row>
+
             </el-form>
     
             <div slot="dialog-foot" class="dialog-footer">
@@ -65,11 +66,11 @@ export default {
         return {
             labelPosition:"right",
             labelWidth:'80px',
-            computedusers:[
-                {user_id:'1',realname:'李青'},
-                {user_id:'2',realname:'高鹏'},
-                {user_id:'3',realname:'马娇'},
-                {user_id:'4',realname:'吴继伟'},
+            unit_types:[
+                {id:'1',name:'瓶'},
+                {id:'2',name:'套'},
+                {id:'3',name:'盒'},
+
             ],
             topO:[
                 {id:'1',name:'西北区'},
@@ -77,16 +78,16 @@ export default {
                 {id:'3',name:'沿海区'},
 
             ],
-            typeList:['销售部','推广部','风控部','人事部'],
+            typeList:['化妆品','保健品'],
 
             state7: this.addOpen,
             addForm:{
-                name:"",
-                type:"",
-                division_id:"",
-                user_id:"",
+                goods_name:"",
+                goods_type:"",
+                goods_price:"",
+                goods_number:"",
                 remark:"",
-                status:1,
+                unit_type:'',
             },
 
         }

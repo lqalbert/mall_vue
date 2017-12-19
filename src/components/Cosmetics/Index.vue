@@ -5,10 +5,10 @@
                 <el-form-item prop="user">
                     <el-input v-model="searchForm.user" placeholder="请输入商品名称"></el-input>
                 </el-form-item>
-                <el-form-item>
-                    <el-button size="small" type="info" >全部</el-button>
-                    <el-button size="small" type="info" >化妆品</el-button>
-                    <el-button size="small" type="info" >保健品</el-button>
+                <el-form-item  prop="type_id">
+                    <el-select v-model="searchForm.type_id" placeholder="请选择商品类型">
+                        <el-option  v-for="item in items"  :value="item.id"  :label="item.name"></el-option>
+                    </el-select>
                 </el-form-item>
 
                 <el-form-item>
@@ -35,11 +35,7 @@
 
                     <el-table-column prop="goods_type" label="商品分类" align="center">
                     </el-table-column>
-                    <el-table-column prop="goods_sum" label="总库存量" align="center">
-                    </el-table-column>
-                    <el-table-column prop="sale_goods" label="已销售量" align="center">
-                    </el-table-column>
-                    <el-table-column prop="surplus_goods" label="剩余库存" align="center">
+                    <el-table-column prop="unit_type" label="单位类型" align="center">
                     </el-table-column>
                     <el-table-column prop="new_goods" label="新品" align="center">
                         <template slot-scope="scope">
@@ -79,7 +75,7 @@
                     </el-table-column>
                     <el-table-column  label="操作" align="center" width="140">
                         <template slot-scope="scope">
-                            <el-button type="info"    size="small">编辑</el-button>
+                            <!--<el-button type="info"    size="small">编辑</el-button>-->
                             <el-button type="danger"  size="small">删除</el-button>
                         </template>
 
@@ -91,10 +87,10 @@
         <el-row>
             <el-col :span="12">
                 <div class="grid-content bg-purple" style="float: left;margin-top: 5px">
-                    <el-tooltip content="多选批量删除" placement="right">
-                        <el-button size="small" type="warning" icon="delete" @click="handleDeletes">批量删除
-                        </el-button>
-                    </el-tooltip>
+
+                        <el-button size="small" type="warning" icon="delete" @click="handleDeletes">批量删除 </el-button>
+                        <el-button size="small" type="primary"  @click="showAdd">添加 </el-button>
+
                 </div>
             </el-col>
             <div class="pull-right" style="float: right;margin-top: 5px">
@@ -109,59 +105,14 @@
                 </el-col>
             </div>
         </el-row>
-	<el-row>
-            
-            <!--<TableProxy -->
-                <!--:url="mainurl" -->
-                <!--:param="mainparam"-->
-                <!--:bubble="tableEvents"-->
-                <!--&gt;-->
-                <!--<el-table-column type="selection" align="center" width="50"></el-table-column>-->
-                <!--<el-table-column label="序号" align="center"  type="index" width="80"></el-table-column>-->
-                <!--<el-table-column-->
-                    <!--prop="title"-->
-                    <!--label="标题"-->
-                    <!--width="180"-->
-                    <!--align="center"-->
-                    <!--sortable='custom'>-->
-                <!--</el-table-column>-->
-                <!--<el-table-column-->
-                    <!--prop="content"-->
-                    <!--label="内容"-->
-                    <!--align="center"-->
-                <!--&gt;-->
-                <!--</el-table-column>-->
-                <!--<el-table-column-->
-                    <!--prop="time"-->
-                    <!--label="发送时间"-->
-                    <!--align="center">-->
-                <!--</el-table-column>-->
-                <!--<el-table-column-->
-                    <!--prop="operator"-->
-                    <!--label="操作人员"-->
-                    <!--align="center">-->
-                <!--</el-table-column>-->
-                <!--<el-table-column-->
-                <!--prop="operator"-->
-                <!--label="操作人员"-->
-                <!--align="center">-->
-                    <!--<template slot-scope="scope">-->
-                        <!--<el-button size="small" type="primary" @click="buy(scope.row)">购买</el-button>-->
-                        <!--<el-button size="small" type="info">续费</el-button>-->
-                    <!--</template>-->
-                <!--</el-table-column>-->
-                <!--<div slot="buttonbar">-->
-                    <!--<el-button>abc</el-button>-->
-                <!--</div>-->
-            <!--</TableProxy>-->
 
+        <Add name='add-cosmetics'></Add>
 
-
-        </el-row>
     </div>
 </template>
 
 <script>
+    import Add from './Add';
     import DataProxy from '../../packages/DataProxy';
     import PageMix from '../../mix/Page';
     import SearchTool from '../../mix/SearchTool';
@@ -171,11 +122,16 @@
         name: 'Cosmetics',
         pageTitle: "商品列表",
         mixins: [PageMix, SearchTool],
-	    components:{TableProxy},
+	    components:{Add},
         data() {
             return {
+                items:[
+                    {id:1,name:'化妆品'},
+                    {id:2,name:'保健品'},
+                    ],
                 searchForm: {
                     user: '',
+                    type_id:''
                 },
                 currentPage4: 1,
                 total: 100,
@@ -186,13 +142,44 @@
                     'goods_price':'399.00',
                     'goods_number':25468137,
                     'goods_type':'化妆品',
-                    'goods_sum':20,
-                    'sale_goods':5,
-                    'surplus_goods':15,
-                    'new_goods':1,
-                    'hot_goods':1,
-                    'recommend_goods':1,
-                    'status':1
+                    'unit_type':'瓶',
+                    'new_goods':true,
+                    'hot_goods':true,
+                    'recommend_goods':true,
+                    'status':true
+                },{
+
+                    'goods_name':'自然堂护肤品',
+                    'goods_price':'399.00',
+                    'goods_number':25468137,
+                    'goods_type':'化妆品',
+                    'unit_type':'瓶',
+                    'new_goods':true,
+                    'hot_goods':true,
+                    'recommend_goods':true,
+                    'status':true
+                },{
+
+                    'goods_name':'自然堂护肤品',
+                    'goods_price':'399.00',
+                    'goods_number':25468137,
+                    'goods_type':'化妆品',
+                    'unit_type':'瓶',
+                    'new_goods':true,
+                    'hot_goods':true,
+                    'recommend_goods':true,
+                    'status':true
+                },{
+
+                    'goods_name':'自然堂护肤品',
+                    'goods_price':'399.00',
+                    'goods_number':25468137,
+                    'goods_type':'化妆品',
+                    'unit_type':'瓶',
+                    'new_goods':true,
+                    'hot_goods':true,
+                    'recommend_goods':true,
+                    'status':true
                 },],
 
                 tableEvents:{
@@ -253,8 +240,8 @@
                 this.$emit('search-tool-change', param);
             },
 
-            onRowclick(asdf){
-
+            showAdd(){
+                this.$modal.show('add-cosmetics');
             }
 
 

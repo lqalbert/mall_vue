@@ -75,7 +75,7 @@
                     </el-table-column>
                     <el-table-column  label="操作" align="center" width="140">
                         <template slot-scope="scope">
-                            <!--<el-button type="info"    size="small">编辑</el-button>-->
+                            <el-button type="info"    size="small" @click="showEdit">编辑</el-button>
                             <el-button type="danger"  size="small">删除</el-button>
                         </template>
 
@@ -107,12 +107,14 @@
         </el-row>
 
         <Add name='add-cosmetics'></Add>
+        <Edit name='edit-cosmetics'></Edit>
 
     </div>
 </template>
 
 <script>
     import Add from './Add';
+    import Edit from './Edit';
     import DataProxy from '../../packages/DataProxy';
     import PageMix from '../../mix/Page';
     import SearchTool from '../../mix/SearchTool';
@@ -122,7 +124,7 @@
         name: 'Cosmetics',
         pageTitle: "商品列表",
         mixins: [PageMix, SearchTool],
-	    components:{Add},
+	    components:{Add,Edit},
         data() {
             return {
                 items:[
@@ -242,6 +244,8 @@
 
             showAdd(){
                 this.$modal.show('add-cosmetics');
+            } , showEdit(){
+                this.$modal.show('edit-cosmetics');
             }
 
 

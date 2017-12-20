@@ -44,12 +44,11 @@
                     <el-table-column prop="province_name" label="地区" width="100"
                                      align="center"></el-table-column>
                     <el-table-column prop="sex" label="性别" width="80" align="center"></el-table-column>
-                    <!--<el-table-column label="操作" width="180" fixed="right" align="center">-->
-                        <!--<template slot-scope="scope">-->
-                            <!--<el-button size="small" type="primary">购买</el-button>-->
-                            <!--&lt;!&ndash;<el-button size="small" type="info">续费</el-button>&ndash;&gt;-->
-                        <!--</template>-->
-                    <!--</el-table-column>-->
+                    <el-table-column label="操作" width="180" fixed="right" align="center">
+                        <template slot-scope="scope">
+                            <el-button size="small" type="primary" @click="showBuy">购买</el-button>
+                        </template>
+                    </el-table-column>
                 </el-table>
             </el-col>
         </el-row>
@@ -148,6 +147,7 @@
         <ShowAdvQueryDialog name='showadvquerydialog'></ShowAdvQueryDialog>
         <Add name='add-customerinformation'></Add>
         <Chat name='chat'></Chat>
+        <Buy name='buy'></Buy>
         <Edit name='edit-customerinformation'></Edit>
 
     </div>
@@ -159,6 +159,7 @@
     import Add from "./Add";
     import Edit from "./Edit";
     import Chat from "./Chat";
+    import Buy from "./Buy";
     import ShowAdvQueryDialog from "./ShowAdvQueryDialog";
     import PageMix from '../../mix/Page';
     import DataProxy from '../../packages/DataProxy';
@@ -173,6 +174,7 @@
             Add,
             Chat,
             Edit,
+            Buy,
             ShowAdvQueryDialog
         },
         data() {
@@ -238,6 +240,8 @@
                 this.$modal.show('edit-customerinformation');
             }, showChat: function () {
                 this.$modal.show('chat');
+            },showBuy: function () {
+                this.$modal.show('buy');
             },
             mainTableLoad(data) {
                 this.toggleTableLoad();

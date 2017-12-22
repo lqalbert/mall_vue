@@ -1,16 +1,16 @@
 <template>
     <div >
         <Dialog title="编辑" :name="name" :width="width" :height="height">
-            <el-form :model="addForm" ref="addForm"  :label-width="labelWidth"   :label-position="labelPosition">
+            <el-form :model="editForm" ref="editForm"  :label-width="labelWidth"   :label-position="labelPosition">
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="商品名称" prop="goods_name" >
-                            <el-input class="name-input" v-model="addForm.goods_name"  auto-complete="off" placeholder="请填写商品名称"></el-input>
+                            <el-input class="name-input" v-model="editForm.goods_name"  auto-complete="off" placeholder="请填写商品名称"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="商品类型"  prop="goods_type">
-                            <el-select  v-model="addForm.goods_type"  placeholder="请选择类型"  >
+                            <el-select  v-model="editForm.goods_type"  placeholder="请选择类型"  >
                                 <el-option  v-for='(item,key) in typeList' :label="item" :value="key" :key="key"></el-option>
                             </el-select>
                         </el-form-item>
@@ -20,21 +20,21 @@
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="商品价格"  prop="goods_price">
-                            <el-input class="name-input" v-model="addForm.goods_price"  auto-complete="off" placeholder="请填写商品价格"></el-input>
+                            <el-input class="name-input" v-model="editForm.goods_price"  auto-complete="off" placeholder="请填写商品价格"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="商品货号"  prop="goods_number">
-                            <el-input class="name-input" v-model="addForm.goods_number"  auto-complete="off" placeholder="请填写商品货号"></el-input>
+                            <el-input class="name-input" v-model="editForm.goods_number"  auto-complete="off" placeholder="请填写商品货号"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="单位类型"  prop="unit_type">
-                            <el-select v-model='addForm.unit_type'>
+                            <el-select v-model='editForm.unit_type'>
                                 <el-option v-for="(v,key) in unit_types" :label="v.name"
                                            :value="v.id" :key="key">
                                 </el-option>
@@ -47,8 +47,9 @@
     
             <div slot="dialog-foot" class="dialog-footer">
                 <el-button @click="handleClose">取 消</el-button>
-                <submit-button 
-                    @click="formSubmit('addForm')" >
+                <submit-button
+                        @click="formSubmit('editForm')"
+                        :observer="dialogThis">
                     保 存
                 </submit-button>
             </div>
@@ -64,6 +65,7 @@ export default {
     mixins:[DialogForm],
     data () {
         return {
+            dialogThis:this,
             labelPosition:"right",
             labelWidth:'80px',
             unit_types:[
@@ -81,7 +83,7 @@ export default {
             typeList:['化妆品','保健品'],
 
             state7: this.addOpen,
-            addForm:{
+            editForm:{
                 goods_name:"",
                 goods_type:"",
                 goods_price:"",

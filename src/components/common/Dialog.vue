@@ -43,7 +43,7 @@
                 default:'unname'
             },
             title:{
-                type:String,
+                 type:String,
                 default:"Dialog"
             },
             width:{

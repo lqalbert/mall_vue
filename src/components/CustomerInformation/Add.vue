@@ -5,7 +5,7 @@
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="客户姓名" prop="goods_name" >
-                            <el-input class="name-input" v-model="addForm.goods_name"  auto-complete="off" placeholder="请填写商品名称"></el-input>
+                            <el-input  class="name-input" v-model="addForm.goods_name"  auto-complete="off" placeholder="请填写商品名称"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -23,9 +23,7 @@
                             <el-input class="name-input" v-model="addForm.goods_price"  auto-complete="off" placeholder="请填写商品价格"></el-input>
                         </el-form-item>
                     </el-col>
-                </el-row>
 
-                <el-row>
                     <el-col :span="12">
                         <el-form-item label="性别" prop="sex">
                             <el-radio-group v-model="addForm.sex">
@@ -59,8 +57,9 @@
     
             <div slot="dialog-foot" class="dialog-footer">
                 <el-button @click="handleClose">取 消</el-button>
-                <submit-button 
-                    @click="formSubmit('addForm')" >
+                <submit-button
+                        @click="formSubmit('addForm')"
+                        :observer="dialogThis">
                     保 存
                 </submit-button>
             </div>
@@ -76,6 +75,7 @@ export default {
     mixins:[DialogForm],
     data () {
         return {
+            dialogThis:this,
             labelPosition:"right",
             labelWidth:'80px',
             unit_types:[
@@ -95,7 +95,7 @@ export default {
                 goods_number:"",
                 remark:"",
                 unit_type:'',
-                sex:'',
+                sex:1,
             },
 
         }

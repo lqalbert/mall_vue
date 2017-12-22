@@ -12,6 +12,12 @@
 <script>
     export default {
         name: 'SubmitButton',
+        props:{
+            observer:{
+                required: true,
+                type: Object
+            }
+        },
         data () {
             return {
                 loading: false
@@ -34,8 +40,8 @@
         },
 
         created(){
-            this.$parent.$on('valid-error', this.setSubmited);
-            this.$parent.$on('submit-final', this.setSubmited);
+            this.observer.$on('valid-error', this.setSubmited);
+            this.observer.$on('submit-final', this.setSubmited);
         }
     }
 </script>

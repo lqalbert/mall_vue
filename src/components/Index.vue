@@ -14,9 +14,9 @@
         </el-row> -->
     </div>
     <div class='bottom' >
-        <div class="Navgation" >
+        <aside class="Navgation" >
             <Navgation @nav-change="navChange" />
-        </div>
+        </aside>
         <div>
             <el-tabs
                     v-model="editableTabsValue"

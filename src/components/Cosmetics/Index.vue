@@ -7,7 +7,7 @@
                 </el-form-item>
                 <el-form-item  prop="type_id">
                     <el-select v-model="searchForm.type_id" placeholder="请选择商品类型">
-                        <el-option  v-for="item in items"  :value="item.id"  :label="item.name"></el-option>
+                        <el-option  v-for="item in items"  :value="item.id"  :label="item.name" :key="item.id"></el-option>
                     </el-select>
                 </el-form-item>
 
@@ -106,7 +106,7 @@
             </div>
         </el-row>
 
-        <Add name='add-cosmetics'></Add>
+        <Add  name='add-cosmetics' ></Add>
         <Edit name='edit-cosmetics'></Edit>
 
     </div>
@@ -127,6 +127,7 @@
 	    components:{Add,Edit},
         data() {
             return {
+
                 items:[
                     {id:1,name:'化妆品'},
                     {id:2,name:'保健品'},

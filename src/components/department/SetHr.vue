@@ -63,8 +63,9 @@
 
             <div slot="dialog-foot" class="dialog-footer">
                 <el-button @click="handleClose">取 消</el-button>
-                <submit-button 
-                    @click="formSubmit('addForm')" >
+                <submit-button
+                        @click="formSubmit('addForm')"
+                        :observer="dialogThis">
                     保 存
                 </submit-button>
             </div>
@@ -80,6 +81,7 @@ export default {
     mixins:[DialogForm],
     data () {
         return {
+            dialogThis:this,
             hr:[{user_id:'1',realname:'李清'}],
             dehrs:[{user_id:'1',realname:'李清'}],
             labelPosition:"right",

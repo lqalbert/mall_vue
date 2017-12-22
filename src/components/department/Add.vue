@@ -1,11 +1,11 @@
 <template>
     <div >
         <Dialog title="添加" :name="name" :width="width" :height="height">
-            <el-form :model="addForm" :inline="true" ref="addForm" :label-width="labelWidth"   :label-position="labelPosition">
+            <el-form :model="addForm"  ref="addForm" :label-width="labelWidth"   :label-position="labelPosition">
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="单位名" prop="name">
-                            <el-input class="name-input" v-model="addForm.name"  auto-complete="off" placeholder="请填写单位名称"></el-input>
+                            <el-input  class="name-input" v-model="addForm.name"  auto-complete="off" placeholder="请填写单位名称"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -38,7 +38,7 @@
                 <el-row>
                     <el-col :span="24">
                         <el-form-item label="备注"  prop="remark">
-                            <el-input  auto-complete="off" v-model="addForm.remark" placeholder="请填写备注"></el-input>
+                            <el-input type="textarea" auto-complete="off" v-model="addForm.remark" placeholder="请填写备注"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -46,8 +46,9 @@
     
             <div slot="dialog-foot" class="dialog-footer">
                 <el-button @click="handleClose">取 消</el-button>
-                <submit-button 
-                    @click="formSubmit('addForm')" >
+                <submit-button
+                        @click="formSubmit('addForm')"
+                        :observer="dialogThis">
                     保 存
                 </submit-button>
             </div>
@@ -63,6 +64,7 @@ export default {
     mixins:[DialogForm],
     data () {
         return {
+            dialogThis:this,
             labelPosition:"right",
             labelWidth:'80px',
             computedusers:[

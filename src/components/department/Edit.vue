@@ -1,16 +1,16 @@
 <template>
     <div >
-        <Dialog title="添加" :name="name" :width="width" :height="height">
-            <el-form :model="addForm" ref="addForm" :rules="rules" :label-width="labelWidth"   :label-position="labelPosition">
+        <Dialog title="编辑" :name="name" :width="width" :height="height">
+            <el-form :model="editForm" ref="editForm"  :label-width="labelWidth"   :label-position="labelPosition">
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="单位名" prop="name" >
-                            <el-input class="name-input" v-model="addForm.name"  auto-complete="off" placeholder="请填写单位名称"></el-input>
+                            <el-input class="name-input" v-model="editForm.name"  auto-complete="off" placeholder="请填写单位名称"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="类型"  prop="type">
-                            <el-select  v-model="addForm.type"  placeholder="请选择类型"  >
+                            <el-select  v-model="editForm.type"  placeholder="请选择类型"  >
                                 <el-option  v-for='(item,key) in typeList' :label="item" :value="key" :key="key"></el-option>
                             </el-select>
                         </el-form-item>
@@ -20,7 +20,7 @@
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="部门经理"  prop="contact">
-                            <el-select v-model='addForm.manager_id'>
+                            <el-select v-model='editForm.manager_id'>
                                 <el-option v-for="user in computedusers" :label="user.realname"
                                            :value="user.user_id" :key="user.user_id">
                                 </el-option>
@@ -29,7 +29,7 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="是否启用" prop="status">
-                            <el-radio-group v-model="addForm.status">
+                            <el-radio-group v-model="editForm.status">
                                 <el-radio :label="1">启用</el-radio>
                                 <el-radio :label="0">禁用</el-radio>
                             </el-radio-group>
@@ -39,7 +39,7 @@
                 <el-row>
                     <el-col :span="24">
                         <el-form-item label="备注"  prop="remark">
-                            <el-input type="textarea"  auto-complete="off" v-model="addForm.remarks" placeholder="请填写备注"></el-input>
+                            <el-input type="textarea"  auto-complete="off" v-model="editForm.remark" placeholder="请填写备注"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -48,8 +48,9 @@
 
             <div slot="dialog-foot" class="dialog-footer">
                 <el-button @click="handleClose">取 消</el-button>
-                <submit-button 
-                    @click="formSubmit('addForm')" >
+                <submit-button
+                        @click="formSubmit('addForm')"
+                        :observer="dialogThis">
                     保 存
                 </submit-button>
             </div>
@@ -65,6 +66,7 @@ export default {
     mixins:[DialogForm],
     data () {
         return {
+            dialogThis:this,
             labelPosition:"right",
             labelWidth:'80px',
             computedusers:[
@@ -82,7 +84,7 @@ export default {
             typeList:['销售部','推广部','风控部','人事部'],
 
             state7: this.addOpen,
-            addForm:{
+            editForm:{
                 name:"",
                 type:"",
                 division_id:"",

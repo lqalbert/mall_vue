@@ -241,15 +241,12 @@ export default {
         },
 
         showAdd(){
-            console.log('aa');
             this.$modal.show('add-department');
         } ,
         showEdit(){
-            console.log('bb');
             this.$modal.show('edit-department');
         } ,
         showSetHr(){
-            console.log('bb');
             this.$modal.show('sethr-department');
         }
 

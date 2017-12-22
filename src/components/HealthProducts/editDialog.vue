@@ -39,7 +39,7 @@
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="closeDialog()">取 消</el-button>
-                <el-button @click="addFormSubmit()" type="primary"  >确 定</el-button>
+                <el-button :observer="dialogThis" @click="addFormSubmit()" type="primary"  >确 定</el-button>
             </div>
         </el-dialog>
     </div>
@@ -56,6 +56,7 @@
         },
         data () {
             return {
+                dialogThis:this,
                 state1: this.editOpen,
                 editForm:{
                     type:'',

@@ -105,7 +105,7 @@
             </el-form>
             <div slot="dialog-foot" class="dialog-footer">
                 <el-button @click="handleClose">取 消</el-button>
-                <el-button @click="formSubmit('goodsOutForm')" type="primary">确 定</el-button>
+                <el-button :observer="dialogThis" @click="formSubmit('goodsOutForm')" type="primary">确 定</el-button>
             </div>
         </Dialog>
     </div>
@@ -121,6 +121,7 @@
         },
         data () {
             return {
+                dialogThis:this,
                 labelPosition:"right",
                 labelWidth:'100px',
                 goodsOutForm:{

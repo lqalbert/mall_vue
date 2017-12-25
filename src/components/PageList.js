@@ -5,7 +5,6 @@ const PageList = {
     'Navgation':Navgation,
 
     'Cosmetics':(resolve)=>{ require(['./Cosmetics/Index.vue'], resolve)},
-    'HealthProducts':(resolve)=>{ require(['./HealthProducts/Index.vue'], resolve)},
     'Department':(resolve)=>{ require(['./Department/Index.vue'], resolve)},
     'Group':(resolve)=>{ require(['./Group/Index.vue'], resolve)},
     'Employee':(resolve)=>{ require(['./Employee/Index.vue'], resolve)},

@@ -176,7 +176,15 @@ export default {
 
             currentPage4:1,
             tableData:[
-            {name:'推广二部',typeText:'推广部',contact:'李青',tel:'13526458712',status:'0',switch:true,remark:'推广部王牌'},
+            {
+                name:'推广二部',
+                typeText:'推广部',
+                contact:'李青',
+                tel:'13526458712',
+                status:'0',
+                switch:true,
+                remark:'推广部王牌'
+            },
             {name:'推广二部',typeText:'推广部',contact:'李青',tel:'13526458712',status:'0',switch:true,remark:'推广部王牌'},
             {name:'推广二部',typeText:'推广部',contact:'李青',tel:'13526458712',status:'0',switch:true,remark:'推广部王牌'},
             {name:'推广二部',typeText:'推广部',contact:'李青',tel:'13526458712',status:'0',switch:true,remark:'推广部王牌'},

@@ -84,7 +84,7 @@
     import SearchTool from '../../mix/SearchTool';
 export default {
     name: 'InventoryList',
-    pageTitle:"库存列表",
+    pageTitle:"库存详情",
     mixins: [PageMix,SearchTool],
     data () {
         return {

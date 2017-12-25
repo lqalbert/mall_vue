@@ -23,9 +23,8 @@ export default {
           text:"商品管理",
           icon:null,
           subNav:[
-             {text:'商品列表', index:"Cosmetics"},
+             {text:'商品详情', index:"Cosmetics"},
              {text:'商品分类', index:"Category"},
-            // {text:'保健品', index:'HealthProducts'},
           ]
         },
 
@@ -51,14 +50,14 @@ export default {
           text:'订单管理',
           icon:null,
           subNav:[
-              { text:'订单列表', index:'OrderList' },
+              { text:'订单详情', index:'OrderList' },
           ]
         },
         {
           text:'库存管理',
           icon:null,
           subNav:[
-              { text:'库存列表', index:'InventoryList' },
+              { text:'库存详情', index:'InventoryList' },
               { text:'商品入库', index:'GoodsInto' },
               { text:'商品出库', index:'GoodsOut' },
           ]

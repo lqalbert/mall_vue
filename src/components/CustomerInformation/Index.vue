@@ -219,7 +219,12 @@
 
                 ],
                 tableData2: [
-                    {user: 'KFC-CFK', content: '这个鸡腿太好吃了', created_at: '2017-09-29 12:28:07', type_text: '味道问题'},
+                    {
+                        user: 'KFC-CFK',
+                        content: '这个鸡腿太好吃了',
+                        created_at: '2017-09-29 12:28:07',
+                        type_text: '味道问题'
+                    },
                 ],
             }
         },

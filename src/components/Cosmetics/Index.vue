@@ -122,7 +122,7 @@
 
     export default {
         name: 'Cosmetics',
-        pageTitle: "商品列表",
+        pageTitle: "商品详情",
         mixins: [PageMix, SearchTool],
 	    components:{Add,Edit},
         data() {

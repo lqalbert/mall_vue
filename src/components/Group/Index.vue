@@ -1,22 +1,26 @@
 <template>
     <div>
         <el-row>
-            <el-form :inline="true" ref="searchForm" :model="searchForm">
+            <el-form :inline="true"  ref="searchForm" :model="searchForm" class="search-bar">
                 <el-form-item prop="department_id">
-                    <el-select v-model="searchForm.department_id" placeholder="部门">
+                    <el-select 
+                        clearable
+                        v-model="searchForm.department_id" 
+                        size="small" 
+                        placeholder="部门">
                         <el-option v-for="v in departments" :label="v.name"
                          :value="v.id" :key="v.id">
                          </el-option>
                     </el-select>
                 </el-form-item>
 
-                <el-form-item prop="group_id">
-                    <el-select v-model="searchForm.group_id" placeholder="团队小组">
+                <!-- <el-form-item prop="group_id">
+                    <el-select v-model="searchForm.group_id" size="small" placeholder="团队小组">
                         <el-option v-for="v in groups" :label="v.name"
                          :value="v.id" :key="v.id">
                          </el-option>
                     </el-select>
-                </el-form-item>
+                </el-form-item> -->
 
                 <el-form-item prop="realname" style="width: 120px">
                     <el-input v-model="searchForm.realname" size="small" placeholder="输入负责人姓名">
@@ -37,52 +41,59 @@
         </el-row>
         <el-row>
             <el-col>
-                <el-table :data="tableData" v-loading.body="dataLoad" border style="width: 100%">
+
+                <TableProxy 
+                    :url="mainurl" 
+                    :param="mainparam"
+                    :reload="dataTableReload">
                     <el-table-column label="序号" align="center" type="index" width="65"> 
                     </el-table-column>
 
-                    <el-table-column label="部门" prop="departmentname" align="center">
+                    <el-table-column label="部门" prop="departmentname"  >
                     </el-table-column>
 
-                    <el-table-column label="团队小组名称" prop="name" align="center">
+                    <el-table-column label="团队小组名称" prop="name"  >
                     </el-table-column>
 
-                    <el-table-column prop="realname" label="联系人(负责人)" align="center">
+                    <el-table-column prop="user" label="联系人(负责人)"  >
                     </el-table-column>
 
                     <el-table-column label="联系电话" prop="phone" align="center">
                     </el-table-column>
 
-                    <el-table-column label="是否启用" :context="_self" align="center" prop="status">
+                    <el-table-column label="是否启用" align="center" prop="status">
                         <template slot-scope="scope">
-                            <div>
-                                <el-switch v-model="scope.row.switch" on-color="#13ce66"
-                                 off-color="#ff4949" @change="switchHandle(scope.$index, scope.row)">
-                                </el-switch>
-                            </div>
+                            <el-switch
+                                    v-model="scope.row.status"
+                                    :on-value="1"
+                                    :off-value="0"
+                                    on-color="#13ce66"
+                                    off-color="#ff4949"
+                                    @change="switchHandle(scope.$index, scope.row)">
+                            </el-switch>
                         </template>
                     </el-table-column>
 
-                    <el-table-column prop="remark" label="说明备注" align="center">
+                    <el-table-column prop="remarks" label="说明备注" align="center">
                     </el-table-column>
-                </el-table>
+
+                    <el-table-column   align="center" width="180" fixed="right"  label="操作"  >
+                        <template slot-scope="scope">
+                            <el-button type="success" @click="openEdit(scope.row)"     size="small">编辑</el-button>
+                            <el-button type="danger"  @click="handleDelete(scope.row.id)"   size="small" >删除</el-button>
+                            <!-- <el-button type="info"  size="small"> 导出人员 </el-button> -->
+                        </template>
+                    </el-table-column>
+
+                    <div slot="buttonbar">
+                        <el-tooltip content="点击填写公告并发布" placement="right">
+                            <el-button size="small" icon="plus" type="info" @click="showadd" >添加</el-button>
+                        </el-tooltip>
+                    </div>
+                </TableProxy>
             </el-col>
         </el-row>
-        <el-row>
-            <div class="pull-right">
-                <el-col :span="12" :offset="12">
-                    <div style="float:right">
-                        <el-pagination
-                                :current-page="currentPage4"
-                                :page-size="100"
-                                layout="total, prev, pager, next, jumper"
-                                :total="total"
-                                @current-change="currentChange">
-                        </el-pagination>
-                    </div>
-                </el-col>
-            </div>
-        </el-row>
+
         <el-row>
             <el-col :span="24">
                 <el-tabs>
@@ -103,18 +114,26 @@
                 </el-tabs>
             </el-col>
         </el-row>
-        <!--添加公告 -->
+        
+        <!-- 添加小组 -->
+        <!-- add-open.sync 这样写不起作用 bug? -->
+        
 
+        <edit-dialog 
+            name="edit"
+            :departments="departments" 
+            :ajax-proxy="ajaxProxy"
+            @submit-success="handleReload">
+        </edit-dialog>
 
-        <!--<addDialog :add-open="addDialog" @add-window-close="handleAddWindow"/>-->
+        <!-- <Dialog name='abc'></Dialog> -->
 
-        <!--&lt;!&ndash; / 添加公告 &ndash;&gt;-->
-        <!--&lt;!&ndash;修改公告 &ndash;&gt;-->
-
-
-        <!--<editDialog :edit-open="editDialog" @add-window-close="handleAddWindow"/>-->
-
-        <!-- / 修改公告 -->
+        <add-dialog 
+            name="add"
+            :departments="departments" 
+            :ajax-proxy="ajaxProxy"
+            @submit-success="handleReload">
+        </add-dialog>
 
     </div>
 
@@ -122,26 +141,32 @@
 </template>
 
 <script>
-    //import addDialog from './addDialog';
-    //import editDialog from './editDialog';
+    import addDialog from './Add.vue';
+    import editDialog from './Edit.vue';
     import PageMix from '../../mix/Page';
-    import DataProxy from '../../packages/DataProxy';
+
     import DepartSelectProxy from '../../packages/DepartSelectProxy';
     import GroupSelectProxy from '../../packages/GroupSelectProxy';
     import SearchTool from '../../mix/SearchTool';
+    import DataTable from '../../mix/DataTable';
+    import GroupAjaxProxy from  '../../store/Group';
+
+    // import Dialog from '../common/Dialog';
 
     export default {
         name: 'Group',
         pageTitle: "团队小组",
-        mixins: [PageMix, SearchTool],
-//    components: {
-//        addDialog,
-//       editDialog
-//    },
+        mixins: [PageMix, SearchTool,DataTable],
+        components: {
+            addDialog,
+            editDialog,
+        },
         data() {
             return {
-                depTypeName: "选择单位类型",
-                typeList: ["销售部", "客服部", "风控部", "人事部", "推广部", "投顾部"],
+                ajaxProxy: GroupAjaxProxy,
+                mainurl:GroupAjaxProxy,
+                mainparam:"",
+
                 departments: [],
                 groups: [],
                 addDialog: false,
@@ -153,108 +178,62 @@
                     phone: "",
 
                 },
-                total: 100,
-                dataLoad: false,
-                currentPage4: 1,
-                tableData: [
-                    {
-                        departmentname: '推广二部',
-                        name: '超越队',
-                        realname: '李青',
-                        phone: '13526458712',
-                        status: '0',
-                        switch: true,
-                        remark: '推广部王牌'
-                    },
-                ],
+                currentRow:null,
                 tableData1: [
                     {user_id: '123', type: '队员', realname: '李青', phone: '13526458712', qq: '1245624'},
                 ]
             }
         },
+        watch:{
+            addDialog(val, oldVal){
+                console.log('index addDialog', val);
+            }
+        },
         methods: {
-            dataReload: function () {
-                console.log(this.searchForm);
-            },
-            searchReset: function () {
-                this.$refs['searchForm'].resetFields();
-            },
-            refresh: function () {
-                this.$refs['searchForm'].resetFields();
+            switchHandle:function(index,row){
+
             },
             depTypeChange: function (v) {
                 this.searchForm.type = v;
                 this.depTypeName = this.typeList[v];
             },
-            handleEdit: function () {
-                this.editDialog = true;
-
+            openEdit: function (row) {
+                // this.currentRow = row;
+                this.$modal.show('edit', {model:row});
             },
-            handleDelete: function (index, row) {
-
-            },
-            switchHandle: function (index, row) {
-
-            },
-            openAddDialog: function () {
-
-            },
-            closeDialog: function () {
-
-            },
-            addFormSubmit: function () {
-                console.log(this.addForm);
-            },
-
-            handleAddWindow() {
-                this.addDialog = false;
-                this.editDialog = false;
-            },
-            mainTableLoad(data) {
-                this.toggleTableLoad();
-                this.tableData = data.items;
-                this.tableData1 = data.items1;
-                this.total = data.total;
-            },
-            currentChange(v) {
-                this.toggleTableLoad();
-                this.mainProxy.setPage(v).load();
-            },
-            toggleTableLoad() {
-                this.dataLoad = !this.dataLoad;
-            },
+           
             loadDepartment(data) {
-                this.departments = data.items;
+                this.departments = data;
             },
             loadGroup(data) {
                 this.groups = data.items;
             },
-
             onSearchChange(param) {
-                this.toggleTableLoad();
-                this.mainProxy.setExtraParam(param).load();
+                this.mainparam = JSON.stringify(param);
             },
 
-
+            an(){
+                this.$modal.show('abc');
+            },
+            showadd(){
+                this.$modal.show('add');
+            }
         },
-        // created() {
-        //
-        //     this.toggleTableLoad();
-        //     let mainProxy = new DataProxy("/group", this.pageSize, this.mainTableLoad, this);
-        //     this.mainProxy = mainProxy;
-        //     // this.mainProxy
-        //     this.mainProxy.load();
-        //
-        //     let departProxy = new DepartSelectProxy({'type': 'sale'}, this.loadDepartment, this);
-        //     this.departProxy = departProxy;
-        //     this.departProxy.load();
-        //
-        //     let groupProxy = new GroupSelectProxy({'depart_id': 1}, this.loadGroup, this);
-        //     this.groupProxy = groupProxy;
-        //     this.groupProxy.load();
-        //
-        //
-        // }
+        created() {
+
+            let departProxy = new DepartSelectProxy({'type': 0}, this.loadDepartment, this);
+            this.departProxy = departProxy;
+            this.departProxy.load();
+
+            // let groupProxy = new GroupSelectProxy({'depart_id': 1}, this.loadGroup, this);
+            // this.groupProxy = groupProxy;
+            // this.groupProxy.load();
+
+            this.$on('search-tool-change', this.onSearchChange);
+
+            
+
+        }
     }
 </script>
 

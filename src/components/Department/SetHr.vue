@@ -46,7 +46,7 @@
             <!--</el-form>-->
             <el-form ref="hrForm"  :model="hrForm" v-model="hrForm" :label-width="dialogLabelWidth">
                 <el-row>
-                    <el-col :span="10">
+                    <el-col :span="12">
                         <el-form-item label="备选人事" prop="user_ids">
                             <el-select v-model="hrForm.user_ids" multiple >
                                 <el-option v-for="user in dehrs" :label="user.realname" :value="user.user_id"></el-option>
@@ -76,6 +76,8 @@
 
 <script>
 import DialogForm from '../../mix/DialogForm';
+import DataProxy from '../../packages/DataProxy';
+
 export default {
     name: 'SetHr',
     mixins:[DialogForm],
@@ -93,6 +95,13 @@ export default {
 
         }
     },
+    methods:{
+        getAjaxPromise(model){
+             console.log(model);
+            //return this.ajaxProxy.create(model);
+        },
+
+    }
 }
 </script>
 

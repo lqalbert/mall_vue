@@ -67,7 +67,15 @@ DataProxy.prototype._getParam = function(){
 DataProxy.prototype.load = function(){
     let vmthis = this._scope;
     let sel = this;
-    return AxiosInstance.get(this.url, {params:this._getParam()}).then(function(response){
+    let proxy = this.url; 
+    let promise = null;
+
+    if (typeof(this.url) == 'string') {
+        promise = AxiosInstance.get(this.url, {params:this._getParam()});
+    } else {
+        promise = proxy.get(this._getParam());
+    }
+    return promise.then(function(response){
         if(vmthis){
             sel._callback.apply(vmthis, [response.data]);
         } else {

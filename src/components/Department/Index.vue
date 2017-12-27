@@ -23,14 +23,9 @@
                 </el-form-item>
 
                 <el-form-item prop="type">
-                    <el-dropdown trigger="click" menu-align="start" @command="depTypeChange">
-                        <el-button type="primary" size="small">
-                            {{depTypeName}}<i class="el-icon-caret-bottom el-icon--right"></i>
-                        </el-button>
-                        <el-dropdown-menu slot="dropdown">
-                            <el-dropdown-item v-for="(key,index) in typeList" :key="index" :command="index.toString()">{{key}}</el-dropdown-item>
-                        </el-dropdown-menu>
-                    </el-dropdown>
+                    <el-select size="small" placeholder="请选择" v-model="searchForm.type" clearable>
+                        <el-option v-for="(item,index) in typeList" :value="index" :label="item" :key="index"></el-option>
+                    </el-select>
                 </el-form-item>
 
                 <el-form-item>
@@ -38,100 +33,158 @@
                     <el-tooltip content="清空搜索框并刷新表格数据" placement="bottom-start">
                         <el-button size="small" @click="searchToolReset('searchForm')" type="primary" style="margin-left:10px;">重置</el-button>
                     </el-tooltip>
-                    <!-- <el-button  @click="openDialog('advancedSearch')" icon="search">高级查询</el-button>  -->
                 </el-form-item>
-                <el-form-item>
-                    <el-tooltip content="点击刷新当前页面" placement="right">
-                        <el-button @click="refresh" size="small" type="danger">刷新</el-button>
-                    </el-tooltip>
-                </el-form-item>
+
             </el-form>
         </el-row>
 
+
         <el-row>
             <el-col>
-                <el-table :data="tableData" v-loading="dataLoad" border style="width: 100%">
+                <TableProxy
+                        :url="mainurl"
+                        :param="mainparam"
+                        :reload="dataTableReload">
                     <el-table-column label="序号" align="center"  type="index" width="65">
                     </el-table-column>
-
-                    <el-table-column label="单位名"  prop="name" align="center">
+                    <el-table-column label="单位名"  prop="name" >
                     </el-table-column>
 
-                    <el-table-column prop="typeText" label="类型" align="center">
+                    <el-table-column prop="type_text" label="类型" align="center">
                     </el-table-column>
 
-                    <el-table-column label="联系人"  prop="contact" align="center">
+                    <el-table-column label="联系人"  prop="user" align="center">
                     </el-table-column>
 
-                    <el-table-column prop="tel" label="联系电话" align="center">
+                    <el-table-column label="联系电话" prop="phone" align="center">
                     </el-table-column>
 
-                    <el-table-column label="是否启用" :context="_self" align="center" prop="status">
+                    <el-table-column label="是否启用" align="center" prop="status">
                         <template slot-scope="scope">
                             <el-switch
-                                    v-model="scope.row.switch"
+                                    v-model="scope.row.status"
+                                    :on-value="1"
+                                    :off-value="0"
                                     on-color="#13ce66"
                                     off-color="#ff4949"
                                     @change="switchHandle(scope.$index, scope.row)">
                             </el-switch>
                         </template>
                     </el-table-column>
-                    
-                    <el-table-column prop="remark" label="备注" align="center">
+
+                    <el-table-column prop="remarks" label="备注" >
                     </el-table-column>
 
-                    <el-table-column  :context="_self"  align="center" width="250" fixed="right"  label="操作"  >
+                    <el-table-column   align="center" width="180" fixed="right"  label="操作"  >
                         <template slot-scope="scope">
-                            <el-button type="success" @click="showEdit"     size="small">编辑</el-button>
-                            <el-button type="danger"  @click="handleDelete()"   size="small" >删除</el-button>
-                            <el-button type="info"  size="small"> 导出人员 </el-button>
+                            <el-button type="success" @click="openEdit(scope.row)"     size="small">编辑</el-button>
+                            <el-button type="danger"  @click="handleDelete(scope.row.id)"   size="small" >删除</el-button>
+                            <!-- <el-button type="info"  size="small"> 导出人员 </el-button> -->
                         </template>
                     </el-table-column>
-                </el-table>
+                    <div slot="buttonbar">
+                        <el-tooltip content="点击填写公告并发布" placement="right">
+                            <el-button size="small" icon="plus" type="info" @click="$modal.show('add-department')" >添加</el-button>
+                        </el-tooltip>
+
+                        <el-button size="small" type="info" @click="showSetHr">人事专员</el-button>
+                    </div>
+                </TableProxy>
             </el-col>
         </el-row>
 
-        <el-row >
-            <el-col :span="12">
-                <div class="grid-content bg-purple">
 
-                    <el-button size="small" icon="plus" type="info" @click="showAdd" >添加</el-button>
+        <!--<el-row>-->
+            <!--<el-col>-->
+                <!--<el-table :data="tableData" v-loading="dataLoad" border style="width: 100%">-->
+                    <!--<el-table-column label="序号" align="center"  type="index" width="65">-->
+                    <!--</el-table-column>-->
 
-                    <el-button size="small" type="info" @click="showSetHr">人事专员</el-button>
-                </div>
-            </el-col>
-            <div class="pull-right">
-                <el-col :span="12">
-                    <el-pagination
-                            :current-page="currentPage4"
-                            :page-size="100"
-                            layout="total, prev, pager, next, jumper"
-                            :total="total"
-                            @current-change="currentChange">
-                    </el-pagination>
-                </el-col>
-            </div>
-        </el-row>
+                    <!--<el-table-column label="单位名"  prop="name" align="center">-->
+                    <!--</el-table-column>-->
+
+                    <!--<el-table-column prop="typeText" label="类型" align="center">-->
+                    <!--</el-table-column>-->
+
+                    <!--<el-table-column label="联系人"  prop="contact" align="center">-->
+                    <!--</el-table-column>-->
+
+                    <!--<el-table-column prop="tel" label="联系电话" align="center">-->
+                    <!--</el-table-column>-->
+
+                    <!--<el-table-column label="是否启用" :context="_self" align="center" prop="status">-->
+                        <!--<template slot-scope="scope">-->
+                            <!--<el-switch-->
+                                    <!--v-model="scope.row.switch"-->
+                                    <!--on-color="#13ce66"-->
+                                    <!--off-color="#ff4949"-->
+                                    <!--@change="switchHandle(scope.$index, scope.row)">-->
+                            <!--</el-switch>-->
+                        <!--</template>-->
+                    <!--</el-table-column>-->
+                    <!---->
+                    <!--<el-table-column prop="remark" label="备注" align="center">-->
+                    <!--</el-table-column>-->
+
+                    <!--<el-table-column  :context="_self"  align="center" width="250" fixed="right"  label="操作"  >-->
+                        <!--<template slot-scope="scope">-->
+                            <!--<el-button type="success" @click="showEdit"     size="small">编辑</el-button>-->
+                            <!--<el-button type="danger"  @click="handleDelete()"   size="small" >删除</el-button>-->
+                            <!--<el-button type="info"  size="small"> 导出人员 </el-button>-->
+                        <!--</template>-->
+                    <!--</el-table-column>-->
+                <!--</el-table>-->
+            <!--</el-col>-->
+        <!--</el-row>-->
+        <!--<el-row >-->
+            <!--<el-col :span="12">-->
+                <!--<div class="grid-content bg-purple">-->
+
+                    <!--<el-button size="small" icon="plus" type="info" @click="showAdd" >添加</el-button>-->
+
+                    <!--<el-button size="small" type="info" @click="showSetHr">人事专员</el-button>-->
+                <!--</div>-->
+            <!--</el-col>-->
+            <!--<div class="pull-right">-->
+                <!--<el-col :span="12">-->
+                    <!--<el-pagination-->
+                            <!--:current-page="currentPage4"-->
+                            <!--:page-size="100"-->
+                            <!--layout="total, prev, pager, next, jumper"-->
+                            <!--:total="total"-->
+                            <!--@current-change="currentChange">-->
+                    <!--</el-pagination>-->
+                <!--</el-col>-->
+            <!--</div>-->
+        <!--</el-row>-->
 
         <!--添加公告 -->
 
 
-        <addDialog :add-open="addDialog" @add-window-close="handleAddWindow"/>
-
-        <!--&lt;!&ndash; / 添加公告 &ndash;&gt;-->
-        <!--&lt;!&ndash;修改公告 &ndash;&gt;-->
 
 
-        <editDialog :edit-open="editDialog" @add-window-close="handleAddWindow"/>
+
+
 
         <!-- / 修改公告 -->
 
-        <Add name='add-department'></Add>
+        <Add name='add-department'
+             :type-list="typeList"
+             :ajax-proxy="ajaxProxy"
+             @submit-success="handleReload"
+        />
 
 
-        <Edit name='edit-department'></Edit>
+        <Edit name='edit-department'
+              :type-list="typeList"
+              :ajax-proxy="ajaxProxy"
+              @submit-success="handleReload"
+        />
 
-        <SetHr name='sethr-department'></SetHr>
+        <SetHr name='sethr-department'
+               :ajax-proxy="ajaxProxy"
+               @submit-success="handleReload"
+        />
 
     </div>
 
@@ -143,14 +196,21 @@ import Add from './Add';
 import Edit from './Edit';
 import SetHr from './SetHr';
 
+import DataTable from '../../mix/DataTable';
+
 import PageMix from '../../mix/Page';
+import config from '../../mix/Delete';
 import DataProxy from '../../packages/DataProxy';
 import SearchTool from '../../mix/SearchTool';
+import SelectProxy from  '../../packages/SelectProxy';
+
+import DepartAjaxProxy from '../../store/Department';
+import TableProxy from '../common/TableProxy';
 
 export default {
     name: 'Department',
     pageTitle:"组织单位",
-    mixins: [PageMix,SearchTool],
+    mixins: [PageMix,SearchTool,DataTable,config,DepartAjaxProxy],
     components: {
         Add,
         Edit,
@@ -158,38 +218,22 @@ export default {
     },
     data () {
         return {
+            ajaxProxy:DepartAjaxProxy,
+            mainurl:DepartAjaxProxy.getUrl(),
+            mainparam:"",
             depTypeName:"选择单位类型",
             typeList:["销售部", "客服部", "风控部", "人事部", "推广部", "投顾部"],
+
             total:100,
             dataLoad:false,
-            addDialog:false,
-            editDialog:false,
             searchForm:{
                 name:"",
                 id:"0",
-                sortFiled:"id",
-                sortWay:"asc",
                 contact:"",
                 tel:"",
                 type:""
             },
 
-            currentPage4:1,
-            tableData:[
-            {
-                name:'推广二部',
-                typeText:'推广部',
-                contact:'李青',
-                tel:'13526458712',
-                status:'0',
-                switch:true,
-                remark:'推广部王牌'
-            },
-            {name:'推广二部',typeText:'推广部',contact:'李青',tel:'13526458712',status:'0',switch:true,remark:'推广部王牌'},
-            {name:'推广二部',typeText:'推广部',contact:'李青',tel:'13526458712',status:'0',switch:true,remark:'推广部王牌'},
-            {name:'推广二部',typeText:'推广部',contact:'李青',tel:'13526458712',status:'0',switch:true,remark:'推广部王牌'},
-
-            ]
         }
     },
     methods:{
@@ -206,30 +250,11 @@ export default {
             this.searchForm.type=v;
             this.depTypeName = this.typeList[v];
         },
-        handleEdit:function(){
-            this.editDialog =true;
 
-        },
-        handleDelete:function(index,row){
-
-        },
-        switchHandle:function(index,row){
-
-        },
-         openAddDialog:function(){
-
-        },
-         closeDialog:function(){
-
-        },
          addFormSubmit:function(){
           console.log(this.addForm);
         },
 
-        handleAddWindow(){
-             this.addDialog = false;
-             this.editDialog =false;
-        },
         mainTableLoad(data){
             this.toggleTableLoad();
             this.tableData = data.items;
@@ -244,29 +269,36 @@ export default {
         },
 
         onSearchChange(param){
-            this.toggleTableLoad();
-            this.mainProxy.setExtraParam(param).load();
+            this.mainparam = JSON.stringify(param);
+        },initDepartmentType(data){
+            this.typeList = data;
+        },
+        departMentInit(){
+            let selectProxy = new SelectProxy(DepartAjaxProxy.getUrl(), this.initDepartmentType, this);
+            selectProxy.setExtraParam({business:'DepartmentType'}).load();
         },
 
         showAdd(){
             this.$modal.show('add-department');
         } ,
-        showEdit(){
-            this.$modal.show('edit-department');
+        openEdit(row){
+            // this.editRow = row;
+            this.$modal.show('edit-department', {model:row});
         } ,
         showSetHr(){
-            this.$modal.show('sethr-department');
+            // this.$modal.show('sethr-department');
         }
 
     },
-    // created(){
-    //     this.toggleTableLoad();
-    //     let mainProxy = new DataProxy("/department", this.pageSize, this.mainTableLoad, this);
-    //     this.mainProxy = mainProxy;
-    //     this.mainProxy.load();
-    //
-    //
-    // }
+    created(){
+
+        this.$on('search-tool-change', this.onSearchChange);
+
+        this.departMentInit();
+
+
+
+    }
 }
 </script>
 

@@ -1,9 +1,9 @@
 import SelectProxy from './SelectProxy';
-// let departProxy = new SelectProxy("/departments");
+import DepartmentStore from '../store/Department';
 
 const DepartSelectProxy = function(param, callback, scope){
     this.extraParm = param || null;
-    this.departProxy = new SelectProxy("/departments", callback, scope);
+    this.departProxy = new SelectProxy(DepartmentStore.getUrl(), callback, scope);
 
     if (this.extraParm){
         this.setParam(this.extraParm);
@@ -12,6 +12,12 @@ const DepartSelectProxy = function(param, callback, scope){
 
 DepartSelectProxy.prototype.setParam = function(param){
     // this.extraParm = param;
+    if (!param.fields) {
+        param.fields = ['id','name'];
+    }
+    if (!param.business) {
+        param.business = 'select';
+    }
     this.departProxy.setExtraParam(param);
     return this;
 }

@@ -1,7 +1,7 @@
 <template>
     <div >
         <Dialog title="添加" :name="name" :width="width" :height="height">
-            <el-form :model="addForm"  ref="addForm" :label-width="labelWidth"   :label-position="labelPosition">
+            <el-form :model="addForm"  ref="addForm" :rules="rules" :label-width="labelWidth"   :label-position="labelPosition">
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="单位名" prop="name">
@@ -19,7 +19,7 @@
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="部门经理"  prop="contact">
-                            <el-select v-model='addForm.user_id'>
+                            <el-select v-model='addForm.manager_id'>
                                 <el-option v-for="user in computedusers" :label="user.realname"
                                            :value="user.user_id" :key="user.user_id">
                                 </el-option>
@@ -37,8 +37,8 @@
                 </el-row>
                 <el-row>
                     <el-col :span="24">
-                        <el-form-item label="备注"  prop="remark">
-                            <el-input type="textarea" auto-complete="off" v-model="addForm.remark" placeholder="请填写备注"></el-input>
+                        <el-form-item label="备注"  prop="remarks">
+                            <el-input type="textarea" auto-complete="off" v-model="addForm.remarks" placeholder="请填写备注"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -59,9 +59,18 @@
 
 <script>
 import DialogForm from '../../mix/DialogForm';
+import DataProxy from '../../packages/DataProxy';
+
 export default {
     name: 'Add',
     mixins:[DialogForm],
+    props:{
+        typeList:{
+            type:Array,
+            default:['销售部','推广部','风控部','人事部']
+        }
+
+    },
     data () {
         return {
             dialogThis:this,
@@ -73,26 +82,32 @@ export default {
                 {user_id:'3',realname:'马娇'},
                 {user_id:'4',realname:'吴继伟'},
             ],
-            topO:[
-                {id:'1',name:'西北区'},
-                {id:'2',name:'东南区'},
-                {id:'3',name:'沿海区'},
-
-            ],
-            typeList:['销售部','推广部','风控部','人事部'],
-
-            state7: this.addOpen,
             addForm:{
                 name:"",
                 type:"",
-                division_id:"",
-                user_id:"",
-                remark:"",
+                manager_id:"",
+                remarks:"",
                 status:1,
             },
+            rules:{
+                name:[
+                    { required: true, message: '请输入部门名称', trigger: 'blur' }
+                ],
+                type:[
+                    { required: true, message:'请选择类型', type: 'number', trigger:'change'}
+                ]
+            },
+
 
         }
     },
+    methods:{
+        getAjaxPromise(model){
+             // console.log(model);
+            return this.ajaxProxy.create(model);
+        },
+
+    }
 }
 </script>
 

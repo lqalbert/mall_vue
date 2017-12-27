@@ -13,8 +13,12 @@ import VModal from 'vue-js-modal'
 Vue.use(VModal);
 
 import newDialog from './components/common/Dialog';
+import InitObject from './mix/InitObjectFromObject';
+import Delete from './mix/Delete';
 Vue.component('Dialog',newDialog);
 
+Vue.mixin(InitObject);
+Vue.mixin(Delete);
 
 Vue.use(ElementUI);
 

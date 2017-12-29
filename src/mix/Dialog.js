@@ -21,9 +21,7 @@ const config = {
         }
     },
 
-    created(){
-        this.$on('submit-success', this.handleClose);
-    }
+
     
 };
 

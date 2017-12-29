@@ -2,13 +2,7 @@
 import SubmitButton from '../components/common/SubmitButton';
 
 const config = {
-    props:{
-        ajaxProxy:{
-            required:true,
-            type: Object,
-            default: null
-        }
-    },
+
     components:{
         SubmitButton
     },

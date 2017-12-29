@@ -61,11 +61,11 @@
 </template>
 
 <script>
-    import FormMix from '../../mix/Form';
-    import Dialog from '../../mix/Dialog';
+
+    import DialogForm from '../../mix/DialogForm';
     export default {
         name: 'editDialog',
-        mixins:[FormMix, Dialog],
+        mixins:[DialogForm],
         props:{
             departments:{
                 type: Array,

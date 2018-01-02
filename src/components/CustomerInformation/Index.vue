@@ -10,77 +10,10 @@
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" size="small"  @click="searchToolChange('searchForm')">查询</el-button>
-                    <el-button type="primary" size="small" @click="advQueryDialog">高级查询</el-button>
+                    <el-button type="primary" size="small" @click="showAdvQueryDialog">高级查询</el-button>
                     <el-button type="primary" size="small"  @click="searchToolReset('searchForm')">重置</el-button>
-                    <el-tooltip content="本人跟踪的客户" placement="bottom-start">
-                        <el-badge value="8" :max="9" style="margin-left:10px;">
-                            <el-button type="info" size="small" @click="typeOption('track')">跟踪</el-button>
-                        </el-badge>
-                    </el-tooltip>
+                    <el-button    size="small" type="danger" >刷新</el-button>
 
-                    <el-tooltip content="本人没有跟踪的客户" placement="bottom-start">
-                        <el-badge value="8" :max="9" style="margin-left:10px;">
-                            <el-button type="info" size="small" @click="typeOption('no_track')">未跟踪</el-button>
-                        </el-badge>
-                    </el-tooltip>
-
-                    <el-tooltip content="本人计划跟踪的客户" placement="bottom-start">
-                        <el-badge value="8" :max="9" style="margin-left:10px;">
-                        <el-button type="info" size="small" @click="typeOption('plan')">计划</el-button>
-                        </el-badge>
-                    </el-tooltip>
-
-                    <el-tooltip content="本人把客户转给他人的客户(分成)" placement="bottom-start">
-                        <el-badge value="8" :max="9" style="margin-left:10px;">
-                            <el-button type="info" size="small" @click="typeOption('out')">转让</el-button>
-                        </el-badge>
-                    </el-tooltip>
-
-                    <el-tooltip content="他人把客户转给本人的客户(分成)" placement="bottom-start">
-                        <el-badge value="8" :max="9" style="margin-left:10px;">
-                            <el-button type="info" size="small" @click="typeOption('into')">转入</el-button>
-                        </el-badge>
-                    </el-tooltip>
-
-                    <el-tooltip content="推广部" placement="bottom-start">
-                        <el-button type="info" size="small" style="margin-left:15px;" @click="typeOption('spread')">推广客户</el-button>
-                    </el-tooltip>
-
-                    <el-tooltip content="本人跟踪且成交了的客户" placement="bottom-start">
-                        <el-badge value="8" :max="9" style="margin-left:10px;">
-                            <el-button type="primary" size="small" @click="typeOption('server')">服务</el-button>
-                        </el-badge>
-                    </el-tooltip>
-
-                    <el-tooltip content="对客户进行筛选后重点跟踪" placement="bottom-start">
-                        <el-badge value="8" :max="9" style="margin-left:10px;">
-                            <el-button type="info" size="small" @click="typeOption('self')">自选</el-button>
-                        </el-badge>
-                    </el-tooltip>
-
-                    <el-tooltip content="他人的客户与您的客户有冲突" placement="bottom-start">
-                        <el-badge value="8" :max="9" style="margin-left:10px;">
-                            <el-button size="small" type="danger" @click="typeOption('conflict')">冲突</el-button>
-                        </el-badge>
-                    </el-tooltip>
-
-                    <el-tooltip content="查询客户资料是否已存在或者冲突" placement="bottom-start" style="margin-left:10px;">
-                        <el-button size="small" type="primary" @click="typeOption('before')">客户预查</el-button>
-                    </el-tooltip>
-
-                    <el-tooltip content="3个月内被索取数量" placement="right">
-                        <el-badge value="8" :max="9" style="margin-left:15px;">
-                            <el-button size="small" type="primary" @click="typeOption('total')">索取统计</el-button>
-                        </el-badge>
-                    </el-tooltip>
-
-                    <el-tooltip content="未通过的审核" placement="bottom-start" style="margin-left:10px;">
-                        <el-button size="small" type="primary" @click="typeOption('not_pass')">未通过</el-button>
-                    </el-tooltip>
-
-                    <!-- <el-tooltip content="点击刷新当前页面" placement="right"  style="margin-left:10px;">
-                        <el-button @click="refresh" size="small" type="danger" >刷新</el-button>
-                    </el-tooltip> -->
                 </el-form-item>
             </el-form>
         </el-row>
@@ -113,8 +46,7 @@
                     <el-table-column prop="sex" label="性别" width="80" align="center"></el-table-column>
                     <el-table-column label="操作" width="180" fixed="right" align="center">
                         <template slot-scope="scope">
-                            <el-button size="small" type="primary">购买</el-button>
-                            <!--<el-button size="small" type="info">续费</el-button>-->
+                            <el-button size="small" type="primary" @click="showBuy">购买</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -125,43 +57,17 @@
                 <el-row style="margin-bottom:6px">
                     <el-col :span="24">
                         <el-tooltip content="录入新的客户" placement="bottom-start" style="margin-left:0px;">
-                            <el-button size="small" type="primary">添加客户</el-button>
+                            <el-button size="small" type="primary" @click="showAdd">添加客户</el-button>
                         </el-tooltip>
                         <el-tooltip content="编辑客户资料" placement="bottom-start" style="margin-left:10px;">
-                            <el-button size="small" type="primary">修改客户</el-button>
+                            <el-button size="small" type="primary" @click="showEdit">修改客户</el-button>
                         </el-tooltip>
                         <el-tooltip content="编辑客户资料" placement="bottom-start" style="margin-left:10px;">
-                            <el-button size="small" type="primary">聊天记录</el-button>
+                            <el-button size="small" type="primary"  @click="showChat" >聊天记录</el-button>
                         </el-tooltip>
                     </el-col>
                 </el-row>
-                <el-row>
-                    <el-col :span="24">
-                        <div>
-                            <span>
-                                <el-tooltip content="选择客户录入跟踪信息" placement="right">
-                                <el-button size="small" type="primary">录入跟踪</el-button>
-                                </el-tooltip>
 
-                                <el-tooltip content="选择客户录入投诉意见" placement="right">
-                                <el-button size="small" type="primary" style="margin-left:10px;">客户投诉</el-button>
-                                </el-tooltip>
-
-                                <el-tooltip content="选择客户录入对其跟踪计划" placement="right">
-                                <el-button size="small" type="primary" style="margin-left:10px;">计划</el-button>
-                                </el-tooltip>
-
-                                <el-tooltip content="选择客户录入其提醒事项及内容" placement="right">
-                                <el-button size="small" type="info" style="margin-left:10px;">提醒</el-button>
-                                </el-tooltip>
-
-                                <el-tooltip content="筛选客户重点跟踪" placement="right">
-                                <el-button size="small" type="primary" style="margin-left:10px;">自选</el-button>
-                                </el-tooltip>
-                            </span>
-                        </div>
-                    </el-col>
-                </el-row>
             </el-col>
             <el-col :span="12">
                 <div style="float:right">
@@ -237,12 +143,24 @@
 
         </div>
 
+
+        <ShowAdvQueryDialog name='showadvquerydialog'></ShowAdvQueryDialog>
+        <Add name='add-customerinformation'></Add>
+        <Chat name='chat'></Chat>
+        <Buy name='buy'></Buy>
+        <Edit name='edit-customerinformation'></Edit>
+
     </div>
 
 </template>
 
 <script>
     import advancedQuery from "./advancedQuery";
+    import Add from "./Add";
+    import Edit from "./Edit";
+    import Chat from "./Chat";
+    import Buy from "./Buy";
+    import ShowAdvQueryDialog from "./ShowAdvQueryDialog";
     import PageMix from '../../mix/Page';
     import DataProxy from '../../packages/DataProxy';
     import SearchTool from '../../mix/SearchTool';
@@ -252,7 +170,12 @@
         pageTitle: "客户资料",
         mixins: [PageMix,SearchTool],
         components: {
-            advancedQuery
+            advancedQuery,
+            Add,
+            Chat,
+            Edit,
+            Buy,
+            ShowAdvQueryDialog
         },
         data() {
             return {
@@ -296,7 +219,12 @@
 
                 ],
                 tableData2: [
-                    {user: 'KFC-CFK', content: '这个鸡腿太好吃了', created_at: '2017-09-29 12:28:07', type_text: '味道问题'},
+                    {
+                        user: 'KFC-CFK',
+                        content: '这个鸡腿太好吃了',
+                        created_at: '2017-09-29 12:28:07',
+                        type_text: '味道问题'
+                    },
                 ],
             }
         },
@@ -307,6 +235,18 @@
             advQueryDialog: function () {
                 this.advancedQueryDialog = true;
                 console.log(this.advancedQueryDialog);
+            },
+            showAdvQueryDialog: function () {
+                this.$modal.show('showadvquerydialog');
+            },
+            showAdd: function () {
+                this.$modal.show('add-customerinformation');
+            }, showEdit: function () {
+                this.$modal.show('edit-customerinformation');
+            }, showChat: function () {
+                this.$modal.show('chat');
+            },showBuy: function () {
+                this.$modal.show('buy');
             },
             mainTableLoad(data) {
                 this.toggleTableLoad();

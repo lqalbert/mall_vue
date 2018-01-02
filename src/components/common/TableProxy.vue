@@ -55,116 +55,134 @@
 
   import DataProxy from '../../packages/DataProxy';
 
-
   export default {
-    name: 'TableProxy',
-    props:{
-        
-        param:{
-            type: String,
-            default: ''
-        },
-        url:{
-            type: String,
-            default:''
-        },
-        pageSize:{
-            type:Number,
-            default: 100
-        },
-        bubble:{
-            type: Object,
-            default:null
-        }
-    },
-    data () {
-      return {
-        currentPage:1,
-        msg:'asdf',
-        mainData:[],
-        dataLoad:false,
-        realParam:null,
-        total:0,
+      name: 'TableProxy',
+      props:{
 
-        multipleSelection: []
+          param:{
+              type: String,
+              default: ''
+          },
+          url:{
+              type: [String, Object],
+              default:''
+          },
+          pageSize:{
+              type:Number,
+              default: 100
+          },
+          bubble:{
+              type: Object,
+              default:null
+          },
+          reload:{
+              type:Number,
+              default:0
+          }
+      },
+      data () {
+          return {
+              currentPage:1,
+              msg:'asdf',
+              mainData:[],
+              dataLoad:false,
+              realParam:null,
+              total:0,
+
+              multipleSelection: []
+          }
+      },
+      methods:{
+          dataLoaded(data){
+              this.dataLoad = false;
+              this.mainData = data.items;
+              this.total = data.total
+          },
+          toggleTableLoad(){
+              this.dataLoad = !this.dataLoad;
+          },
+          currentChange(v){
+              this.mainProxy.setPage(v).load();
+          },
+
+          sortChange(prop){
+              this.mainProxy.setOrder(prop.prop, prop.order).load();
+          },
+
+          handleSelectionChange(val) {
+
+              this.multipleSelection = val;
+              this.$emit('selection-change', this.multipleSelection);
+          },
+
+          bubleEvents(){
+              console.log(arguments);
+
+          },
+          onError(){
+              this.dataLoad = true;
+          },
+          setParamAndLoad(){
+              if (this.realParam) {
+                  this.mainProxy.setExtraParam(this.realParam);
+              }
+              this.toggleTableLoad();
+              this.mainProxy.load();
+          }
+      },
+      watch:{
+          param:function(val, oldVal){
+              this.realParam = JSON.parse(val);
+
+              if (this.realParam) {
+                  this.mainProxy.setExtraParam(this.realParam);
+              }
+              this.toggleTableLoad();
+              this.mainProxy.load();
+
+          },
+          reload:function(val, oldVal){
+              this.dataLoad = true;
+              this.mainProxy.load();
+          }
+      },
+      created(){
+          if (this.param) {
+              this.realParam = JSON.parse(val);
+          }
+
+          let mainProxy = new DataProxy(this.url, this.pageSize, this.dataLoaded, this, this.onError);
+          this.mainProxy = mainProxy;
+          this.setParamAndLoad();
+
+          // 这么写不行 如果有多个表 这么写 一次 就触发多次事件处理
+          // this.$parent.$on('dataReload', 'xx')
+          //
+
+
+
+      },
+
+      mounted(){
+          // refs 在 created里还没有
+          // 查看这的 答案 https://segmentfault.com/q/1010000010145270 在mounted之后才有对象
+          if(this.bubble){
+              for (const key in this.bubble) {
+                  if (this.bubble.hasOwnProperty(key)) {
+                      const element = this.bubble[key];
+                      this.$refs.proxyTable.$on(key, element);
+
+                  }
+              }
+              // for (let index = 0; index < this.bubble.length; index++) {
+              //     console.log(this.bubble[index]);
+              //     // const element = array[index];
+              //     console.log(this.$refs);
+              //     this.$refs.proxyTable.$on(this.bubble[index], this.bubleEvents, this.bubble[index]);
+              // }
+
+          }
       }
-    },
-    methods:{
-        dataLoaded(data){
-            this.toggleTableLoad();
-            this.mainData = data.items;
-            this.total = data.total
-        },
-        toggleTableLoad(){
-           this.dataLoad = !this.dataLoad;
-        },
-        currentChange(v){
-            this.mainProxy.setPage(v).load();
-        },
-
-        sortChange(prop){
-            this.mainProxy.setOrder(prop.prop, prop.order).load();
-        },
-
-        handleSelectionChange(val) {
-            
-            this.multipleSelection = val;
-            this.$emit('selection-change', this.multipleSelection);
-        },
-
-        bubleEvents(){
-            console.log(arguments);
-            
-        },
-        onError(){
-            this.dataLoad = false;
-        }
-
-        
-    },
-    watch:{
-        param:function(val, oldVal){
-            this.realParam = JSON.parse(val);
-            this.mainProxy.setExtraParam(this.realParam).load();
-        }
-    },
-    created(){
-        if (this.param) {
-            this.realParam = JSON.parse(val);
-        }
-        this.toggleTableLoad();
-        let mainProxy = new DataProxy(this.url, this.pageSize, this.dataLoaded, this, this.onError);
-        
-        if (this.realParam) {
-            mainProxy.setExtraParam(this.realParam);
-        }
-        mainProxy.load();
-        this.mainProxy = mainProxy;
-
-       
-       
-    },
-
-    mounted(){
-         // refs 在 created里还没有
-        // 查看这的 答案 https://segmentfault.com/q/1010000010145270 在mounted之后才有对象
-        if(this.bubble){
-            for (const key in this.bubble) {
-                if (this.bubble.hasOwnProperty(key)) {
-                    const element = this.bubble[key];
-                    this.$refs.proxyTable.$on(key, element);
-                    
-                }
-            }
-            // for (let index = 0; index < this.bubble.length; index++) {
-            //     console.log(this.bubble[index]);
-            //     // const element = array[index];
-            //     console.log(this.$refs);
-            //     this.$refs.proxyTable.$on(this.bubble[index], this.bubleEvents, this.bubble[index]);
-            // }
-            
-        }
-    }
   }
   </script>
   

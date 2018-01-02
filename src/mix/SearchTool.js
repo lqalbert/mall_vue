@@ -2,12 +2,11 @@ const SearchTool = {
 
     methods:{
         searchToolChange(name){
-            let form = this[name];
-            this.$emit('search-tool-change', form);
+            this.$emit('search-tool-change', this[name]);
         },
         searchToolReset(name){
             this.$refs[name].resetFields();
-            this.$emit('search-tool-change', null);
+            this.$emit('search-tool-change', this[name]);
         }
     }
 };

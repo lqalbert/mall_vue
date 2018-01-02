@@ -57,7 +57,7 @@ export default {
           text:'库存管理',
           icon:null,
           subNav:[
-              { text:'库存信息', index:'InventoryList' },
+              { text:'库存详情', index:'InventoryList' },
               { text:'商品入库', index:'GoodsInto' },
               { text:'商品出库', index:'GoodsOut' },
           ]

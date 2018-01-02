@@ -149,7 +149,7 @@
     import GroupSelectProxy from '../../packages/GroupSelectProxy';
     import SearchTool from '../../mix/SearchTool';
     import DataTable from '../../mix/DataTable';
-    import GroupAjaxProxy from  '../../store/Group';
+    import GroupAjaxProxy from '../../ajaxProxy/Group';
 
     // import Dialog from '../common/Dialog';
 

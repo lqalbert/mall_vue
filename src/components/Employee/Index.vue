@@ -206,7 +206,7 @@
     import DepartSelectProxy from '../../packages/DepartSelectProxy';
     import GroupSelectProxy from '../../packages/GroupSelectProxy';
     import SearchTool from '../../mix/SearchTool';
-    import EmployeeAjaxProxy  from '../../store/Employee';
+    import EmployeeAjaxProxy  from '../../ajaxProxy/Employee';
 
     export default {
         name: 'Employee',

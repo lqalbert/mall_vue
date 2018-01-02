@@ -204,7 +204,7 @@ import DataProxy from '../../packages/DataProxy';
 import SearchTool from '../../mix/SearchTool';
 import SelectProxy from  '../../packages/SelectProxy';
 
-import DepartAjaxProxy from '../../store/Department';
+import DepartAjaxProxy from '../../ajaxProxy/Department';
 import TableProxy from '../common/TableProxy';
 
 export default {

@@ -1,5 +1,5 @@
 import SelectProxy from './SelectProxy';
-import DepartmentStore from '../store/Department';
+import DepartmentStore from '../ajaxProxy/Department';
 
 const DepartSelectProxy = function(param, callback, scope){
     this.extraParm = param || null;

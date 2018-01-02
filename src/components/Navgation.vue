@@ -23,8 +23,8 @@ export default {
           text:"商品管理",
           icon:null,
           subNav:[
-             {text:'商品详情', index:"Cosmetics"},
-             {text:'商品分类', index:"Category"},
+            {text:'商品详情', index:"Cosmetics"},
+            {text:'商品分类', index:"Category"},
           ]
         },
 
@@ -43,7 +43,6 @@ export default {
           icon:null,
           subNav:[
             { text:'客户资料', index:'CustomerInformation' },
-            { text:'购买订单', index:'BuyOrders' },
           ]
         },
         {
@@ -51,6 +50,7 @@ export default {
           icon:null,
           subNav:[
               { text:'订单详情', index:'OrderList' },
+              { text:'订单审核', index:'BuyOrders' },
           ]
         },
         {

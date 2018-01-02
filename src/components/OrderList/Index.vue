@@ -1,13 +1,25 @@
 <template>
     <div class="hello">
         <el-row>
-            <el-form :inline="true" ref="searchForm" :model="searchForm" >
+            <el-form :inline="true" ref="searchForm" :model="searchForm">
                 <el-form-item prop="start" >
                     <el-date-picker size="small" v-model="searchForm.start"
                                     placeholder="下单开始时间"
                                     @change="startDateChange"
                                     :editable="false">
                     </el-date-picker>
+                </el-form-item>
+
+                <el-form-item prop="pdt_name">
+                    <el-input size="small" v-model="searchForm.pdt_name" placeholder="请输入商品名称"></el-input>
+                </el-form-item>
+
+                <el-form-item prop="sale_name">
+                    <el-input size="small" v-model="searchForm.sale_name" placeholder="员工名称"></el-input>
+                </el-form-item>
+
+                <el-form-item prop="cus_name">
+                    <el-input size="small" v-model="searchForm.cus_name" placeholder="客户名称"></el-input>
                 </el-form-item>
 
                 <el-form-item prop="end">
@@ -21,8 +33,7 @@
                 <el-form-item prop="number">
                     <el-input size="small" v-model="searchForm.number" placeholder="请输入订单编号"></el-input>
                 </el-form-item>
-
-
+                <br>
                 <el-form-item>
                     <el-button size="small" type="info" >全部</el-button>
                     <el-button size="small" type="info" >待付款</el-button>
@@ -75,8 +86,8 @@
                     </el-table-column>
                     <el-table-column  label="操作" align="center" width="140">
                         <template slot-scope="scope">
-                            <el-button type="info"    size="small">查看</el-button>
-                            <el-button type="danger"  size="small">删除</el-button>
+                            <el-button type="info" size="small" @click="showRowData(scope.row)">查看</el-button>
+                            <el-button type="danger" size="small">删除</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -95,17 +106,24 @@
             </el-col>
 
         </div>
+
+        <rowInfoDialog name="rowInfo"/>
     </div>
 </template>
       
 <script>
+    import rowInfoDialog from "./rowInfo";
+
     import PageMix from '../../mix/Page';
     import DataProxy from '../../packages/DataProxy';
     import SearchTool from "../../mix/SearchTool";
 export default {
     name: 'OrderList',
-    pageTitle:"订单列表",
+    pageTitle:"订单详情",
     mixins: [PageMix,SearchTool],
+    components:{
+        rowInfoDialog
+    },
     data () {
         return {
             total:100,
@@ -114,6 +132,9 @@ export default {
             conditions:["录入个数", "成交金额", "成交个数"],
             searchForm:{
                 start:'',
+                pdt_name:'',
+                sale_name:'',
+                cus_name:'',
                 number:'',
                 end:'',
                 condition:'',
@@ -197,6 +218,9 @@ export default {
         }
     },
     methods:{
+        showRowData(row){
+            this.$modal.show('rowInfo',{rowData:row});
+        },
         dataReload:function(){
           console.log(this.searchForm);
         },

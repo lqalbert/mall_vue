@@ -1,4 +1,3 @@
-
 <template>
 
     <div>
@@ -261,4 +260,3 @@
         box-shadow: 0px 3px 3px 1px rgba(27, 33, 58, .4);
     }
 </style>
-

@@ -107,7 +107,7 @@
                 var data = this.data;
                 var res = data[data.length-1];
                 var newData=[];
-                 newData.id = res.id;
+                 newData.id = res.id+1;
 
                 newData.children=[];
                 newData.label = v.name;

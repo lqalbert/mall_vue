@@ -190,6 +190,9 @@
             }
         },
         methods: {
+            getAjaxProxy(){
+                return  this.ajaxProxy;
+            },
             switchHandle:function(index,row){
 
             },
@@ -203,7 +206,7 @@
             },
            
             loadDepartment(data) {
-                this.departments = data;
+                this.departments = data.items;
             },
             loadGroup(data) {
                 this.groups = data.items;
@@ -221,9 +224,14 @@
         },
         created() {
 
-            let departProxy = new DepartSelectProxy({'type': 0}, this.loadDepartment, this);
+            let departProxy = new DepartSelectProxy(null, this.loadDepartment, this);
             this.departProxy = departProxy;
             this.departProxy.load();
+
+
+            // let departProxy = new DepartSelectProxy({'type': 0}, this.loadDepartment, this);
+            // this.departProxy = departProxy;
+            // this.departProxy.load();
 
             // let groupProxy = new GroupSelectProxy({'depart_id': 1}, this.loadGroup, this);
             // this.groupProxy = groupProxy;

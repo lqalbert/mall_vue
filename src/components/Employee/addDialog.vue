@@ -33,9 +33,11 @@
                         <el-row >
                             <el-col :span="12">
                                 <el-form-item label="所属部门" prop="department_id">
-                                    <el-select size="small" v-model="addForm.department_id" placeholder="部门">
-                                        <el-option v-for="v in departments" :label="v.name"
-                                                   :value="v.id" :key="v.id">
+                                    <el-select  v-model="addForm.department_id" placeholder="部门">
+                                        <el-option v-for="department in departments"
+                                                   :label="department.name"
+                                                   :value="department.id"
+                                                   :key="department.id">
                                         </el-option>
                                     </el-select>
                                 </el-form-item>
@@ -43,13 +45,12 @@
                             <el-col :span="12">
                                 <el-form-item label="所属团队" prop="group_id" >
                                     <el-select v-model="addForm.group_id" placeholder="团队小组" clearable>
-
                                         <el-option
                                             v-for="group in groups"
                                             :label="group.name"
                                             :value="group.id"
-                                            :key="group.id"></el-option>
-
+                                            :key="group.id">
+                                        </el-option>
                                     </el-select>
                                 </el-form-item>
                             </el-col>

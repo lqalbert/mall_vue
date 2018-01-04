@@ -237,6 +237,9 @@ export default {
         }
     },
     methods:{
+        getAjaxProxy(){
+            return  this.ajaxProxy;
+        },
         dataReload:function(){
           console.log(this.searchForm);
         },

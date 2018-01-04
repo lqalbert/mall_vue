@@ -248,6 +248,9 @@
             }
         },
         methods: {
+            getAjaxProxy(){
+              return  this.ajaxProxy;
+            },
 
           openEdit(row){
             // this.editRow = row;

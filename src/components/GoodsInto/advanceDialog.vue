@@ -1,6 +1,6 @@
 <template>
     <div >
-        <Dialog title="高级查询" :name="name" :width="width" :height="height">
+        <MyDialog title="高级查询" :name="name" :width="width" :height="height">
             <el-form :model="advanceSearchForm" ref="advanceSearchForm" :label-width="labelWidth" :label-position="labelPosition">
                 <el-row>
                     <el-col :span="12">
@@ -57,7 +57,7 @@
                 <el-button @click="handleClose">取 消</el-button>
                 <el-button :observer="dialogThis" @click="formSubmit('advanceSearchForm')" type="primary">确 定</el-button>
             </div>
-        </Dialog>
+        </MyDialog>
     </div>
 </template>
 

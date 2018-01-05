@@ -126,7 +126,7 @@
             @submit-success="handleReload">
         </edit-dialog>
 
-        <!-- <Dialog name='abc'></Dialog> -->
+        <!-- <MyDialog name='abc'></MyDialog> -->
 
         <add-dialog 
             name="add"

@@ -1,6 +1,6 @@
 <template>
     <div >
-        <Dialog title="设置职能" :name="name" :width="width" :height="height">
+        <MyDialog title="设置职能" :name="name" :width="width" :height="height">
             <el-form ref="setRolesForm" :model="setRolesForm" :label-width="labelWidth"  :label-position="labelPosition">
                 <el-form-item label="职能">
                     <el-select v-model="setRolesForm.role_ids">
@@ -18,7 +18,7 @@
                 </submit-button>
             </div>
 
-        </Dialog>
+        </MyDialog>
     </div>
 </template>
 

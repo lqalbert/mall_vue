@@ -1,6 +1,6 @@
 <template>
     <div >
-        <Dialog  title="添加员工" :name='name'  :width="width" :height="height">
+        <MyDialog  title="添加员工" :name='name'  :width="width" :height="height">
             <el-form 
                 ref="addForm"  
                 :rules='rules'
@@ -310,7 +310,7 @@
                     @click="formSubmit('addForm')" 
                     :observer="dialogThis" ></SubmitButton>
             </div>
-        </Dialog>
+        </MyDialog>
     </div>
 </template>
 

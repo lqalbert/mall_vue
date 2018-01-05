@@ -1,6 +1,6 @@
 <template>
     <div >
-        <Dialog title="出库资料填写" :name="name" :width="width" :height="height">
+        <MyDialog title="出库资料填写" :name="name" :width="width" :height="height">
             <el-form :model="goodsOutForm" ref="goodsOutForm" :label-width="labelWidth" :label-position="labelPosition">
                 <el-row>
                     <el-col :span="12">
@@ -107,7 +107,7 @@
                 <el-button @click="handleClose">取 消</el-button>
                 <el-button :observer="dialogThis" @click="formSubmit('goodsOutForm')" type="primary">确 定</el-button>
             </div>
-        </Dialog>
+        </MyDialog>
     </div>
 </template>
 

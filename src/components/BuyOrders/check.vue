@@ -1,6 +1,6 @@
 <template>
     <div >
-        <Dialog title="审核" :name="name" :width="width" :height="height" @before-open="onOpen">
+        <MyDialog title="审核" :name="name" :width="width" :height="height" @before-open="onOpen">
             <el-form :model="checkForm" ref="checkForm" :label-width="labelWidth" :label-position="labelPosition">
                 <el-row>
                     <el-col :span="12">
@@ -17,7 +17,7 @@
                 <el-button @click="handleClose">取 消</el-button>
                 <el-button @click="formSubmit('checkForm')" type="primary">确 定</el-button>
             </div>
-        </Dialog>
+        </MyDialog>
     </div>
 </template>
 

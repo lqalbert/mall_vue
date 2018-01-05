@@ -1,6 +1,6 @@
 <template>
     <div >
-        <Dialog title="购买" :name="name" :width="width" :height="height">
+        <MyDialog title="购买" :name="name" :width="width" :height="height">
             <el-form :model="addForm" ref="addForm"  :label-width="labelWidth"   :label-position="labelPosition">
                 <el-row>
                     <el-col :span="12">
@@ -54,7 +54,7 @@
                 </submit-button>
             </div>
 
-        </Dialog>
+        </MyDialog>
     </div>
 </template>
 

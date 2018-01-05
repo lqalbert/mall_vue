@@ -1,6 +1,6 @@
 <template>
     <div >
-        <Dialog title="修改密码" :name="name" :width="width" :height="height">
+        <MyDialog title="修改密码" :name="name" :width="width" :height="height">
             <el-form :label-width="labelWidth"   ref="editPasswordForm" :label-position="labelPosition">
                 <el-form-item label="员工账号" prop="account">
                     <el-input class="name-input" v-model="editPasswordForm.account"   auto-complete="off" ></el-input>
@@ -22,7 +22,7 @@
                 </submit-button>
             </div>
 
-        </Dialog>
+        </MyDialog>
     </div>
 </template>
 

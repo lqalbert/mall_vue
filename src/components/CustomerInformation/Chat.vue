@@ -1,6 +1,6 @@
 <template>
     <div >
-        <Dialog title="聊天记录" :name="name" :width="width" :height="height">
+        <MyDialog title="聊天记录" :name="name" :width="width" :height="height">
             <el-table
                     :data="talkRecords"
                     style="width: 100%">
@@ -31,7 +31,7 @@
                 </submit-button>
             </div>
 
-        </Dialog>
+        </MyDialog>
     </div>
 </template>
 

@@ -1,6 +1,6 @@
 <template>
     <div >
-        <Dialog title="添加" :name="name" :width="width" :height="height" >
+        <MyDialog title="添加" :name="name" :width="width" :height="height" >
             <el-form :model="addForm" :rules="rules" :label-width="labelWidth"  ref="addForm" :label-position="labelPosition">
                 <el-row>
                     <el-col :span="12">
@@ -56,7 +56,7 @@
                     保 存
                 </submit-button>
             </div>
-        </Dialog>
+        </MyDialog>
     </div>
 </template>
 

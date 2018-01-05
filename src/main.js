@@ -15,7 +15,7 @@ Vue.use(VModal);
 import newDialog from './components/common/Dialog';
 import InitObject from './mix/InitObjectFromObject';
 import Delete from './mix/Delete';
-Vue.component('Dialog',newDialog);
+Vue.component('MyDialog',newDialog);
 
 Vue.mixin(InitObject);
 Vue.mixin(Delete);

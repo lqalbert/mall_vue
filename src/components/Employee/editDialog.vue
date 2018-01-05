@@ -1,6 +1,6 @@
 <template>
     <div >
-        <Dialog  title="编辑" :name='name'  :width="width" :height="height" @before-open="onOpen">
+        <MyDialog  title="编辑" :name='name'  :width="width" :height="height" @before-open="onOpen">
             <el-form
                     ref="editForm"
                     :rules='rules'
@@ -310,7 +310,7 @@
                         @click="formSubmit('editForm')"
                         :observer="dialogThis" ></SubmitButton>
             </div>
-        </Dialog>
+        </MyDialog>
     </div>
 </template>
 

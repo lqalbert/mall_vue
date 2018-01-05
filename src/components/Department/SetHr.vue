@@ -1,6 +1,6 @@
 <template>
     <div >
-        <Dialog title="设置人事专员" :name="name" :width="width" :height="height">
+        <MyDialog title="设置人事专员" :name="name" :width="width" :height="height">
             <!--<el-form ref="hrForm"  :model="hrForm" v-model="hrForm" :rules="rules" :label-width="labelWidth"   :label-position="labelPosition">-->
                 <!--<el-row>-->
                     <!--<el-col :span="12">-->
@@ -70,7 +70,7 @@
                 </submit-button>
             </div>
 
-        </Dialog>
+        </MyDialog>
     </div>
 </template>
 

@@ -1,6 +1,6 @@
 <template>
     <div >
-        <Dialog title="编辑" :name="name" :width="width" :height="height" @before-open="onOpen">
+        <MyDialog title="编辑" :name="name" :width="width" :height="height" @before-open="onOpen">
             <el-form :model="editForm" :rules="rules" :label-width="labelWidth"  ref="editForm" :label-position="labelPosition">
                 <el-row>
                     <el-col :span="12">
@@ -56,7 +56,7 @@
                     保 存
                 </submit-button>
             </div>
-        </Dialog>
+        </MyDialog>
     </div>
 </template>
 

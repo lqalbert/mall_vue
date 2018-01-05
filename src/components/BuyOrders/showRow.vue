@@ -1,6 +1,6 @@
 <template>
     <div >
-        <Dialog title="查看" :name="name" :width="width" :height="height" @before-open="onOpen">
+        <MyDialog title="查看" :name="name" :width="width" :height="height" @before-open="onOpen">
             <el-form :model="rowForm" ref="rowForm" :label-width="labelWidth" :label-position="labelPosition">
                 <el-row>
                     <el-col :span="12">
@@ -43,7 +43,7 @@
                 <el-button @click="handleClose">取 消</el-button>
                 <el-button @click="formSubmit('rowForm')" type="primary">确 定</el-button>
             </div>
-        </Dialog>
+        </MyDialog>
     </div>
 </template>
 

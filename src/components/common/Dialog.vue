@@ -31,9 +31,9 @@
             </modal>
         </div>
         
-    </template>
+</template>
     
-    <script>
+<script>
     export default {
         name: 'Dialog',
         props:{
@@ -92,32 +92,32 @@
         }
         
     }
-    </script>
+</script>
     
-    <!-- Add "scoped" attribute to limit CSS to this component only -->
-    <style scoped>
-        h4 {
-            margin: 0px;
-        }
-       
-        .padding {
-            padding: 15px ;
-        }
-        .dialog-head{
-            padding: 14px 15px;
-            border-bottom: 1px solid #e5e5e5;
-            cursor: all-scroll;
-        }
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+    h4 {
+        margin: 0px;
+    }
     
-        .dialog-closebutton{
-            cursor: pointer;
-            color: #bfcbd9;
-        }
-        .dialog-closebutton:hover{
-            color:black
-        }
-        .dialog-foot {
-            text-align: right;
-        }
-    </style>
+    .padding {
+        padding: 15px ;
+    }
+    .dialog-head{
+        padding: 14px 15px;
+        border-bottom: 1px solid #e5e5e5;
+        cursor: all-scroll;
+    }
+
+    .dialog-closebutton{
+        cursor: pointer;
+        color: #bfcbd9;
+    }
+    .dialog-closebutton:hover{
+        color:black
+    }
+    .dialog-foot {
+        text-align: right;
+    }
+</style>
     

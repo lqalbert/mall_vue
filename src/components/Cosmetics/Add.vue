@@ -69,11 +69,13 @@
                           </el-table>
                             这一块是动态的 跟据不同类型的商品生成不同的规格
                             <el-form-item label="颜色"  prop="unit_type">
-                                <el-input v-model="input" placeholder="请输入内容"></el-input>
+                                <!-- <el-input v-model="input" placeholder="请输入内容"></el-input> -->
+                                <AttrItem :form-object="attrForm" type="文本"></AttrItem>
                             </el-form-item>
 
                             <el-form-item label="尺坟"  prop="unit_type">
-                                    <el-input v-model="input" placeholder="请输入内容"></el-input>
+                                    <!-- <el-input v-model="input" placeholder="请输入内容"></el-input> -->
+                                    <AttrItem :form-object="attrForm" type="图片"></AttrItem>
                             </el-form-item>
                             //end of这一块是动态的
 
@@ -126,9 +128,11 @@
 
 <script>
 import DialogForm from '../../mix/DialogForm';
+import AttrItem from '../common/AttrFormItem';
 export default {
     name: 'Add',
     mixins:[DialogForm],
+    components:{AttrItem},
     data () {
         return {
             dialogThis:this,
@@ -157,6 +161,11 @@ export default {
                 remark:"",
                 unit_type:'',
             },
+
+            attrForm:{
+                value:"",
+                addon_value:""
+            }
 
         }
     },

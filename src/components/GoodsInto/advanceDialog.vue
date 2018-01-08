@@ -2,6 +2,8 @@
     <div >
         <MyDialog title="高级查询" :name="name" :width="width" :height="height">
             <el-form :model="advanceSearchForm" ref="advanceSearchForm" :label-width="labelWidth" :label-position="labelPosition">
+                
+                
                 <el-row>
                     <el-col :span="12">
                         <el-form-item  label="产品种类" prop="pdt_type">

@@ -113,6 +113,7 @@
                 this.data.push(newData);
                 console.log(this.data);
 
+                renderContent(h, { node, data, store }) {
 
             },
             test:function(store, data){
@@ -185,7 +186,6 @@
                 </span>
                 </span>);
             }
-        }
 
 
     }

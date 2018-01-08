@@ -52,7 +52,6 @@
   </template>
   
   <script>
-
   import DataProxy from '../../packages/DataProxy';
 
   export default {

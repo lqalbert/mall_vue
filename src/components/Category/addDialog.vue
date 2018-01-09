@@ -1,67 +1,104 @@
 <template>
     <div >
-        <el-dialog title="添加" :visible.sync="state7" @close="handleClose">
-            <el-form :model="addForm" :inline="true" ref="addForm"  labelPosition="right"
-                     labelWidth='100px'>
+        <MyDialog title="添加" :name="name" :width="width" :height="height">
+            <el-form :model="addForm"  ref="addForm"  :label-width="labelWidth"   :label-position="labelPosition">
                 <el-row>
-                    <el-col :span="24">
-                        <el-form-item label="分类名称" prop="name">
-                            <el-input class="name-input" v-model="addForm.name"  auto-complete="off" placeholder="请填写分类名称"></el-input>
+                    <el-col :span="12">
+                        <el-form-item label="分类名称" prop="label">
+                            <el-input class="name-input" v-model="addForm.label"  auto-complete="off" placeholder="请填写分类名称"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="分类级别" prop="level">
+                            <el-select @change="categoryChange"  v-model="addForm.level">
+                                <el-option v-for="v in levels" :value="v.level" :label="v.label" :key="v.level"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="12">
+                        <el-form-item label="上级名称" prop="pid">
+                            <el-select  v-model="addForm.pid" :disabled="showLevel">
+                                <el-option
+                                        v-for="item in Categorys"
+                                        :key="item.id"
+                                        :label="item.label"
+                                        :value="item.id">
+                                </el-option>
+                            </el-select>
                         </el-form-item>
                     </el-col>
 
                 </el-row>
-
             </el-form>
 
-            <div slot="footer" class="dialog-footer">
-                <el-button @click="closeDialog()">取 消</el-button>
-                <el-button @click="addFormSubmit()" type="primary"  >确 定</el-button>
+            <div slot="dialog-foot" class="dialog-footer">
+                <el-button @click="handleClose">取 消</el-button>
+                <submit-button
+                        @click="formSubmit('addForm')"
+                        :observer="dialogThis">
+                    保 存
+                </submit-button>
             </div>
-        </el-dialog>
+        </MyDialog>
+
     </div>
 </template>
 
 <script>
+    import DialogForm from '../../mix/DialogForm';
+    import DataProxy from '../../packages/DataProxy';
     export default {
+        mixins:[DialogForm],
         name: 'addDialog',
-        props:{
-            addOpen:{
-                type:Boolean,
-                default:false
-            }
-        },
         data () {
             return {
-
-                state7: this.addOpen,
+                dialogThis:this,
+                labelPosition:"right",
+                labelWidth:'80px',
+                showLevel:false,
+                url:'/categorys',
+                Categorys:'',
+                levels:[
+                    {level:'1',label:'顶级'},
+                    {level:'2',label:'二级'},
+                    {level:'3',label:'三级'},
+                ],
                 addForm:{
-                    name:"",
-
+                    label:"",
+                    pid:'',
+                    level:''
                 },
+
 
             }
         },
 
         methods:{
-            handleClose(){
-                this.$emit('add-window-close');
+            getData:function (pid) {
+                 let categoryProxy = new DataProxy(this.url+'/'+pid,this.pageSize,this.levelLoaded, this,);
+                   categoryProxy.load();
             },
-            addFormSubmit:function(){
-//                console.log(this.addForm);
-                this.$emit('aaa',{name:this.addForm.name});
-                this.addForm.name='';
-                this.state7=false;
+            levelLoaded:function (res) {
+                this.Categorys=res;
             },
-            closeDialog:function(){
-                this.state7=false;
-            }
+            categoryChange:function (v) {
+                if(v==1){
+              this.showLevel=true;
+              this.addForm.pid= 0;
+                }else if(this.showLevel){
+                    this.showLevel=false;
+                }
+                if(v >= 2){
+                    v = v-1;
+                }
+                this.getData(v)
+            }, getAjaxPromise(model){
+               return this.ajaxProxy.create(model);
+            },
+
         },
-        watch:{
-            addOpen:function(val, oldVal){
-                this.state7 = val;
-            }
-        }
     }
 </script>
 

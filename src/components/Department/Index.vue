@@ -200,7 +200,7 @@ import DataTable from '../../mix/DataTable';
 
 import PageMix from '../../mix/Page';
 import config from '../../mix/Delete';
-import DataProxy from '../../packages/DataProxy';
+//import DataProxy from '../../packages/DataProxy';
 import SearchTool from '../../mix/SearchTool';
 import SelectProxy from  '../../packages/SelectProxy';
 

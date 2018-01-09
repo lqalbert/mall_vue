@@ -24,7 +24,6 @@ const config = {
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(()=>{
-
                 ajaxProxy.delete(id).then(function(response){
                     vmthis.$message.success("操作成功");
                     // vmthis.handleReload();

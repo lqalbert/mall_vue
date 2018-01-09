@@ -61,7 +61,7 @@
 
         <el-row>
             <el-col>
-                <el-table :data="tableData" v-loading="dataLoad" border style="width: 100%">
+                <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload"  border style="width: 100%">
                     <el-table-column type="selection" align="center" width="50"></el-table-column>
                     <el-table-column label="序号" align="center" type="index" width="65"></el-table-column>
                     <el-table-column prop="order_sn" label="订单编号" width="200" align="center">
@@ -90,42 +90,238 @@
                             <el-button type="danger" size="small">删除</el-button>
                         </template>
                     </el-table-column>
-                </el-table>
+                </TableProxy>
             </el-col>
         </el-row>
 
-        <div class="pull-right" style="float:right;margin-top: 5px" >
-            <el-col :span="12">
-                <el-pagination
-                        :current-page="currentPage4"
-                        :page-size="100"
-                        layout="total, prev, pager, next, jumper"
-                        :total="total"
-                        @current-change="currentChange">
-                </el-pagination>
-            </el-col>
+        <!--<div class="pull-right" style="float:right;margin-top: 5px" >-->
+            <!--<el-col :span="12">-->
+                <!--<el-pagination-->
+                        <!--:current-page="currentPage4"-->
+                        <!--:page-size="100"-->
+                        <!--layout="total, prev, pager, next, jumper"-->
+                        <!--:total="total"-->
+                        <!--@current-change="currentChange">-->
+                <!--</el-pagination>-->
+            <!--</el-col>-->
 
+        <!--</div>-->
+
+        <rowInfoDialog name="rowInfo"/>
+        <div id="app2" class="b" style="margin-top:5px;">
+            <el-row>
+                <el-col :span="24">
+                    <el-tabs type="border-card">
+                        <el-tab-pane label="订单商品明细">
+                            <el-table  empty-text="请点击客户显示跟踪信息" border style="width: 100%">
+                                <el-table-column prop="user" label="操作员工" align="center">
+                                </el-table-column>
+
+                                <el-table-column prop="type" label="客户类型(当前)" align="center">
+                                </el-table-column>
+
+                                <el-table-column prop="name" label="客户姓名" align="center">
+                                </el-table-column>
+
+                                <el-table-column label="内容" align="center">
+                                    <template slot-scope="scope">
+                                        {{scope.row.content | handleString}}
+                                    </template>
+                                </el-table-column>
+
+                                <el-table-column prop="created_at" label="跟踪时间" width="180" align="center">
+                                </el-table-column>
+
+                                <el-table-column prop="track_text" label="跟踪类型" align="center">
+                                </el-table-column>
+
+                            </el-table>
+                        </el-tab-pane>
+
+                        <!-- <el-tab-pane label="软件账号">软件账号</el-tab-pane>
+                        <el-tab-pane label="通话记录">通话记录</el-tab-pane> -->
+                        <el-tab-pane label="订单客户资料">
+                            <el-table empty-text="请点击客户显示跟踪信息" border style="width: 100%">
+                                <el-table-column prop="user" label="操作员工" align="center">
+                                </el-table-column>
+
+                                <el-table-column label="投诉内容" align="center">
+                                    <template slot-scope="scope">
+                                        {{scope.row.content | handleString}}
+                                    </template>
+                                </el-table-column>
+
+                                <el-table-column prop="created_at" label="投诉时间" width="180" align="center">
+                                </el-table-column>
+
+                                <el-table-column prop="type_text" label="投诉类型" align="center">
+                                </el-table-column>
+                            </el-table>
+                        </el-tab-pane>
+
+                        <el-tab-pane label="订单消费详情">
+                            <el-table empty-text="请点击客户显示跟踪信息" border style="width: 100%">
+                                <el-table-column prop="user" label="操作员工" align="center">
+                                </el-table-column>
+
+                                <el-table-column label="投诉内容" align="center">
+                                    <template slot-scope="scope">
+                                        {{scope.row.content | handleString}}
+                                    </template>
+                                </el-table-column>
+
+                                <el-table-column prop="created_at" label="投诉时间" width="180" align="center">
+                                </el-table-column>
+
+                                <el-table-column prop="type_text" label="投诉类型" align="center">
+                                </el-table-column>
+                            </el-table>
+                        </el-tab-pane>
+
+                        <el-tab-pane label="订单操作记录">
+                            <el-table empty-text="请点击客户显示跟踪信息" border style="width: 100%">
+                                <el-table-column prop="user" label="操作员工" align="center">
+                                </el-table-column>
+
+                                <el-table-column label="投诉内容" align="center">
+                                    <template slot-scope="scope">
+                                        {{scope.row.content | handleString}}
+                                    </template>
+                                </el-table-column>
+
+                                <el-table-column prop="created_at" label="投诉时间" width="180" align="center">
+                                </el-table-column>
+
+                                <el-table-column prop="type_text" label="投诉类型" align="center">
+                                </el-table-column>
+                            </el-table>
+                        </el-tab-pane>
+
+                        <el-tab-pane label="订单收件人">
+                            <el-table empty-text="请点击客户显示跟踪信息" border style="width: 100%">
+                                <el-table-column prop="user" label="操作员工" align="center">
+                                </el-table-column>
+
+                                <el-table-column label="投诉内容" align="center">
+                                    <template slot-scope="scope">
+                                        {{scope.row.content | handleString}}
+                                    </template>
+                                </el-table-column>
+
+                                <el-table-column prop="created_at" label="投诉时间" width="180" align="center">
+                                </el-table-column>
+
+                                <el-table-column prop="type_text" label="投诉类型" align="center">
+                                </el-table-column>
+                            </el-table>
+                        </el-tab-pane>
+
+                        <el-tab-pane label="订单发货信息">
+                            <el-table empty-text="请点击客户显示跟踪信息" border style="width: 100%">
+                                <el-table-column prop="user" label="操作员工" align="center">
+                                </el-table-column>
+
+                                <el-table-column label="投诉内容" align="center">
+                                    <template slot-scope="scope">
+                                        {{scope.row.content | handleString}}
+                                    </template>
+                                </el-table-column>
+
+                                <el-table-column prop="created_at" label="投诉时间" width="180" align="center">
+                                </el-table-column>
+
+                                <el-table-column prop="type_text" label="投诉类型" align="center">
+                                </el-table-column>
+                            </el-table>
+                        </el-tab-pane>
+
+                        <el-tab-pane label="订单快递信息">
+                            <el-table empty-text="请点击客户显示跟踪信息" border style="width: 100%">
+                                <el-table-column prop="user" label="操作员工" align="center">
+                                </el-table-column>
+
+                                <el-table-column label="投诉内容" align="center">
+                                    <template slot-scope="scope">
+                                        {{scope.row.content | handleString}}
+                                    </template>
+                                </el-table-column>
+
+                                <el-table-column prop="created_at" label="投诉时间" width="180" align="center">
+                                </el-table-column>
+
+                                <el-table-column prop="type_text" label="投诉类型" align="center">
+                                </el-table-column>
+                            </el-table>
+                        </el-tab-pane>
+
+                        <el-tab-pane label="订单成交员工">
+                            <el-table empty-text="请点击客户显示跟踪信息" border style="width: 100%">
+                                <el-table-column prop="user" label="操作员工" align="center">
+                                </el-table-column>
+
+                                <el-table-column label="投诉内容" align="center">
+                                    <template slot-scope="scope">
+                                        {{scope.row.content | handleString}}
+                                    </template>
+                                </el-table-column>
+
+                                <el-table-column prop="created_at" label="投诉时间" width="180" align="center">
+                                </el-table-column>
+
+                                <el-table-column prop="type_text" label="投诉类型" align="center">
+                                </el-table-column>
+                            </el-table>
+                        </el-tab-pane>
+
+                        <el-tab-pane label="成交比例">
+                            <el-table empty-text="请点击客户显示跟踪信息" border style="width: 100%">
+                                <el-table-column prop="user" label="操作员工" align="center">
+                                </el-table-column>
+
+                                <el-table-column label="投诉内容" align="center">
+                                    <template slot-scope="scope">
+                                        {{scope.row.content | handleString}}
+                                    </template>
+                                </el-table-column>
+
+                                <el-table-column prop="created_at" label="投诉时间" width="180" align="center">
+                                </el-table-column>
+
+                                <el-table-column prop="type_text" label="投诉类型" align="center">
+                                </el-table-column>
+                            </el-table>
+                        </el-tab-pane>
+
+                    </el-tabs>
+                </el-col>
+            </el-row>
         </div>
-
         <rowInfoDialog name="rowInfo"/>
     </div>
 </template>
       
 <script>
     import rowInfoDialog from "./rowInfo";
-
+    import DataTable from '../../mix/DataTable';
     import PageMix from '../../mix/Page';
+    import config from '../../mix/Delete';
     import DataProxy from '../../packages/DataProxy';
+    import SelectProxy from  '../../packages/SelectProxy';
+    import OrderlistAjaxProxy from '../../ajaxProxy/Orderlist';
+    import TableProxy from '../common/TableProxy';
     import SearchTool from "../../mix/SearchTool";
 export default {
     name: 'OrderList',
     pageTitle:"订单详情",
-    mixins: [PageMix,SearchTool],
+    mixins: [PageMix,SearchTool,DataTable,config,OrderlistAjaxProxy],
     components:{
         rowInfoDialog
     },
     data () {
         return {
+            ajaxProxy:OrderlistAjaxProxy,
+            mainurl:OrderlistAjaxProxy.getUrl(),
+            mainparam:"",
             total:100,
             dataLoad:false,
             typeName:'请选择排名方式',
@@ -141,80 +337,80 @@ export default {
                 department:'1'
             },
             currentPage4:1,
-            tableData:[
-                {
-                    order_sn:'201710281532582903',
-                    goods_name:'华硕笔记本电脑',
-                    consignee:'张三:18236521452',
-                    order_all_money:'5999.00',
-                    order_pay_money:'5999.00',
-                    order_status:'待确认',
-                    pay_name:'支付宝',
-                    shipping_status:'待发货',
-                    shipping_name:'顺丰',
-                    order_time:'2017-10-28 15:32:24',
-                },
-                {
-                    order_sn:'201710281532582903',
-                    goods_name:'华硕笔记本电脑',
-                    consignee:'张三:18236521452',
-                    order_all_money:'5999.00',
-                    order_pay_money:'5999.00',
-                    order_status:'待确认',
-                    pay_name:'支付宝',
-                    shipping_status:'待发货',
-                    shipping_name:'顺丰',
-                    order_time:'2017-10-28 15:32:24',
-                },
-                {
-                    order_sn:'201710281532582903',
-                    goods_name:'华硕笔记本电脑',
-                    consignee:'张三:18236521452',
-                    order_all_money:'5999.00',
-                    order_pay_money:'5999.00',
-                    order_status:'待确认',
-                    pay_name:'支付宝',
-                    shipping_status:'待发货',
-                    shipping_name:'顺丰',
-                    order_time:'2017-10-28 15:32:24',
-                },
-                {
-                    order_sn:'201710281532582903',
-                    goods_name:'华硕笔记本电脑',
-                    consignee:'张三:18236521452',
-                    order_all_money:'5999.00',
-                    order_pay_money:'5999.00',
-                    order_status:'待确认',
-                    pay_name:'支付宝',
-                    shipping_status:'待发货',
-                    shipping_name:'顺丰',
-                    order_time:'2017-10-28 15:32:24',
-                },
-                {
-                    order_sn:'201710281532582903',
-                    goods_name:'华硕笔记本电脑',
-                    consignee:'张三:18236521452',
-                    order_all_money:'5999.00',
-                    order_pay_money:'5999.00',
-                    order_status:'待确认',
-                    pay_name:'支付宝',
-                    shipping_status:'待发货',
-                    shipping_name:'顺丰',
-                    order_time:'2017-10-28 15:32:24',
-                },
-                {
-                    order_sn:'201710281532582903',
-                    goods_name:'华硕笔记本电脑',
-                    consignee:'张三:18236521452',
-                    order_all_money:'5999.00',
-                    order_pay_money:'5999.00',
-                    order_status:'待确认',
-                    pay_name:'支付宝',
-                    shipping_status:'待发货',
-                    shipping_name:'顺丰',
-                    order_time:'2017-10-28 15:32:24',
-                },
-            ],
+//            tableData:[
+//                {
+//                    order_sn:'201710281532582903',
+//                    goods_name:'华硕笔记本电脑',
+//                    consignee:'张三:18236521452',
+//                    order_all_money:'5999.00',
+//                    order_pay_money:'5999.00',
+//                    order_status:'待确认',
+//                    pay_name:'支付宝',
+//                    shipping_status:'待发货',
+//                    shipping_name:'顺丰',
+//                    order_time:'2017-10-28 15:32:24',
+//                },
+//                {
+//                    order_sn:'201710281532582903',
+//                    goods_name:'华硕笔记本电脑',
+//                    consignee:'张三:18236521452',
+//                    order_all_money:'5999.00',
+//                    order_pay_money:'5999.00',
+//                    order_status:'待确认',
+//                    pay_name:'支付宝',
+//                    shipping_status:'待发货',
+//                    shipping_name:'顺丰',
+//                    order_time:'2017-10-28 15:32:24',
+//                },
+//                {
+//                    order_sn:'201710281532582903',
+//                    goods_name:'华硕笔记本电脑',
+//                    consignee:'张三:18236521452',
+//                    order_all_money:'5999.00',
+//                    order_pay_money:'5999.00',
+//                    order_status:'待确认',
+//                    pay_name:'支付宝',
+//                    shipping_status:'待发货',
+//                    shipping_name:'顺丰',
+//                    order_time:'2017-10-28 15:32:24',
+//                },
+//                {
+//                    order_sn:'201710281532582903',
+//                    goods_name:'华硕笔记本电脑',
+//                    consignee:'张三:18236521452',
+//                    order_all_money:'5999.00',
+//                    order_pay_money:'5999.00',
+//                    order_status:'待确认',
+//                    pay_name:'支付宝',
+//                    shipping_status:'待发货',
+//                    shipping_name:'顺丰',
+//                    order_time:'2017-10-28 15:32:24',
+//                },
+//                {
+//                    order_sn:'201710281532582903',
+//                    goods_name:'华硕笔记本电脑',
+//                    consignee:'张三:18236521452',
+//                    order_all_money:'5999.00',
+//                    order_pay_money:'5999.00',
+//                    order_status:'待确认',
+//                    pay_name:'支付宝',
+//                    shipping_status:'待发货',
+//                    shipping_name:'顺丰',
+//                    order_time:'2017-10-28 15:32:24',
+//                },
+//                {
+//                    order_sn:'201710281532582903',
+//                    goods_name:'华硕笔记本电脑',
+//                    consignee:'张三:18236521452',
+//                    order_all_money:'5999.00',
+//                    order_pay_money:'5999.00',
+//                    order_status:'待确认',
+//                    pay_name:'支付宝',
+//                    shipping_status:'待发货',
+//                    shipping_name:'顺丰',
+//                    order_time:'2017-10-28 15:32:24',
+//                },
+//            ],
         }
     },
     methods:{
@@ -256,10 +452,22 @@ export default {
             this.mainProxy.setExtraParam(null).load();
             this.toggleTableLoad();
         },
+        initOrderlist(data){
+
+            this.typeList = data.items;
+            console.log(this.typeList);
+        },
+        orderlistInit(){
+            let selectProxy = new SelectProxy(OrderlistAjaxProxy.getUrl(), this.initOrderlist, this);
+            selectProxy.setExtraParam({business:'Orderlist'}).load();
+        },
 
 
     },
     created(){
+        this.$on('search-tool-change', this.onSearchChange);
+
+        this.orderlistInit();
         // this.toggleTableLoad();
         // let mainProxy = new DataProxy("/orderlist", this.pageSize, this.mainTableLoad, this);
         // this.mainProxy = mainProxy;

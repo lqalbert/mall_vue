@@ -113,7 +113,7 @@
                 this.data.push(newData);
                 console.log(this.data);
 
-                renderContent(h, { node, data, store }) {
+                // renderContent(h, { node, data, store }) {
 
             },
             test:function(store, data){
@@ -175,19 +175,20 @@
 
             renderContent(h, { node, data, store }) {
 
-                return (
-                    <span>
-                    <span>
-                    <span>{node.label}</span>
-                </span>
-                <span style="float: right; margin-right: 20px">
-                    <el-button size="mini" type="info"   on-click={ () => this.test(store, data) }>添加分类</el-button>
-                <el-button size="mini" type="danger" on-click={ () => this.remove(store, data) }>删除分类</el-button>
-                </span>
-                </span>);
+                // return (
+                //     <span>
+                //     <span>
+                //     <span>{node.label}</span>
+                // </span>
+                // <span style="float: right; margin-right: 20px">
+                //     <el-button size="mini" type="info"   on-click={ () => this.test(store, data) }>添加分类</el-button>
+                // <el-button size="mini" type="danger" on-click={ () => this.remove(store, data) }>删除分类</el-button>
+                // </span>
+                // </span>);
             }
 
 
+    }
     }
 </script>
 

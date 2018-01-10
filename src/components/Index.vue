@@ -18,6 +18,7 @@
                 </el-submenu>
                 </el-menu>
                 </el-col> -->
+                <button @click="logout">退出</button>
             </el-row>
         </div>
         <aside id="navgation">
@@ -57,6 +58,7 @@
 <script>
 
     // import Navgation from './Navgation.vue';
+    import { mapActions } from 'vuex';
     import PageList from "./PageList";
     export default {
         name: 'Index',
@@ -74,6 +76,10 @@
             }
         },
         methods:{
+            ...mapActions([
+                'logout'
+            ]),
+
             removeTab(targetName) {
 
                 this.exclude.push(targetName);

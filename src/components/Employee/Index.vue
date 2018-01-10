@@ -103,10 +103,10 @@
                     <el-table-column prop="id_card" label="身份证号" width="192">
                     </el-table-column>
 
-                    <el-table-column prop="phone" label="固话" width="140" align="center">
+                    <el-table-column prop="telephone" label="固话" width="140" align="center">
                     </el-table-column>
 
-                    <el-table-column prop="phone_number" label="手机" width="140" align="center">
+                    <el-table-column prop="mobilephone" label="手机" width="140" align="center">
                     </el-table-column>
 
                     <el-table-column prop="qq" label="QQ号" width="140" align="center">

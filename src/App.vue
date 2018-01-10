@@ -1,19 +1,40 @@
 <template>
   <div id="app">
-    <Index/>
+    <Index v-if="isLogin"/>
+    <Login v-else/>
   </div>
 </template>
 
 <script>
-    // import HelloWorld from './components/HelloWorld'
-    import Index from './components/Index'
+  // import HelloWorld from './components/HelloWorld'
+  import Index from './components/Index'
+  import Login from './components/Login'
+  import { mapGetters,mapMutations } from 'vuex';
 
-    export default {
-        name: 'app',
-        components: {
-            Index
+  export default {
+      name: 'app',
+      components: {
+          Index,
+          Login
+      },
+      computed:{
+      ...mapGetters([
+        'isLogin'
+      ]),
+      methods:{
+        ...mapMutations([
+              'logout'
+          ]),
+      },
+      created(){
+        const vmThis = this;
+        window.onclose  = function(){
+          vmThis.logout();
         }
-    }
+      }
+  }
+
+  }
 </script>
 
 <style>

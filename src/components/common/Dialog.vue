@@ -35,7 +35,7 @@
     
 <script>
     export default {
-        name: 'Dialog',
+        name: 'MyDialog',
         props:{
             name:{
                 required:true,

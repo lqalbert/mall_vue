@@ -10,16 +10,16 @@
                     </el-date-picker>
                 </el-form-item>
 
-                <el-form-item prop="pdt_name">
-                    <el-input size="small" v-model="searchForm.pdt_name" placeholder="请输入商品名称"></el-input>
+                <el-form-item prop="goods_name">
+                    <el-input size="small" v-model="searchForm.goods_name" placeholder="请输入商品名称"></el-input>
                 </el-form-item>
 
                 <el-form-item prop="sale_name">
                     <el-input size="small" v-model="searchForm.sale_name" placeholder="员工名称"></el-input>
                 </el-form-item>
 
-                <el-form-item prop="cus_name">
-                    <el-input size="small" v-model="searchForm.cus_name" placeholder="客户名称"></el-input>
+                <el-form-item prop="consignee">
+                    <el-input size="small" v-model="searchForm.consignee" placeholder="客户名称"></el-input>
                 </el-form-item>
 
                 <el-form-item prop="end">
@@ -30,20 +30,20 @@
                     </el-date-picker>
                 </el-form-item>
 
-                <el-form-item prop="number">
-                    <el-input size="small" v-model="searchForm.number" placeholder="请输入订单编号"></el-input>
+                <el-form-item prop="order_sn">
+                    <el-input size="small" v-model="searchForm.order_sn" placeholder="请输入订单编号"></el-input>
                 </el-form-item>
                 <br>
-                <el-form-item>
-                    <el-button size="small" type="info" >全部</el-button>
-                    <el-button size="small" type="info" >待付款</el-button>
-                    <el-button size="small" type="info" >待确认</el-button>
-                    <el-button size="small" type="info" >待发货</el-button>
-                    <el-button size="small" type="info" >已发货</el-button>
-                    <el-button size="small" type="info" >已收货</el-button>
-                    <el-button size="small" type="info" >已完成</el-button>
-                    <el-button size="small" type="info" >已关闭</el-button>
-                    <el-button size="small" type="info" >退款中</el-button>
+                <el-form-item prop="type">
+                    <el-button size="small" @click="typesearch('All')"         type="info" >全部</el-button>
+                    <el-button size="small" @click="typesearch('pre_pay')"  v-model="searchForm.type"   type="info" >待付款</el-button>
+                    <el-button size="small" @click="typesearch('pre_affirm')"  type="info" >待确认</el-button>
+                    <el-button size="small" @click="delivesearch('pre_deliver')" type="info" >待发货</el-button>
+                    <el-button size="small" @click="delivesearch('delivered')"   type="info" >已发货</el-button>
+                    <el-button size="small" @click="delivesearch('received')"    type="info" >已收货</el-button>
+                    <el-button size="small" @click="typesearch('done')"        type="info" >已完成</el-button>
+                    <el-button size="small" @click="typesearch('closed')"      type="info" >已关闭</el-button>
+                    <el-button size="small" @click="typesearch('refund')"      type="info" >退款中</el-button>
                 </el-form-item>
 
                 <el-form-item label-width="5px">
@@ -61,7 +61,7 @@
 
         <el-row>
             <el-col>
-                <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload"  border style="width: 100%">
+                <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload">
                     <el-table-column type="selection" align="center" width="50"></el-table-column>
                     <el-table-column label="序号" align="center" type="index" width="65"></el-table-column>
                     <el-table-column prop="order_sn" label="订单编号" width="200" align="center">
@@ -322,21 +322,24 @@ export default {
             ajaxProxy:OrderlistAjaxProxy,
             mainurl:OrderlistAjaxProxy.getUrl(),
             mainparam:"",
-            total:100,
             dataLoad:false,
             typeName:'请选择排名方式',
             conditions:["录入个数", "成交金额", "成交个数"],
             searchForm:{
                 start:'',
-                pdt_name:'',
+                goods_name:'',
+                consignee:'',
+                order_sn:'',
                 sale_name:'',
-                cus_name:'',
-                number:'',
                 end:'',
                 condition:'',
-                department:'1'
+                department:'1',
+                type:'',
+                deliver:'',
+
             },
             currentPage4:1,
+            tableData: '',
 //            tableData:[
 //                {
 //                    order_sn:'201710281532582903',
@@ -420,6 +423,22 @@ export default {
         dataReload:function(){
           console.log(this.searchForm);
         },
+        All:function(){
+            this.orderlistInit();
+        },
+        typesearch:function($criteria){
+            this.searchForm.type=$criteria;
+           // console.log(this.searchForm);
+            this.searchToolChange('searchForm');
+            this.searchReset();
+//            this.orderlistInit($criteria);
+        },
+        delivesearch:function($criteria){
+            this.searchForm.deliver=$criteria;
+            this.searchToolChange('searchForm');
+            this.searchReset();
+//            this.orderlistInit($criteria);
+        },
         typeChange:function(v){
             console.log(v);
             this.typeName=this.conditions[v];
@@ -443,8 +462,8 @@ export default {
             this.dataLoad = !this.dataLoad;
         },
         onSearchChange(param){
-            this.toggleTableLoad()
-            this.mainProxy.setExtraParam(param).load();
+            console.log(param);
+            this.mainparam = JSON.stringify(param);
         },
         searchReset:function(){
             this.$refs['searchForm'].resetFields();
@@ -454,12 +473,13 @@ export default {
         },
         initOrderlist(data){
 
-            this.typeList = data.items;
-            console.log(this.typeList);
+            this.tableData = data.items;
+            //console.log(this.tableData);
+            this.mainData = data.items;
         },
-        orderlistInit(){
+        orderlistInit($busuness){
             let selectProxy = new SelectProxy(OrderlistAjaxProxy.getUrl(), this.initOrderlist, this);
-            selectProxy.setExtraParam({business:'Orderlist'}).load();
+             selectProxy.setExtraParam({business:$busuness}).load();
         },
 
 
@@ -467,7 +487,9 @@ export default {
     created(){
         this.$on('search-tool-change', this.onSearchChange);
 
-        this.orderlistInit();
+        this.orderlistInit('Orderlist');
+        let formData = $(this.$el).find('.hello').serialize();
+        console.log();
         // this.toggleTableLoad();
         // let mainProxy = new DataProxy("/orderlist", this.pageSize, this.mainTableLoad, this);
         // this.mainProxy = mainProxy;

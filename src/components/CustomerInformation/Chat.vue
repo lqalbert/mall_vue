@@ -15,7 +15,7 @@
                 <el-table-column
                         label="操作"
                         width="180">
-                    <template scope="scope">
+                    <template slot-scope="scope">
                         <el-button size="small" @click="deleteRecords(scope.row.id,scope.$index)"   type="danger">删除</el-button>
                         <a>下载</a>
                     </template>
@@ -38,7 +38,7 @@
 <script>
 import DialogForm from '../../mix/DialogForm';
 export default {
-    name: 'Add',
+    name: 'Chat',
     mixins:[DialogForm],
     data () {
         return {

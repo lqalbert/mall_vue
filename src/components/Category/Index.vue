@@ -29,7 +29,7 @@
 
 <script>
     import addDialog from './addDialog';
-    import editDialog from './editDialog';
+    //import editDialog from './editDialog';
 
     import DataTable from '../../mix/DataTable';
 
@@ -46,7 +46,7 @@
         pageTitle:"商品分类",
         components: {
             addDialog,
-            editDialog,
+            //editDialog,
         },
         mixins: [PageMix,SearchTool,DataTable,config,Category],
         data() {

@@ -137,9 +137,9 @@
         </div>
         <div>
             <!-- 添加高级查询 -->
-            <advanced-query :advance-query.sync="advancedQueryDialog"
+            <!-- <advanced-query :advance-query.sync="advancedQueryDialog"
                             @update:advance-query="val => advancedQueryDialog = val">
-            </advanced-query>
+            </advanced-query> -->
 
         </div>
 
@@ -155,7 +155,7 @@
 </template>
 
 <script>
-    import advancedQuery from "./advancedQuery";
+    //import advancedQuery from "./advancedQuery";
     import Add from "./Add";
     import Edit from "./Edit";
     import Chat from "./Chat";
@@ -170,7 +170,7 @@
         pageTitle: "客户资料",
         mixins: [PageMix,SearchTool],
         components: {
-            advancedQuery,
+            //advancedQuery,
             Add,
             Chat,
             Edit,

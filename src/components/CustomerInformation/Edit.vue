@@ -70,7 +70,7 @@
 <script>
 import DialogForm from '../../mix/DialogForm';
 export default {
-    name: 'Add',
+    name: 'Edit',
     mixins:[DialogForm],
     data () {
         return {

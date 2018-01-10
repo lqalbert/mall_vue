@@ -49,7 +49,7 @@
                     <el-col :span="12">
                         <el-form-item label="备选人事" prop="user_ids">
                             <el-select v-model="hrForm.user_ids" multiple >
-                                <el-option v-for="user in dehrs" :label="user.realname" :value="user.user_id"></el-option>
+                                <el-option v-for="user in dehrs" :key="user.user_id" :label="user.realname" :value="user.user_id"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>

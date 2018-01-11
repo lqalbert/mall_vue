@@ -11,30 +11,18 @@ sessionStorage.removeItem('key');
 sessionStorage.clear(); */
 
 import loginAjaxProxy from '../../ajaxProxy/Login';
+import RoleAjaxProxy from '../../ajaxProxy/Role';
 
 
 const user = {
     state: {
         login: sessionStorage.getItem('login') ? true : false,
+        user:null,
+        roles:[],
     },
+    //同步操作
     mutations: {
         logout (state) {
-            // Cookies.remove('user');
-            // Cookies.remove('password');
-            // Cookies.remove('access');
-            // 恢复默认样式
-            // let themeLink = document.querySelector('link[name="theme"]');
-            // themeLink.setAttribute('href', '');
-            // 清空打开的页面等数据，但是保存主题数据
-            // let theme = '';
-            // if (localStorage.theme) {
-            //     theme = localStorage.theme;
-            // }
-            // localStorage.clear();
-            // if (theme) {
-            //     localStorage.theme = theme;
-            // }
-
             state.login = false;
             sessionStorage.clear();
             console.log('before logout');  
@@ -47,15 +35,22 @@ const user = {
             // }
             state.login = true;
             sessionStorage.setItem('login', true);
+            state.user = userLogin;
+        },
+        setRoles(state, roles){
+            state.roles = roles;
         }
     },
 
     getters:{
         isLogin(state){
             return state.login;
+        },
+        roles(state){
+            return state.roles;
         }
     },
-
+    //异步操作
     actions:{
         logout(context){
             console.log('before logout'); 
@@ -73,11 +68,19 @@ const user = {
                 //     // alert(data.msg);
                 //     throw new Error(data.msg);
                 // }
-                context.commit('login');
+                context.commit('login', data.data);
                 console.log(response);
             }).catch(function(data){
                 alert(data);
             })
+        },
+        getRoles(context){
+            RoleAjaxProxy.get().then((response)=>{
+                context.commit('setRoles', response.data.items);
+            }).catch(data => {
+                console.log(data);
+            })
+            
         }
     }
 

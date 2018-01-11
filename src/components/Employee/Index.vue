@@ -204,6 +204,8 @@
     import SearchTool from '../../mix/SearchTool';
     import EmployeeAjaxProxy  from '../../ajaxProxy/Employee';
 
+    import { mapActions,mapGetters } from 'vuex';
+
     export default {
         name: 'Employee',
         pageTitle: "员工管理",
@@ -243,15 +245,20 @@
 
             }
         },
+       
         methods: {
+            ...mapActions([
+                'getRoles'
+            ]),
+
             getAjaxProxy(){
               return  this.ajaxProxy;
             },
 
-          openEdit(row){
+            openEdit(row){
             // this.editRow = row;
             this.$modal.show('edit-employee', {model:row});
-        },
+            },
             showAdd(){
                 this.$modal.show('add-employee');
             },
@@ -282,7 +289,6 @@
 
         },
         created() {
-           
 
             let departProxy = new DepartSelectProxy(null, this.loadDepartment, this);
             this.departProxy = departProxy;
@@ -293,6 +299,8 @@
             this.groupProxy.load();
 
             this.$on('search-tool-change', this.onSearchChange);
+
+            this.getRoles();
 
         }
     }

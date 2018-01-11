@@ -24,8 +24,7 @@
                                 </el-form-item>
                                 <el-form-item label="员工职能">
                                     <el-select v-model="addForm.role_id">
-                                        <el-option  label="普通员工" value="1"></el-option>
-                                        <el-option  label="精英员工" value="2"></el-option>
+                                        <el-option v-for="role in roles"  :label="role.display_name" :value="role.id" :key="role.id"></el-option>
                                     </el-select>
                                 </el-form-item>
                             </el-col>
@@ -316,6 +315,8 @@
 
 <script>
     import DialogForm from '../../mix/DialogForm';
+    import { mapGetters } from 'vuex';
+    
     export default {
         name: 'addDialog',
         mixins:[DialogForm],
@@ -328,6 +329,11 @@
                 type: Array,
                 default:[]
             }
+        },
+        computed:{
+            ...mapGetters([
+                'roles'
+            ])
         },
         data () {
             return {

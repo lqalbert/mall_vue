@@ -63,7 +63,8 @@
                 },
 
            
-
+            }
+        },
         methods: {
             getAjaxProxy(){
                 return  this.ajaxProxy;

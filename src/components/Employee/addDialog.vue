@@ -153,7 +153,6 @@
 </template>
 
 <script>
-    import $ from 'jquery'
     import DialogForm from '../../mix/DialogForm';
     import { mapGetters } from 'vuex';
     

@@ -103,7 +103,6 @@ export default {
     },
     methods:{
         getAjaxPromise(model){
-             // console.log(model);
             return this.ajaxProxy.create(model);
         },
 

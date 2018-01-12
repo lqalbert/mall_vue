@@ -77,8 +77,8 @@
 
                     <el-table-column   align="center" width="180" fixed="right"  label="操作"  >
                         <template slot-scope="scope">
-                            <el-button type="success" @click="openEdit(scope.row)" size="small">编辑</el-button>
-                            <el-button type="danger"  @click="handleDelete(scope.row.id)" size="small" >删除</el-button>
+                            <el-button type="success" @click="openEdit(scope.row)"     size="small">编辑</el-button>
+                            <el-button type="danger"  @click="handleDelete(scope.row.id)"   size="small" >删除</el-button>
                             <!-- <el-button type="info"  size="small"> 导出人员 </el-button> -->
                         </template>
                     </el-table-column>
@@ -222,7 +222,7 @@ export default {
             mainurl:DepartAjaxProxy.getUrl(),
             mainparam:"",
             depTypeName:"选择单位类型",
-            typeList:[],
+            typeList:["销售部", "客服部", "风控部", "人事部", "推广部", "投顾部"],
 
             total:100,
             dataLoad:false,
@@ -274,7 +274,7 @@ export default {
         onSearchChange(param){
             this.mainparam = JSON.stringify(param);
         },
-        initDepartmentType(data){
+	initDepartmentType(data){
             this.typeList = data;
         },
         departMentInit(){

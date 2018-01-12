@@ -8,10 +8,12 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
 
 import VModal from 'vue-js-modal'
+import $ from 'jquery'
 
 // import Mock from './mock/mock';
 
 Vue.use(VModal);
+// Vue.use($);
 
 import newDialog from './components/common/Dialog';
 import InitObject from './mix/InitObjectFromObject';

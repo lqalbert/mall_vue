@@ -19,8 +19,8 @@
                                 <!--</el-form-item>-->
                                 <el-form-item label="员工职能">
                                     <el-select v-model="editForm.role_id">
-                                        <el-option  label="普通员工" value="1"></el-option>
-                                        <el-option  label="精英员工" value="2"></el-option>
+                                        <el-option  :value="1">普通员工</el-option>
+                                        <el-option   :value="2">精英员工</el-option>
                                     </el-select>
                                 </el-form-item>
                             </el-col>
@@ -89,13 +89,13 @@
                         <el-row>
                             <el-col :span="12">
 
-                                <el-form-item label="手机" prop="mphone">
-                                    <el-input class="name-input" v-model="editForm.phone_number"  auto-complete="off"></el-input>
+                                <el-form-item label="手机" prop="telephone">
+                                    <el-input class="name-input" v-model="editForm.telephone"  auto-complete="off"></el-input>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
-                                <el-form-item label="固话座机" prop="phone">
-                                    <el-input class="name-input" v-model="editForm.phone" auto-complet="off"></el-input>
+                                <el-form-item label="固话座机" prop="mobile_phone">
+                                    <el-input class="name-input" v-model="editForm.mobile_phone" auto-complet="off"></el-input>
                                 </el-form-item>
                             </el-col>
                         </el-row>
@@ -348,11 +348,11 @@
                     role_name:"sdf",
                     group_id:"",
                     group_name:"老虎队",
-                    department_id:"0",
+                    department_id:"",
                     department_name:'销售二部',
                     sex:'',
-                    phone:"",
-                    phone_number:"",
+                    telephone:"",
+                    mobile_phone:"",
                     realname:"",
                     address:"",
                     qq:"",
@@ -422,7 +422,6 @@
         watch:{
 
             model:function(val, oldVal){
-                //console.log(val);
                 for (const key in this.editForm) {
                     if (this.editForm.hasOwnProperty(key)) {
                         this.editForm[key] = val[key]

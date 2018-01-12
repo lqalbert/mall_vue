@@ -1,58 +1,62 @@
 <template>
     <div>
         <el-row>
-            <el-col>
-                <el-form :inline="true" ref="searchForm" :model="searchForm">
-                    <el-form-item style="display: none;" prop="id">
-                        <el-input  v-model="searchForm.id"></el-input>
-                    </el-form-item>
-                    <el-form-item style="width: 140px" prop="typeNumber">
-                        <el-select v-model="searchForm.typeNumber" size="small" clearable placeholder="查询类型">
-                            <el-option v-for="item in types" :label="item.name" 
-                            :value="item.value" :key="item.value">
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
+            <el-form :inline="true" ref="searchForm" :model="searchForm">
+                <el-form-item style="display: none;" prop="id">
+                    <el-input  v-model="searchForm.id"></el-input>
+                </el-form-item>
+                <el-form-item style="width: 140px" prop="typeNumber">
+                    <el-select v-model="searchForm.typeNumber" size="small" clearable placeholder="查询类型">
+                        <el-option v-for="item in types" :label="item.name" 
+                        :value="item.value" :key="item.value">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
 
-                    <el-form-item prop="typeValue">
-                        <el-input v-model="searchForm.typeValue" size="small" 
-                        placeholder="请输入查询数据">
-                        </el-input>
-                    </el-form-item>
+                <el-form-item prop="typeValue">
+                    <el-input v-model="searchForm.typeValue" size="small" 
+                    placeholder="请输入查询数据">
+                    </el-input>
+                </el-form-item>
 
-                    <el-form-item prop="department_id">
-                        <el-select size="small" v-model="searchForm.department_id" placeholder="部门">
-                            <el-option v-for="v in departments" :label="v.name" 
-                            :value="v.id" :key="v.id">
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
+                <el-form-item prop="department_id">
+                    <el-select size="small" v-model="searchForm.department_id" placeholder="部门">
+                        <el-option v-for="v in departments" :label="v.name" 
+                        :value="v.id" :key="v.id">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
 
-                    <el-form-item prop="group_id">
-                        <el-select size="small" v-model="searchForm.group_id" placeholder="团队小组">
-                            <el-option v-for="v in groups" :label="v.name" 
-                            :value="v.id" :key="v.id">
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
+                <el-form-item prop="group_id">
+                    <el-select size="small" v-model="searchForm.group_id" placeholder="团队小组">
+                        <el-option v-for="v in groups" :label="v.name" 
+                        :value="v.id" :key="v.id">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
 
-                    <el-form-item prop="status" style="width: 90px;">
-                        <el-select size="small" v-model="searchForm.status">
-                            <el-option value="1" label="在职"></el-option>
-                            <el-option value="-1" label="离职"></el-option>
-                        </el-select>
-                    </el-form-item>
+                <el-form-item prop="status" style="width: 90px;">
+                    <el-select size="small" v-model="searchForm.status">
+                        <el-option value="1" label="在职"></el-option>
+                        <el-option value="-1" label="离职"></el-option>
+                    </el-select>
+                </el-form-item>
 
-                    <el-form-item>
-                        <el-button type="primary" size="small" icon="search" 
-                        @click="searchToolChange('searchForm')">查询
-                        </el-button>
-                        <el-button @click="searchToolReset('searchForm')" 
-                        size="small" type="primary">重置
-                        </el-button>
-                    </el-form-item>
-                </el-form>
-            </el-col>
+                <el-form-item>
+                    <el-button type="primary" size="small" icon="search" 
+                    @click="searchToolChange('searchForm')">查询
+                    </el-button>
+                    <el-button @click="searchToolReset('searchForm')" 
+                    size="small" type="primary">重置
+                    </el-button>
+                </el-form-item>
+
+                <!-- <el-form-item>
+                    <el-tooltip content="点击刷新当前页面" placement="right">
+                        <el-button  size="small" type="danger">刷新</el-button>
+                    </el-tooltip>
+                </el-form-item> -->
+            </el-form>
         </el-row>
 
         <el-row>
@@ -102,7 +106,7 @@
                     <el-table-column prop="telephone" label="固话" width="140" align="center">
                     </el-table-column>
 
-                    <el-table-column prop="mobilephone" label="手机" width="140" align="center">
+                    <el-table-column prop="mobile_phone" label="手机" width="140" align="center">
                     </el-table-column>
 
                     <el-table-column prop="qq" label="QQ号" width="140" align="center">
@@ -245,7 +249,6 @@
 
             }
         },
-       
         methods: {
             ...mapActions([
                 'getRoles'
@@ -255,10 +258,10 @@
               return  this.ajaxProxy;
             },
 
-            openEdit(row){
+          openEdit(row){
             // this.editRow = row;
             this.$modal.show('edit-employee', {model:row});
-            },
+        },
             showAdd(){
                 this.$modal.show('add-employee');
             },
@@ -289,6 +292,7 @@
 
         },
         created() {
+           
 
             let departProxy = new DepartSelectProxy(null, this.loadDepartment, this);
             this.departProxy = departProxy;

@@ -35,7 +35,7 @@
                     @tab-click="activeTab">
                 <el-tab-pane
                         v-for="(item, index) in editableTabs"
-                        :key="item.name"
+                        :key="index"
                         :label="item.title"
                         :name="item.name"
                         :closable="item.closable">

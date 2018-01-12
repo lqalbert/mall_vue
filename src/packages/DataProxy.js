@@ -111,7 +111,6 @@ DataProxy.prototype.load = function(){
     let sel = this;
     let proxy = this.url; 
     let promise = null;
-    
     if (typeof this.url == 'string') {
         promise = AxiosInstance.get(this.url, {params:this._getParam()});
     } else {

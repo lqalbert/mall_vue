@@ -14,6 +14,8 @@ import VModal from 'vue-js-modal'
 Vue.use(VModal);
 // Vue.use($);
 
+// console.log(store);
+
 import newDialog from './components/common/Dialog';
 import InitObject from './mix/InitObjectFromObject';
 import Delete from './mix/Delete';

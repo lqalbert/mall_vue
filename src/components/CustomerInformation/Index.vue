@@ -52,14 +52,7 @@
                 </TableProxy>
             </el-col>
         </el-row>
-        <div id="app2" class="b" style="margin-top:5px;">
-            <el-row>
-                <el-col :span="24">
-                    <el-tabs type="border-card">
-                        <el-tab-pane label="跟踪记录">
-                            <el-table :data="tableData1" empty-text="请点击客户显示跟踪信息" border style="width: 100%">
-                                <el-table-column prop="user" label="操作员工" align="center">
-                                </el-table-column>
+        
 
         <Add name='add-customerinformation'
              :ajax-proxy="ajaxProxy"

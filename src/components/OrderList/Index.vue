@@ -35,7 +35,7 @@
                 </el-form-item>
                 <br>
                 <el-form-item prop="type">
-                    <el-button size="small" @click="typesearch('All')"         type="info" >全部</el-button>
+                    <el-button size="small" @click="show_all"         type="info" >全部</el-button>
                     <el-button size="small" @click="typesearch('pre_pay')"  v-model="searchForm.type"   type="info" >待付款</el-button>
                     <el-button size="small" @click="typesearch('pre_affirm')"  type="info" >待确认</el-button>
                     <el-button size="small" @click="delivesearch('pre_deliver')" type="info" >待发货</el-button>
@@ -432,6 +432,10 @@ export default {
             this.searchToolChange('searchForm');
             this.searchReset();
 //            this.orderlistInit($criteria);
+        },
+        show_all:function(){
+//            this.searchReset();
+            this.searchToolChange('searchForm');
         },
         delivesearch:function($criteria){
             this.searchForm.deliver=$criteria;

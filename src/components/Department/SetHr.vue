@@ -84,6 +84,7 @@ export default {
     data () {
         return {
             dialogThis:this,
+            dialogLabelWidth:'80px',
             hr:[{user_id:'1',realname:'李清'}],
             dehrs:[{user_id:'1',realname:'李清'}],
             labelPosition:"right",

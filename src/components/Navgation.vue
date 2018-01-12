@@ -53,7 +53,6 @@ export default {
           subNav:[
               { text:'订单详情', index:'OrderList' },
               { text:'订单审核', index:'BuyOrders' },
-              //{ text:'收件信息', index:'BuyOrders' },
           ]
         },
         {

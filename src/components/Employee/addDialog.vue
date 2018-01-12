@@ -87,8 +87,8 @@
                                     <el-row>
                                         <el-col :span="12">
 
-                                            <el-form-item label="手机" prop="mobile_phone">
-                                                <el-input class="name-input" v-model="addForm.mobile_phone"  auto-complete="off"></el-input>
+                                            <el-form-item label="手机" prop="mobilephone">
+                                                <el-input class="name-input" v-model="addForm.mobilephone"  auto-complete="off"></el-input>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="12">
@@ -196,7 +196,7 @@
                     group_name:'测试',
                     sex:1,
                     telephone:"",
-                    mobile_phone:"",
+                    mobilephone:"",
                     realname:"",
                     address:"",
                     qq:"",

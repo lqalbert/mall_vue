@@ -94,8 +94,8 @@
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
-                                <el-form-item label="固话座机" prop="mobile_phone">
-                                    <el-input class="name-input" v-model="editForm.mobile_phone" auto-complet="off"></el-input>
+                                <el-form-item label="固话座机" prop="mobilephone">
+                                    <el-input class="name-input" v-model="editForm.mobilephone" auto-complet="off"></el-input>
                                 </el-form-item>
                             </el-col>
                         </el-row>
@@ -352,7 +352,7 @@
                     department_name:'销售二部',
                     sex:'',
                     telephone:"",
-                    mobile_phone:"",
+                    mobilephone:"",
                     realname:"",
                     address:"",
                     qq:"",

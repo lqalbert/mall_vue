@@ -15,7 +15,7 @@
                                     <el-input class="name-input" v-model="addForm.account"  auto-complete="off"></el-input>
                                 </el-form-item>
                                 <el-form-item label="密码">
-                                    <el-input class="name-input" v-model="addForm.password" auto-complete="off"></el-input>
+                                    <el-input class="name-input" type="password" v-model="addForm.password" auto-complete="off"></el-input>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
@@ -69,7 +69,6 @@
                                         :on-success="addFormUploadSuccess"
                                         :before-upload="beforeAvatarUpload">
                                         <img v-if="uploadImg" :src="uploadImg" class="avatar">
-                                        <!--<i v-else class="el-icon-plus avatar-uploader-icon"></i>-->
                                         <el-button size="small" type="primary">点击上传</el-button>
                                     </el-upload>
                                 </el-form-item>
@@ -89,13 +88,13 @@
                                     <el-row>
                                         <el-col :span="12">
 
-                                            <el-form-item label="手机" prop="mphone">
-                                                <el-input class="name-input" v-model="addForm.phone_number"  auto-complete="off"></el-input>
+                                            <el-form-item label="手机" prop="mobile_phone">
+                                                <el-input class="name-input" v-model="addForm.mobile_phone"  auto-complete="off"></el-input>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="12">
-                                            <el-form-item label="固话座机" prop="phone">
-                                                <el-input class="name-input" v-model="addForm.phone" auto-complet="off"></el-input>
+                                            <el-form-item label="固话座机" prop="telephone">
+                                                <el-input class="name-input" v-model="addForm.telephone" auto-complet="off"></el-input>
                                             </el-form-item>
                                         </el-col>
                                     </el-row>
@@ -140,173 +139,13 @@
                                         </el-input>
                                     </el-form-item>
 
-
-
-
                     </el-tab-pane>
-                    <!-- <el-tab-pane label="其它信息" name="second">
-                        
-                        <el-row>
-                            <el-col :span="12">
-                                <el-form-item label="性别">
-                                    <el-radio class="radio" v-model="addForm.sex" label="1">男</el-radio>
-                                    <el-radio class="radio" v-model="addForm.sex" label="2">女</el-radio>
-                                </el-form-item>
-                            </el-col>
-                        </el-row>
 
-                        <el-row>
-                            <el-col :span="12">
-
-                                <el-form-item label="手机" prop="mphone">
-                                    <el-input v-model="addForm.mphone"  auto-complete="off"></el-input>
-                                </el-form-item>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-form-item label="固话座机" prop="phone">
-                                    <el-input v-model="addForm.phone" auto-complet="off"></el-input>
-                                </el-form-item>
-                            </el-col>
-                        </el-row>
-
-                        <el-row>
-                            <el-col :span="12">
-                                <el-form-item label="QQ号" prop="qq">
-                                    <el-input v-model="addForm.qq" auto-complete="off"></el-input>
-                                </el-form-item>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-form-item label="QQ昵称">
-                                    <el-input v-model="addForm.qq_nickname" auto-complet="off"></el-input>
-                                </el-form-item>
-                            </el-col>
-                        </el-row>
-                        <el-row>
-                            <el-col :span="12">
-                                <el-form-item label="微信号" prop="weixin">
-                                    <el-input v-model="addForm.weixin" auto-complete="off"></el-input>
-                                </el-form-item>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-form-item label="微信昵称">
-                                    <el-input v-model="addForm.weixin_nikname" auto-complet="off"></el-input>
-                                </el-form-item>
-                            </el-col>
-                        </el-row>
-                        <el-row>
-                            <el-col :span="12">
-                                <el-form-item label="身份证号" prop="id_card">
-                                    <el-input v-model="addForm.id_card" auto-complet="off"></el-input>
-                                </el-form-item>
-                            </el-col>
-                        </el-row>
-
-
-                        <el-row>
-                            <el-col :span="12">
-                                <el-form-item label="省份">
-                                    <el-select v-model="addForm.area_province"  placeholder="请选择">
-                                        <el-option label="北京"  value="1"></el-option>
-                                        <el-option label="上海"  value="2"></el-option>
-                                    </el-select>
-                                </el-form-item>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-form-item label="城市">
-                                    <el-select v-model="addForm.area_city"    placeholder="请选择">
-                                        <el-option label="北京"  value="1"></el-option>
-                                        <el-option label="上海"  value="2"></el-option>
-                                    </el-select>
-                                </el-form-item>
-                            </el-col>
-                        </el-row>
-                        <el-row>
-                            <el-col :span="12">
-                                <el-form-item label="区县">
-                                    <el-select v-model="addForm.area_district" placeholder="请选择">
-                                        <el-option label="北京"  value="1"></el-option>
-                                        <el-option label="上海"  value="2"></el-option>
-                                    </el-select>
-                                </el-form-item>
-                            </el-col>
-
-                        </el-row>
-                        <el-form-item label="住址">
-                            <el-input
-                                    v-model="addForm.address"
-                                    type="textarea"
-                                    :autosize="{ minRows: 2, maxRows: 4}"
-                                    placeholder="请输入内容">
-                            </el-input>
-                        </el-form-item>
-                    </el-tab-pane> -->
-                    <!-- <el-tab-pane label="身份证照" name="third" class="third">
-                        <el-row>
-                            <el-col :span="24">
-                               <el-form-item label="手持身份证照">
-                                    <el-upload
-                                            class="card_img"
-                                            action="{:U('Upload/index2')}"
-                                            accept="image/jpeg,image/png,image/jpg,image/gif,image/bmp"
-                                            :on-success="cardImg"
-                                            :data="pathInfo"
-                                            :headers="xuploadheader"
-                                            :multiple="false"
-                                            :show-upload-list="false"
-                                            :before-upload="beforeAvatarUpload">
-                                        <img v-if='addForm.card_img' :src="'__ROOT__' + addForm.card_img" alt="" style="max-width: 400px; max-height:300px;">
-                                        <i  v-else class="el-icon-plus avatar-uploader-icon"></i>
-                                    </el-upload>
-                                </el-form-item>
-                            </el-col>
-                        </el-row>
-
-                        <el-row>
-                            <el-col :span="24">
-                                <el-form-item label="身份证正面照">
-                                  <el-upload
-                                            class="card_front"
-                                            action="{:U('Upload/index2')}"
-                                            accept="image/jpeg,image/png,image/jpg,image/gif,image/bmp"
-                                            :on-success="cardFront"
-                                            :data="pathInfo"
-                                            :headers="xuploadheader"
-                                            :multiple="false"
-                                            :show-upload-list="false"
-                                            :before-upload="beforeAvatarUpload">
-                                        <img v-if='addForm.card_front' :src="'__ROOT__' + addForm.card_front" alt="" style="max-width: 400px; max-height:234px;">
-                                        <i  v-else class="el-icon-plus avatar-uploader-icon"></i>
-                                    </el-upload>
-                                </el-form-item>
-                            </el-col>
-                        </el-row>
-
-                        <el-row>
-                            <el-col :span="24">
-                                <el-form-item label="身份证反面照">
-                                    <el-upload
-                                            class="card_back"
-                                            action="{:U('Upload/index2')}"
-                                            accept="image/jpeg,image/png,image/jpg,image/gif,image/bmp"
-                                            :on-success="cardBack"
-                                            :data="pathInfo"
-                                            :headers="xuploadheader"
-                                            :multiple="false"
-                                            :show-upload-list="false"
-                                            :before-upload="beforeAvatarUpload">
-                                        <img v-if='addForm.card_back' :src="'__ROOT__' + addForm.card_back" alt="" style="max-width: 400px; max-height:234px;">
-                                        <i  v-else class="el-icon-plus avatar-uploader-icon"></i>
-                                    </el-upload>
-                                </el-form-item>
-                            </el-col>
-                        </el-row>
-
-                    </el-tab-pane> -->
                 </el-tabs>
             </el-form>
             <div slot="dialog-foot" >
                 <el-button @click="handleClose()">取 消</el-button>
-                <SubmitButton 
+                <SubmitButton
                     @click="formSubmit('addForm')" 
                     :observer="dialogThis" ></SubmitButton>
             </div>
@@ -315,6 +154,7 @@
 </template>
 
 <script>
+    import $ from 'jquery'
     import DialogForm from '../../mix/DialogForm';
     export default {
         name: 'addDialog',
@@ -327,7 +167,7 @@
             groups:{
                 type: Array,
                 default:[]
-            }
+            },
         },
         data () {
             return {
@@ -346,12 +186,12 @@
                     role_id:"",
                     role_name:"sdf",
                     group_id:"",
-                    group_name:"老虎队",
-                    department_id:"0",
-                    department_name:'销售二部',
+                    department_id:"",
+                    department_name:'发多少',
+                    group_name:'测试',
                     sex:1,
-                    phone:"",
-                    phone_number:"",
+                    telephone:"",
+                    mobile_phone:"",
                     realname:"",
                     address:"",
                     qq:"",
@@ -360,7 +200,7 @@
                     weixin_nickname:"",
                     id_card:"",
                     location:'sdjk',
-                    ip:"192.168.0.10",
+                    ip:'192.168.0.1',
                     create_name:"系统管理员",
                     lg_time:"2017-12-28",
                     out_time:"2017-12-28",
@@ -377,13 +217,13 @@
 
         methods:{
             getAjaxPromise(model){
-               // console.log(model);
+              //console.log(model);
                 return this.ajaxProxy.create(model);
             },
             addFormUploadSuccess(response, file){
                 // this.addForm.head = URL.createObjectURL(file.raw);
                 if (response.status==1) {
-                    this.addForm.head = response.data.url;
+                    this.addForm.head = response.data.fullurl;
                     this.uploadImg = response.data.fullurl;
                 }
                 
@@ -416,9 +256,12 @@
         created(){
             // this.$on('valid-error', this.conlog);
             // this.$on('submit-final', this.conlog);
-            this.$on('submit-final', this.resetUploadImg);
-
-
+          this.$on('submit-final', this.resetUploadImg);
+           //  $.getJSON('//freegeoip.net/json/', function(data) {
+            this.addForm.ip=this.userIP;
+           //      console.log(data);
+           //  });
+           // console.log(111);
         },
         mounted(){
             // console.log(this.$children);

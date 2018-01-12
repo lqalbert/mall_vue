@@ -223,7 +223,6 @@ export default {
             mainparam:"",
             depTypeName:"选择单位类型",
             typeList:["销售部", "客服部", "风控部", "人事部", "推广部", "投顾部"],
-
             total:100,
             dataLoad:false,
             searchForm:{

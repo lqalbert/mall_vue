@@ -88,8 +88,10 @@
 
                     <el-table-column prop="department_name" label="部门" width="100">
                     </el-table-column>
+                    <el-table-column prop="group_name" label="小组" width="100">
+                    </el-table-column>
 
-                    <el-table-column prop="role_name" label="职位" width="100">
+                    <el-table-column prop="role" label="职位" width="100">
                     </el-table-column>
 
                     <el-table-column prop="sex" label="性别" width="80" align="center">
@@ -103,10 +105,10 @@
                     <el-table-column prop="id_card" label="身份证号" width="192">
                     </el-table-column>
 
-                    <el-table-column prop="phone" label="固话" width="140" align="center">
+                    <el-table-column prop="telephone" label="固话" width="140" align="center">
                     </el-table-column>
 
-                    <el-table-column prop="phone_number" label="手机" width="140" align="center">
+                    <el-table-column prop="mobile_phone" label="手机" width="140" align="center">
                     </el-table-column>
 
                     <el-table-column prop="qq" label="QQ号" width="140" align="center">
@@ -145,7 +147,6 @@
                     <el-table-column fixed="right" label="操作" width="220" align="center">
                         <template slot-scope="scope">
                             <el-button type="success"  size="small" @click="openEdit(scope.row)" >编辑</el-button>
-                            <el-button type="info" size="small">职能</el-button>
                             <el-button type="danger"  @click="handleDelete(scope.row.id)"   size="small" >离职</el-button>
 
                             <!--<el-button type="danger" size="small">离职</el-button>-->
@@ -194,8 +195,10 @@
 
 
 </template>
+<!--<script type="text/javascript" src="http://pv.sohu.com/cityjson?ie=utf-8"></script>-->
 
 <script>
+
     import addDialog from './addDialog';
     import editDialog from './editDialog';
     import PageMix from '../../mix/Page';
@@ -221,7 +224,7 @@
                 ajaxProxy: EmployeeAjaxProxy,
                 mainurl:EmployeeAjaxProxy.getUrl() ,
                 mainparam:"",
-                
+                userIP:[],
                 searchForm: {
                     typeValue: "",
                     department: '',
@@ -267,26 +270,21 @@
             switchHandle: function (index, row) {
 
             },
-            
-         
             loadDepartment(data) {
                 this.departments = data.items;
             },
             loadGroup(data) {
                 this.groups = data.items;
             },
-
             onSearchChange(param) {
                 this.mainparam = JSON.stringify(param);
             },
-
             handleRowClick(row, event, column){
               //  console.log('row-click handle', row, event, column);
             }
 
         },
         created() {
-           
 
             let departProxy = new DepartSelectProxy(null, this.loadDepartment, this);
             this.departProxy = departProxy;

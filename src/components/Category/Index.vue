@@ -61,9 +61,8 @@
                     children:'children',
                     label:'label'
                 },
-            }
 
-        },
+           
 
         methods: {
             getAjaxProxy(){
@@ -82,7 +81,7 @@
             filterNode(value, data) {
                 if (!value) return true;
                 return data.label.indexOf(value) !== -1;
-            },
+            },    
 
             onSearchChange(param){
                 console.log(param);
@@ -94,7 +93,7 @@
                     <span>
                     <span>
                     <span>{node.label}</span>
-                </span>
+                   </span>
                 <span style="float: right; margin-right: 20px">
                     <el-button size="mini" type="danger" on-click={ () => this.handleDelete(data.id) }>删除分类</el-button>
                 </span>

@@ -3,6 +3,7 @@
 // see http://vuejs-templates.github.io/webpack for documentation.
 
 const path = require('path')
+const config = require('../package.json');
 
 module.exports = {
   dev: {
@@ -54,7 +55,7 @@ module.exports = {
 
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
-    assetsSubDirectory: 'static',
+    assetsSubDirectory: 'static' + config.version,
     assetsPublicPath: '/',
 
     /**

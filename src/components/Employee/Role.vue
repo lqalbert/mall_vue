@@ -4,7 +4,7 @@
             <el-form ref="setRolesForm" :model="setRolesForm" :label-width="labelWidth"  :label-position="labelPosition">
                 <el-form-item label="职能">
                     <el-select v-model="setRolesForm.role_ids">
-                        <el-option v-for="role in roleList" :label="role.name" :value="role.id"></el-option>
+                        <el-option v-for="role in roleList" :key="role.id" :label="role.name" :value="role.id"></el-option>
                     </el-select>
                 </el-form-item>
             </el-form>

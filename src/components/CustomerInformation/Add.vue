@@ -4,55 +4,56 @@
             <el-form :model="addForm" ref="addForm"  :label-width="labelWidth"   :label-position="labelPosition">
                 <el-row>
                     <el-col :span="12">
-                        <el-form-item label="客户姓名" prop="goods_name" >
-                            <el-input  class="name-input" v-model="addForm.goods_name"  auto-complete="off" placeholder="请填写商品名称"></el-input>
+                        <el-form-item label="客户姓名" prop="name" >
+                            <el-input  class="name-input" v-model="addForm.name"  auto-complete="off" placeholder="请填写客户姓名"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="客户类型"  prop="goods_type">
-                            <el-select  v-model="addForm.goods_type"  placeholder="请选择类型"  >
-                                <el-option  v-for='(item,key) in typeList' :label="item" :value="key" :key="key"></el-option>
-                            </el-select>
+                        <el-form-item label="客户年龄"  prop="age">
+                            <el-input  class="name-input" v-model="addForm.age"  auto-complete="off" placeholder="请填写客户年龄"></el-input>
+
                         </el-form-item>
                     </el-col>
                 </el-row>
-
                 <el-row>
                     <el-col :span="12">
-                        <el-form-item label="手机号"  prop="goods_price">
-                            <el-input class="name-input" v-model="addForm.goods_price"  auto-complete="off" placeholder="请填写商品价格"></el-input>
+                        <el-form-item label="QQ号"  prop="qq">
+                            <el-input class="name-input" v-model="addForm.qq"  auto-complete="off" placeholder="请填写QQ"></el-input>
                         </el-form-item>
                     </el-col>
-
+                    <el-col :span="12">
+                        <el-form-item label="QQ昵称"  prop="qq_nickname">
+                            <el-input class="name-input" v-model="addForm.qq_nickname"  auto-complete="off" placeholder="请填写QQ昵称"></el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="12">
+                        <el-form-item label="微信号"  prop="weixin">
+                            <el-input class="name-input" v-model="addForm.weixin"  auto-complete="off" placeholder="请填写微信号"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="微信昵称"  prop="weixin_nickname">
+                            <el-input class="name-input" v-model="addForm.weixin_nickname"  auto-complete="off" placeholder="请填写微信昵称"></el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="12">
+                            <el-form-item label="手机号"  prop="phone">
+                                <el-input class="name-input" v-model="addForm.phone"  auto-complete="off" placeholder="请填写客户手机号"></el-input>
+                            </el-form-item>
+                    </el-col>
                     <el-col :span="12">
                         <el-form-item label="性别" prop="sex">
                             <el-radio-group v-model="addForm.sex">
                                 <el-radio :label="1">男</el-radio>
-                                <el-radio :label="0">女</el-radio>
+                                <el-radio :label="2">女</el-radio>
                             </el-radio-group>
                         </el-form-item>
                     </el-col>
                 </el-row>
-
-                <el-row>
-                    <el-col :span="12">
-                        <el-form-item label="微信号"  prop="goods_price">
-                            <el-input class="name-input" v-model="addForm.goods_price"  auto-complete="off" placeholder="请填写商品价格"></el-input>
-                        </el-form-item>
-                    </el-col>
-                </el-row>
-                <el-row>
-                    <el-col :span="12">
-                        <el-form-item label="资金量"  prop="unit_type">
-                            <el-select v-model='addForm.unit_type'>
-                                <el-option v-for="(v,key) in unit_types" :label="v.name"
-                                           :value="v.id" :key="key">
-                                </el-option>
-                            </el-select>
-                        </el-form-item>
-                    </el-col>
-                </el-row>
-
             </el-form>
     
             <div slot="dialog-foot" class="dialog-footer">
@@ -70,36 +71,41 @@
 
 <script>
 import DialogForm from '../../mix/DialogForm';
+import DataProxy from '../../packages/DataProxy';
 export default {
     name: 'Add',
     mixins:[DialogForm],
+    props:{
+        ajaxProxy:{
+            type:Object,
+        }
+    },
     data () {
         return {
             dialogThis:this,
             labelPosition:"right",
             labelWidth:'80px',
-            unit_types:[
-                {id:'1',name:'5W以下'},
-                {id:'2',name:'5W-10W'},
-                {id:'3',name:'10W以上'},
-
-            ],
-
-            typeList:['一般客户','准客户','意向客户'],
-
             state7: this.addOpen,
             addForm:{
-                goods_name:"",
-                goods_type:"",
-                goods_price:"",
-                goods_number:"",
-                remark:"",
-                unit_type:'',
+                name:"",
+                age:"",
+                qq:"",
+                qq_nickname:"",
+                weixin:"",
+                weixin_nickname:'',
                 sex:1,
+                phone:''
             },
 
         }
     },
+
+    methods:{
+        getAjaxPromise(model){
+            return this.ajaxProxy.create(model);
+        },
+
+    }
 }
 </script>
 

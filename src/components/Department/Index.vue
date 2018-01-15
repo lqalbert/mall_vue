@@ -1,41 +1,43 @@
 <template>
     <div class="hello">
         <el-row>
-            <el-form :inline="true"  ref="searchForm" :model="searchForm">
-                <el-form-item style="display: none;" prop="id">
-                    <el-input  v-model="searchForm.id">
-                    </el-input>
-                </el-form-item>
+            <el-col>
+                <el-form :inline="true"  ref="searchForm" :model="searchForm">
+                    <el-form-item style="display: none;" prop="id">
+                        <el-input  v-model="searchForm.id">
+                        </el-input>
+                    </el-form-item>
 
-                <el-form-item prop="name" >
-                    <el-input size="small" placeholder="请输入单位名"  v-model="searchForm.name">
-                    </el-input>
-                </el-form-item>
+                    <el-form-item prop="name" >
+                        <el-input size="small" placeholder="请输入单位名"  v-model="searchForm.name">
+                        </el-input>
+                    </el-form-item>
 
-                <el-form-item prop="contact" >
-                    <el-input size="small" placeholder="请输入联系人"  v-model="searchForm.contact">
-                    </el-input>
+                    <el-form-item prop="contact" >
+                        <el-input size="small" placeholder="请输入联系人"  v-model="searchForm.contact">
+                        </el-input>
 
-                </el-form-item>
-                <el-form-item prop="tel" >
-                    <el-input size="small" placeholder="联系人电话"  v-model="searchForm.tel">
-                    </el-input>
-                </el-form-item>
+                    </el-form-item>
+                    <el-form-item prop="tel" >
+                        <el-input size="small" placeholder="联系人电话"  v-model="searchForm.tel">
+                        </el-input>
+                    </el-form-item>
 
-                <el-form-item prop="type">
-                    <el-select size="small" placeholder="请选择" v-model="searchForm.type" clearable>
-                        <el-option v-for="(item,index) in typeList" :value="index" :label="item" :key="index"></el-option>
-                    </el-select>
-                </el-form-item>
+                    <el-form-item prop="type">
+                        <el-select size="small" placeholder="请选择" v-model="searchForm.type" clearable>
+                            <el-option v-for="(item,index) in typeList" :value="index" :label="item" :key="index"></el-option>
+                        </el-select>
+                    </el-form-item>
 
-                <el-form-item>
-                    <el-button size="small" type="primary" icon="search" @click="searchToolChange('searchForm')" >查询</el-button>
-                    <el-tooltip content="清空搜索框并刷新表格数据" placement="bottom-start">
-                        <el-button size="small" @click="searchToolReset('searchForm')" type="primary" style="margin-left:10px;">重置</el-button>
-                    </el-tooltip>
-                </el-form-item>
+                    <el-form-item>
+                        <el-button size="small" type="primary" icon="search" @click="searchToolChange('searchForm')" >查询</el-button>
+                        <el-tooltip content="清空搜索框并刷新表格数据" placement="bottom-start">
+                            <el-button size="small" @click="searchToolReset('searchForm')" type="primary" style="margin-left:10px;">重置</el-button>
+                        </el-tooltip>
+                    </el-form-item>
 
-            </el-form>
+                </el-form>
+            </el-col>
         </el-row>
 
 
@@ -205,7 +207,7 @@ import SearchTool from '../../mix/SearchTool';
 import SelectProxy from  '../../packages/SelectProxy';
 
 import DepartAjaxProxy from '../../ajaxProxy/Department';
-import TableProxy from '../common/TableProxy';
+//import TableProxy from '../common/TableProxy';
 
 export default {
     name: 'Department',
@@ -273,7 +275,8 @@ export default {
 
         onSearchChange(param){
             this.mainparam = JSON.stringify(param);
-        },initDepartmentType(data){
+        },
+	initDepartmentType(data){
             this.typeList = data;
         },
         departMentInit(){

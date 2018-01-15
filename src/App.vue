@@ -9,7 +9,7 @@
   // import HelloWorld from './components/HelloWorld'
   import Index from './components/Index'
   import Login from './components/Login'
-  import { mapGetters,mapMutations } from 'vuex';
+  import { mapGetters, mapMutations } from 'vuex';
 
   export default {
       name: 'app',
@@ -18,9 +18,10 @@
           Login
       },
       computed:{
-      ...mapGetters([
-        'isLogin'
-      ]),
+        ...mapGetters([
+          'isLogin'
+        ])
+      },
       methods:{
         ...mapMutations([
               'logout'
@@ -32,8 +33,6 @@
           vmThis.logout();
         }
       }
-  }
-
   }
 </script>
 

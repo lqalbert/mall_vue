@@ -72,7 +72,7 @@
     </el-row>
 
     <Add  name='add-goods-type' :ajax-proxy="ajaxProxy"></Add>
-    <Edit name='edit-goods-type':ajax-proxy="ajaxProxy"></Edit>
+    <Edit name='edit-goods-type' :ajax-proxy="ajaxProxy"></Edit>
 
   </div>
 </template>

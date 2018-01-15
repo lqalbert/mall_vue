@@ -31,22 +31,22 @@
             >
             <slot></slot>
         </el-table>
-      <el-row >
-        <el-col :span="12">
-            <slot name="buttonbar"></slot>            
-        </el-col>
+        <br>
+        <el-row >
+            <el-col :span="12">
+                <slot name="buttonbar"></slot>            
+            </el-col>
+            <el-col :span="12">
                 <div class="pull-right">
-                    <el-col :span="12">
-                            <el-pagination
-                            :current-page="currentPage"
-                            :page-size="100"
-                            layout="total, prev, pager, next, jumper"
-                            :total="total"
-                            @current-change="currentChange">
-                            </el-pagination>
-                    </el-col>
-
+                    <el-pagination
+                    :current-page="currentPage"
+                    :page-size="100"
+                    layout="total, prev, pager, next, jumper"
+                    :total="total"
+                    @current-change="currentChange">
+                    </el-pagination>   
                 </div>
+            </el-col>
         </el-row>
     </div>
   </template>

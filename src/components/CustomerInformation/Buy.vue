@@ -10,9 +10,11 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="商品类型"  prop="goods_type">
-                            <el-select  v-model="addForm.goods_type"  placeholder="请选择类型"  >
-                                <el-option  v-for='(item,key) in typeList' :label="item" :value="key" :key="key"></el-option>
-                            </el-select>
+                            <el-cascader
+                                    :options="CategoryList"
+                                    change-on-select
+                            ></el-cascader>
+
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -61,8 +63,13 @@
 <script>
 import DialogForm from '../../mix/DialogForm';
 export default {
-    name: 'Add',
+    name: 'Buy',
     mixins:[DialogForm],
+    props:{
+        CategoryList:{
+
+        },
+    },
     data () {
         return {
             dialogThis:this,
@@ -80,9 +87,7 @@ export default {
                 {id:'3',name:'沿海区'},
 
             ],
-            typeList:['化妆品','保健品'],
-
-            state7: this.addOpen,
+            // typeList:['化妆品','保健品'],
             addForm:{
                 goods_name:"",
                 goods_type:"",

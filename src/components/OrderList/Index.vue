@@ -87,7 +87,7 @@
                     <el-table-column  label="操作" align="center" width="140">
                         <template slot-scope="scope">
                             <el-button type="info" size="small" @click="showRowData(scope.row)">编辑</el-button>
-                            <el-button type="danger" size="small">删除</el-button>
+                            <el-button type="danger" @click="handleDelete(scope.row.id)" size="small">删除</el-button>
                         </template>
                     </el-table-column>
                 </TableProxy>
@@ -420,6 +420,9 @@ export default {
         }
     },
     methods:{
+        getAjaxProxy(){
+            return  this.ajaxProxy;
+        },
         showRowData(row){
             this.$modal.show('rowInfo',{rowData:row});
         },

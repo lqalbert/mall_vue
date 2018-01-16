@@ -34,7 +34,13 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="订单状态" prop="order_status">
-                            <el-input v-model="rowInfoForm.order_status" size="small"></el-input>
+                            <el-select v-model='rowInfoForm.order_status'>
+                                <el-option
+                                        v-for="order_status in order_statuslist"
+                                        :label="order_status.status"
+                                        :value="order_status.status"
+                                        :key="order_status.id"></el-option>
+                            </el-select>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -46,7 +52,13 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="发货状态" prop="shipping_status">
-                            <el-input v-model="rowInfoForm.shipping_status" size="small"></el-input>
+                            <el-select v-model='rowInfoForm.shipping_status'>
+                                <el-option
+                                        v-for="shipping_status in shipping_statuslist"
+                                        :label="shipping_status.status"
+                                        :value="shipping_status.status"
+                                        :key="shipping_status.id"></el-option>
+                            </el-select>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -58,7 +70,13 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="下单时间" prop="order_time">
-                            <el-input v-model="rowInfoForm.order_status" size="small"></el-input>
+                            <el-date-picker size="small" v-model="rowInfoForm.order_time"
+                                            :type="date"
+                                            :format="yyyy-MM-dd"
+                                            @change="DateChange"
+                                            :editable="true">
+                            </el-date-picker>
+                            <!--<el-input v-model="rowInfoForm.order_time" size="small"></el-input>-->
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -91,6 +109,18 @@
         },
         data () {
             return {
+                order_statuslist:[
+                    {id:'1',status:'pre_pay'},
+                    {id:'2',status:'pre_affirm'},
+                    {id:'3',status:'done'},
+                    {id:'4',status:'closed'},
+                    {id:'5',status:'refund'},
+                ],
+                shipping_statuslist:[
+                    {id:'1',status:'pre_deliver'},
+                    {id:'2',status:'delivered'},
+                    {id:'3',status:'received'},
+                ],
                 dialogThis:this,
                 labelPosition:"right",
                 labelWidth:'100px',
@@ -125,6 +155,9 @@
             getAjaxPromise(model){
 
                 return this.ajaxProxy.update(model.id, model);
+            },
+            DateChange:function(v){
+                this.rowInfoForm.order_time = v;
             },
         },
         watch:{

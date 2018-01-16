@@ -14,7 +14,7 @@
       </el-form>
     </el-row>
     <el-row>
-      <el-col :span="12">
+      <el-col>
         <el-table :data="tableData" v-loading="dataLoad" border style="width: 100%">
           <el-table-column type="selection" align="center" width="50"></el-table-column>
 
@@ -50,13 +50,13 @@
       </el-col>
     </el-row>
     <el-row>
-      <el-col :span="6">
+      <el-col :span="12">
         <div class="grid-content bg-purple" style="float: left;margin-top: 5px">
           <el-button size="small" type="danger" @click="handleDeletes">批量删除 </el-button>
           <el-button size="small" type="primary" @click="showAdd">添加类型</el-button>
         </div>
       </el-col>
-      <el-col :span="6">
+      <el-col :span="12">
         <div class="pull-right" style="float: right;margin-top: 5px">
           <el-col :span="12">
             <el-pagination

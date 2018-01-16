@@ -77,10 +77,10 @@ export default {
             labelPosition:"right",
             labelWidth:'80px',
             computedusers:[
-                {user_id:'1',realname:'李青'},
-                {user_id:'2',realname:'高鹏'},
-                {user_id:'3',realname:'马娇'},
-                {user_id:'4',realname:'吴继伟'},
+                {user_id:'1',realname:'李青(测试数据)'},
+                {user_id:'2',realname:'高鹏(测试数据)'},
+                {user_id:'3',realname:'马娇(测试数据)'},
+                {user_id:'4',realname:'吴继伟(测试数据)'},
             ],
             addForm:{
                 name:"",

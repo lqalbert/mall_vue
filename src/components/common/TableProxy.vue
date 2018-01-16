@@ -36,7 +36,7 @@
             <el-col :span="12">
                 <slot name="buttonbar"></slot>            
             </el-col>
-            <el-col :span="12">
+            <el-col :span="12" :offset="12">
                 <div class="pull-right">
                     <el-pagination
                     :current-page="currentPage"

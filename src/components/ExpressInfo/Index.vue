@@ -54,9 +54,22 @@
                     </el-table-column>
                     <el-table-column prop="express_remark" label="物流备注" align="center">
                     </el-table-column>
+
+                    <div slot="buttonbar">
+                      
+                    </div>
                 </TableProxy>
             </el-col>
         </el-row>
+
+        <quill-editor v-model="editContent"
+                        ref="myQuillEditor"
+                        :options="editorOption"
+                        @blur="onEditorBlur($event)"
+                        @focus="onEditorFocus($event)"
+                        @ready="onEditorReady($event)"
+                        @change="onEditorChange($event)">
+        </quill-editor>
 
     </div>
 
@@ -91,6 +104,19 @@
                     return time.getTime() > Date.now();//- 8.64e7
                 }
             },
+            editContent:'',
+            editorOption:{
+                //debug: 'info',
+                modules: {
+                    toolbar:[['bold', 'italic','code-block',{'font':['SimSun','KaiTi','Microsoft Yahei']},
+                    { size: [ 'small', false, 'large', 'huge' ]}],['link', 'image']],
+                },
+                placeholder: '填写点什么吧',
+                //readOnly: true,
+                theme: 'snow',
+                syntax: true, 
+            }
+
 
         }
     },
@@ -122,8 +148,31 @@
         },
         getEndTime(v){
             this.searchForm.end = v;
+        },
+        onEditorBlur(quill) {
+            //console.log('editor blur!', quill);
+        },
+        onEditorFocus(quill) {
+            console.log('editor focus!', quill);
+            
+        },
+        onEditorReady(quill) {
+            //console.log('editor ready!', quill);
+        },
+        onEditorChange({ quill, html, text }) {
+            //console.log('editor change!', quill.getContents(), html, text);
+            this.editContent = html;
+            //console.log(quill.getContents());
         }
         
+    },
+    computed: {
+      editor() {
+        return this.$refs.myQuillEditor.quill
+      }
+    },
+    mounted() {
+      //console.log('this is current quill instance object', this.editor)
     },
     created(){
         this.$on('search-tool-change', this.onSearchChange);

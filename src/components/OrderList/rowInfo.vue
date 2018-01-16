@@ -1,7 +1,7 @@
 <template>
     <div >
         <MyDialog title="查看" :name="name" :width="width" :height="height" @before-open="onOpen">
-            <el-form :model="rowInfoForm" ref="rowInfoForm" :label-width="labelWidth" :label-position="labelPosition">
+            <el-form ref="rowInfoForm" :model="rowInfoForm" :label-width="labelWidth" :label-position="labelPosition">
                 <el-row>
                     <el-col :span="12">
                         <el-form-item  label="订单编号" prop="order_sn">
@@ -65,7 +65,11 @@
             </el-form>
             <div slot="dialog-foot" class="dialog-footer">
                 <el-button @click="handleClose">取 消</el-button>
-                <el-button :observer="dialogThis" @click="formSubmit('rowInfoForm')" type="primary">确 定</el-button>
+                <submit-button
+                        :observer="dialogThis"
+                        @click="formSubmit('rowInfoForm')" >
+                    保 存
+                </submit-button>
             </div>
         </MyDialog>
     </div>
@@ -73,11 +77,17 @@
 
 <script>
     import DialogForm from '../../mix/DialogForm';
+    import SubmitButton from '../../components/common/SubmitButton';
     export default {
         name: 'addDialog',
         mixins:[DialogForm],
         props:{
             
+        },
+        ajaxProxy:{
+            required:true,
+            type: Object,
+            default: null
         },
         data () {
             return {
@@ -96,28 +106,39 @@
                     shipping_name:'',
                     order_time:'',
                 },
+                model:null
 
             }
         },
 
         methods:{
             addFormSubmit:function(){
-                console.log(this.rowInfoForm);
                 this.state6=false;
             },
             closeDialog:function(){
                 this.state6=false;
             },
-            pdtTimeDateChange(v){
-                this.rowInfoForm.pdt_time = v;
-            },
-            intoTimeDateChange(v){
-                this.rowInfoForm.into_time = v;
-            },
+
             onOpen(event){
               this.rowInfoForm = event.params.rowData;
-            }
+            },
+            getAjaxPromise(model){
+
+                return this.ajaxProxy.update(model.id, model);
+            },
         },
+        watch:{
+
+            model:function(val, oldVal){
+//                console.log(val);
+                for (const key in this.rowInfoForm) {
+                    if (this.rowInfoForm.hasOwnProperty(key)) {
+                        console.log(key);
+                        this.rowInfoForm[key] = val[key]
+                    }
+                }
+            }
+        }
 
     }
 </script>

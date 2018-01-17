@@ -326,7 +326,7 @@
     import OrderlistAjaxProxy from '../../ajaxProxy/Orderlist';
     import TableProxy from '../common/TableProxy';
     import SearchTool from "../../mix/SearchTool";
-export default {
+    export default {
     name: 'OrderList',
     pageTitle:"订单详情",
     mixins: [PageMix,SearchTool,DataTable,config,OrderlistAjaxProxy],

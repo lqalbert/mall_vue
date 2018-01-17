@@ -4,11 +4,18 @@
             <el-steps :active="active" finish-status="success">
                 <el-step title="选择用户"></el-step>
                 <el-step title="选择商品"></el-step>
-                <el-step title="选择地址"></el-step>
+                <el-step title="收货信息"></el-step>
             </el-steps>
             <el-form :model="addForm"  ref="addForm" :rules="rules" :label-width="labelWidth"   :label-position="labelPosition">
                 <div class="tabs" v-show="active==0">
                     <el-form-item label="购买用户"  prop="contact">
+                        <el-select v-model='addForm.manager_id'>
+                            <el-option v-for="user in computedusers" :label="user.realname"
+                                       :value="user.user_id" :key="user.user_id">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="销售员工"  prop="contact">
                         <el-select v-model='addForm.manager_id'>
                             <el-option v-for="user in computedusers" :label="user.realname"
                                        :value="user.user_id" :key="user.user_id">
@@ -24,26 +31,18 @@
                             </el-option>
                         </el-select>
                     </el-form-item>
-                    <el-form-item label="是否启用" prop="status">
-                        <el-radio-group v-model="addForm.status">
-                            <el-radio :label="1">启用</el-radio>
-                            <el-radio :label="0">禁用</el-radio>
-                        </el-radio-group>
-                    </el-form-item>
                 </div>
                 <div class="tabs" v-show="active==2">
-                    <el-form-item label="收货地址"  prop="contact">
-                        <el-select v-model='addForm.manager_id'>
-                            <el-option v-for="user in computedusers" :label="user.realname"
-                                       :value="user.user_id" :key="user.user_id">
-                            </el-option>
-                        </el-select>
+
+                        <el-form-item label="收货地址"  prop="contact">
+                            <div class="areainp"><area-cascader type='text' :level='1' v-model="value1" placeholder="请选择地址"></area-cascader></div>
+                        </el-form-item>
+                    <el-form-item label="具体地址"  prop="contact">
+                        <div><el-input class="" v-model="addForm.name"  auto-complete="off" placeholder="请填写具体收货地址"></el-input>
+                        </div>
                     </el-form-item>
-                    <el-form-item label="是否启用" prop="status">
-                        <el-radio-group v-model="addForm.status">
-                            <el-radio :label="1">启用</el-radio>
-                            <el-radio :label="0">禁用</el-radio>
-                        </el-radio-group>
+                    <el-form-item label="手机号码" prop="status">
+                        <el-input class="" v-model="addForm.name"  auto-complete="off" placeholder="请填写收件人手机号码"></el-input>
                     </el-form-item>
                 </div>
 

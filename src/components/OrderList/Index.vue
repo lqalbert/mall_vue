@@ -10,6 +10,14 @@
                     </el-date-picker>
                 </el-form-item>
 
+                <el-form-item prop="end">
+                    <el-date-picker size="small" v-model="searchForm.end"
+                                    placeholder="下单截止时间"
+                                    @change="endDateChange"
+                                    :editable="false">
+                    </el-date-picker>
+                </el-form-item>
+
                 <el-form-item prop="goods_name">
                     <el-input size="small" v-model="searchForm.goods_name" placeholder="请输入商品名称"></el-input>
                 </el-form-item>
@@ -22,13 +30,7 @@
                     <el-input size="small" v-model="searchForm.consignee" placeholder="客户名称"></el-input>
                 </el-form-item>
 
-                <el-form-item prop="end">
-                    <el-date-picker size="small" v-model="searchForm.end"
-                                    placeholder="下单截止时间"
-                                    @change="endDateChange"
-                                    :editable="false">
-                    </el-date-picker>
-                </el-form-item>
+
 
                 <el-form-item prop="order_sn">
                     <el-input size="small" v-model="searchForm.order_sn" placeholder="请输入订单编号"></el-input>
@@ -90,11 +92,16 @@
                             <el-button type="danger" @click="handleDelete(scope.row.id)" size="small">删除</el-button>
                         </template>
                     </el-table-column>
+                    <div slot="buttonbar">
+                        <el-tooltip content="点击添加订单" placement="right">
+                            <el-button size="small" icon="plus" type="info" @click="showAdd" >添加</el-button>
+                        </el-tooltip>
+                    </div>
                 </TableProxy>
             </el-col>
         </el-row>
 
-        <!--<div class="pull-right" style="float:right;margin-top: 5px" >-->
+        <div class="pull-right" style="float:right;margin-top: 5px" >
             <!--<el-col :span="12">-->
                 <!--<el-pagination-->
                         <!--:current-page="currentPage4"-->
@@ -105,206 +112,212 @@
                 <!--</el-pagination>-->
             <!--</el-col>-->
 
-        <!--</div>-->
+        </div>
 
         <rowInfo name="rowInfo"
                  :type-list="typeList"
                  :ajax-proxy="ajaxProxy"
                  @submit-success="handleReload"
         />
-        <!--<div id="app2" class="b" style="margin-top:5px;">-->
-            <!--<el-row>-->
-                <!--<el-col :span="24">-->
-                    <!--<el-tabs type="border-card">-->
-                        <!--<el-tab-pane label="订单商品明细">-->
-                            <!--<el-table  empty-text="请点击客户显示跟踪信息" border style="width: 100%">-->
-                                <!--<el-table-column prop="user" label="操作员工" align="center">-->
-                                <!--</el-table-column>-->
+        <div id="app2" class="b" style="margin-top:5px;">
+            <el-row>
+                <el-col :span="24">
+                    <el-tabs type="border-card">
+                        <el-tab-pane label="订单商品明细">
+                            <el-table  empty-text="请点击客户显示跟踪信息" border style="width: 100%">
+                                <el-table-column prop="user" label="操作员工" align="center">
+                                </el-table-column>
 
-                                <!--<el-table-column prop="type" label="客户类型(当前)" align="center">-->
-                                <!--</el-table-column>-->
+                                <el-table-column prop="type" label="客户类型(当前)" align="center">
+                                </el-table-column>
 
-                                <!--<el-table-column prop="name" label="客户姓名" align="center">-->
-                                <!--</el-table-column>-->
+                                <el-table-column prop="name" label="客户姓名" align="center">
+                                </el-table-column>
 
-                                <!--<el-table-column label="内容" align="center">-->
-                                    <!--<template slot-scope="scope">-->
-                                        <!--{{scope.row.content | handleString}}-->
-                                    <!--</template>-->
-                                <!--</el-table-column>-->
+                                <el-table-column label="内容" align="center">
+                                    <template slot-scope="scope">
+                                        {{scope.row.content | handleString}}
+                                    </template>
+                                </el-table-column>
 
-                                <!--<el-table-column prop="created_at" label="跟踪时间" width="180" align="center">-->
-                                <!--</el-table-column>-->
+                                <el-table-column prop="created_at" label="跟踪时间" width="180" align="center">
+                                </el-table-column>
 
-                                <!--<el-table-column prop="track_text" label="跟踪类型" align="center">-->
-                                <!--</el-table-column>-->
+                                <el-table-column prop="track_text" label="跟踪类型" align="center">
+                                </el-table-column>
 
-                            <!--</el-table>-->
-                        <!--</el-tab-pane>-->
+                            </el-table>
+                        </el-tab-pane>
 
-                        <!--&lt;!&ndash; <el-tab-pane label="软件账号">软件账号</el-tab-pane>-->
-                        <!--<el-tab-pane label="通话记录">通话记录</el-tab-pane> &ndash;&gt;-->
-                        <!--<el-tab-pane label="订单客户资料">-->
-                            <!--<el-table empty-text="请点击客户显示跟踪信息" border style="width: 100%">-->
-                                <!--<el-table-column prop="user" label="操作员工" align="center">-->
-                                <!--</el-table-column>-->
+                        <!-- <el-tab-pane label="软件账号">软件账号</el-tab-pane>
+                        <el-tab-pane label="通话记录">通话记录</el-tab-pane> -->
+                        <el-tab-pane label="订单客户资料">
+                            <el-table empty-text="请点击客户显示跟踪信息" border style="width: 100%">
+                                <el-table-column prop="user" label="操作员工" align="center">
+                                </el-table-column>
 
-                                <!--<el-table-column label="投诉内容" align="center">-->
-                                    <!--<template slot-scope="scope">-->
-                                        <!--{{scope.row.content | handleString}}-->
-                                    <!--</template>-->
-                                <!--</el-table-column>-->
+                                <el-table-column label="投诉内容" align="center">
+                                    <template slot-scope="scope">
+                                        {{scope.row.content | handleString}}
+                                    </template>
+                                </el-table-column>
 
-                                <!--<el-table-column prop="created_at" label="投诉时间" width="180" align="center">-->
-                                <!--</el-table-column>-->
+                                <el-table-column prop="created_at" label="投诉时间" width="180" align="center">
+                                </el-table-column>
 
-                                <!--<el-table-column prop="type_text" label="投诉类型" align="center">-->
-                                <!--</el-table-column>-->
-                            <!--</el-table>-->
-                        <!--</el-tab-pane>-->
+                                <el-table-column prop="type_text" label="投诉类型" align="center">
+                                </el-table-column>
+                            </el-table>
+                        </el-tab-pane>
 
-                        <!--<el-tab-pane label="订单消费详情">-->
-                            <!--<el-table empty-text="请点击客户显示跟踪信息" border style="width: 100%">-->
-                                <!--<el-table-column prop="user" label="操作员工" align="center">-->
-                                <!--</el-table-column>-->
+                        <el-tab-pane label="订单消费详情">
+                            <el-table empty-text="请点击客户显示跟踪信息" border style="width: 100%">
+                                <el-table-column prop="user" label="操作员工" align="center">
+                                </el-table-column>
 
-                                <!--<el-table-column label="投诉内容" align="center">-->
-                                    <!--<template slot-scope="scope">-->
-                                        <!--{{scope.row.content | handleString}}-->
-                                    <!--</template>-->
-                                <!--</el-table-column>-->
+                                <el-table-column label="投诉内容" align="center">
+                                    <template slot-scope="scope">
+                                        {{scope.row.content | handleString}}
+                                    </template>
+                                </el-table-column>
 
-                                <!--<el-table-column prop="created_at" label="投诉时间" width="180" align="center">-->
-                                <!--</el-table-column>-->
+                                <el-table-column prop="created_at" label="投诉时间" width="180" align="center">
+                                </el-table-column>
 
-                                <!--<el-table-column prop="type_text" label="投诉类型" align="center">-->
-                                <!--</el-table-column>-->
-                            <!--</el-table>-->
-                        <!--</el-tab-pane>-->
+                                <el-table-column prop="type_text" label="投诉类型" align="center">
+                                </el-table-column>
+                            </el-table>
+                        </el-tab-pane>
 
-                        <!--<el-tab-pane label="订单操作记录">-->
-                            <!--<el-table empty-text="请点击客户显示跟踪信息" border style="width: 100%">-->
-                                <!--<el-table-column prop="user" label="操作员工" align="center">-->
-                                <!--</el-table-column>-->
+                        <el-tab-pane label="订单操作记录">
+                            <el-table empty-text="请点击客户显示跟踪信息" border style="width: 100%">
+                                <el-table-column prop="user" label="操作员工" align="center">
+                                </el-table-column>
 
-                                <!--<el-table-column label="投诉内容" align="center">-->
-                                    <!--<template slot-scope="scope">-->
-                                        <!--{{scope.row.content | handleString}}-->
-                                    <!--</template>-->
-                                <!--</el-table-column>-->
+                                <el-table-column label="投诉内容" align="center">
+                                    <template slot-scope="scope">
+                                        {{scope.row.content | handleString}}
+                                    </template>
+                                </el-table-column>
 
-                                <!--<el-table-column prop="created_at" label="投诉时间" width="180" align="center">-->
-                                <!--</el-table-column>-->
+                                <el-table-column prop="created_at" label="投诉时间" width="180" align="center">
+                                </el-table-column>
 
-                                <!--<el-table-column prop="type_text" label="投诉类型" align="center">-->
-                                <!--</el-table-column>-->
-                            <!--</el-table>-->
-                        <!--</el-tab-pane>-->
+                                <el-table-column prop="type_text" label="投诉类型" align="center">
+                                </el-table-column>
+                            </el-table>
+                        </el-tab-pane>
 
-                        <!--<el-tab-pane label="订单收件人">-->
-                            <!--<el-table empty-text="请点击客户显示跟踪信息" border style="width: 100%">-->
-                                <!--<el-table-column prop="user" label="操作员工" align="center">-->
-                                <!--</el-table-column>-->
+                        <el-tab-pane label="订单收件人">
+                            <el-table empty-text="请点击客户显示跟踪信息" border style="width: 100%">
+                                <el-table-column prop="user" label="操作员工" align="center">
+                                </el-table-column>
 
-                                <!--<el-table-column label="投诉内容" align="center">-->
-                                    <!--<template slot-scope="scope">-->
-                                        <!--{{scope.row.content | handleString}}-->
-                                    <!--</template>-->
-                                <!--</el-table-column>-->
+                                <el-table-column label="投诉内容" align="center">
+                                    <template slot-scope="scope">
+                                        {{scope.row.content | handleString}}
+                                    </template>
+                                </el-table-column>
 
-                                <!--<el-table-column prop="created_at" label="投诉时间" width="180" align="center">-->
-                                <!--</el-table-column>-->
+                                <el-table-column prop="created_at" label="投诉时间" width="180" align="center">
+                                </el-table-column>
 
-                                <!--<el-table-column prop="type_text" label="投诉类型" align="center">-->
-                                <!--</el-table-column>-->
-                            <!--</el-table>-->
-                        <!--</el-tab-pane>-->
+                                <el-table-column prop="type_text" label="投诉类型" align="center">
+                                </el-table-column>
+                            </el-table>
+                        </el-tab-pane>
 
-                        <!--<el-tab-pane label="订单发货信息">-->
-                            <!--<el-table empty-text="请点击客户显示跟踪信息" border style="width: 100%">-->
-                                <!--<el-table-column prop="user" label="操作员工" align="center">-->
-                                <!--</el-table-column>-->
+                        <el-tab-pane label="订单发货信息">
+                            <el-table empty-text="请点击客户显示跟踪信息" border style="width: 100%">
+                                <el-table-column prop="user" label="操作员工" align="center">
+                                </el-table-column>
 
-                                <!--<el-table-column label="投诉内容" align="center">-->
-                                    <!--<template slot-scope="scope">-->
-                                        <!--{{scope.row.content | handleString}}-->
-                                    <!--</template>-->
-                                <!--</el-table-column>-->
+                                <el-table-column label="投诉内容" align="center">
+                                    <template slot-scope="scope">
+                                        {{scope.row.content | handleString}}
+                                    </template>
+                                </el-table-column>
 
-                                <!--<el-table-column prop="created_at" label="投诉时间" width="180" align="center">-->
-                                <!--</el-table-column>-->
+                                <el-table-column prop="created_at" label="投诉时间" width="180" align="center">
+                                </el-table-column>
 
-                                <!--<el-table-column prop="type_text" label="投诉类型" align="center">-->
-                                <!--</el-table-column>-->
-                            <!--</el-table>-->
-                        <!--</el-tab-pane>-->
+                                <el-table-column prop="type_text" label="投诉类型" align="center">
+                                </el-table-column>
+                            </el-table>
+                        </el-tab-pane>
 
-                        <!--<el-tab-pane label="订单快递信息">-->
-                            <!--<el-table empty-text="请点击客户显示跟踪信息" border style="width: 100%">-->
-                                <!--<el-table-column prop="user" label="操作员工" align="center">-->
-                                <!--</el-table-column>-->
+                        <el-tab-pane label="订单快递信息">
+                            <el-table empty-text="请点击客户显示跟踪信息" border style="width: 100%">
+                                <el-table-column prop="user" label="操作员工" align="center">
+                                </el-table-column>
 
-                                <!--<el-table-column label="投诉内容" align="center">-->
-                                    <!--<template slot-scope="scope">-->
-                                        <!--{{scope.row.content | handleString}}-->
-                                    <!--</template>-->
-                                <!--</el-table-column>-->
+                                <el-table-column label="投诉内容" align="center">
+                                    <template slot-scope="scope">
+                                        {{scope.row.content | handleString}}
+                                    </template>
+                                </el-table-column>
 
-                                <!--<el-table-column prop="created_at" label="投诉时间" width="180" align="center">-->
-                                <!--</el-table-column>-->
+                                <el-table-column prop="created_at" label="投诉时间" width="180" align="center">
+                                </el-table-column>
 
-                                <!--<el-table-column prop="type_text" label="投诉类型" align="center">-->
-                                <!--</el-table-column>-->
-                            <!--</el-table>-->
-                        <!--</el-tab-pane>-->
+                                <el-table-column prop="type_text" label="投诉类型" align="center">
+                                </el-table-column>
+                            </el-table>
+                        </el-tab-pane>
 
-                        <!--<el-tab-pane label="订单成交员工">-->
-                            <!--<el-table empty-text="请点击客户显示跟踪信息" border style="width: 100%">-->
-                                <!--<el-table-column prop="user" label="操作员工" align="center">-->
-                                <!--</el-table-column>-->
+                        <el-tab-pane label="订单成交员工">
+                            <el-table empty-text="请点击客户显示跟踪信息" border style="width: 100%">
+                                <el-table-column prop="user" label="操作员工" align="center">
+                                </el-table-column>
 
-                                <!--<el-table-column label="投诉内容" align="center">-->
-                                    <!--<template slot-scope="scope">-->
-                                        <!--{{scope.row.content | handleString}}-->
-                                    <!--</template>-->
-                                <!--</el-table-column>-->
+                                <el-table-column label="投诉内容" align="center">
+                                    <template slot-scope="scope">
+                                        {{scope.row.content | handleString}}
+                                    </template>
+                                </el-table-column>
 
-                                <!--<el-table-column prop="created_at" label="投诉时间" width="180" align="center">-->
-                                <!--</el-table-column>-->
+                                <el-table-column prop="created_at" label="投诉时间" width="180" align="center">
+                                </el-table-column>
 
-                                <!--<el-table-column prop="type_text" label="投诉类型" align="center">-->
-                                <!--</el-table-column>-->
-                            <!--</el-table>-->
-                        <!--</el-tab-pane>-->
+                                <el-table-column prop="type_text" label="投诉类型" align="center">
+                                </el-table-column>
+                            </el-table>
+                        </el-tab-pane>
 
-                        <!--<el-tab-pane label="成交比例">-->
-                            <!--<el-table empty-text="请点击客户显示跟踪信息" border style="width: 100%">-->
-                                <!--<el-table-column prop="user" label="操作员工" align="center">-->
-                                <!--</el-table-column>-->
+                        <el-tab-pane label="成交比例">
+                            <el-table empty-text="请点击客户显示跟踪信息" border style="width: 100%">
+                                <el-table-column prop="user" label="操作员工" align="center">
+                                </el-table-column>
 
-                                <!--<el-table-column label="投诉内容" align="center">-->
-                                    <!--<template slot-scope="scope">-->
-                                        <!--{{scope.row.content | handleString}}-->
-                                    <!--</template>-->
-                                <!--</el-table-column>-->
+                                <el-table-column label="投诉内容" align="center">
+                                    <template slot-scope="scope">
+                                        {{scope.row.content | handleString}}
+                                    </template>
+                                </el-table-column>
 
-                                <!--<el-table-column prop="created_at" label="投诉时间" width="180" align="center">-->
-                                <!--</el-table-column>-->
+                                <el-table-column prop="created_at" label="投诉时间" width="180" align="center">
+                                </el-table-column>
 
-                                <!--<el-table-column prop="type_text" label="投诉类型" align="center">-->
-                                <!--</el-table-column>-->
-                            <!--</el-table>-->
-                        <!--</el-tab-pane>-->
+                                <el-table-column prop="type_text" label="投诉类型" align="center">
+                                </el-table-column>
+                            </el-table>
+                        </el-tab-pane>
 
-                    <!--</el-tabs>-->
-                <!--</el-col>-->
-            <!--</el-row>-->
-        <!--</div>-->
+                    </el-tabs>
+                </el-col>
+            </el-row>
+        </div>
+        <Add name='add-orderlist'
+             :type-list="typeList"
+             :ajax-proxy="ajaxProxy"
+             @submit-success="handleReload"
+        />
     </div>
 </template>
       
 <script>
     import rowInfo from "./rowInfo";
+    import Add from "./Add";
     import DataTable from '../../mix/DataTable';
     import PageMix from '../../mix/Page';
     import config from '../../mix/Delete';
@@ -318,7 +331,7 @@ export default {
     pageTitle:"订单详情",
     mixins: [PageMix,SearchTool,DataTable,config,OrderlistAjaxProxy],
     components:{
-        rowInfo
+        rowInfo,Add,
     },
     data () {
         return {
@@ -343,80 +356,6 @@ export default {
             },
             currentPage4:1,
             tableData: '',
-//            tableData:[
-//                {
-//                    order_sn:'201710281532582903',
-//                    goods_name:'华硕笔记本电脑',
-//                    consignee:'张三:18236521452',
-//                    order_all_money:'5999.00',
-//                    order_pay_money:'5999.00',
-//                    order_status:'待确认',
-//                    pay_name:'支付宝',
-//                    shipping_status:'待发货',
-//                    shipping_name:'顺丰',
-//                    order_time:'2017-10-28 15:32:24',
-//                },
-//                {
-//                    order_sn:'201710281532582903',
-//                    goods_name:'华硕笔记本电脑',
-//                    consignee:'张三:18236521452',
-//                    order_all_money:'5999.00',
-//                    order_pay_money:'5999.00',
-//                    order_status:'待确认',
-//                    pay_name:'支付宝',
-//                    shipping_status:'待发货',
-//                    shipping_name:'顺丰',
-//                    order_time:'2017-10-28 15:32:24',
-//                },
-//                {
-//                    order_sn:'201710281532582903',
-//                    goods_name:'华硕笔记本电脑',
-//                    consignee:'张三:18236521452',
-//                    order_all_money:'5999.00',
-//                    order_pay_money:'5999.00',
-//                    order_status:'待确认',
-//                    pay_name:'支付宝',
-//                    shipping_status:'待发货',
-//                    shipping_name:'顺丰',
-//                    order_time:'2017-10-28 15:32:24',
-//                },
-//                {
-//                    order_sn:'201710281532582903',
-//                    goods_name:'华硕笔记本电脑',
-//                    consignee:'张三:18236521452',
-//                    order_all_money:'5999.00',
-//                    order_pay_money:'5999.00',
-//                    order_status:'待确认',
-//                    pay_name:'支付宝',
-//                    shipping_status:'待发货',
-//                    shipping_name:'顺丰',
-//                    order_time:'2017-10-28 15:32:24',
-//                },
-//                {
-//                    order_sn:'201710281532582903',
-//                    goods_name:'华硕笔记本电脑',
-//                    consignee:'张三:18236521452',
-//                    order_all_money:'5999.00',
-//                    order_pay_money:'5999.00',
-//                    order_status:'待确认',
-//                    pay_name:'支付宝',
-//                    shipping_status:'待发货',
-//                    shipping_name:'顺丰',
-//                    order_time:'2017-10-28 15:32:24',
-//                },
-//                {
-//                    order_sn:'201710281532582903',
-//                    goods_name:'华硕笔记本电脑',
-//                    consignee:'张三:18236521452',
-//                    order_all_money:'5999.00',
-//                    order_pay_money:'5999.00',
-//                    order_status:'待确认',
-//                    pay_name:'支付宝',
-//                    shipping_status:'待发货',
-//                    shipping_name:'顺丰',
-//                    order_time:'2017-10-28 15:32:24',
-//                },
-//            ],
         }
     },
     methods:{
@@ -434,17 +373,27 @@ export default {
         },
         typesearch:function($criteria){
             this.searchForm.type=$criteria;
-           // console.log(this.searchForm);
+            console.log(this.searchForm);
             this.searchToolChange('searchForm');
             this.searchReset();
 //            this.orderlistInit($criteria);
         },
         show_all:function(){
-//            this.searchReset();
+            this.searchForm.type = '';
+            this.searchForm.deliver = '';
+            this.searchForm.goods_name = '';
+            this.searchForm.consignee = '';
+            this.searchForm.order_sn = '';
+            this.searchForm.sale_name = '';
+            this.searchForm.end = '';
+            this.searchForm.condition = '';
+            this.searchForm.type = '';
+            this.searchForm.deliver = '';
             this.searchToolChange('searchForm');
         },
         delivesearch:function($criteria){
             this.searchForm.deliver=$criteria;
+            console.log(this.searchForm);
             this.searchToolChange('searchForm');
             this.searchReset();
 //            this.orderlistInit($criteria);
@@ -452,6 +401,9 @@ export default {
         typeChange:function(v){
             console.log(v);
             this.typeName=this.conditions[v];
+        },
+        showAdd:function(){
+            this.$modal.show('add-orderlist');
         },
         startDateChange:function(v){
             this.searchForm.start = v;

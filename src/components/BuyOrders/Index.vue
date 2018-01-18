@@ -54,10 +54,12 @@
                             </el-table-column>
                             <el-table-column prop="order_time" label="下单时间" align="center">
                             </el-table-column>
+                            <el-table-column prop="check_status" label="审核状态" align="center">
+                            </el-table-column>
                             <el-table-column  label="操作" align="center" width="140">
                                 <template slot-scope="scope">
-                                    <el-button type="info" size="small" @click="showRowData(scope.row)">编辑</el-button>
-                                    <el-button type="danger" @click="handleDelete(scope.row.id)" size="small">删除</el-button>
+                                    <el-button type="info" size="small" @click="showRow(scope.row)">查看</el-button>
+                                    <el-button type="warning" size="small" @click="handleCheck(scope.row)">审核</el-button>
                                 </template>
                             </el-table-column>
                             <div slot="buttonbar">
@@ -68,6 +70,23 @@
                         </TableProxy>
 					</el-col>
         </el-row>
+        <el-table :data="tableData"  v-loading.body="dataLoad" empty-text="请录入客户信息"
+                  highlight-current-row border ref="select" style="width: 100%">
+            <el-table-column label="序号" width="65" type="index" align="center"></el-table-column>
+            <el-table-column label="产品类型" prop="pdt_type" align="center" width="150"></el-table-column>
+            <el-table-column label="产品名称" prop="pdt_name" align="center" width="150"></el-table-column>
+            <el-table-column label="客户姓名" prop="cus_name"></el-table-column>
+            <el-table-column label="销售员工" prop="sale_name"></el-table-column>
+            <el-table-column label="数量" prop="pdt_num"></el-table-column>
+            <el-table-column label="购买时间" prop="buy_time"></el-table-column>
+            <el-table-column label="操作" align="center" width="155" >
+                <template slot-scope="scope">
+                    <el-button type="info" size="small" @click="showRow(scope.row)">查看</el-button>
+                    <el-button type="warning" size="small" @click="handleCheck(scope.row)">审核</el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+
 
         <showRowDialog name="showRow"/>
         <checkDialog name="check"/>
@@ -116,7 +135,8 @@ export default {
     },
     methods:{
       showRow(row){
-        this.$modal.show('showRow',{row:row});
+//        this.$modal.show('showRow',{row:row});
+          this.$modal.show('showRow',{rowData:row});
       },
       handleCheck(row){
         this.$modal.show('check',{row:row});

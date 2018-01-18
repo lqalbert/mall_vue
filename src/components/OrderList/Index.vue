@@ -310,6 +310,7 @@
         <Add name='add-orderlist'
              :type-list="typeList"
              :ajax-proxy="ajaxProxy"
+             :users="users"
              @submit-success="handleReload"
         />
     </div>
@@ -324,6 +325,7 @@
     import DataProxy from '../../packages/DataProxy';
     import SelectProxy from  '../../packages/SelectProxy';
     import OrderlistAjaxProxy from '../../ajaxProxy/Orderlist';
+    import OrderlistSelectProxy from '../../packages/OrderlistSelectProxy';
     import TableProxy from '../common/TableProxy';
     import SearchTool from "../../mix/SearchTool";
     export default {
@@ -339,6 +341,7 @@
             mainurl:OrderlistAjaxProxy.getUrl(),
             mainparam:"",
             dataLoad:false,
+            users:[],
             typeName:'请选择排名方式',
             conditions:["录入个数", "成交金额", "成交个数"],
             searchForm:{
@@ -377,6 +380,10 @@
             this.searchToolChange('searchForm');
             this.searchReset();
 //            this.orderlistInit($criteria);
+        },
+        loadUsers(data) {
+            this.users = data.items;
+            console.log(this.users);
         },
         show_all:function(){
             this.searchForm.type = '';
@@ -448,7 +455,9 @@
     },
     created(){
         this.$on('search-tool-change', this.onSearchChange);
-
+        let orderProxy = new UserSelectProxy(null, this.loadUsers, this);
+        this.orderProxy = orderProxy;
+        this.orderProxy.load();
         this.orderlistInit('Orderlist');
         let formData = $(this.$el).find('.hello').serialize();
         console.log();

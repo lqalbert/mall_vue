@@ -1,16 +1,16 @@
 import SelectProxy from './SelectProxy';
-import OrderlistStore from '../ajaxProxy/Orderlist';
+import UsersStore from '../ajaxProxy/Users';
 
-const OrderlistSelectProxy = function(param, callback, scope){
+const UsersSelectProxy = function(param, callback, scope){
     this.extraParm = param || null;
-    this.orderProxy = new SelectProxy(OrderlistStore.getUrl(), callback, scope);
+    this.orderProxy = new SelectProxy(UsersStore.getUrl(), callback, scope);
 
     if (this.extraParm){
         this.setParam(this.extraParm);
     }
 }
 
-OrderlistSelectProxy.prototype.setParam = function(param){
+UsersSelectProxy.prototype.setParam = function(param){
     // this.extraParm = param;
     if (!param.fields) {
         param.fields = ['id','name'];
@@ -22,8 +22,8 @@ OrderlistSelectProxy.prototype.setParam = function(param){
     return this;
 }
 
-OrderlistSelectProxy.prototype.load = function(){
+UsersSelectProxy.prototype.load = function(){
     this.orderProxy.load();
 }
 
-export default OrderlistSelectProxy;
+export default UsersSelectProxy;

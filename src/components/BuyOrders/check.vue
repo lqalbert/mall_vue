@@ -5,7 +5,7 @@
                 <el-row>
                     <el-col :span="12">
                         <el-form-item  label="是否通过" prop="check_satus">
-                            <el-select size="small" placeholder="是否通过" v-model="checkForm.check_satus">
+                            <el-select size="small" placeholder="是否通过" v-model="checkForm.check_status">
                               <el-option value="1" label="通过"></el-option>
                               <el-option value="2" label="不通过"></el-option>
                           </el-select>
@@ -15,7 +15,11 @@
             </el-form>
             <div slot="dialog-foot" class="dialog-footer">
                 <el-button @click="handleClose">取 消</el-button>
-                <el-button @click="formSubmit('checkForm')" type="primary">确 定</el-button>
+                <submit-button
+                        :observer="dialogThis"
+                        @click="formSubmit('rowInfoForm')" >
+                    保 存
+                </submit-button>
             </div>
         </MyDialog>
     </div>
@@ -23,18 +27,24 @@
 
 <script>
     import DialogForm from '../../mix/DialogForm';
+    import SubmitButton from '../../components/common/SubmitButton';
     export default {
         name: 'addDialog',
         mixins:[DialogForm],
         props:{
             
         },
+        ajaxProxy:{
+            required:true,
+            type: Object,
+            default: null
+        },
         data () {
             return {
                 labelPosition:"right",
                 labelWidth:'100px',
                 checkForm:{
-                    check_satus:'1',
+                    check_status:'1',
                 },
 
             }
@@ -56,7 +66,12 @@
             },
             onOpen(event){
               //this.checkForm = event.params.row;
-            }
+            },
+            getAjaxPromise(model){
+                console.log(1111);return;
+                console.log(model);return;
+                return this.ajaxProxy.update(model.id, model);
+            },
         },
 
     }

@@ -38,7 +38,7 @@
                                 <el-option
                                         v-for="order_status in order_statuslist"
                                         :label="order_status.status"
-                                        :value="order_status.status"
+                                        :value="order_status.id"
                                         :key="order_status.id"></el-option>
                             </el-select>
                         </el-form-item>
@@ -100,7 +100,8 @@
         name: 'addDialog',
         mixins:[DialogForm],
         props:{
-            
+
+
         },
         ajaxProxy:{
             required:true,
@@ -110,11 +111,11 @@
         data () {
             return {
                 order_statuslist:[
-                    {id:'1',status:'pre_pay'},
-                    {id:'2',status:'pre_affirm'},
-                    {id:'3',status:'done'},
-                    {id:'4',status:'closed'},
-                    {id:'5',status:'refund'},
+                    {id:'pre_pay',status:'未付款'},
+                    {id:'pre_affirm',status:'待确认'},
+                    {id:'done',status:'已完成'},
+                    {id:'closed',status:'已关闭'},
+                    {id:'refund',status:'退款中'},
                 ],
                 shipping_statuslist:[
                     {id:'1',status:'pre_deliver'},
@@ -153,7 +154,7 @@
               this.rowInfoForm = event.params.rowData;
             },
             getAjaxPromise(model){
-
+                console.log(model);
                 return this.ajaxProxy.update(model.id, model);
             },
             DateChange:function(v){

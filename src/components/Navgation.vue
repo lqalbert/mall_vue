@@ -23,7 +23,7 @@ export default {
           text:"商品管理",
           icon:null,
           subNav:[
-            {text:'商品详情', index:"Cosmetics"},
+            {text:'商品详情', index:"GoodsDetails"},
             {text:'商品分类', index:"Category"},
             {text:'商品规格', index:"GoodsSpecs"},
             {text:'商品类型', index:"GoodsType"},

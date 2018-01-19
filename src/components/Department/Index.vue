@@ -276,7 +276,7 @@ export default {
         onSearchChange(param){
             this.mainparam = JSON.stringify(param);
         },
-	initDepartmentType(data){
+	    initDepartmentType(data){
             this.typeList = data;
         },
         departMentInit(){

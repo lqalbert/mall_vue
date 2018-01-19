@@ -120,7 +120,7 @@
             this.searchForm.express_time = v;
         },
         onSearchChange(param){
-                console.log(param);
+            console.log(param);
             if (this.searchForm.start > this.searchForm.end) {
                 this.$message.error("请选择正确的时间段");
                 return ;
@@ -143,7 +143,7 @@
         },
         getEndTime(v){
             this.searchForm.end = v;
-        },
+        },//---------------------
         onEditorBlur(quill) {
             //console.log('editor blur!', quill);
         },

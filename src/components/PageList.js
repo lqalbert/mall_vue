@@ -4,7 +4,7 @@ import Navgation from './Navgation.vue';
 const PageList = {
     'Navgation':Navgation,
 
-    'Cosmetics':(resolve)=>{ require(['./Cosmetics/Index.vue'], resolve)},
+    'GoodsDetails': (resolve) => { require(['./GoodsDetails/Index.vue'], resolve)},
     'GoodsSpecs': (resolve) => { require(['./GoodsSpecs/Index.vue'], resolve)},
     'GoodsType': (resolve) => { require(['./GoodsType/Index.vue'], resolve)},
     'Department':(resolve)=>{ require(['./Department/Index.vue'], resolve)},

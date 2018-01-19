@@ -60,8 +60,8 @@ export default {
           icon:null,
           subNav:[
               { text:'库存详情', index:'InventoryList' },
-              { text:'商品入库', index:'GoodsInto' },
-              { text:'商品出库', index:'GoodsOut' },
+              /*{ text:'商品入库', index:'GoodsInto' },
+              { text:'商品出库', index:'GoodsOut' },*/
           ]
         },
         {

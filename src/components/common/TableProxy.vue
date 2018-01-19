@@ -28,6 +28,7 @@
             border
             style="width: 100%"
             @sort-change="sortChange"
+            @cell-dblclick="dbclick"
             >
             <slot></slot>
         </el-table>
@@ -114,6 +115,9 @@
               this.$emit('selection-change', this.multipleSelection);
           },
 
+          dbclick(row){
+              this.$emit('dbclick',row);
+          },
           bubleEvents(){
               console.log(arguments);
 

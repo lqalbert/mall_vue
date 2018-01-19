@@ -1,28 +1,37 @@
 <template>
     <!--<el-tree :data="data" :props="defaultProps" ></el-tree>-->
     <div>
+        <el-row>
+            <el-form>
+                <el-form-item>
+                    <el-input v-model="type_name" placeholder="输入关键字进行过滤" style="width: 300px"></el-input>
+                </el-form-item>
+            </el-form>
+            </el-row>
+        <el-row>
+            <el-col :span="12">
+                <el-tree
+                        class="filter-tree"
+                        :data="data"
+                        :props="defaultProps"
+                        show-checkbox
+                        default-expand-all
+                        node-key="id"
+                        :expand-on-click-node="false"
+                        :filter-node-method="filterNode"
+                        ref="tree"
+                        :render-content="renderContent">
+                </el-tree>
+                <el-button type="primary" size="small" @click="$modal.show('add-category')">添加分类</el-button>
+            </el-col>
 
-        <el-input v-model="type_name" placeholder="输入关键字进行过滤" style="width: 300px"></el-input>
-        <el-tree
-                class="filter-tree"
-                :data="data"
-                :props="defaultProps"
-                show-checkbox
-                default-expand-all
-                node-key="id"
-                :expand-on-click-node="false"
-                :filter-node-method="filterNode"
-                ref="tree"
-                :render-content="renderContent">
-        </el-tree>
-        <el-button type="primary" size="small" @click="$modal.show('add-category')">添加分类</el-button>
 
         <addDialog name='add-category'
                    :ajax-proxy="ajaxProxy"
                    @submit-success="handleReload"/>
 
         <!--<editDialog :edit-open="editDialog" @add-window-close="handleAddWindow" @add='addAll'/>-->
-
+        </el-row>
     </div>
 
 </template>
@@ -55,6 +64,7 @@
                 addDialog:false,
                 editDialog:false,
                 url:'/categorys',
+                categoryId:'',
                 type_name:'',
                 data:[],
                 defaultProps: {
@@ -69,6 +79,20 @@
             getAjaxProxy(){
                 return  this.ajaxProxy;
             },
+            deleteData(id){
+                this.categoryId=id;
+                let categoryProxy = new DataProxy('http://localhost:8000/deleteCategory/'+id, this.pageSize, this.deleteCategory, this,);
+                 categoryProxy.load();
+
+            },
+            deleteCategory(data){
+                if(data.items){
+                    this.$message.error("该分类还有子类不能删除！！！");
+                    return false;
+                }else{
+                    this.handleDelete(this.categoryId);
+                }
+            },
             handleReload(){
                 this.getRes();
             },
@@ -78,6 +102,7 @@
             getRes:function(){
                 let categoryProxy = new DataProxy(this.url, this.pageSize, this.dataLoaded, this,);
                  categoryProxy.load();
+
             },
             filterNode(value, data) {
                 if (!value) return true;
@@ -96,7 +121,7 @@
                     <span>{node.label}</span>
                    </span>
                 <span style="float: right; margin-right: 20px">
-                    <el-button size="mini" type="danger" on-click={ () => this.handleDelete(data.id) }>删除分类</el-button>
+                    <el-button size="mini" type="danger" on-click={ () => this.deleteData(data.id) }>删除分类</el-button>
                 </span>
                 </span>);
             }

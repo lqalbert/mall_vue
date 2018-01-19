@@ -10,7 +10,6 @@
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" size="small"  @click="searchToolChange('searchForm')">查询</el-button>
-                    <el-button type="primary" size="small" @click="showAdvQueryDialog">高级查询</el-button>
                     <el-button type="primary" size="small"  @click="searchToolReset('searchForm')">重置</el-button>
                     <el-button    size="small" type="danger" >刷新</el-button>
 
@@ -23,7 +22,7 @@
                         :url="mainurl"
                         :param="mainparam"
                         :reload="dataTableReload">
-                    <el-table-column label="序号"  type="index" align="center"></el-table-column>
+                    <el-table-column label="序号"  type="index" align="center" width="80"></el-table-column>
                     <el-table-column prop="name" label="客户姓名" align="center"></el-table-column>
                     <el-table-column prop="sex" label="性别"  align="center">
                         <template slot-scope="scope">
@@ -42,12 +41,13 @@
                     <el-table-column fixed="right" label="操作" width="280" align="center">
                         <template slot-scope="scope">
                             <el-button type="primary" size="small"  @click="openEdit(scope.row)">编辑</el-button>
-                            <el-button size="small" type="success" @click="$modal.show('buy-customerinformation')">购买</el-button>
+                            <el-button type="primary" size="small"  @click="openAddDeliveryAddress(scope.row)">添加地址</el-button>
+                            <el-button size="small" type="success" @click="openaddOrder('add-orderBasic')">下单</el-button>
                             <el-button size="small" type="danger" @click="handleDelete(scope.row.id)">删除</el-button>
                         </template>
                     </el-table-column>
                     <div slot="buttonbar">
-                            <el-button size="small"  type="info" @click="$modal.show('add-customerinformation')" >添加客户</el-button>
+                            <el-button size="small"  type="primary" @click="$modal.show('add-customerinformation')" >添加客户</el-button>
                     </div>
                 </TableProxy>
             </el-col>
@@ -66,12 +66,16 @@
 
         </Edit>
 
-        <!--<ShowAdvQueryDialog name='showadvquerydialog' ></ShowAdvQueryDialog>-->
+        <addAddress name='add-Address'
+                    :ajax-proxy="addressAjaxProxy"
+                   >
+
+        </addAddress>
         <!--<Chat name='chat'></Chat>-->
-        <Buy name='buy-customerinformation'
-             :ajax-proxy="ajaxProxy"
+        <addOrder name='add-orderBasic'
+             :ajax-proxy="orderBasicAjaxProxy"
              :CategoryList="this.CategoryList"
-             @submit-success="handleReload"></Buy>
+            ></addOrder>
 
 
     </div>
@@ -83,12 +87,11 @@
     import Add from "./Add";
     import Edit from "./Edit";
     import Chat from "./Chat";
-    import Buy from "./Buy";
-    import ShowAdvQueryDialog from "./ShowAdvQueryDialog";
+    import addOrder from "./addOrder";
+    import addAddress from "./addAddress";
     import DataTable from '../../mix/DataTable';
 
     import PageMix from '../../mix/Page';
-    import config from '../../mix/Delete';
     //import DataProxy from '../../packages/DataProxy';
     import SearchTool from '../../mix/SearchTool';
     import SelectProxy from  '../../packages/SelectProxy';
@@ -96,18 +99,19 @@
     import Customer from '../../ajaxProxy/Customer';
     import TableProxy from '../common/TableProxy';
     import Category from '../../ajaxProxy/Category';
-
+    import DeliveryAddress from '../../ajaxProxy/DeliveryAddress';
+    import OrderBasic from '../../ajaxProxy/OrderBasic';
     export default {
         name: 'CustomerInformation',
         pageTitle: "客户资料",
-        mixins: [PageMix,SearchTool,DataTable,config,Customer],
+        mixins: [PageMix,SearchTool,DataTable,Customer],
         components: {
            // advancedQuery,
             Add,
             // Chat,
-           Edit,
-            Buy,
-            // ShowAdvQueryDialog
+            Edit,
+            addOrder,
+            addAddress
         },
         data() {
             return {
@@ -115,21 +119,27 @@
                     name:'',
                     phone:''
                 },
+                addressData:'',
                 currentPage4: 1,
                 total: 100,
                 dataLoad: false,
                 ajaxProxy:Customer,
+                addressAjaxProxy:DeliveryAddress,
+                orderBasicAjaxProxy:OrderBasic,
                 mainurl:Customer.getUrl(),
                 mainparam:'',
-                CategoryList:''
-
-               
+                CategoryList:[]
             }
         },
         methods: {
             openEdit(row){
-                 //console.log(row);
                 this.$modal.show('edit-customerinformation', {model:row});
+            },
+            openAddDeliveryAddress(row){
+                this.$modal.show('add-Address', {model:row});
+            },
+            openaddOrder(row){
+                this.$modal.show('add-orderBasic', {model:row});
             },
             getAjaxProxy(){
                 return  this.ajaxProxy;
@@ -140,11 +150,18 @@
             getCategoryList(data){
                 this.CategoryList=data.items;
             },
+            getAddressData(data){
+                this.addressData=data.items;
+            },
             getCategory(){
                 let selectProxy = new SelectProxy('http://localhost:8000/tree', this.getCategoryList, this);
                  selectProxy.load();
             },
-            
+             getAddress(){
+                let selectProxy = new SelectProxy(DeliveryAddress.getUrl(), this.getAddressData, this);
+                 selectProxy.load();
+            },
+
         },
         created(){
             this.$on('search-tool-change', this.onSearchChange);

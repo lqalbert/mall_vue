@@ -45,6 +45,7 @@
                 <TableProxy 
                     :url="mainurl" 
                     :param="mainparam"
+                    @dbclick="doubleclick"
                     :reload="dataTableReload">
                     <el-table-column label="序号" align="center" type="index" width="65"> 
                     </el-table-column>
@@ -86,9 +87,7 @@
                     </el-table-column>
 
                     <div slot="buttonbar">
-                        <el-tooltip content="点击填写公告并发布" placement="right">
                             <el-button size="small" icon="plus" type="info" @click="showadd" >添加</el-button>
-                        </el-tooltip>
                     </div>
                 </TableProxy>
             </el-col>
@@ -98,12 +97,12 @@
             <el-col :span="24">
                 <el-tabs>
                     <el-tab-pane label="团队成员">
-                        <el-table :data="tableData1" empty-text="请点击小组" border>
+                        <el-table :data="tableData1" empty-text="暂无数据" border>
                             <el-table-column prop="user_id" label="员工ID" width="180" align="center">
                             </el-table-column>
                             <el-table-column prop="realname" label="员工姓名" width="180" align="center">
                             </el-table-column>
-                            <el-table-column prop="type" label="员工类型" width="180" align="center">
+                            <el-table-column prop="role_name" label="员工职位" width="180" align="center">
                             </el-table-column>
                             <el-table-column prop="phone" label="手机" align="center">
                             </el-table-column>
@@ -150,7 +149,7 @@
     import SearchTool from '../../mix/SearchTool';
     import DataTable from '../../mix/DataTable';
     import GroupAjaxProxy from '../../ajaxProxy/Group';
-
+    import SelectProxy from  '../../packages/SelectProxy';
     // import Dialog from '../common/Dialog';
 
     export default {
@@ -166,7 +165,7 @@
                 ajaxProxy: GroupAjaxProxy,
                 mainurl:GroupAjaxProxy,
                 mainparam:"",
-
+                url:'/employees',
                 departments: [],
                 groups: [],
                 addDialog: false,
@@ -179,9 +178,7 @@
 
                 },
                 currentRow:null,
-                tableData1: [
-                    {user_id: '123', type: '队员', realname: '李青', phone: '13526458712', qq: '1245624'},
-                ]
+                tableData1: []
             }
         },
         watch:{
@@ -190,7 +187,13 @@
             }
         },
         methods: {
-            getAjaxProxy(){
+            doubleclick:function (row) {
+                let categoryProxy = new SelectProxy(this.url+'/'+row.id,this.userLoaded, this,);
+                categoryProxy.load();
+            },
+            userLoaded(data){
+                this.tableData1=data;
+            }, getAjaxProxy(){
                 return  this.ajaxProxy;
             },
             switchHandle:function(index,row){
@@ -238,6 +241,7 @@
             // this.groupProxy.load();
 
             this.$on('search-tool-change', this.onSearchChange);
+
 
             
 

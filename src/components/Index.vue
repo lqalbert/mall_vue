@@ -198,7 +198,7 @@
             }
         },
         mounted:function(){
-            this.navChange('Cosmetics');
+            this.navChange('CustomerInformation');
         }
     }
 </script>
@@ -211,7 +211,7 @@
         top: 57px;
         bottom: 0px;
         width: 200px;
-
+        background-color: #324157;
         overflow-y: auto;
         overflow-x: hidden;
     }

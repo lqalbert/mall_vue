@@ -1,7 +1,7 @@
 <template>
     <div >
         <MyDialog title="添加" :name="name" :width="width" :height="height">
-            <el-form :model="addForm"  ref="addForm"  :label-width="labelWidth"   :label-position="labelPosition">
+            <el-form :model="addForm"  ref="addForm" :rules="rules" :label-width="labelWidth"   :label-position="labelPosition">
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="分类名称" prop="label">
@@ -58,6 +58,7 @@
                 labelPosition:"right",
                 labelWidth:'80px',
                 showLevel:false,
+                showPid:false,
                 url:'/categorys',
                 Categorys:'',
                 levels:[
@@ -65,6 +66,17 @@
                     {level:'2',label:'二级'},
                     {level:'3',label:'三级'},
                 ],
+                rules:{
+                    label: [
+                        { required: true, message: '请输入分类名称', trigger: 'blur' },
+                    ],
+                    level: [
+                        { required: true, message: '请选择分类级别', trigger: 'blur' },
+                    ],
+                    pid: [
+                        { required: true , message: '请选择上级名称',type: 'number', },
+                    ],
+                },
                 addForm:{
                     label:"",
                     pid:'',
@@ -76,8 +88,8 @@
         },
 
         methods:{
-            getData:function (pid) {
-                 let categoryProxy = new DataProxy(this.url+'/'+pid,this.pageSize,this.levelLoaded, this,);
+            getData:function (lel) {
+                 let categoryProxy = new DataProxy(this.url+'/'+lel,this.pageSize,this.levelLoaded, this,);
                    categoryProxy.load();
             },
             levelLoaded:function (res) {
@@ -87,10 +99,9 @@
                 if(v==1){
               this.showLevel=true;
               this.addForm.pid= 0;
-                }else if(this.showLevel){
-                    this.showLevel=false;
                 }
                 if(v >= 2){
+                    this.showLevel=false;
                     v = v-1;
                 }
                 this.getData(v)

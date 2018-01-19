@@ -88,8 +88,6 @@
                         <el-tooltip content="点击填写公告并发布" placement="right">
                             <el-button size="small" icon="plus" type="info" @click="$modal.show('add-department')" >添加</el-button>
                         </el-tooltip>
-
-                        <el-button size="small" type="info" @click="showSetHr">人事专员</el-button>
                     </div>
                 </TableProxy>
             </el-col>

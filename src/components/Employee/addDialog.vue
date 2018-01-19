@@ -32,7 +32,7 @@
                         <el-row >
                             <el-col :span="12">
                                 <el-form-item label="所属部门" prop="department_id">
-                                    <el-select  v-model="addForm.department_id" placeholder="部门">
+                                    <el-select  v-model="addForm.department_id" placeholder="部门" @change="departmentChange">
                                         <el-option v-for="department in departments"
                                                    :label="department.name"
                                                    :value="department.id"
@@ -154,20 +154,18 @@
 
 <script>
     import DialogForm from '../../mix/DialogForm';
+    import getGroupsByPid from '../../mix/getGroupsByPid';
     import { mapGetters } from 'vuex';
     
     export default {
         name: 'addDialog',
-        mixins:[DialogForm],
+        mixins:[DialogForm,getGroupsByPid],
         props:{
             departments:{
                 type: Array,
                 default:[]
             },
-            groups:{
-                type: Array,
-                default:[]
-            },
+
         },
         computed:{
             ...mapGetters([
@@ -182,18 +180,15 @@
                 url:"http://localhost:8000/upload",
                 uplaodParam:{  name:"avater", subdir:'asdf' },
                 uploadImg:"",
-                
+                groups:[],
                 activeName:'first',
                 addForm:{
                     head:"",
                     account:"",
                     password:"123456",
                     role_id:"",
-                    role_name:"sdf",
                     group_id:"",
                     department_id:"",
-                    department_name:'发多少',
-                    group_name:'测试',
                     sex:1,
                     telephone:"",
                     mobilephone:"",
@@ -204,7 +199,7 @@
                     weixin:"",
                     weixin_nickname:"",
                     id_card:"",
-                    location:'sdjk',
+                    location:'成都市',
                     ip:'192.168.0.1',
                     create_name:"系统管理员",
                     lg_time:"2017-12-28",
@@ -221,6 +216,9 @@
         },
 
         methods:{
+            departmentChange(v){
+                this.getGroupsAjax(v);
+            },
             getAjaxPromise(model){
               //console.log(model);
                 return this.ajaxProxy.create(model);

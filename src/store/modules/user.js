@@ -17,7 +17,7 @@ import RoleAjaxProxy from '../../ajaxProxy/Role';
 const user = {
     state: {
         login: sessionStorage.getItem('login') ? true : false,
-        user:null,
+        user: sessionStorage.getItem('login') ? JSON.parse(sessionStorage.getItem('user')) : null,
         roles:[],
     },
     //同步操作
@@ -28,13 +28,10 @@ const user = {
             console.log('before logout');  
         },
         login(state, userLogin){
-            // console.log(userLogin);
-            // if (userLogin.account == 'abc' && userLogin.password == '123456') {
-            //     state.login = true;
-            //     sessionStorage.setItem('login', true);
-            // }
+            
             state.login = true;
             sessionStorage.setItem('login', true);
+            sessionStorage.setItem('user', JSON.stringify(userLogin));
             state.user = userLogin;
         },
         setRoles(state, roles){
@@ -48,6 +45,19 @@ const user = {
         },
         roles(state){
             return state.roles;
+        },
+        getUser(state){
+            return state.user;
+        },
+        realname(state){
+            return state.user.realname;
+        },
+        departName(state){
+            console.log(state.user);
+            return state.user.department_name;
+        },
+        user_id(state){
+            return state.user.id;
         }
     },
     //异步操作

@@ -198,7 +198,7 @@
             }
         },
         mounted:function(){
-            this.navChange('Cosmetics');
+            this.navChange('Deposit');
         }
     }
 </script>

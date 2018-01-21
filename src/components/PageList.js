@@ -20,7 +20,7 @@ const PageList = {
     'ExpressInfo':(resolve)=>{ require(['./ExpressInfo/Index.vue'], resolve)},
     'Category':(resolve)=>{ require(['./Category/Index.vue'], resolve)},
 
-
+    'Deposit':(resolve)=>{ require(['./Deposit/Index.vue'], resolve)},
 
 
 };

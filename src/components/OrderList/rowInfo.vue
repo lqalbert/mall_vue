@@ -56,7 +56,7 @@
                                 <el-option
                                         v-for="shipping_status in shipping_statuslist"
                                         :label="shipping_status.status"
-                                        :value="shipping_status.status"
+                                        :value="shipping_status.id"
                                         :key="shipping_status.id"></el-option>
                             </el-select>
                         </el-form-item>
@@ -78,8 +78,24 @@
                             <!--<el-input v-model="rowInfoForm.order_time" size="small"></el-input>-->
                         </el-form-item>
                     </el-col>
+
+                </el-row>
+                <el-row>
+                <el-col :span="12">
+                    <el-form-item label="审核状态" prop="order_status">
+                        <el-select v-model='rowInfoForm.check_status'>
+                            <el-option
+                                    v-for="order_status in check_status"
+                                    :label="order_status.status"
+                                    :value="order_status.id"
+                                    :key="order_status.id"
+                                    ></el-option>
+                        </el-select>
+                    </el-form-item>
+                </el-col>
                 </el-row>
             </el-form>
+
             <div slot="dialog-foot" class="dialog-footer">
                 <el-button @click="handleClose">取 消</el-button>
                 <submit-button
@@ -94,7 +110,7 @@
 
 <script>
     import DialogForm from '../../mix/DialogForm';
-    import SubmitButton from '../../components/common/SubmitButton';
+//    import SubmitButton from '../../components/common/SubmitButton';
     export default {
         name: 'addDialog',
         mixins:[DialogForm],
@@ -110,17 +126,22 @@
         data () {
             return {
                 order_statuslist:[
-                    {id:'pre_pay',status:'未付款'},
-                    {id:'pre_affirm',status:'待确认'},
-                    {id:'done',status:'已完成'},
-                    {id:'closed',status:'已关闭'},
-                    {id:'refund',status:'退款中'},
+                    {id:'0',status:'未付款'},
+                    {id:'1',status:'待确认'},
+                    {id:'2',status:'已完成'},
+                    {id:'3',status:'已关闭'},
+                    {id:'4',status:'退款中'},
                 ],
                 shipping_statuslist:[
-                    {id:'1',status:'pre_deliver'},
-                    {id:'2',status:'delivered'},
-                    {id:'3',status:'received'},
+                    {id:'0',status:'待发货'},
+                    {id:'1',status:'已发货'},
+                    {id:'2',status:'已收货'},
                 ],
+                check_status:[
+                    {id:'0', status:'通过'},
+                    {id:'1', status:'未通过'},
+                    {id:'2', status:'未审核'}
+                    ],
                 dialogThis:this,
                 labelPosition:"right",
                 labelWidth:'100px',
@@ -150,6 +171,33 @@
             },
 
             onOpen(event){
+                /** 需要对直接传递过来的数据进行处理，中文转成英文 */
+                var check_status = event.params.rowData.check_status;
+                var true_check_status = this.check_status;
+                var i = 0;
+                var newdata = [];
+                newdata = event.params.rowData;
+                for(i=0;i<true_check_status.length;i++)
+                {
+                    if(check_status==true_check_status[i].status)
+                    {
+                        event.params.rowData.check_status = true_check_status[i].id;
+                    }
+                }
+                for(i=0;i<this.order_statuslist.length;i++)
+                {
+                    if(event.params.rowData.order_status==this.order_statuslist[i].status)
+                    {
+                        event.params.rowData.order_status = this.order_statuslist[i].id;
+                    }
+                }
+                for(i=0;i<this.shipping_statuslist.length;i++)
+                {
+                    if(event.params.rowData.shipping_status==this.shipping_statuslist[i].status)
+                    {
+                        event.params.rowData.shipping_status = this.shipping_statuslist[i].id;
+                    }
+                }
               this.rowInfoForm = event.params.rowData;
             },
             getAjaxPromise(model){

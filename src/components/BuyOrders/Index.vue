@@ -89,7 +89,7 @@
 
 
         <showRowDialog name="showRow"/>
-        <checkDialog name="check"/>
+        <checkDialog name="check" :ajax-proxy="ajaxProxy"/>
     </div>
 
 </template>

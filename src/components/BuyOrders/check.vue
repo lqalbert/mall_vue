@@ -17,7 +17,7 @@
                 <el-button @click="handleClose">取 消</el-button>
                 <submit-button
                         :observer="dialogThis"
-                        @click="formSubmit('rowInfoForm')" >
+                        @click="formSubmit('checkForm')" >
                     保 存
                 </submit-button>
             </div>
@@ -46,6 +46,23 @@
                 checkForm:{
                     check_status:'1',
                 },
+                order_statuslist:[
+                    {id:'0',status:'未付款'},
+                    {id:'1',status:'待确认'},
+                    {id:'2',status:'已完成'},
+                    {id:'3',status:'已关闭'},
+                    {id:'4',status:'退款中'},
+                ],
+                shipping_statuslist:[
+                    {id:'0',status:'待发货'},
+                    {id:'1',status:'已发货'},
+                    {id:'2',status:'已收货'},
+                ],
+                check_status:[
+                    {id:'0', status:'通过'},
+                    {id:'1', status:'未通过'},
+                    {id:'2', status:'未审核'}
+                ],
 
             }
         },
@@ -65,11 +82,37 @@
                 this.checkForm.into_time = v;
             },
             onOpen(event){
-              //this.checkForm = event.params.row;
+                /** 需要对直接传递过来的数据进行处理，中文转成英文 */
+                var check_status = event.params.row.check_status;
+                var true_check_status = this.check_status;
+                var i = 0;
+                var newdata = [];
+                newdata = event.params.row;
+                for(i=0;i<true_check_status.length;i++)
+                {
+                    if(check_status==true_check_status[i].status)
+                    {
+                        event.params.row.check_status = true_check_status[i].id;
+                    }
+                }
+                for(i=0;i<this.order_statuslist.length;i++)
+                {
+                    if(event.params.row.order_status==this.order_statuslist[i].status)
+                    {
+                        event.params.row.order_status = this.order_statuslist[i].id;
+                    }
+                }
+                for(i=0;i<this.shipping_statuslist.length;i++)
+                {
+                    if(event.params.row.shipping_status==this.shipping_statuslist[i].status)
+                    {
+                        event.params.row.shipping_status = this.shipping_statuslist[i].id;
+                    }
+                }
+              this.checkForm = event.params.row;
             },
             getAjaxPromise(model){
-                console.log(1111);return;
-                console.log(model);return;
+                console.log();
                 return this.ajaxProxy.update(model.id, model);
             },
         },

@@ -12,6 +12,12 @@ const DepartSelectProxy = function(param, callback, scope){
 
 DepartSelectProxy.prototype.setParam = function(param){
     // this.extraParm = param;
+    if (!param.fields) {
+        param.fields = ['id','realname'];
+    }
+    if (!param.business) {
+        param.business = 'select';
+    }
     this.departProxy.setExtraParam(param);
     return this;
 }

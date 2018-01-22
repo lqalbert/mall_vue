@@ -44,12 +44,13 @@
                     let data = response.data;
                     console.log(response);
                     if (data.status == 0) {
-                        console.log(data);
+                        
                         // throw new Error(data.msg);
                         vmThis.$message.error(data.msg);
                         return ;
                     }
-                    vmThis.loginUser(data)
+                    console.log(data.data);
+                    vmThis.loginUser(data.data)
                 }).catch(function(data){
                     vmThis.$message.error(data);
                 })

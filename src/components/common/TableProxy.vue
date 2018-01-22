@@ -36,14 +36,14 @@
             <el-col :span="12">
                 <slot name="buttonbar"></slot>            
             </el-col>
-            <el-col :span="12">
+            <el-col :span="12" :offset="12">
                 <div class="pull-right">
                     <el-pagination
-                    :current-page="currentPage"
-                    :page-size="100"
-                    layout="total, prev, pager, next, jumper"
-                    :total="total"
-                    @current-change="currentChange">
+                        :current-page="currentPage"
+                        :page-size="100"
+                        layout="total, prev, pager, next, jumper"
+                        :total="total"
+                        @current-change="currentChange">
                     </el-pagination>   
                 </div>
             </el-col>

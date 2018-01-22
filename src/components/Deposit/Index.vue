@@ -1,0 +1,175 @@
+<template>
+    <div>
+      <!-- search bar -->
+        <el-row>
+            <el-col>
+                <el-form :inline="true"  ref="searchForm" :model="searchForm" class="search-bar">
+                        <el-form-item prop="department_id" >
+                            <el-select size="small" placeholder="请选择单位名"  v-model="searchForm.department_id" @change="onDepartChange">
+                                <el-option v-for="v in departments" 
+                                    :label="v.name" 
+                                    :value="v.id" 
+                                    :key="v.id">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item prop="group_id" >
+                            <el-select size="small" placeholder="请选择小组"  v-model="searchForm.group_id" @change="onGroupChange">
+                                <el-option v-for="v in groups" 
+                                    :label="v.name" 
+                                    :value="v.id" 
+                                    :key="v.id">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item prop="user_id" >
+                            <el-select size="small" placeholder="请选择员工"  v-model="searchForm.user_id">
+                                <el-option v-for="v in employee" 
+                                    :label="v.realname" 
+                                    :value="v.id" 
+                                    :key="v.id">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button size="small" type="primary" icon="search" @click="searchToolChange('searchForm')" >查询</el-button>
+                            <el-button size="small" @click="searchToolReset('searchForm')" type="primary">重置</el-button>
+                        </el-form-item>
+
+                </el-form>
+            </el-col>
+        </el-row>
+      <!-- / search bar -->
+
+      <!-- data table -->
+        <el-row>
+            <el-col>
+                <TableProxy
+                :url="mainurl"
+                :param="mainparam"
+                :reload="dataTableReload">
+                    <el-table-column label="序号" align="center"  type="index" width="65">
+                    </el-table-column>
+                    <el-table-column label="部门" prop="department_name"></el-table-column>
+                    <el-table-column label="小组" prop="group_name"></el-table-column>
+                    <el-table-column label="员工" prop="realname"></el-table-column>
+                    <!-- 充值金额、充值时间、充值操作人、充值部门 -->
+                    <el-table-column label="充值金额" prop="money"></el-table-column>
+                    <!-- <el-table-column label="充值时间" prop="charge_at"></el-table-column> -->
+                    <el-table-column label="充值时间" prop="created_at"></el-table-column>
+                    <el-table-column label="操作员工" prop="creator"></el-table-column>
+                    <el-table-column label="充值部门" prop="charge_department"></el-table-column>
+
+                    <!-- <el-table-column   align="center" width="180" fixed="right"  label="操作"  >
+                        <template slot-scope="scope">
+                            <el-button type="success" @click="openEdit(scope.row)"     size="small">编辑</el-button>
+                            <el-button type="danger"  @click="handleDelete(scope.row.id)"   size="small" >删除</el-button>
+                        </template>
+                    </el-table-column> -->
+
+                    <!-- buttonbar -->
+                    <div slot="buttonbar">
+                        <el-button size="small" type="info" @click="showAdd">添加</el-button>
+                    </div>
+                    <!-- / buttonbar -->
+                </TableProxy>
+            </el-col>
+        </el-row>
+      <!-- / data table -->
+
+      <!-- 弹窗 -->
+            <Add name='add-deposit'
+             :ajax-proxy="ajaxProxy"
+             @submit-success="handleReload"/>
+      <!-- / 弹窗 -->
+    </div>
+  </template>
+  
+  <script>
+  import PageMix from '../../mix/Page';
+
+  import DataTable from '../../mix/DataTable';
+  import Add from './Add';
+
+  import SearchTool from '../../mix/SearchTool';
+
+  import DepositAjaxProxy from  '../../ajaxProxy/Deposit';
+  import DepartSelectProxy from '../../packages/DepartSelectProxy';
+  import GroupSelectProxy from '../../packages/GroupSelectProxy';
+  import EmployeeSelectProxy from '../../packages/EmployeeSelectProxy';
+
+  export default {
+    name: 'Deposit',
+    pageTitle:"保证金-充值管理",
+    mixins:[PageMix,DataTable,SearchTool],
+    components:{
+        Add
+    },
+    data () {
+        return {
+            ajaxProxy:DepositAjaxProxy,
+
+            departments:[],
+            groups:[],
+            employee:[],
+
+            searchForm:{
+                department_id:"",
+                group_id:"",
+                user_id:""
+            },
+
+            mainurl:DepositAjaxProxy,
+            mainparam:"",
+        }
+    },
+    methods:{
+        showAdd(){
+            this.$modal.show('add-deposit');
+        },
+        onSearchChange(param) {
+            this.mainparam = JSON.stringify(param);
+        },
+        loadDepartment(data){
+            this.departments = data.items;
+        },
+        loadGroup(data) {
+            this.groups = data.items;
+        },
+        loadEmployee(data) {
+            this.employee = data.items;
+        },
+        onDepartChange(id){
+            if (id != "") {
+                this.groupProxy.setParam({department_id: id});
+                this.groupProxy.load();
+            }
+        },
+        onGroupChange(id){
+            if (id != "") {
+                this.employeeProxy.setParam({group_id:id});
+                this.employeeProxy.load();
+            }
+        }
+    },
+    created(){
+        let departProxy = new DepartSelectProxy(null, this.loadDepartment, this);
+        this.departProxy = departProxy;
+        this.departProxy.load();
+
+        let groupProxy = new GroupSelectProxy(null, this.loadGroup, this);
+        this.groupProxy = groupProxy;
+        // this.groupProxy.load();
+
+        let employeeProxy = new EmployeeSelectProxy(null, this.loadEmployee, this);
+        this.employeeProxy = employeeProxy;
+
+        this.$on('search-tool-change', this.onSearchChange);
+    }
+  }
+  </script>
+  
+  <!-- Add "scoped" attribute to limit CSS to this component only -->
+  <style scoped>
+  </style>
+  

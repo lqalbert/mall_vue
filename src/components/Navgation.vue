@@ -37,6 +37,7 @@ export default {
             {text:'组织单位', index:'Department'},
             {text:'团队小组', index:'Group'},
             {text:'员工信息', index:'Employee'},
+            {text:'保证金 ',  index:'Deposit'},
 
           ]
         },

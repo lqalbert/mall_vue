@@ -24,7 +24,7 @@
         <el-table
             ref="proxyTable"
             :data="mainData"
-            v-loading.body="dataLoad"
+            v-loading="dataLoad"
             border
             style="width: 100%"
             @sort-change="sortChange"

@@ -18,7 +18,7 @@
                         placeholder="选择商品分类" size="small" style="line-height:28px;">
                     </el-cascader>
                 </el-form-item>
-                <el-form-item prop="start">
+                <!-- <el-form-item prop="start">
                     <el-date-picker v-model="searchForm.start" size="small" type="date"
                         placeholder="商品添加始日期" :picker-options="pickerOptions" @change="getStartTime">
                     </el-date-picker>
@@ -27,7 +27,7 @@
                     <el-date-picker v-model="searchForm.end" size="small" type="date"
                         placeholder="商品添加止日期" :picker-options="pickerOptions" @change="getEndTime">
                     </el-date-picker>
-                </el-form-item>
+                </el-form-item> -->
                 <el-form-item>
                     <el-button type="primary" size="small" icon="search" @click="searchToolChange('searchForm')">查询
                     </el-button>
@@ -44,6 +44,12 @@
                     <el-table-column prop="goods_name" label="商品名称" width="180" align="center">
                     </el-table-column>
 
+                    <el-table-column  label="图片" width="180" align="center">
+                        <template slot-scope="scope">
+                            <img :src="scope.row.cover_url" width="50" height="50" alt="">
+                        </template>
+                    </el-table-column>
+
                     <el-table-column prop="goods_price" label="商品价格" align="center">
                     </el-table-column>
 
@@ -51,6 +57,9 @@
                     </el-table-column>
 
                     <el-table-column prop="goods_type" label="商品分类" align="center">
+                        <template slot-scope="scope">
+                            {{ displayCategory(scope.row.category) }}
+                        </template>
                     </el-table-column>
 
                     <el-table-column prop="unit_type" label="商品单位" align="center">
@@ -122,133 +131,7 @@
     </div>
 </template>
 
-<script>
-    import Add from './Add';
-    import Edit from './Edit';
-    //import DataProxy from '../../packages/DataProxy';
-    import PageMix from '../../mix/Page';
-    import SearchTool from '../../mix/SearchTool';
-    import DataTable from '../../mix/DataTable';
-    import SelectProxy from  '../../packages/SelectProxy';
-    import GoodsDetailsAjaxProxy from '../../ajaxProxy/GoodsDetails';
-    import { quillRedefine } from 'vue-quill-editor-upload';
-    import URL_CONST from '../../config';
-
-    export default {
-        name: 'GoodsDetails',
-        pageTitle: "商品详情",
-        mixins: [PageMix, SearchTool,DataTable,GoodsDetailsAjaxProxy],
-	    components:{
-            Add,
-            Edit,
-            quillRedefine,
-        },
-        data() {
-            return {
-                ajaxProxy:GoodsDetailsAjaxProxy,
-                mainparam:"",
-                mainurl:GoodsDetailsAjaxProxy.getUrl(),
-                cateOptions:[],
-                UnitTypes:{},
-                getCateCascaderUrl:URL_CONST.DOMAIN + "/tree",
-                uploadUrl: URL_CONST.UPLOAD_URL,
-                searchForm: {
-                    goods_name:'',
-                    goods_number:'',
-                    start:'',
-                    end:'',
-                    cate_id:[],
-                },
-                // mainData:[ {
-                //     'goods_name':'自然堂护肤品',
-                //     'goods_price':'399.00',
-                //     'goods_number':25468137,
-                //     'goods_type':'化妆品',
-                //     'unit_type':'瓶',
-                //     'status':true
-                // }],
-                pickerOptions: {
-                    disabledDate(time) {
-                        return time.getTime() > Date.now();//- 8.64e7
-                    }
-                },
-
-            }
-        },
-        methods: {
-            /* mainTableLoad(data) {
-                this.toggleTableLoad();
-                let res_data = data.items;
-              for(var x in res_data){
-                  // console.log(res_data[x]);
-                  res_data[x].new_goods = res_data[x].new_goods ==1 ? true : false;
-                  res_data[x].hot_goods = res_data[x].hot_goods ==1 ? true : false;
-                  res_data[x].recommend_goods = res_data[x].recommend_goods ==1 ? true : false;
-                  res_data[x].status = res_data[x].status ==1 ? true : false;
-
-              }
-                 console.log(res_data);
-                this.tableData = res_data;
-                this.total = data.total;
-            }, */
-            getAjaxProxy(){
-                return this.ajaxProxy;
-            },
-            initCateOptions(data){
-                this.cateOptions = data.items;
-                //console.log(this.cateOptions);
-            },
-            initUnitTypes(data){
-                this.UnitTypes = data;
-            },
-            getCateCascader(){
-                let selectProxy = new SelectProxy(this.getCateCascaderUrl,this.initCateOptions,this);
-                selectProxy.load();
-            },
-            getUnitTypes(){
-                let selectProxy = new SelectProxy(URL_CONST.DOMAIN + "/goodsdetails",this.initUnitTypes,this);
-                selectProxy.setExtraParam({business:'UnitTypes'}).load();
-            },
-            setUnitTypes(v){
-                return this.UnitTypes[v];
-            },
-            onSearchChange(param) {
-                console.log(param);
-                if (this.searchForm.start > this.searchForm.end) {
-                    this.$message.error("请选择正确的时间段");
-                    return ;
-                }
-                this.mainparam = JSON.stringify(param);
-            },
-            showAdd(){
-                this.$modal.show('add-goods-details',{model:this.UnitTypes});
-            },
-            showEdit(){
-                this.$modal.show('edit-goods-details',{model:row});
-            },
-            handleCateChange(v){
-                console.log(v);
-                this.searchForm.cate_id = v;
-            },
-            getStartTime(v){
-                this.searchForm.start = v;
-            },
-            getEndTime(v){
-                this.searchForm.end = v;
-            },
-
-
-        },
-
-        created() {
-            this.$on('search-tool-change', this.onSearchChange);
-            this.getCateCascader();
-            this.getUnitTypes();
-            
-        },
-
-    }
-</script>
+<script src="./index.js"></script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>

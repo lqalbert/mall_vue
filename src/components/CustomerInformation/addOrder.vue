@@ -27,9 +27,9 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                            <el-form-item label="商品类型"  prop="category_id">
+                            <el-form-item label="商品类型"  prop="dev">
                                 <el-cascader
-                                        v-model="addOrderForm.category_id"
+                                        v-model="dev"
                                         :options="CategoryList"
                                         change-on-select
                                 ></el-cascader>
@@ -84,7 +84,7 @@
                 types:[],
                 addOrderForm:{
                     cus_id:'',
-                    goods_id:"1",
+                    goods_id:"1",//暂时未关联goods表
                     goods_name:"",
                     category_id:'',
                     goods_number:"",
@@ -105,7 +105,7 @@
         },
         methods:{
             handleSubmit(){
-                this.addOrderForm.category_id = this.addOrderForm.category_id.join(',');
+                this.addOrderForm.category_id = this.dev.join(',');
                 this.formSubmit('addOrderForm');
             },
             getAjaxProxy(){
@@ -163,9 +163,15 @@
                 this.getAddress(this.cus_id);
             },
             handleCurrentChange(row){
+                this.addOrderForm = row;
+                this.dev=[];
+                this.addOrderForm.cus_id=this.cus_id;
+                let Tmthis=this;
+                row.category_id.split(',').forEach(function (value, index, array) {
+                    Tmthis.dev.push(parseInt(value));
+                })
                 this.showForm();
                 this.formstate = FORMSTATE_EDIT;
-                this.addOrderForm = row;
                 this.initObject(row, this.addOrderForm);
             },
             showForm(){

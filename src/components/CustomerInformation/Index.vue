@@ -42,7 +42,7 @@
                         <template slot-scope="scope">
                             <el-button type="primary" size="small"  @click="openEdit(scope.row)">编辑</el-button>
                             <el-button type="primary" size="small"  @click="openAddDeliveryAddress(scope.row)">添加地址</el-button>
-                            <el-button size="small" type="success" @click="openaddOrder('add-orderBasic')">下单</el-button>
+                            <el-button size="small" type="success" @click="openAddOrder(scope.row)">下单</el-button>
                             <el-button size="small" type="danger" @click="handleDelete(scope.row.id)">删除</el-button>
                         </template>
                     </el-table-column>
@@ -74,7 +74,7 @@
         <!--<Chat name='chat'></Chat>-->
         <addOrder name='add-orderBasic'
              :ajax-proxy="orderBasicAjaxProxy"
-             :CategoryList="this.CategoryList"
+             :CategoryList="CategoryList"
             ></addOrder>
 
 
@@ -128,7 +128,7 @@
                 orderBasicAjaxProxy:OrderBasic,
                 mainurl:Customer.getUrl(),
                 mainparam:'',
-                CategoryList:[]
+                CategoryList:''
             }
         },
         methods: {
@@ -138,7 +138,7 @@
             openAddDeliveryAddress(row){
                 this.$modal.show('add-Address', {model:row});
             },
-            openaddOrder(row){
+            openAddOrder(row){
                 this.$modal.show('add-orderBasic', {model:row});
             },
             getAjaxProxy(){

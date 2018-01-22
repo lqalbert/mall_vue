@@ -63,7 +63,7 @@
 
         <el-row>
             <el-col>
-                <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" @row-click="rowClick" >
+                <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" @dbclick="showRow" >
                     <el-table-column type="selection" align="center" width="50"></el-table-column>
                     <el-table-column label="序号" align="center" type="index" width="65"></el-table-column>
                     <el-table-column prop="order_sn" label="订单编号" width="200" align="center">
@@ -168,10 +168,10 @@
 
                         <el-tab-pane label="订单收货地址">
                             <el-table :data="addresstableData"  v-loading.body="dataLoad" highlight-current-row border ref="select" empty-text="请点击客户显示订单收货地址" border style="width: 100%">
-                                <el-table-column prop="address" label="操作员工" align="center">
+                                <el-table-column prop="address" label="收货地址" align="center">
                                 </el-table-column>
 
-                                <el-table-column prop="det_address" label="投诉类型" align="center">
+                                <el-table-column prop="det_address" label="详细地址" align="center">
                                 </el-table-column>
                             </el-table>
                         </el-tab-pane>
@@ -389,23 +389,19 @@
         },
         /** 点击订单列表展示用户信息 */
         showRow(row){
+            console.log(row);
             /** 选项卡1显示客户信息 */
-            if(this.tabindex==0){
                 let selectProxy = new SelectProxy(BuyerAjaxProxy.getUrl(), this.loadbuyer, this);
                 selectProxy.setExtraParam({id:row.users}).load();
-            };
-            if(this.tabindex==1){
 //                let selectProxy = new SelectProxy(BuyerAjaxProxy.getUrl(), this.loadbuyer, this);
 //                selectProxy.setExtraParam({id:row.users}).load();
-            };
-            if(this.tabindex==2){
+            /** 选项卡3获取用户地址信息 */
                 var newdata = [];
                 newdata.address = row.address;
                 newdata.det_address = row.det_address;
                 this.addresstableData.splice(0,this.addresstableData.length);//清空数组
                 this.addresstableData.push(newdata);
                 console.log(this.addresstableData);
-            };
             /** 选项卡2显示订单商品信息 */
 
 
@@ -475,6 +471,7 @@
             this.$modal.show('add-orderlist');
         },
         rowClick(row, event, column) {
+            console.log(1111);
             Array.prototype.remove = function (val) {
                 let index = this.indexOf(val);
                 if (index > -1) {

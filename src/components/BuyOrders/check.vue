@@ -4,7 +4,7 @@
             <el-form :model="checkForm" ref="checkForm" :label-width="labelWidth" :label-position="labelPosition">
                 <el-row>
                     <el-col :span="12">
-                        <el-form-item  label="是否通过" prop="check_satus">
+                        <el-form-item  label="是否通过" prop="check_status">
                             <el-select size="small" placeholder="是否通过" v-model="checkForm.check_status">
                               <el-option value="1" label="通过"></el-option>
                               <el-option value="2" label="不通过"></el-option>

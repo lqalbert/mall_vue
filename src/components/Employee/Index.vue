@@ -20,7 +20,7 @@
                 </el-form-item>
 
                 <el-form-item prop="department_id">
-                    <el-select size="small" v-model="searchForm.department_id" placeholder="部门">
+                    <el-select size="small" v-model="searchForm.department_id" placeholder="部门" @change="departmentChange">
                         <el-option v-for="v in departments" :label="v.name" 
                         :value="v.id" :key="v.id">
                         </el-option>
@@ -28,7 +28,7 @@
                 </el-form-item>
 
                 <el-form-item prop="group_id">
-                    <el-select size="small" v-model="searchForm.group_id" placeholder="团队小组">
+                    <el-select size="small" v-model="searchForm.group_id" placeholder="团队小组" @change="groupChange">
                         <el-option v-for="v in groups" :label="v.name" 
                         :value="v.id" :key="v.id">
                         </el-option>
@@ -88,8 +88,10 @@
 
                     <el-table-column prop="department_name" label="部门" width="100">
                     </el-table-column>
+                    <el-table-column prop="group_name" label="团队小组" width="100">
+                    </el-table-column>
 
-                    <el-table-column prop="role_name" label="职位" width="100">
+                    <el-table-column prop="role_name" label="职位" width="120" >
                     </el-table-column>
 
                     <el-table-column prop="sex" label="性别" width="80" align="center">
@@ -173,7 +175,6 @@
             name='add-employee'
             :ajax-proxy="ajaxProxy"
             :departments="departments"
-            :groups="groups"
             @submit-success="handleReload"/>
 
         <!--&lt;!&ndash; / 添加公告 &ndash;&gt;-->
@@ -206,6 +207,7 @@
     import DepartSelectProxy from '../../packages/DepartSelectProxy';
     import GroupSelectProxy from '../../packages/GroupSelectProxy';
     import SearchTool from '../../mix/SearchTool';
+    import getGroupsByPid from '../../mix/getGroupsByPid';
     import EmployeeAjaxProxy  from '../../ajaxProxy/Employee';
 
     import { mapActions,mapGetters } from 'vuex';
@@ -213,7 +215,7 @@
     export default {
         name: 'Employee',
         pageTitle: "员工管理",
-        mixins: [PageMix, SearchTool,DataTable],
+        mixins: [PageMix, SearchTool,DataTable,getGroupsByPid],
         components: {
             addDialog,
             editDialog
@@ -223,7 +225,6 @@
                 ajaxProxy: EmployeeAjaxProxy,
                 mainurl:EmployeeAjaxProxy.getUrl() ,
                 mainparam:"",
-                
                 searchForm: {
                     typeValue: "",
                     department: '',
@@ -256,6 +257,12 @@
 
             getAjaxProxy(){
               return  this.ajaxProxy;
+            },
+            departmentChange(v){
+               this.getGroupsAjax(v);
+            },
+            groupChange(v){
+
             },
 
           openEdit(row){

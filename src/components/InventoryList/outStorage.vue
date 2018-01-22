@@ -1,5 +1,5 @@
 <template>
-    <MyDialog title="商品出库" :name="name" :width="width" :height="height">
+    <MyDialog title="商品出库" :name="name" :width="width" :height="height" @before-open="onOpen">
         <el-form :model="outForm" :inline="true" class="demo-form-inline" ref="outForm">
             <el-form-item label="商品名称">
                 <el-input v-model="outForm.name"></el-input>
@@ -22,7 +22,7 @@
             </el-form-item>
             <el-form-item label="出库时间">
                 <el-date-picker
-                        v-model="outForm.action_time"
+                        v-model="outForm.action_times"
                         type="datetime"
                         format="yyyy-MM-dd HH:mm:ss"
                         @change="getTime"
@@ -30,7 +30,7 @@
                 </el-date-picker>
             </el-form-item>
             <el-form-item label="出库人">
-                <el-select v-model="outForm.action_user" placeholder="请选择入库人">
+                <el-select v-model="outForm.action_users" placeholder="请选择出库人">
                     <el-option label="李达" value="李达"></el-option>
                     <el-option label="刘旭" value="刘旭"></el-option>
                     <el-option label="池沼" value="池沼"></el-option>
@@ -109,15 +109,20 @@
                     branch:'',
                     sale_user:'',
                     review_user:'',
-                    action_time:'',
-                    action_user:'',
+                    action_times:'',
+                    action_users:'',
                     sale_time:'',
                     review_time:'',
                     logistics:''
-                }
+                },
+                model:''
             }
         },
         methods:{
+            onOpen:function (param) {
+                this.model = param.params.model;
+            }
+            ,
             addStorage:function () {
                 this.outForm.types='出库';
                 this.$emit('addStorages',this.outForm)
@@ -132,8 +137,17 @@
             },
             getTimeR:function (val) {
                 this.outForm.review_time=val
+            },
+        },
+        watch:{
+            model:function(val, oldVal){
+                for (const key in this.outForm) {
+                    if (this.outForm.hasOwnProperty(key)) {
+                        this.outForm[key] = val[key]
+                    }
+                }
             }
-        }
+        },
     }
 </script>
 

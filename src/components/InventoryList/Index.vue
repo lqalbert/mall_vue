@@ -44,7 +44,7 @@
         
         <el-row >
             <el-col :span="24">
-                <el-table :data="tableData" v-loading="dataLoad" border >
+                <el-table :data="tableData" v-loading="dataLoad" border @row-dblclick="action" >
                     <el-table-column label="序号" align="center"  type="index" width="65"></el-table-column>
                     <el-table-column prop="types" label="库类型" align="center" ></el-table-column>
                     <el-table-column prop="name" label="商品名称" align="center" ></el-table-column>
@@ -54,7 +54,6 @@
                     <el-table-column prop="branch" label="商品批次" align="center" ></el-table-column>
                     <el-table-column prop="action_time" label="操作时间" align="center" ></el-table-column>
                     <el-table-column prop="action_user" label="操作人" align="center" ></el-table-column>
-
                 </el-table>
             </el-col>
         </el-row>
@@ -233,6 +232,11 @@ export default {
         },
         startDateChange:function () {
 
+        },
+        action:function (row) {
+            if(row['types']=='入库'){
+                this.$modal.show('outStorage', {model:row});
+            }
         },
         endDateChange:function () {
 

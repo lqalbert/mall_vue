@@ -128,7 +128,8 @@
                 orderBasicAjaxProxy:OrderBasic,
                 mainurl:Customer.getUrl(),
                 mainparam:'',
-                CategoryList:''
+                CategoryList:[]
+
             }
         },
         methods: {

@@ -30,6 +30,7 @@
                             <el-form-item label="商品类型"  prop="dev">
                                 <el-cascader
                                         v-model="dev"
+
                                         :options="CategoryList"
                                         change-on-select
                                 ></el-cascader>
@@ -172,6 +173,7 @@
                 })
                 this.showForm();
                 this.formstate = FORMSTATE_EDIT;
+
                 this.initObject(row, this.addOrderForm);
             },
             showForm(){

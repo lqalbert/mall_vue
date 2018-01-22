@@ -8,19 +8,19 @@
             </el-steps>
             <el-form :model="addForm"  ref="addForm" :rules="rules" :label-width="labelWidth"   :label-position="labelPosition">
                 <div class="tabs" v-show="active==0">
-                    <el-form-item label="购买用户"  prop="users">
+                    <el-form-item label="销售员工"  prop="users">
                         <el-select v-model='addForm.users'>
                             <el-option v-for="user in users"
-                                       :label="user.name"
+                                       :label="user.realname"
                                        :value="user.id"
                                        :key="user.id">
                             </el-option>
                         </el-select>
                     </el-form-item>
-                    <el-form-item label="销售员工"  prop="contact">
-                        <el-select v-model='addForm.manager_id'>
-                            <el-option v-for="user in computedusers" :label="user.realname"
-                                       :value="user.user_id" :key="user.user_id">
+                    <el-form-item label="购买客户"  prop="buyer">
+                        <el-select v-model='addForm.buyer'>
+                            <el-option v-for="buy in buyer" :label="buy.name"
+                                       :value="buy.id" :key="buy.id">
                             </el-option>
                         </el-select>
                     </el-form-item>
@@ -60,18 +60,20 @@
                         </el-table>
                     <br>
                     <el-button type="info" style="float: right">{{"商品总额：" + moneyTotal}}</el-button>
-                    <el-form-item label="购买商品"  prop="contact">
-                        <el-select v-model='addForm.manager_id' placeholder="请选择商品分类">
+                    <el-form-item label="购买商品"  prop="goods_type">
+                        <el-select v-model='addForm.goods_type' placeholder="请选择商品分类">
                             <el-option v-for="user in computedusers" :label="user.realname"
-                                       :value="user.user_id" :key="user.user_id">
+                                       :value="user.realname" :key="user.user_id">
                             </el-option>
                         </el-select>
-                        <el-select v-model='addForm.manager_id' placeholder="请选择商品">
-                            <el-option v-for="user in computedusers" :label="user.realname"
-                                       :value="user.user_id" :key="user.user_id">
+                    </el-form-item>
+                    <el-form-item label="购买商品"  prop="goods_name">
+                        <el-select v-model='addForm.goods_name' placeholder="请选择商品">
+                            <el-option v-for="user in goods" :label="user.realname"
+                                       :value="user.realname" :key="user.user_id">
                             </el-option>
                         </el-select>
-                        <el-button type="info" @click="">
+                        <el-button type="info" @click="pushGoods()">
                             购买
                         </el-button>
                     </el-form-item>
@@ -115,11 +117,15 @@
         name: 'Add',
         mixins:[DialogForm],
         props:{
-            typeList:{
-                type:Array,
-                default:['销售部','推广部','风控部','人事部']
-            },
+//            typeList:{
+//                type:Array,
+//                default:['销售部','推广部','风控部','人事部']
+//            },
             users:{
+                type:Array,
+                default:[],
+            },
+            buyer:{
                 type:Array,
                 default:[],
             },
@@ -132,10 +138,16 @@
                 active: 0,
                 labelWidth:'80px',
                 computedusers:[
-                    {user_id:'1',realname:'李青(测试数据)'},
-                    {user_id:'2',realname:'高鹏(测试数据)'},
-                    {user_id:'3',realname:'马娇(测试数据)'},
-                    {user_id:'4',realname:'吴继伟(测试数据)'},
+                    {user_id:'1',realname:'保健品(测试数据)'},
+                    {user_id:'2',realname:'化妆品(测试数据)'},
+                    {user_id:'3',realname:'护肤品(测试数据)'},
+                    {user_id:'4',realname:'其他(测试数据)'},
+                ],
+                goods:[
+                    {user_id:'1',realname:'aaa(测试数据)'},
+                    {user_id:'2',realname:'qqq(测试数据)'},
+                    {user_id:'3',realname:'www(测试数据)'},
+                    {user_id:'4',realname:'eee(测试数据)'},
                 ],
                 tableData:[
                     {
@@ -175,6 +187,8 @@
                     manager_id:"",
                     remarks:"",
                     status:1,
+                    goods_name:'',
+                    goods_type:'',
                 },
                 rules:{
                     name:[
@@ -215,7 +229,21 @@
                 value.goodTotal=(value.number*value.price).toFixed(2);//保留两位小数
                 //增加商品数量也需要重新计算商品总价
                 this.selected(this.multipleSelection);
-                console.log(value.goodTotal);
+//                console.log(value.goodTotal);
+            },
+            /** 添加商品 */
+            pushGoods:function(goods_type,goods_name){
+                var data = this.tableData;
+                var res = data[data.length-1];
+                var newData={};
+                newData.pdt_type = this.addForm.goods_type;
+                newData.pdt_name = this.addForm.goods_name;
+                newData.price = 11;
+                newData.number = 1;
+                newData.pdt_num = 1;
+                console.log(this.tableData);
+                this.tableData.push(newData);
+                console.log(this.tableData);
             },
             add:function(addGood){
                 //输入框输入值变化时会变为字符串格式返回到js
@@ -225,6 +253,7 @@
                 };
                 addGood.number+=1;
                 this.handleInput(addGood);
+                console.log(111);
             },
             del:function(delGood){
                 if(typeof delGood.number=='string'){
@@ -236,18 +265,18 @@
                 this.handleInput(delGood);
             },
             //返回的参数为选中行对应的对象
-//            selected:function(selection){
-//                this.multipleSelection=selection;
-//                this.moneyTotal=0;
-//                //此处不支持forEach循环，只能用原始方法了
-//                for(var i=0;i<selection.length;i++){
-//                    //判断返回的值是否是字符串
-//                    if(typeof selection[i].goodTotal=='string'){
-//                        selection[i].goodTotal=parseInt(selection[i].goodTotal);
-//                    };
-//                    this.moneyTotal+=selection[i].goodTotal;
-//                }
-//            },
+            selected:function(selection){
+                this.multipleSelection=selection;
+                this.moneyTotal=0;
+                //此处不支持forEach循环，只能用原始方法了
+                for(var i=0;i<selection.length;i++){
+                    //判断返回的值是否是字符串
+                    if(typeof selection[i].goodTotal=='string'){
+                        selection[i].goodTotal=parseInt(selection[i].goodTotal);
+                    };
+                    this.moneyTotal+=selection[i].goodTotal;
+                }
+            },
 
             next() {
                 if (this.active++ > 1) this.active = 0;
@@ -270,7 +299,7 @@
                     row.count=1;
                 }
                 row.totalPrice = (row.count * row.price).toFixed(2);//保留两位小数
-                console.log(row.totalPrice+" = "+ row.count +" * "+ row.price)
+//                console.log(row.totalPrice+" = "+ row.count +" * "+ row.price)
                 //增加商品数量也需要重新计算商品总价
             },
 

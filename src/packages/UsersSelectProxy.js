@@ -13,7 +13,7 @@ const UsersSelectProxy = function(param, callback, scope){
 UsersSelectProxy.prototype.setParam = function(param){
     // this.extraParm = param;
     if (!param.fields) {
-        param.fields = ['id','name'];
+        param.fields = ['id','realname'];
     }
     if (!param.business) {
         param.business = 'select';

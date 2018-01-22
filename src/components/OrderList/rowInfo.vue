@@ -72,7 +72,6 @@
                         <el-form-item label="下单时间" prop="order_time">
                             <el-date-picker size="small" v-model="rowInfoForm.order_time"
                                             :type="date"
-                                            :format="yyyy-MM-dd"
                                             @change="DateChange"
                                             :editable="true">
                             </el-date-picker>

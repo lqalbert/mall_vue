@@ -5,6 +5,7 @@
                 <el-step title="选择用户"></el-step>
                 <el-step title="选择商品"></el-step>
                 <el-step title="收货信息"></el-step>
+                <el-step title="确认订单"></el-step>
             </el-steps>
             <el-form :model="addForm"  ref="addForm" :rules="rules" :label-width="labelWidth"   :label-position="labelPosition">
                 <div class="tabs" v-show="active==0">
@@ -91,11 +92,14 @@
                         <el-input class="" v-model="addForm.name"  auto-complete="off" placeholder="请填写收件人手机号码"></el-input>
                     </el-form-item>
                 </div>
+                <div class="tabs" v-show="active==3">
+
+                </div>
 
 
             </el-form>
-            <el-button  @click="prv" v-show="stepActive==1">上一步</el-button>
-            <el-button style="margin-top: 12px;" @click="next">下一步</el-button>
+            <el-button  style="margin-top: 12px;" @click="prv">上一步</el-button>
+            <el-button style="margin-top: 12px;" class="next" @click="next">下一步</el-button>
             <div slot="dialog-foot" class="dialog-footer">
                 <el-button @click="handleClose">取 消</el-button>
                 <submit-button
@@ -271,6 +275,7 @@
                 //此处不支持forEach循环，只能用原始方法了
                 for(var i=0;i<selection.length;i++){
                     //判断返回的值是否是字符串
+                    console.log(111);
                     if(typeof selection[i].goodTotal=='string'){
                         selection[i].goodTotal=parseInt(selection[i].goodTotal);
                     };
@@ -279,7 +284,11 @@
             },
 
             next() {
-                if (this.active++ > 1) this.active = 0;
+                if (this.active++ > 2) this.active = 3;
+
+            },
+            prv(){
+                if (this.active-- < 1) this.active = 0;
             },
             getAjaxPromise(model){
                 return this.ajaxProxy.create(model);

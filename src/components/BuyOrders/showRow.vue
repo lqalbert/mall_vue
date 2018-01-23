@@ -1,47 +1,93 @@
 <template>
     <div >
         <MyDialog title="查看" :name="name" :width="width" :height="height" @before-open="onOpen">
-            <el-form :model="rowForm" ref="rowForm" :label-width="labelWidth" :label-position="labelPosition">
+            <el-form ref="rowInfoForm" :model="rowInfoForm" :label-width="labelWidth" :label-position="labelPosition">
                 <el-row>
                     <el-col :span="12">
-                        <el-form-item  label="产品类型" prop="pdt_type">
-                            <el-input v-model="rowForm.pdt_type" size="small"></el-input>
+                        <el-form-item  label="订单编号" prop="order_sn">
+                            <el-input v-model="rowInfoForm.order_sn" size="small" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="产品名称" prop="pdt_name">
-                            <el-input v-model="rowForm.pdt_name" size="small"></el-input>
+                        <el-form-item label="商品名称" prop="goods_name">
+                            <el-input v-model="rowInfoForm.goods_name" size="small" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row>
                     <el-col :span='12'>
-                        <el-form-item label="客户姓名" prop="cus_name">
-                            <el-input v-model="rowForm.cus_name" size="small"></el-input>
+                        <el-form-item label="收货人信息" prop="consignee">
+                            <el-input v-model="rowInfoForm.consignee" size="small" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="销售员工" prop="sale_name">
-                            <el-input v-model="rowForm.sale_name" size="small"></el-input>
+                        <el-form-item label="总金额" prop="order_all_money">
+                            <el-input v-model="rowInfoForm.order_all_money" size="small" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row>
                     <el-col :span='12'>
-                        <el-form-item label="数量" prop="pdt_num">
-                            <el-input v-model="rowForm.pdt_num" size="small"></el-input>
+                        <el-form-item label="应付金额" prop="order_pay_money">
+                            <el-input v-model="rowInfoForm.order_pay_money" size="small" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="购买时间" prop="buy_time">
-                            <el-input v-model="rowForm.buy_time" size="small"></el-input>
+                        <el-form-item label="订单状态" prop="order_status">
+                            <el-select v-model='rowInfoForm.order_status' :disabled="true">
+                                <el-option
+                                        v-for="order_status in order_statuslist"
+                                        :label="order_status.status"
+                                        :value="order_status.status"
+                                        :key="order_status.id"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span='12'>
+                        <el-form-item label="支付方式" prop="pay_name">
+                            <el-input v-model="rowInfoForm.pay_name" size="small" :disabled="true"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="发货状态" prop="shipping_status">
+                            <el-select v-model='rowInfoForm.shipping_status' :disabled="true">
+                                <el-option
+                                        v-for="shipping_status in shipping_statuslist"
+                                        :label="shipping_status.status"
+                                        :value="shipping_status.status"
+                                        :key="shipping_status.id"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span='12'>
+                        <el-form-item label="配送方式" prop="shipping_name">
+                            <el-input v-model="rowInfoForm.shipping_name" size="small" :disabled="true"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="下单时间" prop="order_time">
+                            <el-date-picker size="small" v-model="rowInfoForm.order_time" :disabled="true"
+                                            :type="date"
+                                            :format="yyyy-MM-dd"
+                                            @change="DateChange"
+                                            :editable="true">
+                            </el-date-picker>
+                            <!--<el-input v-model="rowInfoForm.order_time" size="small"></el-input>-->
                         </el-form-item>
                     </el-col>
                 </el-row>
             </el-form>
             <div slot="dialog-foot" class="dialog-footer">
-                <el-button @click="handleClose">取 消</el-button>
-                <el-button @click="formSubmit('rowForm')" type="primary">确 定</el-button>
+                <el-button @click="handleClose">退 出</el-button>
+                <!--<submit-button-->
+                        <!--:observer="dialogThis"-->
+                        <!--@click="formSubmit('rowInfoForm')" >-->
+                    <!--保 存-->
+                <!--</submit-button>-->
             </div>
         </MyDialog>
     </div>
@@ -49,23 +95,46 @@
 
 <script>
     import DialogForm from '../../mix/DialogForm';
+    import SubmitButton from '../../components/common/SubmitButton';
     export default {
         name: 'addDialog',
         mixins:[DialogForm],
         props:{
             
         },
+        ajaxProxy:{
+            required:true,
+            type: Object,
+            default: null
+        },
         data () {
             return {
+                order_statuslist:[
+                    {id:'1',status:'pre_pay'},
+                    {id:'2',status:'pre_affirm'},
+                    {id:'3',status:'done'},
+                    {id:'4',status:'closed'},
+                    {id:'5',status:'refund'},
+                ],
+                shipping_statuslist:[
+                    {id:'1',status:'pre_deliver'},
+                    {id:'2',status:'delivered'},
+                    {id:'3',status:'received'},
+                ],
+                dialogThis:this,
                 labelPosition:"right",
                 labelWidth:'100px',
-                rowForm:{
-                    pdt_type:'',
-                    pdt_name:'',
-                    cus_name:'',
-                    sale_name:'',
-                    pdt_num:'',
-                    buy_time:'',
+                rowInfoForm:{
+                    order_sn:'',
+                    goods_name:'',
+                    consignee:'',
+                    order_all_money:'',
+                    order_pay_money:'',
+                    order_status:'',
+                    pay_name:'',
+                    shipping_status:'',
+                    shipping_name:'',
+                    order_time:'',
                 },
 
             }
@@ -85,10 +154,25 @@
             intoTimeDateChange(v){
                 this.rowForm.into_time = v;
             },
+            getAjaxPromise(model){
+                return this.ajaxProxy.update(model.id, model);
+            },
             onOpen(event){
-              this.rowForm = event.params.row;
-            }
+                this.rowInfoForm = event.params.rowData;
+            },
         },
+        watch:{
+
+            model:function(val, oldVal){
+//                console.log(val);
+                for (const key in this.rowInfoForm) {
+                    if (this.rowInfoForm.hasOwnProperty(key)) {
+                        console.log(key);
+                        this.rowInfoForm[key] = val[key]
+                    }
+                }
+            }
+        }
 
     }
 </script>

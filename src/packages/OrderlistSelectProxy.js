@@ -1,23 +1,29 @@
 import SelectProxy from './SelectProxy';
-// let departProxy = new SelectProxy("/departments");
+import OrderlistStore from '../ajaxProxy/Orderlist';
 
-const DepartSelectProxy = function(param, callback, scope){
+const OrderlistSelectProxy = function(param, callback, scope){
     this.extraParm = param || null;
-    this.departProxy = new SelectProxy("/orderlists", callback, scope);
+    this.orderProxy = new SelectProxy(OrderlistStore.getUrl(), callback, scope);
 
     if (this.extraParm){
         this.setParam(this.extraParm);
     }
 }
 
-DepartSelectProxy.prototype.setParam = function(param){
+OrderlistSelectProxy.prototype.setParam = function(param){
     // this.extraParm = param;
-    this.departProxy.setExtraParam(param);
+    if (!param.fields) {
+        param.fields = ['id','name'];
+    }
+    if (!param.business) {
+        param.business = 'select';
+    }
+    this.orderProxy.setExtraParam(param);
     return this;
 }
 
-DepartSelectProxy.prototype.load = function(){
-    this.departProxy.load();
+OrderlistSelectProxy.prototype.load = function(){
+    this.orderProxy.load();
 }
 
-export default DepartSelectProxy;
+export default OrderlistSelectProxy;

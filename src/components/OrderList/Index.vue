@@ -529,6 +529,12 @@
     created(){
         this.$on('search-tool-change', this.onSearchChange);
         this.orderlistInit('Orderlist');
+        let orderProxy = new UsersSelectProxy(null, this.loadUsers, this);
+        // console.log(orderProxy);
+        this.orderProxy = orderProxy;
+        this.orderProxy.load();
+        let selectProxy = new SelectProxy(BuyerAjaxProxy.getUrl(), this.loadbuyer, this);
+        selectProxy.load();
        // let formData = $(this.$el).find('.hello').serialize();
 //        console.log();
         // this.toggleTableLoad();

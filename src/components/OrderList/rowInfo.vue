@@ -4,20 +4,8 @@
             <el-form ref="rowInfoForm" :model="rowInfoForm" :label-width="labelWidth" :label-position="labelPosition">
                 <el-row>
                     <el-col :span="12">
-                        <el-form-item  label="订单编号" prop="order_sn">
-                            <el-input v-model="rowInfoForm.order_sn" size="small"></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="商品名称" prop="goods_name">
-                            <el-input v-model="rowInfoForm.goods_name" size="small"></el-input>
-                        </el-form-item>
-                    </el-col>
-                </el-row>
-                <el-row>
-                    <el-col :span='12'>
-                        <el-form-item label="收货人信息" prop="consignee">
-                            <el-input v-model="rowInfoForm.consignee" size="small"></el-input>
+                        <el-form-item  label="订单号" prop="id">
+                            <el-input v-model="rowInfoForm.id" size="small"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -32,22 +20,17 @@
                             <el-input v-model="rowInfoForm.order_pay_money" size="small"></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="订单状态" prop="order_status">
-                            <el-select v-model='rowInfoForm.order_status'>
-                                <el-option
-                                        v-for="order_status in order_statuslist"
-                                        :label="order_status.status"
-                                        :value="order_status.id"
-                                        :key="order_status.id"></el-option>
-                            </el-select>
+                    <el-col :span='12'>
+                        <el-form-item label="购买顾客" prop="cus_id">
+                            <el-input v-model="rowInfoForm.cus_id" size="small"></el-input>
                         </el-form-item>
                     </el-col>
+
                 </el-row>
                 <el-row>
                     <el-col :span='12'>
-                        <el-form-item label="支付方式" prop="pay_name">
-                            <el-input v-model="rowInfoForm.pay_name" size="small"></el-input>
+                        <el-form-item label="成交员工" prop="user_id">
+                            <el-input v-model="rowInfoForm.user_id" size="small"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -63,11 +46,25 @@
                     </el-col>
                 </el-row>
                 <el-row>
+                    <el-col :span="12">
+                        <el-form-item label="订单状态" prop="order_status">
+                            <el-select v-model='rowInfoForm.order_status'>
+                                <el-option
+                                        v-for="order_status in order_statuslist"
+                                        :label="order_status.status"
+                                        :value="order_status.id"
+                                        :key="order_status.id"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
                     <el-col :span='12'>
                         <el-form-item label="配送方式" prop="shipping_name">
                             <el-input v-model="rowInfoForm.shipping_name" size="small"></el-input>
                         </el-form-item>
                     </el-col>
+                </el-row>
+                <el-row>
+
                     <el-col :span="12">
                         <el-form-item label="下单时间" prop="order_time">
                             <el-date-picker size="small" v-model="rowInfoForm.order_time"
@@ -78,22 +75,21 @@
                             <!--<el-input v-model="rowInfoForm.order_time" size="small"></el-input>-->
                         </el-form-item>
                     </el-col>
-
                 </el-row>
-                <el-row>
-                <el-col :span="12">
-                    <el-form-item label="审核状态" prop="order_status">
-                        <el-select v-model='rowInfoForm.check_status'>
-                            <el-option
-                                    v-for="order_status in check_status"
-                                    :label="order_status.status"
-                                    :value="order_status.id"
-                                    :key="order_status.id"
-                                    ></el-option>
-                        </el-select>
-                    </el-form-item>
-                </el-col>
-                </el-row>
+                <!--<el-row>-->
+                <!--<el-col :span="12">-->
+                    <!--<el-form-item label="审核状态" prop="order_status">-->
+                        <!--<el-select v-model='rowInfoForm.check_status'>-->
+                            <!--<el-option-->
+                                    <!--v-for="order_status in check_status"-->
+                                    <!--:label="order_status.status"-->
+                                    <!--:value="order_status.id"-->
+                                    <!--:key="order_status.id"-->
+                                    <!--&gt;</el-option>-->
+                        <!--</el-select>-->
+                    <!--</el-form-item>-->
+                <!--</el-col>-->
+                <!--</el-row>-->
             </el-form>
 
             <div slot="dialog-foot" class="dialog-footer">
@@ -171,33 +167,6 @@
             },
 
             onOpen(event){
-                /** 需要对直接传递过来的数据进行处理，中文转成英文 */
-                var check_status = event.params.rowData.check_status;
-                var true_check_status = this.check_status;
-                var i = 0;
-                var newdata = [];
-                newdata = event.params.rowData;
-                for(i=0;i<true_check_status.length;i++)
-                {
-                    if(check_status==true_check_status[i].status)
-                    {
-                        event.params.rowData.check_status = true_check_status[i].id;
-                    }
-                }
-                for(i=0;i<this.order_statuslist.length;i++)
-                {
-                    if(event.params.rowData.order_status==this.order_statuslist[i].status)
-                    {
-                        event.params.rowData.order_status = this.order_statuslist[i].id;
-                    }
-                }
-                for(i=0;i<this.shipping_statuslist.length;i++)
-                {
-                    if(event.params.rowData.shipping_status==this.shipping_statuslist[i].status)
-                    {
-                        event.params.rowData.shipping_status = this.shipping_statuslist[i].id;
-                    }
-                }
               this.rowInfoForm = event.params.rowData;
             },
             getAjaxPromise(model){

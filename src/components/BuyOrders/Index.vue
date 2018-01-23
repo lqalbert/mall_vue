@@ -34,27 +34,23 @@
                         <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload">
                             <el-table-column type="selection" align="center" width="50"></el-table-column>
                             <el-table-column label="序号" align="center" type="index" width="65"></el-table-column>
-                            <el-table-column prop="order_sn" label="订单编号" width="200" align="center">
+                            <el-table-column prop="id" label="订单号" width="200" align="center">
                             </el-table-column>
-                            <el-table-column prop="goods_name" label="商品名称" align="center">
+                            <el-table-column prop="order_all_money" label="总金额" align="center" width="80">
                             </el-table-column>
-                            <el-table-column prop="consignee" label="收货人信息" align="center">
+                            <el-table-column prop="order_pay_money" label="应付金额" align="center" width="80">
                             </el-table-column>
-                            <el-table-column prop="order_all_money" label="总金额" align="center" width="100">
+                            <el-table-column prop="cus_id" label="购买顾客" align="center" width="80">
                             </el-table-column>
-                            <el-table-column prop="order_pay_money" label="应付金额" align="center" width="100">
+                            <el-table-column prop="user_id" label="成交员工" align="center" width="80">
                             </el-table-column>
                             <el-table-column prop="order_status" label="订单状态" align="center">
                             </el-table-column>
-                            <el-table-column prop="pay_name" label="支付方式" align="center" width="100">
-                            </el-table-column>
                             <el-table-column prop="shipping_status" label="发货状态" align="center" width="100">
                             </el-table-column>
-                            <el-table-column prop="shipping_name" label="配送方式" align="center" width="100">
+                            <el-table-column prop="check_status" label="审核状态" align="center" width="100">
                             </el-table-column>
                             <el-table-column prop="order_time" label="下单时间" align="center">
-                            </el-table-column>
-                            <el-table-column prop="check_status" label="审核状态" align="center">
                             </el-table-column>
                             <el-table-column  label="操作" align="center" width="140">
                                 <template slot-scope="scope">

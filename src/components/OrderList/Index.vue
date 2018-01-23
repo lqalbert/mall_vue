@@ -32,8 +32,8 @@
 
 
 
-                <el-form-item prop="order_sn">
-                    <el-input size="small" v-model="searchForm.order_sn" placeholder="请输入订单编号"></el-input>
+                <el-form-item prop="id">
+                    <el-input size="small" v-model="searchForm.id" placeholder="请输入订单编号"></el-input>
                 </el-form-item>
                 <br>
                 <el-form-item prop="type">
@@ -66,29 +66,44 @@
                 <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" @dbclick="showRow" >
                     <el-table-column type="selection" align="center" width="50"></el-table-column>
                     <el-table-column label="序号" align="center" type="index" width="65"></el-table-column>
-                    <el-table-column prop="order_sn" label="订单编号" width="200" align="center">
-                    </el-table-column>
-                    <el-table-column prop="goods_name" label="商品名称" align="center">
-                    </el-table-column>
-                    <el-table-column prop="consignee" label="收货人信息" align="center">
+                    <el-table-column prop="id" label="订单号" width="200" align="center">
                     </el-table-column>
                     <el-table-column prop="order_all_money" label="总金额" align="center" width="80">
                     </el-table-column>
                     <el-table-column prop="order_pay_money" label="应付金额" align="center" width="80">
                     </el-table-column>
-                    <el-table-column prop="order_status" label="订单状态" align="center">
+                    <el-table-column prop="cus_id" label="购买顾客" align="center" width="80">
                     </el-table-column>
-                    <el-table-column prop="pay_name" label="支付方式" align="center" width="90">
+                    <el-table-column prop="user_id" label="成交员工" align="center" width="80">
+                    </el-table-column>
+
+                    <el-table-column prop="order_status" label="订单状态" align="center">
+                        <template slot-scope="scope">
+                            <span v-if="scope.row.order_status==0">待付款</span>
+                            <span v-else-if="scope.row.order_status==1" >待确认</span>
+                            <span v-else-if="scope.row.order_status==2">已完成</span>
+                            <span v-else-if="scope.row.order_status==2">已关闭</span>
+                            <span v-else-if="scope.row.order_status==2">退货中</span>
+                        </template>
                     </el-table-column>
                     <el-table-column prop="shipping_status" label="发货状态" align="center" width="100">
+                        <template slot-scope="scope">
+                            <span v-if="scope.row.shipping_status==0">待发货</span>
+                            <span v-else-if="scope.row.shipping_status==1" >已发货</span>
+                            <span v-else-if="scope.row.shipping_status==2">已收货</span>
+                        </template>
                     </el-table-column>
-                    <el-table-column prop="shipping_name" label="配送方式" align="center" width="80">
+                    <el-table-column prop="check_status" label="审核状态" align="center" width="100">
+                        <template slot-scope="scope">
+                            <span v-if="scope.row.check_status==0">未通过</span>
+                            <span v-else-if="scope.row.check_status==1" >通过</span>
+                            <span v-else-if="scope.row.check_status==2">未审核</span>
+                        </template>
                     </el-table-column>
                     <el-table-column prop="order_time" label="下单时间" align="center">
                     </el-table-column>
                     <el-table-column  fixed="right" label="操作" align="center" width="200">
                         <template slot-scope="scope">
-                            <el-button type="green" size="small" @click="showRow(scope.row)">查看</el-button>
                             <el-button type="info" size="small" @click="showRowData(scope.row)">编辑</el-button>
                             <el-button type="danger" @click="handleDelete(scope.row.id)" size="small">删除</el-button>
                         </template>
@@ -340,7 +355,7 @@
                 start:'',
                 goods_name:'',
                 consignee:'',
-                order_sn:'',
+                id:'',
                 sale_name:'',
                 end:'',
                 condition:'',
@@ -448,7 +463,7 @@
             this.searchForm.deliver = '';
             this.searchForm.goods_name = '';
             this.searchForm.consignee = '';
-            this.searchForm.order_sn = '';
+            this.searchForm.id = '';
             this.searchForm.sale_name = '';
             this.searchForm.end = '';
             this.searchForm.condition = '';

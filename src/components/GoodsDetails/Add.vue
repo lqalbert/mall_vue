@@ -71,7 +71,7 @@
                         </el-row>
                     </el-tab-pane>
 
-                    <!-- <el-tab-pane label="商品规格" name="second">
+                    <el-tab-pane label="商品规格" name="second">
                         <el-table>
                             <el-table-column
                             prop="sku"
@@ -119,7 +119,7 @@
                         <el-form-item  prop="unit_type">
                             <el-button>添加SKU</el-button>
                         </el-form-item>
-                    </el-tab-pane> -->
+                    </el-tab-pane>
 
                     <el-tab-pane label="商品图片" name="third">
 

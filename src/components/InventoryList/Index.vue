@@ -44,19 +44,22 @@
         
         <el-row >
             <el-col :span="24">
-                <el-table :data="tableData" v-loading="dataLoad" border >
+                <el-table :data="tableData" v-loading="dataLoad" border @row-dblclick="action" >
                     <el-table-column label="序号" align="center"  type="index" width="65"></el-table-column>
+                    <el-table-column prop="types" label="库类型" align="center" ></el-table-column>
                     <el-table-column prop="name" label="商品名称" align="center" ></el-table-column>
-                    <el-table-column prop="type_text" label="商品类型" align="center" ></el-table-column>
-                    <el-table-column prop="phone" label="商品数量" align="center" ></el-table-column>
-                    <el-table-column prop="qq" label="商品型号" align="center" ></el-table-column>
-                    <el-table-column prop="weixin" label="商品批次" align="center" ></el-table-column>
-                    <el-table-column prop="address" label="入库时间" align="center" ></el-table-column>
-                    <el-table-column prop="id_card" label="入库人" align="center" ></el-table-column>
-
+                    <el-table-column prop="type" label="商品类型" align="center" ></el-table-column>
+                    <el-table-column prop="amount" label="商品数量" align="center" ></el-table-column>
+                    <el-table-column prop="version" label="商品型号" align="center" ></el-table-column>
+                    <el-table-column prop="branch" label="商品批次" align="center" ></el-table-column>
+                    <el-table-column prop="action_time" label="操作时间" align="center" ></el-table-column>
+                    <el-table-column prop="action_user" label="操作人" align="center" ></el-table-column>
                 </el-table>
             </el-col>
         </el-row>
+        <br/>
+        <el-button type="primary" size="small" @click="intoStorage">商品入库</el-button>
+        <el-button type="primary" size="small" @click="outStorage">商品出库</el-button>
 
         <el-row >
             <div class="pull-right" style="float: right;margin-top: 5px">
@@ -71,7 +74,8 @@
                 </el-col>
             </div>
         </el-row>
-
+        <intoStorage name="intoStorage" :ajax-proxy="ajaxProxy" @submit-success="handleReload" v-on:addStorage="dataChange"/>
+        <outStorage name="outStorage" :ajax-proxy="ajaxProxy" @submit-success="handleReload" v-on:addStorages="dataChange"/>
     </div>
 </template>
       
@@ -81,13 +85,24 @@
     import EmployeeSelectProxy from '../../packages/EmployeeSelectProxy';
     import DepartSelectProxy from '../../packages/DepartSelectProxy';
     import GroupSelectProxy from '../../packages/GroupSelectProxy';
+    import DataTable from '../../mix/DataTable';
     import SearchTool from '../../mix/SearchTool';
+    import intoStorage from './intoStorage.vue';
+    import outStorage from './outStorage.vue';
+    import InventoryAjaxProxy from '../../ajaxProxy/Inventory'
 export default {
     name: 'InventoryList',
     pageTitle:"库存详情",
-    mixins: [PageMix,SearchTool],
+    mixins: [PageMix,SearchTool,DataTable],
+    components:{
+        intoStorage,
+        outStorage
+    },
     data () {
         return {
+            ajaxProxy:InventoryAjaxProxy,
+            mainurl:InventoryAjaxProxy.getUrl(),
+            mainparam:"",
             users:[],
             groups:[],
             departments:[],
@@ -105,58 +120,64 @@ export default {
             currentPage4:1,
             tableData:[
                 {
+                    types:'出库',
                     name:'老白金',
-                    type_text:'保健品',
-                    phone:'15',
-                    qq:'324568554',
-                    weixin:'012',
-                    address:'15645555555555',
-                    id_card:'李清',
+                    type:'保健品',
+                    amount:'15',
+                    version:'324568554',
+                    branch:'012',
+                    action_time:'15645555555555',
+                    action_user:'李清',
                 },
                 {
+                    types:'出库',
                     name:'老白金',
-                    type_text:'保健品',
-                    phone:'15',
-                    qq:'324568554',
-                    weixin:'012',
-                    address:'15645555555555',
-                    id_card:'李清',
+                    type:'保健品',
+                    amount:'15',
+                    version:'324568554',
+                    branch:'012',
+                    action_time:'15645555555555',
+                    action_user:'李清',
                 },
                 {
+                    types:'出库',
                     name:'老白金',
-                    type_text:'保健品',
-                    phone:'15',
-                    qq:'324568554',
-                    weixin:'012',
-                    address:'15645555555555',
-                    id_card:'李清',
+                    type:'保健品',
+                    amount:'15',
+                    version:'324568554',
+                    branch:'012',
+                    action_time:'15645555555555',
+                    action_user:'李清',
                 },
                 {
+                    types:'出库',
                     name:'老白金',
-                    type_text:'保健品',
-                    phone:'15',
-                    qq:'324568554',
-                    weixin:'012',
-                    address:'15645555555555',
-                    id_card:'李清',
+                    type:'保健品',
+                    amount:'15',
+                    version:'324568554',
+                    branch:'012',
+                    action_time:'15645555555555',
+                    action_user:'李清',
                 },
                 {
+                    types:'出库',
                     name:'老白金',
-                    type_text:'保健品',
-                    phone:'15',
-                    qq:'324568554',
-                    weixin:'012',
-                    address:'15645555555555',
-                    id_card:'李清',
+                    type:'保健品',
+                    amount:'15',
+                    version:'324568554',
+                    branch:'012',
+                    action_time:'15645555555555',
+                    action_user:'李清',
                 },
                 {
+                    types:'出库',
                     name:'老白金',
-                    type_text:'保健品',
-                    phone:'15',
-                    qq:'324568554',
-                    weixin:'012',
-                    address:'15645555555555',
-                    id_card:'李清',
+                    type:'保健品',
+                    amount:'15',
+                    version:'324568554',
+                    branch:'012',
+                    action_time:'15645555555555',
+                    action_user:'李清',
                 },
             ],
             tableData1:[],
@@ -202,28 +223,48 @@ export default {
           this.toggleTableLoad();
           this.mainProxy.setExtraParam(param).load();
           this.toggleTableLoad();
+        },
+        intoStorage:function(row){
+            this.$modal.show('intoStorage', {model:row});
+            },
+        outStorage:function(row){
+            this.$modal.show('outStorage', {model:row});
+        },
+        startDateChange:function () {
+
+        },
+        action:function (row) {
+            if(row['types']=='入库'){
+                this.$modal.show('outStorage', {model:row});
+            }
+        },
+        endDateChange:function () {
+
+        },
+        dataChange:function(data){
+            this.tableData.push(data)
+            console.log(data)
         }
 
     },
-    // created(){
-    //     this.toggleTableLoad();
-    //     let mainProxy = new DataProxy("/riskcheck", this.pageSize, this.mainTableLoad, this);
-    //     this.mainProxy = mainProxy;
-    //     this.mainProxy.load();
-    //
-    //     let departProxy = new DepartSelectProxy({'type': 'sale'}, this.loadDepartment, this);
-    //     this.departProxy = departProxy;
-    //     this.departProxy.load();
-    //
-    //     let groupProxy = new GroupSelectProxy({'depart_id':1}, this.loadGroup, this);
-    //     this.groupProxy = groupProxy;
-    //     this.groupProxy.load();
-    //
-    //     let employeeProxy = new EmployeeSelectProxy({'depart_id':1,'group_id':1}, this.loadEmployee, this);
-    //     this.employeeProxy = employeeProxy;
-    //     this.employeeProxy.load();
-    //
-    // }
+     created(){
+//         this.toggleTableLoad();
+//         let mainProxy = new DataProxy("/riskcheck", this.pageSize, this.mainTableLoad, this);
+//         this.mainProxy = mainProxy;
+//         this.mainProxy.load();
+//
+//         let departProxy = new DepartSelectProxy({'type': 'sale'}, this.loadDepartment, this);
+//         this.departProxy = departProxy;
+//         this.departProxy.load();
+//
+//         let groupProxy = new GroupSelectProxy({'depart_id':1}, this.loadGroup, this);
+//         this.groupProxy = groupProxy;
+//         this.groupProxy.load();
+//
+//         let employeeProxy = new EmployeeSelectProxy({'depart_id':1,'group_id':1}, this.loadEmployee, this);
+//         this.employeeProxy = employeeProxy;
+//         this.employeeProxy.load();
+     }
 }
 </script>
 

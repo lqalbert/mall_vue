@@ -8,18 +8,18 @@
         <el-row>
             <el-col>
                 <el-form :inline="true" ref="searchForm" class="demo-form-inline"  :model="searchForm">
-                    <el-form-item style="width:170px" prop="name">
-                        <el-input v-model="searchForm.name" size="small" placeholder="商品名称"></el-input>
+                    <el-form-item style="width:170px" prop="goods_name">
+                        <el-input v-model="searchForm.goods_name" size="small" placeholder="商品名称"></el-input>
                     </el-form-item>
 
-                    <el-form-item style="width:170px" prop="contact">
-                        <el-input v-model="searchForm.contact" size="small" placeholder="商品批次"></el-input>
+                    <el-form-item style="width:170px" prop="goods_batch">
+                        <el-input v-model="searchForm.goods_batch" size="small" placeholder="商品批次"></el-input>
                     </el-form-item>
-                    <el-form-item style="width:170px" prop="contact">
-                        <el-input v-model="searchForm.contact" size="small" placeholder="商品型号"></el-input>
+                    <el-form-item style="width:170px" prop="goods_version">
+                        <el-input v-model="searchForm.goods_version" size="small" placeholder="商品型号"></el-input>
                     </el-form-item>
 
-                    <el-form-item prop="start" >
+                    <!-- <el-form-item prop="start" >
                         <el-date-picker size="small" v-model="searchForm.start"
                                         placeholder="入库开始时间"
                                         @change="startDateChange"
@@ -33,15 +33,11 @@
                                         @change="endDateChange"
                                         :editable="false">
                         </el-date-picker>
-                    </el-form-item>
-
+                    </el-form-item> -->
 
                     <el-form-item>
                         <el-button type="info" size="small" icon="search" @click="searchToolChange('searchForm')">查询</el-button>
                         <el-button type="info" size="small" @click="searchToolReset('searchForm')">重置</el-button>
-                        <el-tooltip content="点击刷新当前页面" placement="right" style="margin-left:15px;">
-                            <el-button  size="small" type="danger">刷新</el-button>
-                        </el-tooltip>
                     </el-form-item>
                 </el-form>
             </el-col>
@@ -52,10 +48,10 @@
                 <TableProxy 
                     :url="mainurl" 
                     :param="mainparam"
-                    @dbclick="doubleclick"
                     :reload="dataTableReload">
                     <el-table-column label="序号" align="center"  type="index" width="65"></el-table-column>
                     <el-table-column prop="type_text" label="库类型" align="center" ></el-table-column>
+                    <el-table-column prop="order_sn" label="订单号" align="center" ></el-table-column>
                     <el-table-column prop="goods_name" label="商品名称" align="center" ></el-table-column>
                     <el-table-column prop="goods_type" label="商品类型" align="center" ></el-table-column>
                     <el-table-column prop="goods_sum" label="商品数量" align="center" ></el-table-column>
@@ -126,80 +122,11 @@ export default {
             total:100,
             dataLoad:false,
             searchForm:{
-                name:'',
-                contact:'',
-                department_id:'',
-                group_id:'',
-                user_id:'',
-                range:'',
-                state:'',
+                goods_name:'',
+                goods_batch:'',
+                goods_version:"",
+
             },
-            currentPage4:1,
-            tableData:[
-                {
-                    types:'出库',
-                    name:'老白金',
-                    type:'保健品',
-                    amount:'15',
-                    version:'324568554',
-                    branch:'012',
-                    action_time:'15645555555555',
-                    action_user:'李清',
-                },
-                {
-                    types:'出库',
-                    name:'老白金',
-                    type:'保健品',
-                    amount:'15',
-                    version:'324568554',
-                    branch:'012',
-                    action_time:'15645555555555',
-                    action_user:'李清',
-                },
-                {
-                    types:'出库',
-                    name:'老白金',
-                    type:'保健品',
-                    amount:'15',
-                    version:'324568554',
-                    branch:'012',
-                    action_time:'15645555555555',
-                    action_user:'李清',
-                },
-                {
-                    types:'出库',
-                    name:'老白金',
-                    type:'保健品',
-                    amount:'15',
-                    version:'324568554',
-                    branch:'012',
-                    action_time:'15645555555555',
-                    action_user:'李清',
-                },
-                {
-                    types:'出库',
-                    name:'老白金',
-                    type:'保健品',
-                    amount:'15',
-                    version:'324568554',
-                    branch:'012',
-                    action_time:'15645555555555',
-                    action_user:'李清',
-                },
-                {
-                    types:'出库',
-                    name:'老白金',
-                    type:'保健品',
-                    amount:'15',
-                    version:'324568554',
-                    branch:'012',
-                    action_time:'15645555555555',
-                    action_user:'李清',
-                },
-            ],
-            tableData1:[],
-            tableData2:[],
-            tableData3:[],
         }
     },
     methods:{
@@ -237,9 +164,7 @@ export default {
             this.groups = data.items;
         },
         onSearchChange(param){
-          this.toggleTableLoad();
-          this.mainProxy.setExtraParam(param).load();
-          this.toggleTableLoad();
+          this.mainparam = JSON.stringify(param);
         },
         intoStorage:function(row){
             this.$modal.show('intoStorage', {model:row});
@@ -265,22 +190,7 @@ export default {
 
     },
      created(){
-//         this.toggleTableLoad();
-//         let mainProxy = new DataProxy("/riskcheck", this.pageSize, this.mainTableLoad, this);
-//         this.mainProxy = mainProxy;
-//         this.mainProxy.load();
-//
-//         let departProxy = new DepartSelectProxy({'type': 'sale'}, this.loadDepartment, this);
-//         this.departProxy = departProxy;
-//         this.departProxy.load();
-//
-//         let groupProxy = new GroupSelectProxy({'depart_id':1}, this.loadGroup, this);
-//         this.groupProxy = groupProxy;
-//         this.groupProxy.load();
-//
-//         let employeeProxy = new EmployeeSelectProxy({'depart_id':1,'group_id':1}, this.loadEmployee, this);
-//         this.employeeProxy = employeeProxy;
-//         this.employeeProxy.load();
+            this.$on('search-tool-change', this.onSearchChange);
 
             GoodsTypeAjaxProxy.get().then((response)=>{
                 this.goods_type = response.data.items;
@@ -289,6 +199,8 @@ export default {
             let employeeProxy = new EmployeeSelectProxy({}, this.loadEmployee, this);
             this.employeeProxy = employeeProxy;
             this.employeeProxy.load();
+
+
      }
 }
 </script>

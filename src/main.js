@@ -23,9 +23,9 @@ Vue.use(VueQuillEditor);
 import newDialog from './components/common/Dialog';
 import InitObject from './mix/InitObjectFromObject';
 import Delete from './mix/Delete';
-import VueAreaLinkage from 'vue-area-linkage';
+// import VueAreaLinkage from 'vue-area-linkage';
 
-Vue.use(VueAreaLinkage);
+// Vue.use(VueAreaLinkage);
 Vue.component('MyDialog',newDialog);
 
 Vue.mixin(InitObject);

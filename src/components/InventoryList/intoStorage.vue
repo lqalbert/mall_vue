@@ -5,7 +5,7 @@
                 <el-col :span="12">
                     <el-form-item label="商品类型">
                         <el-select v-model="intoForm.goods_type" placeholder="请选择商品类型" clearable>
-                            <el-option v-for="type in goodsType" :label="type.name" :value="type.id" :key="type.id"></el-option>
+                            <el-option v-for="type in goodsType" :label="type.name" :value="type.name" :key="type.id"></el-option>
                         </el-select>
                     </el-form-item>
                 </el-col>

@@ -1,5 +1,10 @@
 <template>
     <div >
+        <!-- <el-alert
+            title="需要跟据实际情况进行修改,功能不完鄯"
+            type="error"
+            show-icon>
+          </el-alert> -->
         <el-row>
             <el-col>
                 <el-form :inline="true" ref="searchForm" class="demo-form-inline"  :model="searchForm">
@@ -41,48 +46,52 @@
                 </el-form>
             </el-col>
         </el-row>
-        
+        <br>
         <el-row >
             <el-col :span="24">
-                <el-table :data="tableData" v-loading="dataLoad" border @row-dblclick="action" >
+                <TableProxy 
+                    :url="mainurl" 
+                    :param="mainparam"
+                    @dbclick="doubleclick"
+                    :reload="dataTableReload">
                     <el-table-column label="序号" align="center"  type="index" width="65"></el-table-column>
-                    <el-table-column prop="types" label="库类型" align="center" ></el-table-column>
-                    <el-table-column prop="name" label="商品名称" align="center" ></el-table-column>
-                    <el-table-column prop="type" label="商品类型" align="center" ></el-table-column>
-                    <el-table-column prop="amount" label="商品数量" align="center" ></el-table-column>
-                    <el-table-column prop="version" label="商品型号" align="center" ></el-table-column>
-                    <el-table-column prop="branch" label="商品批次" align="center" ></el-table-column>
-                    <el-table-column prop="action_time" label="操作时间" align="center" ></el-table-column>
-                    <el-table-column prop="action_user" label="操作人" align="center" ></el-table-column>
-                </el-table>
+                    <el-table-column prop="type_text" label="库类型" align="center" ></el-table-column>
+                    <el-table-column prop="goods_name" label="商品名称" align="center" ></el-table-column>
+                    <el-table-column prop="goods_type" label="商品类型" align="center" ></el-table-column>
+                    <el-table-column prop="goods_sum" label="商品数量" align="center" ></el-table-column>
+                    <el-table-column prop="goods_version" label="商品型号" align="center" ></el-table-column>
+                    <el-table-column prop="goods_batch" label="商品批次" align="center" ></el-table-column>
+                    <el-table-column prop="create_time" label="操作时间" align="center" ></el-table-column>
+                    <el-table-column prop="user" label="操作人" align="center" ></el-table-column>
+
+                    <div slot="buttonbar">
+                        <el-button type="primary" size="small" @click="intoStorage">商品入库</el-button>
+                        <el-button type="primary" size="small" @click="outStorage">商品出库</el-button>
+                    </div>
+                </TableProxy>
             </el-col>
         </el-row>
         <br/>
-        <el-button type="primary" size="small" @click="intoStorage">商品入库</el-button>
-        <el-button type="primary" size="small" @click="outStorage">商品出库</el-button>
-
-        <el-row >
-            <div class="pull-right" style="float: right;margin-top: 5px">
-                <el-col :span="12">
-                    <el-pagination
-                            :current-page="currentPage4"
-                            :page-size="100"
-                            layout="total, prev, pager, next, jumper"
-                            :total="total"
-                            @current-change="currentChange">
-                    </el-pagination>
-                </el-col>
-            </div>
-        </el-row>
-        <intoStorage name="intoStorage" :ajax-proxy="ajaxProxy" @submit-success="handleReload" v-on:addStorage="dataChange"/>
-        <outStorage name="outStorage" :ajax-proxy="ajaxProxy" @submit-success="handleReload" v-on:addStorages="dataChange"/>
+        
+        <intoStorage 
+            name="intoStorage" 
+            :ajax-proxy="ajaxProxy" 
+            :goods-type="goods_type" 
+            :users = "users"
+            @submit-success="handleReload" />
+        <outStorage 
+            name="outStorage" 
+            :ajax-proxy="ajaxProxy" 
+            :goods-type="goods_type"  
+            :users = "users" 
+            @submit-success="handleReload" />
     </div>
 </template>
       
 <script>
     import PageMix from '../../mix/Page';
     import DataProxy from '../../packages/DataProxy';
-    import EmployeeSelectProxy from '../../packages/EmployeeSelectProxy';
+    // import EmployeeSelectProxy from '../../packages/EmployeeSelectProxy';
     import DepartSelectProxy from '../../packages/DepartSelectProxy';
     import GroupSelectProxy from '../../packages/GroupSelectProxy';
     import DataTable from '../../mix/DataTable';
@@ -90,6 +99,11 @@
     import intoStorage from './intoStorage.vue';
     import outStorage from './outStorage.vue';
     import InventoryAjaxProxy from '../../ajaxProxy/Inventory'
+
+    import GoodsTypeAjaxProxy from '../../ajaxProxy/GoodsType';
+    import EmployeeSelectProxy from '../../packages/EmployeeSelectProxy';
+
+
 export default {
     name: 'InventoryList',
     pageTitle:"库存详情",
@@ -100,6 +114,9 @@ export default {
     },
     data () {
         return {
+            goods_type:[],
+
+
             ajaxProxy:InventoryAjaxProxy,
             mainurl:InventoryAjaxProxy.getUrl(),
             mainparam:"",
@@ -211,7 +228,7 @@ export default {
             this.dataLoad = !this.dataLoad;
         },
         loadEmployee(data){
-            this.users = data.items;
+            this.users = data;
         },
         loadDepartment(data){
             this.departments = data.items;
@@ -264,6 +281,14 @@ export default {
 //         let employeeProxy = new EmployeeSelectProxy({'depart_id':1,'group_id':1}, this.loadEmployee, this);
 //         this.employeeProxy = employeeProxy;
 //         this.employeeProxy.load();
+
+            GoodsTypeAjaxProxy.get().then((response)=>{
+                this.goods_type = response.data.items;
+            });
+
+            let employeeProxy = new EmployeeSelectProxy({}, this.loadEmployee, this);
+            this.employeeProxy = employeeProxy;
+            this.employeeProxy.load();
      }
 }
 </script>

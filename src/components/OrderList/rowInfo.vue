@@ -21,8 +21,12 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span='12'>
-                        <el-form-item label="购买顾客" prop="cus_id">
-                            <el-input v-model="rowInfoForm.cus_id" size="small"></el-input>
+                        <el-form-item label="购买客户"  prop="cus_id">
+                            <el-select v-model='rowInfoForm.buyer'>
+                                <el-option v-for="buy in buyer" :label="buy.name"
+                                           :value="buy.id" :key="buy.id">
+                                </el-option>
+                            </el-select>
                         </el-form-item>
                     </el-col>
 
@@ -30,7 +34,13 @@
                 <el-row>
                     <el-col :span='12'>
                         <el-form-item label="成交员工" prop="user_id">
-                            <el-input v-model="rowInfoForm.user_id" size="small"></el-input>
+                            <el-select v-model='rowInfoForm.users'>
+                                <el-option v-for="user in users"
+                                           :label="user.realname"
+                                           :value="user.id"
+                                           :key="user.id">
+                                </el-option>
+                            </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -111,7 +121,14 @@
         name: 'addDialog',
         mixins:[DialogForm],
         props:{
-
+            users:{
+                type:Array,
+                default:[],
+            },
+            buyer:{
+                type:Array,
+                default:[],
+            },
 
         },
         ajaxProxy:{
@@ -142,7 +159,6 @@
                 labelPosition:"right",
                 labelWidth:'100px',
                 rowInfoForm:{
-                    order_sn:'',
                     goods_name:'',
                     consignee:'',
                     order_all_money:'',
@@ -152,6 +168,10 @@
                     shipping_status:'',
                     shipping_name:'',
                     order_time:'',
+                },
+                buyer:{
+                    type:Array,
+                    default:[],
                 },
                 model:null
 
@@ -168,9 +188,14 @@
 
             onOpen(event){
               this.rowInfoForm = event.params.rowData;
+              this.rowInfoForm.splice(index,1);
+              console.log(this.rowInfoForm);
             },
             getAjaxPromise(model){
-                console.log(model);
+                delete model.cus_name;
+                delete model.buyer;
+                delete model.user_name;
+                delete model.users;
                 return this.ajaxProxy.update(model.id, model);
             },
             DateChange:function(v){

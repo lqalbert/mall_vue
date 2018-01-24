@@ -132,6 +132,8 @@
 
         <rowInfo name="rowInfo"
                  :ajax-proxy="ajaxProxy"
+                 :users="users"
+                 :buyer="buyer"
                  @submit-success="handleReload"
         />
         <div id="app2" class="b" style="margin-top:5px;">

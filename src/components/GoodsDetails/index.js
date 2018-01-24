@@ -27,6 +27,7 @@ export default {
             UnitTypes:{},
             getCateCascaderUrl:URL_CONST.DOMAIN + "/tree",
             uploadUrl: URL_CONST.UPLOAD_URL,
+            urlDomain: URL_CONST.DOMAIN,
             searchForm: {
                 goods_name:'',
                 goods_number:'',
@@ -34,14 +35,6 @@ export default {
                 end:'',
                 cate_id:[],
             },
-            // mainData:[ {
-            //     'goods_name':'自然堂护肤品',
-            //     'goods_price':'399.00',
-            //     'goods_number':25468137,
-            //     'goods_type':'化妆品',
-            //     'unit_type':'瓶',
-            //     'status':true
-            // }],
             pickerOptions: {
                 disabledDate(time) {
                     return time.getTime() > Date.now();//- 8.64e7
@@ -98,11 +91,12 @@ export default {
         showAdd(){
             this.$modal.show('add-goods-details',{model:this.UnitTypes});
         },
-        showEdit(){
-            this.$modal.show('edit-goods-details',{model:row});
+        showEdit(row){
+            //console.log(row);die;
+            this.$modal.show('edit-goods-details', { model: row, extra: this.UnitTypes, urlDomain: this.urlDomain});
         },
         handleCateChange(v){
-            console.log(v);
+            //console.log(v);
             this.searchForm.cate_id = v;
         },
         getStartTime(v){

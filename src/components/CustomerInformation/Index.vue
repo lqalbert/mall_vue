@@ -47,12 +47,12 @@
                         </template>
                     </el-table-column>
                     <div slot="buttonbar">
-                            <el-button size="small"  type="primary" @click="$modal.show('add-customerinformation')" >添加客户</el-button>
+                        <el-button size="small"  type="primary" @click="$modal.show('add-customerinformation')" >添加客户</el-button>
                     </div>
                 </TableProxy>
             </el-col>
         </el-row>
-        
+
 
         <Add name='add-customerinformation'
              :ajax-proxy="ajaxProxy"
@@ -68,15 +68,15 @@
 
         <addAddress name='add-Address'
                     :ajax-proxy="addressAjaxProxy"
-                   >
+        >
 
         </addAddress>
         <!--<Chat name='chat'></Chat>-->
         <addOrder name='add-orderBasic'
                   width="60%"
-             :ajax-proxy="orderBasicAjaxProxy"
-             :CategoryList="CategoryList"
-            ></addOrder>
+                  :ajax-proxy="orderBasicAjaxProxy"
+                  :CategoryList="CategoryList"
+        ></addOrder>
 
 
     </div>
@@ -107,7 +107,7 @@
         pageTitle: "客户资料",
         mixins: [PageMix,SearchTool,DataTable,Customer],
         components: {
-           // advancedQuery,
+            // advancedQuery,
             Add,
             // Chat,
             Edit,
@@ -156,11 +156,11 @@
             },
             getCategory(){
                 let selectProxy = new SelectProxy('http://localhost:8000/tree', this.getCategoryList, this);
-                 selectProxy.load();
+                selectProxy.load();
             },
-             getAddress(){
+            getAddress(){
                 let selectProxy = new SelectProxy(DeliveryAddress.getUrl(), this.getAddressData, this);
-                 selectProxy.load();
+                selectProxy.load();
             },
 
         },

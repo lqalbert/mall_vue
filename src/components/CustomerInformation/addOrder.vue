@@ -8,25 +8,25 @@
                 <el-step title="确认订单"></el-step>
             </el-steps>
             <el-form ref="addOrderForm" :model="addOrderForm" :label-width="labelWidth"   :label-position="labelPosition"  label-width="140px">
-            <div v-show="this.active==0">
-                <el-table
-                        border
-                        :data="orderData"
-                        style="width: 100%">
-                    <el-table-column label="序号" type="index" width="80 px"></el-table-column>
-                    <el-table-column prop="goods_name" label="商品名称"></el-table-column>
-                    <el-table-column prop="price" label="商品单价"></el-table-column>
-                    <el-table-column prop="goods_number" label="商品数量">
-                    </el-table-column>
-                    <el-table-column prop="moneyNotes" label="小 记"></el-table-column>
-                    <el-table-column prop="remark" label="备注"></el-table-column>
-                    <el-table-column  label="操作" align="center">
-                        <template slot-scope="scope">
-                            <el-button size="small" type="danger" @click="deleteAddress(scope.row)">删 除</el-button>
-                        </template>
-                    </el-table-column>
-                </el-table>
-                <br>
+                <div v-show="this.active==0">
+                    <el-table
+                            border
+                            :data="orderData"
+                            style="width: 100%">
+                        <el-table-column label="序号" type="index" width="80 px"></el-table-column>
+                        <el-table-column prop="goods_name" label="商品名称"></el-table-column>
+                        <el-table-column prop="price" label="商品单价"></el-table-column>
+                        <el-table-column prop="goods_number" label="商品数量">
+                        </el-table-column>
+                        <el-table-column prop="moneyNotes" label="小 记"></el-table-column>
+                        <el-table-column prop="remark" label="备注"></el-table-column>
+                        <el-table-column  label="操作" align="center">
+                            <template slot-scope="scope">
+                                <el-button size="small" type="danger" @click="deleteAddress(scope.row)">删 除</el-button>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                    <br>
                     <el-row>
                         <el-col :span="12">
                             <el-form-item label="商品类型" prop="dev">
@@ -57,28 +57,28 @@
                         </el-col>
                     </el-row>
                     <el-button @click="addOrder" type="primary" class="right" >添 加</el-button>
-            </div>
-            <br>
-            <div v-show="this.active==1">
-                <el-row>
-                    <el-col :span="12">
-                        <el-form-item prop="addressID" label="请选择收货地址">
-                        <el-select v-model="addressID" placeholder="请选择收货地址" @change="addressChange">
-                        <el-option v-for="v in address" :value="v.id" :key="v.id" :label="v.name" ></el-option>
-                        </el-select>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item prop="deal_id" label="请选择成交员工">
-                        <el-select v-model="addOrderForm.deal_id" placeholder="请选择成交员工"  @change="userChange">
-                        <el-option v-for="v in users" :value="v.id" :key="v.id" :label="v.realname" ></el-option>
-                        </el-select>
-                        </el-form-item>
-                    </el-col>
-                </el-row>
+                </div>
+                <br>
+                <div v-show="this.active==1">
+                    <el-row>
+                        <el-col :span="12">
+                            <el-form-item prop="addressID" label="请选择收货地址">
+                                <el-select v-model="addressID" placeholder="请选择收货地址" @change="addressChange">
+                                    <el-option v-for="v in address" :value="v.id" :key="v.id" :label="v.name" ></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                            <el-form-item prop="deal_id" label="请选择成交员工">
+                                <el-select v-model="addOrderForm.deal_id" placeholder="请选择成交员工"  @change="userChange">
+                                    <el-option v-for="v in users" :value="v.id" :key="v.id" :label="v.realname" ></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
 
-            </div>
-            <br>
+                </div>
+                <br>
                 <div v-show="this.active==2">
                     <el-table
                             border
@@ -92,7 +92,7 @@
                         <el-table-column prop="remark" label="备注"></el-table-column>
                     </el-table>
                     <br>
-                   <h3> <span>商品总金额:{{this.totalMoney}}</span></h3>
+                    <h3> <span>商品总金额:{{this.totalMoney}}</span></h3>
                     <br>
                     <el-table
                             border
@@ -246,7 +246,7 @@
                 }
             },
             getAjaxPromise(model){
-                    return this.ajaxProxy.create(model);
+                return this.ajaxProxy.create(model);
             },
             realSubmit(model, name){
                 let ajaxPromise =  this.getAjaxPromise(model);
@@ -284,18 +284,18 @@
                 let index = this.orderData.indexOf(row);
                 let goods_id = this.goodsIds.indexOf(row.goods_id);
                 let vmThis = this;
-               if( index > -1){
-                   this.$confirm('确定删除?', '警告',{
-                       confirmButtonText: '确定',
-                       cancelButtonText: '取消',
-                       type: 'warning'
-                   }).then(()=>{
-                       this.orderData.splice(index,1);
-                       this.goodsIds.splice(goods_id,1);
-                       this.totalMoney -= row.moneyNotes;
-                       vmThis.$message.success("操作成功");
-                   });
-               }
+                if( index > -1){
+                    this.$confirm('确定删除?', '警告',{
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(()=>{
+                        this.orderData.splice(index,1);
+                        this.goodsIds.splice(goods_id,1);
+                        this.totalMoney -= row.moneyNotes;
+                        vmThis.$message.success("操作成功");
+                    });
+                }
             },
             last() {
                 if (this.active-- < 1) this.active = 0;
@@ -316,7 +316,7 @@
             },
             getAddress(cus_id){
                 let selectProxy = new SelectProxy('http://localhost:8000/deliveryaddress?cus_id='+cus_id, this.getAddressData, this);
-                  selectProxy.load();
+                selectProxy.load();
             },
             getAddressData(data){
                 this.address=data.items;

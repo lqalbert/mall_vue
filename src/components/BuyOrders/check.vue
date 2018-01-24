@@ -112,7 +112,8 @@
               this.checkForm = event.params.row;
             },
             getAjaxPromise(model){
-                console.log();
+                delete model.cus_name;
+                delete model.user_name;
                 return this.ajaxProxy.update(model.id, model);
             },
         },

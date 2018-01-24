@@ -40,9 +40,9 @@
                             </el-table-column>
                             <el-table-column prop="order_pay_money" label="应付金额" align="center" width="80">
                             </el-table-column>
-                            <el-table-column prop="cus_id" label="购买顾客" align="center" width="80">
+                            <el-table-column prop="cus_name" label="购买顾客" align="center" width="80">
                             </el-table-column>
-                            <el-table-column prop="user_id" label="成交员工" align="center" width="80">
+                            <el-table-column prop="user_name" label="成交员工" align="center" width="80">
                             </el-table-column>
                             <el-table-column prop="order_status" label="订单状态" align="center">
                                 <template slot-scope="scope">

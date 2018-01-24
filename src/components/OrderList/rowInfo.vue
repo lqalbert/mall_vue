@@ -22,7 +22,7 @@
                     </el-col>
                     <el-col :span='12'>
                         <el-form-item label="购买客户"  prop="cus_id">
-                            <el-select v-model='rowInfoForm.buyer'>
+                            <el-select v-model='rowInfoForm.cus_id'>
                                 <el-option v-for="buy in buyer" :label="buy.name"
                                            :value="buy.id" :key="buy.id">
                                 </el-option>
@@ -33,8 +33,8 @@
                 </el-row>
                 <el-row>
                     <el-col :span='12'>
-                        <el-form-item label="成交员工" prop="user_id">
-                            <el-select v-model='rowInfoForm.users'>
+                        <el-form-item label="成交员工" prop="deal_id">
+                            <el-select v-model='rowInfoForm.deal_id'>
                                 <el-option v-for="user in users"
                                            :label="user.realname"
                                            :value="user.id"

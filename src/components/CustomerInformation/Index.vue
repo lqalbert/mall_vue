@@ -40,10 +40,10 @@
 
                     <el-table-column fixed="right" label="操作" width="280" align="center">
                         <template slot-scope="scope">
-                            <el-button type="primary" size="small"  @click="openEdit(scope.row)">编辑</el-button>
-                            <el-button type="primary" size="small"  @click="openAddDeliveryAddress(scope.row)">添加地址</el-button>
-                            <el-button size="small" type="success" @click="openAddOrder(scope.row)">下单</el-button>
-                            <el-button size="small" type="danger" @click="handleDelete(scope.row.id)">删除</el-button>
+                            <el-button type="primary" size="small"  @click="openEdit(scope.row)">编 辑</el-button>
+                            <el-button type="primary" size="small"  @click="openAddDeliveryAddress(scope.row)">收货地址</el-button>
+                            <el-button size="small" type="success"  @click="openAddOrder(scope.row)">下 单</el-button>
+                            <!--<el-button size="small" type="danger" @click="handleDelete(scope.row.id)">删除</el-button>-->
                         </template>
                     </el-table-column>
                     <div slot="buttonbar">
@@ -73,6 +73,7 @@
         </addAddress>
         <!--<Chat name='chat'></Chat>-->
         <addOrder name='add-orderBasic'
+                  width="60%"
              :ajax-proxy="orderBasicAjaxProxy"
              :CategoryList="CategoryList"
             ></addOrder>

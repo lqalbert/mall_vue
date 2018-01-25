@@ -1,8 +1,8 @@
 let domain;
 if (process.env.NODE_ENV == 'development') {
-    domain = "http://localhost:8000";
+    domain = "http://localhost:8000/admin";
 } else {
-    domain = ""
+    domain = "/admin"
 }
 
 let upload_url = domain + "/upload";

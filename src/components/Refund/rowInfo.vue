@@ -5,7 +5,7 @@
                 <el-row>
                     <el-col :span="12">
                         <el-form-item  label="订单号" prop="id">
-                            <el-input v-model="rowInfoForm.id" size="small"></el-input>
+                            <el-input v-model="rowInfoForm.id" size="small" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -17,12 +17,12 @@
                 <el-row>
                     <el-col :span='12'>
                         <el-form-item label="应付金额" prop="order_pay_money">
-                            <el-input v-model="rowInfoForm.order_pay_money" size="small"></el-input>
+                            <el-input v-model="rowInfoForm.order_pay_money" size="small" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span='12'>
                         <el-form-item label="购买客户"  prop="cus_id">
-                            <el-select v-model='rowInfoForm.cus_id'>
+                            <el-select v-model='rowInfoForm.cus_id' :disabled="true">
                                 <el-option v-for="buy in buyer" :label="buy.name"
                                            :value="buy.id" :key="buy.id">
                                 </el-option>
@@ -34,7 +34,7 @@
                 <el-row>
                     <el-col :span='12'>
                         <el-form-item label="成交员工" prop="deal_id">
-                            <el-select v-model='rowInfoForm.deal_id' :disabled="true">
+                            <el-select v-model='rowInfoForm.deal_id' :disabled="true" >
                                 <el-option v-for="user in users"
                                            :label="user.realname"
                                            :value="user.id"
@@ -155,6 +155,10 @@
                     shipping_status:'',
                     shipping_name:'',
                     order_time:'',
+                },
+                buyer:{
+                    type:Array,
+                    default:[],
                 },
                 model:null
 

@@ -2,23 +2,23 @@
     <div class="hello">
         <el-row>
             <el-form :inline="true" ref="searchForm" :model="searchForm">
-                <el-form-item prop="start" >
-                    <el-date-picker size="small" v-model="searchForm.start"
-                                    type="date"
-                                    placeholder="下单开始时间"
-                                    @change="startDateChange"
-                                    editable="false">
-                    </el-date-picker>
-                </el-form-item>
+                <!--<el-form-item prop="start" >-->
+                    <!--<el-date-picker size="small" v-model="searchForm.start"-->
+                                    <!--type="date"-->
+                                    <!--placeholder="下单开始时间"-->
+                                    <!--@change="startDateChange"-->
+                                    <!--editable="false">-->
+                    <!--</el-date-picker>-->
+                <!--</el-form-item>-->
 
-                <el-form-item prop="end">
-                    <el-date-picker size="small" v-model="searchForm.end"
-                                    type="date"
-                                    placeholder="下单截止时间"
-                                    @change="endDateChange"
-                                    editable="false">
-                    </el-date-picker>
-                </el-form-item>
+                <!--<el-form-item prop="end">-->
+                    <!--<el-date-picker size="small" v-model="searchForm.end"-->
+                                    <!--type="date"-->
+                                    <!--placeholder="下单截止时间"-->
+                                    <!--@change="endDateChange"-->
+                                    <!--editable="false">-->
+                    <!--</el-date-picker>-->
+                <!--</el-form-item>-->
 
                 <el-form-item prop="goods_name">
                     <el-input size="small" v-model="searchForm.goods_name" placeholder="请输入商品名称"></el-input>
@@ -391,9 +391,9 @@
             tabindex:'0',
             currentPage4:1,
             tableData: '',
-            usertableData:'',
-            addresstableData: '',
-            goodstableData:'',
+            usertableData:[],
+            addresstableData: [],
+            goodstableData:[],
             CategoryList:''
         }
     },

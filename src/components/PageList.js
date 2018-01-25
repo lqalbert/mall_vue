@@ -14,6 +14,7 @@ const PageList = {
 
     'BuyOrders': (resolve) => { require(['./BuyOrders/Index.vue'], resolve)},
     'OrderList':(resolve)=>{ require(['./OrderList/Index.vue'], resolve)},
+    'Refund':(resolve)=>{ require(['./Refund/Index.vue'], resolve)},
     'InventoryList':(resolve)=>{ require(['./InventoryList/Index.vue'], resolve)},
     'GoodsInto':(resolve)=>{ require(['./GoodsInto/Index.vue'], resolve)},
     'GoodsOut':(resolve)=>{ require(['./GoodsOut/Index.vue'], resolve)},

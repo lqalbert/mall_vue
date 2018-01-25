@@ -81,7 +81,7 @@
             },
             deleteData(id){
                 this.categoryId=id;
-                let categoryProxy = new DataProxy('http://localhost:8000/deleteCategory/'+id, this.pageSize, this.deleteCategory, this,);
+                let categoryProxy = new DataProxy('/deleteCategory/'+id, this.pageSize, this.deleteCategory, this,);
                  categoryProxy.load();
 
             },

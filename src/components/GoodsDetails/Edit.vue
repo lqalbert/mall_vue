@@ -199,8 +199,6 @@ export default {
                 description:'',
                 img_path:[],
                 del_imgs:[],
-                
-
             },
             attrForm:{
                 value:"",

@@ -3,22 +3,22 @@
     <div>
         <div id="top">
             <el-row>
-                <!-- <el-col :span="12">
+                <el-col :span="12">
                     <div class="big-title">CRM客户关系管理系统</div>
                 </el-col>
                 <el-col  :span="12">
                     <div class="top-date">北京时间 2017年12月05日 18:18:18 星期二</div>
-                    <div class="top-name">欢迎您大佬大佬</div>
-                <el-menu class="el-menu-demo" id="top-css" mode="horizontal" @select="handleSelect">
-                <el-submenu index="999">
-                    <template slot="title">大佬大佬</template>
-                    <el-menu-item index="UserInfo"><i class="el-icon-setting"></i>个人信息</el-menu-item>
-                    <el-menu-item index="UserSetting"><i class="el-icon-setting"></i>设置密码</el-menu-item>
-                    <el-menu-item index="Logout"><i class="el-icon-circle-close"></i>退出登录</el-menu-item>
-                </el-submenu>
-                </el-menu>
-                </el-col> -->
-                <button @click="logout">退出</button>
+                    <!-- <div class="top-name">欢迎您大佬大佬</div> -->
+                    <el-menu class="el-menu-demo" id="top-css" mode="horizontal" @select="handleSelect">
+                        <el-submenu index="999">
+                            <template slot="title">大佬大佬</template>
+                            <el-menu-item index="UserInfo"><i class="el-icon-setting"></i>个人信息</el-menu-item>
+                            <el-menu-item index="UserSetting"><i class="el-icon-setting"></i>设置密码</el-menu-item>
+                            <el-menu-item index="Logout"><i class="el-icon-circle-close"></i>退出登录</el-menu-item>
+                        </el-submenu>
+                    </el-menu>
+                </el-col>
+                <!-- <button @click="logout">退出</button> -->
             </el-row>
         </div>
         <aside id="navgation">
@@ -155,6 +155,7 @@
                     this.currentView = name;
                     this.$options.loadedComponent.push(name);
                 } else {
+                    
                     this.currentView = name;
                     this.editableTabsValue = name;
                 }
@@ -183,7 +184,12 @@
                 this.navChange('UserSetting');
             },
             handleSelect(key, keyPath){
-                // console.log(key);
+                //console.log(key);
+                // if(key == 'Logout'){
+                //     this.logout();
+                // }else{
+                //     this.navChange(key);
+                // }
                 this.navChange(key);
             },
             handleScroll(e){

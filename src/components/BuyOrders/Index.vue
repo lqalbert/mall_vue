@@ -40,9 +40,9 @@
                             </el-table-column>
                             <el-table-column prop="order_pay_money" label="应付金额" align="center" width="80">
                             </el-table-column>
-                            <el-table-column prop="cus_name" label="购买顾客" align="center" width="80">
+                            <el-table-column prop="cus_name" label="购买顾客" align="center">
                             </el-table-column>
-                            <el-table-column prop="user_name" label="成交员工" align="center" width="80">
+                            <el-table-column prop="user_name" label="成交员工" align="center">
                             </el-table-column>
                             <el-table-column prop="order_status" label="订单状态" align="center">
                                 <template slot-scope="scope">
@@ -53,13 +53,6 @@
                                     <span v-else-if="scope.row.order_status==2">退货中</span>
                                 </template>
                             </el-table-column>
-                            <el-table-column prop="shipping_status" label="发货状态" align="center" width="100">
-                                <template slot-scope="scope">
-                                    <span v-if="scope.row.shipping_status==0">待发货</span>
-                                    <span v-else-if="scope.row.shipping_status==1" >已发货</span>
-                                    <span v-else-if="scope.row.shipping_status==2">已收货</span>
-                                </template>
-                            </el-table-column>
                             <el-table-column prop="check_status" label="审核状态" align="center" width="100">
                                 <template slot-scope="scope">
                                     <span v-if="scope.row.check_status==0">未通过</span>
@@ -67,38 +60,16 @@
                                     <span v-else-if="scope.row.check_status==2">未审核</span>
                                 </template>
                             </el-table-column>
-                            <el-table-column prop="order_time" label="下单时间" align="center">
-                            </el-table-column>
                             <el-table-column  label="操作" align="center" width="140">
                                 <template slot-scope="scope">
                                     <el-button type="info" size="small" @click="showRow(scope.row)">查看</el-button>
                                     <el-button type="warning" size="small" @click="handleCheck(scope.row)">审核</el-button>
                                 </template>
                             </el-table-column>
-                            <div slot="buttonbar">
-                                <el-tooltip content="点击添加订单" placement="right">
-                                    <el-button size="small" icon="plus" type="info" @click="showAdd" >添加</el-button>
-                                </el-tooltip>
-                            </div>
+
                         </TableProxy>
 					</el-col>
         </el-row>
-        <el-table :data="tableData"  v-loading.body="dataLoad" empty-text="请录入客户信息"
-                  highlight-current-row border ref="select" style="width: 100%">
-            <el-table-column label="序号" width="65" type="index" align="center"></el-table-column>
-            <el-table-column label="产品类型" prop="pdt_type" align="center" width="150"></el-table-column>
-            <el-table-column label="产品名称" prop="pdt_name" align="center" width="150"></el-table-column>
-            <el-table-column label="客户姓名" prop="cus_name"></el-table-column>
-            <el-table-column label="销售员工" prop="sale_name"></el-table-column>
-            <el-table-column label="数量" prop="pdt_num"></el-table-column>
-            <el-table-column label="购买时间" prop="buy_time"></el-table-column>
-            <el-table-column label="操作" align="center" width="155" >
-                <template slot-scope="scope">
-                    <el-button type="info" size="small" @click="showRow(scope.row)">查看</el-button>
-                    <el-button type="warning" size="small" @click="handleCheck(scope.row)">审核</el-button>
-                </template>
-            </el-table-column>
-        </el-table>
 
 
         <showRowDialog name="showRow"/>
@@ -115,6 +86,7 @@ import PageMix from '../../mix/Page';
 import DataProxy from '../../packages/DataProxy';
 import SearchTool from '../../mix/SearchTool';
 import BuyOrderAjaxProxy from '../../ajaxProxy/BuyOrder';
+import OrderBasic from '../../ajaxProxy/OrderBasic';
 import TableProxy from '../common/TableProxy';
 import DataTable from '../../mix/DataTable';
 import config from '../../mix/Delete';
@@ -130,8 +102,8 @@ export default {
     },
     data () {
       return {
-        ajaxProxy:BuyOrderAjaxProxy,
-        mainurl:BuyOrderAjaxProxy.getUrl(),
+        ajaxProxy:OrderBasic,
+        mainurl:OrderBasic.getUrl(),
         mainparam:"",
         msg: 'Welcome to Your Vue.js App',
         searchForm:{
@@ -184,7 +156,7 @@ export default {
           console.log(this.mainurl);
       },
       buyorderInit(business){
-          let selectProxy = new SelectProxy(BuyOrderAjaxProxy.getUrl(), this.initOrderlist, this);
+          let selectProxy = new SelectProxy(ajaxProxy.getUrl(), this.initOrderlist, this);
           selectProxy.setExtraParam({business:business}).load();
       },
       mainTableLoad(data){

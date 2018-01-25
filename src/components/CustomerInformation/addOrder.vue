@@ -70,7 +70,7 @@
                         </el-col>
                         <el-col :span="12">
                             <el-form-item prop="deal_id" label="请选择成交员工">
-                                <el-select v-model="addOrderForm.deal_id" placeholder="请选择成交员工"  @change="userChange">
+                                <el-select v-model="deal_id" placeholder="请选择成交员工"  @change="userChange">
                                     <el-option v-for="v in users" :value="v.id" :key="v.id" :label="v.realname" ></el-option>
                                 </el-select>
                             </el-form-item>
@@ -166,6 +166,7 @@
                 remark:'',
                 goods_number:'',
                 addressID:'',
+                realname:'',
                 dev:[]
             }
         },
@@ -193,13 +194,13 @@
             },
             userChange(deal_id){
                 this.deal_id=deal_id;
-                this.deal_name=this.usersListData[this.addOrderForm.deal_id].realname;
+                this.deal_name=this.usersListData[this.deal_id].realname;
                 this.addressList=[];
                 let data={
                     name : this.addressListData[this.address_id].name,
                     phone : this.addressListData[this.address_id].phone,
                     address: this.addressListData[this.address_id].address,
-                    deal_name:this.deal_name
+                    deal_name:this.deal_name,
                 };
                 this.addressList.push(data);
             },
@@ -222,6 +223,7 @@
                 this.orderData=[];
                 this.goodsIds=[];
                 this.addressID='';
+                this.deal_id='';
                 this.totalMoney=0;
                 this.active=0;
                 this.$modal.hide(this.name);
@@ -258,6 +260,7 @@
                     vmthis.orderData=[];
                     vmthis.goodsIds=[];
                     vmthis.addressID='';
+                    vmthis.deal_id='';
                     vmthis.totalMoney=0;
                     vmthis.active=0;
                 })
@@ -304,7 +307,7 @@
                 if (this.active++ > 1) this.active = 2;
             },
             categoryChange(cate_id){
-                let orderDataProxy = new DataProxy('http://localhost:8000/goodsdetails',this.pageSize,this.getOrderData, this);
+                let orderDataProxy = new DataProxy('http://localhost:8000/admin/goodsdetails',this.pageSize,this.getOrderData, this);
                 this.orderDataProxy = orderDataProxy;
                 let cates = {cate_id:cate_id};
                 this.orderDataProxy.setExtraParam(cates);
@@ -315,7 +318,7 @@
                 this.goodsInfoData=data.goods;
             },
             getAddress(cus_id){
-                let selectProxy = new SelectProxy('http://localhost:8000/deliveryaddress?cus_id='+cus_id, this.getAddressData, this);
+                let selectProxy = new SelectProxy('http://localhost:8000/admin/deliveryaddress?cus_id='+cus_id, this.getAddressData, this);
                 selectProxy.load();
             },
             getAddressData(data){
@@ -325,12 +328,14 @@
             getUsersData(data){
                 this.users=data.items;
                 this.usersListData=data.users;
+                console.log( this.usersListData)
             },
+
         },
         created(){
-            let orderDataProxy = new DataProxy('http://localhost:8000/users',this.pageSize,this.getUsersData, this);
-            this.orderDataProxy = orderDataProxy;
-            this.orderDataProxy.load();
+            let userDataProxy = new DataProxy('http://localhost:8000/admin/users',this.pageSize,this.getUsersData, this);
+            userDataProxy.load();
+
         }
 
     }

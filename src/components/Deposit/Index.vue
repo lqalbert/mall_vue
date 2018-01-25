@@ -111,7 +111,11 @@
             ajaxProxy:DepositAjaxProxy,
 
             departments:[],
-            groups:[],
+            groups:[
+                {id:1,name:'dsf'},
+                {id:2,name:'fse'},
+                {id:3,name:'get'},
+                ],
             users:[],
             searchForm:{
                 department_id:"",
@@ -140,13 +144,17 @@
             this.employee = data.items;
         },
         onDepartChange(pid){
-            this.getGroupsAjax(pid);
+            this.groups=[];
+            this.users=[];
             this.searchForm.group_id='';
             this.searchForm.user_id='';
+            this.getGroupsByPidAjax(pid);
         },
         onGroupChange(gid){
-            this.getUsersAjax(gid);
+            this.users=[];
             this.searchForm.user_id='';
+            this.getUsersByGidAjax(gid);
+
         }
     },
     created(){

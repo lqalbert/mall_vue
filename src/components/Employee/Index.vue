@@ -185,7 +185,6 @@
            name="edit-employee"
            :ajax-proxy="ajaxProxy"
            :departments="departments"
-           :groups="groups"
            @submit-success="handleReload"
          />
 

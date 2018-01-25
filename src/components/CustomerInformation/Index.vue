@@ -155,7 +155,7 @@
                 this.addressData=data.items;
             },
             getCategory(){
-                let selectProxy = new SelectProxy('http://localhost:8000/tree', this.getCategoryList, this);
+                let selectProxy = new SelectProxy('http://localhost:8000/admin/tree', this.getCategoryList, this);
                 selectProxy.load();
             },
             getAddress(){

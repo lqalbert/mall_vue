@@ -177,7 +177,7 @@
                 dialogThis: this,
                 labelPosition:"right",
                 labelWidth:'80px',
-                url:"http://localhost:8000/upload",
+                url:"http://localhost:8000/admin/upload",
                 uplaodParam:{  name:"avater", subdir:'asdf' },
                 uploadImg:"",
                 groups:[],
@@ -217,7 +217,9 @@
 
         methods:{
             departmentChange(v){
-                this.getGroupsAjax(v);
+                this.groups=[];
+                this.addForm.group_id='';
+                this.getGroupsByPidAjax(v);
             },
             getAjaxPromise(model){
               //console.log(model);
@@ -226,7 +228,7 @@
             addFormUploadSuccess(response, file){
                 // this.addForm.head = URL.createObjectURL(file.raw);
                 if (response.status==1) {
-                    this.addForm.head = response.data.fullurl;
+                    this.addForm.head = response.data.url;
                     this.uploadImg = response.data.fullurl;
                 }
                 

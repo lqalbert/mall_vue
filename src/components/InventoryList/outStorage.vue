@@ -1,153 +1,163 @@
 <template>
-    <MyDialog title="商品出库" :name="name" :width="width" :height="height" @before-open="onOpen">
+    <MyDialog title="商品出库" :name="name" :width="width" :height="height">
         <el-form :model="outForm" :inline="true" class="demo-form-inline" ref="outForm">
-            <el-form-item label="商品名称">
-                <el-input v-model="outForm.name"></el-input>
-            </el-form-item>
-            <el-form-item label="商品类型">
-                <el-select v-model="outForm.type" placeholder="请选择商品类型">
-                    <el-option label="美妆" value="美妆"></el-option>
-                    <el-option label="爽肤" value="美妆"></el-option>
-                </el-select>
-            </el-form-item>
-            <el-form-item label="商品数量">
-                <el-input-number v-model="outForm.amount" :min="1"></el-input-number>
-            </el-form-item>
-            <el-form-item label="商品型号">
-                <el-input v-model="outForm.version"></el-input>
-            </el-form-item>
-            <br/>
-            <el-form-item label="商品批次">
-                <el-input v-model="outForm.branch"></el-input>
-            </el-form-item>
-            <el-form-item label="出库时间">
-                <el-date-picker
-                        v-model="outForm.action_times"
-                        type="datetime"
-                        format="yyyy-MM-dd HH:mm:ss"
-                        @change="getTime"
-                        placeholder="选择日期时间">
-                </el-date-picker>
-            </el-form-item>
-            <el-form-item label="出库人">
-                <el-select v-model="outForm.action_users" placeholder="请选择出库人">
-                    <el-option label="李达" value="李达"></el-option>
-                    <el-option label="刘旭" value="刘旭"></el-option>
-                    <el-option label="池沼" value="池沼"></el-option>
-                    <el-option label="徐杰" value="徐杰"></el-option>
-                </el-select>
-            </el-form-item>
-            <el-form-item label="销售人员">
-                <el-select v-model="outForm.sale_user" placeholder="请选择销售人员">
-                    <el-option label="李达" value="李达"></el-option>
-                    <el-option label="刘旭" value="刘旭"></el-option>
-                    <el-option label="池沼" value="池沼"></el-option>
-                    <el-option label="徐杰" value="徐杰"></el-option>
-                </el-select>
-            </el-form-item>
-            <el-form-item label="销售时间">
-                <el-date-picker
-                        v-model="outForm.sale_time"
-                        type="datetime"
-                        format="yyyy-MM-dd HH:mm:ss"
-                        @change="getTimeS"
-                        placeholder="选择日期时间">
-                </el-date-picker>
-            </el-form-item>
-            <el-form-item label="审核人员">
-                <el-select v-model="outForm.review_user" placeholder="请选择审核人员">
-                    <el-option label="李达" value="李达"></el-option>
-                    <el-option label="刘旭" value="刘旭"></el-option>
-                    <el-option label="池沼" value="池沼"></el-option>
-                    <el-option label="徐杰" value="徐杰"></el-option>
-                </el-select>
-            </el-form-item>
-            <el-form-item label="审核时间">
-                <el-date-picker
-                        v-model="outForm.review_time"
-                        type="datetime"
-                        format="yyyy-MM-dd HH:mm:ss"
-                        @change="getTimeR"
-                        placeholder="选择日期时间">
-                </el-date-picker>
-            </el-form-item>
-            <el-form-item label="订单物流">
-                <el-select v-model="outForm.logistics" placeholder="请选择物流">
-                    <el-option label="顺丰" value="顺丰"></el-option>
-                    <el-option label="韵达" value="韵达"></el-option>
-                    <el-option label="圆通" value="圆通"></el-option>
-                    <el-option label="中通" value="中通"></el-option>
-                    <el-option label="百世" value="百世"></el-option>
-                    <el-option label="邮政" value="邮政"></el-option>
-                    <el-option label="菜鸟" value="菜鸟"></el-option>
-                </el-select>
-            </el-form-item>
+            <el-row>
+                <el-col :span="12">
+                    <el-form-item label="商品类型">
+                        <el-select clearable v-model="outForm.goods_type" placeholder="请选择商品类型"  @change="onTypeChange">
+                            <el-option v-for="type in goodsType" :label="type.name" :value="type.name" :key="type.id"></el-option>
+                        </el-select>
+                    </el-form-item>
+                    
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="商品名称">
+                       
+                        <el-select v-model="outForm.ventory_id" >
+                            <el-option v-for="goods in goodsList" :value="goods.id" :key="goods.id" :label="goods.goods_name">
+                                {{ goods.goods_name }} - {{ goods.goods_version }} - {{ goods.goods_batch }}
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+
+            <el-row>
+                <el-col :span="12">
+                    <el-form-item label="商品数量">
+                        <el-input-number v-model="outForm.goods_sum" :min="1"></el-input-number>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="出库时间">
+                        <el-date-picker
+                                v-model="outForm.create_time"
+                                type="date"
+                                format="yyyy-MM-dd"
+                                @change="getTime"
+                                placeholder="选择日期时间">
+                        </el-date-picker>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+
+            <el-row>
+                <el-col :span="12">
+                    <el-form-item label="出库人">
+                        <el-select v-model="outForm.user_id" placeholder="请选择出库人">
+                                <el-option v-for="user in users" :label="user.realname" :value="user.id" :key="user.id"></el-option>
+                        </el-select>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="订单编号">
+                        <el-select
+                            clearable
+                            filterable
+                            remote
+                            :remote-method="remoteMethod"
+                            :loading="loading"
+                            v-model="outForm.order_sn">
+                            <el-option v-for="order in order_sns" :value="order.order_sn" :label="order.order_sn" :key="order.id"></el-option>
+                        </el-select>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+
+
         </el-form>
         <div slot="dialog-foot" class="dialog-footer">
             <el-button @click="handleClose">取 消</el-button>
-            <el-button :observer="dialogThis" @click="addStorage" type="primary">确 定</el-button>
+            <!-- <el-button :observer="dialogThis" @click="addStorage" type="primary">确 定</el-button> -->
+            <submit-button
+                    :observer="dialogThis"
+                    @click="formSubmit('outForm')" >
+                    确 定
+                </submit-button>
         </div>
     </MyDialog>
 </template>
 
 <script>
-    import DialogForm from '../../mix/DialogForm'
+    import DialogForm from '../../mix/DialogForm';
+    import InventorySelectProxy from '../../packages/InventorySelectProxy';
+    import OrderSelectProxy from '../../packages/OrderSelectProxy';
+
     export default {
         name:'outStorage',
         mixins:[DialogForm],
         props:{
-        },
-        data(){
-            return{
-                dialogThis:this,
-                outForm:{
-                    types:'',
-                    name: '',
-                    type:'',
-                    amount:'',
-                    version:'',
-                    branch:'',
-                    sale_user:'',
-                    review_user:'',
-                    action_times:'',
-                    action_users:'',
-                    sale_time:'',
-                    review_time:'',
-                    logistics:''
-                },
-                model:''
-            }
-        },
-        methods:{
-            onOpen:function (param) {
-                this.model = param.params.model;
-            }
-            ,
-            addStorage:function () {
-                this.outForm.types='出库';
-                this.$emit('addStorages',this.outForm)
-                this.$modal.hide(this.name)
-                //console.log(this.outForm)
+            goodsType:{
+                type: Array,
+                default:[]
             },
-            getTime:function (val) {
-                this.outForm.action_time=val
-            },
-            getTimeS:function (val) {
-                this.outForm.sale_time=val
-            },
-            getTimeR:function (val) {
-                this.outForm.review_time=val
-            },
-        },
-        watch:{
-            model:function(val, oldVal){
-                for (const key in this.outForm) {
-                    if (this.outForm.hasOwnProperty(key)) {
-                        this.outForm[key] = val[key]
-                    }
+            users:{
+                type:Array,
+                default:function(){
+                    return [];
                 }
             }
         },
+        data(){
+            return{
+                loading:false,
+                dialogThis:this,
+                outForm:{
+
+                    type:"2",
+                    goods_type:'',
+                    goods_name:"",
+                    goods_sum:"",
+                    ventory_id:"",
+                    user_id:"",
+                    order_sn:"",
+                    create_time:"",
+                    
+                },
+                
+
+                goodsList:[],
+                order_sns:[]
+            }
+        },
+        methods:{
+            getTime:function (val) {
+                this.outForm.create_time = val
+            },
+            loadInventory(data){
+                this.goodsList = data.items;
+            },
+            onTypeChange(v){
+                this.inventorySelect.setParam({id:v});
+                this.inventorySelect.load();
+            },
+            remoteMethod(query){
+                if (query !== '') {
+                    this.loading = true;
+                    this.orderSelect.setParam({sn:query});
+
+                    let p = this.orderSelect.load();
+                    p.then(()=>{
+                        this.loading = false;
+                    })
+                }
+            },
+            loadOrder(data){
+                this.order_sns = data.items;
+            },
+            getAjaxPromise (model){
+                return this.ajaxProxy.create(model);
+            }
+        },
+       
+        created(){
+            let inventorySelect =  new InventorySelectProxy({}, this.loadInventory, this);
+            this.inventorySelect = inventorySelect;
+            // this.inventorySelect.load();
+
+            let orderSelect = new OrderSelectProxy({}, this.loadOrder, this);
+            this.orderSelect = orderSelect;
+        }
     }
 </script>
 

@@ -13,9 +13,24 @@
                             <el-radio-group v-model="addForm.spec_way">
                               <el-radio label="1">文字</el-radio>
                               <el-radio label="2">图片</el-radio>
-                              <el-radio label="3">颜色</el-radio>
+                              <el-radio label="3">自选</el-radio>
                             </el-radio-group>
                         </el-form-item>
+                    </el-col>
+                </el-row>
+
+                <el-row v-show="addForm.spec_way==3">
+                    <el-col :span="12">
+                        <el-form-item v-for="(i,index) in addForm.items" :label="'选项'+index" :key="index"  :prop="'items.' + index + '.value'" >
+                                <el-col :span="11">
+                                    <el-input v-model="i.value"  auto-complete="off" ></el-input>
+                                </el-col>
+                                <el-col :span="1">&nbsp;</el-col>
+                                <el-col :span="10"><el-button @click.prevent="removeItem(i)">删除</el-button></el-col>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-button @click.prevent="addItem()">添加</el-button>
                     </el-col>
                 </el-row>
             </el-form>
@@ -48,7 +63,7 @@ export default {
             addForm:{
                 spec_name:"",
                 spec_way:"1",
-                
+                items:[{value:""}]
             },
 
         }
@@ -58,6 +73,15 @@ export default {
             //console.log(model);
             return this.ajaxProxy.create(model);
         },
+        removeItem(item){
+            var index = this.addForm.items.indexOf(item)
+            if (index !== -1) {
+                this.addForm.items.splice(index, 1)
+            }
+        },
+        addItem(){
+            this.addForm.items.push({value:""});
+        }
     }
 }
 </script>

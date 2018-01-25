@@ -13,7 +13,7 @@ const OrderlistSelectProxy = function(param, callback, scope){
 OrderlistSelectProxy.prototype.setParam = function(param){
     // this.extraParm = param;
     if (!param.fields) {
-        param.fields = ['id','name'];
+        // param.fields = ['id','name'];
     }
     if (!param.business) {
         param.business = 'select';

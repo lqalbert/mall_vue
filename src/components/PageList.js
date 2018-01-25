@@ -21,6 +21,7 @@ const PageList = {
     'Category':(resolve)=>{ require(['./Category/Index.vue'], resolve)},
 
     'Deposit':(resolve)=>{ require(['./Deposit/Index.vue'], resolve)},
+    'Article':(resolve)=>{ require(['./Article/Index.vue'], resolve)},
 
 
 };

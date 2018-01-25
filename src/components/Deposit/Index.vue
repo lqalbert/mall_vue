@@ -24,7 +24,7 @@
                         </el-form-item>
                         <el-form-item prop="user_id" >
                             <el-select size="small" placeholder="请选择员工"  v-model="searchForm.user_id">
-                                <el-option v-for="v in employee" 
+                                <el-option v-for="v in users"
                                     :label="v.realname" 
                                     :value="v.id" 
                                     :key="v.id">
@@ -92,7 +92,8 @@
   import Add from './Add';
 
   import SearchTool from '../../mix/SearchTool';
-
+  import getGroupsByPid from '../../ajaxProxy/getGroupsByPid';
+  import getUsersByGid from '../../ajaxProxy/getUsersByGid';
   import DepositAjaxProxy from  '../../ajaxProxy/Deposit';
   import DepartSelectProxy from '../../packages/DepartSelectProxy';
   import GroupSelectProxy from '../../packages/GroupSelectProxy';
@@ -101,7 +102,7 @@
   export default {
     name: 'Deposit',
     pageTitle:"保证金-充值管理",
-    mixins:[PageMix,DataTable,SearchTool],
+    mixins:[PageMix,DataTable,SearchTool,getGroupsByPid,getUsersByGid],
     components:{
         Add
     },
@@ -111,8 +112,7 @@
 
             departments:[],
             groups:[],
-            employee:[],
-
+            users:[],
             searchForm:{
                 department_id:"",
                 group_id:"",
@@ -139,17 +139,14 @@
         loadEmployee(data) {
             this.employee = data.items;
         },
-        onDepartChange(id){
-            if (id != "") {
-                this.groupProxy.setParam({department_id: id});
-                this.groupProxy.load();
-            }
+        onDepartChange(pid){
+            this.getGroupsAjax(pid);
+            this.searchForm.group_id='';
+            this.searchForm.user_id='';
         },
-        onGroupChange(id){
-            if (id != "") {
-                this.employeeProxy.setParam({group_id:id});
-                this.employeeProxy.load();
-            }
+        onGroupChange(gid){
+            this.getUsersAjax(gid);
+            this.searchForm.user_id='';
         }
     },
     created(){

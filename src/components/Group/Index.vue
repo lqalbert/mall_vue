@@ -45,7 +45,7 @@
                 <TableProxy 
                     :url="mainurl" 
                     :param="mainparam"
-                    @dbclick="doubleclick"
+                    @dbclick="doubleClick"
                     :reload="dataTableReload">
                     <el-table-column label="序号" align="center" type="index" width="65"> 
                     </el-table-column>
@@ -97,7 +97,7 @@
             <el-col :span="24">
                 <el-tabs>
                     <el-tab-pane label="团队成员">
-                        <el-table :data="tableData1" empty-text="暂无数据" border>
+                        <el-table :data="users" empty-text="暂无数据" border>
                             <el-table-column prop="user_id" label="员工ID" width="180" align="center">
                             </el-table-column>
                             <el-table-column prop="realname" label="员工姓名" width="180" align="center">
@@ -143,7 +143,7 @@
     import addDialog from './Add.vue';
     import editDialog from './Edit.vue';
     import PageMix from '../../mix/Page';
-
+    import getUsersByGid from '../../ajaxProxy/getUsersByGid';
     import DepartSelectProxy from '../../packages/DepartSelectProxy';
     import GroupSelectProxy from '../../packages/GroupSelectProxy';
     import SearchTool from '../../mix/SearchTool';
@@ -155,7 +155,7 @@
     export default {
         name: 'Group',
         pageTitle: "团队小组",
-        mixins: [PageMix, SearchTool,DataTable],
+        mixins: [PageMix, SearchTool,DataTable,getUsersByGid],
         components: {
             addDialog,
             editDialog,
@@ -168,6 +168,7 @@
                 url:'/employees',
                 departments: [],
                 groups: [],
+                users: [],
                 addDialog: false,
                 editDialog: false,
                 searchForm: {
@@ -187,12 +188,13 @@
             }
         },
         methods: {
-            doubleclick:function (row) {
-                let categoryProxy = new SelectProxy(this.url+'/'+row.id,this.userLoaded, this,);
-                categoryProxy.load();
+            doubleClick:function (row) {
+                this.getUsersAjax(row.id);
+                // let categoryProxy = new SelectProxy(this.url+'/'+row.id,this.userLoaded, this,);
+                // categoryProxy.load();
             },
             userLoaded(data){
-                this.tableData1=data;
+                this.tableData1=data.items;
             }, getAjaxProxy(){
                 return  this.ajaxProxy;
             },

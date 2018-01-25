@@ -154,7 +154,7 @@
 
 <script>
     import DialogForm from '../../mix/DialogForm';
-    import getGroupsByPid from '../../mix/getGroupsByPid';
+    import getGroupsByPid from '../../ajaxProxy/getGroupsByPid';
     import { mapGetters } from 'vuex';
     
     export default {

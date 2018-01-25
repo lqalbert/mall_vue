@@ -198,7 +198,7 @@
             }
         },
         mounted:function(){
-            this.navChange('CustomerInformation');
+            this.navChange('Deposit');
         }
     }
 </script>

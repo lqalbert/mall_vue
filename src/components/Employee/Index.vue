@@ -207,7 +207,7 @@
     import DepartSelectProxy from '../../packages/DepartSelectProxy';
     import GroupSelectProxy from '../../packages/GroupSelectProxy';
     import SearchTool from '../../mix/SearchTool';
-    import getGroupsByPid from '../../mix/getGroupsByPid';
+    import getGroupsByPid from '../../ajaxProxy/getGroupsByPid';
     import EmployeeAjaxProxy  from '../../ajaxProxy/Employee';
 
     import { mapActions,mapGetters } from 'vuex';
@@ -258,11 +258,11 @@
             getAjaxProxy(){
               return  this.ajaxProxy;
             },
-            departmentChange(v){
-               this.getGroupsAjax(v);
+            departmentChange(pid){
+               this.getGroupsAjax(pid);
             },
-            groupChange(v){
-
+            groupChange(gid){
+                this.getUsersAjax(gid);
             },
 
           openEdit(row){

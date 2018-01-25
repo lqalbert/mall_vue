@@ -40,15 +40,32 @@
                             </el-table-column>
                             <el-table-column prop="order_pay_money" label="应付金额" align="center" width="80">
                             </el-table-column>
-                            <el-table-column prop="cus_id" label="购买顾客" align="center" width="80">
+                            <el-table-column prop="cus_name" label="购买顾客" align="center" width="80">
                             </el-table-column>
-                            <el-table-column prop="user_id" label="成交员工" align="center" width="80">
+                            <el-table-column prop="user_name" label="成交员工" align="center" width="80">
                             </el-table-column>
                             <el-table-column prop="order_status" label="订单状态" align="center">
+                                <template slot-scope="scope">
+                                    <span v-if="scope.row.order_status==0">待付款</span>
+                                    <span v-else-if="scope.row.order_status==1" >待确认</span>
+                                    <span v-else-if="scope.row.order_status==2">已完成</span>
+                                    <span v-else-if="scope.row.order_status==2">已关闭</span>
+                                    <span v-else-if="scope.row.order_status==2">退货中</span>
+                                </template>
                             </el-table-column>
                             <el-table-column prop="shipping_status" label="发货状态" align="center" width="100">
+                                <template slot-scope="scope">
+                                    <span v-if="scope.row.shipping_status==0">待发货</span>
+                                    <span v-else-if="scope.row.shipping_status==1" >已发货</span>
+                                    <span v-else-if="scope.row.shipping_status==2">已收货</span>
+                                </template>
                             </el-table-column>
                             <el-table-column prop="check_status" label="审核状态" align="center" width="100">
+                                <template slot-scope="scope">
+                                    <span v-if="scope.row.check_status==0">未通过</span>
+                                    <span v-else-if="scope.row.check_status==1" >通过</span>
+                                    <span v-else-if="scope.row.check_status==2">未审核</span>
+                                </template>
                             </el-table-column>
                             <el-table-column prop="order_time" label="下单时间" align="center">
                             </el-table-column>

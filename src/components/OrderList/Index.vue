@@ -4,17 +4,19 @@
             <el-form :inline="true" ref="searchForm" :model="searchForm">
                 <el-form-item prop="start" >
                     <el-date-picker size="small" v-model="searchForm.start"
+                                    type="date"
                                     placeholder="下单开始时间"
                                     @change="startDateChange"
-                                    :editable="false">
+                                    editable="false">
                     </el-date-picker>
                 </el-form-item>
 
                 <el-form-item prop="end">
                     <el-date-picker size="small" v-model="searchForm.end"
+                                    type="date"
                                     placeholder="下单截止时间"
                                     @change="endDateChange"
-                                    :editable="false">
+                                    editable="false">
                     </el-date-picker>
                 </el-form-item>
 
@@ -23,29 +25,29 @@
                 </el-form-item>
 
                 <el-form-item prop="sale_name">
-                    <el-input size="small" v-model="searchForm.sale_name" placeholder="员工名称"></el-input>
+                    <el-input size="small" v-model="searchForm.sale_name" placeholder="请输入员工名称"></el-input>
                 </el-form-item>
 
                 <el-form-item prop="consignee">
-                    <el-input size="small" v-model="searchForm.consignee" placeholder="客户名称"></el-input>
+                    <el-input size="small" v-model="searchForm.consignee" placeholder="请输入客户名称"></el-input>
                 </el-form-item>
 
 
 
-                <el-form-item prop="id">
-                    <el-input size="small" v-model="searchForm.id" placeholder="请输入订单编号"></el-input>
-                </el-form-item>
+                <!--<el-form-item prop="id">-->
+                    <!--<el-input size="small" v-model="searchForm.id" placeholder="请输入订单编号"></el-input>-->
+                <!--</el-form-item>-->
                 <br>
                 <el-form-item prop="type">
                     <el-button size="small" @click="show_all"         type="info" >全部</el-button>
-                    <el-button size="small" @click="typesearch('pre_pay')"  v-model="searchForm.type"   type="info" >待付款</el-button>
-                    <el-button size="small" @click="typesearch('pre_affirm')"  type="info" >待确认</el-button>
-                    <el-button size="small" @click="delivesearch('pre_deliver')" type="info" >待发货</el-button>
-                    <el-button size="small" @click="delivesearch('delivered')"   type="info" >已发货</el-button>
-                    <el-button size="small" @click="delivesearch('received')"    type="info" >已收货</el-button>
-                    <el-button size="small" @click="typesearch('done')"        type="info" >已完成</el-button>
-                    <el-button size="small" @click="typesearch('closed')"      type="info" >已关闭</el-button>
-                    <el-button size="small" @click="typesearch('refund')"      type="info" >退款中</el-button>
+                    <el-button size="small" @click="typesearch('0')"  v-model="searchForm.type"   type="info" >待付款</el-button>
+                    <el-button size="small" @click="typesearch('1')"  type="info" >待确认</el-button>
+                    <el-button size="small" @click="delivesearch('0')" type="info" >待发货</el-button>
+                    <el-button size="small" @click="delivesearch('1')"   type="info" >已发货</el-button>
+                    <el-button size="small" @click="delivesearch('2')"    type="info" >已收货</el-button>
+                    <el-button size="small" @click="typesearch('2')"        type="info" >已完成</el-button>
+                    <el-button size="small" @click="typesearch('3')"      type="info" >已关闭</el-button>
+                    <el-button size="small" @click="typesearch('4')"      type="info" >退款中</el-button>
                 </el-form-item>
 
                 <el-form-item label-width="5px">
@@ -72,9 +74,9 @@
                     </el-table-column>
                     <el-table-column prop="order_pay_money" label="应付金额" align="center" width="80">
                     </el-table-column>
-                    <el-table-column prop="cus_id" label="购买顾客" align="center" width="80">
+                    <el-table-column prop="cus_name" label="购买顾客" align="center" width="80">
                     </el-table-column>
-                    <el-table-column prop="user_id" label="成交员工" align="center" width="80">
+                    <el-table-column prop="user_name" label="成交员工" align="center" width="80">
                     </el-table-column>
 
                     <el-table-column prop="order_status" label="订单状态" align="center">
@@ -82,8 +84,8 @@
                             <span v-if="scope.row.order_status==0">待付款</span>
                             <span v-else-if="scope.row.order_status==1" >待确认</span>
                             <span v-else-if="scope.row.order_status==2">已完成</span>
-                            <span v-else-if="scope.row.order_status==2">已关闭</span>
-                            <span v-else-if="scope.row.order_status==2">退货中</span>
+                            <span v-else-if="scope.row.order_status==3">已关闭</span>
+                            <span v-else-if="scope.row.order_status==4">退货中</span>
                         </template>
                     </el-table-column>
                     <el-table-column prop="shipping_status" label="发货状态" align="center" width="100">
@@ -100,7 +102,7 @@
                             <span v-else-if="scope.row.check_status==2">未审核</span>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="order_time" label="下单时间" align="center">
+                    <el-table-column prop="created_at" label="下单时间" align="center">
                     </el-table-column>
                     <el-table-column  fixed="right" label="操作" align="center" width="200">
                         <template slot-scope="scope">
@@ -132,6 +134,8 @@
 
         <rowInfo name="rowInfo"
                  :ajax-proxy="ajaxProxy"
+                 :users="users"
+                 :buyer="buyer"
                  @submit-success="handleReload"
         />
         <div id="app2" class="b" style="margin-top:5px;">
@@ -145,6 +149,11 @@
                                 </el-table-column>
 
                                 <el-table-column prop="sex" label="客户性别" align="center">
+                                    <template slot-scope="scope">
+                                        <span v-if="scope.row.sex==0">未定义</span>
+                                        <span v-else-if="scope.row.sex==1" >男</span>
+                                        <span v-else-if="scope.row.sex==2">女</span>
+                                    </template>
                                 </el-table-column>
 
                                 <el-table-column prop="phone" label="客户电话" align="center">
@@ -169,13 +178,15 @@
                         <el-tab-pane label="通话记录">通话记录</el-tab-pane> -->
                         <el-tab-pane label="订单商品信息">
                             <el-table :data="goodstableData"  v-loading.body="dataLoad" highlight-current-row border ref="select" empty-text="请点击客户显示跟踪信息" border style="width: 100%">
+
                                 <el-table-column prop="goods_name" label="商品名称" align="center">
                                 </el-table-column>
-
-                                <el-table-column prop="goods_type" label="商品分类" align="center">
+                                <el-table-column prop="price" label="商品价格" align="center">
                                 </el-table-column>
 
                                 <el-table-column prop="goods_number" label="商品数量" width="180" align="center">
+                                </el-table-column>
+                                <el-table-column prop="remark" label="备注" width="180" align="center">
                                 </el-table-column>
 
                             </el-table>
@@ -185,8 +196,15 @@
                             <el-table :data="addresstableData"  v-loading.body="dataLoad" highlight-current-row border ref="select" empty-text="请点击客户显示订单收货地址" border style="width: 100%">
                                 <el-table-column prop="address" label="收货地址" align="center">
                                 </el-table-column>
-
-                                <el-table-column prop="det_address" label="详细地址" align="center">
+                                <el-table-column prop="default_address" label="是否为默认地址" align="center">
+                                    <template slot-scope="scope">
+                                        <span v-if="scope.row.default_address==0">否</span>
+                                        <span v-else-if="scope.row.default_address==1" >是</span>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column prop="name" label="收货人姓名" align="center">
+                                </el-table-column>
+                                <el-table-column prop="phone" label="收货人电话" align="center">
                                 </el-table-column>
                             </el-table>
                         </el-tab-pane>
@@ -310,10 +328,11 @@
             </el-row>
         </div>
         <add-dialog
-                name='add-orderlist'
-                :users="users"
-                :buyer="buyer"
-                :ajax-proxy="ajaxProxy"
+                name='add-orderBasic'
+                width="70%"
+                :customers="buyer"
+                :ajax-proxy="orderBasicAjaxProxy"
+                :CategoryList="CategoryList"
                 @submit-success="handleReload">
         </add-dialog>
     </div>
@@ -327,11 +346,14 @@
     import config from '../../mix/Delete';
     import DataProxy from '../../packages/DataProxy';
     import SelectProxy from  '../../packages/SelectProxy';
-    import OrderlistAjaxProxy from '../../ajaxProxy/Orderlist';
+    import OrderlistAjaxProxy from '../../ajaxProxy/OrderBasic';
     import UsersSelectProxy from '../../packages/UsersSelectProxy';
     import BuyerAjaxProxy from '../../ajaxProxy/Buyer';
+    import OrdergoodsAjaxProxy from '../../ajaxProxy/Ordergoods';
+    import DeliveryAddressAjaxProxy from '../../ajaxProxy/DeliveryAddress';
     import Users from '../../ajaxProxy/Users';
     import TableProxy from '../common/TableProxy';
+    import OrderBasic from '../../ajaxProxy/OrderBasic';
     import SearchTool from "../../mix/SearchTool";
     export default {
     name: 'OrderList',
@@ -343,6 +365,7 @@
     data () {
         return {
             ajaxProxy:OrderlistAjaxProxy,
+            orderBasicAjaxProxy:OrderBasic,
             mainurl:OrderlistAjaxProxy.getUrl(),
             mainparam:"",
             dataLoad:false,
@@ -368,26 +391,9 @@
             currentPage4:1,
             tableData: '',
             usertableData:'',
-            addresstableData: [{
-                address: '',
-                det_address: '',
-            }],
-            goodstableData:[{
-                goods_id:'1',
-                goods_name:'eqwe',
-                goods_type:'da',
-                goods_number:'2',
-            },{
-                goods_id:'2',
-                goods_name:'sdas',
-                goods_type:'das',
-                goods_number:'1',
-            },{
-                goods_id:'3',
-                goods_name:'das',
-                goods_type:'adfsf',
-                goods_number:'4',
-            },],
+            addresstableData: '',
+            goodstableData:'',
+            CategoryList:''
         }
     },
     watch:{
@@ -407,19 +413,19 @@
             console.log(row);
             /** 选项卡1显示客户信息 */
                 let selectProxy = new SelectProxy(BuyerAjaxProxy.getUrl(), this.loadbuyer, this);
-                selectProxy.setExtraParam({id:row.users}).load();
-//                let selectProxy = new SelectProxy(BuyerAjaxProxy.getUrl(), this.loadbuyer, this);
-//                selectProxy.setExtraParam({id:row.users}).load();
+                selectProxy.setExtraParam({id:row.cus_id}).load();
+            /** 选项卡2获取订单商品信息 */
+            let goodsProxy = new SelectProxy(OrdergoodsAjaxProxy.getUrl(), this.loadgoods, this);
+            goodsProxy.setExtraParam({goods_id:row.goods_id,order_id:row.id}).load();
             /** 选项卡3获取用户地址信息 */
-                var newdata = [];
-                newdata.address = row.address;
-                newdata.det_address = row.det_address;
-                this.addresstableData.splice(0,this.addresstableData.length);//清空数组
-                this.addresstableData.push(newdata);
-                console.log(this.addresstableData);
+            let addressProxy = new SelectProxy(DeliveryAddressAjaxProxy.getUrl(), this.loaddelivery, this);
+            addressProxy.setExtraParam({cus_id:row.cus_id}).load();
             /** 选项卡2显示订单商品信息 */
 
 
+        },
+        getCategoryList(data){
+            this.CategoryList=data.items;
         },
         dataReload:function(){
 //          console.log(this.searchForm);
@@ -440,11 +446,16 @@
           //  console.log(data.items);
           //  console.log(3333);return false;
         },
+        loaddelivery(data){
+            this.addresstableData = data.items;
+        },
         loadbuyer(data) {
             this.buyer = data.items;
-            if(this.tabindex==0){
-                this.usertableData = this.buyer;
-            };
+            this.usertableData = this.buyer;
+        },
+        loadgoods(data) {
+            this.goods = data.items;
+            this.goodstableData = this.goods;
         },
         /** 点击一行触发展示事件 */
         selectionChange:function () {
@@ -483,23 +494,7 @@
             this.typeName=this.conditions[v];
         },
         showAdd:function(){
-            this.$modal.show('add-orderlist');
-        },
-        rowClick(row, event, column) {
-            console.log(1111);
-            Array.prototype.remove = function (val) {
-                let index = this.indexOf(val);
-                if (index > -1) {
-                    this.splice(index, 1);
-                }
-            };
-
-            if (this.expands.indexOf(row.id) < 0) {
-                this.expands.push(row.id);
-            } else {
-                this.expands.remove(row.id);
-            }
-
+            this.$modal.show('add-orderBasic');
         },
         startDateChange:function(v){
             this.searchForm.start = v;
@@ -532,25 +527,30 @@
         initOrderlist(data){
 
             this.tableData = data.items;
-            //console.log(this.tableData);
+            console.log(data);
             this.mainData = data.items;
         },
         orderlistInit($busuness){
             let selectProxy = new SelectProxy(OrderlistAjaxProxy.getUrl(), this.initOrderlist, this);
              selectProxy.setExtraParam({business:$busuness}).load();
         },
+        getCategory(){
+            let selectProxy = new SelectProxy('http://localhost:8000/tree', this.getCategoryList, this);
+            selectProxy.load();
+        },
         click(){},
 
     },
     created(){
         this.$on('search-tool-change', this.onSearchChange);
+        this.orderlistInit('Orderlist');
         let orderProxy = new UsersSelectProxy(null, this.loadUsers, this);
-       // console.log(orderProxy);
+        // console.log(orderProxy);
         this.orderProxy = orderProxy;
         this.orderProxy.load();
         let selectProxy = new SelectProxy(BuyerAjaxProxy.getUrl(), this.loadbuyer, this);
         selectProxy.load();
-        this.orderlistInit('Orderlist');
+        this.getCategory();
        // let formData = $(this.$el).find('.hello').serialize();
 //        console.log();
         // this.toggleTableLoad();

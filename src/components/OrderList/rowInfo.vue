@@ -10,7 +10,7 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="总金额" prop="order_all_money">
-                            <el-input v-model="rowInfoForm.order_all_money" size="small"></el-input>
+                            <el-input v-model="rowInfoForm.order_all_money" size="small" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -22,7 +22,7 @@
                     </el-col>
                     <el-col :span='12'>
                         <el-form-item label="购买客户"  prop="cus_id">
-                            <el-select v-model='rowInfoForm.cus_id'>
+                            <el-select v-model='rowInfoForm.cus_id' :disabled="true">
                                 <el-option v-for="buy in buyer" :label="buy.name"
                                            :value="buy.id" :key="buy.id">
                                 </el-option>
@@ -34,7 +34,7 @@
                 <el-row>
                     <el-col :span='12'>
                         <el-form-item label="成交员工" prop="deal_id">
-                            <el-select v-model='rowInfoForm.deal_id'>
+                            <el-select v-model='rowInfoForm.deal_id' :disabled="true">
                                 <el-option v-for="user in users"
                                            :label="user.realname"
                                            :value="user.id"
@@ -45,7 +45,7 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="发货状态" prop="shipping_status">
-                            <el-select v-model='rowInfoForm.shipping_status'>
+                            <el-select v-model='rowInfoForm.shipping_status' :disabled="true">
                                 <el-option
                                         v-for="shipping_status in shipping_statuslist"
                                         :label="shipping_status.status"
@@ -69,20 +69,7 @@
                     </el-col>
                     <el-col :span='12'>
                         <el-form-item label="配送方式" prop="shipping_name">
-                            <el-input v-model="rowInfoForm.shipping_name" size="small"></el-input>
-                        </el-form-item>
-                    </el-col>
-                </el-row>
-                <el-row>
-
-                    <el-col :span="12">
-                        <el-form-item label="下单时间" prop="order_time">
-                            <el-date-picker size="small" v-model="rowInfoForm.order_time"
-                                            type="date"
-                                            @change="DateChange"
-                                            editable="true">
-                            </el-date-picker>
-                            <!--<el-input v-model="rowInfoForm.order_time" size="small"></el-input>-->
+                            <el-input v-model="rowInfoForm.shipping_name" size="small" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>

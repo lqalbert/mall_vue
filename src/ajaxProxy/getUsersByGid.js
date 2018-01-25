@@ -3,7 +3,7 @@ const getUsersByGid = {
 
     methods:{
         getUsersAjax(v){
-            let dataProxy = new DataProxy('http://localhost:8000/getUsersByGid/'+v,this.pageSize,this.getUsers, this,);
+            let dataProxy = new DataProxy('http://localhost:8000/admin/getUsersByGid/'+v,this.pageSize,this.getUsers, this,);
             dataProxy.load();
         },
         getUsers(data){

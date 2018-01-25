@@ -40,7 +40,7 @@
                 <br>
                 <el-form-item prop="type">
                     <el-button size="small" @click="show_all"         type="info" >全部</el-button>
-                    <el-button size="small" @click="typesearch('0')"  v-model="searchForm.type"   type="info" >待付款</el-button>
+                    <el-button size="small" @click="typesearch('0')"  type="info" >待付款</el-button>
                     <el-button size="small" @click="typesearch('1')"  type="info" >待确认</el-button>
                     <el-button size="small" @click="delivesearch('0')" type="info" >待发货</el-button>
                     <el-button size="small" @click="delivesearch('1')"   type="info" >已发货</el-button>
@@ -351,6 +351,7 @@
     import BuyerAjaxProxy from '../../ajaxProxy/Buyer';
     import OrdergoodsAjaxProxy from '../../ajaxProxy/Ordergoods';
     import DeliveryAddressAjaxProxy from '../../ajaxProxy/DeliveryAddress';
+    import Tree from '../../ajaxProxy/Tree';
     import Users from '../../ajaxProxy/Users';
     import TableProxy from '../common/TableProxy';
     import OrderBasic from '../../ajaxProxy/OrderBasic';
@@ -435,16 +436,12 @@
         },
         typesearch:function($criteria){
             this.searchForm.type=$criteria;
-//            console.log(this.searchForm);
             this.searchToolChange('searchForm');
             this.searchReset();
-//            this.orderlistInit($criteria);
         },
         loadUsers(data) {
             console.log(data.items);
             this.users = data.items;
-          //  console.log(data.items);
-          //  console.log(3333);return false;
         },
         loaddelivery(data){
             this.addresstableData = data.items;
@@ -484,13 +481,10 @@
         },
         delivesearch:function($criteria){
             this.searchForm.deliver=$criteria;
-//            console.log(this.searchForm);
             this.searchToolChange('searchForm');
             this.searchReset();
-//            this.orderlistInit($criteria);
         },
         typeChange:function(v){
-//            console.log(v);
             this.typeName=this.conditions[v];
         },
         showAdd:function(){
@@ -521,21 +515,10 @@
         searchReset:function(){
             this.$refs['searchForm'].resetFields();
             this.typeName = '请选择排名方式';
-//            this.mainProxy.setExtraParam(null).load();
             this.toggleTableLoad();
         },
-        initOrderlist(data){
-
-            this.tableData = data.items;
-            console.log(data);
-            this.mainData = data.items;
-        },
-        orderlistInit($busuness){
-            let selectProxy = new SelectProxy(OrderlistAjaxProxy.getUrl(), this.initOrderlist, this);
-             selectProxy.setExtraParam({business:$busuness}).load();
-        },
         getCategory(){
-            let selectProxy = new SelectProxy('http://localhost:8000/tree', this.getCategoryList, this);
+            let selectProxy = new SelectProxy(Tree.getUrl(), this.getCategoryList, this);
             selectProxy.load();
         },
         click(){},
@@ -543,22 +526,13 @@
     },
     created(){
         this.$on('search-tool-change', this.onSearchChange);
-        this.orderlistInit('Orderlist');
         let orderProxy = new UsersSelectProxy(null, this.loadUsers, this);
-        // console.log(orderProxy);
         this.orderProxy = orderProxy;
         this.orderProxy.load();
         let selectProxy = new SelectProxy(BuyerAjaxProxy.getUrl(), this.loadbuyer, this);
         selectProxy.load();
         this.getCategory();
-       // let formData = $(this.$el).find('.hello').serialize();
-//        console.log();
-        // this.toggleTableLoad();
-        // let mainProxy = new DataProxy("/orderlist", this.pageSize, this.mainTableLoad, this);
-        // this.mainProxy = mainProxy;
-        // this.mainProxy.load();
 
-        // this.$on('search-tool-change',this.onSearchChange);
 
     }
 }

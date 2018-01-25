@@ -3,17 +3,20 @@
     <div>
         <div id="top">
             <el-row>
-                <el-col :span="12">
-                    <div class="big-title">CRM客户关系管理系统</div>
+                <el-col :span="10">
+                    <div class="big-title">商城后来管理系统</div>
                 </el-col>
-                <el-col  :span="12">
-                    <div class="top-date">北京时间 2017年12月05日 18:18:18 星期二</div>
-                    <!-- <div class="top-name">欢迎您大佬大佬</div> -->
+                <el-col :span="8">
+                    <!-- <div class="top-date">北京时间 2017年12月05日 18:18:18 星期二</div> -->
+                    <div class="top-date">北京时间 {{dateTime}}</div>
+                </el-col>
+                <el-col  :span="6">
+                    <div class="top-name">销售二区-猛龙组-特朗普</div>
                     <el-menu class="el-menu-demo" id="top-css" mode="horizontal" @select="handleSelect">
                         <el-submenu index="999">
-                            <template slot="title">大佬大佬</template>
-                            <el-menu-item index="UserInfo"><i class="el-icon-setting"></i>个人信息</el-menu-item>
-                            <el-menu-item index="UserSetting"><i class="el-icon-setting"></i>设置密码</el-menu-item>
+                            <template slot="title">特朗普</template>
+                            <!-- <el-menu-item index="UserInfo"><i class="el-icon-setting"></i>个人信息</el-menu-item> -->
+                            <!-- <el-menu-item index="UserSetting"><i class="el-icon-setting"></i>设置密码</el-menu-item> -->
                             <el-menu-item index="Logout"><i class="el-icon-circle-close"></i>退出登录</el-menu-item>
                         </el-submenu>
                     </el-menu>
@@ -72,7 +75,8 @@
 
                 exclude:[],
 
-                isshadow:false
+                isshadow:false,
+                dateTime:'',
             }
         },
         methods:{
@@ -185,12 +189,12 @@
             },
             handleSelect(key, keyPath){
                 //console.log(key);
-                // if(key == 'Logout'){
-                //     this.logout();
-                // }else{
-                //     this.navChange(key);
-                // }
-                this.navChange(key);
+                if(key == 'Logout'){
+                    this.logout();
+                }else{
+                    this.navChange(key);
+                }
+                //this.navChange(key);
             },
             handleScroll(e){
                 let target = e.target;
@@ -199,13 +203,56 @@
                     this.isshadow = false;
                 } else {
                     this.isshadow = true;
-                }
+                } 
 
+            },
+            getCurDate(){
+                let d = new Date();
+                let week;
+                switch (d.getDay()) {
+                    case 1:
+                    week = "星期一";
+                    break;
+                    case 2:
+                    week = "星期二";
+                    break;
+                    case 3:
+                    week = "星期三";
+                    break;
+                    case 4:
+                    week = "星期四";
+                    break;
+                    case 5:
+                    week = "星期五";
+                    break;
+                    case 6:
+                    week = "星期六";
+                    break;
+                    default:
+                    week = "星期天";
+                }
+                let years = d.getFullYear();
+                let month = this.add_zero(d.getMonth() + 1);
+                let days = this.add_zero(d.getDate());
+                let hours = this.add_zero(d.getHours());
+                let minutes = this.add_zero(d.getMinutes());
+                let seconds = this.add_zero(d.getSeconds());
+                let ndate = years + "年" + month + "月" + days + "日 " + hours + ":" + minutes + ":" + seconds + " " + week;
+                this.dateTime = ndate;
+            },
+            add_zero(temp) {
+                if (temp < 10) return "0" + temp;
+                else return temp;
             }
         },
         mounted:function(){
+            let vThis = this;
             this.navChange('GoodsDetails');
-        }
+            setInterval(function(){
+                vThis.getCurDate();
+            }, 1000);
+        },
+
     }
 </script>
 
@@ -254,13 +301,13 @@
         z-index:99999;
     }
     .big-title{
-        font-size:22px;margin-top:14px;margin-left:2px
+        font-size:22px;line-height: 57px;margin-left:10px
     }
     .top-date{
-        color:#d85126;float:left;margin-left:100px;margin-top:18px;
+        color:#d85126;float:right;margin-right:25px;line-height: 57px;
     }
     .top-name{
-        color:#d85126;float:left;margin-left:100px;margin-top:18px;
+        color:#d85126;float:left;margin-left:10px;line-height: 57px;
     }
 
     #top {

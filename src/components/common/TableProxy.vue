@@ -59,26 +59,26 @@
       name: 'TableProxy',
       props:{
 
-          param:{
-              type: String,
-              default: ''
-          },
-          url:{
-              type: [String, Object],
-              default:''
-          },
-          pageSize:{
-              type:Number,
-              default: 100
-          },
-          bubble:{
-              type: Object,
-              default:null
-          },
-          reload:{
-              type:Number,
-              default:0
-          }
+            param:{
+                type: String,
+                default: ''
+            },
+            url:{
+                type: [String, Object],
+                default:''
+            },
+            pageSize:{
+                type:Number,
+                default: 100
+            },
+            bubble:{
+                type: Object,
+                default:null
+            },
+            reload:{
+                type:Number,
+                default:0
+            }
       },
       data () {
           return {
@@ -172,9 +172,7 @@
           if(this.bubble){
               for (const key in this.bubble) {
                   if (this.bubble.hasOwnProperty(key)) {
-                      const element = this.bubble[key];
-                      this.$refs.proxyTable.$on(key, element);
-
+                      this.$refs.proxyTable.$on(key, this.bubble[key]);
                   }
               }
               // for (let index = 0; index < this.bubble.length; index++) {

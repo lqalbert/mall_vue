@@ -48,17 +48,22 @@
                 <TableProxy 
                     :url="mainurl" 
                     :param="mainparam"
-                    :reload="dataTableReload">
+                    :reload="dataTableReload"
+                    :bubble="bubble">
                     <el-table-column label="序号" align="center"  type="index" width="65"></el-table-column>
                     <el-table-column prop="type_text" label="库类型" align="center" ></el-table-column>
-                    <el-table-column prop="order_sn" label="订单号" align="center" ></el-table-column>
+                    <el-table-column prop="order_sn" label="订单号" align="center" >
+                        <template slot-scope="scope">
+                            <a href="javascript:void(0);">{{scope.row.order_sn}}</a>
+                        </template>
+                    </el-table-column>
                     <el-table-column prop="goods_name" label="商品名称" align="center" ></el-table-column>
                     <el-table-column prop="goods_type" label="商品类型" align="center" ></el-table-column>
                     <el-table-column prop="goods_sum" label="商品数量" align="center" ></el-table-column>
                     <el-table-column prop="goods_version" label="商品型号" align="center" ></el-table-column>
                     <el-table-column prop="goods_batch" label="商品批次" align="center" ></el-table-column>
                     <el-table-column prop="create_time" label="操作时间" align="center" ></el-table-column>
-                    <el-table-column prop="user" label="操作人" align="center" ></el-table-column>
+                    <el-table-column prop="user" label="入/出库人" align="center" ></el-table-column>
 
                     <div slot="buttonbar">
                         <el-button type="primary" size="small" @click="intoStorage">商品入库</el-button>
@@ -81,6 +86,9 @@
             :goods-type="goods_type"  
             :users = "users" 
             @submit-success="handleReload" />
+        <order
+            name="orderinfo"
+        ></order>
     </div>
 </template>
       
@@ -94,6 +102,7 @@
     import SearchTool from '../../mix/SearchTool';
     import intoStorage from './intoStorage.vue';
     import outStorage from './outStorage.vue';
+    import order from './order.vue';
     import InventoryAjaxProxy from '../../ajaxProxy/Inventory'
 
     import GoodsTypeAjaxProxy from '../../ajaxProxy/GoodsType';
@@ -106,7 +115,8 @@ export default {
     mixins: [PageMix,SearchTool,DataTable],
     components:{
         intoStorage,
-        outStorage
+        outStorage,
+        order
     },
     data () {
         return {
@@ -127,6 +137,10 @@ export default {
                 goods_version:"",
 
             },
+
+            bubble:{
+                'cell-click':this.onOrderSn
+            }
         }
     },
     methods:{
@@ -175,17 +189,24 @@ export default {
         startDateChange:function () {
 
         },
-        action:function (row) {
-            if(row['types']=='入库'){
-                this.$modal.show('outStorage', {model:row});
-            }
-        },
+        // action:function (row) {
+        //     if(row['types']=='入库'){
+        //         this.$modal.show('outStorage', {model:row});
+        //     }
+        // },
         endDateChange:function () {
 
         },
         dataChange:function(data){
             this.tableData.push(data)
             console.log(data)
+        },
+        onOrderSn(row, column, cell, event){
+            if (row.order_sn && row.order_sn.length!=0) {
+                // console.log(row.order_sn);
+                // this.$modal.show('orderinfo');
+                this.$modal.show('orderinfo', {order_sn:row.order_sn});
+            }
         }
 
     },

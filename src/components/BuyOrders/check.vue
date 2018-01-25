@@ -6,8 +6,11 @@
                     <el-col :span="12">
                         <el-form-item  label="是否通过" prop="check_status">
                             <el-select size="small" placeholder="是否通过" v-model="checkForm.check_status">
-                              <el-option value="1" label="通过"></el-option>
-                              <el-option value="2" label="不通过"></el-option>
+                                <el-option
+                                        v-for="check in check_status"
+                                        :label="check.status"
+                                        :value="check.id"
+                                        :key="check.id"></el-option>
                           </el-select>
                         </el-form-item>
                     </el-col>
@@ -59,9 +62,8 @@
                     {id:'2',status:'已收货'},
                 ],
                 check_status:[
-                    {id:'0', status:'通过'},
-                    {id:'1', status:'未通过'},
-                    {id:'2', status:'未审核'}
+                    {id:'1', status:'通过'},
+                    {id:'2', status:'未通过'}
                 ],
 
             }
@@ -82,38 +84,13 @@
                 this.checkForm.into_time = v;
             },
             onOpen(event){
-                /** 需要对直接传递过来的数据进行处理，中文转成英文 */
-                var check_status = event.params.row.check_status;
-                var true_check_status = this.check_status;
-                var i = 0;
-                var newdata = [];
-                newdata = event.params.row;
-                for(i=0;i<true_check_status.length;i++)
-                {
-                    if(check_status==true_check_status[i].status)
-                    {
-                        event.params.row.check_status = true_check_status[i].id;
-                    }
-                }
-                for(i=0;i<this.order_statuslist.length;i++)
-                {
-                    if(event.params.row.order_status==this.order_statuslist[i].status)
-                    {
-                        event.params.row.order_status = this.order_statuslist[i].id;
-                    }
-                }
-                for(i=0;i<this.shipping_statuslist.length;i++)
-                {
-                    if(event.params.row.shipping_status==this.shipping_statuslist[i].status)
-                    {
-                        event.params.row.shipping_status = this.shipping_statuslist[i].id;
-                    }
-                }
               this.checkForm = event.params.row;
             },
             getAjaxPromise(model){
                 delete model.cus_name;
+                delete model.buyer;
                 delete model.user_name;
+                delete model.users;
                 return this.ajaxProxy.update(model.id, model);
             },
         },

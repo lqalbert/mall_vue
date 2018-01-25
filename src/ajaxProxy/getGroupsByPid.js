@@ -2,7 +2,7 @@ import DataProxy from '../packages/DataProxy';
 const getGroupsByPid = {
 
     methods:{
-        getGroupsByPidAjax(v){
+        getGroupsAjax(v){
             let dataProxy = new DataProxy('http://localhost:8000/admin/getGroupsByPid/'+v,this.pageSize,this.getGroups, this,);
             dataProxy.load();
         },

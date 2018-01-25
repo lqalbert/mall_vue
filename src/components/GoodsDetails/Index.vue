@@ -103,7 +103,7 @@
 
                     <el-table-column  label="操作" align="center" width="140">
                         <template slot-scope="scope">
-                            <el-button type="info" size="small" @click="showEdit">编辑</el-button>
+                            <el-button type="info" size="small" @click="showEdit(scope.row)">编辑</el-button>
                             <el-button type="danger" size="small" @click="handleDelete(scope.row.id)">删除</el-button>
                         </template>
                     </el-table-column>
@@ -126,6 +126,7 @@
         <Edit name='edit-goods-details' 
             :ajax-proxy="ajaxProxy"
             :cate-options="cateOptions"
+            :upload-url="uploadUrl"
             @submit-success="handleReload">
         </Edit>
     </div>

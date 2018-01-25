@@ -244,9 +244,15 @@ export default {
 
         // //重写formSubmit 因为要先提交图片
         beforeFormSubmit(name){
-            this.submitUpload();
+            //console.log(this.$refs.upload);
             this[name].description = this.editContent;
             this.addForm.img_path = [];
+            if(this.$refs.upload.uploadFiles.length == 0){
+                this.formSubmit(name);
+            }else{
+                this.submitUpload();
+            }
+            
         },
 
         //---------提交请求

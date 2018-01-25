@@ -4,7 +4,7 @@
         <div id="top">
             <el-row>
                 <el-col :span="10">
-                    <div class="big-title">商城后来管理系统</div>
+                    <div class="big-title">商城后台管理系统</div>
                 </el-col>
                 <el-col :span="8">
                     <!-- <div class="top-date">北京时间 2017年12月05日 18:18:18 星期二</div> -->

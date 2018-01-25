@@ -171,7 +171,6 @@
 
             onOpen(event){
               this.rowInfoForm = event.params.rowData;
-              this.rowInfoForm.splice(index,1);
             },
             getAjaxPromise(model){
                 delete model.cus_name;

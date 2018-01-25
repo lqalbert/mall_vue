@@ -44,6 +44,7 @@
         },
         data () {
             return {
+                dialogThis:this,
                 labelPosition:"right",
                 labelWidth:'100px',
                 checkForm:{

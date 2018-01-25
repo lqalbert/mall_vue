@@ -32,7 +32,7 @@
                 <el-form-item>
                   <el-button type="primary" size="small" icon="search" @click="searchToolChange('searchForm')">查询</el-button>
                   <el-button type="primary" size="small" @click="searchToolReset('searchForm')">重置</el-button>
-                  <el-button type="primary" size="small" @click="refresh">刷新</el-button>
+                  <el-button type="primary" size="small" @click="searchToolReset('searchForm')">刷新</el-button>
                 </el-form-item>
             </el-form>
         </el-row>
@@ -135,6 +135,9 @@ export default {
       }
     },
     methods:{
+      getAjaxProxy(){
+          return  this.ajaxProxy;
+      },
       showRow(row){
 //        this.$modal.show('showRow',{row:row});
           this.$modal.show('showRow',{rowData:row});
@@ -178,7 +181,7 @@ export default {
           console.log(this.mainurl);
       },
       buyorderInit(business){
-          let selectProxy = new SelectProxy(ajaxProxy.getUrl(), this.initOrderlist, this);
+          let selectProxy = new SelectProxy(this.ajaxProxy.getUrl(), this.initOrderlist, this);
           selectProxy.setExtraParam({business:business}).load();
       },
       mainTableLoad(data){

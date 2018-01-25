@@ -2,23 +2,23 @@
     <div class="hello">
         <el-row>
             <el-form :inline="true" ref="searchForm" :model="searchForm">
-                <!--<el-form-item prop="start" >-->
-                    <!--<el-date-picker size="small" v-model="searchForm.start"-->
-                                    <!--type="date"-->
-                                    <!--placeholder="下单开始时间"-->
-                                    <!--@change="startDateChange"-->
-                                    <!--editable="false">-->
-                    <!--</el-date-picker>-->
-                <!--</el-form-item>-->
+                <el-form-item prop="start" >
+                    <el-date-picker size="small" v-model="searchForm.start"
+                                    type="date"
+                                    placeholder="下单开始时间"
+                                    @change="startDateChange"
+                                    >
+                    </el-date-picker>
+                </el-form-item>
 
-                <!--<el-form-item prop="end">-->
-                    <!--<el-date-picker size="small" v-model="searchForm.end"-->
-                                    <!--type="date"-->
-                                    <!--placeholder="下单截止时间"-->
-                                    <!--@change="endDateChange"-->
-                                    <!--editable="false">-->
-                    <!--</el-date-picker>-->
-                <!--</el-form-item>-->
+                <el-form-item prop="end">
+                    <el-date-picker size="small" v-model="searchForm.end"
+                                    type="date"
+                                    placeholder="下单截止时间"
+                                    @change="endDateChange"
+                                    >
+                    </el-date-picker>
+                </el-form-item>
 
                 <el-form-item prop="goods_name">
                     <el-input size="small" v-model="searchForm.goods_name" placeholder="请输入商品名称"></el-input>
@@ -53,7 +53,7 @@
                 <el-form-item label-width="5px">
                     <el-button type="info" size="small" icon="search"  @click="searchToolChange('searchForm')">查询</el-button>
                     <el-tooltip content="清空搜索条件" placement="bottom-start" style="margin-left:10px;">
-                        <el-button  size="small" @click="searchReset" type="warning">重置</el-button>
+                        <el-button  size="small" @click="searchToolReset('searchForm')" type="warning">重置</el-button>
                     </el-tooltip>
                     <el-tooltip content="点击刷新当前页面" placement="right" style="margin-left:10px;">
                         <el-button  size="small" @click="show_all" type="danger" >刷新</el-button>
@@ -504,11 +504,11 @@
 //            console.log(param);
             this.mainparam = JSON.stringify(param);
         },
-        searchReset:function(){
-            this.$refs['searchForm'].resetFields();
-            this.typeName = '请选择排名方式';
-            this.toggleTableLoad();
-        },
+//        searchReset:function(){
+//            this.$refs['searchForm'].resetFields();
+//            this.typeName = '请选择排名方式';
+//            this.toggleTableLoad();
+//        },
         getCategory(){
             let selectProxy = new SelectProxy(Tree.getUrl(), this.getCategoryList, this);
             selectProxy.load();

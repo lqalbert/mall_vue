@@ -1,9 +1,9 @@
 <template>
     <div>
         <el-row>
-            <el-form :inline="true"  ref="searchForm" :model="searchForm" class="search-bar">
+            <el-form :inline="true"  ref="searchForm" class="demo-form-inline" :model="searchForm">
                 <el-form-item prop="title">
-                    <el-input v-model="searchForm.title" size="small"></el-input>
+                    <el-input v-model="searchForm.title" placeholder="请输入标题关键字" size="small"></el-input>
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" size="small" @click="searchToolChange('searchForm')" icon="search">查询
@@ -77,8 +77,8 @@
     import ArticleAjaxProxy from '../../ajaxProxy/Article';
 
     export default {
-        name: 'Article',
-        pageTitle: "资讯",
+        name: 'Articles',
+        pageTitle: "最新资讯",
         mixins: [PageMix, SearchTool,DataTable],
         components: {
             Add,

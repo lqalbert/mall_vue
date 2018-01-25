@@ -72,6 +72,14 @@ export default {
               { text:'物流信息', index:'ExpressInfo' },
 
           ]
+        },
+        {
+          text:'资讯管理',
+          icon:null,
+          subNav:[
+              { text:'最新资讯', index:'Article' },
+
+          ]
         }
       ]   
     }

@@ -22,7 +22,7 @@
                     </el-col>
                     <el-col :span='12'>
                         <el-form-item label="购买客户"  prop="cus_id">
-                            <el-select v-model='rowInfoForm.cus_id' :disabled="true">
+                            <el-select v-model='rowInfoForm.cus_id'>
                                 <el-option v-for="buy in buyer" :label="buy.name"
                                            :value="buy.id" :key="buy.id">
                                 </el-option>
@@ -176,7 +176,6 @@
             onOpen(event){
               this.rowInfoForm = event.params.rowData;
               this.rowInfoForm.splice(index,1);
-              console.log(this.rowInfoForm);
             },
             getAjaxPromise(model){
                 delete model.cus_name;

@@ -68,8 +68,8 @@
                 <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" @dbclick="showRow" >
                     <el-table-column type="selection" align="center" width="50"></el-table-column>
                     <el-table-column label="序号" align="center" type="index" width="65"></el-table-column>
-                    <el-table-column prop="id" label="订单号" width="200" align="center">
-                    </el-table-column>
+                    <!--<el-table-column prop="id" label="订单号" width="200" align="center">-->
+                    <!--</el-table-column>-->
                     <el-table-column prop="order_all_money" label="总金额" align="center" width="80">
                     </el-table-column>
                     <el-table-column prop="order_pay_money" label="应付金额" align="center" width="80">
@@ -435,9 +435,9 @@
             this.orderlistInit();
         },
         typesearch:function($criteria){
+            this.searchToolReset('searchForm');
             this.searchForm.type=$criteria;
             this.searchToolChange('searchForm');
-            this.searchReset();
         },
         loadUsers(data) {
             console.log(data.items);
@@ -454,16 +454,8 @@
             this.goods = data.items;
             this.goodstableData = this.goods;
         },
-        /** 点击一行触发展示事件 */
-        selectionChange:function () {
-          console.log(5555);
-        },
-        showclick(row) {
-            console.log(row);
-        },
         /** 切换选项卡时查找对应信息 */
         handleClick(tab, event) {
-//            console.log(tab.index);
             this.tabindex = tab.index;
         },
          show_all:function(){
@@ -480,9 +472,9 @@
             this.searchToolChange('searchForm');
         },
         delivesearch:function($criteria){
+            this.searchToolReset('searchForm');
             this.searchForm.deliver=$criteria;
             this.searchToolChange('searchForm');
-            this.searchReset();
         },
         typeChange:function(v){
             this.typeName=this.conditions[v];

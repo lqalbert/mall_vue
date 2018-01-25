@@ -4,17 +4,19 @@
             <el-form :inline="true" ref="searchForm" :model="searchForm">
                 <el-form-item prop="start" >
                     <el-date-picker size="small" v-model="searchForm.start"
+                                    type="date"
                                     placeholder="下单开始时间"
                                     @change="startDateChange"
-                                    :editable="false">
+                                    editable="false">
                     </el-date-picker>
                 </el-form-item>
 
                 <el-form-item prop="end">
                     <el-date-picker size="small" v-model="searchForm.end"
+                                    type="date"
                                     placeholder="下单截止时间"
                                     @change="endDateChange"
-                                    :editable="false">
+                                    editable="false">
                     </el-date-picker>
                 </el-form-item>
 
@@ -23,29 +25,29 @@
                 </el-form-item>
 
                 <el-form-item prop="sale_name">
-                    <el-input size="small" v-model="searchForm.sale_name" placeholder="员工名称"></el-input>
+                    <el-input size="small" v-model="searchForm.sale_name" placeholder="请输入员工名称"></el-input>
                 </el-form-item>
 
                 <el-form-item prop="consignee">
-                    <el-input size="small" v-model="searchForm.consignee" placeholder="客户名称"></el-input>
+                    <el-input size="small" v-model="searchForm.consignee" placeholder="请输入客户名称"></el-input>
                 </el-form-item>
 
 
 
-                <el-form-item prop="id">
-                    <el-input size="small" v-model="searchForm.id" placeholder="请输入订单编号"></el-input>
-                </el-form-item>
+                <!--<el-form-item prop="id">-->
+                    <!--<el-input size="small" v-model="searchForm.id" placeholder="请输入订单编号"></el-input>-->
+                <!--</el-form-item>-->
                 <br>
                 <el-form-item prop="type">
                     <el-button size="small" @click="show_all"         type="info" >全部</el-button>
-                    <el-button size="small" @click="typesearch('pre_pay')"  v-model="searchForm.type"   type="info" >待付款</el-button>
-                    <el-button size="small" @click="typesearch('pre_affirm')"  type="info" >待确认</el-button>
-                    <el-button size="small" @click="delivesearch('pre_deliver')" type="info" >待发货</el-button>
-                    <el-button size="small" @click="delivesearch('delivered')"   type="info" >已发货</el-button>
-                    <el-button size="small" @click="delivesearch('received')"    type="info" >已收货</el-button>
-                    <el-button size="small" @click="typesearch('done')"        type="info" >已完成</el-button>
-                    <el-button size="small" @click="typesearch('closed')"      type="info" >已关闭</el-button>
-                    <el-button size="small" @click="typesearch('refund')"      type="info" >退款中</el-button>
+                    <el-button size="small" @click="typesearch('0')"  v-model="searchForm.type"   type="info" >待付款</el-button>
+                    <el-button size="small" @click="typesearch('1')"  type="info" >待确认</el-button>
+                    <el-button size="small" @click="delivesearch('0')" type="info" >待发货</el-button>
+                    <el-button size="small" @click="delivesearch('1')"   type="info" >已发货</el-button>
+                    <el-button size="small" @click="delivesearch('2')"    type="info" >已收货</el-button>
+                    <el-button size="small" @click="typesearch('2')"        type="info" >已完成</el-button>
+                    <el-button size="small" @click="typesearch('3')"      type="info" >已关闭</el-button>
+                    <el-button size="small" @click="typesearch('4')"      type="info" >退款中</el-button>
                 </el-form-item>
 
                 <el-form-item label-width="5px">
@@ -82,8 +84,8 @@
                             <span v-if="scope.row.order_status==0">待付款</span>
                             <span v-else-if="scope.row.order_status==1" >待确认</span>
                             <span v-else-if="scope.row.order_status==2">已完成</span>
-                            <span v-else-if="scope.row.order_status==2">已关闭</span>
-                            <span v-else-if="scope.row.order_status==2">退货中</span>
+                            <span v-else-if="scope.row.order_status==3">已关闭</span>
+                            <span v-else-if="scope.row.order_status==4">退货中</span>
                         </template>
                     </el-table-column>
                     <el-table-column prop="shipping_status" label="发货状态" align="center" width="100">
@@ -100,7 +102,7 @@
                             <span v-else-if="scope.row.check_status==2">未审核</span>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="order_time" label="下单时间" align="center">
+                    <el-table-column prop="created_at" label="下单时间" align="center">
                     </el-table-column>
                     <el-table-column  fixed="right" label="操作" align="center" width="200">
                         <template slot-scope="scope">
@@ -326,10 +328,11 @@
             </el-row>
         </div>
         <add-dialog
-                name='add-orderlist'
-                :users="users"
-                :buyer="buyer"
-                :ajax-proxy="ajaxProxy"
+                name='add-orderBasic'
+                width="70%"
+                :customers="buyer"
+                :ajax-proxy="orderBasicAjaxProxy"
+                :CategoryList="CategoryList"
                 @submit-success="handleReload">
         </add-dialog>
     </div>
@@ -343,13 +346,14 @@
     import config from '../../mix/Delete';
     import DataProxy from '../../packages/DataProxy';
     import SelectProxy from  '../../packages/SelectProxy';
-    import OrderlistAjaxProxy from '../../ajaxProxy/Orderlist';
+    import OrderlistAjaxProxy from '../../ajaxProxy/OrderBasic';
     import UsersSelectProxy from '../../packages/UsersSelectProxy';
     import BuyerAjaxProxy from '../../ajaxProxy/Buyer';
     import OrdergoodsAjaxProxy from '../../ajaxProxy/Ordergoods';
     import DeliveryAddressAjaxProxy from '../../ajaxProxy/DeliveryAddress';
     import Users from '../../ajaxProxy/Users';
     import TableProxy from '../common/TableProxy';
+    import OrderBasic from '../../ajaxProxy/OrderBasic';
     import SearchTool from "../../mix/SearchTool";
     export default {
     name: 'OrderList',
@@ -361,6 +365,7 @@
     data () {
         return {
             ajaxProxy:OrderlistAjaxProxy,
+            orderBasicAjaxProxy:OrderBasic,
             mainurl:OrderlistAjaxProxy.getUrl(),
             mainparam:"",
             dataLoad:false,
@@ -388,6 +393,7 @@
             usertableData:'',
             addresstableData: '',
             goodstableData:'',
+            CategoryList:''
         }
     },
     watch:{
@@ -417,6 +423,9 @@
             /** 选项卡2显示订单商品信息 */
 
 
+        },
+        getCategoryList(data){
+            this.CategoryList=data.items;
         },
         dataReload:function(){
 //          console.log(this.searchForm);
@@ -485,7 +494,7 @@
             this.typeName=this.conditions[v];
         },
         showAdd:function(){
-            this.$modal.show('add-orderlist');
+            this.$modal.show('add-orderBasic');
         },
         startDateChange:function(v){
             this.searchForm.start = v;
@@ -525,6 +534,10 @@
             let selectProxy = new SelectProxy(OrderlistAjaxProxy.getUrl(), this.initOrderlist, this);
              selectProxy.setExtraParam({business:$busuness}).load();
         },
+        getCategory(){
+            let selectProxy = new SelectProxy('http://localhost:8000/tree', this.getCategoryList, this);
+            selectProxy.load();
+        },
         click(){},
 
     },
@@ -537,6 +550,7 @@
         this.orderProxy.load();
         let selectProxy = new SelectProxy(BuyerAjaxProxy.getUrl(), this.loadbuyer, this);
         selectProxy.load();
+        this.getCategory();
        // let formData = $(this.$el).find('.hello').serialize();
 //        console.log();
         // this.toggleTableLoad();

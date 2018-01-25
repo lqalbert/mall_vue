@@ -19,8 +19,7 @@
                                 <!--</el-form-item>-->
                                 <el-form-item label="员工职能">
                                     <el-select v-model="editForm.role_id">
-                                        <el-option  :value="1">普通员工</el-option>
-                                        <el-option   :value="2">精英员工</el-option>
+                                        <el-option v-for="role in roles"  :label="role.display_name" :value="role.id" :key="role.id"></el-option>
                                     </el-select>
                                 </el-form-item>
                             </el-col>
@@ -34,7 +33,7 @@
                         <el-row >
                             <el-col :span="12">
                                 <el-form-item label="所属部门" prop="department_id">
-                                    <el-select size="small" v-model="editForm.department_id" placeholder="部门">
+                                    <el-select size="small" v-model="editForm.department_id" placeholder="部门" @change="departmentChange">
                                         <el-option v-for="v in departments" :label="v.name"
                                                    :value="v.id" :key="v.id">
                                         </el-option>
@@ -316,41 +315,42 @@
 
 <script>
     import DialogForm from '../../mix/DialogForm';
+    import getGroupsByPid from '../../ajaxProxy/getGroupsByPid';
+    import { mapGetters } from 'vuex';
     export default {
         name: 'editDialog',
-        mixins:[DialogForm],
+        mixins:[DialogForm,getGroupsByPid],
         props:{
             departments:{
                 type: Array,
                 default:[]
             },
-            groups:{
-                type: Array,
-                default:[]
-            }
+        },
+        computed:{
+            ...mapGetters([
+                'roles'
+            ])
         },
         data () {
             return {
                 dialogThis: this,
                 labelPosition:"right",
                 labelWidth:'80px',
-                url:"http://localhost:8000/upload",
+                url:"http://localhost:8000/admin/upload",
                 uplaodParam:{  name:"avater", subdir:'asdf' },
                 uploadImg:"",
 
                 activeName:'first',
+                groups:[],
                 editForm:{
                     id:'',
                     head:"",
                     account:"",
-                    // password:"123456",
+                    password:"123456",
                     role_id:"",
-                    role_name:"sdf",
                     group_id:"",
-                    group_name:"老虎队",
                     department_id:"",
-                    department_name:'销售二部',
-                    sex:'',
+                    sex:1,
                     telephone:"",
                     mobilephone:"",
                     realname:"",
@@ -360,8 +360,8 @@
                     weixin:"",
                     weixin_nickname:"",
                     id_card:"",
-                    location:'sdjk',
-                    ip:"192.168.0.10",
+                    location:'成都市',
+                    ip:'192.168.0.1',
                     create_name:"系统管理员",
                     lg_time:"2017-12-28",
                     out_time:"2017-12-28",
@@ -378,9 +378,15 @@
         },
 
         methods:{
+            departmentChange(v){
+                this.groups=[];
+                this.editForm.group_id='';
+                this.getGroupsByPidAjax(v);
+            },
             onOpen(param){
-                 //console.log(param);
+                 console.log(param);
                 this.model = param.params.model;
+                this.uploadImg=this.model.head;
             },
             getAjaxPromise(model){
                // console.log(model);

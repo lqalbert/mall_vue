@@ -23,6 +23,19 @@
                                 </el-form-item>
                             </el-col>
                         </el-row>
+
+                        <el-row>
+                                <el-col :span="12">
+                                    <el-form-item label="副标题" prop="subtitle" >
+                                        <el-input class="name-input" v-model="editForm.subtitle"  auto-complete="off" placeholder="请填写商品名称"></el-input>
+                                    </el-form-item>
+                                </el-col>
+                                <el-col :span="12">
+                                    <el-form-item label="简介" prop="brief">
+                                        <el-input type="textarea" v-model="editForm.brief"></el-input>
+                                    </el-form-item>
+                                </el-col>
+                            </el-row>
                 
                         <el-row>
                             <el-col :span="12">
@@ -190,6 +203,8 @@ export default {
             labelWidth:'80px',
             UnitTypes:{},
             editForm:{
+                subtitle:"",
+                brief:"",
                 goods_name:'',
                 cate_id:[],
                 goods_price:'',
@@ -230,7 +245,7 @@ export default {
             this.UnitTypes = param.params.extra;
             this.urlDomain = param.params.urlDomain;
             for (let index = 0; index < this.editForm.imgs.length; index++) {
-                this.fileList.push({name:this.editForm.imgs[index].url,url:this.urlDomain+this.editForm.imgs[index].url});  
+                this.fileList.push({name:this.editForm.imgs[index].url, url:this.urlDomain+this.editForm.imgs[index].url});  
             }
 
             console.log(this.editForm);
@@ -398,6 +413,10 @@ export default {
     .ql-toolbar.ql-snow + .ql-container.ql-snow {
         border-top: 0px;
         min-height: 300px;
+    }
+
+    .quill-editor .ql-container {
+        height: 300px !important;
     }
 </style>
       

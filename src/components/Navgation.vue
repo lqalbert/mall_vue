@@ -78,7 +78,7 @@ export default {
           text:'资讯管理',
           icon:null,
           subNav:[
-              { text:'最新资讯', index:'Article' },
+              { text:'最新资讯', index:'Articles' },
 
           ]
         }

@@ -28,7 +28,7 @@
                 </el-form-item>
 
                 <el-form-item prop="group_id">
-                    <el-select size="small" v-model="searchForm.group_id" placeholder="团队小组" @change="groupChange">
+                    <el-select size="small" v-model="searchForm.group_id" placeholder="团队小组">
                         <el-option v-for="v in groups" :label="v.name" 
                         :value="v.id" :key="v.id">
                         </el-option>
@@ -149,37 +149,22 @@
                             <el-button type="success"  size="small" @click="openEdit(scope.row)" >编辑</el-button>
                             <el-button type="info" size="small">职能</el-button>
                             <el-button type="danger"  @click="handleDelete(scope.row.id)"   size="small" >离职</el-button>
-
-                            <!--<el-button type="danger" size="small">离职</el-button>-->
                         </template>
                     </el-table-column>
                     <div slot="buttonbar">
-                        <el-button 
-                            size="small" 
-                            icon="plus" 
-                            type="info" 
-                            @click="showAdd">
-                            添加
-                        </el-button>
-                        <el-button type="primary" size="small">
-                            修改密码
-                        </el-button>
+                        <el-button size="small" type="primary" @click="openAdd">添 加</el-button>
+                        <el-button type="primary" size="small">修改密码</el-button>
                     </div>
                 </TableProxy>
             </el-col>
         </el-row>
 
-
-        <!--添加公告 -->
         <addDialog 
             name='add-employee'
             :ajax-proxy="ajaxProxy"
             :departments="departments"
-            @submit-success="handleReload"/>
-
-        <!--&lt;!&ndash; / 添加公告 &ndash;&gt;-->
-        <!--&lt;!&ndash;修改公告 &ndash;&gt;-->
-
+            @submit-success="handleReload"
+        />
 
          <editDialog
            name="edit-employee"
@@ -188,27 +173,19 @@
            @submit-success="handleReload"
          />
 
-        <!-- / 修改公告 -->
-
     </div>
-
-
 </template>
-
 <script>
     import addDialog from './addDialog';
     import editDialog from './editDialog';
     import PageMix from '../../mix/Page';
     import DataProxy from '../../packages/DataProxy';
-
     import DataTable from '../../mix/DataTable';
-
     import DepartSelectProxy from '../../packages/DepartSelectProxy';
     import GroupSelectProxy from '../../packages/GroupSelectProxy';
     import SearchTool from '../../mix/SearchTool';
     import getGroupsByPid from '../../ajaxProxy/getGroupsByPid';
     import EmployeeAjaxProxy  from '../../ajaxProxy/Employee';
-
     import { mapActions,mapGetters } from 'vuex';
 
     export default {
@@ -226,11 +203,10 @@
                 mainparam:"",
                 searchForm: {
                     typeValue: "",
-                    department: '',
-                    group: '',
+                    department_id: '',
+                    group_id: '',
                     status: "",
                     typeNumber: ''
-
                 },
                 departments: [],
                 groups: [],
@@ -242,11 +218,9 @@
                     {value: '4', name: 'QQ号'},
                     {value: '5', name: '微信号'},
                 ],
-
                 bubble:{
                     'row-click': this.handleRowClick
                 }
-
             }
         },
         methods: {
@@ -258,60 +232,33 @@
               return  this.ajaxProxy;
             },
             departmentChange(pid){
+                this.groups=[];
+                this.searchForm.group_id='';
                this.getGroupsAjax(pid);
             },
-            groupChange(gid){
-                this.getUsersAjax(gid);
-            },
-
-          openEdit(row){
-            // this.editRow = row;
+            openEdit(row){
             this.$modal.show('edit-employee', {model:row});
-        },
-            showAdd(){
+            },
+            openAdd(){
                 this.$modal.show('add-employee');
             },
-            handleEdit: function (index, row) {
-                console.log(row);
-                this.editDialog = true;
-            },
-           
-            switchHandle: function (index, row) {
-
-            },
-            
-         
             loadDepartment(data) {
                 this.departments = data.items;
             },
-            loadGroup(data) {
-                this.groups = data.items;
-            },
-
             onSearchChange(param) {
                 this.mainparam = JSON.stringify(param);
             },
-
             handleRowClick(row, event, column){
               //  console.log('row-click handle', row, event, column);
             }
 
         },
         created() {
-           
-
             let departProxy = new DepartSelectProxy(null, this.loadDepartment, this);
             this.departProxy = departProxy;
             this.departProxy.load();
-
-            let groupProxy = new GroupSelectProxy(null, this.loadGroup, this);
-            this.groupProxy = groupProxy;
-            this.groupProxy.load();
-
             this.$on('search-tool-change', this.onSearchChange);
-
             this.getRoles();
-
         }
     }
 </script>

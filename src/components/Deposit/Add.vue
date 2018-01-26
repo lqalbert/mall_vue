@@ -33,7 +33,7 @@
                         <el-col :span="12">
                             <el-form-item label="员工" prop="user_id" >
                                 <el-select size="small" placeholder="请选择员工"  v-model="employeeInput" @change="onEmployeeChange">
-                                    <el-option v-for="(v,index) in employee" 
+                                    <el-option v-for="(v,index) in employee"
                                         :label="v.realname" 
                                         :value="index" 
                                         :key="v.id">

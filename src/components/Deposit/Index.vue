@@ -148,12 +148,12 @@
             this.users=[];
             this.searchForm.group_id='';
             this.searchForm.user_id='';
-            this.getGroupsByPidAjax(pid);
+            this.getGroupsAjax(pid);
         },
         onGroupChange(gid){
             this.users=[];
             this.searchForm.user_id='';
-            this.getUsersByGidAjax(gid);
+            this.getUsersAjax(gid);
 
         }
     },

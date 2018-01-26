@@ -23,6 +23,19 @@
                                 </el-form-item>
                             </el-col>
                         </el-row>
+
+                        <el-row>
+                            <el-col :span="12">
+                                <el-form-item label="副标题" prop="subtitle" >
+                                    <el-input class="name-input" v-model="addForm.subtitle"  auto-complete="off" placeholder="请填写商品名称"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="12">
+                                <el-form-item label="简介" prop="brief">
+                                    <el-input type="textarea" v-model="addForm.brief"></el-input>
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
                 
                         <el-row>
                             <el-col :span="12">
@@ -59,14 +72,18 @@
                         </el-row>
                         <el-row>
                             <el-col>
-                                <quill-editor v-model="editContent"
-                                                ref="myQuillEditor"
-                                                :options="editorOption"
-                                                @blur="onEditorBlur($event)"
-                                                @focus="onEditorFocus($event)"
-                                                @ready="onEditorReady($event)"
-                                                @change="onEditorChange($event)">
-                                </quill-editor>
+                                
+                                    <quill-editor v-model="editContent"
+                                       
+                                        ref="myQuillEditor"
+                                        :options="editorOption"
+                                        @blur="onEditorBlur($event)"
+                                        @focus="onEditorFocus($event)"
+                                        @ready="onEditorReady($event)"
+                                        @change="onEditorChange($event)">
+                                    </quill-editor>
+                                
+                                
                             </el-col>
                         </el-row>
                     </el-tab-pane>
@@ -189,6 +206,7 @@ export default {
             labelWidth:'80px',
             UnitTypes:{},
             addForm:{
+                subtitle:"",
                 goods_name:'',
                 cate_id:[],
                 goods_price:'',
@@ -285,6 +303,7 @@ export default {
     created(){
         this.editorOption = quillRedefine(
             {
+               
                 // 图片上传的设置
                 uploadConfig: {
                     action: this.uploadUrl,  // 必填参数 图片上传地址
@@ -348,6 +367,10 @@ export default {
     .ql-toolbar.ql-snow + .ql-container.ql-snow {
         border-top: 0px;
         min-height: 300px;
+    }
+
+    .quill-editor .ql-container {
+        height: 300px !important;
     }
 </style>
       

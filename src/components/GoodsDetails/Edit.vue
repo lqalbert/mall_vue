@@ -245,7 +245,7 @@ export default {
             this.UnitTypes = param.params.extra;
             this.urlDomain = param.params.urlDomain;
             for (let index = 0; index < this.editForm.imgs.length; index++) {
-                this.fileList.push({name:this.editForm.imgs[index].url, url:this.urlDomain+this.editForm.imgs[index].full_url});  
+                this.fileList.push({name:this.editForm.imgs[index].url, url:this.editForm.imgs[index].full_url});  
             }
 
             console.log(this.editForm);

@@ -89,7 +89,7 @@ module.exports = {
     child_process: 'empty'
   },
 
-  externals:{
-    UE: 'window.UE'
-  }
+  // externals:{
+  //   UE: 'window.UE'
+  // }
 }

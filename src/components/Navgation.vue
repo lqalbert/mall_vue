@@ -80,7 +80,15 @@ export default {
               { text:'最新资讯', index:'Articles' },
 
           ]
-        }
+        },
+        {
+          text:'留言管理',
+          icon:null,
+          subNav:[
+              { text:'留言详情', index:'Connection' },//Connection
+
+          ]
+        },
       ]   
     }
   },

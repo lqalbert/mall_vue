@@ -25,7 +25,7 @@ export default {
             mainurl:GoodsDetailsAjaxProxy.getUrl(),
             cateOptions:[],
             UnitTypes:{},
-            getCateCascaderUrl:URL_CONST.DOMAIN + "/tree",
+            getCateCascaderUrl:"/tree",
             uploadUrl: URL_CONST.UPLOAD_URL,
             urlDomain: URL_CONST.DOMAIN,
             searchForm: {
@@ -74,7 +74,7 @@ export default {
             selectProxy.load();
         },
         getUnitTypes(){
-            let selectProxy = new SelectProxy(URL_CONST.DOMAIN + "/goodsdetails",this.initUnitTypes,this);
+            let selectProxy = new SelectProxy("/goodsdetails",this.initUnitTypes,this);
             selectProxy.setExtraParam({business:'UnitTypes'}).load();
         },
         setUnitTypes(v){

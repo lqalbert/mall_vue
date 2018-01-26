@@ -1,6 +1,21 @@
 <template>
     <div>
         <el-row>
+            <el-form :inline="true"  ref="searchForm" :model="searchForm" class="search-bar">
+                <el-form-item prop="phone" style="width: 120px">
+                    <el-input v-model="searchForm.phone" size="small" placeholder="输入联系电话">
+                    </el-input>
+                </el-form-item>
+
+                <el-form-item>
+                    <el-button type="primary" size="small" @click="searchToolChange('searchForm')" icon="search">查询
+                    </el-button>
+                    <el-button size="small" type="primary" @click="searchToolReset('searchForm')">重置</el-button>
+                </el-form-item>
+            </el-form>
+        </el-row>
+
+        <el-row>
             <el-col>
                 <TableProxy
                     :url="mainurl"
@@ -56,6 +71,9 @@
                 mainurl:SkinCareInfo.getUrl(),
                 mainparam:"",
                 currentRow:null,
+                searchForm:{
+                    phone:""
+                }
             }
         },
         watch:{

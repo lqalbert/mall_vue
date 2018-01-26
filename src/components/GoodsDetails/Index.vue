@@ -117,7 +117,7 @@
         </el-row>
 
         <Add name='add-goods-details' 
-            :height="878"
+           
             :ajax-proxy="ajaxProxy"
             :cate-options="cateOptions"
             :upload-url="uploadUrl"

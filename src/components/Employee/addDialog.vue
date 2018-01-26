@@ -179,7 +179,7 @@
                 dialogThis: this,
                 labelPosition:"right",
                 labelWidth:'80px',
-                url: APP_CONST.DOMAIN +  "/upload",
+                url: APP_CONST.UPLOAD_URL,
                 uplaodParam:{  name:"avater", subdir:'asdf' },
                 uploadImg:"",
                 groups:[],

@@ -158,7 +158,7 @@
                 this.addressData=data.items;
             },
             getCategory(){
-                let selectProxy = new SelectProxy(APP_CONST.DOMAIN +'/tree', this.getCategoryList, this);
+                let selectProxy = new SelectProxy('/tree', this.getCategoryList, this);
                 selectProxy.load();
             },
             getAddress(){

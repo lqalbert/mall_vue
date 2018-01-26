@@ -310,7 +310,7 @@
                 if (this.active++ > 1) this.active = 2;
             },
             categoryChange(cate_id){
-                let orderDataProxy = new DataProxy(APP_CONST.DOMAIN +'/goodsdetails',this.pageSize,this.getOrderData, this);
+                let orderDataProxy = new DataProxy('/goodsdetails',this.pageSize,this.getOrderData, this);
                 this.orderDataProxy = orderDataProxy;
                 let cates = {cate_id:cate_id};
                 this.orderDataProxy.setExtraParam(cates);
@@ -321,7 +321,7 @@
                 this.goodsInfoData=data.goods;
             },
             getAddress(cus_id){
-                let selectProxy = new SelectProxy(APP_CONST.DOMAIN +'/deliveryaddress?cus_id='+cus_id, this.getAddressData, this);
+                let selectProxy = new SelectProxy('/deliveryaddress?cus_id='+cus_id, this.getAddressData, this);
                 selectProxy.load();
             },
             getAddressData(data){
@@ -335,7 +335,7 @@
 
         },
         created(){
-            let userDataProxy = new DataProxy(APP_CONST.DOMAIN +'/users',this.pageSize,this.getUsersData, this);
+            let userDataProxy = new DataProxy('/users',this.pageSize,this.getUsersData, this);
             userDataProxy.load();
 
         }

@@ -315,6 +315,10 @@
     import DialogForm from '../../mix/DialogForm';
     import getGroupsByPid from '../../ajaxProxy/getGroupsByPid';
     import { mapGetters } from 'vuex';
+
+    import APP_CONST from '../../config';
+
+    
     export default {
         name: 'editDialog',
         mixins:[DialogForm,getGroupsByPid],
@@ -334,7 +338,7 @@
                 dialogThis: this,
                 labelPosition:"right",
                 labelWidth:'80px',
-                url:"http://localhost:8000/admin/upload",
+                url:APP_CONST.UPLOAD_URL,
                 uplaodParam:{  name:"avater", subdir:'asdf' },
                 uploadImg:"",
                 activeName:'first',

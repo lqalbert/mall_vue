@@ -140,6 +140,8 @@
     import DataProxy from '../../packages/DataProxy';
     import SelectProxy from  '../../packages/SelectProxy';
     import GoodsDetailsAjax from '../../ajaxProxy/GoodsDetails';
+    
+    import APP_CONST from '../../config';
     export default {
         name: 'DeliveryAddress',
         mixins:[DialogForm],
@@ -342,7 +344,7 @@
                 this.goodsInfoData=data.goods;
             },
             getAddress(cus_id){
-                let selectProxy = new SelectProxy('http://localhost:8000/admin/deliveryaddress?cus_id='+cus_id, this.getAddressData, this);
+                let selectProxy = new SelectProxy(APP_CONST.DOMAIN + '/deliveryaddress?cus_id='+cus_id, this.getAddressData, this);
                 selectProxy.load();
             },
             getAddressData(data){
@@ -356,7 +358,7 @@
             },
         },
         created(){
-            let orderDataProxy = new DataProxy('http://localhost:8000/admin/users',this.pageSize,this.getUsersData, this);
+            let orderDataProxy = new DataProxy(APP_CONST.DOMAIN +'/users',this.pageSize,this.getUsersData, this);
             this.orderDataProxy = orderDataProxy;
             this.orderDataProxy.load();
         }

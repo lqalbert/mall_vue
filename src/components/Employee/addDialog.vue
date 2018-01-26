@@ -157,6 +157,8 @@
     import getGroupsByPid from '../../ajaxProxy/getGroupsByPid';
     import { mapGetters } from 'vuex';
     
+    import APP_CONST from '../config';
+
     export default {
         name: 'addDialog',
         mixins:[DialogForm,getGroupsByPid],
@@ -177,7 +179,7 @@
                 dialogThis: this,
                 labelPosition:"right",
                 labelWidth:'80px',
-                url:"http://localhost:8000/admin/upload",
+                url: APP_CONST.DOMAIN +  "/upload",
                 uplaodParam:{  name:"avater", subdir:'asdf' },
                 uploadImg:"",
                 groups:[],

@@ -103,6 +103,8 @@
     import Category from '../../ajaxProxy/Category';
     import DeliveryAddress from '../../ajaxProxy/DeliveryAddress';
     import OrderBasic from '../../ajaxProxy/OrderBasic';
+
+    import APP_CONST from '../../config';
     export default {
         name: 'CustomerInformation',
         pageTitle: "客户资料",
@@ -156,7 +158,7 @@
                 this.addressData=data.items;
             },
             getCategory(){
-                let selectProxy = new SelectProxy('http://localhost:8000/admin/tree', this.getCategoryList, this);
+                let selectProxy = new SelectProxy(APP_CONST.DOMAIN +'/tree', this.getCategoryList, this);
                 selectProxy.load();
             },
             getAddress(){

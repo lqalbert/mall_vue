@@ -88,7 +88,15 @@ export default {
               { text:'资讯详情', index:'SkinCareInfo' },
 
           ]
-        }
+        },
+	{
+          text:'留言管理',
+          icon:null,
+          subNav:[
+              { text:'留言详情', index:'Connection' },//Connection
+
+          ]
+        },
       ]   
     }
   },

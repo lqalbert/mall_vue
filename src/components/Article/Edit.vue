@@ -8,15 +8,16 @@
                                 <el-input class="name-input" v-model="editForm.title"  auto-complete="off" ></el-input>
                             </el-form-item>
                         </el-col>
-                        
                     </el-row>
-                    
                     <el-row>
                         <el-col :span="12">
                             <el-form-item label="图片"  prop="image">
                                 <el-upload
+                                        ref="upload"
+                                        name="avatar"
                                         class="avatar-uploader"
                                         :action="url"
+                                        accept="image/gif, image/jpeg,image/jpg,image/png"
                                         :show-file-list="false"
                                         :on-success="editFormUploadSuccess"
                                         :before-upload="beforeAvatarUpload">
@@ -62,7 +63,7 @@
     
         // import Dialog from '../common/Dialog';
         export default {
-            name: 'Edit',
+            name: 'edit-article',
             mixins:[DialogForm],
             components:{
                 quillRedefine,
@@ -73,11 +74,7 @@
                     labelPosition:"right",
                     labelWidth:'80px',
                     imageUrl:"",
-                    
                     url:APP_CONST.UPLOAD_URL,
-                    // uplaodParam:{  name:"avater", subdir:'asdf' },
-                    uploadImg:"",
-                    
                     editForm:{
                         id:"",
                         title:"",
@@ -102,7 +99,8 @@
     
             methods:{
                 onOpen(param){
-                    this.model = param.params.model;
+                    this.editForm = param.params.model;
+                    this.imageUrl = this.editForm.image;
                 },
                 getAjaxPromise(model){
                     return this.ajaxProxy.update(model.id, model);
@@ -110,14 +108,11 @@
                 editFormUploadSuccess(response, file){
                     // this.editForm.head = URL.createObjectURL(file.raw);
                     if (response.status==1) {
-                        this.editForm.image = response.data.fullurl;
-                        this.uploadImg = response.data.fullurl;
+                        this.editForm.image = response.data.url;
+                        this.imageUrl = response.data.fullurl;
                     }
                     
                 },
-                // handleAvatarSuccess(res, file) {
-                //     this.head = URL.createObjectURL(file.raw);
-                // },
                 beforeAvatarUpload(file) {
                     const isJPG = file.type === 'image/jpeg';
                     const isLt2M = file.size / 1024 / 1024 < 2;
@@ -148,11 +143,6 @@
                     //console.log(quill.getContents());
                 }
             },
-            watch:{
-                model:function(val, oldVal){
-                    this.initObject(val, this.editForm);
-                }
-            },
             created(){
                 this.editorOption = quillRedefine(APP_CONST.editor_option);
             }
@@ -164,6 +154,10 @@
     <style scoped>
         .name-input{
             max-width: 217px;
+        }
+        .avatar{
+            max-width: 250px;
+            max-height: 250px;
         }
     </style>
     

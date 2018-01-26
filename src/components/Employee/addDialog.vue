@@ -157,7 +157,7 @@
     import getGroupsByPid from '../../ajaxProxy/getGroupsByPid';
     import { mapGetters } from 'vuex';
     
-    import APP_CONST from '../config';
+    import APP_CONST from '../../config';
 
     export default {
         name: 'addDialog',

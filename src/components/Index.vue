@@ -247,7 +247,7 @@
         },
         mounted:function(){
             let vThis = this;
-            this.navChange('Deposit');
+            this.navChange('GoodsDetails');
             setInterval(function(){
                 vThis.getCurDate();
             }, 1000);

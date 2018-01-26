@@ -102,11 +102,18 @@
                             <span v-else-if="scope.row.check_status==2">未通过</span>
                         </template>
                     </el-table-column>
+                    <el-table-column prop="refund_check" label="退款审核" align="center" width="100">
+                        <template slot-scope="scope">
+                            <span v-if="scope.row.refund_check==0">未审核</span>
+                            <span v-else-if="scope.row.refund_check==1" >通过</span>
+                            <span v-else-if="scope.row.refund_check==2">未通过</span>
+                        </template>
+                    </el-table-column>
                     <el-table-column prop="created_at" label="下单时间" align="center">
                     </el-table-column>
                     <el-table-column  fixed="right" label="操作" align="center" width="200">
                         <template slot-scope="scope">
-                            <el-button type="info" size="small" @click="open2(scope.row.id)">发起退款</el-button>
+                            <el-button type="warning" size="small" @click="handleCheck(scope.row)">审核</el-button>
                             <!--<el-button type="danger" @click="handleDelete(scope.row.id)" size="small">删除</el-button>-->
                         </template>
                     </el-table-column>
@@ -116,8 +123,9 @@
         </el-row>
 
 
-
+        <checkDialog name="check" :ajax-proxy="orderBasicAjaxProxy"/>
     </div>
+
 </template>
 
 <script>
@@ -137,11 +145,14 @@
     import TableProxy from '../common/TableProxy';
     import OrderBasic from '../../ajaxProxy/OrderBasic';
     import SearchTool from "../../mix/SearchTool";
+
+    import checkDialog from "./check";
     export default {
         name: 'Refund',
         pageTitle:"订单详情",
         mixins: [PageMix,SearchTool,DataTable,config,OrderlistAjaxProxy],
         components:{
+            checkDialog
         },
         data () {
             return {
@@ -183,24 +194,8 @@
             }
         },
         methods:{
-            open2(id) {
-                this.$confirm('确认发起退款（需要审核）?', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(() => {
-                    this.refund(id),
-                    this.refresh(),
-                    this.$message({
-                        type: 'success',
-                        message: '发起退款成功!'
-                    });
-                }).catch(() => {
-                    this.$message({
-                        type: 'info',
-                        message: '已取消'
-                    });
-                });
+            handleCheck(row){
+                this.$modal.show('check',{row:row});
             },
             refresh(){
                 this.$emit('refresh-success');

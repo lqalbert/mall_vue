@@ -97,15 +97,23 @@
                     </el-table-column>
                     <el-table-column prop="check_status" label="审核状态" align="center" width="100">
                         <template slot-scope="scope">
-                            <span v-if="scope.row.check_status==0">未通过</span>
+                            <span v-if="scope.row.check_status==0">未审核</span>
                             <span v-else-if="scope.row.check_status==1" >通过</span>
-                            <span v-else-if="scope.row.check_status==2">未审核</span>
+                            <span v-else-if="scope.row.check_status==2">未通过</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="refund_check" label="退款审核" align="center" width="100">
+                        <template slot-scope="scope">
+                            <span v-if="scope.row.refund_check==0">未审核</span>
+                            <span v-else-if="scope.row.refund_check==1" >通过</span>
+                            <span v-else-if="scope.row.refund_check==2">未通过</span>
                         </template>
                     </el-table-column>
                     <el-table-column prop="created_at" label="下单时间" align="center">
                     </el-table-column>
-                    <el-table-column  fixed="right" label="操作" align="center" width="200">
+                    <el-table-column  fixed="right" label="操作" align="center">
                         <template slot-scope="scope">
+                            <el-button type="info" size="small" @click="open2(scope.row.id)">发起退款</el-button>
                             <el-button type="info" size="small" @click="showRowData(scope.row)">编辑</el-button>
                             <el-button type="danger" @click="handleDelete(scope.row.id)" size="small">删除</el-button>
                         </template>
@@ -409,6 +417,25 @@
         showRowData(row){
             this.$modal.show('rowInfo',{rowData:row});
         },
+        open2(id) {
+            this.$confirm('确认发起退款（需要审核）?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                this.refund(id),
+                    this.refresh(),
+                    this.$message({
+                        type: 'success',
+                        message: '发起退款成功!'
+                    });
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '已取消'
+                });
+            });
+        },
         /** 点击订单列表展示用户信息 */
         showRow(row){
             console.log(row);
@@ -439,16 +466,28 @@
             this.searchForm.type=$criteria;
             this.searchToolChange('searchForm');
         },
+        refund(id)
+        {
+            let refundProxy = new SelectProxy(OrderlistAjaxProxy.getUrl(), this.loadtest, this);
+            refundProxy.setExtraParam({refund_id:id}).load();
+
+        },
         loadUsers(data) {
             console.log(data.items);
             this.users = data.items;
+        },
+        loadtest(data){
+            this.mainData = data.items;
+            // console.log(data.items);
         },
         loaddelivery(data){
             this.addresstableData = data.items;
         },
         loadbuyer(data) {
+            this.usertableData = data.items;
+        },
+        loadcustomer(data){
             this.buyer = data.items;
-            this.usertableData = this.buyer;
         },
         loadgoods(data) {
             this.goods = data.items;
@@ -520,6 +559,8 @@
 
     },
     created(){
+        let selectProxy = new SelectProxy(BuyerAjaxProxy.getUrl(), this.loadcustomer, this);
+        selectProxy.load();
         this.$on('search-tool-change', this.onSearchChange);
         this.$on('refresh-success', this.handleReload);
         let orderProxy = new UsersSelectProxy(null, this.loadUsers, this);

@@ -54,7 +54,7 @@ export default {
           subNav:[
               { text:'订单详情', index:'OrderList' },
               { text:'订单审核', index:'BuyOrders' },
-              { text:'发起退款', index:'Refund' },
+              { text:'退款审核', index:'Refund' },
           ]
         },
         {

@@ -56,8 +56,8 @@
                                     <span v-if="scope.row.order_status==0">待付款</span>
                                     <span v-else-if="scope.row.order_status==1" >待确认</span>
                                     <span v-else-if="scope.row.order_status==2">已完成</span>
-                                    <span v-else-if="scope.row.order_status==2">已关闭</span>
-                                    <span v-else-if="scope.row.order_status==2">退货中</span>
+                                    <span v-else-if="scope.row.order_status==3">已关闭</span>
+                                    <span v-else-if="scope.row.order_status==4">退货中</span>
                                 </template>
                             </el-table-column>
                             <el-table-column prop="check_status" label="审核状态" align="center" width="100">

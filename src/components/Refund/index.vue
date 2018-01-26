@@ -7,7 +7,7 @@
                                     type="date"
                                     placeholder="下单开始时间"
                                     @change="startDateChange"
-                                    editable="false">
+                                    >
                     </el-date-picker>
                 </el-form-item>
 
@@ -16,7 +16,7 @@
                                     type="date"
                                     placeholder="下单截止时间"
                                     @change="endDateChange"
-                                    editable="false">
+                                    >
                     </el-date-picker>
                 </el-form-item>
 
@@ -56,7 +56,7 @@
                         <el-button  size="small" @click="searchReset" type="warning">重置</el-button>
                     </el-tooltip>
                     <el-tooltip content="点击刷新当前页面" placement="right" style="margin-left:10px;">
-                        <el-button  size="small" @click="show_all" type="danger" >刷新</el-button>
+                        <el-button  size="small" @click="refresh" type="danger" >刷新</el-button>
                     </el-tooltip>
                 </el-form-item>
 
@@ -97,16 +97,16 @@
                     </el-table-column>
                     <el-table-column prop="check_status" label="审核状态" align="center" width="100">
                         <template slot-scope="scope">
-                            <span v-if="scope.row.check_status==0">未通过</span>
+                            <span v-if="scope.row.check_status==0">未审核</span>
                             <span v-else-if="scope.row.check_status==1" >通过</span>
-                            <span v-else-if="scope.row.check_status==2">未审核</span>
+                            <span v-else-if="scope.row.check_status==2">未通过</span>
                         </template>
                     </el-table-column>
                     <el-table-column prop="created_at" label="下单时间" align="center">
                     </el-table-column>
                     <el-table-column  fixed="right" label="操作" align="center" width="200">
                         <template slot-scope="scope">
-                            <el-button type="info" size="small" @click="showRowData(scope.row)">发起退款</el-button>
+                            <el-button type="info" size="small" @click="open2(scope.row.id)">发起退款</el-button>
                             <!--<el-button type="danger" @click="handleDelete(scope.row.id)" size="small">删除</el-button>-->
                         </template>
                     </el-table-column>
@@ -116,26 +116,11 @@
         </el-row>
 
 
-        <rowInfo name="rowInfo"
-                 :ajax-proxy="ajaxProxy"
-                 :users="users"
-                 :buyer="buyer"
-                 @submit-success="handleReload"
-        />
 
-        <add-dialog
-                name='add-orderBasic'
-                width="70%"
-                :customers="buyer"
-                :ajax-proxy="orderBasicAjaxProxy"
-                :CategoryList="CategoryList"
-                @submit-success="handleReload">
-        </add-dialog>
     </div>
 </template>
 
 <script>
-    import rowInfo from "./rowInfo";
     import addDialog from "./Add.vue";
     import DataTable from '../../mix/DataTable';
     import PageMix from '../../mix/Page';
@@ -157,7 +142,6 @@
         pageTitle:"订单详情",
         mixins: [PageMix,SearchTool,DataTable,config,OrderlistAjaxProxy],
         components:{
-            rowInfo,addDialog,
         },
         data () {
             return {
@@ -199,11 +183,36 @@
             }
         },
         methods:{
+            open2(id) {
+                this.$confirm('确认发起退款（需要审核）?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.refund(id),
+                    this.refresh(),
+                    this.$message({
+                        type: 'success',
+                        message: '发起退款成功!'
+                    });
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消'
+                    });
+                });
+            },
+            refresh(){
+                this.$emit('refresh-success');
+            },
+            refund(id)
+            {
+                let refundProxy = new SelectProxy(OrderlistAjaxProxy.getUrl(), this.loadtest, this);
+                refundProxy.setExtraParam({refund_id:id}).load();
+
+            },
             getAjaxProxy(){
                 return  this.ajaxProxy;
-            },
-            showRowData(row){
-                this.$modal.show('rowInfo',{rowData:row});
             },
             /** 点击订单列表展示用户信息 */
             showRow(row){
@@ -239,6 +248,10 @@
                 console.log(data.items);
                 this.users = data.items;
             },
+            loadtest(data){
+                this.mainData = data.items;
+               // console.log(data.items);
+            },
             loaddelivery(data){
                 this.addresstableData = data.items;
             },
@@ -255,16 +268,7 @@
                 this.tabindex = tab.index;
             },
             show_all:function(){
-                this.searchForm.type = '';
-                this.searchForm.deliver = '';
-                this.searchForm.goods_name = '';
-                this.searchForm.consignee = '';
-                this.searchForm.id = '';
-                this.searchForm.sale_name = '';
-                this.searchForm.end = '';
-                this.searchForm.condition = '';
-                this.searchForm.type = '';
-                this.searchForm.deliver = '';
+                this.$refs.searchForm.resetFields();
                 this.searchToolChange('searchForm');
             },
             delivesearch:function($criteria){
@@ -314,6 +318,7 @@
         },
         created(){
             this.$on('search-tool-change', this.onSearchChange);
+            this.$on('refresh-success', this.handleReload);
             let orderProxy = new UsersSelectProxy(null, this.loadUsers, this);
             this.orderProxy = orderProxy;
             this.orderProxy.load();

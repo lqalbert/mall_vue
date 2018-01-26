@@ -56,7 +56,7 @@
                         <el-button  size="small" @click="searchToolReset('searchForm')" type="warning">重置</el-button>
                     </el-tooltip>
                     <el-tooltip content="点击刷新当前页面" placement="right" style="margin-left:10px;">
-                        <el-button  size="small" @click="show_all" type="danger" >刷新</el-button>
+                        <el-button  size="small" @click="refresh" type="danger" >刷新</el-button>
                     </el-tooltip>
                 </el-form-item>
 
@@ -471,6 +471,9 @@
             this.searchForm.deliver = '';
             this.searchToolChange('searchForm');
         },
+        refresh(){
+            this.$emit('refresh-success');
+        },
         delivesearch:function($criteria){
             this.searchToolReset('searchForm');
             this.searchForm.deliver=$criteria;
@@ -518,6 +521,7 @@
     },
     created(){
         this.$on('search-tool-change', this.onSearchChange);
+        this.$on('refresh-success', this.handleReload);
         let orderProxy = new UsersSelectProxy(null, this.loadUsers, this);
         this.orderProxy = orderProxy;
         this.orderProxy.load();

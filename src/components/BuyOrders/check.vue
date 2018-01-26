@@ -4,10 +4,10 @@
             <el-form :model="checkForm" ref="checkForm" :label-width="labelWidth" :label-position="labelPosition">
                 <el-row>
                     <el-col :span="12">
-                        <el-form-item  label="是否通过" prop="check_status">
+                        <el-form-item  label="是否通过">
                             <el-select size="small" placeholder="是否通过" v-model="checkForm.check_status">
                                 <el-option
-                                        v-for="check in check_status"
+                                        v-for="check in c_status"
                                         :label="check.status"
                                         :value="check.id"
                                         :key="check.id"></el-option>
@@ -30,9 +30,8 @@
 
 <script>
     import DialogForm from '../../mix/DialogForm';
-    import SubmitButton from '../../components/common/SubmitButton';
     export default {
-        name: 'addDialog',
+        name: 'checkDialog',
         mixins:[DialogForm],
         props:{
             
@@ -48,7 +47,6 @@
                 labelPosition:"right",
                 labelWidth:'100px',
                 checkForm:{
-                    check_status:'1',
                 },
                 order_statuslist:[
                     {id:'0',status:'未付款'},
@@ -62,7 +60,7 @@
                     {id:'1',status:'已发货'},
                     {id:'2',status:'已收货'},
                 ],
-                check_status:[
+                c_status:[
                     {id:'1', status:'通过'},
                     {id:'2', status:'未通过'}
                 ],
@@ -89,9 +87,7 @@
             },
             getAjaxPromise(model){
                 delete model.cus_name;
-                delete model.buyer;
                 delete model.user_name;
-                delete model.users;
                 return this.ajaxProxy.update(model.id, model);
             },
         },

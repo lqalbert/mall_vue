@@ -88,7 +88,7 @@
                             <span v-else-if="scope.row.order_status==4">退货中</span>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="shipping_status" label="发货状态" align="center" width="100">
+                    <el-table-column prop="shipping_status" label="发货状态" align="center">
                         <template slot-scope="scope">
                             <span v-if="scope.row.shipping_status==0">待发货</span>
                             <span v-else-if="scope.row.shipping_status==1" >已发货</span>
@@ -107,6 +107,14 @@
                             <span v-if="scope.row.refund_check==0">未审核</span>
                             <span v-else-if="scope.row.refund_check==1" >通过</span>
                             <span v-else-if="scope.row.refund_check==2">未通过</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="refund_status" label="退款状态" align="center" width="100">
+                        <template slot-scope="scope">
+                            <span v-if="scope.row.refund_status==0">正常</span>
+                            <span v-else-if="scope.row.refund_status==1" >退款中</span>
+                            <span v-else-if="scope.row.refund_status==2">已退款</span>
+                            <span v-else-if="scope.row.refund_status==3">已驳回</span>
                         </template>
                     </el-table-column>
                     <el-table-column prop="created_at" label="下单时间" align="center">

@@ -2,10 +2,10 @@
     <div>
       <!-- search bar -->
         <el-row>
-            <el-col>
+            <el-col :span="12">
                 <el-form :inline="true"  ref="searchForm" :model="searchForm" class="search-bar">
                         <el-form-item prop="department_id" >
-                            <el-select size="small" placeholder="请选择单位名"  v-model="searchForm.department_id" @change="onDepartChange">
+                            <el-select size="small" placeholder="请选择单位"  v-model="searchForm.department_id" @change="onDepartChange">
                                 <el-option v-for="v in departments" 
                                     :label="v.name" 
                                     :value="v.id" 
@@ -109,20 +109,14 @@
     data () {
         return {
             ajaxProxy:DepositAjaxProxy,
-
             departments:[],
-            groups:[
-                {id:1,name:'dsf'},
-                {id:2,name:'fse'},
-                {id:3,name:'get'},
-                ],
+            groups:[],
             users:[],
             searchForm:{
                 department_id:"",
                 group_id:"",
                 user_id:""
             },
-
             mainurl:DepositAjaxProxy,
             mainparam:"",
         }
@@ -136,12 +130,6 @@
         },
         loadDepartment(data){
             this.departments = data.items;
-        },
-        loadGroup(data) {
-            this.groups = data.items;
-        },
-        loadEmployee(data) {
-            this.employee = data.items;
         },
         onDepartChange(pid){
             this.groups=[];
@@ -161,14 +149,6 @@
         let departProxy = new DepartSelectProxy(null, this.loadDepartment, this);
         this.departProxy = departProxy;
         this.departProxy.load();
-
-        let groupProxy = new GroupSelectProxy(null, this.loadGroup, this);
-        this.groupProxy = groupProxy;
-        // this.groupProxy.load();
-
-        let employeeProxy = new EmployeeSelectProxy(null, this.loadEmployee, this);
-        this.employeeProxy = employeeProxy;
-
         this.$on('search-tool-change', this.onSearchChange);
     }
   }

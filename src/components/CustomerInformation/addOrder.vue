@@ -328,7 +328,6 @@
             getUsersData(data){
                 this.users=data.items;
                 this.usersListData=data.users;
-                console.log( this.usersListData)
             },
 
         },

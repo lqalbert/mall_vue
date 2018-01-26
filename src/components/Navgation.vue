@@ -81,6 +81,13 @@ export default {
               { text:'最新资讯', index:'Articles' },
 
           ]
+        },{
+          text:'护肤资讯',
+          icon:null,
+          subNav:[
+              { text:'资讯详情', index:'SkinCareInfo' },
+
+          ]
         }
       ]   
     }

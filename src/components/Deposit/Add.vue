@@ -6,11 +6,10 @@
                         <el-col :span="12">
                             <el-form-item label="部门" prop="department_id">
                                 <el-select clearable size="small" placeholder="请选择部门名"  v-model="departmentInput" @change="onDepartChange">
-                                    <el-option v-for="(v,index) in departments" 
+                                    <el-option v-for="(v,index) in departments"
                                         :label="v.name" 
-                                        :value="index" 
+                                        :value="index"
                                         :key="v.id">
-                                        
                                     </el-option>
                                 </el-select>
                             </el-form-item>
@@ -18,9 +17,9 @@
                         <el-col :span="12">
                             <el-form-item label="小组" prop="group_id" >
                                 <el-select size="small" placeholder="请选择小组"  v-model="groupInput" @change="onGroupChange">
-                                        <el-option v-for="(v,index) in groups" 
+                                        <el-option v-for="(v,index) in groups"
                                             :label="v.name" 
-                                            :value="index" 
+                                            :value="index"
                                             :key="v.id">
                                             {{ v.name }} - {{ index }}
                                         </el-option>
@@ -32,10 +31,10 @@
                     <el-row>
                         <el-col :span="12">
                             <el-form-item label="员工" prop="user_id" >
-                                <el-select size="small" placeholder="请选择员工"  v-model="employeeInput" @change="onEmployeeChange">
-                                    <el-option v-for="(v,index) in employee" 
-                                        :label="v.realname" 
-                                        :value="index" 
+                                <el-select size="small" placeholder="请选择员工"  v-model="userInput" @change="onUserChange">
+                                    <el-option v-for="(v,index) in users"
+                                        :label="v.realname"
+                                        :value="index"
                                         :key="v.id">
                                     </el-option>
                                 </el-select>
@@ -66,7 +65,8 @@
     <script>
     import DialogForm from '../../mix/DialogForm';
     import DataProxy from '../../packages/DataProxy';
-
+    import getUsersByGid from '../../ajaxProxy/getUsersByGid';
+    import getGroupsByPid from '../../ajaxProxy/getGroupsByPid';
     import DepartSelectProxy from '../../packages/DepartSelectProxy';
     import GroupSelectProxy from '../../packages/GroupSelectProxy';
     import EmployeeSelectProxy from '../../packages/EmployeeSelectProxy';
@@ -75,46 +75,35 @@
     
     export default {
         name: 'Add',
-        mixins:[DialogForm],
+        mixins:[DialogForm,getGroupsByPid,getUsersByGid],
         data () {
             return {
                 dialogThis:this,
                 labelPosition:"right",
                 labelWidth:'80px',
-
                 departments:[],
                 groups:[],
-                employee:[],
-
-                departmentInput:"",
-                groupInput:"",
-                employeeInput:"",
-                
+                users:[],
+                departmentInput:'',
+                groupInput:'',
+                userInput:'',
                 addForm:{
                     department_id:"",
                     group_id:"",
                     user_id:"",
-
                     department_name:"",
                     group_name:"",
                     realname:"",
-
                     money:"",
                     creator_id:"",
                     creator:"",
-                    // charge_at:"",
                     charge_department:""
                 },
                 rules:{
-                    // name:[
-                    //     { required: true, message: '请输入部门名称', trigger: 'blur' }
-                    // ],
                     money:[
                         { required: true, message:'请输入金额', type: 'integer', trigger:'change'}
                     ]
                 },
-    
-    
             }
         },
         computed:{
@@ -131,47 +120,26 @@
             loadDepartment(data){
                 this.departments = data.items;
             },
-            loadGroup(data) {
-                this.groups = data.items;
-            },
-
             onDepartChange(index){
-                if (index !== "") {
-                    this.addForm.department_id = this.departments[index].id;
-                    this.addForm.department_name = this.departments[index].name;
+                this.groups=[];
+                this.users=[];
+                this.addForm.department_id=this.departments[index].id;
+                this.addForm.department_name=this.departments[index].name;
+                this.addForm.group_id='';
+                this.addForm.user_id='';
+                this.getGroupsAjax(this.departments[index].id);
 
-                    this.groupProxy.setParam({department_id: this.addForm.department_id});
-                    this.groupProxy.load();
-                } else {
-                    this.groupInput = "";
-
-                    this.addForm.department_id = "";
-                    this.addForm.department_name = "";
-                }
             },
             onGroupChange(index){
-                if (index !== "") {
-                   
-                    this.addForm.group_id = this.groups[index].id;
-                    this.addForm.group_name = this.groups[index].name;
-
-                    this.employeeProxy.setParam({group_id: this.addForm.group_id});
-                    this.employeeProxy.load();
-                } else {
-                    this.addForm.group_id = "";
-                    this.addForm.group_name = "";
-
-                    this.employeeInput = "";
-                }
+                this.users=[];
+                this.addForm.user_id='';
+                this.addForm.group_id=this.groups[index].id;
+                this.addForm.group_name=this.groups[index].name;
+                this.getUsersAjax(this.groups[index].id);
             },
-            onEmployeeChange(index){
-                if (index !== "") {
-                    this.addForm.user_id = this.employee[index].id;
-                    this.addForm.realname = this.employee[index].name;
-                } else {
-                    this.addForm.user_id = "";
-                    this.addForm.realname = "";
-                }
+            onUserChange(index){
+                this.addForm.user_id=this.users[index].id;
+                this.addForm.realname=this.users[index].realname;
             }
             
         },
@@ -179,22 +147,6 @@
             let departProxy = new DepartSelectProxy(null, this.loadDepartment, this);
             this.departProxy = departProxy;
             this.departProxy.load();
-
-            let groupProxy = new GroupSelectProxy(null, this.loadGroup, this);
-            this.groupProxy = groupProxy;
-            this.groupProxy.load();
-
-            let employeeProxy = new EmployeeSelectProxy(null, this.loadEmployee, this);
-            this.employeeProxy = employeeProxy;
-
-            console.log(this.departName);
-            this.addForm.charge_department = this.departName;
-            console.log(this.creator);
-            this.addForm.creator = this.creator;
-            console.log(this.creator_id);
-            this.addForm.creator_id = this.creator_id;
-
-            
         }
     }
     </script>

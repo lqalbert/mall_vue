@@ -3,6 +3,7 @@
         <MyDialog title="添加客户收货地址" :name="name" :width="width" :height="height" @before-open="onOpen">
             <el-table
              :data="addressData"
+             border
              @cell-dblclick="handleCurrentChange"
              style="width: 100%">
                 <el-table-column label="序号" type="index" width="80 px"></el-table-column>

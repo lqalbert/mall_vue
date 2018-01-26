@@ -67,6 +67,7 @@
         </Edit>
 
         <addAddress name='add-Address'
+                    width="60%"
                     :ajax-proxy="addressAjaxProxy"
         >
 

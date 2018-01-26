@@ -219,23 +219,17 @@
             departmentChange(v){
                 this.groups=[];
                 this.addForm.group_id='';
-                this.getGroupsByPidAjax(v);
+                this.getGroupsAjax(v);
             },
             getAjaxPromise(model){
-              //console.log(model);
                 return this.ajaxProxy.create(model);
             },
             addFormUploadSuccess(response, file){
-                // this.addForm.head = URL.createObjectURL(file.raw);
                 if (response.status==1) {
                     this.addForm.head = response.data.url;
                     this.uploadImg = response.data.fullurl;
                 }
-                
             },
-            // handleAvatarSuccess(res, file) {
-            //     this.head = URL.createObjectURL(file.raw);
-            // },
             beforeAvatarUpload(file) {
                 const isJPG = file.type === 'image/jpeg';
                 const isLt2M = file.size / 1024 / 1024 < 2;
@@ -248,31 +242,17 @@
                 }
                 return isJPG && isLt2M;
             },
-
             conlog(param){
                 console.log('debug', arguments);
             },
-
             resetUploadImg (){
                 this.uploadImg = "";
             }
-           
         },
         created(){
-            // this.$on('valid-error', this.conlog);
-            // this.$on('submit-final', this.conlog);
           this.$on('submit-final', this.resetUploadImg);
-           //  $.getJSON('//freegeoip.net/json/', function(data) {
-            this.addForm.ip=this.userIP;
-           //      console.log(data);
-           //  });
-           // console.log(111);
         },
-        mounted(){
-            // console.log(this.$children);
-            // console.log(this);
-        }
-       
+
     }
 </script>
 

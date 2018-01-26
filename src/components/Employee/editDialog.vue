@@ -43,13 +43,11 @@
                             <el-col :span="12">
                                 <el-form-item label="所属团队" prop="group_id" >
                                     <el-select v-model="editForm.group_id" placeholder="团队小组" clearable>
-
                                         <el-option
                                                 v-for="group in groups"
                                                 :label="group.name"
                                                 :value="group.id"
                                                 :key="group.id"></el-option>
-
                                     </el-select>
                                 </el-form-item>
                             </el-col>
@@ -339,7 +337,6 @@
                 url:"http://localhost:8000/admin/upload",
                 uplaodParam:{  name:"avater", subdir:'asdf' },
                 uploadImg:"",
-
                 activeName:'first',
                 groups:[],
                 editForm:{
@@ -381,32 +378,27 @@
             departmentChange(v){
                 this.groups=[];
                 this.editForm.group_id='';
-                this.getGroupsByPidAjax(v);
+                this.getGroupsAjax(v);
             },
             onOpen(param){
-                 console.log(param);
                 this.model = param.params.model;
                 this.uploadImg=this.model.head;
+                this.getGroupsAjax(param.params.model.department_id);
             },
             getAjaxPromise(model){
-               // console.log(model);
+
                 return this.ajaxProxy.update(model.id, model);
             },
             editFormUploadSuccess(response, file){
-                // this.editForm.head = URL.createObjectURL(file.raw);
                 if (response.status==1) {
                     this.editForm.head = response.data.url;
                     this.uploadImg = response.data.fullurl;
                 }
 
             },
-            // handleAvatarSuccess(res, file) {
-            //     this.head = URL.createObjectURL(file.raw);
-            // },
             beforeAvatarUpload(file) {
                 const isJPG = file.type === 'image/jpeg';
                 const isLt2M = file.size / 1024 / 1024 < 2;
-
                 if (!isJPG) {
                     this.$message.error('上传头像图片只能是 JPG 格式!');
                 }
@@ -415,18 +407,15 @@
                 }
                 return isJPG && isLt2M;
             },
-
             conlog(param){
                 console.log('debug', arguments);
             },
-
             resetUploadImg (){
                 this.uploadImg = "";
             }
 
         },
         watch:{
-
             model:function(val, oldVal){
                 for (const key in this.editForm) {
                     if (this.editForm.hasOwnProperty(key)) {
@@ -436,17 +425,8 @@
             }
         },
         created(){
-            // this.$on('valid-error', this.conlog);
-            // this.$on('submit-final', this.conlog);
             this.$on('submit-final', this.resetUploadImg);
-
-
         },
-        mounted(){
-            // console.log(this.$children);
-            // console.log(this);
-        }
-
     }
 </script>
 

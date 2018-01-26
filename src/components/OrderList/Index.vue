@@ -413,8 +413,8 @@
         showRow(row){
             console.log(row);
             /** 选项卡1显示客户信息 */
-                let selectProxy = new SelectProxy(BuyerAjaxProxy.getUrl(), this.loadbuyer, this);
-                selectProxy.setExtraParam({id:row.cus_id}).load();
+            let selectProxy = new SelectProxy(BuyerAjaxProxy.getUrl(), this.loadbuyer, this);
+            selectProxy.setExtraParam({id:row.cus_id}).load();
             /** 选项卡2获取订单商品信息 */
             let goodsProxy = new SelectProxy(OrdergoodsAjaxProxy.getUrl(), this.loadgoods, this);
             goodsProxy.setExtraParam({goods_id:row.goods_id,order_id:row.id}).load();
@@ -525,8 +525,6 @@
         let orderProxy = new UsersSelectProxy(null, this.loadUsers, this);
         this.orderProxy = orderProxy;
         this.orderProxy.load();
-        let selectProxy = new SelectProxy(BuyerAjaxProxy.getUrl(), this.loadbuyer, this);
-        selectProxy.load();
         this.getCategory();
 
 

@@ -25,8 +25,8 @@ export default {
           subNav:[
             {text:'商品详情', index:"GoodsDetails"},
             {text:'商品分类', index:"Category"},
-            // {text:'商品规格', index:"GoodsSpecs"},
-            // {text:'商品类型', index:"GoodsType"},
+            {text:'商品规格', index:"GoodsSpecs"},
+            {text:'商品类型', index:"GoodsType"},
           ]
         },
 

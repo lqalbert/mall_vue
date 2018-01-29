@@ -38,6 +38,14 @@ import DialogForm from '../../mix/DialogForm';
 export default {
     name: 'Edit',
     mixins:[DialogForm],
+    props:{
+        specs:{
+            type: Array,
+            default:function(){
+                return [];
+            }
+        }
+    },
     data () {
         return {
             dialogThis:this,

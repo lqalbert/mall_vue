@@ -4,13 +4,13 @@
             <el-form :model="addForm" ref="addForm"  :label-width="labelWidth"   :label-position="labelPosition">
                 <el-row>
                     <el-col :span="12">
-                        <el-form-item label="规格名称" prop="spec_name" >
-                            <el-input class="name-input" v-model="addForm.spec_name"  auto-complete="off" placeholder="请填写规格名称"></el-input>
+                        <el-form-item label="规格名称" prop="name" >
+                            <el-input class="name-input" v-model="addForm.name"  auto-complete="off" placeholder="请填写规格名称"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="展示方式" prop="spec_way">
-                            <el-radio-group v-model="addForm.spec_way">
+                        <el-form-item label="展示方式" prop="type">
+                            <el-radio-group v-model="addForm.type">
                               <el-radio label="1">文字</el-radio>
                               <el-radio label="2">图片</el-radio>
                               <el-radio label="3">自选</el-radio>
@@ -19,9 +19,9 @@
                     </el-col>
                 </el-row>
 
-                <el-row v-show="addForm.spec_way==3">
+                <el-row v-show="addForm.type==3">
                     <el-col :span="12">
-                        <el-form-item v-for="(i,index) in addForm.items" :label="'选项'+index" :key="index"  :prop="'items.' + index + '.value'" >
+                        <el-form-item v-for="(i,index) in addForm.add_value" :label="'选项'+index" :key="index"  :prop="'add_value.' + index + '.value'" >
                                 <el-col :span="11">
                                     <el-input v-model="i.value"  auto-complete="off" ></el-input>
                                 </el-col>
@@ -61,9 +61,9 @@ export default {
             
             state7: this.addOpen,
             addForm:{
-                spec_name:"",
-                spec_way:"1",
-                items:[{value:""}]
+                name:"",
+                type:"1",
+                add_value:[]
             },
 
         }
@@ -74,14 +74,20 @@ export default {
             return this.ajaxProxy.create(model);
         },
         removeItem(item){
-            var index = this.addForm.items.indexOf(item)
+            var index = this.addForm.add_value.indexOf(item)
             if (index !== -1) {
-                this.addForm.items.splice(index, 1)
+                this.addForm.add_value.splice(index, 1)
             }
         },
         addItem(){
-            this.addForm.items.push({value:""});
-        }
+            this.addForm.add_value.push({value:""});
+        },
+        resetAddValue(){
+            this.addForm.add_value = [];
+        } 
+    },
+    created(){
+        this.$on('submit-success', this.resetAddValue);
     }
 }
 </script>

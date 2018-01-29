@@ -2,8 +2,8 @@
   <div class="hello">
     <el-row>
       <el-form :inline="true" :model="searchForm" ref="searchForm" class="demo-form-inline" size="small">
-        <el-form-item prop="spec_name">
-          <el-input v-model="searchForm.type_name" placeholder="请输入类型名称"></el-input>
+        <el-form-item prop="name">
+          <el-input v-model="searchForm.name" size="small" placeholder="请输入类型名称"></el-input>
         </el-form-item>
 
         <el-form-item>
@@ -20,7 +20,7 @@
 
           <el-table-column label="序号" align="center" type="index" width="65"></el-table-column>
 
-          <el-table-column prop="type_name" label="类型名称" width="180" align="center">
+          <el-table-column prop="name" label="类型名称" width="180" align="center">
           </el-table-column>
 
           <el-table-column prop="type_attr" label="属性标签" align="center">
@@ -60,19 +60,19 @@
         <div class="pull-right" style="float: right;margin-top: 5px">
           <el-col :span="12">
             <el-pagination
-                    :current-page="currentPage4"
-                    :page-size="100"
-                    layout="total, prev, pager, next, jumper"
-                    :total="total"
-                    @current-change="currentChange">
+                :current-page="currentPage4"
+                :page-size="100"
+                layout="total, prev, pager, next, jumper"
+                :total="total"
+                @current-change="currentChange">
             </el-pagination>
           </el-col>
         </div>
       </el-col>
     </el-row>
 
-    <Add  name='add-goods-type' :ajax-proxy="ajaxProxy"></Add>
-    <Edit name='edit-goods-type' :ajax-proxy="ajaxProxy"></Edit>
+    <Add  name='add-goods-type' :ajax-proxy="ajaxProxy" :specs="specs"></Add>
+    <Edit name='edit-goods-type' :ajax-proxy="ajaxProxy" :specs="specs"></Edit>
 
   </div>
 </template>
@@ -86,6 +86,12 @@ import SearchTool from '../../mix/SearchTool';
 
 import GoodsTypeAjaxProxy from '../../ajaxProxy/GoodsType';
 import TableProxy from '../common/TableProxy';
+
+import GoodsSpecsSelectProxy from '../../packages/GoodsSpecsSelectProxy';
+
+
+
+
 export default {
     name: 'GoodsType',
     pageTitle: "商品类型",
@@ -97,7 +103,7 @@ export default {
         return {
             ajaxProxy:GoodsTypeAjaxProxy,
             searchForm: {
-                type_name: '',
+                name: '',
             },
             currentPage4: 1,
             total: 100,
@@ -117,6 +123,8 @@ export default {
                 'created_at':'2018-08-08 08:08:08',
               },
             ],
+
+            specs:[],
 
         }
     },
@@ -177,6 +185,10 @@ export default {
            return this.ajaxProxy
         },
 
+        loadSpecs(data){
+          this.specs = data.items;
+        }
+
 
     },
 
@@ -186,7 +198,11 @@ export default {
         // this.mainProxy = mainProxy;
         // this.mainProxy.load();
 
-        // this.$on('search-tool-change', this.onSearchChange);
+        this.$on('search-tool-change', this.onSearchChange);
+
+        let goodsSpecs = new GoodsSpecsSelectProxy({}, this.loadSpecs, this);
+        goodsSpecs.load();
+
 
     }
 }

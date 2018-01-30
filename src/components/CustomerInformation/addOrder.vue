@@ -62,19 +62,31 @@
                 <div v-show="this.active==1">
                     <el-row>
                         <el-col :span="12">
-                            <el-form-item prop="addressID" label="请选择收货地址">
-                                <el-select v-model="addressID" placeholder="请选择收货地址" @change="addressChange">
-                                    <el-option v-for="v in address" :value="v.id" :key="v.id" :label="v.name" ></el-option>
-                                </el-select>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="12">
                             <el-form-item prop="deal_id" label="请选择成交员工">
                                 <el-select v-model="deal_id" placeholder="请选择成交员工"  @change="userChange">
                                     <el-option v-for="v in users" :value="v.id" :key="v.id" :label="v.realname" ></el-option>
                                 </el-select>
                             </el-form-item>
                         </el-col>
+                     </el-row>
+                        <el-row>
+                        <el-col :span="12">
+                            <el-form-item prop="addressID" label="请选择收货地址" >
+
+                                    <el-radio-group v-for="v in fullAddressData" :key="v.id" v-model="addressID" @change="addressChange">
+                                        <template slot-scope="scope">
+                                            <el-radio  :label="v.id" >{{v.fullAddress}}</el-radio>
+                                        </template>
+
+                                    </el-radio-group>
+
+                                <!--<el-select v-model="addressID" placeholder="请选择收货地址" @change="addressChange">-->
+                                    <!--<el-option v-for="v in address" :value="v.id" :key="v.id" :label="v.name" ></el-option>-->
+                                <!--</el-select>-->
+                            </el-form-item>
+                        </el-col>
+
+
                     </el-row>
 
                 </div>
@@ -102,6 +114,7 @@
                         <el-table-column prop="name" label="收货人姓名"></el-table-column>
                         <el-table-column prop="phone" label="收货人手机号"></el-table-column>
                         <el-table-column prop="address" label="收货地址"></el-table-column>
+                        <el-table-column prop="zip_code" label="收货邮编"></el-table-column>
                         <el-table-column prop="deal_name" label="成交员工"></el-table-column>
                     </el-table>
                     <div slot="dialog-foot" class="right">
@@ -127,7 +140,7 @@
     import SelectProxy from  '../../packages/SelectProxy';
 
     import APP_CONST from '../../config';
-
+    import { mapGetters, mapMutations } from 'vuex';
     export default {
         name: 'DeliveryAddress',
         mixins:[DialogForm],
@@ -164,6 +177,7 @@
                 orderData:[],
                 goodsIds:[],
                 orderBasicData:[],
+                fullAddressData:[],
                 model:'',
                 deal_name:'',
                 remark:'',
@@ -172,6 +186,11 @@
                 realname:'',
                 dev:[]
             }
+        },
+        computed:{
+            ...mapGetters([
+                'user_id'
+            ])
         },
         methods:{
             addOrder(){
@@ -203,12 +222,14 @@
                     name : this.addressListData[this.address_id].name,
                     phone : this.addressListData[this.address_id].phone,
                     address: this.addressListData[this.address_id].address,
+                    zip_code: this.addressListData[this.address_id].zip_code,
                     deal_name:this.deal_name,
                 };
                 this.addressList.push(data);
             },
             addressChange(address_id){
                 this.address_id=address_id;
+                this.userChange(this.deal_id);
             },
             handleSubmit(){
                 this.addOrderForm.cus_id = this.cus_id;
@@ -282,6 +303,7 @@
                     });
             },
             onOpen(param){
+                this.deal_id=this.user_id;
                 this.cus_id = param.params.model.cus_id;
                 this.id = param.params.model.id;
                 this.getAddress(this.cus_id);
@@ -327,6 +349,7 @@
             getAddressData(data){
                 this.address=data.items;
                 this.addressListData=data.address;
+                this.fullAddressData=data.fullAddress;
             },
             getUsersData(data){
                 this.users=data.items;

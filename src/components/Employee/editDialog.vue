@@ -12,16 +12,17 @@
                         <el-row>
                             <el-col :span="12">
                                 <el-form-item label="登录账号" prop="account">
-                                    <el-input class="name-input" v-model="editForm.account"  auto-complete="off"></el-input>
+                                    <!-- <el-input class="name-input" v-model="editForm.account"  auto-complete="off"></el-input> -->
+                                    {{ model.account }}
                                 </el-form-item>
                                 <!--<el-form-item label="密码">-->
                                     <!--<el-input class="name-input" v-model="editForm.password" auto-complete="off"></el-input>-->
                                 <!--</el-form-item>-->
-                                <el-form-item label="员工职能">
+                                <!-- <el-form-item label="员工职能">
                                     <el-select v-model="editForm.role_id">
                                         <el-option v-for="role in roles"  :label="role.display_name" :value="role.id" :key="role.id"></el-option>
                                     </el-select>
-                                </el-form-item>
+                                </el-form-item> -->
                             </el-col>
                             <el-col :span="12">
                                 <el-form-item label="员工姓名" prop="realname">
@@ -33,14 +34,15 @@
                         <el-row >
                             <el-col :span="12">
                                 <el-form-item label="所属部门" prop="department_id">
-                                    <el-select size="small" v-model="editForm.department_id" placeholder="部门" @change="departmentChange">
+                                    <el-select   v-model="editForm.department_id" placeholder="部门" @change="departmentChange">
+                                        <el-option label="请选择" :value="0"></el-option>
                                         <el-option v-for="v in departments" :label="v.name"
                                                    :value="v.id" :key="v.id">
                                         </el-option>
                                     </el-select>
                                 </el-form-item>
                             </el-col>
-                            <el-col :span="12">
+                            <!-- <el-col :span="12">
                                 <el-form-item label="所属团队" prop="group_id" >
                                     <el-select v-model="editForm.group_id" placeholder="团队小组" clearable>
                                         <el-option
@@ -49,6 +51,17 @@
                                                 :value="group.id"
                                                 :key="group.id"></el-option>
                                     </el-select>
+                                </el-form-item>
+                            </el-col> -->
+                        </el-row>
+                        <el-row>
+                            <el-col :span="24">
+                                <el-form-item label="员工职能">
+                                    <el-checkbox-group 
+                                        v-model="editForm.role_ids">
+                                        <el-checkbox v-for="role in roles"  :label="role.id" :key="role.id">{{role.display_name}}</el-checkbox>
+                                    </el-checkbox-group>
+                                    
                                 </el-form-item>
                             </el-col>
                         </el-row>
@@ -136,169 +149,8 @@
                                     placeholder="请输入内容">
                             </el-input>
                         </el-form-item>
-
-
-
-
                     </el-tab-pane>
-                    <!-- <el-tab-pane label="其它信息" name="second">
-
-                        <el-row>
-                            <el-col :span="12">
-                                <el-form-item label="性别">
-                                    <el-radio class="radio" v-model="editForm.sex" label="1">男</el-radio>
-                                    <el-radio class="radio" v-model="editForm.sex" label="2">女</el-radio>
-                                </el-form-item>
-                            </el-col>
-                        </el-row>
-
-                        <el-row>
-                            <el-col :span="12">
-
-                                <el-form-item label="手机" prop="mphone">
-                                    <el-input v-model="editForm.mphone"  auto-complete="off"></el-input>
-                                </el-form-item>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-form-item label="固话座机" prop="phone">
-                                    <el-input v-model="editForm.phone" auto-complet="off"></el-input>
-                                </el-form-item>
-                            </el-col>
-                        </el-row>
-
-                        <el-row>
-                            <el-col :span="12">
-                                <el-form-item label="QQ号" prop="qq">
-                                    <el-input v-model="editForm.qq" auto-complete="off"></el-input>
-                                </el-form-item>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-form-item label="QQ昵称">
-                                    <el-input v-model="editForm.qq_nickname" auto-complet="off"></el-input>
-                                </el-form-item>
-                            </el-col>
-                        </el-row>
-                        <el-row>
-                            <el-col :span="12">
-                                <el-form-item label="微信号" prop="weixin">
-                                    <el-input v-model="editForm.weixin" auto-complete="off"></el-input>
-                                </el-form-item>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-form-item label="微信昵称">
-                                    <el-input v-model="editForm.weixin_nikname" auto-complet="off"></el-input>
-                                </el-form-item>
-                            </el-col>
-                        </el-row>
-                        <el-row>
-                            <el-col :span="12">
-                                <el-form-item label="身份证号" prop="id_card">
-                                    <el-input v-model="editForm.id_card" auto-complet="off"></el-input>
-                                </el-form-item>
-                            </el-col>
-                        </el-row>
-
-
-                        <el-row>
-                            <el-col :span="12">
-                                <el-form-item label="省份">
-                                    <el-select v-model="editForm.area_province"  placeholder="请选择">
-                                        <el-option label="北京"  value="1"></el-option>
-                                        <el-option label="上海"  value="2"></el-option>
-                                    </el-select>
-                                </el-form-item>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-form-item label="城市">
-                                    <el-select v-model="editForm.area_city"    placeholder="请选择">
-                                        <el-option label="北京"  value="1"></el-option>
-                                        <el-option label="上海"  value="2"></el-option>
-                                    </el-select>
-                                </el-form-item>
-                            </el-col>
-                        </el-row>
-                        <el-row>
-                            <el-col :span="12">
-                                <el-form-item label="区县">
-                                    <el-select v-model="editForm.area_district" placeholder="请选择">
-                                        <el-option label="北京"  value="1"></el-option>
-                                        <el-option label="上海"  value="2"></el-option>
-                                    </el-select>
-                                </el-form-item>
-                            </el-col>
-
-                        </el-row>
-                        <el-form-item label="住址">
-                            <el-input
-                                    v-model="editForm.address"
-                                    type="textarea"
-                                    :autosize="{ minRows: 2, maxRows: 4}"
-                                    placeholder="请输入内容">
-                            </el-input>
-                        </el-form-item>
-                    </el-tab-pane> -->
-                    <!-- <el-tab-pane label="身份证照" name="third" class="third">
-                        <el-row>
-                            <el-col :span="24">
-                               <el-form-item label="手持身份证照">
-                                    <el-upload
-                                            class="card_img"
-                                            action="{:U('Upload/index2')}"
-                                            accept="image/jpeg,image/png,image/jpg,image/gif,image/bmp"
-                                            :on-success="cardImg"
-                                            :data="pathInfo"
-                                            :headers="xuploadheader"
-                                            :multiple="false"
-                                            :show-upload-list="false"
-                                            :before-upload="beforeAvatarUpload">
-                                        <img v-if='editForm.card_img' :src="'__ROOT__' + editForm.card_img" alt="" style="max-width: 400px; max-height:300px;">
-                                        <i  v-else class="el-icon-plus avatar-uploader-icon"></i>
-                                    </el-upload>
-                                </el-form-item>
-                            </el-col>
-                        </el-row>
-
-                        <el-row>
-                            <el-col :span="24">
-                                <el-form-item label="身份证正面照">
-                                  <el-upload
-                                            class="card_front"
-                                            action="{:U('Upload/index2')}"
-                                            accept="image/jpeg,image/png,image/jpg,image/gif,image/bmp"
-                                            :on-success="cardFront"
-                                            :data="pathInfo"
-                                            :headers="xuploadheader"
-                                            :multiple="false"
-                                            :show-upload-list="false"
-                                            :before-upload="beforeAvatarUpload">
-                                        <img v-if='editForm.card_front' :src="'__ROOT__' + editForm.card_front" alt="" style="max-width: 400px; max-height:234px;">
-                                        <i  v-else class="el-icon-plus avatar-uploader-icon"></i>
-                                    </el-upload>
-                                </el-form-item>
-                            </el-col>
-                        </el-row>
-
-                        <el-row>
-                            <el-col :span="24">
-                                <el-form-item label="身份证反面照">
-                                    <el-upload
-                                            class="card_back"
-                                            action="{:U('Upload/index2')}"
-                                            accept="image/jpeg,image/png,image/jpg,image/gif,image/bmp"
-                                            :on-success="cardBack"
-                                            :data="pathInfo"
-                                            :headers="xuploadheader"
-                                            :multiple="false"
-                                            :show-upload-list="false"
-                                            :before-upload="beforeAvatarUpload">
-                                        <img v-if='editForm.card_back' :src="'__ROOT__' + editForm.card_back" alt="" style="max-width: 400px; max-height:234px;">
-                                        <i  v-else class="el-icon-plus avatar-uploader-icon"></i>
-                                    </el-upload>
-                                </el-form-item>
-                            </el-col>
-                        </el-row>
-
-                    </el-tab-pane> -->
+                    
                 </el-tabs>
             </el-form>
             <div slot="dialog-foot" >
@@ -346,12 +198,12 @@
                 editForm:{
                     id:'',
                     head:"",
-                    account:"",
-                    password:"123456",
-                    role_id:"",
-                    group_id:"",
+                    // account:"",
+                    // password:"123456",
+                    role_ids:[],
+                    // group_id:"",
                     department_id:"",
-                    sex:1,
+                    sex:"",
                     telephone:"",
                     mobilephone:"",
                     realname:"",
@@ -361,17 +213,17 @@
                     weixin:"",
                     weixin_nickname:"",
                     id_card:"",
-                    location:'成都市',
-                    ip:'192.168.0.1',
-                    create_name:"系统管理员",
-                    lg_time:"2017-12-28",
-                    out_time:"2017-12-28",
+                    // location:'成都市',
+                    // ip:'192.168.0.1',
+                    // create_name:"系统管理员",
+                    // lg_time:"2017-12-28",
+                    // out_time:"2017-12-28",
 
                 },
                 rules:{
-                    account:[
-                        { required: true, message:"账号必填", type:'string'}
-                    ]
+                    // account:[
+                    //     { required: true, message:"账号必填", type:'string'}
+                    // ]
                 },
                 model:''
 
@@ -387,7 +239,7 @@
             onOpen(param){
                 this.model = param.params.model;
                 this.uploadImg=this.model.head;
-                this.getGroupsAjax(param.params.model.department_id);
+                // this.getGroupsAjax(param.params.model.department_id);
             },
             getAjaxPromise(model){
 
@@ -421,11 +273,22 @@
         },
         watch:{
             model:function(val, oldVal){
+                this.editForm.role_ids = [];
                 for (const key in this.editForm) {
                     if (this.editForm.hasOwnProperty(key)) {
                         this.editForm[key] = val[key]
                     }
                 }
+
+                let role_ids = [];
+                if (val.roles) {
+                    for (let index = 0; index < val.roles.length; index++) {
+                        role_ids.push(val.roles[index].id)
+                    }
+                    this.editForm.role_ids = role_ids;
+                }
+
+
             }
         },
         created(){

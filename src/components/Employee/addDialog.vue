@@ -14,43 +14,45 @@
                                 <el-form-item label="登录账号" prop="account">
                                     <el-input class="name-input" v-model="addForm.account"  auto-complete="off"></el-input>
                                 </el-form-item>
+                            </el-col>
+                            <el-col :span="12">
+                                
+                                <el-form-item label="员工姓名" prop="realname">
+                                        <el-input class="name-input" v-model="addForm.realname" auto-complete="off"></el-input>
+                                    </el-form-item>
+                            </el-col>
+                            
+                            
+                        </el-row>
+                        <el-row >
+                            <el-col :span="12">
                                 <el-form-item label="密码">
                                     <el-input class="name-input" type="password" v-model="addForm.password" auto-complete="off"></el-input>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
-                                <el-form-item label="员工姓名" prop="realname">
-                                    <el-input class="name-input" v-model="addForm.realname" auto-complete="off"></el-input>
-                                </el-form-item>
-                                <el-form-item label="员工职能">
-                                    <el-select v-model="addForm.role_id">
-                                        <el-option v-for="role in roles"  :label="role.display_name" :value="role.id" :key="role.id"></el-option>
+                                <el-form-item label="所属部门" prop="department_id">
+                                    <el-select  v-model="addForm.department_id" placeholder="部门" @change="departmentChange">
+                                        <el-option label="请选择" :value="0"></el-option>
+                                        <el-option v-for="department in departments"
+                                                    :label="department.name"
+                                                    :value="department.id"
+                                                    :key="department.id">
+                                        </el-option>
                                     </el-select>
                                 </el-form-item>
                             </el-col>
                         </el-row>
-                        <el-row >
-                            <el-col :span="12">
-                                <el-form-item label="所属部门" prop="department_id">
-                                    <el-select  v-model="addForm.department_id" placeholder="部门" @change="departmentChange">
-                                        <el-option v-for="department in departments"
-                                                   :label="department.name"
-                                                   :value="department.id"
-                                                   :key="department.id">
-                                        </el-option>
-                                    </el-select>
-                                </el-form-item>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-form-item label="所属团队" prop="group_id" >
-                                    <el-select v-model="addForm.group_id" placeholder="团队小组" clearable>
-                                        <el-option
-                                            v-for="group in groups"
-                                            :label="group.name"
-                                            :value="group.id"
-                                            :key="group.id">
-                                        </el-option>
-                                    </el-select>
+
+                        <el-row>
+                            <el-col :span="24">
+                                
+                                <el-form-item label="员工职能">
+                                    <el-checkbox-group 
+                                        v-model="addForm.role_ids">
+                                        <el-checkbox v-for="role in roles"  :label="role.id" :key="role.id">{{role.display_name}}</el-checkbox>
+                                    </el-checkbox-group>
+                                    
                                 </el-form-item>
                             </el-col>
                         </el-row>
@@ -171,8 +173,15 @@
         },
         computed:{
             ...mapGetters([
-                'roles'
-            ])
+                'roles',
+
+            ]),
+            ...mapGetters({
+            // 映射 `this.creator` 为 `store.getters.user_id`
+            // 映射 `this.creator_name` 为 `store.getters.realname`
+                creator: 'user_id',
+                creator_name:"realname"
+            })
         },
         data () {
             return {
@@ -188,9 +197,9 @@
                     head:"",
                     account:"",
                     password:"123456",
-                    role_id:"",
-                    group_id:"",
-                    department_id:"",
+                    role_ids:[],
+                    // group_id:"",
+                    department_id:0,
                     sex:1,
                     telephone:"",
                     mobilephone:"",
@@ -201,11 +210,12 @@
                     weixin:"",
                     weixin_nickname:"",
                     id_card:"",
-                    location:'成都市',
-                    ip:'192.168.0.1',
-                    create_name:"系统管理员",
-                    lg_time:"2017-12-28",
-                    out_time:"2017-12-28",
+                    // location:'成都市',
+                    // ip:'192.168.0.1',
+                    // create_name:"系统管理员",
+                    // lg_time:"2017-12-28",
+                    // out_time:"2017-12-28",
+
 
                 },
                 rules:{
@@ -233,26 +243,33 @@
                 }
             },
             beforeAvatarUpload(file) {
-                const isJPG = file.type === 'image/jpeg';
+                // const isJPG = file.type === 'image/jpeg';
                 const isLt2M = file.size / 1024 / 1024 < 2;
 
-                if (!isJPG) {
-                    this.$message.error('上传头像图片只能是 JPG 格式!');
-                }
+                // if (!isJPG) {
+                //     this.$message.error('上传头像图片只能是 JPG 格式!');
+                // }
                 if (!isLt2M) {
                     this.$message.error('上传头像图片大小不能超过 2MB!');
                 }
-                return isJPG && isLt2M;
+                return isLt2M;
             },
             conlog(param){
                 console.log('debug', arguments);
             },
             resetUploadImg (){
                 this.uploadImg = "";
+            },
+            resetAddFormField(){
+                this.addForm.creator = this.creator;
+                this.addForm.creator_name = this.creator_name;
+                this.addForm.roles = [];
             }
         },
         created(){
-          this.$on('submit-final', this.resetUploadImg);
+            this.resetAddFormField();
+            this.$on('submit-final', this.resetUploadImg);
+            this.$on('submit-final', this.resetAddFormField);
         },
 
     }

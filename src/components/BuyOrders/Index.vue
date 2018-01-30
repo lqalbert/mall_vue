@@ -14,18 +14,18 @@
                   <el-input v-model="searchForm.goods_name" placeholder="产品名称" size="small"></el-input>
                 </el-form-item>
 
-                <el-form-item prop="start">
-                  <el-date-picker size="small" v-model="searchForm.start"
-                                  placeholder="购买起始时间"
-                                  @change="buyTimeDateChange"
-                                  :editable="false">
-                  </el-date-picker>
-                </el-form-item>
-                <el-form-item prop="end">
-                    <el-date-picker size="small" v-model="searchForm.end"
-                                    placeholder="购买结束时间"
-                                    @change="buyTimeDateChange"
-                                    :editable="false">
+                <el-form-item prop="value7" >
+                    <el-date-picker
+                            v-model="value7"
+                            type="daterange"
+                            align="right"
+                            placeholder="选择日期"
+                            unlink-panels
+                            range-separator="/"
+                            start-placeholder="开始日期"
+                            end-placeholder="结束日期"
+                            :picker-options="pickerOptions2"
+                            @change="startDateChange">
                     </el-date-picker>
                 </el-form-item>
 
@@ -132,6 +132,35 @@ export default {
           dataLoad:false,
           currentPage4:1,
           tableData:'',
+          pickerOptions2: {
+              shortcuts: [{
+                  text: '最近一周',
+                  onClick(picker) {
+                      const end = new Date();
+                      const start = new Date();
+                      start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+                      picker.$emit('pick', [start, end]);
+                  }
+              }, {
+                  text: '最近一个月',
+                  onClick(picker) {
+                      const end = new Date();
+                      const start = new Date();
+                      start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+                      picker.$emit('pick', [start, end]);
+                  }
+              }, {
+                  text: '最近三个月',
+                  onClick(picker) {
+                      const end = new Date();
+                      const start = new Date();
+                      start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+                      picker.$emit('pick', [start, end]);
+                  }
+              }]
+          },
+          value6: '',
+          value7: ''
       }
     },
     methods:{
@@ -191,6 +220,11 @@ export default {
       },
       toggleTableLoad(){
           this.dataLoad = !this.dataLoad;
+      },
+      startDateChange:function(v){
+          var date = v.split('/');
+          this.searchForm.start = date[0];
+          this.searchForm.end = date[1];
       },
 
     },

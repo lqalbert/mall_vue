@@ -2,21 +2,18 @@
     <div class="hello">
         <el-row>
             <el-form :inline="true" ref="searchForm" :model="searchForm">
-                <el-form-item prop="start" >
-                    <el-date-picker size="small" v-model="searchForm.start"
-                                    type="date"
-                                    placeholder="下单开始时间"
-                                    @change="startDateChange"
-                                    >
-                    </el-date-picker>
-                </el-form-item>
-
-                <el-form-item prop="end">
-                    <el-date-picker size="small" v-model="searchForm.end"
-                                    type="date"
-                                    placeholder="下单截止时间"
-                                    @change="endDateChange"
-                                    >
+                <el-form-item prop="value7" >
+                    <el-date-picker
+                            v-model="value7"
+                            type="daterange"
+                            align="right"
+                            placeholder="选择日期"
+                            unlink-panels
+                            range-separator="/"
+                            start-placeholder="开始日期"
+                            end-placeholder="结束日期"
+                            :picker-options="pickerOptions2"
+                            @change="startDateChange">
                     </el-date-picker>
                 </el-form-item>
 
@@ -193,7 +190,36 @@
                 usertableData:'',
                 addresstableData: '',
                 goodstableData:'',
-                CategoryList:''
+                CategoryList:'',
+                pickerOptions2: {
+                    shortcuts: [{
+                        text: '最近一周',
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+                            picker.$emit('pick', [start, end]);
+                        }
+                    }, {
+                        text: '最近一个月',
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+                            picker.$emit('pick', [start, end]);
+                        }
+                    }, {
+                        text: '最近三个月',
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+                            picker.$emit('pick', [start, end]);
+                        }
+                    }]
+                },
+                value6: '',
+                value7: ''
             }
         },
         watch:{
@@ -286,10 +312,9 @@
                 this.$modal.show('add-orderBasic');
             },
             startDateChange:function(v){
-                this.searchForm.start = v;
-            },
-            endDateChange:function(v){
-                this.searchForm.end = v;
+                var date = v.split('/');
+                this.searchForm.start = date[0];
+                this.searchForm.end = date[1];
             },
             mainTableLoad(data){
                 this.toggleTableLoad();

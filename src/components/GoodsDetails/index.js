@@ -81,7 +81,6 @@ export default {
             return this.UnitTypes[v];
         },
         onSearchChange(param) {
-            console.log(param);
             if (this.searchForm.start > this.searchForm.end) {
                 this.$message.error("请选择正确的时间段");
                 return ;
@@ -112,6 +111,13 @@ export default {
                 cate.push(category[index].label);
             }
             return cate.join(" / ");
+        },
+        setStatusChange(row){
+            console.log(row);
+            row.del_imgs = [];
+            row.img_path = [];
+            row.cate_id = [];
+            this.ajaxProxy.update(row.id, row);
         }
 
     },

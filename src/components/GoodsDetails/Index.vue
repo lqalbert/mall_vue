@@ -96,7 +96,7 @@
                     </el-table-column> -->
                     <el-table-column prop="status" label="上下架" align="center">
                         <template slot-scope="scope">
-                            <el-switch v-model="scope.row.status" on-color="#13ce66" off-color="#ff4949" :on-value="1" :off-value="2">
+                            <el-switch v-model="scope.row.status" @change="setStatusChange(scope.row)" on-color="#13ce66" off-color="#ff4949" :on-value="1" :off-value="2">
                             </el-switch>
                         </template>
                     </el-table-column>

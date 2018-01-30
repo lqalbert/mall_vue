@@ -254,7 +254,7 @@ export default {
             //console.log(tab, event);
         },
         handleCateChange(v){
-            this.editForm.cate_id = v;
+            this.editForm.cate_id = v; 
         },
         handleRemove(file, fileList) {
             if(this.fileList.length !=0){
@@ -322,6 +322,7 @@ export default {
 
         //---------提交请求
         getAjaxPromise(model){
+            //console.log(model);
             return this.ajaxProxy.update(model.id, model);
         },
         //---------编辑器

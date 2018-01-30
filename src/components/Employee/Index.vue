@@ -155,40 +155,44 @@
                     <el-table-column prop="created_at" label="创建时间" width="190">
                     </el-table-column>
 
-                    <el-table-column fixed="right" label="操作" width="220" align="center">
+                    <el-table-column fixed="right" label="操作" width="240" align="center">
                         <template slot-scope="scope">
                             <el-button type="success"  size="small" @click="openEdit(scope.row)" >编辑</el-button>
-                            <el-button type="info" size="small">职能</el-button>
+                            <!-- <el-button type="info" size="small">职能</el-button> -->
+                            <el-button type="primary" size="small" @click="openPassword(scope.row)">修改密码</el-button>
                             <el-button type="danger"  @click="handleDelete(scope.row.id)"   size="small" >离职</el-button>
                         </template>
                     </el-table-column>
                     <div slot="buttonbar">
                         <el-button size="small" type="primary" @click="openAdd">添 加</el-button>
-                        <el-button type="primary" size="small">修改密码</el-button>
                     </div>
                 </TableProxy>
             </el-col>
         </el-row>
 
+        <!-- 弹窗 -->
         <addDialog 
             name='add-employee'
             :ajax-proxy="ajaxProxy"
             :departments="departments"
-            @submit-success="handleReload"
-        />
+            @submit-success="handleReload"/>
 
          <editDialog
            name="edit-employee"
            :ajax-proxy="ajaxProxy"
            :departments="departments"
-           @submit-success="handleReload"
-         />
+           @submit-success="handleReload"/>
+
+         <EditPassWord name="change-password" :ajax-proxy="passowrdAjaxProxy" />
+
+         <!-- / 弹窗 -->
 
     </div>
 </template>
 <script>
     import addDialog from './addDialog';
     import editDialog from './editDialog';
+    import EditPassWord from './EditPassWord';
     import PageMix from '../../mix/Page';
     import DataProxy from '../../packages/DataProxy';
     import DataTable from '../../mix/DataTable';
@@ -197,6 +201,9 @@
     import SearchTool from '../../mix/SearchTool';
     import getGroupsByPid from '../../ajaxProxy/getGroupsByPid';
     import EmployeeAjaxProxy  from '../../ajaxProxy/Employee';
+    import PassowrdAjaxProxy from '../../ajaxProxy/Password';
+
+
     import { mapActions,mapGetters } from 'vuex';
 
     export default {
@@ -205,18 +212,20 @@
         mixins: [PageMix, SearchTool,DataTable,getGroupsByPid],
         components: {
             addDialog,
-            editDialog
+            editDialog,
+            EditPassWord
         },
         data() {
             return {
                 ajaxProxy: EmployeeAjaxProxy,
+                passowrdAjaxProxy:PassowrdAjaxProxy,
                 mainurl:EmployeeAjaxProxy.getUrl() ,
                 mainparam:"",
                 searchForm: {
                     typeValue: "",
                     department_id: '',
                     group_id: '',
-                    status: "",
+                    status: "1",
                     typeNumber: ''
                 },
                 departments: [],
@@ -268,6 +277,10 @@
                     cate.push(roles[index].display_name);
                 }
                 return cate.join(" 、");
+            },
+            openPassword(user){
+                let model = {id:user.id, account:user.account};
+                this.$modal.show('change-password',{model:model});
             }
 
         },

@@ -11,14 +11,14 @@ sessionStorage.removeItem('key');
 sessionStorage.clear(); */
 
 import loginAjaxProxy from '../../ajaxProxy/Login';
-import RoleAjaxProxy from '../../ajaxProxy/Role';
+
 
 
 const user = {
     state: {
         login: sessionStorage.getItem('login') ? true : false,
         user: sessionStorage.getItem('login') ? JSON.parse(sessionStorage.getItem('user')) : null,
-        roles:[],
+        // roles:[],
     },
     //同步操作
     mutations: {
@@ -34,18 +34,16 @@ const user = {
             sessionStorage.setItem('user', JSON.stringify(userLogin));
             state.user = userLogin;
         },
-        setRoles(state, roles){
-            state.roles = roles;
-        }
+        // setRoles(state, roles){
+        //     state.roles = roles;
+        // }
     },
 
     getters:{
         isLogin(state){
             return state.login;
         },
-        roles(state){
-            return state.roles;
-        },
+        
         getUser(state){
             return state.user;
         },
@@ -84,14 +82,14 @@ const user = {
                 alert(data);
             })
         },
-        getRoles(context){
-            RoleAjaxProxy.get().then((response)=>{
-                context.commit('setRoles', response.data.items);
-            }).catch(data => {
-                console.log(data);
-            })
+        // getRoles(context){
+        //     RoleAjaxProxy.get().then((response)=>{
+        //         context.commit('setRoles', response.data.items);
+        //     }).catch(data => {
+        //         console.log(data);
+        //     })
             
-        }
+        // }
     }
 
 

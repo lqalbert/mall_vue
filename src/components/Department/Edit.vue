@@ -1,6 +1,6 @@
 <template>
     <div >
-        <MyDialog title="添加" :name="name" :width="width" :height="height" @before-open="onOpen">
+        <MyDialog title="编辑" :name="name" :width="width" :height="height" @before-open="onOpen">
             <el-form ref="editForm"  :label-width="labelWidth"  :model="editForm" :label-position="labelPosition" >
                 <el-row>
                     <el-col :span="12">
@@ -22,10 +22,11 @@
                             <el-form-item label="部门经理"  prop="contact" >
                                 <el-select v-model='editForm.manager_id'>
                                     <el-option
-                                            v-for="user in computedusers"
-                                            :label="user.realname"
-                                            :value="user.user_id"
-                                            :key="user.user_id"></el-option>
+                                    v-for="user in computedusers"
+                                    :label="user.realname"
+                                    :value="user.id"
+                                    :key="user.id"></el-option>
+                                    <el-option label="没有负责人" :value="0"></el-option>
                                 </el-select>
                             </el-form-item>
                         </el-col>
@@ -62,6 +63,9 @@
 
 <script>
     import DialogForm from '../../mix/DialogForm';
+    import DepartCandidateProxy from '../../packages/DepartCandidateProxy';
+
+
     export default {
         name: 'editDialog',
         mixins:[DialogForm],
@@ -82,12 +86,7 @@
                 labelWidth:'80px',
                 labelPosition:"right",
 
-                computedusers:[
-                    {user_id:1,realname:'李青'},
-                    {user_id:2,realname:'高鹏'},
-                    {user_id:3,realname:'马娇'},
-                    {user_id:4,realname:'吴继伟'},
-                ],
+                computedusers:[],
 
                 editForm:{
                     id:'',
@@ -107,11 +106,19 @@
             onOpen(param){
                 // console.log(param);
                 this.model = param.params.model;
+
+                this.depart_candidate.setParam({id: this.model.manager_id});
+                this.depart_candidate.load();
             },
 
             getAjaxPromise(model){
                 return this.ajaxProxy.update(model.id, model);
             },
+
+            loadmanagers(data){
+                // console.log(data);
+                this.computedusers = data.items;
+            }
 
         },
         watch:{
@@ -124,6 +131,10 @@
                     }
                 }
             }
+        },
+
+        created(){
+            this.depart_candidate = new DepartCandidateProxy({}, this.loadmanagers, this);
         }
     }
 </script>

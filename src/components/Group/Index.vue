@@ -182,12 +182,16 @@
                 tableData1: []
             }
         },
+        computed:{
+            
+        },
         watch:{
             addDialog(val, oldVal){
                 console.log('index addDialog', val);
             }
         },
         methods: {
+            
             doubleClick:function (row) {
                 this.getUsersAjax(row.id);
                 // let categoryProxy = new SelectProxy(this.url+'/'+row.id,this.userLoaded, this,);
@@ -244,8 +248,8 @@
 
             this.$on('search-tool-change', this.onSearchChange);
 
-
-            
+            // this.getStrategy(this.$options.name);
+            this.$store.getters.getStrategy( this.$options.name );
 
         }
     }

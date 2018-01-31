@@ -8,7 +8,7 @@
                             <el-input class="name-input" v-model="editForm.name"  auto-complete="off" placeholder="请填写小组名称"></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <!-- <el-col :span="12">
                         <el-form-item label="所属部门" prop="department_id" >
                             <el-select v-model='editForm.department_id'>
                                 <el-option v-for="department in departments" 
@@ -18,7 +18,7 @@
                                 </el-option>
                             </el-select>
                         </el-form-item>
-                    </el-col>
+                    </el-col> -->
                 </el-row>
                 
                 <el-row>
@@ -87,7 +87,7 @@
                 editForm:{
                     id:"",
                     name:"",
-                    department_id:"",
+                    //department_id:"",
                     manager_id:"",
                     remarks:"",
                     status:1,

@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 
 import app from './modules/app';
 import user from './modules/user';
+import strategy from './modules/strategy';
 
 Vue.use(Vuex);
 
@@ -15,10 +16,11 @@ const store = new Vuex.Store({
     },
     actions: {
 
-    },
+    }, 
     modules: {
         app,
-        user
+        user,
+        strategy
     },
     strict: process.env.NODE_ENV !== 'production'
 });

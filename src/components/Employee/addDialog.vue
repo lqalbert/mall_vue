@@ -22,7 +22,7 @@
                                 <el-form-item label="员工姓名" prop="realname">
                                     <el-input class="name-input" v-model="addForm.realname" auto-complete="off"></el-input>
                                 </el-form-item>
-                                <el-form-item label="员工职能">
+                                <el-form-item label="员工职能" prop="role_id">
                                     <el-select v-model="addForm.role_id">
                                         <el-option v-for="role in roles"  :label="role.display_name" :value="role.id" :key="role.id"></el-option>
                                     </el-select>
@@ -75,7 +75,7 @@
                         </el-row>
                                     <el-row>
                                         <el-col :span="12">
-                                            <el-form-item label="性别">
+                                            <el-form-item label="性别"  prop="sex">
                                                 <el-radio-group v-model="addForm.sex" >
                                                     <el-radio class="radio"  :label="1">男</el-radio>
                                                     <el-radio class="radio"  :label="2">女</el-radio>
@@ -105,7 +105,7 @@
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="12">
-                                            <el-form-item label="QQ昵称">
+                                            <el-form-item label="QQ昵称" prop="qq_nickname">
                                                 <el-input class="name-input" v-model="addForm.qq_nickname" auto-complet="off"></el-input>
                                             </el-form-item>
                                         </el-col>
@@ -117,7 +117,7 @@
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="12">
-                                            <el-form-item label="微信昵称">
+                                            <el-form-item label="微信昵称" prop="weixin_nickname">
                                                 <el-input class="name-input" v-model="addForm.weixin_nickname" auto-complet="off"></el-input>
                                             </el-form-item>
                                         </el-col>
@@ -130,7 +130,7 @@
                                         </el-col>
                                     </el-row>
 
-                                    <el-form-item label="住址">
+                                    <el-form-item label="住址" prop="address">
                                         <el-input
                                                 v-model="addForm.address"
                                                 type="textarea"

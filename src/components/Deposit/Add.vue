@@ -43,7 +43,40 @@
 
                         <el-col :span="12">
                             <el-form-item label="金额" prop="money" >
-                                <el-input size="small" placeholder="输入金额" v-model.number="addForm.money"></el-input>
+                                <el-input class="name-input" size="small" placeholder="输入金额" v-model.number="addForm.money"></el-input>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="12">
+                            <el-form-item label="充值方式" prop="charge_type" >
+                                <el-select size="small" placeholder="请选择充值方式"  v-model="addForm.charge_type" >
+                                    <el-option v-for="(v,index) in chargeTypes"
+                                        :label="v.name"
+                                        :value="v.id"
+                                        :key="v.id">
+                                    </el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+
+                        <el-col :span="12">
+                            <el-form-item label="充值时间" prop="charge_time" >
+                                <el-date-picker
+                                        v-model="addForm.charge_time"
+                                        type="date"
+                                         placeholder="选择充值时间"
+                                        :picker-options="pickerOptions"
+                                        :editable="false"
+                                        @change="timeChange">
+                                </el-date-picker>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="12">
+                            <el-form-item label="备注" prop="remark" >
+                                <el-input type="textarea" :rows="2" v-model="addForm.remark"></el-input>
                             </el-form-item>
                         </el-col>
                     </el-row>
@@ -84,6 +117,11 @@
                 departments:[],
                 groups:[],
                 users:[],
+                chargeTypes:[
+                    {id:1,name:'微信'},
+                    {id:2,name:'支付宝'},
+                    {id:3,name:'银行转账'},
+                    ],
                 departmentInput:'',
                 groupInput:'',
                 userInput:'',
@@ -93,6 +131,8 @@
                     user_id:"",
                     department_name:"",
                     group_name:"",
+                    charge_type:'',
+                    charge_time:"",
                     realname:"",
                     money:"",
                     creator_id:"",
@@ -103,6 +143,11 @@
                     money:[
                         { required: true, message:'请输入金额', type: 'integer', trigger:'change'}
                     ]
+                },
+                pickerOptions: {
+                    disabledDate(time) {
+                        return time.getTime() > Date.now() ;
+                    }
                 },
             }
         },
@@ -116,6 +161,9 @@
         methods:{
             getAjaxPromise(model){
                 return this.ajaxProxy.create(model);
+            },
+            timeChange(v){
+                this.addForm.charge_time=v;
             },
             loadDepartment(data){
                 this.departments = data.items;

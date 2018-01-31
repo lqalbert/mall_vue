@@ -4,14 +4,15 @@
             <el-table
              :data="addressData"
              border
-             @cell-dblclick="handleCurrentChange"
              style="width: 100%">
                 <el-table-column label="序号" type="index" width="80 px"></el-table-column>
                 <el-table-column prop="name" label="收货人姓名"></el-table-column>
                 <el-table-column prop="phone" label="收货人手机号"></el-table-column>
+                <el-table-column prop="zip_code" label="收货邮编"></el-table-column>
                 <el-table-column prop="address" label="收货地址"></el-table-column>
                 <el-table-column  label="操作" align="center">
                     <template slot-scope="scope">
+                        <el-button size="small" type="primary" @click="handleCurrentChange(scope.row)">编 辑</el-button>
                         <el-button size="small" type="danger" @click="deleteAddress(scope.row)">删 除</el-button>
                     </template>
                 </el-table-column>
@@ -32,8 +33,8 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item prop="address" label="收货地址">
-                            <el-input type="textarea" class="name-input"  v-model="addDeliveryAddressForm.address"  placeholder="收货地址" ></el-input>
+                        <el-form-item prop="zip_code" label="收货邮编">
+                            <el-input class="name-input" v-model="addDeliveryAddressForm.zip_code" size="small" placeholder="收货邮编" ></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -44,6 +45,12 @@
                             </el-radio-group>
                         </el-form-item>
                     </el-col>
+                    <el-col :span="12">
+                        <el-form-item prop="address" label="收货地址">
+                            <el-input type="textarea" class="name-input"  v-model="addDeliveryAddressForm.address"  placeholder="收货地址" ></el-input>
+                        </el-form-item>
+                    </el-col>
+
                 </el-row>
                 <el-form-item >
                     <submit-button
@@ -62,6 +69,7 @@
  import DialogForm from '../../mix/DialogForm';
 import DataProxy from '../../packages/DataProxy';
 import SelectProxy from  '../../packages/SelectProxy';
+
 const maxLengthContacts = 20;
 const FORMSTATE_ADD = '添 加';
 const FORMSTATE_EDIT = '编 辑';
@@ -85,6 +93,7 @@ export default {
                 phone:'',
                 address:'',
                 default_address:0,
+                zip_code:'',
             },
             addressData:[],
             model:'',
@@ -92,6 +101,7 @@ export default {
         }
     },
     computed:{
+
         showAddButton(){
             return this.contactsLength != maxLengthContacts;
         },
@@ -186,6 +196,7 @@ export default {
                 this.$refs.addDeliveryAddressForm.resetFields();
                 this.addDeliveryAddressForm.id = '';
             }else if(this.formstate == FORMSTATE_EDIT){
+                this.$refs.addDeliveryAddressForm.resetFields();
                 this.addDeliveryAddressForm.id = this.id;
             }
             this.addDeliveryAddressForm.cus_id = this.cus_id;

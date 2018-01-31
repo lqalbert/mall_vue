@@ -4,38 +4,37 @@
         <el-row>
             <el-col :span="12">
                 <el-form :inline="true"  ref="searchForm" :model="searchForm" class="search-bar">
-                        <el-form-item prop="department_id" >
-                            <el-select size="small" placeholder="请选择单位"  v-model="searchForm.department_id" @change="onDepartChange">
-                                <el-option v-for="v in departments" 
-                                    :label="v.name" 
-                                    :value="v.id" 
-                                    :key="v.id">
-                                </el-option>
-                            </el-select>
-                        </el-form-item>
-                        <el-form-item prop="group_id" >
-                            <el-select size="small" placeholder="请选择小组"  v-model="searchForm.group_id" @change="onGroupChange">
-                                <el-option v-for="v in groups" 
-                                    :label="v.name" 
-                                    :value="v.id" 
-                                    :key="v.id">
-                                </el-option>
-                            </el-select>
-                        </el-form-item>
-                        <el-form-item prop="user_id" >
-                            <el-select size="small" placeholder="请选择员工"  v-model="searchForm.user_id">
-                                <el-option v-for="v in users"
-                                    :label="v.realname" 
-                                    :value="v.id" 
-                                    :key="v.id">
-                                </el-option>
-                            </el-select>
-                        </el-form-item>
-                        <el-form-item>
-                            <el-button size="small" type="primary" icon="search" @click="searchToolChange('searchForm')" >查询</el-button>
-                            <el-button size="small" @click="searchToolReset('searchForm')" type="primary">重置</el-button>
-                        </el-form-item>
-
+                    <el-form-item prop="department_id" >
+                        <el-select size="small" placeholder="请选择单位"  v-model="searchForm.department_id" @change="onDepartChange">
+                            <el-option v-for="v in departments" 
+                                :label="v.name" 
+                                :value="v.id" 
+                                :key="v.id">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item prop="group_id" >
+                        <el-select size="small" placeholder="请选择小组"  v-model="searchForm.group_id" @change="onGroupChange">
+                            <el-option v-for="v in groups" 
+                                :label="v.name" 
+                                :value="v.id" 
+                                :key="v.id">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item prop="user_id" >
+                        <el-select size="small" placeholder="请选择员工"  v-model="searchForm.user_id">
+                            <el-option v-for="v in users"
+                                :label="v.realname" 
+                                :value="v.id" 
+                                :key="v.id">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button size="small" type="primary" icon="search" @click="searchToolChange('searchForm')" >查询</el-button>
+                        <el-button size="small" @click="searchToolReset('searchForm')" type="primary">重置</el-button>
+                    </el-form-item>
                 </el-form>
             </el-col>
         </el-row>

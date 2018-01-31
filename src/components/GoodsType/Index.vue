@@ -15,8 +15,8 @@
     </el-row>
     <el-row>
       <el-col>
-        <el-table :data="tableData" v-loading="dataLoad" border style="width: 100%">
-          <el-table-column type="selection" align="center" width="50"></el-table-column>
+        <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload">
+          <!-- <el-table-column type="selection" align="center" width="50"></el-table-column> -->
 
           <el-table-column label="序号" align="center" type="index" width="65"></el-table-column>
 
@@ -24,6 +24,9 @@
           </el-table-column>
 
           <el-table-column prop="type_attr" label="属性标签" align="center">
+            <template slot-scope="scope">
+              {{showSpec(scope.row.specs)}}
+            </template>
           </el-table-column>
 
           <!-- <el-table-column prop="status" label="是否启用" align="center">
@@ -36,43 +39,34 @@
             </template>
           </el-table-column> -->
           
-
           <el-table-column prop="created_at" label="添加时间" align="center">
           </el-table-column>
 
           <el-table-column  label="操作" align="center" width="140">
             <template slot-scope="scope">
-              <el-button type="info"    size="small" @click="showEdit(scope.row)">编辑</el-button>
-              <el-button type="danger"  size="small" @click="handleDelete(1)">删除</el-button>
+              <el-button type="info" size="small" @click="showEdit(scope.row)">编辑</el-button>
+              <el-button type="danger" size="small" @click="handleDelete(scope.row.id)">删除</el-button>
             </template>
           </el-table-column>
-        </el-table>
-      </el-col>
-    </el-row>
-    <el-row>
-      <el-col :span="12">
-        <div class="grid-content bg-purple" style="float: left;margin-top: 5px">
-          <el-button size="small" type="danger" @click="handleDeletes">批量删除 </el-button>
-          <el-button size="small" type="primary" @click="showAdd">添加类型</el-button>
-        </div>
-      </el-col>
-      <el-col :span="12">
-        <div class="pull-right" style="float: right;margin-top: 5px">
-          <el-col :span="12">
-            <el-pagination
-                :current-page="currentPage4"
-                :page-size="100"
-                layout="total, prev, pager, next, jumper"
-                :total="total"
-                @current-change="currentChange">
-            </el-pagination>
-          </el-col>
-        </div>
+
+          <div slot="buttonbar">
+            <!-- <el-button size="small" type="danger" @click="handleDeletes">批量删除 </el-button> -->
+            <el-button size="small" type="primary" @click="showAdd()">添加类型</el-button>
+          </div>
+        </TableProxy>
       </el-col>
     </el-row>
 
-    <Add  name='add-goods-type' :ajax-proxy="ajaxProxy" :specs="specs"></Add>
-    <Edit name='edit-goods-type' :ajax-proxy="ajaxProxy" :specs="specs"></Edit>
+    <Add name='add-goods-type' 
+         :ajax-proxy="ajaxProxy" 
+         :specs="specs"
+         @submit-success="handleReload">
+    </Add>
+    <Edit name='edit-goods-type' 
+          :ajax-proxy="ajaxProxy" 
+          :specs="specs"
+          @submit-success="handleReload">
+    </Edit>
 
   </div>
 </template>
@@ -80,100 +74,38 @@
 <script>
 import Add from './Add';
 import Edit from './Edit';
-import DataProxy from '../../packages/DataProxy';
 import PageMix from '../../mix/Page';
 import SearchTool from '../../mix/SearchTool';
-
+import DataTable from '../../mix/DataTable';
 import GoodsTypeAjaxProxy from '../../ajaxProxy/GoodsType';
-import TableProxy from '../common/TableProxy';
-
 import GoodsSpecsSelectProxy from '../../packages/GoodsSpecsSelectProxy';
-
-
-
-
+import URL_CONST from '../../config';
 export default {
     name: 'GoodsType',
     pageTitle: "商品类型",
-    mixins: [PageMix, SearchTool],
+    mixins: [PageMix, SearchTool,DataTable,GoodsTypeAjaxProxy],
     components:{
-      Add,Edit
+      Add,
+      Edit
     },
     data() {
         return {
             ajaxProxy:GoodsTypeAjaxProxy,
+            mainparam:"",
+            mainurl:GoodsTypeAjaxProxy.getUrl(),
             searchForm: {
                 name: '',
             },
-            currentPage4: 1,
-            total: 100,
-            dataLoad: false,
-            tableData:[ 
-              {
-                'type_name':'手机',
-                'type_attr':'颜色,内存',
-                'created_at':'2018-08-08 08:08:08',
-              },{
-                'type_name':'女装',
-                'type_attr':'产地,颜色',
-                'created_at':'2018-08-08 08:08:08',
-              },{
-                'type_name':'男装',
-                'type_attr':'尺寸,颜色',
-                'created_at':'2018-08-08 08:08:08',
-              },
-            ],
-
             specs:[],
 
         }
     },
     methods: {
-        dataReload: function () {
-
-            this.mainProxy.load();
+        getAjaxProxy(){
+            return this.ajaxProxy;
         },
-        searchReset: function () {
-
-        },
-        handleDeletes: function () {
-
-        },
-        mainTableLoad(data) {
-            this.toggleTableLoad();
-            let res_data = data.items;
-          for(var x in res_data){
-              // console.log(res_data[x]);
-              res_data[x].new_goods = res_data[x].new_goods ==1 ? true : false;
-              res_data[x].hot_goods = res_data[x].hot_goods ==1 ? true : false;
-              res_data[x].recommend_goods = res_data[x].recommend_goods ==1 ? true : false;
-              res_data[x].status = res_data[x].status ==1 ? true : false;
-
-          }
-              console.log(res_data);
-            this.tableData = res_data;
-            this.total = data.total;
-        },
-        currentChange(v) {
-            this.toggleTableLoad();
-            this.mainProxy.setPage(v).load();
-        },
-        toggleTableLoad() {
-            this.dataLoad = !this.dataLoad;
-        },
-
         onSearchChange(param) {
-            this.toggleTableLoad();
-
-            this.mainProxy.setExtraParam(JSON.stringify(param)).load();
-        },
-
-        showTrack(field) {
-            let param = {
-                user_id: 1,
-                track_num: 1212,
-            }
-            this.$emit('search-tool-change', param);
+            this.mainparam = JSON.stringify(param);
         },
         showAdd(){
             this.$modal.show('add-goods-type');
@@ -181,29 +113,26 @@ export default {
         showEdit(row){
             this.$modal.show('edit-goods-type',{model:row});
         },
-        getAjaxProxy(){
-           return this.ajaxProxy
-        },
-
         loadSpecs(data){
-          this.specs = data.items;
+            this.specs = data.items;
+        },
+        getGoodsSpecs(){
+            let goodsSpecs = new GoodsSpecsSelectProxy({}, this.loadSpecs, this);
+            goodsSpecs.load();
+        },
+        showSpec(specs){
+            let spec = [];
+            for (let i = 0; i < specs.length; i++) {
+                spec.push(specs[i].name);
+            }
+            return spec.join(" / ");
         }
-
 
     },
 
     created() {
-        // this.toggleTableLoad();
-        // let mainProxy = new DataProxy("/cosmetics", this.pageSize, this.mainTableLoad, this);
-        // this.mainProxy = mainProxy;
-        // this.mainProxy.load();
-
         this.$on('search-tool-change', this.onSearchChange);
-
-        let goodsSpecs = new GoodsSpecsSelectProxy({}, this.loadSpecs, this);
-        goodsSpecs.load();
-
-
+        this.getGoodsSpecs();
     }
 }
 </script>

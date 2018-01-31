@@ -292,6 +292,9 @@ export default {
             //console.log('editor change!', quill.getContents(), html, text);
             this.editContent = html;
             //console.log(quill.getContents());
+        },
+        resetEditContent(){
+            this.editContent = '';
         }
 
     },
@@ -350,7 +353,7 @@ export default {
                 handlers: {} , // 可选参数 重定义的事件，比如link等事件
             }
         );
-        //console.log(this.editorOption);
+        this.$on('submit-success', this.resetEditContent);
     }
 
 

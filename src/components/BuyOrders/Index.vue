@@ -17,7 +17,7 @@
                 <el-form-item prop="value7" >
                     <el-date-picker
                             v-model="value7"
-                            type="datetimerange"
+                            type="daterange"
                             align="right"
                             placeholder="选择日期"
                             unlink-panels
@@ -223,8 +223,8 @@ export default {
       },
       startDateChange:function(v){
           var date = v.split('/');
-          this.searchForm.start = date[0];
-          this.searchForm.end = date[1];
+          this.searchForm.start = date[0]+" 00:00:00";
+          this.searchForm.end = date[1]+" 23:59:59";
       },
 
     },

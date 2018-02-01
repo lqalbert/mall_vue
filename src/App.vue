@@ -64,6 +64,10 @@
     transform: translateY(-20px);
   }
 
+  .hide{
+    display: none !important;
+  }
+
   /* .slide-fade-enter-active, .slide-fade-leave-active {
       transition: all 0.4s;
   }

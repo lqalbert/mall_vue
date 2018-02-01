@@ -33,6 +33,7 @@ const user = {
             sessionStorage.setItem('login', true);
             sessionStorage.setItem('user', JSON.stringify(userLogin));
             state.user = userLogin;
+            console.log(userLogin);
         },
         // setRoles(state, roles){
         //     state.roles = roles;
@@ -54,9 +55,26 @@ const user = {
             console.log(state.user);
             return state.user.department_name;
         },
+        department_id(state){
+            return state.user.department_id;
+        },
         user_id(state){
             return state.user.id;
-        }
+        },
+        getUserRoles(state){
+            return state.user.roles ? state.user.roles : [];
+        },
+        hasRole : (state, getters)=>(roleName)=> {
+            let roles = state.user.roles;
+            console.log(roles);
+            for (let index = 0; index < roles.length; index++) {
+                var element = roles[index];
+                if (element['name'] == roleName) {
+                    return true;
+                }
+            }
+            return false;
+        },
     },
     //异步操作
     actions:{

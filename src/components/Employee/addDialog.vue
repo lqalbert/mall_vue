@@ -230,7 +230,7 @@
         methods:{
             departmentChange(v){
                 this.groups=[];
-                this.addForm.group_id='';
+                // this.addForm.group_id='';
                 this.getGroupsAjax(v);
             },
             getAjaxPromise(model){

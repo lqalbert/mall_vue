@@ -151,7 +151,7 @@
       },
       created(){
           if (this.param) {
-              this.realParam = JSON.parse(val);
+              this.realParam = JSON.parse(this.param);
           }
 
           let mainProxy = new DataProxy(this.url, this.pageSize, this.dataLoaded, this, this.onError);

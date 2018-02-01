@@ -169,7 +169,7 @@ export default {
             this.dataLoad = !this.dataLoad;
         },
         loadEmployee(data){
-            this.users = data;
+            this.users = data.items;
         },
         loadDepartment(data){
             this.departments = data.items;

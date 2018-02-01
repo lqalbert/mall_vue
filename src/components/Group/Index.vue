@@ -2,10 +2,11 @@
     <div>
         <el-row>
             <el-form :inline="true"  ref="searchForm" :model="searchForm" class="search-bar">
-                <el-form-item prop="department_id">
+                <el-form-item prop="department_id" v-show="strategySearchDepartShow" >
                     <el-select 
                         clearable
                         v-model="searchForm.department_id" 
+                        :disabled="strategySearchDepartDisabled"
                         size="small" 
                         placeholder="部门">
                         <el-option v-for="v in departments" :label="v.name"
@@ -14,23 +15,17 @@
                     </el-select>
                 </el-form-item>
 
-                <!-- <el-form-item prop="group_id">
-                    <el-select v-model="searchForm.group_id" size="small" placeholder="团队小组">
-                        <el-option v-for="v in groups" :label="v.name"
-                         :value="v.id" :key="v.id">
-                         </el-option>
-                    </el-select>
-                </el-form-item> -->
-
-                <el-form-item prop="realname" style="width: 120px">
-                    <el-input v-model="searchForm.realname" size="small" placeholder="输入负责人姓名">
+                <el-form-item prop="name">
+                    <el-input v-model="searchForm.name" size="small" placeholder="小组名称"> 
                     </el-input>
                 </el-form-item>
 
-                <el-form-item prop="phone" style="width: 120px">
+                
+
+                <!-- <el-form-item prop="phone" style="width: 120px">
                     <el-input v-model="searchForm.phone" size="small" placeholder="输入联系电话">
                     </el-input>
-                </el-form-item>
+                </el-form-item> -->
 
                 <el-form-item>
                     <el-button type="primary" size="small" @click="searchToolChange('searchForm')" icon="search">查询
@@ -50,18 +45,27 @@
                     <el-table-column label="序号" align="center" type="index" width="65"> 
                     </el-table-column>
 
-                    <el-table-column label="部门" prop="departmentname"  >
+                    <el-table-column v-if="strategyColumnDepart" label="部门">
+                        <template slot-scope="scope">
+                            {{ scope.row.department ? scope.row.department.name : '' }}
+                        </template>
                     </el-table-column>
 
                     <el-table-column label="团队小组名称" prop="name"  >
                     </el-table-column>
 
-                    <el-table-column prop="user" label="联系人(负责人)"  >
+                    <el-table-column  label="联系人(负责人)"  >
+                        <template slot-scope="scope">
+                            {{ scope.row.manager ? scope.row.manager.realname : '' }}
+                        </template>
                     </el-table-column>
 
-                    <el-table-column label="联系电话" prop="phone" align="center">
+                    <el-table-column label="联系电话" align="center">
+                        <template slot-scope="scope">
+                            {{ scope.row.manager ? scope.row.manager.mobilephone : '' }}
+                        </template>
                     </el-table-column>
-
+                    <!-- 控制一个小组的员工 暂不能 -->
                     <el-table-column label="是否启用" align="center" prop="status">
                         <template slot-scope="scope">
                             <el-switch
@@ -131,6 +135,7 @@
             name="add"
             :departments="departments" 
             :ajax-proxy="ajaxProxy"
+            :strategies = 'strategies'
             @submit-success="handleReload">
         </add-dialog>
 
@@ -152,6 +157,8 @@
     import SelectProxy from  '../../packages/SelectProxy';
     // import Dialog from '../common/Dialog';
 
+    import { mapGetters } from 'vuex';
+
     export default {
         name: 'Group',
         pageTitle: "团队小组",
@@ -172,18 +179,31 @@
                 addDialog: false,
                 editDialog: false,
                 searchForm: {
-                    realname: "",
+                    name: "",
                     department_id: '',
-                    group_id: '',
-                    phone: "",
-
                 },
                 currentRow:null,
-                tableData1: []
+                tableData1: [],
+
+                //显示隐藏策略
+                strategies:null,
             }
         },
         computed:{
-            
+            ...mapGetters({
+                'user_department_id':'department_id'
+            }),
+            strategySearchDepartShow(){
+                return this.strategies.search_depart != 0;
+            }, 
+
+            strategySearchDepartDisabled(){
+                return this.strategies.search_depart == -1;
+            }, 
+
+            strategyColumnDepart(){
+                return this.strategies.column_depart == 1 ;
+            },  
         },
         watch:{
             addDialog(val, oldVal){
@@ -229,7 +249,8 @@
             },
             showadd(){
                 this.$modal.show('add');
-            }
+            },
+            
         },
         created() {
 
@@ -237,19 +258,15 @@
             this.departProxy = departProxy;
             this.departProxy.load();
 
-
-            // let departProxy = new DepartSelectProxy({'type': 0}, this.loadDepartment, this);
-            // this.departProxy = departProxy;
-            // this.departProxy.load();
-
-            // let groupProxy = new GroupSelectProxy({'depart_id': 1}, this.loadGroup, this);
-            // this.groupProxy = groupProxy;
-            // this.groupProxy.load();
-
+            this.searchForm.department_id = this.user_department_id !=0 ? this.user_department_id :'';
+            this.mainparam = JSON.stringify({department_id: this.searchForm.department_id});
             this.$on('search-tool-change', this.onSearchChange);
 
-            // this.getStrategy(this.$options.name);
-            this.$store.getters.getStrategy( this.$options.name );
+            this.strategies = this.$store.getters.getStrategy( this.$options.name );
+
+           
+
+            
 
         }
     }

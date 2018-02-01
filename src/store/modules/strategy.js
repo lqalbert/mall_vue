@@ -11,9 +11,23 @@ const strategy = {
     },
 
     getters:{
-        getStrategy : (state, getters, rootState)=>(name)=> {
-            console.log(rootState);
-            return Strategy[name] ? Strategy[name] : null;
+        getStrategy : (state, getters)=>(name)=> {
+            // console.log(rootState);
+            // console.log(getters);
+            let roles = getters.getUserRoles;
+            let strategies =  Strategy[name] ? Strategy[name] : [];
+
+            if (roles.length > 0) {
+                for (let index = 0; index < roles.length; index++) {
+                    var element_name = roles[index].name;
+                    if (strategies[element_name]) {
+                        return strategies[element_name];
+                    }   
+                }
+            }
+
+            return null;
+
         },
     }
 };

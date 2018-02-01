@@ -19,7 +19,7 @@
             </el-table>
             
             <br/>
-                <el-button v-show="showAddButton" type="primary" size="small" @click="handleAdd"> 添 加 </el-button> <span></span>
+                <el-button v-show="showAddButton" type="primary" size="small" @click="handleAdd"> 添加地址 </el-button> <span></span>
             <el-form v-show="contactFormvisible" ref="addDeliveryAddressForm" :model="addDeliveryAddressForm"  :label-width="labelWidth"   :label-position="labelPosition"  label-width="140px">
                 <el-row>
                     <el-col :span="12">
@@ -71,7 +71,7 @@ import DataProxy from '../../packages/DataProxy';
 import SelectProxy from  '../../packages/SelectProxy';
 
 const maxLengthContacts = 20;
-const FORMSTATE_ADD = '添 加';
+const FORMSTATE_ADD = '确 定';
 const FORMSTATE_EDIT = '编 辑';
 export default {
      name: 'DeliveryAddress',

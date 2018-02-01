@@ -2,14 +2,13 @@
     <div>
         <el-row>
             <el-form :inline="true"  ref="searchForm" :model="searchForm" class="search-bar">
-                <el-form-item prop="phone" style="width: 120px">
-                    <el-input v-model="searchForm.phone" size="small" placeholder="输入联系电话">
+                <el-form-item prop="contact_phone" style="width: 120px">
+                    <el-input v-model="searchForm.contact_phone" size="small" placeholder="输入联系电话">
                     </el-input>
                 </el-form-item>
 
                 <el-form-item>
-                    <el-button type="primary" size="small" @click="searchToolChange('searchForm')" icon="search">查询
-                    </el-button>
+                    <el-button type="primary" size="small" @click="searchToolChange('searchForm')" icon="search">查询</el-button>
                     <el-button size="small" type="primary" @click="searchToolReset('searchForm')">重置</el-button>
                 </el-form-item>
             </el-form>
@@ -72,7 +71,7 @@
                 mainparam:"",
                 currentRow:null,
                 searchForm:{
-                    phone:""
+                    contact_phone:""
                 }
             }
         },
@@ -98,7 +97,7 @@
 
         },
         created() {
-           // this.$on('search-tool-change', this.onSearchChange);
+            this.$on('search-tool-change', this.onSearchChange);
         }
     }
 </script>

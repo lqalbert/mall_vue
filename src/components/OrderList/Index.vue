@@ -50,7 +50,7 @@
                 <el-form-item label-width="5px">
                     <el-button type="info" size="small" icon="search"  @click="searchToolChange('searchForm')">查询</el-button>
                     <el-tooltip content="清空搜索条件" placement="bottom-start" style="margin-left:10px;">
-                        <el-button  size="small" @click="searchToolReset('searchForm')" type="warning">重置</el-button>
+                        <el-button  size="small" @click="show_all" type="warning">重置</el-button>
                     </el-tooltip>
                     <el-tooltip content="点击刷新当前页面" placement="right" style="margin-left:10px;">
                         <el-button  size="small" @click="refresh" type="danger" >刷新</el-button>

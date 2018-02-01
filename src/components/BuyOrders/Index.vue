@@ -32,7 +32,7 @@
                 <el-form-item>
                   <el-button type="primary" size="small" icon="search" @click="searchToolChange('searchForm')">查询</el-button>
                   <el-button type="primary" size="small" @click="searchToolReset('searchForm')">重置</el-button>
-                  <el-button type="primary" size="small" @click="searchToolReset('searchForm')">刷新</el-button>
+                  <el-button type="danger" size="small" @click="refresh">刷新</el-button>
                 </el-form-item>
             </el-form>
         </el-row>
@@ -167,6 +167,9 @@ export default {
       getAjaxProxy(){
           return  this.ajaxProxy;
       },
+      refresh(){
+          this.$emit('refresh-success');
+      },
       showRow(row){
 //        this.$modal.show('showRow',{row:row});
           this.$modal.show('showRow',{rowData:row});
@@ -183,6 +186,11 @@ export default {
       currentChange(v){
           this.toggleTableLoad();
           this.mainProxy.setPage(v).load();
+      },
+      searchToolReset(name){
+          this.$refs[name].resetFields();
+          this.$emit('search-tool-change', this[name]);
+          this.refresh();
       },
       loadbuyer(data) {
           this.buyer = data.items;
@@ -236,6 +244,7 @@ export default {
          this.orderProxy = orderProxy;
          this.orderProxy.load();
          this.$on('search-tool-change', this.onSearchChange);
+         this.$on('refresh-success', this.handleReload);
 
          this.buyorderInit('BuyOrder');
 

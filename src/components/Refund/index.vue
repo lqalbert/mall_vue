@@ -5,7 +5,7 @@
                 <el-form-item prop="value7" >
                     <el-date-picker
                             v-model="value7"
-                            type="daterange"
+                            type="datetimerange"
                             align="right"
                             placeholder="选择日期"
                             unlink-panels

@@ -269,7 +269,7 @@
                 this.mainparam = JSON.stringify(param);
             },
             handleRowClick(row, event, column){
-              //  console.log('row-click handle', row, event, column);
+               console.log('row-click handle', row, event, column);
             },
             displayRoleName(roles){
                 let cate = [];

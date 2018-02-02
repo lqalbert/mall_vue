@@ -26,6 +26,7 @@
             :data="mainData"
             v-loading="dataLoad"
             border
+            highlight-current-row
             style="width: 100%"
             @sort-change="sortChange"
             @cell-dblclick="dbclick"
@@ -73,7 +74,9 @@
             },
             bubble:{
                 type: Object,
-                default:null
+                default:function(){
+                    return null
+                }
             },
             reload:{
                 type:Number,

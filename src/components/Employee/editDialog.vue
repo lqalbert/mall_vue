@@ -57,11 +57,10 @@
                         <el-row>
                             <el-col :span="24">
                                 <el-form-item label="员工职能">
-                                    <el-checkbox-group 
+                                    <el-radio-group
                                         v-model="editForm.role_ids">
-                                        <el-checkbox v-for="role in roles"  :label="role.id" :key="role.id">{{role.display_name}}</el-checkbox>
-                                    </el-checkbox-group>
-                                    
+                                        <el-radio v-for="role in roles"  :label="role.id" :key="role.id">{{role.display_name}}</el-radio>
+                                    </el-radio-group>
                                 </el-form-item>
                             </el-col>
                         </el-row>
@@ -200,7 +199,7 @@
                     head:"",
                     // account:"",
                     // password:"123456",
-                    role_ids:[],
+                    role_ids:"",
                     // group_id:"",
                     department_id:"",
                     sex:"",
@@ -285,7 +284,7 @@
                     for (let index = 0; index < val.roles.length; index++) {
                         role_ids.push(val.roles[index].id)
                     }
-                    this.editForm.role_ids = role_ids;
+                    this.editForm.role_ids = role_ids[0];
                 }
 
 

@@ -41,6 +41,7 @@
                     :url="mainurl" 
                     :param="mainparam"
                     @dbclick="doubleClick"
+                    :bubble="bubble"
                     :reload="dataTableReload">
                     <el-table-column label="序号" align="center" type="index" width="65"> 
                     </el-table-column>
@@ -65,7 +66,7 @@
                             {{ scope.row.manager ? scope.row.manager.mobilephone : '' }}
                         </template>
                     </el-table-column>
-                    <!-- 控制一个小组的员工 暂不能 -->
+                    <!-- 控制一个小组的员工 暂不能登录 -->
                     <el-table-column label="是否启用" align="center" prop="status">
                         <template slot-scope="scope">
                             <el-switch
@@ -91,7 +92,8 @@
                     </el-table-column>
 
                     <div slot="buttonbar">
-                            <el-button size="small" icon="plus" type="info" @click="showadd" >添加</el-button>
+                        <el-button size="small" icon="plus" type="info" @click="showadd" >添加</el-button>
+                        <el-button size="small" type="info" @click="showDialog('addmember')">加入员工</el-button>
                     </div>
                 </TableProxy>
             </el-col>
@@ -102,13 +104,16 @@
                 <el-tabs>
                     <el-tab-pane label="团队成员">
                         <el-table :data="users" empty-text="暂无数据" border>
-                            <el-table-column prop="user_id" label="员工ID" width="180" align="center">
+                            <el-table-column prop="id" label="员工ID" width="180" align="center">
                             </el-table-column>
                             <el-table-column prop="realname" label="员工姓名" width="180" align="center">
                             </el-table-column>
-                            <el-table-column prop="role_name" label="员工职位" width="180" align="center">
+                            <el-table-column  label="员工职位" width="180" align="center">
+                                <template slot-scope="scope">
+                                    {{ displayRoleName(scope.row.roles) }}
+                                </template>
                             </el-table-column>
-                            <el-table-column prop="phone" label="手机" align="center">
+                            <el-table-column prop="mobilephone" label="手机" align="center">
                             </el-table-column>
                             <el-table-column prop="qq" label="QQ号" align="center">
                             </el-table-column>
@@ -139,14 +144,17 @@
             @submit-success="handleReload">
         </add-dialog>
 
+        <addMember 
+            name="addmember"
+            :ajax-proxy="ajaxProxy">
+        </addMember>
     </div>
-
-
 </template>
 
 <script>
     import addDialog from './Add.vue';
     import editDialog from './Edit.vue';
+    import addMember from './AddMember.vue';
     import PageMix from '../../mix/Page';
     import getUsersByGid from '../../ajaxProxy/getUsersByGid';
     import DepartSelectProxy from '../../packages/DepartSelectProxy';
@@ -157,6 +165,8 @@
     import SelectProxy from  '../../packages/SelectProxy';
     // import Dialog from '../common/Dialog';
 
+    import EmployeeSelectProxy from '../../packages/EmployeeSelectProxy';
+
     import { mapGetters } from 'vuex';
 
     export default {
@@ -166,6 +176,7 @@
         components: {
             addDialog,
             editDialog,
+            addMember
         },
         data() {
             return {
@@ -187,6 +198,11 @@
 
                 //显示隐藏策略
                 strategies:null,
+
+                //主表格事件
+                bubble:{
+                    'current-change': this.onCurrentChange
+                }
             }
         },
         computed:{
@@ -203,7 +219,7 @@
 
             strategyColumnDepart(){
                 return this.strategies.column_depart == 1 ;
-            },  
+            }
         },
         watch:{
             addDialog(val, oldVal){
@@ -211,9 +227,17 @@
             }
         },
         methods: {
-            
+            onCurrentChange(currentRow){
+                this.currentRow = currentRow;
+            } ,
             doubleClick:function (row) {
-                this.getUsersAjax(row.id);
+                // this.getUsersAjax(row.id);
+                this.emSelect.setParam({
+                    group_id:row.id,
+                    fields:['id','realname', 'mobilephone', 'qq'],
+                    with:['roles']
+                });
+                this.emSelect.load();
                 // let categoryProxy = new SelectProxy(this.url+'/'+row.id,this.userLoaded, this,);
                 // categoryProxy.load();
             },
@@ -250,6 +274,19 @@
             showadd(){
                 this.$modal.show('add');
             },
+            getCurrentRow(){
+                return this.currentRow;
+            },
+            loadSubTable(data){
+                this.users = data.items;
+            },
+            displayRoleName(roles){
+                let cate = [];
+                for (let index = 0; index < roles.length; index++) {
+                    cate.push(roles[index].display_name);
+                }
+                return cate.join(" 、");
+            },
             
         },
         created() {
@@ -264,10 +301,7 @@
 
             this.strategies = this.$store.getters.getStrategy( this.$options.name );
 
-           
-
-            
-
+            this.emSelect = new EmployeeSelectProxy({}, this.loadSubTable, this);
         }
     }
 </script>

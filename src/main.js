@@ -22,6 +22,7 @@ Vue.use(VueQuillEditor);
 
 import newDialog from './components/common/Dialog';
 import InitObject from './mix/InitObjectFromObject';
+import ShowDialog from './mix/ShowDialog';
 import Delete from './mix/Delete';
 // import VueAreaLinkage from 'vue-area-linkage';
 
@@ -29,6 +30,7 @@ import Delete from './mix/Delete';
 Vue.component('MyDialog',newDialog);
 
 Vue.mixin(InitObject);
+Vue.mixin(ShowDialog);
 Vue.mixin(Delete);
 
 Vue.use(ElementUI);

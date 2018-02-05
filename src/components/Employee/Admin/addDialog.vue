@@ -34,6 +34,12 @@
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
+                                
+                            </el-col>
+                        </el-row>
+
+                        <el-row>
+                            <el-col :span="12">
                                 <el-form-item label="所属部门" prop="department_id">
                                     <el-select  v-model="addForm.department_id" placeholder="部门" @change="departmentChange">
                                         <el-option label="请选择" :value="0"></el-option>
@@ -45,18 +51,35 @@
                                     </el-select>
                                 </el-form-item>
                             </el-col>
+                            <el-col :span="12">
+                                <el-form-item label="所属团队" prop="group_id" >
+                                    <el-select v-model="addForm.group_id" placeholder="团队小组">
+                                        <el-option label="请选择" :value="0"></el-option>
+                                        <el-option
+                                                v-for="group in groups"
+                                                :label="group.name"
+                                                :value="group.id"
+                                                :key="group.id"></el-option>
+                                    </el-select>
+                                </el-form-item>
+                            </el-col>
                         </el-row>
 
                         <el-row>
                             <el-col :span="24">
-                                
                                 <el-form-item label="员工职能">
-                                    <el-checkbox-group 
+                                    <el-checkbox-group
                                         v-model="addForm.role_ids">
-                                        <el-checkbox v-for="role in roles"  :label="role.id" :key="role.id">{{role.display_name}}</el-checkbox>
+                                        <el-checkbox v-for="role in roles"  :label="role.id" :key="role.id">
+                                            {{role.display_name}}
+                                        </el-checkbox>
                                     </el-checkbox-group>
-                                    
                                 </el-form-item>
+                                <el-alert
+                                    title="给员工添加多个职能时，请谨慎"
+                                    type="warning"
+                                    :closable="false">
+                                </el-alert>
                             </el-col>
                         </el-row>
                     </el-tab-pane>
@@ -158,11 +181,11 @@
 </template>
 
 <script>
-    import DialogForm from '../../mix/DialogForm';
-    import getGroupsByPid from '../../ajaxProxy/getGroupsByPid';
+    import DialogForm from '../../../mix/DialogForm';
+    import getGroupsByPid from '../../../ajaxProxy/getGroupsByPid';
     import { mapGetters } from 'vuex';
     
-    import APP_CONST from '../../config';
+    import APP_CONST from '../../../config';
 
     export default {
         name: 'addDialog',
@@ -201,7 +224,7 @@
                     account:"",
                     password:"123456",
                     role_ids:[],
-                    // group_id:"",
+                    group_id:0,
                     department_id:0,
                     sex:1,
                     telephone:"",
@@ -233,7 +256,7 @@
         methods:{
             departmentChange(v){
                 this.groups=[];
-                this.addForm.group_id='';
+                // this.addForm.group_id='';
                 this.getGroupsAjax(v);
             },
             getAjaxPromise(model){

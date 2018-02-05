@@ -3,17 +3,17 @@
         <el-row>
             <el-col>
                 <el-form :inline="true"  ref="searchForm" :model="searchForm">
-                    <el-form-item style="display: none;" prop="id">
+                    <!-- <el-form-item style="display: none;" prop="id">
                         <el-input  v-model="searchForm.id">
                         </el-input>
-                    </el-form-item>
+                    </el-form-item> -->
 
                     <el-form-item prop="name" >
                         <el-input size="small" placeholder="请输入单位名"  v-model="searchForm.name">
                         </el-input>
                     </el-form-item>
 
-                    <el-form-item prop="contact" >
+                    <!-- <el-form-item prop="contact" >
                         <el-input size="small" placeholder="请输入联系人"  v-model="searchForm.contact">
                         </el-input>
 
@@ -21,7 +21,7 @@
                     <el-form-item prop="tel" >
                         <el-input size="small" placeholder="联系人电话"  v-model="searchForm.tel">
                         </el-input>
-                    </el-form-item>
+                    </el-form-item> -->
 
                     <el-form-item prop="type">
                         <el-select size="small" placeholder="请选择" v-model="searchForm.type" clearable>
@@ -55,12 +55,18 @@
                     <el-table-column prop="type_text" label="类型" align="center">
                     </el-table-column>
 
-                    <el-table-column label="联系人"  prop="user" align="center">
+                    <el-table-column label="联系人">
+                        <template slot-scope="scope">
+                            {{ scope.row.manager ? scope.row.manager.realname : '' }}
+                        </template>
                     </el-table-column>
 
-                    <el-table-column label="联系电话" prop="phone" align="center">
+                    <el-table-column label="联系电话"  align="center">
+                        <template slot-scope="scope">
+                            {{ scope.row.manager ? scope.row.manager.mobilephone : '' }}
+                        </template>
                     </el-table-column>
-
+                    <!-- 让这个部门的人暂无法登录 -->
                     <el-table-column label="是否启用" align="center" prop="status">
                         <template slot-scope="scope">
                             <el-switch
@@ -94,75 +100,6 @@
         </el-row>
 
 
-        <!--<el-row>-->
-            <!--<el-col>-->
-                <!--<el-table :data="tableData" v-loading="dataLoad" border style="width: 100%">-->
-                    <!--<el-table-column label="序号" align="center"  type="index" width="65">-->
-                    <!--</el-table-column>-->
-
-                    <!--<el-table-column label="单位名"  prop="name" align="center">-->
-                    <!--</el-table-column>-->
-
-                    <!--<el-table-column prop="typeText" label="类型" align="center">-->
-                    <!--</el-table-column>-->
-
-                    <!--<el-table-column label="联系人"  prop="contact" align="center">-->
-                    <!--</el-table-column>-->
-
-                    <!--<el-table-column prop="tel" label="联系电话" align="center">-->
-                    <!--</el-table-column>-->
-
-                    <!--<el-table-column label="是否启用" :context="_self" align="center" prop="status">-->
-                        <!--<template slot-scope="scope">-->
-                            <!--<el-switch-->
-                                    <!--v-model="scope.row.switch"-->
-                                    <!--on-color="#13ce66"-->
-                                    <!--off-color="#ff4949"-->
-                                    <!--@change="switchHandle(scope.$index, scope.row)">-->
-                            <!--</el-switch>-->
-                        <!--</template>-->
-                    <!--</el-table-column>-->
-                    <!---->
-                    <!--<el-table-column prop="remark" label="备注" align="center">-->
-                    <!--</el-table-column>-->
-
-                    <!--<el-table-column  :context="_self"  align="center" width="250" fixed="right"  label="操作"  >-->
-                        <!--<template slot-scope="scope">-->
-                            <!--<el-button type="success" @click="showEdit"     size="small">编辑</el-button>-->
-                            <!--<el-button type="danger"  @click="handleDelete()"   size="small" >删除</el-button>-->
-                            <!--<el-button type="info"  size="small"> 导出人员 </el-button>-->
-                        <!--</template>-->
-                    <!--</el-table-column>-->
-                <!--</el-table>-->
-            <!--</el-col>-->
-        <!--</el-row>-->
-        <!--<el-row >-->
-            <!--<el-col :span="12">-->
-                <!--<div class="grid-content bg-purple">-->
-
-                    <!--<el-button size="small" icon="plus" type="info" @click="showAdd" >添加</el-button>-->
-
-                    <!--<el-button size="small" type="info" @click="showSetHr">人事专员</el-button>-->
-                <!--</div>-->
-            <!--</el-col>-->
-            <!--<div class="pull-right">-->
-                <!--<el-col :span="12">-->
-                    <!--<el-pagination-->
-                            <!--:current-page="currentPage4"-->
-                            <!--:page-size="100"-->
-                            <!--layout="total, prev, pager, next, jumper"-->
-                            <!--:total="total"-->
-                            <!--@current-change="currentChange">-->
-                    <!--</el-pagination>-->
-                <!--</el-col>-->
-            <!--</div>-->
-        <!--</el-row>-->
-
-        <!--添加公告 -->
-
-
-
-
 
 
 
@@ -171,20 +108,17 @@
         <Add name='add-department'
              :type-list="typeList"
              :ajax-proxy="ajaxProxy"
-             @submit-success="handleReload"
-        />
+             @submit-success="handleReload"/>
 
 
         <Edit name='edit-department'
               :type-list="typeList"
               :ajax-proxy="ajaxProxy"
-              @submit-success="handleReload"
-        />
+              @submit-success="handleReload"/>
 
         <SetHr name='sethr-department'
                :ajax-proxy="ajaxProxy"
-               @submit-success="handleReload"
-        />
+               @submit-success="handleReload"/>
 
     </div>
 
@@ -291,6 +225,9 @@ export default {
         } ,
         showSetHr(){
             // this.$modal.show('sethr-department');
+        },
+        switchHandle(){
+
         }
 
     },

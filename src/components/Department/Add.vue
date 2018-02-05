@@ -1,6 +1,6 @@
 <template>
     <div >
-        <MyDialog title="添加" :name="name" :width="width" :height="height">
+        <MyDialog title="添加" :name="name" :width="width" :height="height" @before-open="onBeforeOpen">
             <el-form :model="addForm"  ref="addForm" :rules="rules" :label-width="labelWidth"   :label-position="labelPosition">
                 <el-row>
                     <el-col :span="12">
@@ -20,8 +20,12 @@
                     <el-col :span="12">
                         <el-form-item label="部门经理"  prop="contact">
                             <el-select v-model='addForm.manager_id'>
-                                <el-option v-for="user in computedusers" :label="user.realname"
-                                           :value="user.user_id" :key="user.user_id">
+                                <el-option label="请选择" :value="0"></el-option>
+                                <el-option v-for="user in computedusers" 
+                                           :label="user.realname"
+                                           :value="user.id" :key="user.id">
+                                    <span class="pull-right">{{ user.department ? user.department.name : ''}}</span>
+                                    <span class="pull-left">{{ user.realname }}</span>
                                 </el-option>
                             </el-select>
                         </el-form-item>
@@ -60,6 +64,7 @@
 <script>
 import DialogForm from '../../mix/DialogForm';
 import DataProxy from '../../packages/DataProxy';
+import DepartCandidateProxy from '../../packages/DepartCandidateProxy';
 
 export default {
     name: 'Add',
@@ -77,15 +82,12 @@ export default {
             labelPosition:"right",
             labelWidth:'80px',
             computedusers:[
-                {user_id:'1',realname:'李青(测试数据)'},
-                {user_id:'2',realname:'高鹏(测试数据)'},
-                {user_id:'3',realname:'马娇(测试数据)'},
-                {user_id:'4',realname:'吴继伟(测试数据)'},
+                
             ],
             addForm:{
                 name:"",
                 type:"",
-                manager_id:"",
+                manager_id:0,
                 remarks:"",
                 status:1,
             },
@@ -105,7 +107,17 @@ export default {
         getAjaxPromise(model){
             return this.ajaxProxy.create(model);
         },
+        onBeforeOpen(){
+            this.depart_candidate.load();
+        },
+        loadmanagers(data){
+            // console.log(data);
+            this.computedusers = data.items;
+        }
 
+    },
+    created(){
+        this.depart_candidate = new DepartCandidateProxy({}, this.loadmanagers, this);
     }
 }
 </script>

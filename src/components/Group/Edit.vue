@@ -8,7 +8,7 @@
                             <el-input class="name-input" v-model="editForm.name"  auto-complete="off" placeholder="请填写小组名称"></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <!-- <el-col :span="12">
                         <el-form-item label="所属部门" prop="department_id" >
                             <el-select v-model='editForm.department_id'>
                                 <el-option v-for="department in departments" 
@@ -18,15 +18,15 @@
                                 </el-option>
                             </el-select>
                         </el-form-item>
-                    </el-col>
+                    </el-col> -->
                 </el-row>
                 
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="负责人"  prop="manager_id">
-                            <el-select v-model='editForm.manager_id'>
+                            <el-select v-model.number='editForm.manager_id'>
                                 <el-option v-for="user in computedusers" :label="user.realname" 
-                                :value="user.user_id" :key="user.user_id">
+                                :value="user.id" :key="user.id">
                                 </el-option>
                             </el-select>
                         </el-form-item>
@@ -61,8 +61,10 @@
 </template>
 
 <script>
-
     import DialogForm from '../../mix/DialogForm';
+    import EmployeeSelectProxy from '../../packages/EmployeeSelectProxy';
+    import { mapGetters } from 'vuex';
+
     export default {
         name: 'editDialog',
         mixins:[DialogForm],
@@ -77,12 +79,7 @@
                 dialogThis:this,
                 labelPosition:"right",
                 labelWidth:'80px',
-                computedusers:[
-                    {user_id:1,realname:'李青'},
-                    {user_id:2,realname:'高鹏'},
-                    {user_id:3,realname:'马娇'},
-                    {user_id:4,realname:'吴继伟'},
-                ],
+                computedusers:[],
                 
                 editForm:{
                     id:"",
@@ -105,7 +102,11 @@
                 model:null
             }
         },
-
+        computed:{
+            ...mapGetters({
+                'user_department_id':'department_id'
+            }),
+        },
         methods:{
             getAjaxPromise(model){
                 return this.ajaxProxy.update(model.id, model);
@@ -113,12 +114,27 @@
 
             onOpen(param){
                 this.model = param.params.model;
-            }
+
+                this.employeeSelect.setParam({department_id:this.model.department_id, role:'group-captain',group_candidate:1,id:this.model.manager_id})
+                this.employeeSelect.load();
+                // this.editForm.manager_id = "";
+                
+            },
+            setDepartmentId(){
+                this.editForm.department_id = this.user_department_id != 0 ? this.user_department_id : "";
+            },
+            loadUsers(data){
+                this.computedusers = data.items;
+            },
         },
         watch:{
             model:function(val, oldVal){
                 this.initObject(val, this.editForm);
             }
+        },
+        created(){
+            this.employeeSelect = new EmployeeSelectProxy({}, this.loadUsers, this);
+            this.$on('submit-success', this.setDepartmentId);
         }
         
     }

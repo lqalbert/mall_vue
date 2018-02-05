@@ -247,7 +247,7 @@
         },
         mounted:function(){
             let vThis = this;
-            this.navChange('Employee');
+            this.navChange('Group');
             setInterval(function(){
                 vThis.getCurDate();
             }, 1000);

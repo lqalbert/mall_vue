@@ -32,7 +32,7 @@
                             </el-col>
                         </el-row>
                         <el-row >
-                            <el-col :span="12">
+                            <!-- <el-col :span="12">
                                 <el-form-item label="所属部门" prop="department_id">
                                     <el-select   v-model="editForm.department_id" placeholder="部门" @change="departmentChange">
                                         <el-option label="请选择" :value="0"></el-option>
@@ -41,10 +41,11 @@
                                         </el-option>
                                     </el-select>
                                 </el-form-item>
-                            </el-col>
-                            <!-- <el-col :span="12">
+                            </el-col> -->
+                            <el-col :span="12">
                                 <el-form-item label="所属团队" prop="group_id" >
-                                    <el-select v-model="editForm.group_id" placeholder="团队小组" clearable>
+                                    <el-select v-model="editForm.group_id" placeholder="团队小组">
+                                        <el-option label="请选择" :value="0"></el-option>
                                         <el-option
                                                 v-for="group in groups"
                                                 :label="group.name"
@@ -52,17 +53,21 @@
                                                 :key="group.id"></el-option>
                                     </el-select>
                                 </el-form-item>
-                            </el-col> -->
+                            </el-col>
                         </el-row>
                         <el-row>
                             <el-col :span="24">
                                 <el-form-item label="员工职能">
-                                    <el-checkbox-group 
+                                    <el-radio-group
                                         v-model="editForm.role_ids">
-                                        <el-checkbox v-for="role in roles"  :label="role.id" :key="role.id">{{role.display_name}}</el-checkbox>
-                                    </el-checkbox-group>
-                                    
+                                        <el-radio v-for="role in roles"  :label="role.id" :key="role.id">{{role.display_name}}</el-radio>
+                                    </el-radio-group>
                                 </el-form-item>
+                                <el-alert
+                                    title="如果要给员工添加多个职能时（身兼多职的情况），请联系管理员"
+                                    type="warning"
+                                    :closable="false">
+                                </el-alert>
                             </el-col>
                         </el-row>
                     </el-tab-pane>
@@ -164,18 +169,18 @@
 </template>
 
 <script>
-    import DialogForm from '../../mix/DialogForm';
-    import getGroupsByPid from '../../ajaxProxy/getGroupsByPid';
+    import DialogForm from '../../../mix/DialogForm';
+    import getGroupsByPid from '../../../ajaxProxy/getGroupsByPid';
     import { mapGetters } from 'vuex';
 
-    import APP_CONST from '../../config';
+    import APP_CONST from '../../../config';
 
     
     export default {
         name: 'editDialog',
         mixins:[DialogForm,getGroupsByPid],
         props:{
-            departments:{
+            groups:{
                 type: Array,
                 default:[]
             },
@@ -183,7 +188,10 @@
         computed:{
             ...mapGetters([
                 'roles'
-            ])
+            ]),
+            ...mapGetters({
+                'user_department_id':'department_id'
+            })
         },
         data () {
             return {
@@ -194,14 +202,14 @@
                 uplaodParam:{  name:"avater", subdir:'asdf' },
                 uploadImg:"",
                 activeName:'first',
-                groups:[],
+               
                 editForm:{
                     id:'',
                     head:"",
                     // account:"",
                     // password:"123456",
-                    role_ids:[],
-                    // group_id:"",
+                    role_ids:"",
+                    group_id:0,
                     department_id:"",
                     sex:"",
                     telephone:"",
@@ -231,11 +239,14 @@
         },
 
         methods:{
-            departmentChange(v){
-                this.groups=[];
-                this.editForm.group_id='';
-                this.getGroupsAjax(v);
-            },
+            // departmentChange(v){
+            //     this.groups=[];
+            //     this.getGroupsAjax(v);
+            //     if (this.model.department_id != v) {
+            //         this.editForm.group_id = 0 ;
+            //     }
+                
+            // },
             onOpen(param){
                 this.model = param.params.model;
                 this.uploadImg=this.model.head;
@@ -253,21 +264,25 @@
 
             },
             beforeAvatarUpload(file) {
-                const isJPG = file.type === 'image/jpeg';
+                // const isJPG = file.type === 'image/jpeg';
                 const isLt2M = file.size / 1024 / 1024 < 2;
-                if (!isJPG) {
-                    this.$message.error('上传头像图片只能是 JPG 格式!');
-                }
+                // if (!isJPG) {
+                //     this.$message.error('上传头像图片只能是 JPG 格式!');
+                // }
                 if (!isLt2M) {
                     this.$message.error('上传头像图片大小不能超过 2MB!');
                 }
-                return isJPG && isLt2M;
+                return   isLt2M;
             },
-            conlog(param){
-                console.log('debug', arguments);
-            },
+            // conlog(param){
+            //     console.log('debug', arguments);
+            // },
             resetUploadImg (){
                 this.uploadImg = "";
+            },
+            resetEditFormField(){
+                this.editForm.department_id = this.user_department_id;
+                this.editForm.roles = "";
             }
 
         },
@@ -285,13 +300,17 @@
                     for (let index = 0; index < val.roles.length; index++) {
                         role_ids.push(val.roles[index].id)
                     }
-                    this.editForm.role_ids = role_ids;
+                    this.editForm.role_ids = role_ids[0];
                 }
+
+                // this.departmentChange(this.editForm.department_id);
 
 
             }
         },
         created(){
+            this.resetAddFormField();
+            this.$on('submit-final', this.resetEditFormField);
             this.$on('submit-final', this.resetUploadImg);
         },
     }

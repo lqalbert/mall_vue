@@ -26,6 +26,7 @@
             :data="mainData"
             v-loading="dataLoad"
             border
+            highlight-current-row
             style="width: 100%"
             @sort-change="sortChange"
             @cell-dblclick="dbclick"
@@ -73,7 +74,9 @@
             },
             bubble:{
                 type: Object,
-                default:null
+                default:function(){
+                    return null
+                }
             },
             reload:{
                 type:Number,
@@ -151,7 +154,7 @@
       },
       created(){
           if (this.param) {
-              this.realParam = JSON.parse(val);
+              this.realParam = JSON.parse(this.param);
           }
 
           let mainProxy = new DataProxy(this.url, this.pageSize, this.dataLoaded, this, this.onError);

@@ -25,8 +25,11 @@
                                     v-for="user in computedusers"
                                     :label="user.realname"
                                     :value="user.id"
-                                    :key="user.id"></el-option>
-                                    <el-option label="没有负责人" :value="0"></el-option>
+                                    :key="user.id">
+                                    <span class="pull-right">{{ user.department ? user.department.name : ''}}</span>
+                                    <span class="pull-left">{{ user.realname }}</span>
+                                </el-option>
+                                    <el-option label="撤消负责人" :value="0"></el-option>
                                 </el-select>
                             </el-form-item>
                         </el-col>

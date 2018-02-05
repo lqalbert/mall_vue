@@ -24,6 +24,8 @@
                                 <el-option v-for="user in computedusers" 
                                            :label="user.realname"
                                            :value="user.id" :key="user.id">
+                                    <span class="pull-right">{{ user.department ? user.department.name : ''}}</span>
+                                    <span class="pull-left">{{ user.realname }}</span>
                                 </el-option>
                             </el-select>
                         </el-form-item>

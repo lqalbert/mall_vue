@@ -124,7 +124,7 @@
                 this.computedusers = data.items;
             },
             onDepartChange(v){
-                this.employeeSelect.setParam({department_id:v, role:'group-captain',group_id:0})
+                this.employeeSelect.setParam({department_id:v, role:'group-captain', group_candidate:1})
                 this.employeeSelect.load();
                 this.addForm.manager_id = "";
             },

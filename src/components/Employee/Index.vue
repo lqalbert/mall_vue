@@ -1,7 +1,7 @@
 <template>
     <div>
         <IndexAdmin v-if="isAdmin"/>
-        <!-- <IndexDepart v-if="isDepart"/> -->
+        <IndexDepart v-if="isDepart"/>
 
     </div>
 </template>
@@ -9,7 +9,7 @@
     import PageMix from '../../mix/Page';
     import EditPassWord from './EditPassWord';
     import IndexAdmin from './Admin/IndexAdmin';
-    // import IndexDepart from './Depart/IndexDepart';
+    import IndexDepart from './Depart/IndexDepart';
 
     import { mapActions,mapGetters } from 'vuex';
 
@@ -19,7 +19,7 @@
         mixins: [PageMix],
         components: {
             IndexAdmin,
-            // IndexDepart
+            IndexDepart
         },
         data() {
             return {

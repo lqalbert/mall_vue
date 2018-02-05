@@ -115,9 +115,9 @@
             onOpen(param){
                 this.model = param.params.model;
 
-                this.employeeSelect.setParam({department_id:this.model.department_id, role:'group-captain',group_id:0,id:this.model.manager_id})
+                this.employeeSelect.setParam({department_id:this.model.department_id, role:'group-captain',group_candidate:1,id:this.model.manager_id})
                 this.employeeSelect.load();
-                this.editForm.manager_id = "";
+                // this.editForm.manager_id = "";
                 
             },
             setDepartmentId(){

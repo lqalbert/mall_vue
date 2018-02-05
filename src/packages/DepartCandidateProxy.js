@@ -13,12 +13,15 @@ const DepartSelectProxy = function(param, callback, scope){
 DepartSelectProxy.prototype.setParam = function(param){
     // this.extraParm = param;
     if (!param.fields) {
-        param.fields = ['id','realname'];
+        param.fields = ['id','realname']; // 'department_id'
     }
     if (!param.business) {
         param.business = 'depart-candidate';
         // param.logic = 'depart-candidate';
     }
+    // if (!param.with) {
+    //     param.with = ['department'];
+    // }
     this.departProxy.setExtraParam(param);
     return this;
 }

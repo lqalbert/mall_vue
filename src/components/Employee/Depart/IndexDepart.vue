@@ -165,13 +165,13 @@
         <addDialog 
             name='add-employee'
             :ajax-proxy="ajaxProxy"
-            :departments="departments"
+            :groups="groups"
             @submit-success="handleReload"/>
 
          <editDialog
            name="edit-employee"
            :ajax-proxy="ajaxProxy"
-           :departments="departments"
+           :groups="groups"
            @submit-success="handleReload"/>
 
          <EditPassWord name="change-password" :ajax-proxy="passowrdAjaxProxy" />
@@ -181,10 +181,9 @@
     </div>
 </template>
 <script>
-    import addDialog from './addDialog';
-    import editDialog from './editDialog';
+    import addDialog from './Add';
+    import editDialog from './Edit';
     import EditPassWord from '../EditPassWord';
-    import PageMix from '../../../mix/Page';
     import DataProxy from '../../../packages/DataProxy';
     import DataTable from '../../../mix/DataTable';
     import DepartSelectProxy from '../../../packages/DepartSelectProxy';
@@ -199,8 +198,7 @@
 
     export default {
         name: 'Employee',
-        pageTitle: "员工管理",
-        mixins: [PageMix, SearchTool,DataTable,getGroupsByPid],
+        mixins: [SearchTool,DataTable,getGroupsByPid],
         components: {
             addDialog,
             editDialog,
@@ -221,7 +219,13 @@
                 },
                 departments: [],
                 groups: [],
-                
+                types: [
+                    {value: '1', name: '员工账号'},
+                    {value: '2', name: '员工姓名'},
+                    {value: '3', name: '手机号'},
+                    {value: '4', name: 'QQ号'},
+                    {value: '5', name: '微信号'},
+                ],
                 bubble:{
                     'row-click': this.handleRowClick
                 }
@@ -270,6 +274,9 @@
             openPassword(user){
                 let model = {id:user.id, account:user.account};
                 this.$modal.show('change-password',{model:model});
+            },
+            onSearchReset(){
+                this.getGroupsAjax(this.user_department_id);
             }
 
         },
@@ -279,11 +286,17 @@
             // this.departProxy = departProxy;
             // this.departProxy.load();
 
+            
+
             this.searchForm.department_id = this.user_department_id !=0 ? this.user_department_id : 0;
             this.mainparam = JSON.stringify({department_id: this.searchForm.department_id});
+            this.getGroupsAjax(this.searchForm.department_id);
 
             this.$on('search-tool-change', this.onSearchChange);
             this.getRoles();
+        },
+        mounted(){
+            this.$refs.searchForm.$on('reset', this.onSearchReset);
         }
     }
 </script>

@@ -2,7 +2,7 @@
     <div>
         <MyDialog title="添加小组成员" :name="name" :width="width" :height="height" @before-open="onBeforeOpen" @opened="onOpen">
            <el-form :model="setMemberForm" ref="setMemberForm" :label-position="labelPosition">
-                <el-form-item prop="id">
+                <el-form-item prop="id" label="小组">
                    {{ group_name }}
                 </el-form-item>
                 <el-form-item label="未分配" prop="ids">
@@ -69,7 +69,8 @@
                         role:'group-member', 
                         with:['group'], 
                         department_id:this.currentRow.department_id,
-                        fields:['id','realname','group_id']
+                        fields:['id','realname','group_id'],
+                        not:{group_id:this.currentRow.id}
                     });
                     this.employeeSelect.load();   
 

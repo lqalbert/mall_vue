@@ -98,13 +98,13 @@
                 <el-tabs>
                     <el-tab-pane label="团队成员">
                         <el-table :data="users" empty-text="暂无数据" border>
-                            <el-table-column prop="user_id" label="员工ID" width="180" align="center">
+                            <el-table-column prop="id" label="员工ID" width="180" align="center">
                             </el-table-column>
                             <el-table-column prop="realname" label="员工姓名" width="180" align="center">
                             </el-table-column>
                             <el-table-column prop="role_name" label="员工职位" width="180" align="center">
                             </el-table-column>
-                            <el-table-column prop="phone" label="手机" align="center">
+                            <el-table-column prop="mobilephone" label="手机" align="center">
                             </el-table-column>
                             <el-table-column prop="qq" label="QQ号" align="center">
                             </el-table-column>

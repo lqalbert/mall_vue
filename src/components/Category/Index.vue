@@ -14,13 +14,13 @@
                         class="filter-tree"
                         :data="data"
                         :props="defaultProps"
-                        show-checkbox
                         default-expand-all
                         node-key="id"
                         :expand-on-click-node="false"
                         :filter-node-method="filterNode"
                         ref="tree"
-                        :render-content="renderContent">
+                        :render-content="renderContent"
+                       >
                 </el-tree>
                 <el-button type="primary" size="small" @click="$modal.show('add-category')">添加分类</el-button>
             </el-col>

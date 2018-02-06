@@ -30,6 +30,7 @@
             style="width: 100%"
             @sort-change="sortChange"
             @cell-dblclick="dbclick"
+            element-loading-text="拼命加载中"
             >
             <slot></slot>
         </el-table>
@@ -42,7 +43,7 @@
                 <div class="pull-right">
                     <el-pagination
                         :current-page="currentPage"
-                        :page-size="100"
+                        :page-size="pageSize"
                         layout="total, prev, pager, next, jumper"
                         :total="total"
                         @current-change="currentChange">
@@ -105,6 +106,7 @@
               this.dataLoad = !this.dataLoad;
           },
           currentChange(v){
+              this.dataLoad = true;
               this.mainProxy.setPage(v).load();
           },
 

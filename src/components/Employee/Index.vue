@@ -24,7 +24,7 @@
         data() {
             return {
                 page_admin: false,
-                page_depart: false,
+                page_depart: false, 
             }
         },
         computed:{

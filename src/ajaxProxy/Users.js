@@ -1,6 +1,6 @@
 import RestfulProxy from './RestfulProxy';
 
-const URL = '/users';
+const URL = '/employees';
 const proxy = new RestfulProxy(URL);
 
 export default proxy;

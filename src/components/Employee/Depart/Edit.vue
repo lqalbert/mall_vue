@@ -309,7 +309,7 @@
             }
         },
         created(){
-            this.resetAddFormField();
+            this.resetEditFormField();
             this.$on('submit-final', this.resetEditFormField);
             this.$on('submit-final', this.resetUploadImg);
         },

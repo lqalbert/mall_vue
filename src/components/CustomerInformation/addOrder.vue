@@ -358,7 +358,7 @@
 
         },
         created(){
-            let userDataProxy = new DataProxy('/users',this.pageSize,this.getUsersData, this);
+            let userDataProxy = new DataProxy('/employees',this.pageSize,this.getUsersData, this);
             userDataProxy.load();
 
         }

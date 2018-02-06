@@ -6,7 +6,7 @@
                     
                     <el-form-item style="width: 140px" prop="typeNumber">
                         <el-select v-model="searchForm.typeNumber" size="small" clearable placeholder="查询类型">
-                            <el-option v-for="item in types" :label="item.name" 
+                            <el-option v-for="item in searchTypes" :label="item.name" 
                             :value="item.value" :key="item.value">
                             </el-option>
                         </el-select>
@@ -93,6 +93,20 @@
                     <el-table-column label="职位" width="120" >
                         <template slot-scope="scope">
                             {{ displayRoleName(scope.row.roles) }}
+                        </template>
+                    </el-table-column>
+
+                    <!-- 控制一个员工 暂不能登录 -->
+                    <el-table-column label="账号状态(未完成)" align="center" prop="status">
+                        <template slot-scope="scope">
+                            <el-switch
+                                    v-model="scope.row.status"
+                                    :on-value="1"
+                                    :off-value="0"
+                                    on-color="#13ce66"
+                                    off-color="#ff4949">
+                            </el-switch>
+                            <!--  @change="switchHandle(scope.$index, scope.row)" -->
                         </template>
                     </el-table-column>
 
@@ -183,31 +197,30 @@
 <script>
     import addDialog from './Add';
     import editDialog from './Edit';
-    import EditPassWord from '../EditPassWord';
-    import DataProxy from '../../../packages/DataProxy';
-    import DataTable from '../../../mix/DataTable';
+    // import EditPassWord from '../EditPassWord';
+    // import DataProxy from '../../../packages/DataProxy';
+    // import DataTable from '../../../mix/DataTable';
     import DepartSelectProxy from '../../../packages/DepartSelectProxy';
     import GroupSelectProxy from '../../../packages/GroupSelectProxy';
-    import SearchTool from '../../../mix/SearchTool';
-    import getGroupsByPid from '../../../ajaxProxy/getGroupsByPid';
+    // import SearchTool from '../../../mix/SearchTool';
+    // import getGroupsByPid from '../../../ajaxProxy/getGroupsByPid';
     import EmployeeAjaxProxy  from '../../../ajaxProxy/Employee';
-    import PassowrdAjaxProxy from '../../../ajaxProxy/Password';
-
+    // import PassowrdAjaxProxy from '../../../ajaxProxy/Password';
+    import mix from '../mix';
 
     import { mapActions,mapGetters } from 'vuex';
 
     export default {
         name: 'Employee',
-        mixins: [SearchTool,DataTable,getGroupsByPid],
+        mixins: [mix],
         components: {
             addDialog,
             editDialog,
-            EditPassWord
         },
         data() {
             return {
                 ajaxProxy: EmployeeAjaxProxy,
-                passowrdAjaxProxy:PassowrdAjaxProxy,
+               // passowrdAjaxProxy:PassowrdAjaxProxy,
                 mainurl:EmployeeAjaxProxy.getUrl() ,
                 mainparam:"",
                 searchForm: {
@@ -219,13 +232,7 @@
                 },
                 departments: [],
                 groups: [],
-                types: [
-                    {value: '1', name: '员工账号'},
-                    {value: '2', name: '员工姓名'},
-                    {value: '3', name: '手机号'},
-                    {value: '4', name: 'QQ号'},
-                    {value: '5', name: '微信号'},
-                ],
+                
                 bubble:{
                     'row-click': this.handleRowClick
                 }

@@ -1,20 +1,22 @@
 <template>
     <div class="hello">
         <el-row>
-            <el-form :inline="true" :model="searchForm" ref="searchForm" class="demo-form-inline">
-                <el-form-item prop="name">
-                    <el-input v-model="searchForm.name" placeholder="客户姓名" size="small"></el-input>
-                </el-form-item>
-                <el-form-item prop="phone" >
-                    <el-input v-model="searchForm.phone" placeholder="客户手机号" size="small"></el-input>
-                </el-form-item>
-                <el-form-item>
-                    <el-button type="primary" size="small"  @click="searchToolChange('searchForm')">查询</el-button>
-                    <el-button type="primary" size="small"  @click="searchToolReset('searchForm')">重置</el-button>
-                    <el-button    size="small" type="danger" >刷新</el-button>
+            <el-col :span="24">
+                <el-form :inline="true" :model="searchForm" ref="searchForm" >
+                    <el-form-item prop="name">
+                        <el-input v-model="searchForm.name" placeholder="客户姓名" size="small"></el-input>
+                    </el-form-item>
+                    <el-form-item prop="phone" >
+                        <el-input v-model="searchForm.phone" placeholder="客户手机号" size="small"></el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="primary" size="small"  @click="searchToolChange('searchForm')">查询</el-button>
+                        <el-button type="primary" size="small"  @click="searchToolReset('searchForm')">重置</el-button>
+                        <el-button    size="small" type="danger" >刷新</el-button>
 
-                </el-form-item>
-            </el-form>
+                    </el-form-item>
+                </el-form>
+            </el-col>
         </el-row>
         <el-row>
             <el-col >
@@ -186,7 +188,5 @@
         margin: 0;
     }
 
-    .el-form-item {
-        margin-bottom: 2px;
-    }
+    
 </style>

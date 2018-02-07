@@ -234,7 +234,10 @@
             departmentChange(pid){
                 this.groups=[];
                 this.searchForm.group_id='';
-               this.getGroupsAjax(pid);
+                if(pid){
+                    this.getGroupsAjax(pid);
+                }
+
             },
             openEdit(row){
             this.$modal.show('edit-employee', {model:row});

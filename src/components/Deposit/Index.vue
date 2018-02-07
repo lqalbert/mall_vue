@@ -144,12 +144,18 @@
             this.users=[];
             this.searchForm.group_id='';
             this.searchForm.user_id='';
-            this.getGroupsAjax(pid);
+            if(pid){
+                this.getGroupsAjax(pid);
+            }
+
         },
         onGroupChange(gid){
             this.users=[];
             this.searchForm.user_id='';
-            this.getUsersAjax(gid);
+            if(gid){
+                this.getUsersAjax(gid);
+            }
+
 
         }
     },

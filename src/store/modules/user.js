@@ -58,6 +58,9 @@ const user = {
         department_id(state){
             return state.user.department_id;
         },
+        group_id(state){
+            return state.user.group_id;
+        },
         user_id(state){
             return state.user.id;
         },

@@ -294,7 +294,7 @@
             
         },
         created() {
-
+            //todo 这里应该改成打开弹窗get()一次
             let departProxy = new DepartSelectProxy(null, this.loadDepartment, this);
             this.departProxy = departProxy;
             this.departProxy.load();

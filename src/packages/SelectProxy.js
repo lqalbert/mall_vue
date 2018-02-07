@@ -81,8 +81,7 @@ DataProxy.prototype.load = function(){
         } else {
             sel._callback(response.data);
         }
-    })
-        .catch(function(response){
+    }).catch(function(response){
             // vmthis.$message.error('出错了');
             console.log(response);
         });

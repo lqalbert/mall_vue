@@ -104,6 +104,11 @@ export default {
         onOpen(param){
              //console.log(param);
             this.model = param.params.model;
+            this.model.qq = param.params.model.contacts[0].qq;
+            this.model.qq_nickname = param.params.model.contacts[0].qq_nickname;
+            this.model.weixin = param.params.model.contacts[0].weixin;
+            this.model.weixin_nickname = param.params.model.contacts[0].weixin_nickname;
+            this.model.phone = param.params.model.contacts[0].phone;
         },
 
         getAjaxPromise(model){

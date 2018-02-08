@@ -83,7 +83,7 @@
                     </el-table-column>
                     <div slot="buttonbar">
                         <el-button size="small"  type="primary" @click="$modal.show('add-customerinformation')" >添加客户</el-button>
-                        <el-button size="small" type="info">转让</el-button>
+                        <el-button size="small"  type="info" @click="showDialog('set-transfer')" v-show="strategyButtonTransferShow">转让</el-button>
                         <el-button size="small" >离职接收(部门经理)</el-button>
                         <!-- 一个小组员工 到 另一个小组员工 -->
                         <el-button size="small" >离职接收2(总经办)</el-button>
@@ -115,7 +115,11 @@
         <addOrder name='add-orderBasic'
                   width="60%"
                   :ajax-proxy="orderBasicAjaxProxy"
-                  :CategoryList="CategoryList"></addOrder>
+                  :CategoryList="CategoryList">
+        </addOrder>
+        
+        <Transfer name='set-transfer'></Transfer>
+
 
 
     </div>
@@ -129,8 +133,9 @@
     import Chat from "./Chat";
     import addOrder from "./addOrder";
     import addAddress from "./addAddress";
-    import DataTable from '../../mix/DataTable';
+    import Transfer from './Transfer';
 
+    import DataTable from '../../mix/DataTable';
     import PageMix from '../../mix/Page';
     //import DataProxy from '../../packages/DataProxy';
     import SearchTool from '../../mix/SearchTool';
@@ -141,6 +146,7 @@
     import Category from '../../ajaxProxy/Category';
     import DeliveryAddress from '../../ajaxProxy/DeliveryAddress';
     import OrderBasic from '../../ajaxProxy/OrderBasic';
+
 
     import DepartSelect from '../../packages/DepartSelectProxy';
     import GroupSelect from '../../packages/GroupSelectProxy';
@@ -162,7 +168,8 @@
             // Chat,
             Edit,
             addOrder,
-            addAddress
+            addAddress,
+            Transfer
         },
         data() {
             return {
@@ -216,6 +223,10 @@
             strategyColumnUser(){
                 return this.strategies.column_user == 1;
             },
+            strategyButtonTransferShow(){
+                return this.strategies.button_transfer != 0;
+            }
+            
 
         },
         methods: {

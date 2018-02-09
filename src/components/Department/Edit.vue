@@ -1,7 +1,7 @@
 <template>
     <div >
         <MyDialog title="添加" :name="name" :width="width" :height="height" @before-open="onOpen">
-            <el-form ref="editForm"  :label-width="labelWidth"  :model="editForm" :label-position="labelPosition" >
+            <el-form ref="editForm"  :label-width="labelWidth" :rules="rules" :model="editForm" :label-position="labelPosition" >
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="单位名" prop="name">
@@ -41,7 +41,7 @@
                 </el-row>
                 <el-row>
                     <el-col :span="24">
-                        <el-form-item label="备注"  prop="remark">
+                        <el-form-item label="备注"  prop="remarks">
                             <el-input type="textarea"  auto-complete="off" v-model="editForm.remarks" placeholder="请填写备注"></el-input>
                         </el-form-item>
                     </el-col>
@@ -97,7 +97,11 @@
                     manager_id:'',
                     status:''
                 },
-
+                rules:{
+                    remarks:[
+                        { message:'输入内容最大长度为200', type: 'string', trigger:'blur', max:200}
+                    ]
+                },
                 model:null
 
             }

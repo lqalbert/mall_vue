@@ -21,7 +21,7 @@
                                             :label="v.name" 
                                             :value="index"
                                             :key="v.id">
-                                            {{ v.name }} - {{ index }}
+                                            {{ v.name }}
                                         </el-option>
                                 </el-select>
                             </el-form-item>
@@ -137,11 +137,15 @@
                     money:"",
                     creator_id:"",
                     creator:"",
+                    remark:"",
                     charge_department:""
                 },
                 rules:{
                     money:[
-                        { required: true, message:'请输入金额', type: 'integer', trigger:'change'}
+                        { required: true, message:'金额未输入或输入的格式不正确', type:'integer', trigger:'blur',min:0 }
+                    ],
+                    remark:[
+                        { message:'输入内容最大长度为200', type: 'string', trigger:'blur', max:200}
                     ]
                 },
                 pickerOptions: {

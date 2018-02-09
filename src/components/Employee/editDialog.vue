@@ -86,13 +86,13 @@
                         <el-row>
                             <el-col :span="12">
 
-                                <el-form-item label="手机" prop="telephone">
-                                    <el-input class="name-input" v-model="editForm.telephone"  auto-complete="off"></el-input>
+                                <el-form-item label="手机" prop="mobilephone">
+                                    <el-input class="name-input" v-model="editForm.mobilephone"  auto-complete="off"></el-input>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
-                                <el-form-item label="固话座机" prop="mobilephone">
-                                    <el-input class="name-input" v-model="editForm.mobilephone" auto-complet="off"></el-input>
+                                <el-form-item label="固话座机" prop="telephone">
+                                    <el-input class="name-input" v-model="editForm.telephone" auto-complet="off"></el-input>
                                 </el-form-item>
                             </el-col>
                         </el-row>
@@ -129,7 +129,7 @@
                             </el-col>
                         </el-row>
 
-                        <el-form-item label="住址">
+                        <el-form-item label="住址" prop="address">
                             <el-input
                                     v-model="editForm.address"
                                     type="textarea"
@@ -371,6 +371,9 @@
                 rules:{
                     account:[
                         { required: true, message:"账号必填", type:'string'}
+                    ],
+                    address:[
+                        { message:'输入内容最大长度为200', type: 'string', trigger:'blur', max:200}
                     ]
                 },
                 model:''

@@ -1,27 +1,24 @@
 <template>
     <div >
-        <MyDialog title="修改密码" :name="name" :width="width" :height="height">
-            <el-form :label-width="labelWidth"   ref="editPasswordForm" :label-position="labelPosition">
+        <MyDialog title="修改密码" :name="name" :width="width" :height="height" @before-open="onOpen">
+            <el-form :label-width="labelWidth" :rules="rules" :model="editPasswordForm" ref="editPasswordForm" :label-position="labelPosition">
                 <el-form-item label="员工账号" prop="account">
-                    <el-input class="name-input" v-model="editPasswordForm.account"   auto-complete="off" ></el-input>
+                    <el-input class="name-input" v-model="editPasswordForm.account"    :disabled="true"></el-input>
                 </el-form-item>
-                <el-form-item label="密码" prop="password">
-                    <el-input class="name-input" v-model="editPasswordForm.password"  type="password"  auto-complete="off" ></el-input>
+                <el-form-item label="新密码" prop="password">
+                    <el-input class="name-input" v-model="editPasswordForm.password"  type="password"   ></el-input>
                 </el-form-item>
                 <el-form-item label="确认密码" prop="checkPass">
-                    <el-input class="name-input" type="password" v-model="editPasswordForm.checkPass" auto-complete="off"></el-input>
+                    <el-input class="name-input" type="password" v-model="editPasswordForm.checkPass" ></el-input>
                 </el-form-item>
             </el-form>
 
-
-            <div slot="dialog-foot" class="dialog-footer">
-                <el-button @click="handleClose">取 消</el-button>
-                <submit-button 
-                    @click="formSubmit('addForm')" >
-                    保 存
-                </submit-button>
+            <div slot="dialog-foot" >
+                <el-button @click="handleClose()">取 消</el-button>
+                <SubmitButton
+                        @click="formSubmit('editForm')"
+                        :observer="dialogThis" ></SubmitButton>
             </div>
-
         </MyDialog>
     </div>
 </template>
@@ -29,34 +26,52 @@
 <script>
 import DialogForm from '../../mix/DialogForm';
 export default {
-    name: 'Edit',
+    name: 'editPassWord',
     mixins:[DialogForm],
+    props:{
+        paramData:{},
+    },
     data () {
         return {
+            dialogThis: this,
             labelPosition:"right",
             labelWidth:'80px',
-            computedusers:[
-                {user_id:'1',realname:'李青'},
-                {user_id:'2',realname:'高鹏'},
-                {user_id:'3',realname:'马娇'},
-                {user_id:'4',realname:'吴继伟'},
-            ],
-            topO:[
-                {id:'1',name:'西北区'},
-                {id:'2',name:'东南区'},
-                {id:'3',name:'沿海区'},
-
-            ],
-            typeList:['销售部','推广部','风控部','人事部'],
-
-            state7: this.addOpen,
             editPasswordForm:{
                 id:"",
                 account:"",
                 password:"",
                 checkPass:""
             },
+            rules:{
+                password:[
+                    { required: true, message:"请输入新密码", type:'string',trigger:'change'}
+                    ],
+                checkPass:[
+                    { validator: this.checkPassword, trigger: 'blur' }
+                    ],
+            },
+            model:''
 
+        }
+    },
+    methods:{
+        onOpen(param){
+            this.model = param.params.model;
+        },
+        checkPassword(rule,value,callback){
+            if(this.editPasswordForm.password !==value){
+                return callback(new Error('两次输入的密码不一致'));
+            }
+
+        },
+    },
+    watch:{
+        model:function(val, oldVal){
+            for (const key in this.editPasswordForm) {
+                if (this.editPasswordForm.hasOwnProperty(key)) {
+                    this.editPasswordForm[key] = val[key]
+                }
+            }
         }
     },
 }

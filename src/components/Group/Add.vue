@@ -103,7 +103,10 @@
                     ],  
                     department_id:[
                         { required: true, message:'请选择所属部门', trigger: 'blur', type: 'number'}
-                    ]
+                    ],
+                    remarks:[
+                        { message:'输入内容最大长度为200', type: 'string', trigger:'blur', max:200}
+              ]
                 }
             }
         },

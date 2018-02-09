@@ -19,9 +19,14 @@
                     </el-input>
                 </el-form-item>
 
+                <el-form-item prop="type">
+                    <el-select size="small" v-model="searchForm.type"  placeholder="请选择类型" @change="typeChange" >
+                        <el-option  v-for='(item,key) in typeList' :label="item" :value="key" :key="key"></el-option>
+                    </el-select>
+                </el-form-item>
                 <el-form-item prop="department_id">
                     <el-select size="small" v-model="searchForm.department_id" placeholder="部门" @change="departmentChange">
-                        <el-option v-for="v in departments" :label="v.name" 
+                        <el-option v-for="v in departments" :label="v.name"
                         :value="v.id" :key="v.id">
                         </el-option>
                     </el-select>
@@ -65,7 +70,8 @@
                     :url="mainurl" 
                     :param="mainparam"
                     :reload="dataTableReload"
-                    :bubble="bubble">
+                    :bubble="bubble"
+                    @cellclick="editPassword">
                     <el-table-column label="序号" width="70" type="index">
                     </el-table-column>
 
@@ -153,7 +159,7 @@
                     </el-table-column>
                     <div slot="buttonbar">
                         <el-button size="small" type="primary" @click="openAdd">添 加</el-button>
-                        <el-button type="primary" size="small">修改密码</el-button>
+                        <el-button type="primary" size="small" @click="openEditPassWord">修改密码</el-button>
                     </div>
                 </TableProxy>
             </el-col>
@@ -172,18 +178,28 @@
            :departments="departments"
            @submit-success="handleReload"
          />
+        <editPassWord
+           name="edit-password"
+           :ajax-proxy="ajaxProxy"
+           :param-data="paramData"
+           @submit-success="handleReload"
+         />
 
     </div>
 </template>
 <script>
     import addDialog from './addDialog';
     import editDialog from './editDialog';
+    import editPassWord from './EditPassWord';
     import PageMix from '../../mix/Page';
     import DataProxy from '../../packages/DataProxy';
     import DataTable from '../../mix/DataTable';
     import DepartSelectProxy from '../../packages/DepartSelectProxy';
     import GroupSelectProxy from '../../packages/GroupSelectProxy';
     import SearchTool from '../../mix/SearchTool';
+    import SelectProxy from  '../../packages/SelectProxy';
+    import DepartAjaxProxy from '../../ajaxProxy/Department';
+    import getDepartmentByType from '../../ajaxProxy/getDepartmentByType';
     import getGroupsByPid from '../../ajaxProxy/getGroupsByPid';
     import EmployeeAjaxProxy  from '../../ajaxProxy/Employee';
     import { mapActions,mapGetters } from 'vuex';
@@ -191,10 +207,11 @@
     export default {
         name: 'Employee',
         pageTitle: "员工管理",
-        mixins: [PageMix, SearchTool,DataTable,getGroupsByPid],
+        mixins: [PageMix, SearchTool,DataTable,getGroupsByPid,DepartAjaxProxy,getDepartmentByType],
         components: {
             addDialog,
-            editDialog
+            editDialog,
+            editPassWord
         },
         data() {
             return {
@@ -206,9 +223,12 @@
                     department_id: '',
                     group_id: '',
                     status: "",
-                    typeNumber: ''
+                    typeNumber: '',
+                    type: ''
                 },
+                paramData:[],
                 departments: [],
+                typeList: [],
                 groups: [],
                 currentPage4: 1,
                 types: [
@@ -231,6 +251,13 @@
             getAjaxProxy(){
               return  this.ajaxProxy;
             },
+            typeChange(type){
+                this.departments=[];
+                this.searchForm.department_id='';
+                if(type || type===0){
+                    this.getDepartmentsAjax(type);
+                }
+            },
             departmentChange(pid){
                 this.groups=[];
                 this.searchForm.group_id='';
@@ -245,14 +272,36 @@
             openAdd(){
                 this.$modal.show('add-employee');
             },
-            loadDepartment(data) {
-                this.departments = data.items;
+            openEditPassWord(){
+                if(this.paramData.id >0){
+                    this.$modal.show('edit-password',{model:this.paramData});
+                }else{
+                    this.$message.error('请先选择一位员工');
+                }
+
             },
             onSearchChange(param) {
                 this.mainparam = JSON.stringify(param);
             },
             handleRowClick(row, event, column){
               //  console.log('row-click handle', row, event, column);
+            },
+            initDepartmentType(data){
+                this.typeList = data;
+            },
+            departMentInit(){
+                let selectProxy = new SelectProxy(DepartAjaxProxy.getUrl(), this.initDepartmentType, this);
+                selectProxy.setExtraParam({business:'DepartmentType'}).load();
+            },
+            loadDepartment(data) {
+                this.departments = data.items;
+            },
+            editPassword:function (res) {
+                this.paramData=[];
+                let userData=[];
+                userData.id=res.id;
+                userData.account=res.account;
+                this.paramData=userData;
             }
 
         },
@@ -262,6 +311,7 @@
             this.departProxy.load();
             this.$on('search-tool-change', this.onSearchChange);
             this.getRoles();
+            this.departMentInit();
         }
     }
 </script>

@@ -72,7 +72,6 @@ export default {
     props:{
         typeList:{
             type:Array,
-            default:['销售部','推广部','风控部','人事部']
         }
 
     },
@@ -97,6 +96,9 @@ export default {
                 ],
                 type:[
                     { required: true, message:'请选择类型', type: 'number', trigger:'change'}
+                ],
+                remarks:[
+                    { message:'输入内容最大长度为200', type: 'string', trigger:'blur', max:200}
                 ]
             },
 

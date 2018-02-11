@@ -96,6 +96,7 @@
                                         :on-success="addFormUploadSuccess"
                                         :before-upload="beforeAvatarUpload">
                                         <img v-if="uploadImg" :src="uploadImg" class="avatar">
+                                        <br>
                                         <el-button size="small" type="primary">点击上传</el-button>
                                     </el-upload>
                                 </el-form-item>
@@ -247,6 +248,9 @@
                 rules:{
                     account:[
                         { required: true, message:"账号必填", type:'string'}
+                    ],
+                    address:[
+                        { message:'输入内容最大长度为200', type: 'string', trigger:'blur', max:200}
                     ]
                 }
 

@@ -47,6 +47,7 @@
                     this.page_depart = true;
                 } 
             }
+
         },
         created() {
             this.setPageAdmin();

@@ -24,9 +24,8 @@
 
 <script>
 import DialogForm from '../../mix/DialogForm';
-
 export default {
-    name: 'Edit',
+    name: 'editPassWord',
     mixins:[DialogForm],
     data () {
         let validatePass2 = (rule, value, callback) => {

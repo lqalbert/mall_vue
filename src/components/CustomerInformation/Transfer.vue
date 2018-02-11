@@ -39,7 +39,7 @@
             </submit-button>
         </div>
     </MyDialog>
-  </template>
+</template>
   
 <script>
     import DialogForm from '../../mix/DialogForm';
@@ -47,12 +47,13 @@
     import CustomerTransferAjaxProxy from '../../ajaxProxy/CustomerTransfer';
     import GroupSelect from '../../packages/GroupSelectProxy';
     import CustomerSelect from '../../packages/CustomerSelectProxy';
+    import LocalMix from './mix';
 
     import { mapGetters } from 'vuex';
 
     export default {
         name: 'Transfer',
-        mixins:[DialogForm],
+        mixins:[DialogForm,LocalMix],
         data () {
             return {
                 dialogThis:this,
@@ -82,22 +83,7 @@
             filterMethod(query, item){
                 return item.name.indexOf(query) > -1;
             },
-            trasnGroupToOptions(option){
-                let re = [];
-                for (let index = 0; index < option.length; index++) {
-                    var element = option[index];
-                    var children = [];
-                    if (element.users) {
-                        children =  this.trasnGroupToOptions(element.users);
-                    }
-                    var result = {value:element.id, label:element.name ? element.name : element.realname};
-                    if (children.length > 0) {
-                        result.children = children;
-                    }
-                    re.push(result);
-                }
-                return re;
-            },
+            
             loadDatas(data){
                 // console.log(data);
                 this.options = this.trasnGroupToOptions(data.items);

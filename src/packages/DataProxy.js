@@ -58,7 +58,7 @@ DataProxy.prototype.setExtraParam = function(param){
         for(var x in param){
             if (this[x]) {
                 console.warn('extraParam 里的参数会覆盖 DataProxy里面的属性');
-                return false;
+                // return false;
             }
         }
         this.extraParm = param;

@@ -84,10 +84,10 @@
                     <div slot="buttonbar">
                         <el-button size="small"  type="primary" @click="$modal.show('add-customerinformation')" >添加客户</el-button>
                         <el-button size="small"  type="info" @click="showDialog('set-transfer')" v-show="strategyButtonTransferShow">转让</el-button>
-                        <el-button size="small" >离职接收(部门经理)</el-button>
                         <!-- 一个小组员工 到 另一个小组员工 -->
-                        <el-button size="small" >离职接收2(总经办)</el-button>
+                        <el-button size="small" @click="showDialog('quit-depart')" v-show="strategyButtonQuit1Show">离职接收</el-button>
                         <!-- 一个部门经理 到另 一个部门经理  -->
+                        <el-button size="small" @click="showDialog('quit')" v-show="strategyButtonQuit2Show">离职接收</el-button>
                     </div>
                 </TableProxy>
             </el-col>
@@ -120,7 +120,8 @@
         
         <Transfer name='set-transfer'></Transfer>
 
-
+        <QuitDepart name="quit-depart"></QuitDepart>
+        <Quit name="quit"></Quit>
 
     </div>
 
@@ -134,6 +135,8 @@
     import addOrder from "./addOrder";
     import addAddress from "./addAddress";
     import Transfer from './Transfer';
+    import QuitDepart from './QuitForDepart';
+    import Quit from './Quit';
 
     import DataTable from '../../mix/DataTable';
     import PageMix from '../../mix/Page';
@@ -153,11 +156,8 @@
     import EmployeeSelect from '../../packages/EmployeeSelectProxy';
 
     import { mapGetters } from 'vuex';
-
-
-
-
     import APP_CONST from '../../config';
+
     export default {
         name: 'Customer',
         pageTitle: "客户资料",
@@ -169,7 +169,9 @@
             Edit,
             addOrder,
             addAddress,
-            Transfer
+            Transfer,
+            QuitDepart,
+            Quit
         },
         data() {
             return {
@@ -185,9 +187,6 @@
                     with:['contacts', 'midRelative']
                 },
                 addressData:'',
-                currentPage4: 1,
-                total: 100,
-                dataLoad: false,
                 ajaxProxy:Customer,
                 addressAjaxProxy:DeliveryAddress,
                 orderBasicAjaxProxy:OrderBasic,
@@ -225,7 +224,14 @@
             },
             strategyButtonTransferShow(){
                 return this.strategies.button_transfer != 0;
-            }
+            },
+            strategyButtonQuit1Show(){
+                return this.strategies.button_quit1 != 0;
+            },
+            strategyButtonQuit2Show(){
+                return this.strategies.button_quit2 != 0;
+            },
+
             
 
         },

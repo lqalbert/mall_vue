@@ -25,7 +25,7 @@
             ref="proxyTable"
             :data="mainData"
             v-loading="dataLoad"
-            border
+            border highlight-current-row
             style="width: 100%"
             @sort-change="sortChange"
             @cell-dblclick="dbclick"

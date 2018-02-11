@@ -16,7 +16,7 @@
             <div slot="dialog-foot" >
                 <el-button @click="handleClose()">取 消</el-button>
                 <SubmitButton
-                        @click="formSubmit('editForm')"
+                        @click="formSubmit('editPasswordForm')"
                         :observer="dialogThis" ></SubmitButton>
             </div>
         </MyDialog>
@@ -47,7 +47,7 @@ export default {
                     { required: true, message:"请输入新密码", type:'string',trigger:'change'}
                     ],
                 checkPass:[
-                    { validator: this.checkPassword, trigger: 'blur' }
+                    {required: true, validator: this.checkPassword, trigger: 'blur' }
                     ],
             },
             model:''
@@ -61,8 +61,12 @@ export default {
         checkPassword(rule,value,callback){
             if(this.editPasswordForm.password !==value){
                 return callback(new Error('两次输入的密码不一致'));
+            }else{
+                callback();
             }
-
+        },
+        getAjaxPromise(model){
+            return this.ajaxProxy.update(model.id, model);
         },
     },
     watch:{

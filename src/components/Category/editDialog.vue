@@ -1,68 +1,127 @@
 <template>
     <div >
-        <el-dialog title="添加" :visible.sync="state8" @close="handleClose">
-            <el-form ref="editForm" :inline="true" :model="editForm"  >
+        <MyDialog title="添加" :name="name" :width="width" :height="height">
+            <el-form :model="editForm"  ref="editForm" :rules="rules" :label-width="labelWidth"   :label-position="labelPosition">
                 <el-row>
                     <el-col :span="12">
-                        <el-form-item label="分类名称" prop="name">
-                            <el-input v-model="editForm.name"  auto-complete="off" placeholder="请填写总分类名称"></el-input>
+                        <el-form-item label="分类名称" prop="label">
+                            <el-input class="name-input" v-model="editForm.label"  auto-complete="off" placeholder="请填写分类名称"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="分类级别" prop="level">
+                            <el-select @change="categoryChange"  v-model="editForm.level">
+                                <el-option v-for="v in levels" :value="v.level" :label="v.label" :key="v.level"></el-option>
+                            </el-select>
                         </el-form-item>
                     </el-col>
                 </el-row>
+                <el-row>
+                    <el-col :span="12">
+                        <el-form-item label="上级名称" prop="pid">
+                            <el-select  v-model="editForm.pid" :disabled="showLevel">
+                                <el-option
+                                        v-for="item in Categorys"
+                                        :key="item.id"
+                                        :label="item.label"
+                                        :value="item.id">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <!-- <el-col :span="12">
+                        <el-form-item label="商品类型">
+
+                        </el-form-item>
+                    </el-col> -->
+
+                </el-row>
             </el-form>
-            <div slot="footer" class="dialog-footer">
-                <el-button @click="closeDialog()">取 消</el-button>
-                <el-button @click="addFormSubmit()" type="primary"  >确 定</el-button>
+
+            <div slot="dialog-foot" class="dialog-footer">
+                <el-button @click="handleClose">取 消</el-button>
+                <submit-button
+                        @click="formSubmit('editForm')"
+                        :observer="dialogThis">
+                    保 存
+                </submit-button>
             </div>
-        </el-dialog>
+        </MyDialog>
+
     </div>
 </template>
 
 <script>
+    import DialogForm from '../../mix/DialogForm';
+    import DataProxy from '../../packages/DataProxy';
     export default {
+        mixins:[DialogForm],
         name: 'editDialog',
-        props:{
-            editOpen:{
-                type:Boolean,
-                default:false
-            }
-        },
         data () {
             return {
-
-                state8: this.editOpen,
-                editForm:{
-                    name:"",
-
+                dialogThis:this,
+                labelPosition:"right",
+                labelWidth:'80px',
+                showLevel:false,
+                showPid:false,
+                url:'/categorys',
+                Categorys:'',
+                levels:[
+                    {level:'1',label:'顶级'},
+                    {level:'2',label:'二级'},
+                    {level:'3',label:'三级'},
+                ],
+                rules:{
+                    label: [
+                        { required: true, message: '请输入分类名称', trigger: 'blur' },
+                    ],
+                    level: [
+                        { required: true, message: '请选择分类级别', trigger: 'blur' },
+                    ],
+                    pid: [
+                        { required: true , message: '请选择上级名称',type: 'number', },
+                    ],
                 },
+                editForm:{
+                    label:"",
+                    pid:'',
+                    level:''
+                },
+
 
             }
         },
 
         methods:{
-            handleClose(){
-                this.$emit('add-window-close');
+            getData:function (lel) {
+                let categoryProxy = new DataProxy(this.url+'/'+lel,this.pageSize,this.levelLoaded, this,);
+                categoryProxy.load();
             },
-            addFormSubmit:function(){
-               // console.log(this.editForm);
-                this.$emit('add',{name:this.editForm.name});
-                this.editForm.name='';
-                this.state8=false;
+            levelLoaded:function (res) {
+                this.Categorys=res;
             },
-            closeDialog:function(){
-                this.state8=false;
-            }
+            categoryChange:function (v) {
+                if(v==1){
+                    this.showLevel=true;
+                    this.editForm.pid= 0;
+                }
+                if(v >= 2){
+                    this.showLevel=false;
+                    v = v-1;
+                }
+                this.getData(v)
+            }, getAjaxPromise(model){
+                return this.ajaxProxy.create(model);
+            },
+
         },
-        watch:{
-            editOpen:function(val, oldVal){
-                this.state8 = val;
-            }
-        }
     }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+    .name-input{
+        max-width: 217px;
+    }
 </style>
 

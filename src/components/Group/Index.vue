@@ -210,6 +210,7 @@
                 'user_department_id':'department_id'
             }),
             strategySearchDepartShow(){
+                console.log(this.strategies)
                 return this.strategies.search_depart != 0;
             }, 
 

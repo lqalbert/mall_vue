@@ -76,6 +76,9 @@ Object.defineProperty(APP_CONST, 'editor_option',{
     writable: false, //设置属性只读
     configurable: true,
     enumerable: true
-})
+});
+
+
+
 
 export default APP_CONST;

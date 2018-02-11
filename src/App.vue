@@ -47,6 +47,10 @@
     width: 120px;
   }
 
+  .el-cascader--small .el-cascader__label {
+        line-height: 36px;
+  }
+
   .pull-right{
     float: right;
   }
@@ -66,6 +70,10 @@
 
   .hide{
     display: none !important;
+  }
+
+  .text-align-center{
+    text-align: center;
   }
 
   /* .slide-fade-enter-active, .slide-fade-leave-active {

@@ -38,9 +38,15 @@ const config = {
             let vmthis = this;
 
             ajaxPromise.then(function(response){
-                vmthis.$message.success('操作成功');
-                vmthis.$refs[name].resetFields();
-                vmthis.$emit('submit-success', name);
+                if (response.data.status==0) {
+                    vmthis.$message.error(response.data.msg ? response.data.msg : "操作失败" );
+                    vmthis.$emit('submit-error', name);
+                } else {
+                    vmthis.$message.success('操作成功');
+                    vmthis.$refs[name].resetFields();
+                    vmthis.$emit('submit-success', name);
+                }
+                
             })
             .catch(function(error){
                 if(error.response){

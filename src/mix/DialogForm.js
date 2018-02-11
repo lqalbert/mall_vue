@@ -5,7 +5,7 @@ const DialogForm = {
     mixins:[FormMix, Dialog],
     props:{
         ajaxProxy:{
-            required:true,
+            // required:true,
             type: Object,
             default: null
         }

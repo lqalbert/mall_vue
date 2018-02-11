@@ -14,9 +14,6 @@
                                 <el-form-item label="登录账号" prop="account">
                                     <el-input class="name-input" v-model="addForm.account"  auto-complete="off"></el-input>
                                 </el-form-item>
-                                <el-form-item label="密码">
-                                    <el-input class="name-input" type="password" v-model="addForm.password" auto-complete="off"></el-input>
-                                </el-form-item>
                             </el-col>
                             <el-col :span="12">
                                 

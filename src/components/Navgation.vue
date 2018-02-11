@@ -45,7 +45,7 @@ export default {
           text:'客户管理',
           icon:null,
           subNav:[
-            { text:'客户资料', index:'CustomerInformation' },
+            { text:'客户资料', index:'Customer' },
           ]
         },
         {

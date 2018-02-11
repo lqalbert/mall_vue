@@ -1,6 +1,6 @@
 import SelectProxy from './SelectProxy';
 import UsersStore from '../ajaxProxy/Users';
-
+//employees的同名
 const UsersSelectProxy = function(param, callback, scope){
     this.extraParm = param || null;
     this.orderProxy = new SelectProxy(UsersStore.getUrl(), callback, scope);

@@ -34,7 +34,8 @@ DataProxy.prototype.setExtraParam = function(param){
     for(var x in param){
         if (this[x]) {
             console.warn('extraParam 里的参数会覆盖 DataProxy里面的属性');
-            return false;
+            // return false;
+            continue;
         }
     }
     this.extraParm = param;
@@ -81,8 +82,7 @@ DataProxy.prototype.load = function(){
         } else {
             sel._callback(response.data);
         }
-    })
-        .catch(function(response){
+    }).catch(function(response){
             // vmthis.$message.error('出错了');
             console.log(response);
         });

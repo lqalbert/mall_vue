@@ -93,7 +93,7 @@
 
                     <div slot="buttonbar">
                         <el-button size="small" icon="plus" type="info" @click="showadd" >添加</el-button>
-                        <el-button size="small" type="info" @click="showDialog('addmember')">加入员工</el-button>
+                        <el-button size="small" type="info" @click="showDialog('addmember')" v-show="strategyAddMember">加入员工</el-button>
                     </div>
                 </TableProxy>
             </el-col>
@@ -219,6 +219,10 @@
 
             strategyColumnDepart(){
                 return this.strategies.column_depart == 1 ;
+            },
+            
+            strategyAddMember(){
+                return this.strategies.add_member == 1;
             }
         },
         watch:{
@@ -290,7 +294,7 @@
             
         },
         created() {
-
+            //todo 这里应该改成打开弹窗get()一次
             let departProxy = new DepartSelectProxy(null, this.loadDepartment, this);
             this.departProxy = departProxy;
             this.departProxy.load();

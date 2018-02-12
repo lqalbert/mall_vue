@@ -86,13 +86,13 @@
                         <el-row>
                             <el-col :span="12">
 
-                                <el-form-item label="手机" prop="telephone">
-                                    <el-input class="name-input" v-model="editForm.telephone"  auto-complete="off"></el-input>
+                                <el-form-item label="手机" prop="mobilephone">
+                                    <el-input class="name-input" v-model="editForm.mobilephone"  auto-complete="off"></el-input>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
-                                <el-form-item label="固话座机" prop="mobilephone">
-                                    <el-input class="name-input" v-model="editForm.mobilephone" auto-complet="off"></el-input>
+                                <el-form-item label="固话座机" prop="telephone">
+                                    <el-input class="name-input" v-model="editForm.telephone" auto-complet="off"></el-input>
                                 </el-form-item>
                             </el-col>
                         </el-row>

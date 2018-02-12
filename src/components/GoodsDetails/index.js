@@ -91,8 +91,24 @@ export default {
             this.$modal.show('add-goods-details',{model:this.UnitTypes});
         },
         showEdit(row){
-            //console.log(row);die;
-            this.$modal.show('edit-goods-details', { model: row, extra: this.UnitTypes, urlDomain: this.urlDomain});
+            let fileList = [];
+            row.del_imgs = [];
+            row.img_path = [];
+            row.cate_id = [];
+            
+            for (let index = 0; index < row.category.length; index++) {
+                row.cate_id.push(row.category[index].id);
+            }
+            for (let index = 0; index < row.imgs.length; index++) {
+                fileList.push({name:row.imgs[index].url, url:row.imgs[index].full_url});  
+            }
+
+            this.$modal.show('edit-goods-details', {
+              model: row,
+              extra: this.UnitTypes,
+              fileList: fileList,
+            });
+
         },
         handleCateChange(v){
             //console.log(v);

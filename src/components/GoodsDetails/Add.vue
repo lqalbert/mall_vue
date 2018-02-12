@@ -17,7 +17,7 @@
                                         :options="cateOptions"
                                         v-model="addForm.cate_id"
                                         @change="handleCateChange"
-                                        filterable change-on-select 
+                                        filterable change-on-select clearable
                                         placeholder="选择商品分类" size="small" style="line-height:28px;">
                                     </el-cascader>
                                 </el-form-item>
@@ -354,9 +354,7 @@ export default {
             }
         );
         this.$on('submit-success', this.resetEditContent);
-    }
-
-
+    },
 
 
 }

@@ -30,7 +30,10 @@
                    :ajax-proxy="ajaxProxy"
                    @submit-success="handleReload"/>
 
-        <!--<editDialog :edit-open="editDialog" @add-window-close="handleAddWindow" @add='addAll'/>-->
+        <editDialog name='edit-category'
+                    :ajax-proxy="ajaxProxy"
+                    @submit-success="handleReload"/>
+
         </el-row>
     </div>
 
@@ -38,7 +41,7 @@
 
 <script>
     import addDialog from './addDialog';
-    //import editDialog from './editDialog';
+    import editDialog from './editDialog';
 
     import DataTable from '../../mix/DataTable';
 
@@ -55,7 +58,7 @@
         pageTitle:"商品分类",
         components: {
             addDialog,
-            //editDialog,
+            editDialog,
         },
         mixins: [PageMix,SearchTool,DataTable,config,Category],
         data() {
@@ -99,6 +102,11 @@
             dataLoaded(data){
                  this.data = data.items;
             },
+            editFun(data){
+                console.log(11111)
+                this.$modal.show('edit-category')
+
+            },
             getRes:function(){
                 let categoryProxy = new DataProxy(this.url, this.pageSize, this.dataLoaded, this,);
                  categoryProxy.load();
@@ -121,6 +129,7 @@
                     <span>{node.label}</span>
                    </span>
                 <span style="float: right; margin-right: 20px">
+                    <el-button size="mini" type="danger" on-click={ () => this.editFun(data.id) }>编 辑</el-button>
                     <el-button size="mini" type="danger" on-click={ () => this.deleteData(data.id) }>删除分类</el-button>
                 </span>
                 </span>);

@@ -87,4 +87,26 @@ DataProxy.prototype.load = function(){
             console.log(response);
         });
 }
+
+DataProxy.prototype.find = function(){
+    let vmthis = this._scope;
+    let sel = this;
+    let proxy = this.url; 
+    let promise = null;
+
+    promise = proxy.find((this._getParam()).id);
+
+    return promise.then(function(response){
+        if(vmthis){
+            sel._callback.apply(vmthis, [response.data]);
+        } else {
+            sel._callback(response.data);
+        }
+    }).catch(function(response){
+            // vmthis.$message.error('出错了');
+            console.log(response);
+        });
+}
+
+
 export default DataProxy;

@@ -17,7 +17,7 @@
                                         :options="cateOptions"
                                         v-model="addForm.cate_id"
                                         @change="handleCateChange"
-                                        filterable change-on-select clearable
+                                        filterable change-on-select 
                                         placeholder="选择商品分类" size="small" style="line-height:28px;">
                                     </el-cascader>
                                 </el-form-item>
@@ -88,55 +88,63 @@
                         </el-row>
                     </el-tab-pane>
 
-                    <!-- <el-tab-pane label="商品规格" name="second">
-                        <el-table>
-                            <el-table-column
-                            prop="sku"
-                            label="SKU"
-                            width="180">
+                    <el-tab-pane label="商品规格" name="second">
+                        <el-table :data="addForm.skus">
+                            <el-table-column type="index" label="序号" width="80">
                             </el-table-column>
-                            <el-table-column
-                            prop="name"
-                            label="规格"
-                            width="180">
+                            <el-table-column prop="name" label="sku" width="80">
                             </el-table-column>
-                            <el-table-column
-                            prop="price"
-                            label="价格">
+                            <el-table-column  label="规格小项" >
+                                <template slot-scope="scope">
+                                    {{ displayAttr(scope.row.attr)|stringSuffix(10) }}
+                                </template>
                             </el-table-column>
-                            <el-table-column
-                            prop="num"
-                            label="库存">
+                            <el-table-column type="expand">
+                                <template slot-scope="scope">
+                                    <el-form label-position="left" inline class="table-expand " >
+                                        <el-form-item v-for="item in scope.row.attr" :label="item.name + '：'">
+                                            <span>{{ item.value }}</span>
+                                            <img v-if="item.fullurl.length > 1" :src="item.fullurl" width="50" height="50" class="vertical-middle" >
+                                        </el-form-item>
+                                    </el-form>
+                                </template>
+                            </el-table-column>
+                            <el-table-column prop="price" label="价格" width="80">
+                            </el-table-column>
+                            <el-table-column prop="num" label="库存" width="80">
+                            </el-table-column>
+                            <el-table-column label="操作">
+                                <template slot-scope="scope">
+                                    <el-button size="small" type="danger" @click="deleteAttrItem(scope.$index)">删除</el-button>
+                                </template>
                             </el-table-column>
                         </el-table>
-                            这一块是动态的 跟据不同类型的商品生成不同的规格
-                        <el-form-item label="颜色"  prop="unit_type">
-                            <el-input v-model="input" placeholder="请输入内容"></el-input>
-                            <AttrItem :form-object="attrForm" type="文本"></AttrItem>
-                        </el-form-item>
-                    
-                        <el-form-item label="尺坟"  prop="unit_type">
-                                <el-input v-model="input" placeholder="请输入内容"></el-input>
-                                <AttrItem :form-object="attrForm" type="图片"></AttrItem>
-                        </el-form-item>
-                            //end of这一块是动态的
+                        <br>
+
+                        <AttrItem :form-object="attrForm"></AttrItem>
                     
                         <el-form-item label="SKU"  prop="unit_type">
-                                <el-input v-model="input" placeholder="请输入内容"></el-input>
+                            <el-col :span="10">
+                                <el-input v-model="skuForm.name" placeholder="请输入内容"></el-input>
+                            </el-col>
                         </el-form-item>
                     
                         <el-form-item label="价格"  prop="unit_type">
-                                <el-input v-model="input" placeholder="请输入内容"></el-input>
+                            <el-col :span="10">
+                                <el-input v-model="skuForm.price" placeholder="请输入内容"></el-input>
+                            </el-col>
                         </el-form-item>
                     
                         <el-form-item label="数量"  prop="unit_type">
-                                <el-input v-model="input" placeholder="请输入内容"></el-input>
+                            <el-col :span="10">
+                                <el-input  v-model="skuForm.num" placeholder="请输入内容"></el-input>
+                            </el-col>
                         </el-form-item>
                     
                         <el-form-item  prop="unit_type">
-                            <el-button>添加SKU</el-button>
+                            <el-button @click="addSku">添加SKU</el-button>
                         </el-form-item>
-                    </el-tab-pane> -->
+                    </el-tab-pane>
 
                     <el-tab-pane label="商品图片" name="third">
 
@@ -177,7 +185,11 @@
 <script>
 import DialogForm from '../../mix/DialogForm';
 import AttrItem from '../common/AttrFormItem';
+import APP_CONST from '../../config';
+import GoodsTypeSelectProxy from '../../packages/GoodsTypeSelectProxy';
+
 import { quillRedefine } from 'vue-quill-editor-upload';
+
 export default {
     name: 'Add',
     mixins:[DialogForm],
@@ -215,15 +227,19 @@ export default {
                 unit_type:'',
                 description:'',
                 img_path:[],
+                skus:[],
 
             },
-            attrForm:{
-                value:"",
-                addon_value:""
-            },
+            attrForm:[],
             editContent:'',
             editorOption:{},
             ctrlNum:0,
+            skulist:[],
+            skuForm:{
+                name:"",
+                price:"",
+                num:""
+            },
 
         }
     },
@@ -235,7 +251,9 @@ export default {
             //console.log(tab, event);
         },
         handleCateChange(v){
-            this.addForm.cate_id = v;
+            // this.addForm.cate_id = v;
+            //获取对应的商品类型
+            this.goodsTypeProxy.setParam({id:1}).find();
         },
         handleRemove(file, fileList) {
             //console.log(file, fileList);
@@ -295,6 +313,47 @@ export default {
         },
         resetEditContent(){
             this.editContent = '';
+        },
+        loadGoodsAttr(data){
+            if (data.specs) {
+                data.specs.forEach(element => {
+                    element.value = "";
+                });
+            }
+            this._attrForm = data.specs;
+            this._attrForm.forEach(function(item){
+                item.fullurl = "";
+                item.addon_value = "";
+            })
+            console.log(this._attrForm);
+            this.copy(this._attrForm, this.attrForm);
+        },
+        addSku(){
+            // console.log(this.attrForm);
+            // this.skuForm.attr  = this.attrForm.concat(); //concat 一个空的数组 返回一个新数组;
+            this.skuForm.attr = [];
+            this.copy(this.attrForm, this.skuForm.attr);
+            let obj = Object.assign({}, this.skuForm);
+            this.addForm.skus.push(obj);
+            this.attrForm = [];
+            this.copy(this._attrForm, this.attrForm);
+            this.skuForm.name = "";
+            this.skuForm.price = "";
+            this.skuForm.num = "";
+        },
+        displayAttr(attr){
+            return attr.map((item)=>{
+                return item.name+":"+item.value
+            }).join("、");
+        },
+        copy(source, target){
+            source.forEach(function(item){
+                this.push(Object.assign({}, item));
+            }, target);
+            return target;
+        },
+        deleteAttrItem(index){
+            this.addForm.skus.splice(index,1);
         }
 
     },
@@ -304,59 +363,11 @@ export default {
         }
     },
     created(){
-        this.editorOption = quillRedefine(
-            {
-               
-                // 图片上传的设置
-                uploadConfig: {
-                    action: this.uploadUrl,  // 必填参数 图片上传地址
-                    // 必选参数  res是一个函数，函数接收的response为上传成功时服务器返回的数据
-                    // 你必须把返回的数据中所包含的图片地址 return 回去
-                    res: (respnse) => {
-                        //console.log(respnse);
-                        return respnse.data.fullurl;
-                    },
-                    methods: 'POST',  // 可选参数 图片上传方式  默认为post
-                    //token: sessionStorage.token,  // 可选参数 如果需要token验证，假设你的token有存放在sessionStorage
-                    name: 'avatar',  // 可选参数 文件的参数名 默认为img
-                    size: 500,  // 可选参数   图片限制大小，单位为Kb, 1M = 1024Kb
-                    accept: 'image/png, image/gif, image/jpeg, image/jpg',  // 可选参数 可上传的图片格式
-                    // start: function (){}
-                    start: () => {
-                    },  // 可选参数 接收一个函数 开始上传数据时会触发
-                    end: () => {
-                    },  // 可选参数 接收一个函数 上传数据完成（成功或者失败）时会触发
-                    success: () => {
-                    },  // 可选参数 接收一个函数 上传数据成功时会触发
-                    error: () => {
-                    }  // 可选参数 接收一个函数 上传数据中断时会触发
-                },
-                // 以下所有设置都和vue-quill-editor本身所对应
-                placeholder: '请编写产品描述',  // 可选参数 富文本框内的提示语
-                theme: 'snow', // 可选参数 富文本编辑器的风格
-                toolOptions: [
-                    ['bold', 'italic', 'underline', 'strike'],
-                    ['blockquote', 'code-block'],
-                    [{ 'header': 1 }, { 'header': 2 }],
-                    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-                    [{ 'script': 'sub' }, { 'script': 'super' }],
-                    [{ 'indent': '-1' }, { 'indent': '+1' }],
-                    [{ 'direction': 'rtl' }],
-                    [{ 'size': ['small', false, 'large', 'huge'] }],
-                    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-                    [{ 'font': [] }],
-                    [{ 'color': [] }, { 'background': [] }],
-                    [{ 'align': [] }],
-                    ['clean'],
-                    ['link', 'image']
-                ],  // 可选参数  选择工具栏的需要哪些功能  默认是全部
-                handlers: {} , // 可选参数 重定义的事件，比如link等事件
-            }
-        );
+        this.editorOption = quillRedefine(APP_CONST.editor_option);
         this.$on('submit-success', this.resetEditContent);
-    },
 
-
+        this.goodsTypeProxy  = new GoodsTypeSelectProxy({}, this.loadGoodsAttr, this);
+    }
 }
 </script>
 
@@ -372,6 +383,13 @@ export default {
 
     .quill-editor .ql-container {
         height: 300px !important;
+    }
+
+    .table-expand .el-form-item {
+        width: 40%;
+    }
+    .vertical-middle{
+        vertical-align: middle;
     }
 </style>
       

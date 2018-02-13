@@ -17,7 +17,7 @@
                                         :options="cateOptions"
                                         v-model="editForm.cate_id"
                                         @change="handleCateChange"
-                                        filterable change-on-select 
+                                        filterable change-on-select clearable
                                         placeholder="选择商品分类" size="small" style="line-height:28px;">
                                     </el-cascader>
                                 </el-form-item>
@@ -214,6 +214,11 @@ export default {
                 description:'',
                 img_path:[],
                 del_imgs:[],
+                cover_url:'',
+                id:'',
+                imgs:[],
+                category:[],
+
             },
             attrForm:{
                 value:"",
@@ -225,30 +230,17 @@ export default {
             urlDomain:'',
             fileList:[],
             cover_url:'',
-            
+            model:null,
 
         }
     },
     methods:{
         onOpen(param){
             this.fileList = [];
-            this.editForm = param.params.model;
-            this.editContent = this.editForm.description;
-            this.editForm.unit_type = this.editForm.unit_type.toString();
-            this.editForm.del_imgs = [];
-            this.editForm.img_path = [];
-            this.editForm.cate_id = [];
-            for (let index = 0; index < this.editForm.category.length; index++) {
-                this.editForm.cate_id.push(this.editForm.category[index].id);
-            }
-
+            this.model = param.params.model;
             this.UnitTypes = param.params.extra;
-            this.urlDomain = param.params.urlDomain;
-            for (let index = 0; index < this.editForm.imgs.length; index++) {
-                this.fileList.push({name:this.editForm.imgs[index].url, url:this.editForm.imgs[index].full_url});  
-            }
-
-            console.log(this.editForm);
+            this.fileList = param.params.fileList;
+            // this.urlDomain = param.params.urlDomain;
         },
         handleClick(tab, event) {
             //console.log(tab, event);
@@ -398,8 +390,20 @@ export default {
             }
         );
         //console.log(this.editorOption);
+    },
+    watch:{
+        model:function(val, oldVal){
+            for (const key in this.editForm) {
+                if (this.editForm.hasOwnProperty(key)) {
+                    this.editForm[key] = val[key];
+                    this.editContent = this.editForm.description;
+                    if(key == 'unit_type'){
+                         this.editForm[key] = this.editForm[key].toString();
+                    }
+                }
+            }
+        }
     }
-
 
 
 
@@ -418,6 +422,15 @@ export default {
 
     .quill-editor .ql-container {
         height: 300px !important;
+    }
+    .v-modal {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        background: #000;
     }
 </style>
       

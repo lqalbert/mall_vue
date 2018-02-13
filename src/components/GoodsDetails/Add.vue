@@ -102,7 +102,7 @@
                             <el-table-column type="expand">
                                 <template slot-scope="scope">
                                     <el-form label-position="left" inline class="table-expand " >
-                                        <el-form-item v-for="item in scope.row.attr" :label="item.name + '：'">
+                                        <el-form-item v-for="item in scope.row.attr" :key="item.value" :label="item.name + '：'">
                                             <span>{{ item.value }}</span>
                                             <img v-if="item.fullurl.length > 1" :src="item.fullurl" width="50" height="50" class="vertical-middle" >
                                         </el-form-item>

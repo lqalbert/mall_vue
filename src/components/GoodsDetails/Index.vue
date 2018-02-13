@@ -101,9 +101,10 @@
                         </template>
                     </el-table-column>
 
-                    <el-table-column  label="操作" align="center" width="140">
+                    <el-table-column  label="操作" align="center" width="200">
                         <template slot-scope="scope">
                             <el-button type="info" size="small" @click="showEdit(scope.row)">编辑</el-button>
+                            <el-button type="info" size="small" @click="showSpec(scope.row)">规格</el-button>
                             <el-button type="danger" size="small" @click="handleDelete(scope.row.id)">删除</el-button>
                         </template>
                     </el-table-column>
@@ -117,7 +118,6 @@
         </el-row>
 
         <Add name='add-goods-details' 
-           
             :ajax-proxy="ajaxProxy"
             :cate-options="cateOptions"
             :upload-url="uploadUrl"
@@ -130,6 +130,11 @@
             :upload-url="uploadUrl"
             @submit-success="handleReload">
         </Edit>
+
+        <Spec name='edit-goods-spec' 
+            :ajax-proxy="ajaxProxy"
+             @submit-success="handleReload">
+        </Spec>
     </div>
 </template>
 

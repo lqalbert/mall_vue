@@ -1,5 +1,7 @@
 import Add from './Add';
 import Edit from './Edit';
+import Spec from './Spec';
+
 //import DataProxy from '../../packages/DataProxy';
 import PageMix from '../../mix/Page';
 import SearchTool from '../../mix/SearchTool';
@@ -16,6 +18,7 @@ export default {
     components:{
         Add,
         Edit,
+        Spec,
         quillRedefine,
     },
     data() {
@@ -108,7 +111,11 @@ export default {
               extra: this.UnitTypes,
               fileList: fileList,
             });
-
+        },
+        showSpec(row){
+            this.$modal.show('edit-goods-spec', {
+              model: row
+            });
         },
         handleCateChange(v){
             //console.log(v);

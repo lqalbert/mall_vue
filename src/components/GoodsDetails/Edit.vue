@@ -84,29 +84,39 @@
                         </el-row>
                     </el-tab-pane>
 
-                    <!-- <el-tab-pane label="商品规格" name="second">
-                        <el-table>
-                            <el-table-column
-                            prop="sku"
-                            label="SKU"
-                            width="180">
+                    <el-tab-pane label="商品规格" name="second">
+                        <el-table :data="editForm.skus">
+                            <el-table-column type="index" label="序号" width="80">
                             </el-table-column>
-                            <el-table-column
-                            prop="name"
-                            label="规格"
-                            width="180">
+                            <el-table-column prop="name" label="sku" width="80">
                             </el-table-column>
-                            <el-table-column
-                            prop="price"
-                            label="价格">
+                            <el-table-column  label="规格小项" >
+                                <template slot-scope="scope">
+                                    {{ displayAttr(scope.row.attr)|stringSuffix(10) }}
+                                </template>
                             </el-table-column>
-                            <el-table-column
-                            prop="num"
-                            label="库存">
+                            <el-table-column type="expand">
+                                <template slot-scope="scope">
+                                    <el-form label-position="left" inline class="table-expand " >
+                                        <el-form-item v-for="item in scope.row.attr" :label="item.name + '：'">
+                                            <span>{{ item.value }}</span>
+                                            <img v-if="item.addon_value &&item.addon_value.length > 1" :src="item.addon_value" width="50" height="50" class="vertical-middle" >
+                                        </el-form-item>
+                                    </el-form>
+                                </template>
+                            </el-table-column>
+                            <el-table-column prop="price" label="价格" width="80">
+                            </el-table-column>
+                            <el-table-column prop="num" label="库存" width="80">
+                            </el-table-column>
+                            <el-table-column label="操作">
+                                <template slot-scope="scope">
+                                    <el-button size="small" type="danger" @click="deleteAttrItem(scope.$index)">删除</el-button>
+                                </template>
                             </el-table-column>
                         </el-table>
                             这一块是动态的 跟据不同类型的商品生成不同的规格
-                        <el-form-item label="颜色"  prop="unit_type">
+                        <!-- <el-form-item label="颜色"  prop="unit_type">
                             <el-input v-model="input" placeholder="请输入内容"></el-input>
                             <AttrItem :form-object="attrForm" type="文本"></AttrItem>
                         </el-form-item>
@@ -114,25 +124,25 @@
                         <el-form-item label="尺坟"  prop="unit_type">
                                 <el-input v-model="input" placeholder="请输入内容"></el-input>
                                 <AttrItem :form-object="attrForm" type="图片"></AttrItem>
-                        </el-form-item>
+                        </el-form-item> -->
                             //end of这一块是动态的
                     
                         <el-form-item label="SKU"  prop="unit_type">
-                                <el-input v-model="input" placeholder="请输入内容"></el-input>
+                                <el-input   placeholder="请输入内容"></el-input>
                         </el-form-item>
                     
                         <el-form-item label="价格"  prop="unit_type">
-                                <el-input v-model="input" placeholder="请输入内容"></el-input>
+                                <el-input   placeholder="请输入内容"></el-input>
                         </el-form-item>
                     
                         <el-form-item label="数量"  prop="unit_type">
-                                <el-input v-model="input" placeholder="请输入内容"></el-input>
+                                <el-input   placeholder="请输入内容"></el-input>
                         </el-form-item>
                     
-                        <el-form-item  prop="unit_type">
+                        <el-form-item  >
                             <el-button>添加SKU</el-button>
                         </el-form-item>
-                    </el-tab-pane> -->
+                    </el-tab-pane>
 
                     <el-tab-pane label="商品图片" name="third">
 
@@ -176,9 +186,12 @@ import DialogForm from '../../mix/DialogForm';
 import AttrItem from '../common/AttrFormItem';
 import APP_CONST from '../../config';
 import { quillRedefine } from 'vue-quill-editor-upload';
+import localMix from './mix';
+
+
 export default {
     name: 'Edit',
-    mixins:[DialogForm],
+    mixins:[DialogForm,localMix],
     components: {
         AttrItem,
         quillRedefine,
@@ -219,6 +232,7 @@ export default {
                 id:'',
                 imgs:[],
                 category:[],
+                skus:[],
 
             },
             attrForm:{
@@ -238,10 +252,40 @@ export default {
     methods:{
         onOpen(param){
             this.fileList = [];
-            this.model = param.params.model;
+            
+            let id = param.params.id;
+            // this.model = param.params.model;
             this.UnitTypes = param.params.extra;
-            this.fileList = param.params.fileList;
+            // this.fileList = param.params.fileList;
             // this.urlDomain = param.params.urlDomain;
+
+            this.ajaxProxy.find(id).then((data)=>{
+                let row = data.data;
+                row.del_imgs = [];
+                row.img_path = [];
+                row.cate_id = [];
+                for (let index = 0; index < row.category.length; index++) {
+                    row.cate_id.push(row.category[index].id);
+                }
+                for (let index = 0; index < row.imgs.length; index++) {
+                    this.fileList.push({name:row.imgs[index].url, url:row.imgs[index].full_url});  
+                }
+
+                for (let index = 0; index < row.skus.length; index++) {
+                    const element = row.skus[index];
+                    // console.log(element);
+                    element.attr.forEach(item => {
+                        item.value = item.pivot.value;
+                        item.addon_value = item.pivot.addon_value;
+                    });
+                    
+                }
+
+
+                this.model = row;
+            })
+
+
         },
         handleClick(tab, event) {
             //console.log(tab, event);

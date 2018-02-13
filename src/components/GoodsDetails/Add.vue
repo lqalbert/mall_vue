@@ -187,12 +187,13 @@ import DialogForm from '../../mix/DialogForm';
 import AttrItem from '../common/AttrFormItem';
 import APP_CONST from '../../config';
 import GoodsTypeSelectProxy from '../../packages/GoodsTypeSelectProxy';
+import localMix from './mix';
 
 import { quillRedefine } from 'vue-quill-editor-upload';
 
 export default {
     name: 'Add',
-    mixins:[DialogForm],
+    mixins:[DialogForm,localMix],
     components: {
         AttrItem,
         quillRedefine,
@@ -326,6 +327,7 @@ export default {
                 item.addon_value = "";
             })
             console.log(this._attrForm);
+            this.attrForm = [];
             this.copy(this._attrForm, this.attrForm);
         },
         addSku(){
@@ -341,17 +343,7 @@ export default {
             this.skuForm.price = "";
             this.skuForm.num = "";
         },
-        displayAttr(attr){
-            return attr.map((item)=>{
-                return item.name+":"+item.value
-            }).join("、");
-        },
-        copy(source, target){
-            source.forEach(function(item){
-                this.push(Object.assign({}, item));
-            }, target);
-            return target;
-        },
+        
         deleteAttrItem(index){
             this.addForm.skus.splice(index,1);
         }

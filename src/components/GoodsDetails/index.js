@@ -88,28 +88,29 @@ export default {
                 this.$message.error("请选择正确的时间段");
                 return ;
             }
+            param.with = ['category'];
             this.mainparam = JSON.stringify(param);
         },
         showAdd(){
             this.$modal.show('add-goods-details',{model:this.UnitTypes});
         },
-        showEdit(row){
-            let fileList = [];
-            row.del_imgs = [];
-            row.img_path = [];
-            row.cate_id = [];
+        showEdit(id){
+            // let fileList = [];
+            // row.del_imgs = [];
+            // row.img_path = [];
+            // row.cate_id = [];
             
-            for (let index = 0; index < row.category.length; index++) {
-                row.cate_id.push(row.category[index].id);
-            }
-            for (let index = 0; index < row.imgs.length; index++) {
-                fileList.push({name:row.imgs[index].url, url:row.imgs[index].full_url});  
-            }
+            // for (let index = 0; index < row.category.length; index++) {
+            //     row.cate_id.push(row.category[index].id);
+            // }
+            // for (let index = 0; index < row.imgs.length; index++) {
+            //     fileList.push({name:row.imgs[index].url, url:row.imgs[index].full_url});  
+            // }
 
             this.$modal.show('edit-goods-details', {
-              model: row,
+              id: id,
               extra: this.UnitTypes,
-              fileList: fileList,
+            //   fileList: fileList,
             });
         },
         showSpec(row){
@@ -149,6 +150,8 @@ export default {
         this.$on('search-tool-change', this.onSearchChange);
         this.getCateCascader();
         this.getUnitTypes();
+
+        this.mainparam = JSON.stringify({with:['category']});
         
     },
 

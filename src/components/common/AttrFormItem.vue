@@ -43,7 +43,7 @@
             <template v-else>
                 <el-col :span="10">
                     <el-select v-model="item.value" >
-                        <el-option v-for="attr in item.add_value" :label="attr.value" :key="attr.value" :value="attr.value"></el-option>
+                        <el-option v-for="attri in item.add_value" :label="attri.value" :key="attri.value" :value="attri.value"></el-option>
                     </el-select>
                 </el-col>
             </template>
@@ -90,7 +90,7 @@
             }
         },
         created(){
-            // console.log(this.formObject);
+            console.log(this.formObject);
         }
     }
 </script>

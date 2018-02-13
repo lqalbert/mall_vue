@@ -247,8 +247,6 @@ export default {
          this.$on('refresh-success', this.handleReload);
 
          this.buyorderInit('BuyOrder');
-
-//         let formData = $(this.$el).find('.hello').serialize();
      },
     filters: {
       handleString: function (v) {

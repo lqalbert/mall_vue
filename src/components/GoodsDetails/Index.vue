@@ -101,7 +101,7 @@
                         </template>
                     </el-table-column>
 
-                    <el-table-column  label="操作" align="center" width="200">
+                    <el-table-column  label="操作" align="center" width="140">
                         <template slot-scope="scope">
                             <el-button type="info" size="small" @click="showEdit(scope.row)">编辑</el-button>
                             <el-button type="info" size="small" @click="showSpec(scope.row)">规格</el-button>
@@ -118,6 +118,7 @@
         </el-row>
 
         <Add name='add-goods-details' 
+           
             :ajax-proxy="ajaxProxy"
             :cate-options="cateOptions"
             :upload-url="uploadUrl"

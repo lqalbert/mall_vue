@@ -36,6 +36,20 @@ Vue.mixin(Delete);
 Vue.use(ElementUI);
 
 
+// @todo 过滤器 单独写个文件
+// Vue.filter('capitalize', function (value) {
+//     if (!value) return ''
+//     value = value.toString()
+//     return value.charAt(0).toUpperCase() + value.slice(1)
+// })
+
+Vue.filter('stringSuffix', function(value, length){
+    let len = length ? length : 20;
+    return value.toString().substr(0, len)+"...";
+})
+
+
+
 Vue.config.productionTip = false;
 
 /* eslint-disable no-new */

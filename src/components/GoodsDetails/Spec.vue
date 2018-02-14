@@ -2,7 +2,7 @@
 	<div>
 		<MyDialog title="编辑规格" :name="name" :width="width" :height="height" @before-open="onOpen">
 			<el-form :model="specForm" ref="specForm" :label-width="labelWidth"  :label-position="labelPosition">
-				<el-table :data="specForm.skus">
+				<el-table :data="skulist">
 					<el-table-column type="index" label="序号" width="80">
 					</el-table-column>
 					<el-table-column prop="name" label="sku" width="80">
@@ -17,7 +17,7 @@
 							<el-form label-position="left" inline class="table-expand " >
 								<el-form-item v-for="item in scope.row.attr" :key="item.value" :label="item.name + '：'">
 									<span>{{ item.value }}</span>
-									<img v-if="item.fullurl.length > 1" :src="item.fullurl" width="50" height="50" class="vertical-middle" >
+									<img v-if="item.addon_value && item.addon_value.length > 1" :src="item.addon_value" width="50" height="50" class="vertical-middle" >
 								</el-form-item>
 							</el-form>
 						</template>
@@ -74,9 +74,14 @@
 <script>
 import DialogForm from '../../mix/DialogForm';
 import AttrItem from '../common/AttrFormItem';
+import localMix from './mix';
+import goodsAjax from '../../ajaxProxy/GoodsSku';
+
+
+
 export default {
     name: 'Spec',
-    mixins:[DialogForm],
+    mixins:[DialogForm,localMix],
     components: {
 		AttrItem,
     },
@@ -88,6 +93,7 @@ export default {
             dialogThis:this,
             labelPosition:"right",
 			labelWidth:'80px',
+			skulist:[],
 			specForm:{
 				skus:[],
 			},
@@ -101,6 +107,22 @@ export default {
     },
     methods:{
 		onOpen(param){
+			// model = param.params.model;
+			goodsAjax.get({goods_id:param.params.model.id}).then((data)=>{
+				this.skulist = data.data.items;
+
+				for (let index = 0; index < this.skulist.length; index++) {
+                    const element = this.skulist[index];
+                    // console.log(element);
+                    element.attr.forEach(item => {
+                        item.value = item.pivot.value;
+                        item.addon_value = item.pivot.addon_value;
+                    });
+                    
+				}
+				console.log(this.skulist);
+
+			});
 
 		},
 		getAjaxPromise(model){

@@ -315,21 +315,7 @@ export default {
         resetEditContent(){
             this.editContent = '';
         },
-        loadGoodsAttr(data){
-            if (data.specs) {
-                data.specs.forEach(element => {
-                    element.value = "";
-                });
-            }
-            this._attrForm = data.specs;
-            this._attrForm.forEach(function(item){
-                item.fullurl = "";
-                item.addon_value = "";
-            })
-            console.log(this._attrForm);
-            this.attrForm = [];
-            this.copy(this._attrForm, this.attrForm);
-        },
+        
         addSku(){
             // console.log(this.attrForm);
             // this.skuForm.attr  = this.attrForm.concat(); //concat 一个空的数组 返回一个新数组;

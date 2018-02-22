@@ -1,8 +1,8 @@
 <template>
 	<div>
-		<MyDialog title="编辑规格" :name="name" :width="width" :height="height" @before-open="onOpen">
-			<el-form :model="specForm" ref="specForm" :label-width="labelWidth"  :label-position="labelPosition">
-				<el-table :data="skulist">
+		<MyDialog title="编辑规格" :name="name" :width="width" :height="height" @before-open="onOpen" @before-close="onClose">
+			<el-form :model="skuForm" ref="skuForm" :label-width="labelWidth"  :label-position="labelPosition">
+				<el-table :data="skulist" @row-click="handRowClick">
 					<el-table-column type="index" label="序号" width="80">
 					</el-table-column>
 					<el-table-column prop="name" label="sku" width="80">
@@ -28,12 +28,13 @@
 					</el-table-column>
 					<el-table-column label="操作">
 						<template slot-scope="scope">
-							<el-button size="small" type="danger" @click="deleteAttrItem(scope.$index)">删除</el-button>
+							<!-- <el-button size="small" type="danger" @click="deleteAttrItem(scope.$index)">删除</el-button> -->
+							<el-button type="danger" size="small" @click="handleDelete(scope.row.id)">删除</el-button>
 						</template>
 					</el-table-column>
 				</el-table>
 				<br>
-
+				<el-button @click="resetSkuForm">添加</el-button>
 				<AttrItem :form-object="attrForm"></AttrItem>
 			
 				<el-form-item label="SKU"  prop="name">
@@ -55,33 +56,36 @@
 				</el-form-item>
 			
 				<el-form-item>
-					<el-button @click="addSku">添加SKU</el-button>
+					<el-button @click="addSku">{{ button_label }}</el-button>
 				</el-form-item>
 			</el-form>
 
 			<div slot="dialog-foot" class="dialog-footer">
-                <el-button @click="handleClose">取 消</el-button>
-                <submit-button 
-                    @click="beforeFormSubmit('specForm')"
-                    :observer="dialogThis">
-                    保 存
-                </submit-button>
+                <el-button @click="handleClose">关 闭</el-button>
             </div>
 		</MyDialog>
 	</div>
 </template>
 
 <script>
-import DialogForm from '../../mix/DialogForm';
+	// todo 改造成 TableProxy
+// import DialogForm from '../../mix/DialogForm';
+
+import FormMix from '../../mix/Form';
+import Dialog from '../../mix/Dialog';
 import AttrItem from '../common/AttrFormItem';
 import localMix from './mix';
-import goodsAjax from '../../ajaxProxy/GoodsSku';
+import goodsSkuAjax from '../../ajaxProxy/GoodsSku';
+import GoodsTypeSelectProxy from '../../packages/GoodsTypeSelectProxy';
 
+
+const SET_BUTTON_LABLE_ADD  = '添加SKU';
+const SET_BUTTON_LABLE_EDIT = '编辑SKU';
 
 
 export default {
     name: 'Spec',
-    mixins:[DialogForm,localMix],
+    mixins:[FormMix,Dialog,localMix],
     components: {
 		AttrItem,
     },
@@ -94,21 +98,81 @@ export default {
             labelPosition:"right",
 			labelWidth:'80px',
 			skulist:[],
-			specForm:{
-				skus:[],
-			},
+			// specForm:{
+			// 	name:"",
+            //     price:"",
+            //     num:""
+			// },
 			attrForm:[],
 			skuForm:{
                 name:"",
                 price:"",
-                num:""
-            },
+				num:"",
+				goods_id:""
+			},
+			
+			button_label:SET_BUTTON_LABLE_ADD
 		}
     },
     methods:{
 		onOpen(param){
 			// model = param.params.model;
-			goodsAjax.get({goods_id:param.params.model.id}).then((data)=>{
+			this.goods_id = param.params.model.id;
+			this.reloadData();
+
+			this.goodsTypeProxy.setParam({id:1}).find();
+
+		},
+		getAjaxPromise(model){
+			//console.log(model);
+			//return this.ajaxProxy.update(model.id, model);
+			if(model.id){
+                return goodsSkuAjax.update(model.id, model);
+            }else  {
+                return goodsSkuAjax.create(model);
+            }
+		},
+		getAjaxProxy(){
+			return goodsSkuAjax;
+		},
+		addSku(){
+            // console.log(this.attrForm);
+            // this.skuForm.attr  = this.attrForm.concat(); //concat 一个空的数组 返回一个新数组;
+            this.skuForm.attr = [];
+			this.copy(this.attrForm, this.skuForm.attr);
+			
+			this.skuForm.goods_id = this.goods_id;
+			this.formSubmit('skuForm');
+            // let obj = Object.assign({}, this.skuForm);
+			// this.specForm.skus.push(obj);
+			// obj.goods_id = this.goods_id;
+			// console.log(obj);
+
+
+            // this.attrForm = [];
+            // this.copy(this._attrForm, this.attrForm);
+            // this.skuForm.name = "";
+            // this.skuForm.price = "";
+            // this.skuForm.num = "";
+		},
+        deleteAttrItem(index){
+            this.addForm.skus.splice(index,1);
+		},
+		onClose(){
+			this.skulist = [];
+		},
+		resetSkuForm(){
+			this.attrForm = [];
+            this.copy(this._attrForm, this.attrForm);
+            this.skuForm.name = "";
+            this.skuForm.price = "";
+			this.skuForm.num = "";
+			delete this.skuForm.id;
+
+			this.button_label = SET_BUTTON_LABLE_ADD;
+		},
+		reloadData(){
+			goodsSkuAjax.get({goods_id:this.goods_id}).then((data)=>{
 				this.skulist = data.data.items;
 
 				for (let index = 0; index < this.skulist.length; index++) {
@@ -120,42 +184,40 @@ export default {
                     });
                     
 				}
-				console.log(this.skulist);
+				// console.log(this.skulist);
 
 			});
+		},
+		handleReload(){
+			this.reloadData();
+		},
+		handRowClick(row, event, column){
+			this.button_label = SET_BUTTON_LABLE_EDIT;
 
-		},
-		getAjaxPromise(model){
-			//console.log(model);
-			//return this.ajaxProxy.update(model.id, model);
-		},
-		addSku(){
-            // console.log(this.attrForm);
-            // this.skuForm.attr  = this.attrForm.concat(); //concat 一个空的数组 返回一个新数组;
-            this.skuForm.attr = [];
-            this.copy(this.attrForm, this.skuForm.attr);
-            let obj = Object.assign({}, this.skuForm);
-            this.specForm.skus.push(obj);
-            this.attrForm = [];
-            this.copy(this._attrForm, this.attrForm);
-            this.skuForm.name = "";
-            this.skuForm.price = "";
-            this.skuForm.num = "";
-        },
-        copy(source, target){
-            source.forEach(function(item){
-                this.push(Object.assign({}, item));
-            }, target);
-            return target;
-		},
-		displayAttr(attr){
-            return attr.map((item)=>{
-                return item.name+":"+item.value
-            }).join("、");
-        },
-        deleteAttrItem(index){
-            this.addForm.skus.splice(index,1);
-        }
-    }
+			// console.log(row);
+
+			this.skuForm.name  = row.name;
+            this.skuForm.price = row.price;
+			this.skuForm.num   = row.num;
+			this.skuForm.id    = row.id;
+
+			this.attrForm = [];
+
+			row.attr.forEach(item => {
+				item.value = item.pivot.value;
+				if (item.pivot.addon_value) {
+					item.addon_value = item.pivot.addon_value;
+					item.fullurl = item.pivot.addon_value;
+				}
+			});
+			this.attrForm = row.attr;    
+		}
+	},
+	created(){
+		this.goodsTypeProxy  = new GoodsTypeSelectProxy({}, this.loadGoodsAttr, this);
+
+		this.$on('submit-success', this.resetSkuForm);
+		this.$on('submit-success', this.reloadData);
+	}
 }
 </script>

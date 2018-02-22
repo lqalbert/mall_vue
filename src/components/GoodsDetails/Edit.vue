@@ -212,6 +212,18 @@ export default {
                 for (let index = 0; index < row.imgs.length; index++) {
                     this.fileList.push({name:row.imgs[index].url, url:row.imgs[index].full_url});  
                 }
+
+                for (let index = 0; index < row.skus.length; index++) {
+                    const element = row.skus[index];
+                    // console.log(element);
+                    element.attr.forEach(item => {
+                        item.value = item.pivot.value;
+                        item.addon_value = item.pivot.addon_value;
+                    });
+                    
+                }
+
+
                 this.model = row;
             })
 

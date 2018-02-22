@@ -133,8 +133,7 @@
         </Edit>
 
         <Spec name='edit-goods-spec' 
-            :ajax-proxy="ajaxProxy"
-             @submit-success="handleReload">
+            :ajax-proxy="ajaxProxy">
         </Spec>
     </div>
 </template>

@@ -2,13 +2,13 @@
     <div >
         <MyDialog title="添加订单" :name="name" :width="width" :height="height" @before-open="onOpen">
             <br>
-            <el-steps :space="400" :active="active" finish-status="success">
+            <el-steps :space="250" :active="active" finish-status="success">
                 <el-step title="添加商品"></el-step>
                 <el-step title="选择收货地址"></el-step>
                 <el-step title="确认订单"></el-step>
             </el-steps>
             <el-form ref="addOrderForm" :model="addOrderForm" :label-width="labelWidth"   :label-position="labelPosition"  label-width="140px">
-                <div v-show="this.active==0">
+                <div v-show="active==0">
                     <el-table
                             border
                             :data="orderData"
@@ -48,6 +48,7 @@
                         <el-col :span="12">
                             <el-form-item prop="goods_number" label="商品数量">
                                 <el-input-number size="small" :min="1" v-model="goods_number" ></el-input-number>
+                                <span>这里显示库存 改成红色字 如果数量不够要提示</span>
                             </el-form-item>
                         </el-col>
                         <el-col :span="12">
@@ -59,7 +60,7 @@
                     <el-button @click="addOrder" type="primary" class="right" >添 加</el-button>
                 </div>
                 <br>
-                <div v-show="this.active==1">
+                <div v-show="active==1">
                     <el-row>
                         <el-col :span="12">
                             <el-form-item prop="deal_id" label="请选择成交员工">
@@ -91,7 +92,7 @@
 
                 </div>
                 <br>
-                <div v-show="this.active==2">
+                <div v-show="active==2">
                     <el-table
                             border
                             :data="orderData"
@@ -104,7 +105,7 @@
                         <el-table-column prop="remark" label="备注"></el-table-column>
                     </el-table>
                     <br>
-                    <h3> <span>商品总金额:{{this.totalMoney}}</span></h3>
+                    <h3> <span>商品总金额:{{ totalMoney }}</span></h3>
                     <br>
                     <el-table
                             border
@@ -128,8 +129,8 @@
                 </div>
             </el-form>
             <br>
-            <el-button  style="margin-top: 12px;" v-show="this.active>0" @click="last">上一步</el-button>
-            <el-button  style="margin-top: 12px;" v-show="this.active<2" @click="next">下一步</el-button>
+            <el-button  style="margin-top: 12px;" v-show="active>0" @click="last">上一步</el-button>
+            <el-button  style="margin-top: 12px;" v-show="active<2" @click="next">下一步</el-button>
         </MyDialog>
     </div>
 </template>
@@ -138,6 +139,7 @@
     import DialogForm from '../../mix/DialogForm';
     import DataProxy from '../../packages/DataProxy';
     import SelectProxy from  '../../packages/SelectProxy';
+    import GoodsSelectProxy from '../../packages/GoodsSelectProxy';
 
     import APP_CONST from '../../config';
     import { mapGetters, mapMutations } from 'vuex';
@@ -332,13 +334,19 @@
                 if (this.active++ > 1) this.active = 2;
             },
             categoryChange(cate_id){
-                let orderDataProxy = new DataProxy('/goodsdetails',this.pageSize,this.getOrderData, this);
-                this.orderDataProxy = orderDataProxy;
-                let cates = {cate_id:cate_id};
-                this.orderDataProxy.setExtraParam(cates);
-                this.orderDataProxy.load();
+                // let orderDataProxy = new DataProxy('/goodsdetails',this.pageSize,this.getOrderData, this);
+                // this.orderDataProxy = orderDataProxy;
+                // let cates = {cate_id:cate_id};
+                // this.orderDataProxy.setExtraParam(cates);
+                // this.orderDataProxy.load();
+                this.goodsProxy.setParam({
+                    cate_id:cate_id,
+                    with:['skus'],
+                    fields:['id','goods_name','goods_price','goods_number']
+                }).load();
             },
             getOrderData(data) {
+                //处理函数改成loadGoods
                 this.goods=data.items;
                 this.goodsInfoData=data.goods;
             },
@@ -356,10 +364,56 @@
                 this.usersListData=data.users;
             },
 
+
+
+            /**
+             *  转成 key : {goods_id:xx, price:xxx, name:xxxx, num:xxx, sku_id:xxx, sku:xxx}
+             *  这样的格式
+             *  key 建议生成这样的格式 goods_id_xx_sku_id_xx 如果没有sku 那就这样sku_id_0
+             *  例子：
+             *  {
+             *      goods_id_xx_sku_id_xx:{goods_id:xx, price:xxx, goods_name:xxxx, num:xxx, sku_id:xxx, sku_name:xxx},
+             *      goods_id_xx_sku_id_xx:{goods_id:xx, price:xxx, goods_name:xxxx, num:xxx, sku_id:xxx, sku_name:xxx}
+             *  }
+             *  商品名称那里（下拉选择项）
+             *  生成如下格式
+             *  1、商品名称-价格（没有sku的）
+             *  2、商品名称-sku名称-价格
+             * 
+             *  商品数量 那里 显示存库
+             *  添加商品时 要把商品的规格、sku_id 保存（没有sku就不用保存）。
+             *  
+             *  data 的格式为,字段不完全
+             *  items:[
+             *      //商品的基本信息
+             *      {  goods_id:xxx .... 
+             *      // 同一款商品的不同型号（不同规格）
+             *         sku:[
+             *              {  id:xx, 
+             *                 name:xxx,
+             *                 price:xxx,
+             *                 num:xxx,  
+             *                 // attr 是规格数组 每一个规格的值在 pivot里的value  
+             *                 attr:[{ id:xx,name:xxx,   pivot:{value:xx,addon_value:xx}}] 
+             *              },...  
+             *             ]
+             *       },...
+             *  ]
+             *  
+             */
+            loadGoods(data){
+                console.log(data);
+                
+            }
+
+
         },
         created(){
             let userDataProxy = new DataProxy('/employees',this.pageSize,this.getUsersData, this);
             userDataProxy.load();
+
+
+            this.goodsProxy = new GoodsSelectProxy({}, this.loadGoods, this);
 
         }
 

@@ -49,7 +49,7 @@
                         vmThis.$message.error(data.msg);
                         return ;
                     }
-                    console.log(data.data);
+                    // console.log(data.data);
                     vmThis.loginUser(data.data)
                 }).catch(function(data){
                     vmThis.$message.error(data);

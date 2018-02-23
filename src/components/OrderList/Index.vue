@@ -4,6 +4,7 @@
             <el-form :inline="true" ref="searchForm" :model="searchForm">
                 <el-form-item prop="value7" >
                     <el-date-picker
+                            size="small"
                             v-model="value7"
                             type="daterange"
                             align="right"
@@ -29,11 +30,18 @@
                     <el-input size="small" v-model="searchForm.consignee" placeholder="请输入客户名称"></el-input>
                 </el-form-item>
 
+                <el-form-item prop="id">
+                    <el-input size="small" v-model="searchForm.id" placeholder="请输入订单编号"></el-input>
+                </el-form-item>
+                
 
+                <el-form-item label-width="5px">
+                    <el-button type="info" size="small" icon="search"  @click="searchToolChange('searchForm')">查询</el-button>
+                    <el-tooltip content="清空搜索条件" placement="bottom-start" style="margin-left:10px;">
+                        <el-button  size="small" @click="show_all" type="warning">重置</el-button>
+                    </el-tooltip>
+                </el-form-item>
 
-                <!--<el-form-item prop="id">-->
-                <!--<el-input size="small" v-model="searchForm.id" placeholder="请输入订单编号"></el-input>-->
-                <!--</el-form-item>-->
                 <br>
                 <el-form-item prop="type">
                     <el-button size="small" @click="show_all"         type="info" >全部</el-button>
@@ -45,16 +53,6 @@
                     <el-button size="small" @click="typesearch('2')"        type="info" >已完成</el-button>
                     <el-button size="small" @click="typesearch('3')"      type="info" >已关闭</el-button>
                     <el-button size="small" @click="typesearch('4')"      type="info" >退款中</el-button>
-                </el-form-item>
-
-                <el-form-item label-width="5px">
-                    <el-button type="info" size="small" icon="search"  @click="searchToolChange('searchForm')">查询</el-button>
-                    <el-tooltip content="清空搜索条件" placement="bottom-start" style="margin-left:10px;">
-                        <el-button  size="small" @click="show_all" type="warning">重置</el-button>
-                    </el-tooltip>
-                    <el-tooltip content="点击刷新当前页面" placement="right" style="margin-left:10px;">
-                        <el-button  size="small" @click="refresh" type="danger" >刷新</el-button>
-                    </el-tooltip>
                 </el-form-item>
 
             </el-form>
@@ -609,7 +607,7 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-    .el-form-item {
+    /* .el-form-item {
         margin-bottom: 2px;
-    }
+    } */
 </style>

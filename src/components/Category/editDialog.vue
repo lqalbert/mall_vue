@@ -1,6 +1,6 @@
 <template>
     <div >
-        <MyDialog title="添加" :name="name" :width="width" :height="height">
+        <MyDialog title="编辑" :name="name" :width="width" :height="height" @before-open="onOpen">
             <el-form :model="editForm"  ref="editForm" :rules="rules" :label-width="labelWidth"   :label-position="labelPosition">
                 <el-row>
                     <el-col :span="12">
@@ -29,11 +29,13 @@
                             </el-select>
                         </el-form-item>
                     </el-col>
-                    <!-- <el-col :span="12">
-                        <el-form-item label="商品类型">
-
+                    <el-col :span="12">
+                        <el-form-item label="商品类型" prop="type_id">
+                            <el-select   v-model="editForm.type_id">
+                                <el-option v-for="v in goodsTypeList" :value="v.id" :label="v.name" :key="v.id"></el-option>
+                            </el-select>
                         </el-form-item>
-                    </el-col> -->
+                    </el-col>
 
                 </el-row>
             </el-form>
@@ -66,33 +68,52 @@
                 showPid:false,
                 url:'/categorys',
                 Categorys:'',
+                goodsTypeListUrl:'/goodstypelist',
+                goodsTypeList:[],
                 levels:[
-                    {level:'1',label:'顶级'},
-                    {level:'2',label:'二级'},
-                    {level:'3',label:'三级'},
+                    {level:1,label:'顶级'},
+                    {level:2,label:'二级'},
+                    {level:3,label:'三级'},
                 ],
                 rules:{
                     label: [
                         { required: true, message: '请输入分类名称', trigger: 'blur' },
                     ],
                     level: [
-                        { required: true, message: '请选择分类级别', trigger: 'blur' },
+                        { required: true, message: '请选择分类级别', trigger: 'blur',type: 'number', },
                     ],
                     pid: [
                         { required: true , message: '请选择上级名称',type: 'number', },
                     ],
+                    type_id: [
+                        { required: true , message: '请选择商品类型',type: 'number', },
+                    ],
                 },
                 editForm:{
+                    id:'',
                     label:"",
                     pid:'',
-                    level:''
+                    level:'',
+                    type_id:''
                 },
-
+                model:''
 
             }
         },
 
         methods:{
+            onOpen(param){
+                this.model = param.params.model;
+                this.categoryChange(this.model.level)
+            },
+            getGoodsTypeList:function(){
+                let categoryProxy = new DataProxy(this.goodsTypeListUrl, this.pageSize, this.goodsTypeListDataLoaded, this,);
+                categoryProxy.load();
+
+            },
+            goodsTypeListDataLoaded(data){
+                this.goodsTypeList = data.items;
+            },
             getData:function (lel) {
                 let categoryProxy = new DataProxy(this.url+'/'+lel,this.pageSize,this.levelLoaded, this,);
                 categoryProxy.load();
@@ -110,11 +131,24 @@
                     v = v-1;
                 }
                 this.getData(v)
-            }, getAjaxPromise(model){
-                return this.ajaxProxy.create(model);
+            },
+            getAjaxPromise(model){
+                return this.ajaxProxy.update(model.id, model);
             },
 
         },
+        watch:{
+            model:function(val, oldVal){
+                for (const key in this.editForm) {
+                    if (this.editForm.hasOwnProperty(key)) {
+                        this.editForm[key] = val[key]
+                    }
+                }
+            }
+        },
+        created(){
+            this.getGoodsTypeList();
+        }
     }
 </script>
 

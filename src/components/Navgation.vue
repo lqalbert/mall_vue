@@ -20,6 +20,13 @@ export default {
     return {
       nav:[
         {
+          text:"我的工作台",
+          icon:null,
+          subNav:[
+            {text:'我的工作台', index:"Workbench"},
+          ]
+        },
+          {
           text:"商品管理",
           icon:null,
           subNav:[

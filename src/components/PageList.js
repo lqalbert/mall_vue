@@ -25,6 +25,7 @@ const PageList = {
     'Articles':(resolve)=>{ require(['./Article/Index.vue'], resolve)},
     'SkinCareInfo':(resolve)=>{ require(['./SkinCareInfo/Index.vue'], resolve)},
     'Connection': (resolve) => { require(['./Connection/Index.vue'], resolve)},
+    'Workbench': (resolve) => { require(['./Workbench/Index.vue'], resolve)},
 
 };
 

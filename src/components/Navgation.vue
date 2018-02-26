@@ -24,6 +24,9 @@ export default {
           icon:null,
           subNav:[
             {text:'我的工作台', index:"Workbench"},
+            {text:'系统公告', index:"SysNotice"},
+            {text:'重要联系人', index:"Contacts"},
+            {text:'常用网址', index:"Website"},
           ]
         },
           {

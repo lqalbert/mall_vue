@@ -1,17 +1,17 @@
 <template>
     <div >
-        <MyDialog title="退款审核" :name="name" :width="width" :height="height" @before-open="onOpen">
+        <MyDialog title="换货审核" :name="name" :width="width" :height="height" @before-open="onOpen">
             <el-form :model="checkForm" ref="checkForm" :label-width="labelWidth" :label-position="labelPosition">
                 <el-row>
                     <el-col :span="12">
                         <el-form-item  label="是否通过">
-                            <el-select size="small" placeholder="是否通过" v-model="checkForm.refund_check">
+                            <el-select size="small" placeholder="是否通过" v-model="checkForm.exchange_check">
                                 <el-option
                                         v-for="check in c_status"
                                         :label="check.status"
                                         :value="check.id"
                                         :key="check.id"></el-option>
-                          </el-select>
+                            </el-select>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -34,7 +34,7 @@
         name: 'checkDialog',
         mixins:[DialogForm],
         props:{
-            
+
         },
         ajaxProxy:{
             required:true,
@@ -83,7 +83,7 @@
                 this.checkForm.into_time = v;
             },
             onOpen(event){
-              this.checkForm = event.params.row;
+                this.checkForm = event.params.row;
             },
             getAjaxPromise(model){
                 delete model.cus_name;

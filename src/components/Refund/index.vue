@@ -120,7 +120,7 @@
                     <el-table-column  fixed="right" label="操作" align="center" width="200">
                         <template slot-scope="scope">
                             <el-button type="warning" size="small" @click="handleCheck(scope.row)">退款审核</el-button>
-                            <el-button type="warning" size="small" @click="">换货审核</el-button>
+                            <el-button type="warning" size="small" @click="exchangeCheck(scope.row)">换货审核</el-button>
                             <!--<el-button type="danger" @click="handleDelete(scope.row.id)" size="small">删除</el-button>-->
                         </template>
                     </el-table-column>
@@ -131,6 +131,7 @@
 
 
         <checkDialog name="check" :ajax-proxy="orderBasicAjaxProxy"/>
+        <exchangeDialog name="exchange" :ajax-proxy="orderBasicAjaxProxy"/>
     </div>
 
 </template>
@@ -154,12 +155,13 @@
     import SearchTool from "../../mix/SearchTool";
 
     import checkDialog from "./check";
+    import exchangeDialog from "./exchange";
     export default {
         name: 'Refund',
         pageTitle:"订单详情",
         mixins: [PageMix,SearchTool,DataTable,config,OrderlistAjaxProxy],
         components:{
-            checkDialog
+            checkDialog,exchangeDialog
         },
         data () {
             return {
@@ -232,6 +234,9 @@
         methods:{
             handleCheck(row){
                 this.$modal.show('check',{row:row});
+            },
+            exchangeCheck(row){
+                this.$modal.show('exchange',{row:row});
             },
             refresh(){
                 this.$emit('refresh-success');

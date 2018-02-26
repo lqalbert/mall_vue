@@ -83,6 +83,7 @@
                             <span v-else-if="scope.row.order_status==2">已完成</span>
                             <span v-else-if="scope.row.order_status==3">已关闭</span>
                             <span v-else-if="scope.row.order_status==4">退货中</span>
+                            <span v-else-if="scope.row.order_status==5">换货中</span>
                         </template>
                     </el-table-column>
                     <el-table-column prop="shipping_status" label="发货状态" align="center" width="100">
@@ -118,7 +119,8 @@
                     </el-table-column>
                     <el-table-column  fixed="right" label="操作" align="center" width="200">
                         <template slot-scope="scope">
-                            <el-button type="warning" size="small" @click="handleCheck(scope.row)">审核</el-button>
+                            <el-button type="warning" size="small" @click="handleCheck(scope.row)">退款审核</el-button>
+                            <el-button type="warning" size="small" @click="">换货审核</el-button>
                             <!--<el-button type="danger" @click="handleDelete(scope.row.id)" size="small">删除</el-button>-->
                         </template>
                     </el-table-column>

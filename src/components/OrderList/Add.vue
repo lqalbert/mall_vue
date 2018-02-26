@@ -193,22 +193,31 @@
         },
         methods:{
             addOrder(){
-                let moneyNotes =parseInt(this.goodsInfoData[this.goods_id].goods_price) * parseInt(this.goods_number);
-                let addData ={
-                    goods_id:this.goods_id,
-                    goods_name:this.goodsInfoData[this.goods_id].goods_name,
-                    price:this.goodsInfoData[this.goods_id].goods_price,
-                    goods_number:this.goods_number,
-                    remark:this.remark,
-                    moneyNotes:moneyNotes,
-                };
-                this.totalMoney += moneyNotes;
-                this.orderData.push(addData);
-                this.goodsIds.push(this.goods_id);
-                this.$refs.addOrderForm.resetFields();
-                this.dev=[];
-                this.remark='';
-                this.goods_number='';
+
+                var j;
+                for(j = 0; j <= this.goodsInfoData.length; j++) {
+                    if(this.goodsInfoData[j]['id']==this.goods_id)
+                    {
+                        let moneyNotes =parseInt(this.goodsInfoData[j].goods_price) * parseInt(this.goods_number);
+                        let addData ={
+                            goods_id:this.goods_id,
+                            goods_name:this.goodsInfoData[j].goods_name,
+                            price:this.goodsInfoData[j].goods_price,
+                            goods_number:this.goods_number,
+                            remark:this.remark,
+                            moneyNotes:moneyNotes,
+                        };
+                        this.totalMoney += moneyNotes;
+                        this.orderData.push(addData);
+                        this.goodsIds.push(this.goods_id);
+                        this.$refs.addOrderForm.resetFields();
+                        this.dev=[];
+                        this.remark='';
+                        this.goods_number='';
+                    }
+                }
+
+
             },
             customerChange(cus_id){
                 this.cus_id = cus_id;
@@ -341,7 +350,7 @@
             },
             getOrderData(data) {
                 this.goods=data.items;
-                this.goodsInfoData=data.goods;
+                this.goodsInfoData=data.items;
             },
             getAddress(cus_id){
                 let selectProxy = new SelectProxy('/deliveryaddress?cus_id='+cus_id, this.getAddressData, this);
@@ -358,7 +367,7 @@
             },
         },
         created(){
-            let orderDataProxy = new DataProxy('/users',this.pageSize,this.getUsersData, this);
+            let orderDataProxy = new DataProxy('/employees',this.pageSize,this.getUsersData, this);
             this.orderDataProxy = orderDataProxy;
             this.orderDataProxy.load();
         }

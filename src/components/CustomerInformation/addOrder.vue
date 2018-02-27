@@ -306,7 +306,7 @@
             },
             onOpen(param){
                 this.deal_id=this.user_id;
-                this.cus_id = param.params.model.cus_id;
+                this.cus_id = param.params.model.contacts[0].cus_id;
                 this.id = param.params.model.id;
                 this.getAddress(this.cus_id);
             },

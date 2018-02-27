@@ -29,11 +29,13 @@
                             </el-select>
                         </el-form-item>
                     </el-col>
-                    <!-- <el-col :span="12">
-                        <el-form-item label="商品类型">
-
+                    <el-col :span="12">
+                        <el-form-item label="商品类型" prop="type_id">
+                            <el-select   v-model="addForm.type_id">
+                                <el-option v-for="v in goodsTypeList" :value="v.id" :label="v.name" :key="v.id"></el-option>
+                            </el-select>
                         </el-form-item>
-                    </el-col> -->
+                    </el-col>
 
                 </el-row>
             </el-form>
@@ -65,27 +67,33 @@
                 showLevel:false,
                 showPid:false,
                 url:'/categorys',
+                goodsTypeListUrl:'/goodstypelist',
                 Categorys:'',
+                goodsTypeList:[],
                 levels:[
-                    {level:'1',label:'顶级'},
-                    {level:'2',label:'二级'},
-                    {level:'3',label:'三级'},
+                    {level:1,label:'顶级'},
+                    {level:2,label:'二级'},
+                    {level:3,label:'三级'},
                 ],
                 rules:{
                     label: [
                         { required: true, message: '请输入分类名称', trigger: 'blur' },
                     ],
                     level: [
-                        { required: true, message: '请选择分类级别', trigger: 'blur' },
+                        { required: true, message: '请选择分类级别', trigger: 'blur' ,type: 'number',},
                     ],
                     pid: [
                         { required: true , message: '请选择上级名称',type: 'number', },
+                    ],
+                    type_id: [
+                        { required: true , message: '请选择商品类型',type: 'number', },
                     ],
                 },
                 addForm:{
                     label:"",
                     pid:'',
-                    level:''
+                    level:'',
+                    type_id:''
                 },
 
 
@@ -93,6 +101,14 @@
         },
 
         methods:{
+            getGoodsTypeList:function(){
+                let categoryProxy = new DataProxy(this.goodsTypeListUrl, this.pageSize, this.goodsTypeListDataLoaded, this,);
+                categoryProxy.load();
+
+            },
+            goodsTypeListDataLoaded(data){
+                 this.goodsTypeList = data.items;
+            },
             getData:function (lel) {
                  let categoryProxy = new DataProxy(this.url+'/'+lel,this.pageSize,this.levelLoaded, this,);
                    categoryProxy.load();
@@ -115,6 +131,9 @@
             },
 
         },
+        created(){
+            this.getGoodsTypeList();
+        }
     }
 </script>
 

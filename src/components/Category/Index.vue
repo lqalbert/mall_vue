@@ -102,9 +102,9 @@
             dataLoaded(data){
                  this.data = data.items;
             },
+
             editFun(data){
-                console.log(11111)
-                this.$modal.show('edit-category')
+                this.$modal.show('edit-category',{model:data})
 
             },
             getRes:function(){
@@ -112,6 +112,7 @@
                  categoryProxy.load();
 
             },
+
             filterNode(value, data) {
                 if (!value) return true;
                 return data.label.indexOf(value) !== -1;
@@ -129,7 +130,7 @@
                     <span>{node.label}</span>
                    </span>
                 <span style="float: right; margin-right: 20px">
-                    <el-button size="mini" type="danger" on-click={ () => this.editFun(data.id) }>编 辑</el-button>
+                    <el-button size="mini" type="success" on-click={ () => this.editFun(data) }>编 辑</el-button>
                     <el-button size="mini" type="danger" on-click={ () => this.deleteData(data.id) }>删除分类</el-button>
                 </span>
                 </span>);
@@ -142,6 +143,7 @@
         },
         created(){
            this.getRes();
+
         }
 
 

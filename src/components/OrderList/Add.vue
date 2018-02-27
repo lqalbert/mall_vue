@@ -195,7 +195,7 @@
             addOrder(){
 
                 var j;
-                for(j = 0; j <= this.goodsInfoData.length; j++) {
+                for(j = 0; j < this.goodsInfoData.length; j++) {
                     if(this.goodsInfoData[j]['id']==this.goods_id)
                     {
                         let moneyNotes =parseInt(this.goodsInfoData[j].goods_price) * parseInt(this.goods_number);
@@ -227,9 +227,15 @@
                 this.goods_id=goods_id;
             },
             userChange(deal_id){
-
                 this.deal_id=deal_id;
-                this.deal_name=this.usersListData[this.deal_id].realname;
+                var i = 0;
+                for(i=0;i<this.users.length;i++)
+                {
+                    if(this.users[i]['id']==this.deal_id)
+                    {
+                        this.deal_name=this.users[i]['realname'];
+                    }
+                }
                 this.addressList=[];
                 let data={
                     name : this.addressListData[this.address_id].name,
@@ -238,7 +244,6 @@
                     deal_name:this.deal_name
                 };
                 this.addressList.push(data);
-                console.log(addressList)
             },
             addressChange(address_id){
                 this.address_id=address_id;
@@ -357,7 +362,6 @@
                 selectProxy.load();
             },
             getAddressData(data){
-                console.log(data)
                 this.address=data.items;
                 this.addressListData=data.address;
             },

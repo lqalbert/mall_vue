@@ -35,17 +35,17 @@
                 <!--<el-input size="small" v-model="searchForm.id" placeholder="请输入订单编号"></el-input>-->
                 <!--</el-form-item>-->
                 <br>
-                <el-form-item prop="type">
-                    <el-button size="small" @click="show_all"         type="info" >全部</el-button>
-                    <el-button size="small" @click="typesearch('0')"  type="info" >待付款</el-button>
-                    <el-button size="small" @click="typesearch('1')"  type="info" >待确认</el-button>
-                    <el-button size="small" @click="delivesearch('0')" type="info" >待发货</el-button>
-                    <el-button size="small" @click="delivesearch('1')"   type="info" >已发货</el-button>
-                    <el-button size="small" @click="delivesearch('2')"    type="info" >已收货</el-button>
-                    <el-button size="small" @click="typesearch('2')"        type="info" >已完成</el-button>
-                    <el-button size="small" @click="typesearch('3')"      type="info" >已关闭</el-button>
-                    <el-button size="small" @click="typesearch('4')"      type="info" >退款中</el-button>
-                </el-form-item>
+                <!--<el-form-item prop="type">-->
+                    <!--<el-button size="small" @click="show_all"         type="info" >全部</el-button>-->
+                    <!--<el-button size="small" @click="typesearch('0')"  type="info" >待付款</el-button>-->
+                    <!--<el-button size="small" @click="typesearch('1')"  type="info" >待确认</el-button>-->
+                    <!--<el-button size="small" @click="delivesearch('0')" type="info" >待发货</el-button>-->
+                    <!--<el-button size="small" @click="delivesearch('1')"   type="info" >已发货</el-button>-->
+                    <!--<el-button size="small" @click="delivesearch('2')"    type="info" >已收货</el-button>-->
+                    <!--<el-button size="small" @click="typesearch('2')"        type="info" >已完成</el-button>-->
+                    <!--<el-button size="small" @click="typesearch('3')"      type="info" >已关闭</el-button>-->
+                    <!--<el-button size="small" @click="typesearch('4')"      type="info" >退款中</el-button>-->
+                <!--</el-form-item>-->
 
                 <el-form-item label-width="5px">
                     <el-button type="info" size="small" icon="search"  @click="searchToolChange('searchForm')">查询</el-button>
@@ -107,6 +107,13 @@
                             <span v-else-if="scope.row.refund_check==2">未通过</span>
                         </template>
                     </el-table-column>
+                    <el-table-column prop="refund_check" label="换货审核" align="center" width="100">
+                        <template slot-scope="scope">
+                            <span v-if="scope.row.exchange_check==0">未审核</span>
+                            <span v-else-if="scope.row.exchange_check==1" >通过</span>
+                            <span v-else-if="scope.row.exchange_check==2">未通过</span>
+                        </template>
+                    </el-table-column>
                     <el-table-column prop="refund_status" label="退款状态" align="center" width="100">
                         <template slot-scope="scope">
                             <span v-if="scope.row.refund_status==0">正常</span>
@@ -131,7 +138,7 @@
 
 
         <checkDialog name="check" :ajax-proxy="orderBasicAjaxProxy"/>
-        <exchangeDialog name="exchange" :ajax-proxy="orderBasicAjaxProxy"/>
+        <exchangecDialog name="exchange_c" :ajax-proxy="orderBasicAjaxProxy"/>
     </div>
 
 </template>
@@ -155,13 +162,13 @@
     import SearchTool from "../../mix/SearchTool";
 
     import checkDialog from "./check";
-    import exchangeDialog from "./exchange";
+    import exchangecDialog from "./exchange_check";
     export default {
         name: 'Refund',
         pageTitle:"订单详情",
         mixins: [PageMix,SearchTool,DataTable,config,OrderlistAjaxProxy],
         components:{
-            checkDialog,exchangeDialog
+            checkDialog,exchangecDialog
         },
         data () {
             return {
@@ -236,7 +243,7 @@
                 this.$modal.show('check',{row:row});
             },
             exchangeCheck(row){
-                this.$modal.show('exchange',{row:row});
+                this.$modal.show('exchange_c',{row:row});
             },
             refresh(){
                 this.$emit('refresh-success');

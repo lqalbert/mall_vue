@@ -105,6 +105,13 @@
                             <span v-else-if="scope.row.refund_check==2">未通过</span>
                         </template>
                     </el-table-column>
+                    <el-table-column prop="refund_check" label="换货审核" align="center" width="100">
+                        <template slot-scope="scope">
+                            <span v-if="scope.row.exchange_check==0">未审核</span>
+                            <span v-else-if="scope.row.exchange_check==1" >通过</span>
+                            <span v-else-if="scope.row.exchange_check==2">未通过</span>
+                        </template>
+                    </el-table-column>
                     <el-table-column prop="refund_status" label="退款状态" align="center" width="100">
                         <template slot-scope="scope">
                             <span v-if="scope.row.refund_status==0">正常</span>

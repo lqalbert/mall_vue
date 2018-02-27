@@ -71,12 +71,12 @@
 	// todo 改造成 TableProxy
 // import DialogForm from '../../mix/DialogForm';
 
-import FormMix from '../../mix/Form';
-import Dialog from '../../mix/Dialog';
-import AttrItem from '../common/AttrFormItem';
-import localMix from './mix';
-import goodsSkuAjax from '../../ajaxProxy/GoodsSku';
-import GoodsTypeSelectProxy from '../../packages/GoodsTypeSelectProxy';
+import FormMix from '../../../mix/Form';
+import Dialog from '../../../mix/Dialog';
+import AttrItem from '../../common/AttrFormItem';
+import localMix from '../mix';
+import goodsSkuAjax from '../../../ajaxProxy/GoodsSku';
+import GoodsTypeSelectProxy from '../../../packages/GoodsTypeSelectProxy';
 
 
 const SET_BUTTON_LABLE_ADD  = '添加SKU';

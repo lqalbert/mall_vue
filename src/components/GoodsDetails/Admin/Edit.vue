@@ -124,11 +124,11 @@
 </template>
 
 <script>
-import DialogForm from '../../mix/DialogForm';
-import AttrItem from '../common/AttrFormItem';
-import APP_CONST from '../../config';
+import DialogForm from '../../../mix/DialogForm';
+import AttrItem from '../../common/AttrFormItem';
+import APP_CONST from '../../../config';
 import { quillRedefine } from 'vue-quill-editor-upload';
-import localMix from './mix';
+import localMix from '../mix';
 
 
 export default {
@@ -213,15 +213,15 @@ export default {
                     this.fileList.push({name:row.imgs[index].url, url:row.imgs[index].full_url});  
                 }
 
-                for (let index = 0; index < row.skus.length; index++) {
-                    const element = row.skus[index];
-                    // console.log(element);
-                    element.attr.forEach(item => {
-                        item.value = item.pivot.value;
-                        item.addon_value = item.pivot.addon_value;
-                    });
+                // for (let index = 0; index < row.skus.length; index++) {
+                //     const element = row.skus[index];
+                //     // console.log(element);
+                //     element.attr.forEach(item => {
+                //         item.value = item.pivot.value;
+                //         item.addon_value = item.pivot.addon_value;
+                //     });
                     
-                }
+                // }
 
 
                 this.model = row;

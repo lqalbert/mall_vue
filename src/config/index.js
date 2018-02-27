@@ -6,11 +6,11 @@ import attr_config from './Attr';
  */
 
 let domain;
-if (process.env.NODE_ENV == 'development') {
-    domain = "http://localhost:8000/admin";
-} else {
+// if (process.env.NODE_ENV == 'development') {
+//     domain = "http://localhost:8000/admin";
+// } else {
     domain = "/admin"
-}
+// }
 
 let upload_url = domain + "/upload";
 

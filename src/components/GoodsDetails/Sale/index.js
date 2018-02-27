@@ -1,25 +1,21 @@
-import Add from './Add';
-import Edit from './Edit';
 import Spec from './Spec';
+import Edit from './Edit';
 
 //import DataProxy from '../../packages/DataProxy';
-import PageMix from '../../mix/Page';
-import SearchTool from '../../mix/SearchTool';
-import DataTable from '../../mix/DataTable';
-import SelectProxy from  '../../packages/SelectProxy';
-import GoodsDetailsAjaxProxy from '../../ajaxProxy/GoodsDetails';
+import SearchTool from '../../../mix/SearchTool';
+import DataTable from '../../../mix/DataTable';
+import SelectProxy from  '../../../packages/SelectProxy';
+import GoodsDetailsAjaxProxy from '../../../ajaxProxy/GoodsDetails';
 import { quillRedefine } from 'vue-quill-editor-upload';
-import URL_CONST from '../../config';
+import URL_CONST from '../../../config';
 
 export default {
-    name: 'GoodsDetails',
-    pageTitle: "商品详情",
-    mixins: [PageMix, SearchTool,DataTable,GoodsDetailsAjaxProxy],
+    // name: 'AdminIndex',
+    // pageTitle: "商品详情",
+    mixins: [SearchTool,DataTable,GoodsDetailsAjaxProxy],
     components:{
-        Add,
         Edit,
         Spec,
-        quillRedefine,
     },
     data() {
         return {
@@ -47,21 +43,7 @@ export default {
         }
     },
     methods: {
-        /* mainTableLoad(data) {
-            this.toggleTableLoad();
-            let res_data = data.items;
-            for(var x in res_data){
-                // console.log(res_data[x]);
-                res_data[x].new_goods = res_data[x].new_goods ==1 ? true : false;
-                res_data[x].hot_goods = res_data[x].hot_goods ==1 ? true : false;
-                res_data[x].recommend_goods = res_data[x].recommend_goods ==1 ? true : false;
-                res_data[x].status = res_data[x].status ==1 ? true : false;
-
-            }
-                console.log(res_data);
-            this.tableData = res_data;
-            this.total = data.total;
-        }, */
+       
         getAjaxProxy(){
             return this.ajaxProxy;
         },
@@ -95,22 +77,10 @@ export default {
             this.$modal.show('add-goods-details',{model:this.UnitTypes});
         },
         showEdit(id){
-            // let fileList = [];
-            // row.del_imgs = [];
-            // row.img_path = [];
-            // row.cate_id = [];
             
-            // for (let index = 0; index < row.category.length; index++) {
-            //     row.cate_id.push(row.category[index].id);
-            // }
-            // for (let index = 0; index < row.imgs.length; index++) {
-            //     fileList.push({name:row.imgs[index].url, url:row.imgs[index].full_url});  
-            // }
-
             this.$modal.show('edit-goods-details', {
               id: id,
               extra: this.UnitTypes,
-            //   fileList: fileList,
             });
         },
         showSpec(row){
@@ -119,7 +89,6 @@ export default {
             });
         },
         handleCateChange(v){
-            //console.log(v);
             this.searchForm.cate_id = v;
         },
         getStartTime(v){

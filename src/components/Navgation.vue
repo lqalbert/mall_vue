@@ -14,6 +14,7 @@
 </template>
 
 <script>
+import NavAjax from '../ajaxProxy/Nav';
 export default {
   name: 'Navgation',
   data () {
@@ -116,6 +117,13 @@ export default {
          // console.log(keyPath);
         this.$emit("nav-change", key);
       }
+  },
+  created(){
+    NavAjax.getNav().then(data=>{
+      // console.log(data);
+      // console.log(this.nav);
+      this.nav = data.data;
+    });
   }
 }
 </script>

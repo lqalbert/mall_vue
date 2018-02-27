@@ -183,11 +183,11 @@
 </template>
 
 <script>
-import DialogForm from '../../mix/DialogForm';
-import AttrItem from '../common/AttrFormItem';
-import APP_CONST from '../../config';
-import GoodsTypeSelectProxy from '../../packages/GoodsTypeSelectProxy';
-import localMix from './mix';
+import DialogForm from '../../../mix/DialogForm';
+import AttrItem from '../../common/AttrFormItem';
+import APP_CONST from '../../../config';
+import GoodsTypeSelectProxy from '../../../packages/GoodsTypeSelectProxy';
+import localMix from '../mix';
 
 import { quillRedefine } from 'vue-quill-editor-upload';
 
@@ -363,9 +363,7 @@ export default {
         height: 300px !important;
     }
 
-    .table-expand .el-form-item {
-        width: 40%;
-    }
+    
     .vertical-middle{
         vertical-align: middle;
     }

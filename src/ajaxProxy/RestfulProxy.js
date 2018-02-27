@@ -10,7 +10,6 @@ import AxiosInstance from '../packages/AxiosProxy';
     axios#patch(url[,data[,config]])
  * 
  * 
- * 
  */
 
 

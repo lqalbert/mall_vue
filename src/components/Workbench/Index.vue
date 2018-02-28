@@ -193,6 +193,8 @@
         margin-bottom: 10px;
     }
     .box-card2{
-        margin-top: 10px;
+        margin-top:  10px;
+        margin-left: 10px;
+        margin-right: 10px;
     }
 </style>

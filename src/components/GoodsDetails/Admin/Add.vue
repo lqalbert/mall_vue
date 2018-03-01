@@ -18,7 +18,7 @@
                                         v-model="addForm.cate_id"
                                         @change="handleCateChange"
                                         filterable change-on-select 
-                                        placeholder="选择商品分类" size="small" style="line-height:28px;">
+                                        placeholder="选择商品分类" >
                                     </el-cascader>
                                 </el-form-item>
                             </el-col>
@@ -207,6 +207,10 @@ export default {
             type:String,
             default:'',
         },
+        cateMap:{
+            type: Object,
+            default: {}
+        }
 
     },
     data () {
@@ -223,7 +227,7 @@ export default {
                 goods_name:'',
                 cate_id:[],
                 goods_price:'',
-                status:'1',
+                status:'2',
                 goods_number:'',
                 unit_type:'',
                 description:'',
@@ -254,7 +258,17 @@ export default {
         handleCateChange(v){
             // this.addForm.cate_id = v;
             //获取对应的商品类型
-            this.goodsTypeProxy.setParam({id:1}).find();
+            let re = null;
+            if (v instanceof Array) {
+                re = v[v.length-1];
+            } else {
+                re = v;
+            }
+            
+            if (this.cateMap[re]) {
+                this.goodsTypeProxy.setParam({id:this.cateMap[re]}).find();
+            } 
+            
         },
         handleRemove(file, fileList) {
             //console.log(file, fileList);

@@ -118,7 +118,7 @@
         </el-row>
 
         <Add name='add-goods-details' 
-           
+            :cate-map="cidMapTypeId"
             :ajax-proxy="ajaxProxy"
             :cate-options="cateOptions"
             :upload-url="uploadUrl"

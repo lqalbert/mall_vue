@@ -42,6 +42,7 @@ export default {
                     return time.getTime() > Date.now();//- 8.64e7
                 }
             },
+            cidMapTypeId:{}
 
         }
     },
@@ -66,6 +67,8 @@ export default {
         },
         initCateOptions(data){
             this.cateOptions = data.items;
+            this.setTypeMap(this.cateOptions);
+
             //console.log(this.cateOptions);
         },
         initUnitTypes(data){
@@ -141,8 +144,25 @@ export default {
             row.img_path = [];
             row.cate_id = [];
             this.ajaxProxy.update(row.id, row);
-        }
+        },
+        setTypeMap(data){
+            // this.cidMapTypeId = {};
+            this.mapType(data);
+        },
 
+        mapType(data){
+            if (data instanceof Array) {
+                data.forEach(function(value, index, arr){
+                    if (value.children) {
+                        this.mapType(value.children);
+                    }
+                    for (let i = 0; i < arr.length; i++) {
+                        const element = arr[i];
+                        this.cidMapTypeId[element.id] = element.type_id;
+                    }
+                }, this);
+            }
+        }
     },
 
     created() {

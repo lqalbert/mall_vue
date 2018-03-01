@@ -1,6 +1,6 @@
 <template>
     <div >
-        <MyDialog title="添加" :name="name" :width="width" :height="height">
+        <MyDialog title="添加子类" :name="name" :width="width" :height="height" @before-open="onBeforeOpen">
             <el-form :model="addForm"  ref="addForm" :rules="rules" :label-width="labelWidth"   :label-position="labelPosition">
                 <el-row>
                     <el-col :span="12">
@@ -15,20 +15,14 @@
                             </el-select>
                         </el-form-item>
                     </el-col> -->
+                    <el-col :span="12">
+                        <el-form-item label="上级名称" >
+                            {{ parentName }}
+                        </el-form-item>
+                    </el-col>
                 </el-row>
                 <el-row>
-                    <!-- <el-col :span="12">
-                        <el-form-item label="上级名称" prop="pid">
-                            <el-select  v-model="addForm.pid" :disabled="showLevel">
-                                <el-option
-                                        v-for="item in Categorys"
-                                        :key="item.id"
-                                        :label="item.label"
-                                        :value="item.id">
-                                </el-option>
-                            </el-select>
-                        </el-form-item>
-                    </el-col> -->
+                    
                     <el-col :span="12">
                         <el-form-item label="商品类型" prop="type_id">
                             <el-select   v-model="addForm.type_id">
@@ -60,6 +54,19 @@
         mixins:[DialogForm],
         name: 'addDialog',
         data () {
+
+
+            var changeLevel = (rule, value, callback) => {
+
+                if (this.addForm.level == 3 ) {
+                    value === '';
+                    callback(new Error('请选择商品类型'));
+                } else {
+                    callback();
+                }
+            };
+
+
             return {
                 dialogThis:this,
                 labelPosition:"right",
@@ -70,29 +77,21 @@
                 goodsTypeListUrl:'/goodstypelist',
                 Categorys:'',
                 goodsTypeList:[],
-                levels:[
-                    {level:1,label:'顶级'},
-                    {level:2,label:'二级'},
-                    {level:3,label:'三级'},
-                ],
+                parentName:"",
                 rules:{
                     label: [
                         { required: true, message: '请输入分类名称', trigger: 'blur' },
                     ],
-                    level: [
-                        { required: true, message: '请选择分类级别', trigger: 'blur' ,type: 'number',},
-                    ],
-                    pid: [
-                        { required: true , message: '请选择上级名称',type: 'number', },
-                    ],
+                    
                     type_id: [
+                        // { validator: changeLevel, message:'请选择商品类型', trigger:'blur'},
                         { required: true , message: '请选择商品类型',type: 'number', },
                     ],
                 },
                 addForm:{
                     label:"",
-                    pid:'0',
-                    level:'1',
+                    pid:'',
+                    level:'',
                     type_id:''
                 },
 
@@ -126,9 +125,16 @@
                     v = v-1;
                 }
                 this.getData(v)
-            }, getAjaxPromise(model){
+            }, 
+            getAjaxPromise(model){
                return this.ajaxProxy.create(model);
             },
+            onBeforeOpen(param){
+                let parent = param.params.parent;
+                this.parentName = parent.label;
+                this.addForm.level = parent.level+1;
+                this.addForm.pid = parent.id;
+            }   
 
         },
         created(){

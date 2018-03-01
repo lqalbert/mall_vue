@@ -8,16 +8,16 @@
                             <el-input class="name-input" v-model="editForm.label"  auto-complete="off" placeholder="请填写分类名称"></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <!-- <el-col :span="12">
                         <el-form-item label="分类级别" prop="level">
                             <el-select @change="categoryChange"  v-model="editForm.level">
                                 <el-option v-for="v in levels" :value="v.level" :label="v.label" :key="v.level"></el-option>
                             </el-select>
                         </el-form-item>
-                    </el-col>
+                    </el-col> -->
                 </el-row>
                 <el-row>
-                    <el-col :span="12">
+                    <!-- <el-col :span="12">
                         <el-form-item label="上级名称" prop="pid">
                             <el-select  v-model="editForm.pid" :disabled="showLevel">
                                 <el-option
@@ -28,7 +28,7 @@
                                 </el-option>
                             </el-select>
                         </el-form-item>
-                    </el-col>
+                    </el-col> -->
                     <el-col :span="12">
                         <el-form-item label="商品类型" prop="type_id">
                             <el-select   v-model="editForm.type_id">

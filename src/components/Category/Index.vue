@@ -35,6 +35,10 @@
                     @submit-success="handleReload"/>
 
         </el-row>
+
+        <addSub name='add-subcategory'
+                   :ajax-proxy="ajaxProxy"
+                   @submit-success="handleReload"/>
     </div>
 
 </template>
@@ -42,6 +46,7 @@
 <script>
     import addDialog from './addDialog';
     import editDialog from './editDialog';
+    import addSub from './addSub';
 
     import DataTable from '../../mix/DataTable';
 
@@ -59,6 +64,7 @@
         components: {
             addDialog,
             editDialog,
+            addSub
         },
         mixins: [PageMix,SearchTool,DataTable,config,Category],
         data() {
@@ -89,12 +95,14 @@
 
             },
             deleteCategory(data){
-                if(data.items){
-                    this.$message.error("该分类还有子类不能删除！！！");
-                    return false;
-                }else{
-                    this.handleDelete(this.categoryId);
-                }
+                // if(data.items){
+                //     this.$message.error("该分类还有子类不能删除！！！");
+                //     return false;
+                // }else{
+                   
+                // }
+
+                 this.handleDelete(this.categoryId);
             },
             handleReload(){
                 this.getRes();
@@ -105,7 +113,9 @@
 
             editFun(data){
                 this.$modal.show('edit-category',{model:data})
-
+            },
+            addSub(data){
+                this.$modal.show('add-subcategory', {parent: data});
             },
             getRes:function(){
                 let categoryProxy = new DataProxy(this.url, this.pageSize, this.dataLoaded, this,);
@@ -131,6 +141,7 @@
                    </span>
                 <span style="float: right; margin-right: 20px">
                     <el-button size="mini" type="success" on-click={ () => this.editFun(data) }>编 辑</el-button>
+                    <el-button size="mini" disabled={node.level>=3}   type="success" on-click={ () => this.addSub(data) }> 添加子类 </el-button>
                     <el-button size="mini" type="danger" on-click={ () => this.deleteData(data.id) }>删除分类</el-button>
                 </span>
                 </span>);

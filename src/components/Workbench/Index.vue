@@ -28,7 +28,7 @@
                             系统公告
                         </div>
                         <div>
-                            <el-table :data="sysNoticeDataList"   border stripe  >
+                            <el-table :data="sysNoticeDataList" height="200"  border   style="width: 100%">
                                 <el-table-column label="公告类型"  prop="type_id" align="center">
                                     <template slot-scope="scope">
                                         <span v-if="scope.row.type_id==1">功能升级</span>
@@ -78,7 +78,7 @@
                         </el-tab-pane>
 
                         <el-tab-pane label="常用网址" name="second">
-                            <el-table  :data="WebsiteDataList"   highlight-current-row border ref="select" style="width: 100%">
+                            <el-table  :data="WebsiteDataList"     border ref="select" style="width: 100%">
                                 <el-table-column label="序号" align="center"  type="index" width="65"></el-table-column>
 
                                 <el-table-column prop="describe" label="网址描述" align="center"></el-table-column>
@@ -93,12 +93,16 @@
                                 <el-table-column prop="remark" label="备注"  align="center"></el-table-column>
 
                             </el-table>
+
                         </el-tab-pane>
                     </el-tabs>
                 </el-card>
 
             </el-row>
         </div>
+
+
+
     </div>
 
 
@@ -139,6 +143,21 @@
             }
         },
         methods: {
+            toggleSelection(rows) {
+                if (rows) {
+                    rows.forEach(row => {
+                        this.$refs.multipleTable.toggleRowSelection(row);
+                    });
+                } else {
+                    this.$refs.multipleTable.clearSelection();
+                }
+            },
+            handleSelectionChange(val) {
+                this.multipleSelection = val;
+            },
+
+
+
             getSysNoticeData(){
                 let selectProxy = new SelectProxy(this.sysNoticeUrl, this.sysNoticeData, this);
                 selectProxy.load();
@@ -193,6 +212,8 @@
         margin-bottom: 10px;
     }
     .box-card2{
-        margin-top: 10px;
+        margin-top:  10px;
+        margin-left: 10px;
+        margin-right: 10px;
     }
 </style>

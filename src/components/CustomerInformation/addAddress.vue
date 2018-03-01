@@ -20,7 +20,7 @@
             
             <br/>
                 <el-button v-show="showAddButton" type="primary" size="small" @click="handleAdd"> 添加地址 </el-button> <span></span>
-            <el-form v-show="contactFormvisible" ref="addDeliveryAddressForm" :model="addDeliveryAddressForm"  :label-width="labelWidth"   :label-position="labelPosition"  label-width="140px">
+            <el-form v-show="contactFormvisible" ref="addDeliveryAddressForm" :model="addDeliveryAddressForm"  :label-width="labelWidth"   :label-position="labelPosition">
                 <el-row>
                     <el-col :span="12">
                         <el-form-item prop="name" label="收货人姓名">
@@ -88,12 +88,12 @@ export default {
             cus_id:'',
             id:'',
             addDeliveryAddressForm:{
-                cus_id:'',
                 name:'',
                 phone:'',
                 address:'',
-                default_address:0,
+                default_address:1,
                 zip_code:'',
+                cus_ids:'',
             },
             addressData:[],
             model:'',
@@ -118,6 +118,7 @@ export default {
         },
         formSubmit(name){
             let model = this[name];
+            console.log(model);die();
             if (this.$refs[name].rules) {
                 this.$refs[name].validate((valid)=>{
                     if (valid) {

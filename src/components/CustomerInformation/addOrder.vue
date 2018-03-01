@@ -7,7 +7,7 @@
                 <el-step title="选择收货地址"></el-step>
                 <el-step title="确认订单"></el-step>
             </el-steps>
-            <el-form ref="addOrderForm" :model="addOrderForm" :label-width="labelWidth"   :label-position="labelPosition"  label-width="140px">
+            <el-form ref="addOrderForm" :model="addOrderForm" :label-width="labelWidth" :label-position="labelPosition">
                 <div v-show="active==0">
                     <el-table
                             border
@@ -29,9 +29,9 @@
                     <br>
                     <el-row>
                         <el-col :span="12">
-                            <el-form-item label="商品类型" prop="dev">
+                            <el-form-item label="商品分类" prop="dev">
                                 <el-cascader
-                                        v-model="dev"
+                                        v-model="addOrderForm.dev"
                                         :options="CategoryList"
                                         change-on-select
                                         @change="categoryChange"
@@ -41,19 +41,23 @@
                         <el-col :span="12">
                             <el-form-item prop="goods_id" label="商品名称">
                                 <el-select v-model="addOrderForm.goods_id" @change="getGoodsInfo">
-                                    <el-option v-for="v in goods" :value="v.id" :key="v.id" :label="v.goods_name"></el-option>
+                                    <el-option v-for="(value, item) in data2" :value="item" :key="item" :label="value.goods_name+'-'+value.sku_name+'-'+value.price">
+                                        <span style="float: left">{{value.goods_name}}-{{value.sku_name}}-{{value.price}}</span>
+                                        <!-- <span style="float: right; color: #8492a6; font-size: 13px">{{value}}</span> -->
+                                    </el-option>
                                 </el-select>
                             </el-form-item>
                         </el-col>
                         <el-col :span="12">
                             <el-form-item prop="goods_number" label="商品数量">
-                                <el-input-number size="small" :min="1" v-model="goods_number" ></el-input-number>
-                                <span>这里显示库存 改成红色字 如果数量不够要提示</span>
+                                <el-input-number size="small" :min="0" :max="gdsInpurNum" v-model="addOrderForm.goods_number" @change="gdsInpurNumChange">
+                                </el-input-number>
+                                <span style="color:red;">当前库存：{{alertNum}}</span>
                             </el-form-item>
                         </el-col>
                         <el-col :span="12">
                             <el-form-item prop="remark" label="备注">
-                                <el-input type="textarea" class="name-input"  v-model="remark"  placeholder="备注" ></el-input>
+                                <el-input type="textarea" class="name-input"  v-model="addOrderForm.remark"  placeholder="备注"></el-input>
                             </el-form-item>
                         </el-col>
                     </el-row>
@@ -63,22 +67,20 @@
                 <div v-show="active==1">
                     <el-row>
                         <el-col :span="12">
-                            <el-form-item prop="deal_id" label="请选择成交员工">
-                                <el-select v-model="deal_id" placeholder="请选择成交员工"  @change="userChange">
-                                    <el-option v-for="v in users" :value="v.id" :key="v.id" :label="v.realname" ></el-option>
+                            <el-form-item prop="deal_id" label="成交员工">
+                                <el-select v-model="addOrderForm.deal_id" placeholder="请选择成交员工"  @change="userChange">
+                                    <el-option v-for="v in users" :value="v.id" :key="v.id" :label="v.realname"></el-option>
                                 </el-select>
                             </el-form-item>
                         </el-col>
                      </el-row>
                         <el-row>
                         <el-col :span="12">
-                            <el-form-item prop="addressID" label="请选择收货地址" >
-
-                                    <el-radio-group v-for="v in fullAddressData" :key="v.id" v-model="addressID" @change="addressChange">
+                            <el-form-item prop="address_id" label="收货地址" >
+                                    <el-radio-group v-for="v in fullAddressData" :key="v.id" v-model="addOrderForm.address_id" @change="addressChange">
                                         <template slot-scope="scope">
                                             <el-radio  :label="v.id" >{{v.fullAddress}}</el-radio>
                                         </template>
-
                                     </el-radio-group>
 
                                 <!--<el-select v-model="addressID" placeholder="请选择收货地址" @change="addressChange">-->
@@ -160,7 +162,11 @@
                 deal_id:'',
                 id:'',
                 types:[],
-                goods:[],
+                goodsInfo:{},
+                data2:{},
+                gdsInpurNum:100000,
+                alertNum:0,
+                allNum:'',
                 users:[],
                 address:[],
                 addressList:[],
@@ -170,11 +176,15 @@
                     cus_id:'',
                     deal_id:'',
                     deal_name:'',
-                    goods_id:'',
+                    goods_id:"",
                     address_id:"",
                     order_all_money:0,
                     order_pay_money:0,
                     order_goods:[],
+                    dev:[],
+                    goods_number:'',
+                    remark:'',
+                    
                 },
                 orderData:[],
                 goodsIds:[],
@@ -182,63 +192,73 @@
                 fullAddressData:[],
                 model:'',
                 deal_name:'',
-                remark:'',
-                goods_number:'',
-                addressID:'',
-                realname:'',
-                dev:[]
+                
             }
         },
         computed:{
             ...mapGetters([
-                'user_id'
+                'user_id',
+                'getUser'
             ])
         },
         methods:{
             addOrder(){
-                let moneyNotes =parseInt(this.goodsInfoData[this.goods_id].goods_price) * parseInt(this.goods_number);
+                var vmthis = this;
+                let moneyNotes =parseInt(this.data2[this.addOrderForm.goods_id].price) * parseInt(this.addOrderForm.goods_number);
                 let addData ={
-                    goods_id:this.goods_id,
-                    goods_name:this.goodsInfoData[this.goods_id].goods_name,
-                    price:this.goodsInfoData[this.goods_id].goods_price,
-                    goods_number:this.goods_number,
-                    remark:this.remark,
+                    goods_id:vmthis.data2[vmthis.addOrderForm.goods_id].goods_id,
+                    sku_id:vmthis.data2[vmthis.addOrderForm.goods_id].sku_id,
+                    sku_name:vmthis.data2[vmthis.addOrderForm.goods_id].sku_name,
+                    goods_name:vmthis.data2[vmthis.addOrderForm.goods_id].goods_name,
+                    price:vmthis.data2[vmthis.addOrderForm.goods_id].price,
+                    goods_number:vmthis.addOrderForm.goods_number,
+                    remark:vmthis.addOrderForm.remark,
                     moneyNotes:moneyNotes,
                 };
                 this.totalMoney += moneyNotes;
                 this.orderData.push(addData);
-                this.goodsIds.push(this.goods_id);
+                this.goodsIds.push(addData.goods_id);
                 this.$refs.addOrderForm.resetFields();
-                this.dev=[];
-                this.remark='';
-                this.goods_number='';
+                this.alertNum = 0;
             },
             getGoodsInfo(goods_id){
-                this.goods_id=goods_id;
+                if(this.data2[goods_id]){
+                    this.gdsInpurNum = parseInt(this.data2[goods_id].num);
+                    this.alertNum = parseInt(this.data2[goods_id].num);
+                    this.allNum = this.alertNum;
+                }
+                    
+            },
+            gdsInpurNumChange(v){
+                this.alertNum = this.allNum-v>0 ? this.allNum-v : 0;
             },
             userChange(deal_id){
                 this.deal_id=deal_id;
-                this.deal_name=this.usersListData[this.deal_id].realname;
-                this.addressList=[];
-                let data={
-                    name : this.addressListData[this.address_id].name,
-                    phone : this.addressListData[this.address_id].phone,
-                    address: this.addressListData[this.address_id].address,
-                    zip_code: this.addressListData[this.address_id].zip_code,
-                    deal_name:this.deal_name,
-                };
-                this.addressList.push(data);
+                this.addOrderForm.deal_id=deal_id;
+                for (let i = 0; i < this.users.length; i++) {
+                    if(this.users[i].id == deal_id){
+                        this.deal_name = this.users[i].realname;
+                        this.addOrderForm.deal_name = this.deal_name;
+                    }  
+                } 
             },
             addressChange(address_id){
                 this.address_id=address_id;
-                this.userChange(this.deal_id);
+                this.addOrderForm.address_id = address_id;
+                var vmThis = this;
+                this.addressList=[];
+                let data={
+                    name : vmThis.addressListData[address_id].name,
+                    phone : vmThis.addressListData[address_id].phone,
+                    address: vmThis.addressListData[address_id].address,
+                    zip_code: vmThis.addressListData[address_id].zip_code,
+                    deal_name:vmThis.addOrderForm.deal_name,
+                };
+                this.addressList.push(data);
+                
             },
             handleSubmit(){
-                this.addOrderForm.cus_id = this.cus_id;
-                this.addOrderForm.deal_id = this.deal_id;
-                this.addOrderForm.deal_name = this.deal_name;
                 this.addOrderForm.goods_id = this.goodsIds.join(',');
-                this.addOrderForm.address_id = this.address_id;
                 this.addOrderForm.order_all_money = this.totalMoney;
                 this.addOrderForm.order_pay_money = this.totalMoney;
                 this.addOrderForm.order_goods = this.orderData;
@@ -248,8 +268,14 @@
                 this.addressList=[];
                 this.orderData=[];
                 this.goodsIds=[];
-                this.addressID='';
+                this.$refs.addOrderForm.resetFields();
                 this.deal_id='';
+                this.cus_id = '',
+                this.data2 = {},
+                this.gdsInpurNum = 100000,
+                this.alertNum = 0,
+                this.allNum = '',
+                this.deal_name = '',
                 this.totalMoney=0;
                 this.active=0;
                 this.$modal.hide(this.name);
@@ -277,7 +303,7 @@
                 return this.ajaxProxy.create(model);
             },
             realSubmit(model, name){
-                let ajaxPromise =  this.getAjaxPromise(model);
+                let ajaxPromise = this.getAjaxPromise(model);
                 let vmthis = this;
                 ajaxPromise.then(function(response){
                     vmthis.$message.success('操作成功');
@@ -285,30 +311,37 @@
                     vmthis.addressList=[];
                     vmthis.orderData=[];
                     vmthis.goodsIds=[];
-                    vmthis.addressID='';
                     vmthis.deal_id='';
+                    vmthis.cus_id = '',
+                    vmthis.data2 = {},
+                    vmthis.gdsInpurNum = 100000,
+                    vmthis.alertNum = 0,
+                    vmthis.allNum = '',
+                    vmthis.deal_name = '',
                     vmthis.totalMoney=0;
                     vmthis.active=0;
-                })
-                    .catch(function(error){
-                        if(error.response){
-                            console.log(error.response.data);
-                            console.log(error.response.status);
-                            console.log(error.response.headers);
-                        }else{
-                            console.log('Error',error.message);
-                        }
-                        vmthis.$message.error('出错了');
-                    })
-                    .then(function(){
-                        vmthis.$emit('submit-final', name);
-                    });
+                    vmthis.$emit('submit-success', name);
+                }).catch(function(error){
+                    if(error.response){
+                        console.log(error.response.data);
+                        console.log(error.response.status);
+                        console.log(error.response.headers);
+                    }else{
+                        console.log('Error',error.message);
+                    }
+                    vmthis.$message.error('出错了');
+                }).then(function(){
+                    vmthis.$emit('submit-final', name);
+                });
             },
             onOpen(param){
-                this.deal_id=this.user_id;
-                this.cus_id = param.params.model.cus_id;
-                this.id = param.params.model.id;
+                this.addOrderForm.deal_id=this.user_id;
+                this.addOrderForm.deal_name=this.getUser.realname;
+                this.cus_id = param.params.model.id;
+                this.addOrderForm.cus_id = this.cus_id;
+                //this.id = param.params.model.id;
                 this.getAddress(this.cus_id);
+                
             },
             deleteAddress(row){
                 let index = this.orderData.indexOf(row);
@@ -339,6 +372,10 @@
                 // let cates = {cate_id:cate_id};
                 // this.orderDataProxy.setExtraParam(cates);
                 // this.orderDataProxy.load();
+                // this.goodsInfo = {};
+                //this.data1 = {};
+                // this.data2 = {};
+                //alert(cate_id);
                 this.goodsProxy.setParam({
                     cate_id:cate_id,
                     with:['skus'],
@@ -360,8 +397,9 @@
                 this.fullAddressData=data.fullAddress;
             },
             getUsersData(data){
+                console.log(data);
                 this.users=data.items;
-                this.usersListData=data.users;
+                //this.usersListData=data.users;
             },
 
 
@@ -402,7 +440,38 @@
              *  
              */
             loadGoods(data){
-                console.log(data);
+                //console.log(data);
+                var vmThis = this;
+                this.data2 = {};
+                for (let i = 0; i < data.items.length; i++) {
+                    if(data.items[i].skus.length < 1){
+                        let gid1 = data.items[i].id;
+                        let goods_name1 = data.items[i].goods_name;
+                        let goods_price1 = data.items[i].goods_price;
+                        let goods_number1 = data.items[i].goods_number;
+                        let vv1 = {goods_id:gid1, price:goods_price1, goods_name:goods_name1, num:goods_number1,sku_id:0, sku_name:''};
+                        let kk1 = 'goods_id_'+gid1+'_sku_id_0';
+                        vmThis.data2[kk1] = vv1;
+                        //console.log(vmThis.data2);
+                    }else{
+                        let gid2 = data.items[i].id;
+                        let goods_name2 = data.items[i].goods_name;
+                        // let goods_price2 = data.items[i].goods_price;
+                        // let goods_number2 = data.items[i].goods_number;  
+                        
+                        for (let n = 0; n < data.items[i].skus.length; n++) {
+                            let sku_id2 = data.items[i].skus[n].id;
+                            let sku_name2 = data.items[i].skus[n].name;
+                            let sku_num2 = data.items[i].skus[n].num;
+                            let sku_price2 = data.items[i].skus[n].price;
+                            let kk2 = 'goods_id_'+gid2+'_sku_id_'+sku_id2;
+                            let vv2 = {goods_id:gid2, price:sku_price2, goods_name:goods_name2, num:sku_num2,sku_id:sku_id2, sku_name:sku_name2};
+                            vmThis.data2[kk2] = vv2;
+                        }
+                        //console.log(vmThis.data2);
+                    }
+             
+                }  
                 
             }
 

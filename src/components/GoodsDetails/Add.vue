@@ -254,7 +254,7 @@ export default {
         handleCateChange(v){
             // this.addForm.cate_id = v;
             //获取对应的商品类型
-            this.goodsTypeProxy.setParam({id:1}).find();
+            this.goodsTypeProxy.setParam({id:7}).find();
         },
         handleRemove(file, fileList) {
             //console.log(file, fileList);

@@ -140,10 +140,14 @@ export default {
         },
         setStatusChange(row){
             console.log(row);
-            row.del_imgs = [];
-            row.img_path = [];
-            row.cate_id = [];
-            this.ajaxProxy.update(row.id, row);
+            console.log(arguments);
+            // row.del_imgs = [];
+            // row.img_path = [];
+            // row.cate_id = [];
+            this.ajaxProxy.update(row.id, {status:row.status}).catch((response)=>{
+                this.$message.error('更新失败');
+                row.status = row.status == 1 ? 2 : 1 ;
+            });
         },
         setTypeMap(data){
             // this.cidMapTypeId = {};

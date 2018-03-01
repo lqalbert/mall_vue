@@ -190,9 +190,9 @@
             },
         },
         computed:{
-            ...mapGetters([
-                'roles'
-            ])
+            ...mapGetters({
+                roles: 'assignable',
+            })
         },
         data () {
             return {

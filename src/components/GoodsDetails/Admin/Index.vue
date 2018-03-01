@@ -133,6 +133,7 @@
         </Edit>
 
         <Spec name='edit-goods-spec' 
+            :cate-map="cidMapTypeId"
             :ajax-proxy="ajaxProxy">
         </Spec>
     </div>

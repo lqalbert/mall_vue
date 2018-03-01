@@ -90,7 +90,10 @@ export default {
 		AttrItem,
     },
     props:{
-
+		cateMap:{
+            type: Object,
+            default: {}
+        }
     },
     data(){
 		return{
@@ -117,10 +120,23 @@ export default {
     methods:{
 		onOpen(param){
 			// model = param.params.model;
+			let category = param.params.model.category;
 			this.goods_id = param.params.model.id;
+
 			this.reloadData();
 
-			this.goodsTypeProxy.setParam({id:1}).find();
+			let re = null;
+            if (category instanceof Array) {
+                re = category[category.length-1];
+            } else {
+                re = 0;
+            }
+            
+            if (this.cateMap[re]) {
+                this.goodsTypeProxy.setParam({id:this.cateMap[re]}).find();
+            } 
+
+			// this.goodsTypeProxy.setParam({id:1}).find();
 
 		},
 		getAjaxPromise(model){

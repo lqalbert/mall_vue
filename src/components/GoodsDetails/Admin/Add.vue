@@ -342,6 +342,9 @@ export default {
         },
         resetEditContent(){
             this.editContent = '';
+            this.skuForm = {};
+            this.addForm = {};
+            this.handleClose();
         },
         
         addSku(){
@@ -360,7 +363,7 @@ export default {
         
         deleteAttrItem(index){
             this.addForm.skus.splice(index,1);
-        }
+        },
 
     },
     computed: {

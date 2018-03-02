@@ -51,6 +51,31 @@ export default {
             tabindex:'0',
             currentPage4:1,
             tableData: '',
+            manageData:[{
+                order_id: '78786786',
+                order_action: '提交订单',
+                manager: 'admin',
+                remark:'提交了一个新订单',
+                time:'2018-01-22'
+            }, {
+                order_id: '23214',
+                order_action: '取消订单',
+                manager: '花花',
+                remark:'取消了一个订单',
+                time:'2018-01-23'
+            }, {
+                order_id: '7657657',
+                order_action: '提交订单',
+                manager: '丫丫',
+                remark:'提交了一个新订单aa',
+                time:'2018-02-22'
+            }, {
+                order_id: '78786786',
+                order_action: '取消订单',
+                manager: '花花',
+                remark:'取消了一个订单',
+                time:'2018-02-11'
+            }],
             usertableData:[],
             usertableData1:[],
             addresstableData: [],

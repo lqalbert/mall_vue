@@ -237,21 +237,18 @@
                         </el-tab-pane>
 
                         <el-tab-pane label="订单操作记录">
-                            <el-table empty-text="请点击客户显示跟踪信息" border style="width: 100%">
-                                <el-table-column prop="user" label="操作员工" align="center">
+                            <el-table :data="manageData" empty-text="请点击客户显示跟踪信息" border style="width: 100%">
+                                <el-table-column  prop="order_id" label="订单id" align="center">
+                                </el-table-column>
+                                <el-table-column  prop="order_action" label="操作动作" align="center">
+                                </el-table-column>
+                                <el-table-column  prop="manager" label="操作员" align="center">
+                                </el-table-column>
+                                <el-table-column  prop="remark" label="操作备注" align="center">
+                                </el-table-column>
+                                <el-table-column  prop="time" label="操作时间" align="center">
                                 </el-table-column>
 
-                                <el-table-column label="投诉内容" align="center">
-                                    <template slot-scope="scope">
-                                        {{scope.row.content | handleString}}
-                                    </template>
-                                </el-table-column>
-
-                                <el-table-column prop="created_at" label="投诉时间" width="180" align="center">
-                                </el-table-column>
-
-                                <el-table-column prop="type_text" label="投诉类型" align="center">
-                                </el-table-column>
                             </el-table>
                         </el-tab-pane>
 

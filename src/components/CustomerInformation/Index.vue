@@ -108,14 +108,14 @@
 
         <addAddress name='add-Address'
                     width="60%"
-                    :ajax-proxy="addressAjaxProxy">
+                    :ajax-proxy="addressAjaxProxy" @submit-success="handleReload">
 
         </addAddress>
         <!--<Chat name='chat'></Chat>-->
         <addOrder name='add-orderBasic'
                   width="60%"
                   :ajax-proxy="orderBasicAjaxProxy"
-                  :CategoryList="CategoryList">
+                  :CategoryList="CategoryList" @submit-success="handleReload">
         </addOrder>
         
         <Transfer name='set-transfer'></Transfer>

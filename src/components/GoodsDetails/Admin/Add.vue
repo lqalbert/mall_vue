@@ -377,7 +377,9 @@ export default {
         height: 300px !important;
     }
 
-    
+    .table-expand .el-form-item {
+        width: 40%;
+    }
     .vertical-middle{
         vertical-align: middle;
     }

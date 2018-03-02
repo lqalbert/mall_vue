@@ -57,7 +57,7 @@
                         </el-col>
                         <el-col :span="12">
                             <el-form-item prop="remark" label="备注">
-                                <el-input type="textarea" class="name-input"  v-model="remark"  placeholder="备注" ></el-input>
+                                <el-input type="textarea" class="name-input"  v-model="addOrderForm.remark"  placeholder="备注" ></el-input>
                             </el-form-item>
                         </el-col>
                     </el-row>
@@ -263,6 +263,7 @@
                 this.addOrderForm.order_all_money = this.totalMoney;
                 this.addOrderForm.order_pay_money = this.totalMoney;
                 this.addOrderForm.order_goods = this.orderData;
+                console.log(this.addOrderForm)
                 this.formSubmit('addOrderForm');
             },
             handleClose(){

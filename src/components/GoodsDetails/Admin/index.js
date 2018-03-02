@@ -36,6 +36,9 @@ export default {
                 start:'',
                 end:'',
                 cate_id:[],
+                with:['category'],
+                orderField:'id',
+                orderWay:'desc'
             },
             pickerOptions: {
                 disabledDate(time) {
@@ -90,7 +93,7 @@ export default {
                 this.$message.error("请选择正确的时间段");
                 return ;
             }
-            param.with = ['category'];
+            // param.with = ['category'];
             this.mainparam = JSON.stringify(param);
         },
         showAdd(){

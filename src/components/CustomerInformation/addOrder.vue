@@ -448,13 +448,9 @@
                         let vv1 = {goods_id:gid1, price:goods_price1, goods_name:goods_name1, num:goods_number1,sku_id:0, sku_name:''};
                         let kk1 = 'goods_id_'+gid1+'_sku_id_0';
                         vmThis.data2[kk1] = vv1;
-                        //console.log(vmThis.data2);
                     }else{
                         let gid2 = data.items[i].id;
                         let goods_name2 = data.items[i].goods_name;
-                        // let goods_price2 = data.items[i].goods_price;
-                        // let goods_number2 = data.items[i].goods_number;  
-                        
                         for (let n = 0; n < data.items[i].skus.length; n++) {
                             let sku_id2 = data.items[i].skus[n].id;
                             let sku_name2 = data.items[i].skus[n].name;
@@ -464,7 +460,6 @@
                             let vv2 = {goods_id:gid2, price:sku_price2, goods_name:goods_name2, num:sku_num2,sku_id:sku_id2, sku_name:sku_name2};
                             vmThis.data2[kk2] = vv2;
                         }
-                        //console.log(vmThis.data2);
                     }
              
                 }  

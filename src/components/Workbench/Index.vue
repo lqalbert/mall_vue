@@ -59,7 +59,7 @@
 
                                 <el-table-column prop="name" label="联系人姓名" align="center"></el-table-column>
 
-                                <el-table-column label="与本人关系"  prop="relationship_id" align="center">
+                                <el-table-column label="备注"  prop="relationship_id" align="center">
                                     <template slot-scope="scope">
                                         <span v-if="scope.row.relationship_id==1">父子(女)</span>
                                         <span v-if="scope.row.relationship_id==2">母子(女)</span>

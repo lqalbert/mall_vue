@@ -1,7 +1,7 @@
 <template>
     <div >
         <MyDialog title="编辑商品" :name="name" :width="width" :height="height" @before-open="onOpen">
-            <el-form :model="editForm" ref="editForm" :label-width="labelWidth"  :label-position="labelPosition">
+            <el-form :model="editForm" :rules="editFormRules" ref="editForm" :label-width="labelWidth"  :label-position="labelPosition">
                 <el-tabs v-model="activeName" @tab-click="handleClick">
                     <el-tab-pane label="基本信息" name="first">
                         <el-row>
@@ -188,7 +188,11 @@ export default {
             fileList:[],
             cover_url:'',
             model:null,
-
+            editFormRules:{
+                goods_price:[
+                    {required: true,pattern:/^(([1-9]\d{0,9})|0)(\.\d{1,2})?$/,  message: '价格格式为88:88', trigger:'blur'}
+                ],
+            },
         }
     },
     methods:{

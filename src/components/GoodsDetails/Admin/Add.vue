@@ -1,7 +1,7 @@
 <template>
     <div >
         <MyDialog title="添加" :name="name" :width="width" :height="height" @before-open="onOpen">
-            <el-form :model="addForm" ref="addForm" :label-width="labelWidth"  :label-position="labelPosition">
+            <el-form :model="addForm" :rules="addFormRules" ref="addForm" :label-width="labelWidth"  :label-position="labelPosition">
                 <el-tabs v-model="activeName" @tab-click="handleClick">
                     <el-tab-pane label="基本信息" name="first">
                         <el-row>
@@ -122,28 +122,29 @@
                         <br>
 
                         <AttrItem :form-object="attrForm"></AttrItem>
-                    
-                        <el-form-item label="SKU"  prop="unit_type">
-                            <el-col :span="10">
-                                <el-input v-model="skuForm.name" placeholder="请输入内容"></el-input>
-                            </el-col>
-                        </el-form-item>
-                    
-                        <el-form-item label="价格"  prop="unit_type">
-                            <el-col :span="10">
-                                <el-input v-model="skuForm.price" placeholder="请输入内容"></el-input>
-                            </el-col>
-                        </el-form-item>
-                    
-                        <el-form-item label="数量"  prop="unit_type">
-                            <el-col :span="10">
-                                <el-input  v-model="skuForm.num" placeholder="请输入内容"></el-input>
-                            </el-col>
-                        </el-form-item>
-                    
-                        <el-form-item  prop="unit_type">
-                            <el-button @click="addSku">添加SKU</el-button>
-                        </el-form-item>
+                        <el-form :model="skuForm" :rules="skuFormRules" ref="skuForm" :label-width="labelWidth"  :label-position="labelPosition">
+                            <el-form-item label="SKU"  prop="unit_type">
+                                <el-col :span="10">
+                                    <el-input v-model="skuForm.name" placeholder="请输入内容"></el-input>
+                                </el-col>
+                            </el-form-item>
+                        
+                            <el-form-item label="价格"  prop="price">
+                                <el-col :span="10">
+                                    <el-input v-model="skuForm.price" placeholder="请输入内容"></el-input>
+                                </el-col>
+                            </el-form-item>
+                        
+                            <el-form-item label="数量"  prop="num">
+                                <el-col :span="10">
+                                    <el-input  v-model="skuForm.num" placeholder="请输入内容"></el-input>
+                                </el-col>
+                            </el-form-item>
+
+                            <el-form-item  prop="unit_type">
+                                <el-button @click="addSku">添加SKU</el-button>
+                            </el-form-item>
+                        </el-form>
                     </el-tab-pane>
 
                     <el-tab-pane label="商品图片" name="third">
@@ -244,6 +245,19 @@ export default {
                 name:"",
                 price:"",
                 num:""
+            },
+            addFormRules:{
+                goods_price:[
+                    {required: true,pattern:/^(([1-9]\d{0,9})|0)(\.\d{1,2})?$/,  message: '价格格式为88:88', trigger:'blur'}
+                ],
+            },
+            skuFormRules:{
+                price:[
+                    {required: true,pattern:/^(([1-9]\d{0,9})|0)(\.\d{1,2})?$/,  message: '价格格式为88:88', trigger:'blur'}
+                ],
+                num:[
+                    {required: true,pattern:/^([0-9]\d{0,9})$/,  message: '数量必须为数字', trigger:'blur'}
+                ],
             },
 
         }

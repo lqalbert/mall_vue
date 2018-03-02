@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<MyDialog title="编辑规格" :name="name" :width="width" :height="height" @before-open="onOpen" @before-close="onClose">
-			<el-form :model="skuForm" ref="skuForm" :label-width="labelWidth"  :label-position="labelPosition">
+			<el-form :model="skuForm" :rules="skuFormRules" ref="skuForm" :label-width="labelWidth"  :label-position="labelPosition">
 				<el-table :data="skulist" @row-click="handRowClick">
 					<el-table-column type="index" label="序号" width="80">
 					</el-table-column>
@@ -114,7 +114,15 @@ export default {
 				goods_id:""
 			},
 			
-			button_label:SET_BUTTON_LABLE_ADD
+			button_label:SET_BUTTON_LABLE_ADD,
+			skuFormRules:{
+                price:[
+                    {required: true,pattern:/^(([1-9]\d{0,9})|0)(\.\d{1,2})?$/,  message: '价格格式为88:88', trigger:'blur'}
+                ],
+                num:[
+                    {required: true,pattern:/^([0-9]\d{0,9})$/,  message: '数量必须为数字', trigger:'blur'}
+                ],
+            },
 		}
     },
     methods:{

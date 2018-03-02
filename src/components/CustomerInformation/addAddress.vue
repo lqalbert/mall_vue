@@ -93,7 +93,7 @@ export default {
                 address:'',
                 default_address:1,
                 zip_code:'',
-                cus_ids:'',
+                cus_id:'',
             },
             addressData:[],
             model:'',
@@ -111,14 +111,14 @@ export default {
     },
     methods:{
         handleSubmit(){
-               this.formSubmit('addDeliveryAddressForm');
+            this.addDeliveryAddressForm.cus_id = this.cus_id;
+            this.formSubmit('addDeliveryAddressForm');
         },
         getAjaxProxy(){
             return  this.ajaxProxy;
         },
         formSubmit(name){
             let model = this[name];
-            console.log(model);die();
             if (this.$refs[name].rules) {
                 this.$refs[name].validate((valid)=>{
                     if (valid) {

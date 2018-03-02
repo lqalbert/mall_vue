@@ -37,7 +37,7 @@
         </el-row>
         <el-row>
             <el-col>
-                <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload">
+                <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" :page-size='10'>
                     <!-- <el-table-column type="selection" align="center" width="50"></el-table-column> -->
                     <el-table-column label="序号" align="center" type="index" width="65"></el-table-column>
 
@@ -133,6 +133,7 @@
         </Edit>
 
         <Spec name='edit-goods-spec' 
+            :cate-map="cidMapTypeId"
             :ajax-proxy="ajaxProxy">
         </Spec>
     </div>

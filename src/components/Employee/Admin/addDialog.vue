@@ -196,15 +196,12 @@
 
         },
         computed:{
-            ...mapGetters([
-                'roles',
-
-            ]),
             ...mapGetters({
             // 映射 `this.creator` 为 `store.getters.user_id`
             // 映射 `this.creator_name` 为 `store.getters.realname`
                 creator: 'user_id',
-                creator_name:"realname"
+                creator_name:"realname",
+                roles: 'assignable',
             })
         },
         data () {

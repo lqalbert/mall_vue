@@ -186,12 +186,11 @@
             },
         },
         computed:{
-            ...mapGetters([
-                'roles'
-            ]),
             ...mapGetters({
-                'user_department_id':'department_id'
+                'user_department_id':'department_id',
+                roles: 'assignable',
             })
+            
         },
         data () {
             return {

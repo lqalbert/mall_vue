@@ -255,9 +255,9 @@
             }
         },
         methods: {
-            ...mapActions([
-                'getRoles'
-            ]),
+            ...mapActions({
+                'getRoles':'getAssignRoles'
+            }),
 
             getAjaxProxy(){
               return  this.ajaxProxy;

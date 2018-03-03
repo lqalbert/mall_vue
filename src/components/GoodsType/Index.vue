@@ -108,9 +108,11 @@ export default {
             this.mainparam = JSON.stringify(param);
         },
         showAdd(){
+            this.getGoodsSpecs();
             this.$modal.show('add-goods-type');
         },
         showEdit(row){
+            this.getGoodsSpecs();
             this.$modal.show('edit-goods-type',{model:row});
         },
         loadSpecs(data){

@@ -122,11 +122,18 @@
                     </el-table-column>
                     <el-table-column prop="created_at" label="下单时间" align="center">
                     </el-table-column>
-                    <el-table-column  width="300" fixed="right" label="操作" align="center">
+                    <el-table-column  width="200" fixed="right" label="操作" align="center">
                         <template slot-scope="scope">
-                            <el-button type="info" size="small" @click="open2(scope.row.id)">发起退款</el-button>
-                            <el-button type="info" size="small" @click="showExchange(scope.row)">换货</el-button>
-                            <el-button type="info" size="small" @click="showRowData(scope.row)">编辑</el-button>
+                            <el-dropdown>
+                                <el-button type="primary" size="small">
+                                    更多操作<i class="el-icon-caret-bottom el-icon--right"></i>
+                                </el-button>
+                                <el-dropdown-menu slot="dropdown">
+                                    <el-dropdown-item><el-button type="info" size="small" @click="open2(scope.row.id)">发起退款</el-button></el-dropdown-item>
+                                    <el-dropdown-item><el-button type="info" size="small" @click="showExchange(scope.row)">换货</el-button></el-dropdown-item>
+                                    <el-dropdown-item><el-button type="info" size="small" @click="showRowData(scope.row)">编辑</el-button></el-dropdown-item>
+                                </el-dropdown-menu>
+                            </el-dropdown>
                             <el-button type="danger" @click="handleDelete(scope.row.id)" size="small">删除</el-button>
                         </template>
                     </el-table-column>

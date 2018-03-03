@@ -11,7 +11,15 @@
             <el-form ref="addOrderForm" :model="addOrderForm" :label-width="labelWidth"   :label-position="labelPosition"  label-width="140px">
 
                 <div v-show="this.active==0">
+
                     <el-row>
+                        <el-col :span="12">
+                            <el-form-item prop="deal_id" label="请选择成交员工">
+                                <el-select v-model="addOrderForm.deal_id" placeholder="请选择成交员工"  @change="userChange">
+                                    <el-option v-for="v in users" :value="v.id" :key="v.id" :label="v.realname" ></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
                         <el-col :span="12">
                             <el-form-item prop="cus_id" label="请选择客户">
                                 <el-select v-model="cus_id" placeholder="请选择客户" @change="customerChange">
@@ -82,13 +90,7 @@
                                 </el-select>
                             </el-form-item>
                         </el-col>
-                        <el-col :span="12">
-                            <el-form-item prop="deal_id" label="请选择成交员工">
-                                <el-select v-model="addOrderForm.deal_id" placeholder="请选择成交员工"  @change="userChange">
-                                    <el-option v-for="v in users" :value="v.id" :key="v.id" :label="v.realname" ></el-option>
-                                </el-select>
-                            </el-form-item>
-                        </el-col>
+
                     </el-row>
 
                 </div>
@@ -156,6 +158,7 @@
         data(){
             return {
                 dialogThis:this,
+                address_id:"",
                 labelPosition:"right",
                 labelWidth:'80px',
                 totalMoney:0,
@@ -236,6 +239,9 @@
                         this.deal_name=this.users[i]['realname'];
                     }
                 }
+            },
+            addressChange(address_id){
+                this.address_id=address_id;
                 this.addressList=[];
                 let data={
                     name : this.addressListData[this.address_id].name,
@@ -244,9 +250,6 @@
                     deal_name:this.deal_name
                 };
                 this.addressList.push(data);
-            },
-            addressChange(address_id){
-                this.address_id=address_id;
             },
             handleSubmit(){
                 this.addOrderForm.cus_id = this.cus_id;

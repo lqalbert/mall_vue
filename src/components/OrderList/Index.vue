@@ -124,14 +124,14 @@
                     </el-table-column>
                     <el-table-column  width="200" fixed="right" label="操作" align="center">
                         <template slot-scope="scope">
-                            <el-dropdown>
+                            <el-dropdown trigger="click">
                                 <el-button type="primary" size="small">
                                     更多操作<i class="el-icon-caret-bottom el-icon--right"></i>
                                 </el-button>
                                 <el-dropdown-menu slot="dropdown">
-                                    <el-dropdown-item><el-button type="info" size="small" @click="open2(scope.row.id)">发起退款</el-button></el-dropdown-item>
-                                    <el-dropdown-item><el-button type="info" size="small" @click="showExchange(scope.row)">换货</el-button></el-dropdown-item>
-                                    <el-dropdown-item><el-button type="info" size="small" @click="showRowData(scope.row)">编辑</el-button></el-dropdown-item>
+                                    <el-dropdown-item><el-button class="menu" @click="open2(scope.row.id)">发起退款</el-button></el-dropdown-item>
+                                    <el-dropdown-item><el-button class="menu" @click="showExchange(scope.row)">换货</el-button></el-dropdown-item>
+                                    <el-dropdown-item><el-button class="menu" @click="showRowData(scope.row)">编辑</el-button></el-dropdown-item>
                                 </el-dropdown-menu>
                             </el-dropdown>
                             <el-button type="danger" @click="handleDelete(scope.row.id)" size="small">删除</el-button>
@@ -375,4 +375,17 @@
     /* .el-form-item {
         margin-bottom: 2px;
     } */
+    .menu
+    {
+        width: 100%;
+        border: none;
+        background-color: #20A0FF;
+    }
+    .menu:hover
+    {
+        width: 100%;
+        border: none;
+        background-color: #20A0FF;
+        color: black;
+    }
 </style>

@@ -5,7 +5,7 @@
                 <el-form-item prop="value7" >
                     <el-date-picker
                             size="small"
-                            v-model="value7"
+                            v-model="searchForm.value7"
                             type="daterange"
                             align="right"
                             placeholder="选择日期"

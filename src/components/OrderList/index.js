@@ -160,7 +160,7 @@ export default {
             goodsProxy.setExtraParam({goods_id:row.goods_id,order_id:row.id}).load();
             /** 选项卡3获取用户地址信息 */
             let addressProxy = new SelectProxy(DeliveryAddressAjaxProxy.getUrl(), this.loaddelivery, this);
-            addressProxy.setExtraParam({cus_id:row.cus_id}).load();
+            addressProxy.setExtraParam({address_id:row.address_id}).load();
             /** 选项卡2显示订单商品信息 */
             this.loadbuyer2(row.cus_id);
         },
@@ -241,7 +241,9 @@ export default {
             this.searchForm.condition = '';
             this.searchForm.type = '';
             this.searchForm.deliver = '';
+            this.searchForm.value7 = '';
             this.searchToolChange('searchForm');
+            this.refresh();
         },
         refresh(){
             this.$emit('refresh-success');

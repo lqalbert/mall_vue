@@ -177,7 +177,7 @@ export default {
         this.getCateCascader();
         this.getUnitTypes();
 
-        this.mainparam = JSON.stringify({with:['category']});
+        this.mainparam = JSON.stringify({with:['category'], orderField:'id',orderWay:'desc'});
         
     },
 

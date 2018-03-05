@@ -16,7 +16,7 @@
 
                 <el-form-item prop="value7" >
                     <el-date-picker
-                            v-model="value7"
+                            v-model="searchForm.value7"
                             type="daterange"
                             align="right"
                             placeholder="选择日期"
@@ -31,7 +31,7 @@
 
                 <el-form-item>
                   <el-button type="primary" size="small" icon="search" @click="searchToolChange('searchForm')">查询</el-button>
-                  <el-button type="primary" size="small" @click="searchToolReset('searchForm')">重置</el-button>
+                  <el-button type="primary" size="small" @click="show_all">重置</el-button>
                   <el-button type="danger" size="small" @click="refresh">刷新</el-button>
                 </el-form-item>
             </el-form>
@@ -178,11 +178,25 @@ export default {
       handleCheck(row){
         this.$modal.show('check',{row:row});
       },
+      show_all:function(){
+          this.searchForm.type = '';
+          this.searchForm.deliver = '';
+          this.searchForm.goods_name = '';
+          this.searchForm.consignee = '';
+          this.searchForm.id = '';
+          this.searchForm.sale_name = '';
+          this.searchForm.end = '';
+          this.searchForm.condition = '';
+          this.searchForm.type = '';
+          this.searchForm.deliver = '';
+          this.searchForm.value7 = '';
+          this.searchToolChange('searchForm');
+          this.refresh();
+      },
       mainTableLoad(data){
           this.toggleTableLoad();
           this.tableData = data.items;
           this.total = data.total;
-          console.log(this.mainurl);return;
       },
       currentChange(v){
           this.toggleTableLoad();
@@ -207,20 +221,12 @@ export default {
 //              this.mainProxy.setExtraParam(param).load();
 //      },
         onSearchChange(param){
-            console.log(param);
+          console.log(11111);
+          console.log(JSON.stringify(param));
             this.mainparam = JSON.stringify(param);
         },
       buyTimeDateChange(v){
         this.searchForm.buy_time = v;
-      },
-      initOrderlist(data){
-          this.tableData = data.items;
-          this.mainData = data.items;
-          console.log(this.mainurl);
-      },
-      buyorderInit(business){
-          let selectProxy = new SelectProxy(this.ajaxProxy.getUrl(), this.initOrderlist, this);
-          selectProxy.setExtraParam({business:business}).load();
       },
       mainTableLoad(data){
           this.toggleTableLoad();
@@ -246,8 +252,6 @@ export default {
          this.orderProxy.load();
          this.$on('search-tool-change', this.onSearchChange);
          this.$on('refresh-success', this.handleReload);
-
-         this.buyorderInit('BuyOrder');
      },
     filters: {
       handleString: function (v) {

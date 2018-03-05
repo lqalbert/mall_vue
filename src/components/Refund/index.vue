@@ -4,7 +4,7 @@
             <el-form :inline="true" ref="searchForm" :model="searchForm">
                 <el-form-item prop="value7" >
                     <el-date-picker
-                            v-model="value7"
+                            v-model="searchForm.value7"
                             type="daterange"
                             align="right"
                             placeholder="选择日期"
@@ -311,8 +311,18 @@
                 this.tabindex = tab.index;
             },
             show_all:function(){
-                this.$refs.searchForm.resetFields();
-                this.searchToolChange('searchForm');
+                this.searchForm.type = '';
+                this.searchForm.deliver = '';
+                this.searchForm.goods_name = '';
+                this.searchForm.consignee = '';
+                this.searchForm.id = '';
+                this.searchForm.sale_name = '';
+                this.searchForm.end = '';
+                this.searchForm.condition = '';
+                this.searchForm.type = '';
+                this.searchForm.deliver = '';
+                this.searchForm.value7 = '';
+                this.refresh();
             },
             delivesearch:function($criteria){
                 this.searchToolReset('searchForm');

@@ -33,6 +33,9 @@ export default {
                 start:'',
                 end:'',
                 cate_id:[],
+                with:['category'],
+                orderField:'id',
+                orderWay:'desc'
             },
             pickerOptions: {
                 disabledDate(time) {
@@ -120,7 +123,7 @@ export default {
         this.getCateCascader();
         this.getUnitTypes();
 
-        this.mainparam = JSON.stringify({with:['category']});
+        this.mainparam = JSON.stringify({with:['category'], orderField:'id',orderWay:'desc'});
         
     },
 

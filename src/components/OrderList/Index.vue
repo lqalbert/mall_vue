@@ -122,11 +122,18 @@
                     </el-table-column>
                     <el-table-column prop="created_at" label="下单时间" align="center">
                     </el-table-column>
-                    <el-table-column  width="300" fixed="right" label="操作" align="center">
+                    <el-table-column  width="200" fixed="right" label="操作" align="center">
                         <template slot-scope="scope">
-                            <el-button type="info" size="small" @click="open2(scope.row.id)">发起退款</el-button>
-                            <el-button type="info" size="small" @click="showExchange(scope.row)">换货</el-button>
-                            <el-button type="info" size="small" @click="showRowData(scope.row)">编辑</el-button>
+                            <el-dropdown trigger="click">
+                                <el-button type="primary" size="small">
+                                    更多操作<i class="el-icon-caret-bottom el-icon--right"></i>
+                                </el-button>
+                                <el-dropdown-menu slot="dropdown">
+                                    <el-dropdown-item><el-button class="menu" @click="open2(scope.row.id)">发起退款</el-button></el-dropdown-item>
+                                    <el-dropdown-item><el-button class="menu" @click="showExchange(scope.row)">换货</el-button></el-dropdown-item>
+                                    <el-dropdown-item><el-button class="menu" @click="showRowData(scope.row)">编辑</el-button></el-dropdown-item>
+                                </el-dropdown-menu>
+                            </el-dropdown>
                             <el-button type="danger" @click="handleDelete(scope.row.id)" size="small">删除</el-button>
                         </template>
                     </el-table-column>
@@ -237,21 +244,18 @@
                         </el-tab-pane>
 
                         <el-tab-pane label="订单操作记录">
-                            <el-table empty-text="请点击客户显示跟踪信息" border style="width: 100%">
-                                <el-table-column prop="user" label="操作员工" align="center">
+                            <el-table :data="manageData" empty-text="请点击客户显示跟踪信息" border style="width: 100%">
+                                <el-table-column  prop="order_id" label="订单id" align="center">
+                                </el-table-column>
+                                <el-table-column  prop="order_action" label="操作动作" align="center">
+                                </el-table-column>
+                                <el-table-column  prop="manager" label="操作员" align="center">
+                                </el-table-column>
+                                <el-table-column  prop="remark" label="操作备注" align="center">
+                                </el-table-column>
+                                <el-table-column  prop="time" label="操作时间" align="center">
                                 </el-table-column>
 
-                                <el-table-column label="投诉内容" align="center">
-                                    <template slot-scope="scope">
-                                        {{scope.row.content | handleString}}
-                                    </template>
-                                </el-table-column>
-
-                                <el-table-column prop="created_at" label="投诉时间" width="180" align="center">
-                                </el-table-column>
-
-                                <el-table-column prop="type_text" label="投诉类型" align="center">
-                                </el-table-column>
                             </el-table>
                         </el-tab-pane>
 
@@ -371,4 +375,17 @@
     /* .el-form-item {
         margin-bottom: 2px;
     } */
+    .menu
+    {
+        width: 100%;
+        border: none;
+        background-color: #20A0FF;
+    }
+    .menu:hover
+    {
+        width: 100%;
+        border: none;
+        background-color: #20A0FF;
+        color: black;
+    }
 </style>

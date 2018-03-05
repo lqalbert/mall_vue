@@ -142,6 +142,8 @@
     import DataProxy from '../../packages/DataProxy';
     import SelectProxy from  '../../packages/SelectProxy';
     import GoodsDetailsAjax from '../../ajaxProxy/GoodsDetails';
+    import EmployeeSelect from '@/packages/EmployeeSelectProxy'; 
+    import { mapGetters } from 'vuex';
     
     import APP_CONST from '../../config';
     export default {
@@ -193,6 +195,11 @@
                 addressID:'',
                 dev:[]
             }
+        },
+        computed:{
+            ...mapGetters({
+                'user_department_id':'department_id'
+            })
         },
         methods:{
             addOrders(){
@@ -374,7 +381,7 @@
             },
         },
         created(){
-            let orderDataProxy = new DataProxy('/employees',this.pageSize,this.getUsersData, this);
+            let orderDataProxy = new EmployeeSelect({department_id:this.user_department_id, role:'sale-department-member'}, this.getUsersData, this);
             this.orderDataProxy = orderDataProxy;
             this.orderDataProxy.load();
         }

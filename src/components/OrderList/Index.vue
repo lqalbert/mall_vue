@@ -146,18 +146,6 @@
             </el-col>
         </el-row>
 
-        <div class="pull-right" style="float:right;margin-top: 5px" >
-            <!--<el-col :span="12">-->
-            <!--<el-pagination-->
-            <!--:current-page="currentPage4"-->
-            <!--:page-size="100"-->
-            <!--layout="total, prev, pager, next, jumper"-->
-            <!--:total="total"-->
-            <!--@current-change="currentChange">-->
-            <!--</el-pagination>-->
-            <!--</el-col>-->
-
-        </div>
 
         <rowInfo name="rowInfo"
                  :ajax-proxy="ajaxProxy"

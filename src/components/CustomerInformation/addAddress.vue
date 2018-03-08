@@ -74,7 +74,7 @@ const maxLengthContacts = 20;
 const FORMSTATE_ADD = '确 定';
 const FORMSTATE_EDIT = '编 辑';
 export default {
-     name: 'DeliveryAddress',
+     name: 'addAddress',
      mixins:[DialogForm],
      props:{
     },
@@ -149,20 +149,18 @@ export default {
                 vmthis.$refs[name].resetFields();
                 vmthis.getAddress(vmthis.cus_id);
                 vmthis.hideForm();
-            })
-                .catch(function(error){
-                    if(error.response){
-                        console.log(error.response.data);
-                        console.log(error.response.status);
-                        console.log(error.response.headers);
-                    }else{
-                        console.log('Error',error.message);
-                    }
-                    vmthis.$message.error('出错了');
-                })
-                .then(function(){
-                    vmthis.$emit('submit-final', name);
-                });
+            }).catch(function(error){
+                if(error.response){
+                    console.log(error.response.data);
+                    console.log(error.response.status);
+                    console.log(error.response.headers);
+                }else{
+                    console.log('Error',error.message);
+                }
+                vmthis.$message.error('出错了');
+            }).then(function(){
+                vmthis.$emit('submit-final', name);
+            });
         },
         onOpen(param){
             this.cus_id = param.params.model.contacts[0].cus_id;

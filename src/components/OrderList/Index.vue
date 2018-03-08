@@ -124,14 +124,20 @@
                     </el-table-column>
                     <el-table-column  width="200" fixed="right" label="操作" align="center">
                         <template slot-scope="scope">
-                            <el-dropdown trigger="click">
+                            <el-dropdown trigger="click" menu-align="start">
                                 <el-button type="primary" size="small">
                                     更多操作<i class="el-icon-caret-bottom el-icon--right"></i>
                                 </el-button>
-                                <el-dropdown-menu slot="dropdown">
-                                    <el-dropdown-item><el-button class="menu" @click="open2(scope.row.id)">发起退款</el-button></el-dropdown-item>
-                                    <el-dropdown-item><el-button class="menu" @click="showExchange(scope.row)">换货</el-button></el-dropdown-item>
-                                    <el-dropdown-item><el-button class="menu" @click="showRowData(scope.row)">编辑</el-button></el-dropdown-item>
+                                <el-dropdown-menu slot="dropdown" split-button>
+                                    <el-dropdown-item>
+                                        <el-button class="menu" @click="open2(scope.row.id)">发起退款</el-button>
+                                    </el-dropdown-item>
+                                    <el-dropdown-item>
+                                        <el-button class="menu" @click="showExchange(scope.row)">换货</el-button>
+                                    </el-dropdown-item>
+                                    <el-dropdown-item>
+                                        <el-button class="menu" @click="showRowData(scope.row)">编辑</el-button>
+                                    </el-dropdown-item>
                                 </el-dropdown-menu>
                             </el-dropdown>
                             <el-button type="danger" @click="handleDelete(scope.row.id)" size="small">删除</el-button>
@@ -368,6 +374,7 @@
         width: 100%;
         border: none;
         background-color: #20A0FF;
+        color:#fbfdff;
     }
     .menu:hover
     {

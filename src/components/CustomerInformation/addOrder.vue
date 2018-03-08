@@ -2,7 +2,7 @@
     <div >
         <MyDialog title="添加订单" :name="name" :width="width" :height="height" @before-open="onOpen">
             <br>
-            <el-steps :space="250" :active="active" finish-status="success">
+            <el-steps :space="300" :active="active" process-status="finish" finish-status="success" center align-center>
                 <el-step title="添加商品"></el-step>
                 <el-step title="选择收货地址"></el-step>
                 <el-step title="确认订单"></el-step>
@@ -147,7 +147,7 @@
     import APP_CONST from '../../config';
     import { mapGetters, mapMutations } from 'vuex';
     export default {
-        name: 'DeliveryAddress',
+        name: 'addOrder',
         mixins:[DialogForm],
         props:{
             CategoryList:'',
@@ -241,7 +241,8 @@
                         this.deal_name = this.users[i].realname;
                         this.addOrderForm.deal_name = this.deal_name;
                     }  
-                } 
+                }
+                
             },
             addressChange(address_id){
                 this.address_id=address_id;

@@ -120,7 +120,7 @@ export default {
   },
   created(){
     NavAjax.getNav().then(data=>{
-      // console.log(data);
+       //console.log(data);
       // console.log(this.nav);
       this.nav = data.data;
     });

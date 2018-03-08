@@ -93,10 +93,10 @@
                         <el-row>
                             <el-col :span="12">
                                 <el-form-item label="性别">
-                                    <el-checkbox-group v-model="editForm.sex" >
-                                        <el-checkbox class="checkbox"  :label="1">男</el-checkbox>
-                                        <el-checkbox class="checkbox"  :label="2">女</el-checkbox>
-                                    </el-checkbox-group>
+                                    <el-radio-group v-model="editForm.sex" >
+                                        <el-radio   :label="1">男</el-radio>
+                                        <el-radio   :label="2">女</el-radio>
+                                    </el-radio-group>
                                 </el-form-item>
                             </el-col>
                         </el-row>
@@ -212,7 +212,7 @@
                     role_ids:[],
                     group_id:0,
                     department_id:"",
-                    sex:"",
+                    sex:'',
                     telephone:"",
                     mobilephone:"",
                     realname:"",

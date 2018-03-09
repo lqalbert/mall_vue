@@ -30,6 +30,13 @@ const PageList = {
     'Website': (resolve) => { require(['./Website/Index.vue'], resolve)},
     'Contacts': (resolve) => { require(['./Contacts/Index.vue'], resolve)},
 
+    'ExpressCompany': (resolve) => { require(['./ExpressCompany/Index.vue'], resolve)},
+    'ExpressReceive': (resolve) => { require(['./ExpressReceive/Index.vue'], resolve)},
+    'DistributionDelivery': (resolve) => { require(['./DistributionDelivery/Index.vue'], resolve)},
+    'ShelvesManagement': (resolve) => { require(['./ShelvesManagement/Index.vue'], resolve)},
+    'DistributionCenter': (resolve) => { require(['./DistributionCenter/Index.vue'], resolve)},
+
+
 };
 
 export default PageList;

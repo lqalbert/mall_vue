@@ -2,14 +2,14 @@
     <div class="hello">
         <el-row>
             <el-form :inline="true" :model="searchForm" ref="searchForm" class="demo-form-inline" size="small">
-                <el-form-item prop="center_name">
-                    <el-input v-model="searchForm.center_name" size="small" placeholder="名称"></el-input>
+                <el-form-item prop="name">
+                    <el-input v-model="searchForm.name" size="small" placeholder="名称"></el-input>
                 </el-form-item>
-                <el-form-item prop="contact_name">
-                    <el-input v-model="searchForm.contact_name" size="small" placeholder="联系人"></el-input>
+                <el-form-item prop="contact">
+                    <el-input v-model="searchForm.contact" size="small" placeholder="联系人"></el-input>
                 </el-form-item>
-                <el-form-item prop="contact_tel">
-                    <el-input v-model="searchForm.contact_tel" size="small" placeholder="联系方式"></el-input>
+                <el-form-item prop="contact_phone">
+                    <el-input v-model="searchForm.contact_phone" size="small" placeholder="联系方式"></el-input>
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" size="small" icon="search" @click="searchToolChange('searchForm')">查询</el-button>
@@ -20,94 +20,90 @@
         </el-row>
         <el-row>
             <el-col>
-                <!-- <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload"> -->
-                <el-table :data="mainData" border highlight-current-row style="width: 100%">
-                    <el-table-column label="ID" align="center" prop="id">
-                    </el-table-column>
+                 <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload">
 
-                    <el-table-column prop="center_name" label="名称" align="center">
-                    </el-table-column>
+                    <el-table-column label="ID" align="center" prop="id"></el-table-column>
 
-                    <el-table-column prop="contact_name" label="联系人" align="center">
-                    </el-table-column>
+                    <el-table-column prop="name" label="名称" align="center"></el-table-column>
 
-                    <el-table-column prop="contact_tel" label="联系方式" align="center">
-                    </el-table-column>
+                    <el-table-column prop="contact" label="联系人" align="center"></el-table-column>
 
-                    <el-table-column prop="address" label="地址" align="center">
-                    </el-table-column>
+                    <el-table-column prop="contact_phone" label="联系方式" align="center"></el-table-column>
 
-                    <el-table-column prop="remark" label="备注" align="center">
-                    </el-table-column>
+                    <el-table-column prop="address" label="地址" align="center"></el-table-column>
 
-                    <!-- <el-table-column  label="操作" align="center" width="200">
+                    <el-table-column prop="comment" label="备注" align="center"></el-table-column>
+
+                    <el-table-column  label="操作" align="center" width="200">
                         <template slot-scope="scope">
                             <el-button type="info" size="small" @click="showEdit(scope.row)">编辑</el-button>
                             <el-button type="danger" size="small" @click="handleDelete(scope.row.id)">删除</el-button>
                         </template>
-                    </el-table-column> -->
+                    </el-table-column>
 
-                    <!-- <div slot="buttonbar">
-                        <el-button type="primary" size="small" @click="showAdd">添加</el-button>
-                    </div> -->
-                </el-table>
-                <!-- </TableProxy> -->
+                   <div slot="buttonbar">
+                        <el-button type="primary" size="small" @click="add">添加</el-button>
+                    </div>
+
+                 </TableProxy>
             </el-col>
         </el-row>
-        <el-row >
-            <el-col :span="12">
-                <!-- <el-button type="primary" size="small" @click="showAdd">添加</el-button>          -->
-            </el-col>
-            <el-col :span="12" :offset="12">
-                <div class="pull-right">
-                    <el-pagination
-                        :current-page="currentPage"
-                        :page-size="pageSize"
-                        layout="total, prev, pager, next, jumper"
-                        :total="total">
-                    </el-pagination>   
-                </div>
-            </el-col>
-        </el-row>
+
+        <add-dialog
+                name="add"
+                :ajax-proxy="ajaxProxy"
+                @submit-success="handleReload">
+        </add-dialog>
+        <edit-dialog
+                name="edit"
+                :ajax-proxy="ajaxProxy"
+                @submit-success="handleReload">
+        </edit-dialog>
+
     </div>
 </template>
 <script>
+import addDialog from './add.vue';
+import editDialog from './edit.vue';
+import config from '../../mix/Delete';
 import PageMix from '../../mix/Page';
 import SearchTool from '../../mix/SearchTool';
 import DataTable from '../../mix/DataTable';
+import { mapGetters } from 'vuex';
+import Dialog from '../common/Dialog';
+import DistributionCenterAjaxProxy from '../../ajaxProxy/DistributionCenter';
 export default {
     name: 'DistributionCenter',
     pageTitle:"配送中心",
-    mixins:[PageMix,SearchTool,DataTable],
+    mixins:[PageMix,SearchTool,config,DataTable,DistributionCenterAjaxProxy],
     components:{
-
+        addDialog,
+        editDialog,
     },
     data(){
         return {
             mainparam:"",
-            mainurl:'',
-            ajaxProxy:'',
+            mainurl:DistributionCenterAjaxProxy.getUrl(),
+            ajaxProxy:DistributionCenterAjaxProxy,
             searchForm:{
-                center_name:'',
-                contact_name:'',
-                contact_tel:'',
+                name:'',
+                contact:'',
+                contact_phone:'',
             },
-            mainData:[
-                {id:'20180300',center_name:'广州配送中心',contact_name:'张无机',contact_tel:'13666666666',address:'广州市白云区啊啊啊',remark:'这个地方很好啊啊',},
-                {id:'20180300',center_name:'广州配送中心',contact_name:'张无机',contact_tel:'13666666666',address:'广州市白云区啊啊啊',remark:'这个地方很好啊啊',},
-                {id:'20180300',center_name:'广州配送中心',contact_name:'张无机',contact_tel:'13666666666',address:'广州市白云区啊啊啊',remark:'这个地方很好啊啊',},
-                {id:'20180300',center_name:'广州配送中心',contact_name:'张无机',contact_tel:'13666666666',address:'广州市白云区啊啊啊',remark:'这个地方很好啊啊',},
-                {id:'20180300',center_name:'广州配送中心',contact_name:'张无机',contact_tel:'13666666666',address:'广州市白云区啊啊啊',remark:'这个地方很好啊啊',},
-                {id:'20180300',center_name:'广州配送中心',contact_name:'张无机',contact_tel:'13666666666',address:'广州市白云区啊啊啊',remark:'这个地方很好啊啊',},
-            ],
-            currentPage:1,
-            pageSize:10,
-            total:100,
         }
     },
     methods:{
+        add(){
+            this.$modal.show('add');
+        },
+        showEdit(row){
+            this.$modal.show('edit',{model:row});
+        },
+        getAjaxProxy(){
+            return  this.ajaxProxy;
+        },
         onSearchChange(param){
-            //this.mainparam = JSON.stringify(param);
+            this.mainparam = JSON.stringify(param);
         },
 
     },

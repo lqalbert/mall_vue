@@ -79,8 +79,8 @@
     height: 100%;
     width: 100%;
     background-color:  #0090E6;
-    /*background-image: url("../img/two.png");*/
-    background-size: 100% 100%;
+    background-image: url("/images/loginbackground2.png");
+    /* background-size: 100% 100%; */
     background-position: center;
     background-repeat: no-repeat;
 }

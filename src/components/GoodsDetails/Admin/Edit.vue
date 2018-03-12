@@ -58,6 +58,11 @@
                                     <el-input class="name-input" v-model="editForm.goods_number"  auto-complete="off" placeholder="请填写商品货号"></el-input>
                                 </el-form-item>
                             </el-col>
+                            <el-col :span="12">
+                                <el-form-item label="商品编号(改成必填)"  prop="sku_sn">
+                                    <el-input class="name-input" v-model="editForm.sku_sn"  auto-complete="off" placeholder="请填写商品编号"></el-input>
+                                </el-form-item>
+                            </el-col>
                         </el-row>
                         <el-row>
                             <el-col :span="12">
@@ -166,6 +171,7 @@ export default {
                 goods_price:'',
                 status:'',
                 goods_number:'',
+                sku_sn:"",
                 unit_type:'',
                 description:'',
                 img_path:[],

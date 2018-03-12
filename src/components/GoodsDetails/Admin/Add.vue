@@ -58,6 +58,11 @@
                                     <el-input class="name-input" v-model="addForm.goods_number"  auto-complete="off" placeholder="请填写商品货号"></el-input>
                                 </el-form-item>
                             </el-col>
+                            <el-col :span="12">
+                                <el-form-item label="商品编号(改成必填)"  prop="sku_sn">
+                                    <el-input class="name-input" v-model="addForm.sku_sn"  auto-complete="off" placeholder="请填写商品编号"></el-input>
+                                </el-form-item>
+                            </el-col>
                         </el-row>
                         <el-row>
                             <el-col :span="12">
@@ -126,6 +131,12 @@
                             <el-form-item label="SKU"  prop="unit_type">
                                 <el-col :span="10">
                                     <el-input v-model="skuForm.name" placeholder="请输入内容"></el-input>
+                                </el-col>
+                            </el-form-item>
+
+                            <el-form-item label="商品编号"  prop="sku_sn">
+                                <el-col :span="10">
+                                    <el-input v-model="skuForm.sku_sn" placeholder="请输入商品编号"></el-input>
                                 </el-col>
                             </el-form-item>
                         
@@ -230,6 +241,7 @@ export default {
                 goods_price:'',
                 status:'2',
                 goods_number:'',
+                sku_sn:"",
                 unit_type:'',
                 description:'',
                 img_path:[],
@@ -244,16 +256,17 @@ export default {
             skuForm:{
                 name:"",
                 price:"",
-                num:""
+                num:"",
+                sku_sn:""
             },
             addFormRules:{
                 goods_price:[
-                    {required: true,pattern:/^(([1-9]\d{0,9})|0)(\.\d{1,2})?$/,  message: '价格格式为88:88', trigger:'blur'}
+                    {required: true,pattern:/^(([1-9]\d{0,9})|0)(\.\d{1,2})?$/,  message: '价格格式为00.00', trigger:'blur'}
                 ],
             },
             skuFormRules:{
                 price:[
-                    {required: true,pattern:/^(([1-9]\d{0,9})|0)(\.\d{1,2})?$/,  message: '价格格式为88:88', trigger:'blur'}
+                    {required: true,pattern:/^(([1-9]\d{0,9})|0)(\.\d{1,2})?$/,  message: '价格格式为00.00', trigger:'blur'}
                 ],
                 num:[
                     {required: true,pattern:/^([0-9]\d{0,9})$/,  message: '数量必须为数字', trigger:'blur'}

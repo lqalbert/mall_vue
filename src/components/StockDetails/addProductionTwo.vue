@@ -56,7 +56,7 @@
                         </template>  
                     </el-table-column>
                 </el-table>
-
+                <br>
                 <el-row>
                     <el-col :span="12">
                         <el-form-item prop="goods_type_id"  label="商品类型">
@@ -211,14 +211,15 @@
                 let index = this.tableData1.indexOf(row);
                 let vmThis = this;
                 if( index > -1){
-                    this.$confirm('确定删除?', '警告',{
-                        confirmButtonText: '确定',
-                        cancelButtonText: '取消',
-                        type: 'warning'
-                    }).then(()=>{
-                        this.tableData1.splice(index,1);
-                        vmThis.$message.success("操作成功");
-                    });
+                    this.tableData1.splice(index,1);
+                    // this.$confirm('确定删除?', '警告',{
+                    //     confirmButtonText: '确定',
+                    //     cancelButtonText: '取消',
+                    //     type: 'warning'
+                    // }).then(()=>{
+                    //     this.tableData1.splice(index,1);
+                    //     vmThis.$message.success("操作成功");
+                    // });
                 }
             },
         },

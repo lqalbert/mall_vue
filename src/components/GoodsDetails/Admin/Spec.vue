@@ -42,6 +42,12 @@
 						<el-input v-model="skuForm.name" placeholder="请输入内容"></el-input>
 					</el-col>
 				</el-form-item>
+
+				<el-form-item label="商品编号"  prop="sku_sn">
+					<el-col :span="10">
+						<el-input v-model="skuForm.sku_sn" placeholder="请输入商品编号"></el-input>
+					</el-col>
+				</el-form-item>
 			
 				<el-form-item label="价格"  prop="price">
 					<el-col :span="10">
@@ -111,7 +117,8 @@ export default {
                 name:"",
                 price:"",
 				num:"",
-				goods_id:""
+				goods_id:"",
+				sku_sn:"",
 			},
 			
 			button_label:SET_BUTTON_LABLE_ADD,

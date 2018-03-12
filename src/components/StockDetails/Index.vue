@@ -100,6 +100,7 @@
                 <br>
                 <div >
                     <el-button size="small"  type="info" @click="addProduction" >生产入库</el-button>
+                    <el-button size="small"  type="info" @click="addProduction2" >生产入库2</el-button>
                     <el-button size="small" type="info" @click="backProduction">退货登记</el-button>
                     <el-button size="small" type="info" @click="badProduction">坏货登记</el-button>
                     <el-button size="small" type="info" @click="exchangeProduction">换货登记</el-button>
@@ -266,13 +267,17 @@
                 @submit-success="handleReload">
         </back-dialog>
 
-
-
         <add-dialog
                 name="addProduction"
                 :ajax-proxy="ajaxProxy"
                 @submit-success="handleReload">
         </add-dialog>
+        
+        <add-dialog-two
+                name="addProductionTwo"
+                :ajax-proxy="ajaxProxy"
+                @submit-success="handleReload">
+        </add-dialog-two>
 
         <bad-dialog
                 name="badProduction"
@@ -291,6 +296,7 @@
 
 <script>
     import addDialog from './addProduction.vue';
+    import addDialogTwo from './addProductionTwo.vue';
     import backDialog from './backProduction.vue';
     import badDialog from './badProduction.vue';
     import exchangeDialog from './exchangeProduction.vue';
@@ -314,6 +320,7 @@
         mixins: [PageMix, SearchTool,DataTable,getUsersByGid],
         components: {
             addDialog,
+            addDialogTwo,
             backDialog,
             badDialog,
             exchangeDialog,
@@ -570,6 +577,9 @@
             },
             addProduction(){
                 this.$modal.show('addProduction');
+            },
+            addProduction2(){
+                this.$modal.show('addProductionTwo');
             },
             exchangeProduction(){
                 this.$modal.show('exchangeProduction');

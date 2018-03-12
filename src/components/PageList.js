@@ -29,6 +29,7 @@ const PageList = {
     'SysNotice': (resolve) => { require(['./SysNotice/Index.vue'], resolve)},
     'Website': (resolve) => { require(['./Website/Index.vue'], resolve)},
     'Contacts': (resolve) => { require(['./Contacts/Index.vue'], resolve)},
+    
     'StockDetails': (resolve) => { require(['./StockDetails/Index.vue'], resolve)},
     'StockSum': (resolve) => { require(['./StockSum/Index.vue'], resolve)},
     'StockOutDetails': (resolve) => { require(['./StockOutDetails/Index.vue'], resolve)},

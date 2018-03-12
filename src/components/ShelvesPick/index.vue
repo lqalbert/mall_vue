@@ -16,7 +16,8 @@
         </el-row>
         <br>
         <div >
-            <el-button size="small"  type="info" @click="addGoodsDialog" >货架拣货</el-button>
+            <!-- <el-button size="small"  type="info" @click="addGoodsDialog" >货架拣货</el-button> -->
+            <el-button size="small"  type="info" @click="addGoodsDialog" >货架上货</el-button>
             <el-button size="small" type="info" @click="editGoodsShelves">修改货架</el-button>
             <el-button size="small" type="info" @click="goodsShelvesStatus">货架状态</el-button>
         </div>

@@ -26,6 +26,8 @@
 
                     <el-table-column prop="name" label="名称" align="center"></el-table-column>
 
+                    <el-table-column prop="eng_name" label="英文简称" align="center"></el-table-column>
+
                     <el-table-column prop="contact" label="联系人" align="center"></el-table-column>
 
                     <el-table-column prop="contact_phone" label="联系方式" align="center"></el-table-column>

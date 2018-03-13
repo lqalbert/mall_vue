@@ -9,17 +9,24 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
+                        <el-form-item label="英文简称" prop="eng_name" >
+                            <el-input class="name-input" v-model="editForm.eng_name"  auto-complete="off"  placeholder="请填写英文简称"></el-input>
+                        </el-form-item>
+                    </el-col>
+
+                </el-row>
+                <el-row>
+                    <el-col :span="12">
                         <el-form-item label="联系人" prop="contact" >
                             <el-input class="name-input" v-model="editForm.contact"  auto-complete="off"  placeholder="请填写联系人"></el-input>
                         </el-form-item>
                     </el-col>
-                </el-row>
-                <el-row>
                     <el-col :span="12">
                         <el-form-item label="联系方式" prop="contact_phone" >
                             <el-input class="name-input" v-model="editForm.contact_phone"  auto-complete="off"  placeholder="请填写联系人方式"></el-input>
                         </el-form-item>
                     </el-col>
+
                 </el-row>
                 <el-row>
                     <el-col :span="24">
@@ -100,7 +107,8 @@
                     contact: "",
                     contact_phone: "",
                     address: '',
-                    comment:''
+                    comment:'',
+                    eng_name:'',
                 },
                 model:'',
                 rules:{

@@ -306,7 +306,7 @@
     import GroupSelectProxy from '../../packages/GroupSelectProxy';
     import SearchTool from '../../mix/SearchTool';
     import DataTable from '../../mix/DataTable';
-    import GroupAjaxProxy from '../../ajaxProxy/Group';
+    import ProduceEntryAjaxProxy from '../../ajaxProxy/ProduceEntry';
     import SelectProxy from  '../../packages/SelectProxy';
     // import Dialog from '../common/Dialog';
 
@@ -327,8 +327,8 @@
         },
         data() {
             return {
-                ajaxProxy: GroupAjaxProxy,
-                mainurl:GroupAjaxProxy,
+                ajaxProxy: ProduceEntryAjaxProxy,
+                mainurl:ProduceEntryAjaxProxy,
                 mainparam:"",
                 dataList:[
                     {   distribution_name:'顺丰',

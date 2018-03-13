@@ -18,7 +18,7 @@
                 </el-row>
                 <el-row>
                     <el-col :span="12">
-                        <el-form-item label="部门经理"  prop="contact">
+                        <el-form-item label="部门经理"  prop="manager_id">
                             <el-select v-model='addForm.manager_id'>
                                 <el-option label="请选择" :value="0"></el-option>
                                 <el-option v-for="user in computedusers" 

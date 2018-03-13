@@ -9,9 +9,9 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item prop="enty_at"  label="入库时间">
+                        <el-form-item prop="entry_at"  label="入库时间">
                             <el-date-picker
-                              v-model="addForm.enty_at"
+                              v-model="addForm.entry_at"
                               type="datetime"
                               placeholder="默认当前时间" @change="setEntyAt">
                             </el-date-picker>
@@ -147,7 +147,7 @@
                 distributors:[],
                 addForm:{
                     enty_sn:'',
-                    enty_at:'',
+                    entry_at:'',
                     user_id:'',
                     entrepot_id:'',
                     comment:'',
@@ -200,7 +200,7 @@
                 }
             },
             setEntyAt(v){
-                this.addForm.enty_at = v;
+                this.addForm.entry_at = v;
             },
             handelAdd(){
                 let vmThis = this;
@@ -233,7 +233,7 @@
             formSubmit(name){
                 this[name].childrenData = this.tableData1;
                 this[name].parentData.enty_sn = this[name].enty_sn;
-                this[name].parentData.enty_at = this[name].enty_at;
+                this[name].parentData.entry_at = this[name].entry_at;
                 this[name].parentData.user_id = this[name].user_id;
                 this[name].parentData.entrepot_id = this[name].entrepot_id;
                 this[name].parentData.comment = this[name].comment;

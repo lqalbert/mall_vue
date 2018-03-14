@@ -204,12 +204,17 @@
                     <el-tab-pane label="销售锁定">
                         <el-table :data="saleLockListData" empty-text="暂无数据" border>
                             <el-table-column prop="sale_name" label="销售人员"  align="center"></el-table-column>
-                            <el-table-column prop="customer_name" label="客户姓名"  align="center"></el-table-column>
+                            <el-table-column prop="customer_name" label="收件人姓名"  align="center"></el-table-column>
                             <el-table-column prop="goods_name" label="商品名称"  align="center"></el-table-column>
                             <el-table-column prop="sale_number" label="数量"  align="center"></el-table-column>
                             <el-table-column prop="sale_lock_time" label="销售锁定时间" align="center" ></el-table-column>
-                            <el-table-column prop="examine_status" label="审核状态" align="center" ></el-table-column>
-
+                            <el-table-column prop="examine_status" label="审核状态" align="center" >
+                                <template slot-scope="scope">
+                                    <span v-if="scope.row.examine_status==0">未审核</span>
+                                    <span v-if="scope.row.examine_status==1">通过</span>
+                                    <span v-if="scope.row.examine_status==2">未通过</span>
+                                </template>
+                            </el-table-column>
                         </el-table>
                     </el-tab-pane>
 
@@ -307,6 +312,7 @@
     import SearchTool from '../../mix/SearchTool';
     import DataTable from '../../mix/DataTable';
     import ProduceEntryAjaxProxy from '../../ajaxProxy/ProduceEntry';
+    import GetSaleLockData from '../../packages/GetSaleLockData';
     import SelectProxy from  '../../packages/SelectProxy';
     // import Dialog from '../common/Dialog';
 
@@ -596,6 +602,9 @@
             loadSubTable(data){
                 this.users = data.items;
             },
+            GetSaleLockDataFun(data){
+                this.saleLockListData = data.items;
+            },
             displayRoleName(roles){
                 let cate = [];
                 for (let index = 0; index < roles.length; index++) {
@@ -610,6 +619,9 @@
             let departProxy = new DepartSelectProxy(null, this.loadDepartment, this);
             this.departProxy = departProxy;
             this.departProxy.load();
+            //获取销售锁定展示数据
+            let GetSaleLockDataSelect = new GetSaleLockData({}, this.GetSaleLockDataFun, this);
+            GetSaleLockDataSelect.load();
 
             this.searchForm.department_id = this.user_department_id !=0 ? this.user_department_id :'';
             this.mainparam = JSON.stringify({department_id: this.searchForm.department_id});

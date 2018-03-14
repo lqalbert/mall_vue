@@ -181,7 +181,6 @@
                 this.distributors = data.items;
             },
             getTypes(data){
-                console.log(data);
                 this.types = data.items;
             },
             setCateKind(pid){

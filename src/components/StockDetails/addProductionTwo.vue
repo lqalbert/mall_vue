@@ -106,7 +106,11 @@
                     </el-col>
                 </el-row>
             </el-form>
-            <el-button type="info" @click="handelAdd">添加</el-button>
+
+            <div style="text-align:center">
+                <el-button type="info" @click="handelAdd">添加</el-button>
+            </div>
+            
             <div slot="dialog-foot" class="dialog-footer">
                 <el-button @click="handleClose">取 消</el-button>
                 <submit-button
@@ -123,17 +127,26 @@
 
     import DialogForm from '../../mix/DialogForm';
     import EmployeeSelectProxy from '../../packages/EmployeeSelectProxy';
-    import DistributionCenterProxy from '../../packages/DistributionCenterSelectProxy';
-    import CategorySelectProxy from '../../packages/CategorySelectProxy';
     import { mapGetters } from 'vuex';
 
     // import Dialog from '../common/Dialog';
     export default {
         name: 'addDialogTwo',
-        mixins:[DialogForm],
-        // props:{
-        //
-        // },
+        mixins:[DialogForm], 
+        props:{
+            types:{
+                type: Array,
+                default:function(){
+                    return [];
+                }
+            },
+            distributors:{
+                type: Array,
+                default:function(){
+                    return [];
+                }
+            },
+        },
         // components:{
         //     Dialog
         // },
@@ -142,9 +155,7 @@
                 dialogThis:this,
                 labelPosition:"right",
                 labelWidth:'80px',
-                types:[],
                 typesKind:[],
-                distributors:[],
                 addForm:{
                     enty_sn:'',
                     entry_at:'',
@@ -176,13 +187,6 @@
         methods:{
             getAjaxPromise(model){
                 return this.ajaxProxy.create(model);
-            },
-            getDistributionCenter(data){
-                this.distributors = data.items;
-            },
-            getTypes(data){
-                console.log(data);
-                this.types = data.items;
             },
             setCateKind(pid){
                 for (let i = 0; i < this.types.length; i++) {
@@ -284,14 +288,6 @@
             },
         },
         created(){
-            //this.employeeSelect = new EmployeeSelectProxy({}, this.loadUsers, this);
-
-            let DistributionCenterSelect = new DistributionCenterProxy({}, this.getDistributionCenter, this);
-            DistributionCenterSelect.load();
-
-            this.CategorySelect = new CategorySelectProxy({}, this.getTypes, this);
-            this.CategorySelect.load();
-
             //console.log(this.getUser);
             this.users.users = this.getUser;
 

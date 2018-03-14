@@ -276,6 +276,8 @@
         <add-dialog-two
                 name="addProductionTwo"
                 :ajax-proxy="ajaxProxy"
+                :types="types"
+                :distributors="distributors"
                 @submit-success="handleReload">
         </add-dialog-two>
 
@@ -311,6 +313,9 @@
     // import Dialog from '../common/Dialog';
 
     import EmployeeSelectProxy from '../../packages/EmployeeSelectProxy';
+
+    import DistributionCenterProxy from '../../packages/DistributionCenterSelectProxy';
+    import CategorySelectProxy from '../../packages/CategorySelectProxy';
 
      import { mapGetters } from 'vuex';
 
@@ -514,7 +519,9 @@
                 //主表格事件
                 bubble:{
                     'current-change': this.onCurrentChange
-                }
+                },
+                types:[],
+                distributors:[],
             }
         },
         computed:{
@@ -579,6 +586,8 @@
                 this.$modal.show('addProduction');
             },
             addProduction2(){
+                this.getDC();
+                this.getCateType();
                 this.$modal.show('addProductionTwo');
             },
             exchangeProduction(){
@@ -602,6 +611,21 @@
                     cate.push(roles[index].display_name);
                 }
                 return cate.join(" 、");
+            },
+            getDistributionCenter(data){
+                this.distributors = data.items;
+            },
+            getTypes(data){
+                //console.log(data);
+                this.types = data.items;
+            },
+            getDC(){
+                let DistributionCenterSelect = new DistributionCenterProxy({}, this.getDistributionCenter, this);
+                DistributionCenterSelect.load();
+            },
+            getCateType(){
+                let CategorySelect = new CategorySelectProxy({}, this.getTypes, this);
+                CategorySelect.load();
             },
 
         },

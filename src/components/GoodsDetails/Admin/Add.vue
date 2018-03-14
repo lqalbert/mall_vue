@@ -59,7 +59,7 @@
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
-                                <el-form-item label="商品编号(改成必填)"  prop="sku_sn">
+                                <el-form-item label="商品编号"  prop="sku_sn">
                                     <el-input class="name-input" v-model="addForm.sku_sn"  auto-complete="off" placeholder="请填写商品编号"></el-input>
                                 </el-form-item>
                             </el-col>
@@ -97,7 +97,7 @@
                         <el-table :data="addForm.skus">
                             <el-table-column type="index" label="序号" width="80">
                             </el-table-column>
-                            <el-table-column prop="name" label="sku" width="80">
+                            <el-table-column prop="name" label="名称" width="80">
                             </el-table-column>
                             <el-table-column  label="规格小项" >
                                 <template slot-scope="scope">
@@ -128,7 +128,7 @@
 
                         <AttrItem :form-object="attrForm"></AttrItem>
                         <el-form :model="skuForm" :rules="skuFormRules" ref="skuForm" :label-width="labelWidth"  :label-position="labelPosition">
-                            <el-form-item label="SKU"  prop="unit_type">
+                            <el-form-item label="名称"  prop="unit_type">
                                 <el-col :span="10">
                                     <el-input v-model="skuForm.name" placeholder="请输入内容"></el-input>
                                 </el-col>
@@ -263,6 +263,9 @@ export default {
                 goods_price:[
                     {required: true,pattern:/^(([1-9]\d{0,9})|0)(\.\d{1,2})?$/,  message: '价格格式为00.00', trigger:'blur'}
                 ],
+                sku_sn:[
+                    {required: true, message: '请填写商品编号', trigger:'blur'}
+                ],
             },
             skuFormRules:{
                 price:[
@@ -270,6 +273,9 @@ export default {
                 ],
                 num:[
                     {required: true,pattern:/^([0-9]\d{0,9})$/,  message: '数量必须为数字', trigger:'blur'}
+                ],
+                sku_sn:[
+                    {required: true, message: '请填写商品编号', trigger:'blur'}
                 ],
             },
 

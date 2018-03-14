@@ -1,6 +1,6 @@
 <template>
     <div >
-        <MyDialog title="生产入库2" :name="name" :width="width" :height="height" >
+        <MyDialog title="生产入库" :name="name" :width="width" :height="height" >
             <el-form :model="addForm"  :label-width="labelWidth"  ref="addForm" :label-position="labelPosition">
                 <el-row>
                     <el-col :span="12">
@@ -11,9 +11,9 @@
                     <el-col :span="12">
                         <el-form-item prop="entry_at"  label="入库时间">
                             <el-date-picker
-                              v-model="addForm.entry_at"
-                              type="datetime"
-                              placeholder="默认当前时间" @change="setEntyAt">
+                                    v-model="addForm.entry_at"
+                                    type="datetime"
+                                    placeholder="默认当前时间" @change="setEntyAt">
                             </el-date-picker>
                         </el-form-item>
                     </el-col>
@@ -41,7 +41,7 @@
                 <el-row>
                     <el-col :span="16">
                         <el-form-item prop="comment"  label="备注">
-                            <el-input type="textarea" v-model="addForm.comment" placeholder="备注"></el-input>  
+                            <el-input type="textarea" v-model="addForm.comment" placeholder="备注"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -53,12 +53,12 @@
                     <el-table-column label="操作">
                         <template slot-scope="scope">
                             <el-button type="danger" size="small" @click="handleFormDel(scope.row)">删除</el-button>
-                        </template>  
+                        </template>
                     </el-table-column>
                 </el-table>
             </el-form>
             <br>
-            <el-form :model="productForm"  :label-width="labelWidth"  ref="productForm" :label-position="labelPosition">
+            <el-form :model="productForm"  :label-width="labelWidth" :rules="productFormRules" ref="productForm" :label-position="labelPosition">
                 <el-row>
                     <el-col :span="12">
                         <el-form-item prop="cate_type_id"  label="商品类型">
@@ -112,12 +112,12 @@
             <div style="text-align:center">
                 <el-button type="info" @click="handelAdd">添加</el-button>
             </div>
-            
+
             <div slot="dialog-foot" class="dialog-footer">
                 <el-button @click="handleClose">取 消</el-button>
                 <submit-button
-                    :observer="dialogThis"
-                    @click="formSubmit('addForm')">
+                        :observer="dialogThis"
+                        @click="formSubmit('addForm')">
                     保 存
                 </submit-button>
             </div>
@@ -134,7 +134,7 @@
     // import Dialog from '../common/Dialog';
     export default {
         name: 'addDialogTwo',
-        mixins:[FormMix, DialogMix], 
+        mixins:[FormMix, DialogMix],
         props:{
             types:{
                 type: Array,
@@ -184,6 +184,26 @@
                 },
                 tableData1:[],
                 users:{},
+                productFormRules:{
+                    cate_type_id:[
+                        {required: true, type: 'number',  message: '请选择商品类型', trigger:'change'}
+                    ],
+                    cate_kind_id:[
+                        {required: true, type: 'number',  message: '请选择商品品类', trigger:'change'}
+                    ],
+                    product_sale_type:[
+                        {required: true,  message: '请选择销售类型', trigger:'change'}
+                    ],
+                    goods_name:[
+                        {required: true,  message: '请填写商品名称', trigger:'blur'}
+                    ],
+                    sku_sn:[
+                        {required: true,  message: '请填写商品编号', trigger:'blur'}
+                    ],
+                    num:[
+                        {required: true, type: 'number',  message: '请填写商品数量', trigger:'change'}
+                    ],
+                },
             }
         },
         computed:{
@@ -195,11 +215,10 @@
             getAjaxPromise(model){
                 return this.ajaxProxy.create(model);
             },
-
             setCateKind(pid){
                 for (let i = 0; i < this.types.length; i++) {
                     if (this.types[i].id == pid) {
-                        this.typesKind = this.types[i].children;// && this.types[i].children 
+                        this.typesKind = this.types[i].children;// && this.types[i].children
                         this.productForm.cate_type = this.types[i].label;
                     }
                 }
@@ -217,15 +236,18 @@
             handelAdd(){
                 let vmThis = this;
                 let data = Object.assign({}, this.productForm);
-                if(data.goods_name && data.sku_sn && data.num ){
-                    this.addForm.childrenData.push(data);
-                    this.$refs.productForm.resetFields();
-                }else{
-                    this.$message.error("请先填写数据");
-                }
-                
+
+                this.$refs['productForm'].validate((valid)=>{
+                    if (valid) {
+                        this.addForm.childrenData.push(data);
+                        this.$refs.productForm.resetFields();
+                    } else {
+                        this.$message.error("请填写必填项");
+                        return false;
+                    }
+                })
             },
-            
+
             handleFormDel(row){
                 let index = this.addForm.childrenData.indexOf(row);
                 let vmThis = this;
@@ -247,7 +269,7 @@
             this.$on('submit-success', this.clearChidren);
 
         },
-        
+
     }
 </script>
 

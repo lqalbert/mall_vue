@@ -92,28 +92,24 @@
                     </el-table-column>
                     <div slot="buttonbar">
                         <el-tooltip content="点击填写公告并发布" placement="right">
-                            <el-button size="small" icon="plus" type="info" @click="$modal.show('add-department')" >添加</el-button>
+                            <el-button size="small" icon="plus" type="info" @click="showAdd" >添加</el-button>
                         </el-tooltip>
                     </div>
                 </TableProxy>
             </el-col>
         </el-row>
 
-
-
-
-
-        <!-- / 修改公告 -->
-
         <Add name='add-department'
              :type-list="typeList"
              :ajax-proxy="ajaxProxy"
+             :entrepot-list="entrepotlist"
              @submit-success="handleReload"/>
 
 
         <Edit name='edit-department'
               :type-list="typeList"
               :ajax-proxy="ajaxProxy"
+              :entrepot-list="entrepotlist"
               @submit-success="handleReload"/>
 
         <SetHr name='sethr-department'
@@ -129,17 +125,13 @@
 import Add from './Add';
 import Edit from './Edit';
 import SetHr from './SetHr';
-
 import DataTable from '../../mix/DataTable';
-
 import PageMix from '../../mix/Page';
 import config from '../../mix/Delete';
-//import DataProxy from '../../packages/DataProxy';
 import SearchTool from '../../mix/SearchTool';
 import SelectProxy from  '../../packages/SelectProxy';
-
 import DepartAjaxProxy from '../../ajaxProxy/Department';
-//import TableProxy from '../common/TableProxy';
+import DistributionCenterSelectProxy from '@/packages/DistributionCenterSelectProxy';
 
 export default {
     name: 'Department',
@@ -157,6 +149,7 @@ export default {
             mainparam:"",
             depTypeName:"选择单位类型",
             typeList:[],
+            entrepotlist:[],
             total:100,
             dataLoad:false,
             searchForm:{
@@ -216,10 +209,12 @@ export default {
         },
 
         showAdd(){
+            this.entrepot.load();
             this.$modal.show('add-department');
         } ,
         openEdit(row){
             // this.editRow = row;
+            // this.entrepot.load();
             this.$modal.show('edit-department', {model:row});
         } ,
         showSetHr(){
@@ -227,15 +222,19 @@ export default {
         },
         switchHandle(){
 
+        },
+        loadEntrepot(data){
+            console.log(data);
+            this.entrepotlist = data.items;
         }
 
     },
     created(){
 
         this.$on('search-tool-change', this.onSearchChange);
-
         this.departMentInit();
-
+        
+        this.entrepot = new DistributionCenterSelectProxy({}, this.loadEntrepot, this);
 
 
     }

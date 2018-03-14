@@ -19,7 +19,7 @@
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="部门经理"  prop="contact">
-                            <el-select v-model='addForm.manager_id'>
+                            <el-select v-model.number='addForm.manager_id'>
                                 <el-option label="请选择" :value="0"></el-option>
                                 <el-option v-for="user in computedusers" 
                                            :label="user.realname"
@@ -30,6 +30,19 @@
                             </el-select>
                         </el-form-item>
                     </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="配送中心" prop="entrepot_id">
+                            <el-select v-model.number='addForm.entrepot_id'>
+                                <el-option v-for="entrepot in entrepotList" 
+                                            :label="entrepot.name"
+                                            :value="entrepot.id" :key="entrepot.id">
+                                </el-option>
+                            </el-select>
+                            
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row>
                     <el-col :span="12">
                         <el-form-item label="是否启用" prop="status">
                             <el-radio-group v-model="addForm.status">
@@ -72,6 +85,10 @@ export default {
     props:{
         typeList:{
             type:Array,
+        },
+        entrepotList:{
+            type:Array,
+            default:[]
         }
 
     },
@@ -89,6 +106,7 @@ export default {
                 manager_id:0,
                 remarks:"",
                 status:1,
+                entrepot_id:""
             },
             rules:{
                 name:[
@@ -99,6 +117,9 @@ export default {
                 ],
                 remarks:[
                     { message:'输入内容最大长度为200', type: 'string', trigger:'blur', max:200}
+                ],
+                entrepot_id:[
+                    { required: true ,type :'number', trigger:'change'}
                 ]
             },
 
@@ -110,6 +131,7 @@ export default {
             return this.ajaxProxy.create(model);
         },
         onBeforeOpen(){
+            // console.log('asdf');
             this.depart_candidate.load();
         },
         loadmanagers(data){

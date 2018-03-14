@@ -12,8 +12,7 @@
                 <el-table-column prop="address" label="收货地址"></el-table-column>
                 <el-table-column  label="操作" align="center">
                     <template slot-scope="scope">
-                        <el-button size="small" type="primary" @click="handleCurrentChange(scope.row)">编 辑</el-button>
-                        <el-button size="small" type="danger" @click="deleteAddress(scope.row)">删 除</el-button>
+                        <el-button size="small" type="primary" @click="handleCurrentChange(scope.row)">编 辑</el-button><el-button size="small" type="danger" @click="deleteAddress(scope.row)">删 除</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -119,7 +118,7 @@ export default {
         },
         formSubmit(name){
             let model = this[name];
-            console.log(model);die();
+            // console.log(model);die();
             if (this.$refs[name].rules) {
                 this.$refs[name].validate((valid)=>{
                     if (valid) {

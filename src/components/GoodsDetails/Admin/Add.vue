@@ -40,7 +40,7 @@
                         <el-row>
                             <el-col :span="12">
                                 <el-form-item label="商品价格"  prop="goods_price">
-                                    <el-input class="name-input" v-model="addForm.goods_price"  auto-complete="off" placeholder="请填写商品价格"></el-input>
+                                    <el-input class="name-input" v-model="addForm.goods_price"  auto-complete="off" placeholder="0.00"></el-input>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
@@ -116,7 +116,7 @@
                             </el-table-column>
                             <el-table-column prop="price" label="价格" width="80">
                             </el-table-column>
-                            <el-table-column prop="num" label="库存" width="80">
+                            <el-table-column prop="sku_sn" label="商品编号" width="80">
                             </el-table-column>
                             <el-table-column label="操作">
                                 <template slot-scope="scope">
@@ -128,7 +128,7 @@
 
                         <AttrItem :form-object="attrForm"></AttrItem>
                         <el-form :model="skuForm" :rules="skuFormRules" ref="skuForm" :label-width="labelWidth"  :label-position="labelPosition">
-                            <el-form-item label="名称"  prop="unit_type">
+                            <el-form-item label="名称"  prop="name">
                                 <el-col :span="10">
                                     <el-input v-model="skuForm.name" placeholder="请输入内容"></el-input>
                                 </el-col>
@@ -142,17 +142,17 @@
                         
                             <el-form-item label="价格"  prop="price">
                                 <el-col :span="10">
-                                    <el-input v-model="skuForm.price" placeholder="请输入内容"></el-input>
+                                    <el-input v-model="skuForm.price" placeholder="0.00"></el-input>
                                 </el-col>
                             </el-form-item>
                         
-                            <el-form-item label="数量"  prop="num">
+                            <!-- <el-form-item label="数量" prop="num" style="display:none">
                                 <el-col :span="10">
                                     <el-input  v-model="skuForm.num" placeholder="请输入内容"></el-input>
                                 </el-col>
-                            </el-form-item>
+                            </el-form-item> -->
 
-                            <el-form-item  prop="unit_type">
+                            <el-form-item>
                                 <el-button @click="addSku">添加SKU</el-button>
                             </el-form-item>
                         </el-form>
@@ -256,7 +256,7 @@ export default {
             skuForm:{
                 name:"",
                 price:"",
-                num:"",
+                num:0,
                 sku_sn:""
             },
             addFormRules:{
@@ -271,9 +271,9 @@ export default {
                 price:[
                     {required: true,pattern:/^(([1-9]\d{0,9})|0)(\.\d{1,2})?$/,  message: '价格格式为00.00', trigger:'blur'}
                 ],
-                num:[
-                    {required: true,pattern:/^([0-9]\d{0,9})$/,  message: '数量必须为数字', trigger:'blur'}
-                ],
+                // num:[
+                //     {required: true,pattern:/^([0-9]\d{0,9})$/,  message: '数量必须为数字', trigger:'blur'}
+                // ],
                 sku_sn:[
                     {required: true, message: '请填写商品编号', trigger:'blur'}
                 ],
@@ -375,9 +375,7 @@ export default {
             this.addForm.skus.push(obj);
             this.attrForm = [];
             this.copy(this._attrForm, this.attrForm);
-            this.skuForm.name = "";
-            this.skuForm.price = "";
-            this.skuForm.num = "";
+            this.$refs.skuForm.resetFields();
         },
         
         deleteAttrItem(index){

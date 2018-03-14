@@ -195,7 +195,7 @@
             getAjaxPromise(model){
                 return this.ajaxProxy.create(model);
             },
-            
+
             setCateKind(pid){
                 for (let i = 0; i < this.types.length; i++) {
                     if (this.types[i].id == pid) {

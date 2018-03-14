@@ -129,6 +129,8 @@
     import FormMix from '../../mix/Form';
     import DialogMix from '../../mix/Dialog';
     import EmployeeSelectProxy from '../../packages/EmployeeSelectProxy';
+    import DistributionCenterProxy from '../../packages/DistributionCenterSelectProxy';
+    import CategorySelectProxy from '../../packages/CategorySelectProxy';
     import { mapGetters } from 'vuex';
 
     // import Dialog from '../common/Dialog';
@@ -162,7 +164,9 @@
                 dialogThis:this,
                 labelPosition:"right",
                 labelWidth:'80px',
+                types:[],
                 typesKind:[],
+                distributors:[],
                 addForm:{
                     entry_sn:'',
                     entry_at:'',
@@ -215,6 +219,13 @@
             getAjaxPromise(model){
                 return this.ajaxProxy.create(model);
             },
+            getDistributionCenter(data){
+                this.distributors = data.items;
+            },
+            getTypes(data){
+                console.log(data);
+                this.types = data.items;
+            },
             setCateKind(pid){
                 for (let i = 0; i < this.types.length; i++) {
                     if (this.types[i].id == pid) {
@@ -245,20 +256,18 @@
                         this.$message.error("请填写必填项");
                         return false;
                     }
-                })
+                    vmthis.$message.error('出错了');
+                }).then(function(){
+                    vmthis.$emit('submit-final', name);
+                });
             },
-            
             handleFormDel(row){
-                let index = this.addForm.childrenData.indexOf(row);
+                let index = this.tableData1.indexOf(row);
                 let vmThis = this;
                 if( index > -1){
-                    this.addForm.childrenData.splice(index,1);
+                    this.tableData1.splice(index,1);
                 }
             },
-
-            clearChidren(){
-                this.addForm.childrenData = [];
-            }
         },
         created(){
             // console.log(this.getUser);

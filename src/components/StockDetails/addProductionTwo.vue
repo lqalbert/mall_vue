@@ -1,6 +1,6 @@
 <template>
     <div >
-        <MyDialog title="生产入库2" :name="name" :width="width" :height="height" >
+        <MyDialog title="生产入库" :name="name" :width="width" :height="height" >
             <el-form :model="addForm"  :label-width="labelWidth"  ref="addForm" :label-position="labelPosition">
                 <el-row>
                     <el-col :span="12">
@@ -58,7 +58,7 @@
                 </el-table>
             </el-form>
             <br>
-            <el-form :model="productForm"  :label-width="labelWidth"  ref="productForm" :label-position="labelPosition">
+            <el-form :model="productForm"  :label-width="labelWidth" :rules="productFormRules" ref="productForm" :label-position="labelPosition">
                 <el-row>
                     <el-col :span="12">
                         <el-form-item prop="cate_type_id"  label="商品类型">
@@ -184,6 +184,26 @@
                 },
                 tableData1:[],
                 users:{},
+                productFormRules:{
+                    cate_type_id:[
+                        {required: true, type: 'number',  message: '请选择商品类型', trigger:'change'}
+                    ],
+                    cate_kind_id:[
+                        {required: true, type: 'number',  message: '请选择商品品类', trigger:'change'}
+                    ],
+                    product_sale_type:[
+                        {required: true,  message: '请选择销售类型', trigger:'change'}
+                    ],
+                    goods_name:[
+                        {required: true,  message: '请填写商品名称', trigger:'blur'}
+                    ],
+                    sku_sn:[
+                        {required: true,  message: '请填写商品编号', trigger:'blur'}
+                    ],
+                    num:[
+                        {required: true, type: 'number',  message: '请填写商品数量', trigger:'change'}
+                    ],
+                },
             }
         },
         computed:{
@@ -216,13 +236,16 @@
             handelAdd(){
                 let vmThis = this;
                 let data = Object.assign({}, this.productForm);
-                if(data.goods_name && data.sku_sn && data.num ){
-                    this.addForm.childrenData.push(data);
-                    this.$refs.productForm.resetFields();
-                }else{
-                    this.$message.error("请先填写数据");
-                }
-                
+
+                this.$refs['productForm'].validate((valid)=>{
+                    if (valid) {
+                        this.addForm.childrenData.push(data);
+                        this.$refs.productForm.resetFields();
+                    } else {
+                        this.$message.error("请填写必填项");
+                        return false;
+                    }
+                })
             },
             
             handleFormDel(row){

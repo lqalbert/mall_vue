@@ -99,71 +99,12 @@
                 </el-tabs>
                 <br>
                 <div >
-                    <el-button size="small"  type="info" @click="addProduction" >生产入库</el-button>
-                    <el-button size="small"  type="info" @click="addProduction2" >生产入库2</el-button>
+                    <!-- <el-button size="small"  type="info" @click="addProduction" >生产入库</el-button> -->
+                    <el-button size="small"  type="info" @click="addProduction2" >生产入库</el-button>
                     <el-button size="small" type="info" @click="backProduction">退货登记</el-button>
                     <el-button size="small" type="info" @click="badProduction">坏货登记</el-button>
                     <el-button size="small" type="info" @click="exchangeProduction">换货登记</el-button>
                 </div>
-                <!--<TableProxy-->
-                        <!--:url="mainurl"-->
-                        <!--:param="mainparam"-->
-                        <!--@dbclick="doubleClick"-->
-                        <!--:bubble="bubble"-->
-                        <!--:reload="dataTableReload">-->
-                    <!--<el-table-column label="序号" align="center" type="index" width="65">-->
-                    <!--</el-table-column>-->
-
-                    <!--<el-table-column  label="部门">-->
-                        <!--<template slot-scope="scope">-->
-                            <!--{{ scope.row.department ? scope.row.department.name : '' }}-->
-                        <!--</template>-->
-                    <!--</el-table-column>-->
-
-                    <!--<el-table-column label="团队小组名称" prop="name"  >-->
-                    <!--</el-table-column>-->
-
-                    <!--<el-table-column  label="联系人(负责人)"  >-->
-                        <!--<template slot-scope="scope">-->
-                            <!--{{ scope.row.manager ? scope.row.manager.realname : '' }}-->
-                        <!--</template>-->
-                    <!--</el-table-column>-->
-
-                    <!--<el-table-column label="联系电话" align="center">-->
-                        <!--<template slot-scope="scope">-->
-                            <!--{{ scope.row.manager ? scope.row.manager.mobilephone : '' }}-->
-                        <!--</template>-->
-                    <!--</el-table-column>-->
-                    <!--&lt;!&ndash; 控制一个小组的员工 暂不能登录 &ndash;&gt;-->
-                    <!--<el-table-column label="是否启用" align="center" prop="status">-->
-                        <!--<template slot-scope="scope">-->
-                            <!--<el-switch-->
-                                    <!--v-model="scope.row.status"-->
-                                    <!--:on-value="1"-->
-                                    <!--:off-value="0"-->
-                                    <!--on-color="#13ce66"-->
-                                    <!--off-color="#ff4949"-->
-                                    <!--@change="switchHandle(scope.$index, scope.row)">-->
-                            <!--</el-switch>-->
-                        <!--</template>-->
-                    <!--</el-table-column>-->
-
-                    <!--<el-table-column prop="remarks" label="说明备注" align="center">-->
-                    <!--</el-table-column>-->
-
-                    <!--<el-table-column   align="center" width="180" fixed="right"  label="操作"  >-->
-                        <!--<template slot-scope="scope">-->
-                            <!--<el-button type="success" @click="openEdit(scope.row)"     size="small">编辑</el-button>-->
-                            <!--<el-button type="danger"  @click="handleDelete(scope.row.id)"   size="small" >删除</el-button>-->
-                            <!--&lt;!&ndash; <el-button type="info"  size="small"> 导出人员 </el-button> &ndash;&gt;-->
-                        <!--</template>-->
-                    <!--</el-table-column>-->
-
-                    <!--<div slot="buttonbar">-->
-                        <!--<el-button size="small" icon="plus" type="info" @click="showadd" >添加</el-button>-->
-                        <!--<el-button size="small" type="info" @click="showDialog('addmember')" >加入员工</el-button>-->
-                    <!--</div>-->
-                <!--</TableProxy>-->
             </el-col>
         </el-row>
         <br>
@@ -267,11 +208,11 @@
                 @submit-success="handleReload">
         </back-dialog>
 
-        <add-dialog
+        <!-- <add-dialog
                 name="addProduction"
                 :ajax-proxy="ajaxProxy"
                 @submit-success="handleReload">
-        </add-dialog>
+        </add-dialog> -->
         
         <add-dialog-two
                 name="addProductionTwo"

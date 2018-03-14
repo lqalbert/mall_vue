@@ -4,8 +4,8 @@
             <el-form :model="addForm"  :label-width="labelWidth"  ref="addForm" :label-position="labelPosition">
                 <el-row>
                     <el-col :span="12">
-                        <el-form-item prop="enty_sn"  label="入库单号">
-                            <el-input v-model="addForm.enty_sn" placeholder="自动生成"></el-input>
+                        <el-form-item prop="entry_sn"  label="入库单号">
+                            <el-input v-model="addForm.entry_sn" placeholder="自动生成"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -46,7 +46,7 @@
                     </el-col>
                 </el-row>
 
-                <el-table :data="tableData1" border style="width: 100%">
+                <el-table :data="addForm.childrenData" border style="width: 100%">
                     <el-table-column prop="goods_name" label="商品名称"></el-table-column>
                     <el-table-column prop="sku_sn" label="商品编号"></el-table-column>
                     <el-table-column prop="num" label="输入数量"></el-table-column>
@@ -56,11 +56,13 @@
                         </template>  
                     </el-table-column>
                 </el-table>
-                <br>
+            </el-form>
+            <br>
+            <el-form :model="productForm"  :label-width="labelWidth"  ref="productForm" :label-position="labelPosition">
                 <el-row>
                     <el-col :span="12">
                         <el-form-item prop="cate_type_id"  label="商品类型">
-                            <el-select v-model="addForm.cate_type_id" placeholder="商品类型" @change="setCateKind">
+                            <el-select v-model="productForm.cate_type_id" placeholder="商品类型" @change="setCateKind">
                                 <el-option v-for="v in types" :label="v.label"
                                            :value="v.id" :key="v.id">
                                 </el-option>
@@ -69,7 +71,7 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item prop="cate_kind_id"  label="商品品类">
-                            <el-select v-model="addForm.cate_kind_id" placeholder="商品品类" @change="setKindName">
+                            <el-select v-model="productForm.cate_kind_id" placeholder="商品品类" @change="setKindName">
                                 <el-option v-for="v in typesKind" :label="v.label"
                                            :value="v.id" :key="v.id">
                                 </el-option>
@@ -80,28 +82,28 @@
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="销售类型" prop="product_sale_type" >
-                            <el-select v-model="addForm.product_sale_type" placeholder="试用装、赠品、成品">
-                                <el-option label="试用装" value="1"></el-option>
-                                <el-option label="赠品" value="2"></el-option>
-                                <el-option label="成品" value="3"></el-option>
+                            <el-select v-model="productForm.product_sale_type" placeholder="试用装、赠品、成品">
+                                <el-option label="试用装" value="0"></el-option>
+                                <el-option label="赠品" value="1"></el-option>
+                                <el-option label="成品" value="2"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="商品名称" prop="goods_name" >
-                            <el-input class="name-input" v-model="addForm.goods_name" placeholder="商品名称"></el-input>
+                            <el-input class="name-input" v-model="productForm.goods_name" placeholder="商品名称"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="商品编号" prop="sku_sn" >
-                            <el-input class="name-input" v-model="addForm.sku_sn" placeholder="商品编号"></el-input>
+                            <el-input class="name-input" v-model="productForm.sku_sn" placeholder="商品编号"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="商品数量" prop="num" >
-                            <el-input-number v-model="addForm.num" :min="1" placeholder="商品数量"></el-input-number>
+                            <el-input-number v-model="productForm.num" :min="1" placeholder="商品数量"></el-input-number>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -124,15 +126,15 @@
 </template>
 
 <script>
-
-    import DialogForm from '../../mix/DialogForm';
+    import FormMix from '../../mix/Form';
+    import DialogMix from '../../mix/Dialog';
     import EmployeeSelectProxy from '../../packages/EmployeeSelectProxy';
     import { mapGetters } from 'vuex';
 
     // import Dialog from '../common/Dialog';
     export default {
         name: 'addDialogTwo',
-        mixins:[DialogForm], 
+        mixins:[FormMix, DialogMix], 
         props:{
             types:{
                 type: Array,
@@ -146,6 +148,11 @@
                     return [];
                 }
             },
+            ajaxProxy:{
+                // required:true,
+                type: Object,
+                default: null
+            }
         },
         // components:{
         //     Dialog
@@ -157,23 +164,23 @@
                 labelWidth:'80px',
                 typesKind:[],
                 addForm:{
-                    enty_sn:'',
+                    entry_sn:'',
                     entry_at:'',
                     user_id:'',
                     entrepot_id:'',
                     comment:'',
                     user_name:'',
-
+                    childrenData:[],
+                },
+                productForm:{
                     cate_type:'',
                     cate_kind:'',
                     cate_type_id:'',
                     cate_kind_id:'',
-                    product_sale_type:'',
+                    product_sale_type:'2',
                     goods_name:'',
                     sku_sn:'',
                     num:1,
-                    parentData:{},
-                    childrenData:[],
                 },
                 tableData1:[],
                 users:{},
@@ -192,14 +199,14 @@
                 for (let i = 0; i < this.types.length; i++) {
                     if (this.types[i].id == pid) {
                         this.typesKind = this.types[i].children;// && this.types[i].children 
-                        this.addForm.cate_type = this.types[i].label;
+                        this.productForm.cate_type = this.types[i].label;
                     }
                 }
             },
             setKindName(id){
                 for (let i = 0; i < this.typesKind.length; i++) {
                     if (this.typesKind[i].id == id) {
-                        this.addForm.cate_kind = this.typesKind[i].label;
+                        this.productForm.cate_kind = this.typesKind[i].label;
                     }
                 }
             },
@@ -208,88 +215,35 @@
             },
             handelAdd(){
                 let vmThis = this;
-                let data = {
-                    goods_name:vmThis.addForm.goods_name,
-                    sku_sn:vmThis.addForm.sku_sn,
-                    num:vmThis.addForm.num,
-                    cate_type_id:vmThis.addForm.cate_type_id,
-                    cate_kind_id:vmThis.addForm.cate_kind_id,
-                    product_sale_type:vmThis.addForm.product_sale_type,
-                    cate_type:vmThis.addForm.cate_type,
-                    cate_kind:vmThis.addForm.cate_kind,
-                };
+                let data = Object.assign({}, this.productForm);
                 if(data.goods_name && data.sku_sn && data.num ){
-                    this.tableData1.push(data);
-                    //this.$refs.addForm.resetFields();
-                    this.addForm.goods_name = '';
-                    this.addForm.sku_sn = '';
-                    this.addForm.num = '';
-                    this.addForm.cate_type_id = '';
-                    this.addForm.cate_kind_id = '';
-                    this.addForm.product_sale_type = '';
-                    this.addForm.cate_type = '';
-                    this.addForm.cate_kind = '';
+                    this.addForm.childrenData.push(data);
+                    this.$refs.productForm.resetFields();
                 }else{
                     this.$message.error("请先填写数据");
                 }
                 
             },
-            formSubmit(name){
-                this[name].childrenData = this.tableData1;
-                this[name].parentData.enty_sn = this[name].enty_sn;
-                this[name].parentData.entry_at = this[name].entry_at;
-                this[name].parentData.user_id = this[name].user_id;
-                this[name].parentData.entrepot_id = this[name].entrepot_id;
-                this[name].parentData.comment = this[name].comment;
-                this[name].parentData.user_name = this.getUser.realname;
-                //console.log(this[name]);
-                let model = this[name];
-                if (this.$refs[name].rules) {
-                    this.$refs[name].validate((valid)=>{
-                        if (valid) {
-                            this.realSubmit(model, name);
-                        } else {
-                            console.log('error submit!!', name);
-                            this.$emit('valid-error', name);
-                            return false;
-                        }
-                    })
-                } else {
-                    this.realSubmit(model, name);
-                }
-            },
-            realSubmit(model, name){
-                let ajaxPromise = this.getAjaxPromise(model);
-                let vmthis = this;
-                ajaxPromise.then(function(response){
-                    vmthis.$message.success('操作成功');
-                    vmthis.$refs[name].resetFields();
-                    vmthis.tableData1 = [];
-                    //vmthis.$emit('submit-success', name);
-                }).catch(function(error){
-                    if(error.response){
-                        console.log(error.response.data);
-                        console.log(error.response.status);
-                        console.log(error.response.headers);
-                    }else{
-                        console.log('Error',error.message);
-                    }
-                    vmthis.$message.error('出错了');
-                }).then(function(){
-                    vmthis.$emit('submit-final', name);
-                });
-            },
+            
             handleFormDel(row){
-                let index = this.tableData1.indexOf(row);
+                let index = this.addForm.childrenData.indexOf(row);
                 let vmThis = this;
                 if( index > -1){
-                    this.tableData1.splice(index,1);
+                    this.addForm.childrenData.splice(index,1);
                 }
             },
+
+            clearChidren(){
+                this.addForm.childrenData = [];
+            }
         },
         created(){
-            //console.log(this.getUser);
+            // console.log(this.getUser);
             this.users.users = this.getUser;
+            this.addForm.user_id = this.getUser.id;
+            this.addForm.user_name = this.getUser.realname;
+
+            this.$on('submit-success', this.clearChidren);
 
         },
         

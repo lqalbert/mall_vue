@@ -31,6 +31,19 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
+                        <el-form-item label="配送中心" prop="entrepot_id">
+                            <el-select v-model.number='addForm.entrepot_id'>
+                                <el-option v-for="entrepot in entrepotList" 
+                                            :label="entrepot.name"
+                                            :value="entrepot.id" :key="entrepot.id">
+                                </el-option>
+                            </el-select>
+                            
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="12">
                         <el-form-item label="是否启用" prop="status">
                             <el-radio-group v-model="addForm.status">
                                 <el-radio :label="1">启用</el-radio>
@@ -72,6 +85,10 @@ export default {
     props:{
         typeList:{
             type:Array,
+        },
+        entrepotList:{
+            type:Array,
+            default:[]
         }
 
     },
@@ -89,6 +106,7 @@ export default {
                 manager_id:0,
                 remarks:"",
                 status:1,
+                entrepot_id:""
             },
             rules:{
                 name:[
@@ -99,6 +117,9 @@ export default {
                 ],
                 remarks:[
                     { message:'输入内容最大长度为200', type: 'string', trigger:'blur', max:200}
+                ],
+                entrepot_id:[
+                    { required: true ,type :'number', trigger:'change'}
                 ]
             },
 

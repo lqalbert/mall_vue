@@ -119,7 +119,7 @@ export default {
         },
         formSubmit(name){
             let model = this[name];
-            console.log(model);die();
+            console.log(model);
             if (this.$refs[name].rules) {
                 this.$refs[name].validate((valid)=>{
                     if (valid) {

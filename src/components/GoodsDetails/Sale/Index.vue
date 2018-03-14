@@ -5,8 +5,8 @@
                 <el-form-item prop="goods_name">
                     <el-input v-model="searchForm.goods_name" placeholder="请输入商品名称" size="small"></el-input>
                 </el-form-item>
-                <el-form-item prop="goods_number">
-                    <el-input v-model="searchForm.goods_number" placeholder="请输入商品货号" size="small"></el-input>
+                <el-form-item prop="sku_sn">
+                    <el-input v-model="searchForm.sku_sn" placeholder="请输入商品编号" size="small"></el-input>
                 </el-form-item>
                 <el-form-item prop="cate_id">
                     <el-cascader
@@ -44,7 +44,7 @@
                     <el-table-column prop="goods_price" label="商品价格" align="center">
                     </el-table-column>
 
-                    <el-table-column prop="goods_number" label="商品货号" align="center">
+                    <el-table-column prop="sku_sn" label="商品编号" align="center">
                     </el-table-column>
 
                     <el-table-column prop="goods_type" label="商品分类" align="center">

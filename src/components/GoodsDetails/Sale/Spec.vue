@@ -4,7 +4,7 @@
 				<el-table :data="skulist">
 					<el-table-column type="index" label="序号" width="80">
 					</el-table-column>
-					<el-table-column prop="name" label="sku" width="80">
+					<el-table-column prop="name" label="名称" width="80">
 					</el-table-column>
 					<el-table-column  label="规格小项" >
 						<template slot-scope="scope">
@@ -23,7 +23,7 @@
 					</el-table-column>
 					<el-table-column prop="price" label="价格" width="80">
 					</el-table-column>
-					<el-table-column prop="num" label="库存" width="80">
+					<el-table-column prop="sku_sn" label="商品编号" width="120">
 					</el-table-column>
 					
 				</el-table>

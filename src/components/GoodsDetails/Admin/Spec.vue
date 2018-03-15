@@ -5,7 +5,7 @@
 				<el-table :data="skulist" @row-click="handRowClick">
 					<el-table-column type="index" label="序号" width="80">
 					</el-table-column>
-					<el-table-column prop="name" label="sku" width="80">
+					<el-table-column prop="name" label="名称" width="80">
 					</el-table-column>
 					<el-table-column  label="规格小项" >
 						<template slot-scope="scope">
@@ -24,7 +24,7 @@
 					</el-table-column>
 					<el-table-column prop="price" label="价格" width="80">
 					</el-table-column>
-					<el-table-column prop="num" label="库存" width="80">
+					<el-table-column prop="sku_sn" label="商品编号" width="80">
 					</el-table-column>
 					<el-table-column label="操作">
 						<template slot-scope="scope">
@@ -37,7 +37,7 @@
 				<el-button @click="resetSkuForm">添加</el-button>
 				<AttrItem :form-object="attrForm"></AttrItem>
 			
-				<el-form-item label="SKU"  prop="name">
+				<el-form-item label="名称"  prop="name">
 					<el-col :span="10">
 						<el-input v-model="skuForm.name" placeholder="请输入内容"></el-input>
 					</el-col>
@@ -51,15 +51,15 @@
 			
 				<el-form-item label="价格"  prop="price">
 					<el-col :span="10">
-						<el-input v-model="skuForm.price" placeholder="请输入内容"></el-input>
+						<el-input v-model="skuForm.price" placeholder="0.00"></el-input>
 					</el-col>
 				</el-form-item>
 			
-				<el-form-item label="数量"  prop="num">
+				<!-- <el-form-item label="数量"  prop="num">
 					<el-col :span="10">
 						<el-input  v-model="skuForm.num" placeholder="请输入内容"></el-input>
 					</el-col>
-				</el-form-item>
+				</el-form-item> -->
 			
 				<el-form-item>
 					<el-button @click="addSku">{{ button_label }}</el-button>
@@ -116,7 +116,7 @@ export default {
 			skuForm:{
                 name:"",
                 price:"",
-				num:"",
+				num:0,
 				goods_id:"",
 				sku_sn:"",
 			},
@@ -126,8 +126,11 @@ export default {
                 price:[
                     {required: true,pattern:/^(([1-9]\d{0,9})|0)(\.\d{1,2})?$/,  message: '价格格式为88:88', trigger:'blur'}
                 ],
-                num:[
-                    {required: true,pattern:/^([0-9]\d{0,9})$/,  message: '数量必须为数字', trigger:'blur'}
+                // num:[
+                //     {required: true,pattern:/^([0-9]\d{0,9})$/,  message: '数量必须为数字', trigger:'blur'}
+				// ],
+				sku_sn:[
+                    {required: true, message: '请填写商品编号', trigger:'blur'}
                 ],
             },
 		}

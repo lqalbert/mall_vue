@@ -1,7 +1,7 @@
 <template>
     <div >
         <MyDialog title="添加配送中心" :name="name" :width="width" :height="height" @before-open="onOpen">
-            <el-form :model="editForm"  :label-width="labelWidth"  ref="editForm" :label-position="labelPosition">
+            <el-form :model="editForm"  :label-width="labelWidth" :rules="rules" ref="editForm" :label-position="labelPosition">
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="名称" prop="name" >
@@ -30,7 +30,7 @@
                 </el-row>
                 <el-row>
                     <el-col :span="24">
-                        <el-form-item label="地址"  prop="remarks">
+                        <el-form-item label="地址"  prop="address">
                             <el-input type="textarea"  auto-complete="off" v-model="editForm.address" placeholder="请填配送中心地址"></el-input>
                         </el-form-item>
                     </el-col>
@@ -113,14 +113,21 @@
                 model:'',
                 rules:{
                     name:[
-                        { required: true, message: '请输入小组名称', trigger: 'blur' }
-                    ],  
-                    department_id:[
-                        { required: true, message:'请选择所属部门', trigger: 'blur', type: 'number'}
+                        { required: true, message: '请输入配送中心名称', trigger: 'blur' }
                     ],
-                    remarks:[
-                        { message:'输入内容最大长度为200', type: 'string', trigger:'blur', max:200}
-                    ]
+                    eng_name:[
+                        { required: true, message:'请输入英文简称', trigger: 'blur', },
+                        {  min: 1, max: 3, message: '长度不能超过3个字符', trigger: 'blur'  }
+                    ],
+                    contact:[
+                        { required: true,message:'请输入联系人', type: 'string', trigger:'blur'}
+                    ],
+                    contact_phone:[
+                        { required: true,message:'请输入联系人电话', type: 'string', trigger:'blur'}
+                    ],
+                    address:[
+                        { required: true, message:'请输入地址', type: 'string', trigger:'blur'}
+                    ],
                 }
             }
         },

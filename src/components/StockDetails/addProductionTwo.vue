@@ -41,7 +41,7 @@
                 <el-row>
                     <el-col :span="16">
                         <el-form-item prop="comment"  label="备注">
-                            <el-input type="textarea" v-model="addForm.comment" placeholder="备注"></el-input>  
+                            <el-input type="textarea" v-model="addForm.comment" placeholder="备注"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -53,7 +53,7 @@
                     <el-table-column label="操作">
                         <template slot-scope="scope">
                             <el-button type="danger" size="small" @click="handleFormDel(scope.row)">删除</el-button>
-                        </template>  
+                        </template>
                     </el-table-column>
                 </el-table>
             </el-form>
@@ -136,7 +136,7 @@
     // import Dialog from '../common/Dialog';
     export default {
         name: 'addDialogTwo',
-        mixins:[FormMix, DialogMix], 
+        mixins:[FormMix, DialogMix],
         props:{
             types:{
                 type: Array,
@@ -223,13 +223,12 @@
                 this.distributors = data.items;
             },
             getTypes(data){
-                console.log(data);
                 this.types = data.items;
             },
             setCateKind(pid){
                 for (let i = 0; i < this.types.length; i++) {
                     if (this.types[i].id == pid) {
-                        this.typesKind = this.types[i].children;// && this.types[i].children 
+                        this.typesKind = this.types[i].children;// && this.types[i].children
                         this.productForm.cate_type = this.types[i].label;
                     }
                 }
@@ -256,18 +255,19 @@
                         this.$message.error("请填写必填项");
                         return false;
                     }
-                    vmthis.$message.error('出错了');
-                }).then(function(){
-                    vmthis.$emit('submit-final', name);
-                });
+                })
             },
             handleFormDel(row){
-                let index = this.tableData1.indexOf(row);
+                let index = this.addForm.childrenData.indexOf(row);
                 let vmThis = this;
                 if( index > -1){
-                    this.tableData1.splice(index,1);
+                    this.addForm.childrenData.splice(index,1);
                 }
             },
+
+            clearChidren(){
+                this.addForm.childrenData = [];
+            }
         },
         created(){
             // console.log(this.getUser);

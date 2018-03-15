@@ -592,7 +592,7 @@
             this.mainparam = JSON.stringify({department_id: this.searchForm.department_id});
             this.$on('search-tool-change', this.onSearchChange);
 
-            this.strategies = this.$store.getters.getStrategy( this.$options.name );
+            // this.strategies = this.$store.getters.getStrategy( this.$options.name );
 
             this.emSelect = new EmployeeSelectProxy({}, this.loadSubTable, this);
         }

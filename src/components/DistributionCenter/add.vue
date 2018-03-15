@@ -1,7 +1,7 @@
 <template>
     <div >
         <MyDialog title="添加配送中心" :name="name" :width="width" :height="height" >
-            <el-form :model="addForm"  :label-width="labelWidth"  ref="addForm" :label-position="labelPosition">
+            <el-form :model="addForm"  :label-width="labelWidth" :rules="rules" ref="addForm" :label-position="labelPosition">
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="名称" prop="name" >
@@ -22,14 +22,14 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="联系方式" prop="contact_phone" >
-                            <el-input class="name-input" v-model="addForm.contact_phone"  auto-complete="off"  placeholder="请填写联系人方式"></el-input>
+                        <el-form-item label="联系电话" prop="contact_phone" >
+                            <el-input class="name-input" v-model="addForm.contact_phone"  auto-complete="off"  placeholder="请填写联系人电话"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row>
                     <el-col :span="24">
-                        <el-form-item label="地址"  prop="remarks">
+                        <el-form-item label="地址"  prop="address">
                             <el-input type="textarea"  auto-complete="off" v-model="addForm.address" placeholder="请填配送中心地址"></el-input>
                         </el-form-item>
                     </el-col>
@@ -111,14 +111,21 @@
 
                 rules:{
                     name:[
-                        { required: true, message: '请输入小组名称', trigger: 'blur' }
-                    ],  
-                    department_id:[
-                        { required: true, message:'请选择所属部门', trigger: 'blur', type: 'number'}
+                        { required: true, message: '请输入配送中心名称', trigger: 'blur' }
                     ],
-                    remarks:[
-                        { message:'输入内容最大长度为200', type: 'string', trigger:'blur', max:200}
-              ]
+                    eng_name:[
+                        { required: true, message:'请输入英文简称', trigger: 'blur', },
+                        {  min: 1, max: 3, message: '长度不能超过3个字符', trigger: 'blur'  }
+                    ],
+                    contact:[
+                        { required: true,message:'请输入联系人', type: 'string', trigger:'blur'}
+                    ],
+                    contact_phone:[
+                        { required: true,message:'请输入联系人电话', type: 'string', trigger:'blur'}
+                    ],
+                    address:[
+                        { required: true, message:'请输入地址', type: 'string', trigger:'blur'}
+                    ],
                 }
             }
         },
@@ -129,9 +136,7 @@
             loadUsers(data){
                 this.computedusers = data.items;
             },
-            // formSubmit(){
-            //     console.log(this.addForm);
-            // },
+
             onDepartChange(v){
                 this.employeeSelect.setParam({department_id:v, role:'group-captain', group_candidate:1})
                 this.employeeSelect.load();

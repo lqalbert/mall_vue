@@ -55,7 +55,6 @@
                                 <el-cascader
                                         v-model="dev"
                                         :options="CategoryList"
-                                        change-on-select
                                         @change="categoryChange">
                                 </el-cascader>
                             </el-form-item>
@@ -284,7 +283,7 @@
                 this.addOrderForm.order_goods = this.orderData;
                 this.addOrderForm.cus_id = this.cus_id;
                 this.addOrderForm.deal_id= this.deal_id;
-                console.log(this.addOrderForm)
+                // console.log(this.addOrderForm)
                 this.formSubmit('addOrderForm');
             },
             handleClose(){
@@ -399,8 +398,8 @@
 
                 this.goodsProxy.setParam({
                     cate_id:cate_id,
-                    with:['skus'],
-                    fields:['id','goods_name','goods_price','goods_number']
+                    with:['skus.attr'],
+                    fields:['id','goods_name','goods_price','goods_number','sku_sn']
                 }).load();
             },
             getOrderData(data) {
@@ -408,7 +407,7 @@
                 this.goodsInfoData=data.items;
             },
             loadGoods(data){
-                //console.log(data);
+                console.log(data);
                 var vmThis = this;
                 this.data2 = {};
                 for (let i = 0; i < data.items.length; i++) {

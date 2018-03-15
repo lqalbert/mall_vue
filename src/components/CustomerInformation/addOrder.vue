@@ -33,7 +33,6 @@
                                 <el-cascader
                                         v-model="addOrderForm.dev"
                                         :options="CategoryList"
-                                        change-on-select
                                         @change="categoryChange"
                                 ></el-cascader>
                             </el-form-item>
@@ -42,7 +41,7 @@
                             <el-form-item prop="goods_id" label="商品名称">
                                 <el-select v-model="addOrderForm.goods_id" @change="getGoodsInfo">
                                     <el-option v-for="(value, item) in data2" :value="item" :key="item" :label="value.goods_name+'-'+value.sku_name+'-'+value.price">
-                                        <span>{{value.goods_name}}-{{value.sku_name}}-{{value.price}}</span>
+                                        <span>{{value.goods_name}}{{value.sku_name.length > 0 ? '-'+value.sku_name: ''  }}-{{value.price}}</span>
                                         <!-- <span style="float: right; color: #8492a6; font-size: 13px">{{value}}</span> -->
                                     </el-option>
                                 </el-select>
@@ -50,7 +49,7 @@
                         </el-col>
                         <el-col :span="12">
                             <el-form-item prop="goods_number" label="商品数量">
-                                <el-input-number size="small" :min="1" :max="gdsInpurNum" v-model="addOrderForm.goods_number" @change="gdsInpurNumChange">
+                                <el-input-number size="small" :min="1" :max="gdsInpurNum" v-model="addOrderForm.goods_number" >
                                 </el-input-number>
                                 <span style="color:red;">当前库存：{{alertNum}}</span>
                             </el-form-item>
@@ -81,7 +80,6 @@
                                         <template slot-scope="scope">
                                             <el-radio  :label="v.id" >{{v.fullAddress}}</el-radio>
                                         </template>
-
                                     </el-radio-group>
 
                                 <!--<el-select v-model="addressID" placeholder="请选择收货地址" @change="addressChange">-->
@@ -143,6 +141,7 @@
     import DataProxy from '../../packages/DataProxy';
     import SelectProxy from  '../../packages/SelectProxy';
     import GoodsSelectProxy from '../../packages/GoodsSelectProxy';
+    import EntrepotProductAjaxProxy from '@/ajaxProxy/EntrepotProduct';
 
     import APP_CONST from '../../config';
     import { mapGetters, mapMutations } from 'vuex';
@@ -206,15 +205,17 @@
             addOrder(){
                 var vmthis = this;
                 let moneyNotes =parseInt(this.data2[this.addOrderForm.goods_id].price) * parseInt(this.addOrderForm.goods_number);
+                let item = vmthis.data2[vmthis.addOrderForm.goods_id];
                 let addData ={
-                    goods_id:vmthis.data2[vmthis.addOrderForm.goods_id].goods_id,
-                    sku_id:vmthis.data2[vmthis.addOrderForm.goods_id].sku_id,
-                    sku_name:vmthis.data2[vmthis.addOrderForm.goods_id].sku_name,
-                    goods_name:vmthis.data2[vmthis.addOrderForm.goods_id].goods_name,
-                    price:vmthis.data2[vmthis.addOrderForm.goods_id].price,
+                    goods_id:    item.goods_id,
+                    sku_id:      item.sku_id,
+                    sku_name:    item.sku_name,
+                    goods_name:  item.goods_name,
+                    price:       item.price,
                     goods_number:vmthis.addOrderForm.goods_number,
-                    remark:vmthis.addOrderForm.remark,
-                    moneyNotes:moneyNotes,
+                    remark:      vmthis.addOrderForm.remark,
+                    moneyNotes:  moneyNotes,
+                    sku_sn:      item.sku_sn
                 };
                 this.totalMoney += moneyNotes;
                 this.orderData.push(addData);
@@ -224,14 +225,16 @@
             },
             getGoodsInfo(goods_id){
                 if(this.data2[goods_id]){
-                    this.gdsInpurNum = parseInt(this.data2[goods_id].num);
-                    this.alertNum = parseInt(this.data2[goods_id].num);
-                    this.allNum = this.alertNum;
+                    EntrepotProductAjaxProxy.getEntrepotCount(this.data2[goods_id].sku_sn).then((data)=>{
+                        this.gdsInpurNum = parseInt(data.data.num);
+                        this.alertNum = parseInt(data.data.num);
+                        this.allNum = this.alertNum;
+                    })  
                 }
                     
             },
             gdsInpurNumChange(v){
-                this.alertNum = this.allNum-v>0 ? this.allNum-v : 0;
+                // this.alertNum = this.allNum-v>0 ? this.allNum-v : 0;
             },
             userChange(deal_id){
                 this.deal_id=deal_id;
@@ -264,7 +267,6 @@
                 this.addOrderForm.order_all_money = this.totalMoney;
                 this.addOrderForm.order_pay_money = this.totalMoney;
                 this.addOrderForm.order_goods = this.orderData;
-                console.log(this.addOrderForm)
                 this.formSubmit('addOrderForm');
             },
             handleClose(){
@@ -378,7 +380,7 @@
                 this.goodsProxy.setParam({
                     cate_id:cate_id,
                     with:['skus'],
-                    fields:['id','goods_name','goods_price','goods_number']
+                    fields:['id','goods_name','goods_price','goods_number','sku_sn']
                 }).load();
             },
             getOrderData(data) {
@@ -400,7 +402,17 @@
                 //this.usersListData=data.users;
             },
 
-
+            contactItem(goods_id, price, name, num, sku_id, sku, sku_sn){
+                return {goods_id: goods_id, price: price, goods_name: name,  num: num, sku_id:sku_id, sku_name:sku, sku_sn:sku_sn};
+            },
+            contactChildren(children, goods_id, goods_name){
+                for (let i = 0; i < children.length; i++) {
+                    const item = children[i];
+                    let vv1 = this.contactItem(goods_id, item.price, goods_name, item.num, item.id, item.name, item.sku_sn);
+                    let kk1 = 'goods_id_'+goods_id+'_sku_id_'+ item.id;
+                    this.data2[kk1] = vv1;
+                }
+            },
 
             /**
              *  转成 key : {goods_id:xx, price:xxx, name:xxxx, num:xxx, sku_id:xxx, sku:xxx}
@@ -438,34 +450,21 @@
              *  
              */
             loadGoods(data){
-                //console.log(data);
+                console.log(data);
                 var vmThis = this;
                 this.data2 = {};
                 for (let i = 0; i < data.items.length; i++) {
-                    if(data.items[i].skus.length < 1){
-                        let gid1 = data.items[i].id;
-                        let goods_name1 = data.items[i].goods_name;
-                        let goods_price1 = data.items[i].goods_price;
-                        let goods_number1 = data.items[i].goods_number;
-                        let vv1 = {goods_id:gid1, price:goods_price1, goods_name:goods_name1, num:goods_number1,sku_id:0, sku_name:''};
-                        let kk1 = 'goods_id_'+gid1+'_sku_id_0';
-                        vmThis.data2[kk1] = vv1;
-                    }else{
-                        let gid2 = data.items[i].id;
-                        let goods_name2 = data.items[i].goods_name;
-                        for (let n = 0; n < data.items[i].skus.length; n++) {
-                            let sku_id2 = data.items[i].skus[n].id;
-                            let sku_name2 = data.items[i].skus[n].name;
-                            let sku_num2 = data.items[i].skus[n].num;
-                            let sku_price2 = data.items[i].skus[n].price;
-                            let kk2 = 'goods_id_'+gid2+'_sku_id_'+sku_id2;
-                            let vv2 = {goods_id:gid2, price:sku_price2, goods_name:goods_name2, num:sku_num2,sku_id:sku_id2, sku_name:sku_name2};
-                            vmThis.data2[kk2] = vv2;
-                        }
+                    let gid1 = data.items[i].id;
+                    let goods_name1 = data.items[i].goods_name;
+                    let goods_price1 = data.items[i].goods_price;
+                    let goods_number1 = data.items[i].goods_number;
+                    let vv1 = this.contactItem(gid1, goods_price1, goods_name1, goods_number1, 0, '',  data.items[i].sku_sn);
+                    let kk1 = 'goods_id_'+gid1+'_sku_id_0';
+                    this.data2[kk1] = vv1;
+                    if (data.items[i].skus.length > 0) {
+                        this.contactChildren(data.items[i].skus, gid1, goods_name1);
                     }
-             
-                }  
-                
+                }    
             }
 
 

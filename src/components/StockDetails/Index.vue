@@ -570,6 +570,7 @@
             let DistributionCenterSelect = new DistributionCenterProxy({}, this.getDistributionCenter, this);
             DistributionCenterSelect.load();
             //获取销售锁定展示数据
+            
             let GetSaleLockDataSelect = new GetSaleLockData({}, this.GetSaleLockDataFun, this);
             GetSaleLockDataSelect.load();
 

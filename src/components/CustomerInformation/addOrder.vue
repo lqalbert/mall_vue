@@ -119,6 +119,8 @@
                         <el-table-column prop="zip_code" label="收货邮编"></el-table-column>
                         <el-table-column prop="deal_name" label="成交员工"></el-table-column>
                     </el-table>
+                    <h3> <span>当前保证金:{{ depositMoney }}</span></h3>
+                    <br>
                     <div slot="dialog-foot" class="right">
                         <el-button @click="handleClose">取 消</el-button>
                         <submit-button
@@ -170,7 +172,6 @@
                 users:[],
                 address:[],
                 addressList:[],
-                usersListData:[],
                 addressListData:[],
                 addOrderForm:{
                     cus_id:'',
@@ -181,24 +182,28 @@
                     order_all_money:0,
                     order_pay_money:0,
                     order_goods:[],
+                    order_address:[],
                     dev:[],
                     goods_number:'',
                     remark:'',
+                    dep_group_realname:'',
                     
                 },
                 orderData:[],
+                orderAddressData:[],
                 goodsIds:[],
                 orderBasicData:[],
                 fullAddressData:[],
                 model:'',
                 deal_name:'',
+                depositMoney:0,
                 
             }
         },
         computed:{
             ...mapGetters([
                 'user_id',
-                'getUser'
+                'getUser',
             ])
         },
         methods:{
@@ -237,12 +242,14 @@
                 // this.alertNum = this.allNum-v>0 ? this.allNum-v : 0;
             },
             userChange(deal_id){
+                console.log(this.users);
                 this.deal_id=deal_id;
                 this.addOrderForm.deal_id=deal_id;
                 for (let i = 0; i < this.users.length; i++) {
                     if(this.users[i].id == deal_id){
                         this.deal_name = this.users[i].realname;
                         this.addOrderForm.deal_name = this.deal_name;
+                        this.addOrderForm.dep_group_realname = this.setDepGroupRealname(deal_id);
                     }  
                 }
                 
@@ -252,6 +259,7 @@
                 this.addOrderForm.address_id = address_id;
                 var vmThis = this;
                 this.addressList=[];
+                this.orderAddressData = [];
                 let data={
                     name : vmThis.addressListData[address_id].name,
                     phone : vmThis.addressListData[address_id].phone,
@@ -260,6 +268,7 @@
                     deal_name:vmThis.addOrderForm.deal_name,
                 };
                 this.addressList.push(data);
+                this.orderAddressData.push(this.addressListData[address_id]);
                 
             },
             handleSubmit(){
@@ -267,11 +276,13 @@
                 this.addOrderForm.order_all_money = this.totalMoney;
                 this.addOrderForm.order_pay_money = this.totalMoney;
                 this.addOrderForm.order_goods = this.orderData;
+                this.addOrderForm.order_address = this.orderAddressData;
                 this.formSubmit('addOrderForm');
             },
             handleClose(){
                 this.addressList=[];
                 this.orderData=[];
+                this.orderAddressData=[];
                 this.goodsIds=[];
                 this.$refs.addOrderForm.resetFields();
                 this.deal_id='';
@@ -283,6 +294,7 @@
                 this.deal_name = '',
                 this.totalMoney=0;
                 this.active=0;
+                this.depositMoney = 0;
                 this.$modal.hide(this.name);
             },
             getAjaxProxy(){
@@ -315,6 +327,7 @@
                     vmthis.$refs[name].resetFields();
                     vmthis.addressList=[];
                     vmthis.orderData=[];
+                    vmthis.orderAddressData=[];
                     vmthis.goodsIds=[];
                     vmthis.deal_id='';
                     vmthis.cus_id = '',
@@ -325,6 +338,7 @@
                     vmthis.deal_name = '',
                     vmthis.totalMoney=0;
                     vmthis.active=0;
+                    vmthis.depositMoney = 0;
                     vmthis.$emit('submit-success', name);
                 }).catch(function(error){
                     if(error.response){
@@ -344,9 +358,28 @@
                 this.addOrderForm.deal_name=this.getUser.realname;
                 this.cus_id = param.params.model.id;
                 this.addOrderForm.cus_id = this.cus_id;
-                //this.id = param.params.model.id;
+                this.addOrderForm.dep_group_realname = this.setDepGroupRealname(this.user_id);
                 this.getAddress(this.cus_id);
                 
+            },
+            setDepGroupRealname(id){
+                let dep_group_realname = '';
+                for (let i = 0; i < this.users.length; i++) {
+                    if (this.users[i].id == id) {
+                        if(this.users[i].department){
+                            dep_group_realname = this.users[i].department.name+'-';
+                        }
+
+                        if(this.users[i].group){
+                            dep_group_realname = dep_group_realname + this.users[i].group.name +'-';
+                        }
+
+                        dep_group_realname = dep_group_realname+this.users[i].realname;
+                        this.depositMoney = this.users[i].deposit_money;
+                    }
+                    
+                }
+                return dep_group_realname;
             },
             deleteAddress(row){
                 let index = this.orderData.indexOf(row);

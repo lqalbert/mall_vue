@@ -146,7 +146,7 @@ export default {
 			let re = null;
             if (category instanceof Array) {
                 re = category[category.length-1];
-            } else {
+            } else { 
                 re = 0;
             }
             

@@ -62,16 +62,16 @@
             <el-col>
                 <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" @dbclick="showRow" >
                     <el-table-column type="selection" align="center" width="50"></el-table-column>
-                    <el-table-column label="序号" align="center" type="index" width="65"></el-table-column>
+                    <el-table-column prop="order_sn" label="单号" align="center" width="180"></el-table-column>
                     <!--<el-table-column prop="id" label="订单号" width="200" align="center">-->
                     <!--</el-table-column>-->
                     <el-table-column prop="order_all_money" label="总金额" align="center" width="80">
                     </el-table-column>
-                    <el-table-column prop="order_pay_money" label="应付金额" align="center" width="80">
+                    <el-table-column prop="order_pay_money" label="应付金额" align="center" width="120">
                     </el-table-column>
-                    <el-table-column prop="cus_name" label="购买顾客" align="center" width="80">
+                    <el-table-column prop="cus_name" label="购买顾客" align="center" width="120">
                     </el-table-column>
-                    <el-table-column prop="user_name" label="成交员工" align="center" width="80">
+                    <el-table-column prop="user_name" label="成交员工" align="center" width="120">
                     </el-table-column>
 
                     <el-table-column prop="order_status" label="订单状态" align="center">
@@ -120,7 +120,7 @@
                             <span v-else-if="scope.row.refund_status==3">已驳回</span>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="created_at" label="下单时间" align="center">
+                    <el-table-column prop="created_at" label="下单时间" align="center" width="180">
                     </el-table-column>
                     <el-table-column  width="200" fixed="right" label="操作" align="center">
                         <template slot-scope="scope">
@@ -130,13 +130,13 @@
                                 </el-button>
                                 <el-dropdown-menu slot="dropdown" split-button>
                                     <el-dropdown-item>
-                                        <el-button class="menu" @click="open2(scope.row.id)">发起退款</el-button>
+                                        <el-button type="text"  @click="open2(scope.row.id)">发起退款</el-button>
                                     </el-dropdown-item>
                                     <el-dropdown-item>
-                                        <el-button class="menu" @click="showExchange(scope.row)">换货</el-button>
+                                        <el-button type="text"  @click="showExchange(scope.row)">换货</el-button>
                                     </el-dropdown-item>
                                     <el-dropdown-item>
-                                        <el-button class="menu" @click="showRowData(scope.row)">编辑</el-button>
+                                        <el-button type="text"  @click="showRowData(scope.row)">编辑</el-button>
                                     </el-dropdown-item>
                                 </el-dropdown-menu>
                             </el-dropdown>

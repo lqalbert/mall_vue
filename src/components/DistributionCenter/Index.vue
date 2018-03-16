@@ -72,7 +72,7 @@ import PageMix from '../../mix/Page';
 import SearchTool from '../../mix/SearchTool';
 import DataTable from '../../mix/DataTable';
 import { mapGetters } from 'vuex';
-import Dialog from '../common/Dialog';
+// import Dialog from '../common/Dialog';
 import DistributionCenterAjaxProxy from '../../ajaxProxy/DistributionCenter';
 export default {
     name: 'DistributionCenter',

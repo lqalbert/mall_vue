@@ -247,7 +247,7 @@
         },
         mounted:function(){
             let vThis = this;
-            this.navChange('DistributionCenter');
+            this.navChange('ShelvesManagement');
             setInterval(function(){
                 vThis.getCurDate();
             }, 1000);

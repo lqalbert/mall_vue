@@ -8,9 +8,7 @@
                                 v-model="searchForm.goods_type_id"
                                 size="small"
                                 placeholder="商品类型">
-                            <el-option v-for="v in types" :label="v.name"
-                                       :value="v.id" :key="v.id">
-                            </el-option>
+                            <el-option v-for="v in types" :label="v.label" :value="v.id" :key="v.id"></el-option>
                         </el-select>
                     </el-form-item>
 
@@ -428,10 +426,6 @@
                         operation_time  :"2018-03-10 15:23:40",
                     },
                 ],
-                types: [
-                    {id:1,name:'面膜'},
-                    {id:2,name:'爽肤水'},
-                ],
                 productNames: [
                     {id:1,name:'面膜 6张'},
                     {id:2,name:'爽肤水 200ml'},
@@ -439,10 +433,6 @@
                 storageUsers: [
                     {id:1,name:'张三'},
                     {id:2,name:'李四'},
-                ],
-                distributors: [
-                    {id:1,name:'顺丰'},
-                    {id:2,name:'圆通'},
                 ],
                 groups: [],
                 users: [],
@@ -533,8 +523,6 @@
                 this.$modal.show('addProduction');
             },
             addProduction2(){
-                this.getDC();
-                this.getCateType();
                 this.$modal.show('addProductionTwo');
             },
             exchangeProduction(){
@@ -566,16 +554,7 @@
                 this.distributors = data.items;
             },
             getTypes(data){
-                //console.log(data);
                 this.types = data.items;
-            },
-            getDC(){
-                let DistributionCenterSelect = new DistributionCenterProxy({}, this.getDistributionCenter, this);
-                DistributionCenterSelect.load();
-            },
-            getCateType(){
-                let CategorySelect = new CategorySelectProxy({}, this.getTypes, this);
-                CategorySelect.load();
             },
 
         },
@@ -584,8 +563,13 @@
             let departProxy = new DepartSelectProxy(null, this.loadDepartment, this);
             this.departProxy = departProxy;
             this.departProxy.load();
+            //获取商品类型数据
+            let CategorySelect = new CategorySelectProxy({}, this.getTypes, this);
+            CategorySelect.load();
+            //获取配送中心数据
+            let DistributionCenterSelect = new DistributionCenterProxy({}, this.getDistributionCenter, this);
+            DistributionCenterSelect.load();
             //获取销售锁定展示数据
-            
             let GetSaleLockDataSelect = new GetSaleLockData({}, this.GetSaleLockDataFun, this);
             GetSaleLockDataSelect.load();
 

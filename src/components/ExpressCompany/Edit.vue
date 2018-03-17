@@ -1,7 +1,7 @@
 <template>
     <div>
         <MyDialog title="修改编辑" :name="name" :width="width" :height="height" @before-open="onOpen">
-            <el-form :model="editForm" ref="editForm" :label-width="labelWidth"  :label-position="labelPosition">
+            <el-form :model="editForm" ref="editForm" :rules="rules" :label-width="labelWidth"  :label-position="labelPosition">
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="物流名称" prop="company_name" >
@@ -31,22 +31,24 @@
             </el-form>
             <div slot="dialog-foot" class="dialog-footer">
                 <el-button @click="handleClose">取 消</el-button>
-                <el-button type="info" @click="handleClose">保 存</el-button>
-                <!-- <submit-button 
-                    @click="beforeFormSubmit('editForm')"
-                    :observer="dialogThis">
+                <submit-button
+                        :observer="dialogThis"
+                        @click="formSubmit('editForm')">
                     保 存
-                </submit-button> -->
+                </submit-button>
             </div>
         </MyDialog>
     </div>
 </template>
 <script>
 import DialogForm from '../../mix/DialogForm';
+import FormMix from '../../mix/Form';
 import APP_CONST from '../../config';
+import DialogMix from '../../mix/Dialog';
+import { mapGetters } from 'vuex';
 export default {
     name: 'Edit',
-    mixins:[DialogForm],
+    mixins:[DialogForm,FormMix],
     components: {
         
     },
@@ -59,10 +61,22 @@ export default {
             labelPosition:"right",
             labelWidth:'80px',
             editForm:{
+                id:'',
                 company_name:'',
                 contact_name:'',
                 contact_tel:'',
                 remark:'',
+            },
+            rules:{
+                company_name:[
+                    { required: true, message: '请输入物流公司名称', trigger: 'blur' }
+                ],
+                contact_name:[
+                    { required: true, message:'请输入物流公司联系人', trigger: 'blur', },
+                ],
+                contact_tel:[
+                    { required: true,message:'请输入联系人电话', type: 'string', trigger:'blur'}
+                ],
 
             },
             model:null,
@@ -70,7 +84,7 @@ export default {
     },
     methods:{
         getAjaxPromise(model){
-             //return this.ajaxProxy.update(model.id, model);
+            return this.ajaxProxy.update(model.id, model);
         },
         onOpen(param){
 			this.model = param.params.model;

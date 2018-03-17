@@ -20,9 +20,9 @@
         </el-row>
         <el-row>
             <el-col>
-                <!-- <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload"> -->
-                <el-table :data="mainData" border highlight-current-row style="width: 100%">
-                    <el-table-column label="序号" align="center"  type="index" width="65">
+                 <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload">
+
+                    <el-table-column label="ID" align="center"  prop="id" width="65">
                     </el-table-column>
 
                     <el-table-column prop="company_name" label="物流名称" align="center">
@@ -44,36 +44,23 @@
                         </template>
                     </el-table-column>
 
-                    <!-- <div slot="buttonbar">
+                   <div slot="buttonbar">
                         <el-button type="primary" size="small" @click="showAdd">添加</el-button>
-                    </div> -->
-                </el-table>
-                <!-- </TableProxy> -->
-            </el-col>
-        </el-row>
-        <el-row >
-            <el-col :span="12">
-                <el-button type="primary" size="small" @click="showAdd">添加</el-button>         
-            </el-col>
-            <el-col :span="12">
-                <div class="pull-right">
-                    <el-pagination
-                        :current-page="currentPage"
-                        :page-size="pageSize"
-                        layout="total, prev, pager, next, jumper"
-                        :total="total">
-                    </el-pagination>   
-                </div>
+                    </div>
+
+                 </TableProxy>
             </el-col>
         </el-row>
 
         <!-- 写弹窗组件 -->
         <Add name='add-express-company'
-            :ajax-proxy="ajaxProxy">
+            :ajax-proxy="ajaxProxy"
+             @submit-success="handleReload">
         </Add>
 
         <Edit name='edit-express-company'
-            :ajax-proxy="ajaxProxy">
+            :ajax-proxy="ajaxProxy"
+            @submit-success="handleReload">
         </Edit>
     </div>
 </template>
@@ -81,13 +68,14 @@
 import PageMix from '../../mix/Page';
 import SearchTool from '../../mix/SearchTool';
 import DataTable from '../../mix/DataTable';
-
+import config from '../../mix/Delete';
+import ExpressCompanyAjaxProxy from '../../ajaxProxy/ExpressCompany';
 import Add from './Add';
 import Edit from './Edit';
 export default {
     name: 'ExpressCompany',
     pageTitle:"物流公司",
-    mixins:[PageMix,SearchTool,DataTable],
+    mixins:[PageMix,SearchTool,DataTable,config,ExpressCompanyAjaxProxy],
     components:{
         Add,
         Edit,
@@ -95,27 +83,18 @@ export default {
     data(){
         return {
             mainparam:"",
-            mainurl:'',
-            ajaxProxy:'',
+            mainurl:ExpressCompanyAjaxProxy.getUrl(),
+            ajaxProxy:ExpressCompanyAjaxProxy,
             searchForm:{
                 company_name:'',
                 contact_name:'',
                 contact_tel:'',
             },
-            mainData:[
-                {company_name:'顺丰',contact_name:'孙悟空',contact_tel:'13333333333',remark:'很快很快的'},
-                {company_name:'顺丰',contact_name:'孙悟空',contact_tel:'13333333333',remark:'很快很快的'},
-                {company_name:'顺丰',contact_name:'孙悟空',contact_tel:'13333333333',remark:'很快很快的'},
-            ],
-            currentPage:1,
-            pageSize:10,
-            total:100,
-
         }
     },
     methods:{
         onSearchChange(param){
-            //this.mainparam = JSON.stringify(param);
+            this.mainparam = JSON.stringify(param);
         },
         showAdd(){
             this.$modal.show('add-express-company');
@@ -123,18 +102,9 @@ export default {
         showEdit(row){
             this.$modal.show('edit-express-company',{model:row});
         },
-        handleDelete(id){
-            let vmthis = this;
-            this.$confirm('确定删除?', '警告',{
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'warning'
-            }).then(()=>{
-                vmthis.$message.success("操作成功");
-            });
-        }
-
-
+        getAjaxProxy(){
+            return  this.ajaxProxy;
+        },
     },
     created(){
         this.$on('search-tool-change', this.onSearchChange);

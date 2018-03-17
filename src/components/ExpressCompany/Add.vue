@@ -1,7 +1,7 @@
 <template>
     <div>
         <MyDialog title="添加" :name="name" :width="width" :height="height">
-            <el-form :model="addForm" ref="addForm" :label-width="labelWidth"  :label-position="labelPosition">
+            <el-form :model="addForm" ref="addForm" :label-width="labelWidth" :rules="rules" :label-position="labelPosition">
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="物流名称" prop="company_name" >
@@ -29,24 +29,27 @@
                     </el-col>
                 </el-row>
             </el-form>
+
             <div slot="dialog-foot" class="dialog-footer">
                 <el-button @click="handleClose">取 消</el-button>
-                <el-button type="info" @click="handleClose">保 存</el-button>
-                <!-- <submit-button 
-                    @click="beforeFormSubmit('addForm')"
-                    :observer="dialogThis">
+                <submit-button
+                        :observer="dialogThis"
+                        @click="formSubmit('addForm')">
                     保 存
-                </submit-button> -->
+                </submit-button>
             </div>
         </MyDialog>
     </div>
 </template>
 <script>
 import DialogForm from '../../mix/DialogForm';
+import FormMix from '../../mix/Form';
 import APP_CONST from '../../config';
+import DialogMix from '../../mix/Dialog';
+import { mapGetters } from 'vuex';
 export default {
     name: 'Add',
-    mixins:[DialogForm],
+    mixins:[DialogForm,FormMix],
     components: {
         
     },
@@ -63,20 +66,32 @@ export default {
                 contact_name:'',
                 contact_tel:'',
                 remark:'',
-
             },
+            rules:{
+                company_name:[
+                    { required: true, message: '请输入物流公司名称', trigger: 'blur' }
+                ],
+                contact_name:[
+                    { required: true, message:'请输入物流公司联系人', trigger: 'blur', },
+                ],
+                contact_tel:[
+                    { required: true,message:'请输入联系人电话', type: 'string', trigger:'blur'}
+                ],
+
+            }
         }
     },
     methods:{
         getAjaxPromise(model){
-            //return this.ajaxProxy.create(model);
+            return this.ajaxProxy.create(model);
         },
+        // formSubmit(){
+        //     console.log(this.addForm)
+        // }
     },
-    mounted(){
 
-    },
     created(){
-
+        this.$on('submit-success', this.clearChidren);
     }
 
 }

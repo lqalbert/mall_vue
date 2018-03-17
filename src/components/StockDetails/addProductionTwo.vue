@@ -129,8 +129,6 @@
     import FormMix from '../../mix/Form';
     import DialogMix from '../../mix/Dialog';
     import EmployeeSelectProxy from '../../packages/EmployeeSelectProxy';
-    import DistributionCenterProxy from '../../packages/DistributionCenterSelectProxy';
-    import CategorySelectProxy from '../../packages/CategorySelectProxy';
     import { mapGetters } from 'vuex';
 
     // import Dialog from '../common/Dialog';
@@ -164,9 +162,7 @@
                 dialogThis:this,
                 labelPosition:"right",
                 labelWidth:'80px',
-                types:[],
                 typesKind:[],
-                distributors:[],
                 addForm:{
                     entry_sn:'',
                     entry_at:'',
@@ -259,7 +255,6 @@
             },
             handleFormDel(row){
                 let index = this.addForm.childrenData.indexOf(row);
-                let vmThis = this;
                 if( index > -1){
                     this.addForm.childrenData.splice(index,1);
                 }

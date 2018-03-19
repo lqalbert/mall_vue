@@ -57,7 +57,7 @@
                     // console.log(data.data);
                     vmThis.loginUser(data.data)
                 }).catch(function(data){
-                    vmThis.$message.error(data);
+                    vmThis.$message.error('出错了');
                 })
                 
             },

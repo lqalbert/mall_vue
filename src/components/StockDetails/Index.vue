@@ -64,12 +64,12 @@
                         </el-select>
                     </el-form-item>
 
-                <el-form-item>
-                    <el-button type="primary" size="small" @click="searchToolChange('searchForm')" icon="search">查询
-                    </el-button>
-                    <el-button size="small" type="primary" @click="searchToolReset('searchForm')">重置</el-button>
-                </el-form-item>
-            </el-form>
+                    <el-form-item>
+                        <el-button type="primary" size="small" @click="searchToolChange('searchForm')" icon="search">查询
+                        </el-button>
+                        <el-button size="small" type="primary" @click="searchToolReset('searchForm')">重置</el-button>
+                    </el-form-item>
+                </el-form>
             </el-col>
         </el-row>
         <el-row>

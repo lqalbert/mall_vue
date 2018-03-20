@@ -208,6 +208,7 @@
         },
         methods:{
             addOrder(){
+                //console.log(this.data2);
                 var vmthis = this;
                 let moneyNotes =parseInt(this.data2[this.addOrderForm.goods_id].price) * parseInt(this.addOrderForm.goods_number);
                 let item = vmthis.data2[vmthis.addOrderForm.goods_id];
@@ -220,7 +221,8 @@
                     goods_number:vmthis.addOrderForm.goods_number,
                     remark:      vmthis.addOrderForm.remark,
                     moneyNotes:  moneyNotes,
-                    sku_sn:      item.sku_sn
+                    sku_sn:      item.sku_sn,
+                    unit_type:   item.unit_type,
                 };
                 this.totalMoney += moneyNotes;
                 this.orderData.push(addData);
@@ -413,7 +415,7 @@
                 this.goodsProxy.setParam({
                     cate_id:cate_id,
                     with:['skus'],
-                    fields:['id','goods_name','goods_price','goods_number','sku_sn']
+                    fields:['id','goods_name','goods_price','goods_number','sku_sn','unit_type']
                 }).load();
             },
             getOrderData(data) {
@@ -435,18 +437,17 @@
                 //this.usersListData=data.users;
             },
 
-            contactItem(goods_id, price, name, num, sku_id, sku, sku_sn){
-                return {goods_id: goods_id, price: price, goods_name: name,  num: num, sku_id:sku_id, sku_name:sku, sku_sn:sku_sn};
+            contactItem(goods_id, price, name, num, sku_id, sku, sku_sn,unit_type){
+                return {goods_id: goods_id, price: price, goods_name: name,  num: num, sku_id:sku_id, sku_name:sku, sku_sn:sku_sn,unit_type:unit_type};
             },
-            contactChildren(children, goods_id, goods_name){
+            contactChildren(children, goods_id, goods_name,unit_type){
                 for (let i = 0; i < children.length; i++) {
                     const item = children[i];
-                    let vv1 = this.contactItem(goods_id, item.price, goods_name, item.num, item.id, item.name, item.sku_sn);
+                    let vv1 = this.contactItem(goods_id, item.price, goods_name, item.num, item.id, item.name, item.sku_sn,unit_type);
                     let kk1 = 'goods_id_'+goods_id+'_sku_id_'+ item.id;
                     this.data2[kk1] = vv1;
                 }
             },
-
             /**
              *  转成 key : {goods_id:xx, price:xxx, name:xxxx, num:xxx, sku_id:xxx, sku:xxx}
              *  这样的格式
@@ -491,14 +492,15 @@
                     let goods_name1 = data.items[i].goods_name;
                     let goods_price1 = data.items[i].goods_price;
                     let goods_number1 = data.items[i].goods_number;
-                    let vv1 = this.contactItem(gid1, goods_price1, goods_name1, goods_number1, 0, '',  data.items[i].sku_sn);
+                    let unit_type1 = data.items[i].unit_type;
+                    let vv1 = this.contactItem(gid1, goods_price1, goods_name1, goods_number1, 0, '',  data.items[i].sku_sn,unit_type1);
                     let kk1 = 'goods_id_'+gid1+'_sku_id_0';
                     this.data2[kk1] = vv1;
                     if (data.items[i].skus.length > 0) {
-                        this.contactChildren(data.items[i].skus, gid1, goods_name1);
+                        this.contactChildren(data.items[i].skus, gid1, goods_name1,unit_type1);
                     }
                 }    
-            }
+            },
 
 
         },

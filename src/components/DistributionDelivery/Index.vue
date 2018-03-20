@@ -2,22 +2,22 @@
     <div class="hello">
         <el-row>
             <el-form :inline="true" :model="searchForm" ref="searchForm" class="demo-form-inline" size="small">
-                <el-form-item prop="dc">
-                    <el-select v-model="searchForm.dc" size="small" placeholder="配送中心">
+                <el-form-item prop="entrepot_id">
+                    <el-select v-model="searchForm.entrepot_id" size="small" placeholder="配送中心" clearable>
                         <el-option label="郑州配送中心" value="1"></el-option>
                         <el-option label="广州配送中心" value="2"></el-option>
                         <el-option label="深圳配送中心" value="3"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item prop="goods_type">
-                    <el-select v-model="searchForm.goods_type" size="small" placeholder="商品类型">
+                <el-form-item prop="cate_type">
+                    <el-select v-model="searchForm.cate_type" size="small" placeholder="商品类型">
                         <el-option label="面膜" value="1"></el-option>
                         <el-option label="补水" value="2"></el-option>
                         <el-option label="祛痘" value="3"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item prop="goods_category">
-                    <el-select v-model="searchForm.goods_category" size="small" placeholder="商品分类">
+                <el-form-item prop="cate_kind">
+                    <el-select v-model="searchForm.cate_kind" size="small" placeholder="商品品种">
                         <el-option label="面膜-补水-补肾" value="1"></el-option>
                         <el-option label="补身-补水-补肾" value="2"></el-option>
                         <el-option label="大补-补水-补肾" value="3"></el-option>
@@ -49,28 +49,28 @@
                 <el-form-item prop="cus_name">
                     <el-input v-model="searchForm.cus_name" size="small" placeholder="客户姓名"></el-input>
                 </el-form-item>
-                <el-form-item prop="cus_tel">
-                    <el-input v-model="searchForm.cus_tel" size="small" placeholder="客户电话"></el-input>
+                <el-form-item prop="deliver_phone">
+                    <el-input v-model="searchForm.deliver_phone" size="small" placeholder="客户电话"></el-input>
                 </el-form-item>
                 <br>
-                <el-form-item prop="company_name">
-                    <el-input v-model="searchForm.company_name" size="small" placeholder="快递公司"></el-input>
+                <el-form-item prop="express_name">
+                    <el-input v-model="searchForm.express_name" size="small" placeholder="快递公司"></el-input>
                 </el-form-item>
-                <el-form-item prop="delivery_status">
-                    <el-select v-model="searchForm.delivery_status" size="small" placeholder="发货状态">
+                <el-form-item prop="status">
+                    <el-select v-model="searchForm.status" size="small" placeholder="发货状态">
                         <el-option label="已发" value="1"></el-option>
                         <el-option label="待发" value="2"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item prop="delivery_type">
-                    <el-select v-model="searchForm.delivery_type" size="small" placeholder="发货类型">
+                <el-form-item prop="assign_type">
+                    <el-select v-model="searchForm.assign_type" size="small" placeholder="发货类型">
                         <el-option label="正常" value="1"></el-option>
                         <el-option label="退货" value="2"></el-option>
                         <el-option label="换货" value="2"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item prop="delivery_name">
-                    <el-select v-model="searchForm.delivery_name" size="small" placeholder="发货人员">
+                <el-form-item prop="user_id">
+                    <el-select v-model="searchForm.user_id" size="small" placeholder="发货人员">
                         <el-option label="张三" value="1"></el-option>
                         <el-option label="李四" value="2"></el-option>
                         <el-option label="王五" value="2"></el-option>
@@ -79,21 +79,21 @@
                 <el-form-item>
                     <el-button type="primary" size="small" icon="search" @click="searchToolChange('searchForm')">查询</el-button>
                     <el-button type="primary" size="small" @click="searchToolReset('searchForm')">重置</el-button>
-                    <!-- <el-button type="primary" size="small" @click="refreshTable">刷新</el-button> -->
                 </el-form-item>
             </el-form>
         </el-row>
+        <!-- table -->
         <el-row>
             <el-col>
-                <!-- <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload"> -->
-                <el-table :data="mainData" border highlight-current-row style="width: 100%">
+                <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" :page-size="20" :bubble="bubble">
+                <!-- <el-table :data="mainData" border highlight-current-row style="width: 100%"> -->
                     <el-table-column label="序号" align="center"  type="index" width="65">
                     </el-table-column>
 
-                    <el-table-column prop="delivery_num" label="发货单号" align="center" width="200">
+                    <el-table-column prop="assign_sn" label="发货单号" align="center" width="200">
                     </el-table-column>
 
-                    <el-table-column prop="delivery_status" label="发货状态" align="center" width="200">
+                    <el-table-column prop="status_text" label="发货状态" align="center" width="200">
                     </el-table-column>
 
                     <el-table-column prop="cus_name" label="客户姓名" align="center" width="200">
@@ -102,58 +102,58 @@
                     <el-table-column prop="goods_name" label="商品名称" align="center" width="200">
                     </el-table-column>
 
-                    <el-table-column prop="num" label="数量" align="center" width="200">
+                    <el-table-column prop="goods_num" label="数量" align="center" width="200">
                     </el-table-column>
 
-                    <el-table-column prop="goods_unit" label="商品单位" align="center" width="200">
+                    <el-table-column prop="unit_type" label="商品单位" align="center" width="200">
                     </el-table-column>
 
-                    <el-table-column prop="goods_category" label="商品分类" align="center" width="200">
+                    <el-table-column prop="cate_type" label="商品类型" align="center" width="200">
                     </el-table-column>
 
-                    <el-table-column prop="company_name" label="快递公司" align="center" width="200">
+                    <el-table-column prop="express_name" label="快递公司" align="center" width="200">
                     </el-table-column>
 
-                    <el-table-column prop="express_num" label="快递单号" align="center" width="200">
+                    <el-table-column prop="express_sn" label="快递单号" align="center" width="200">
                     </el-table-column>
 
-                    <el-table-column prop="express_list_status" label="快递单打印状态" align="center" width="200">
+                    <el-table-column prop="express_print_status" label="快递单打印状态" align="center" width="200">
                     </el-table-column>
 
-                    <el-table-column prop="delivery_list_status" label="发货单打印状态" align="center" width="200">
+                    <el-table-column prop="assign_print_status" label="发货单打印状态" align="center" width="200">
                     </el-table-column>
 
-                    <el-table-column prop="select_express" label="是否指定快递" align="center" width="200">
+                    <el-table-column prop="set_express" label="是否指定快递" align="center" width="200">
                     </el-table-column>
                     
-                    <el-table-column prop="receive_name" label="收件人" align="center" width="200">
+                    <el-table-column prop="deliver_name" label="收件人" align="center" width="200">
                     </el-table-column>
 
-                    <el-table-column prop="receive_tel" label="收件人手机" align="center" width="200">
+                    <el-table-column prop="deliver_phone" label="收件人手机" align="center" width="200">
                     </el-table-column>
 
                     <el-table-column prop="weight" label="重量" align="center" width="200">
                     </el-table-column>
 
-                    <el-table-column prop="send_fee" label="配送费" align="center" width="200">
+                    <el-table-column prop="assign_fee" label="配送费" align="center" width="200">
                     </el-table-column>
 
-                    <el-table-column prop="delivery_fee" label="快递费" align="center" width="200">
+                    <el-table-column prop="express_fee" label="快递费" align="center" width="200">
                     </el-table-column>
 
-                    <el-table-column prop="express_list_time" label="快递单打印时间" align="center" width="200">
+                    <el-table-column prop="express_print_at" label="快递单打印时间" align="center" width="200">
                     </el-table-column>
 
-                    <el-table-column prop="delivery_list_time" label="发货单打印时间" align="center" width="200">
+                    <el-table-column prop="assign_print_at" label="发货单打印时间" align="center" width="200">
                     </el-table-column>
 
-                    <el-table-column prop="delivery_time" label="发货时间" align="center" width="200">
+                    <el-table-column prop="out_entrepot_at" label="发货时间" align="center" width="200">
                     </el-table-column>
 
                     <el-table-column prop="sale_time" label="销售时间" align="center" width="200">
                     </el-table-column>
 
-                    <el-table-column prop="receive_time" label="签收时间" align="center" width="200">
+                    <el-table-column prop="sign_at" label="签收时间" align="center" width="200">
                     </el-table-column>
 
                     <el-table-column prop="sale_name" label="销售人员" align="center" width="200">
@@ -166,33 +166,20 @@
                         </template>
                     </el-table-column> -->
 
-                    <!-- <div slot="buttonbar">
-                        <el-button type="primary" size="small" @click="showAdd">添加</el-button>
-                    </div> -->
-                </el-table>
-                <!-- </TableProxy> -->
+                    <div slot="buttonbar">
+                        <el-button type="primary" size="small" @click="addDelivery">发 货</el-button>     
+                        <el-button type="primary" size="small" @click="handleEdit">修 改</el-button>     
+                        <el-button type="primary" size="small" @click="setDropOrder">废 单</el-button>     
+                        <el-button type="primary" size="small" @click="handleReceive">签 收</el-button>     
+                        <el-button type="primary" size="small" @click="addContact">沟 通</el-button>     
+                        <el-button type="primary" size="small" @click="editAddress">修改地址</el-button>     
+                    </div>
+                <!-- </el-table> -->
+                </TableProxy>
             </el-col>
         </el-row>
-        <el-row >
-            <el-col :span="12">
-                <el-button type="primary" size="small" @click="addDelivery">发 货</el-button>     
-                <el-button type="primary" size="small" @click="handleEdit">修 改</el-button>     
-                <el-button type="primary" size="small" @click="setDropOrder">废 单</el-button>     
-                <el-button type="primary" size="small" @click="handleReceive">签 收</el-button>     
-                <el-button type="primary" size="small" @click="addContact">沟 通</el-button>     
-                <el-button type="primary" size="small" @click="editAddress">修改地址</el-button>     
-            </el-col>
-            <el-col :span="12">
-                <div class="pull-right">
-                    <el-pagination
-                        :current-page="currentPage"
-                        :page-size="pageSize"
-                        layout="total, prev, pager, next, jumper"
-                        :total="total">
-                    </el-pagination>   
-                </div>
-            </el-col>
-        </el-row>
+        <!-- /table -->
+        <br>
         <el-row>
             <el-tabs v-model="activeName" type="border-card" @tab-click="handleClick">
                 <el-tab-pane label="发货明细" name="first">
@@ -251,7 +238,8 @@
         </el-row>
         <!-- 写弹窗组件 -->
         <add-delivery name='add-delivery'
-            :ajax-proxy="ajaxProxy">
+            :ajax-proxy="ajaxProxy"
+            @submit-success="handleReload">
         </add-delivery>
 
         <handle-edit name='handle-edit'
@@ -286,6 +274,10 @@ import SetDropOrder from './SetDropOrder';
 import HandleReceive from './HandleReceive';
 import AddContact from './AddContact';
 import EditAddress from './EditAddress';
+
+import AssignAjaxProxy from '@/ajaxProxy/Assign';
+
+
 export default {
     name: 'DistributionDelivery',
     pageTitle:"配送发货",
@@ -301,49 +293,30 @@ export default {
     data(){
         return {
             mainparam:"",
-            mainurl:'',
-            ajaxProxy:'',
+            mainurl:AssignAjaxProxy,
+            ajaxProxy:AssignAjaxProxy,
             searchForm:{
-                dc:'',
-                goods_type:'',
-                goods_category:'',
+                entrepot_id:'',
+                cate_type:'',
+                cate_kind:'',
                 goods_name:'',
                 sale_name:'',
                 start:'',
                 end:'',
                 cus_name:'',
-                cus_tel:'',
-                company_name:'',
-                delivery_status:'',
-                delivery_type:'',
-                delivery_name:'',
+                deliver_phone:'',
+                express_name:'',
+                status:'',
+                assign_type:'',
+                user_id:'',
+
+                with:['order'],
+                appends:['status_text'],
+                // fields:['id','assign_sn','status','cus_name','goods_name','goods_num','unit_type','cate_type','express_name',
+                //         'express_sn','express_print_status','assign_print_status','deliver_name',
+                //         'deliver_phone','weight','assign_fee','express_fee','express_print_at','assign_print_at',
+                //         'out_entrepot_at','order_id','sign_at','sale_name','set_express']
             },
-            mainData:[
-                {   delivery_num:'201803091508',
-                    delivery_status:'已发',
-                    cus_name:'礼泉',
-                    goods_name:'神油',
-                    num:'100',
-                    goods_unit:'瓶',
-                    goods_category:'补身-补水-补肾',
-                    company_name:'顺丰',
-                    express_num:"201803091509",
-                    express_list_status:'是',
-                    delivery_list_status:'是',
-                    select_express:'是',
-                    receive_name:'张无忌',
-                    receive_tel:'13666666666',
-                    weight:'100kg',
-                    send_fee:'10',
-                    delivery_fee:'88',
-                    express_list_time:'2018-03-09',
-                    delivery_list_time:'2018-03-09',
-                    delivery_time:'2018-03-09',
-                    sale_time:'2018-03-09',
-                    receive_time:'2018-03-09',
-                    sale_name:"赵敏",
-                },
-            ],
             tableData1:[
                 {goods_name:'神油啊',goods_type_two:'补肾',num:100,goods_price:100.11,weight:'100kg',},
                 {goods_name:'神油啊',goods_type_two:'补肾',num:100,goods_price:100.11,weight:'100kg',},
@@ -387,9 +360,7 @@ export default {
                 {handle_time:'2018-03-01',handle_name:'李福清',change_content:'李福清李福清李福清李福清',},
                 {handle_time:'2018-03-01',handle_name:'李福清',change_content:'李福清李福清李福清李福清',},
             ],
-            currentPage:1,
-            pageSize:10,
-            total:100,
+            
             pickerOptions0: {
                 disabledDate(time) {
                     return time.getTime() > Date.now();//- 8.64e7
@@ -401,6 +372,9 @@ export default {
                 }
             },
             activeName:'first',
+
+            bubble:null,
+            currentRow: null
         }
     },
     methods:{
@@ -411,7 +385,9 @@ export default {
             this.searchForm.end = v;
         },
         addDelivery(){
-            this.$modal.show('add-delivery');
+            if (this.openDialogCheck()) {
+                this.$modal.show('add-delivery', this.currentRow);
+            }
         },
         handleEdit(){
             this.$modal.show('handle-edit');
@@ -430,10 +406,43 @@ export default {
         },  
         handleClick(tab, event){
             console.log(tab, event);
+        },
+        onSearchChange(param){
+            this.mainparam = JSON.stringify(param);
+        },
+        onCurrentChange(currentRow) {
+            console.log(currentRow);
+            this.currentRow = currentRow;
+        },
+        hasCurrentRow(){
+            if (this.currentRow) {
+                return true;
+            } else {
+                return false;
+            }
+        },
+
+        openDialogCheck(){
+            if (!this.hasCurrentRow()) {
+                // this.$message.error('请选择一行');
+
+                this.$alert('请选择一行', '警告', {
+                    confirmButtonText: '确定',
+                })
+                return false;
+            } else {
+                return true;
+            }
         }
     },
     created(){
+        this.mainparam = JSON.stringify(this.searchForm);
 
+        this.$on('search-tool-change', this.onSearchChange);
+        
+        let o = {};
+        o['current-change'] = this.onCurrentChange;
+        this.bubble = o;
     },
     mounted(){
 

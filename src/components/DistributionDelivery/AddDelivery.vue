@@ -5,43 +5,43 @@
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="客户姓名" prop="cus_name" :disabled="true">
-                            <el-input v-model="model.cus_name" :disabled="true" placeholder="客户姓名"></el-input>
+                            {{ model.cus_name}}
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="购买商品" prop="goods_name">
-                            <el-input v-model="model.goods_name" :disabled="true" placeholder="购买商品"></el-input>
+                            {{ model.goods_name}}
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="品种" prop="category" >
-                            <el-input v-model="model.category" :disabled="true" placeholder="品种"></el-input>
+                            {{ model.category}}
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="数量" prop="num">
-                            <el-input v-model="model.num" :disabled="true" placeholder="数量"></el-input>
+                            {{ model.num}}
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="销售人员" prop="sale_name" >
-                            <el-input v-model="model.sale_name" :disabled="true" placeholder="销售人员"></el-input>
+                            {{ model.sale_name}}
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="购买时间" prop="buy_time">
-                            <el-input v-model="model.buy_time" :disabled="true" placeholder="购买时间"></el-input>
+                            {{ model.buy_time}}
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="经理审核时间" prop="manager_check_time" >
-                            <el-input v-model="model.manager_check_time" :disabled="true" placeholder="经理审核时间"></el-input>
+                            {{ model.manager_check_time}}
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -126,7 +126,7 @@ export default {
         return {
             dialogThis:this,
             labelPosition:"right",
-            labelWidth:'80px',
+            labelWidth:'120px',
             addForm:{
                 id:"",
                 sku_sn:"",

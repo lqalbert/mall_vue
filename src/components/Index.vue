@@ -247,7 +247,7 @@
         },
         mounted:function(){
             let vThis = this;
-            this.navChange('ShelvesManagement');
+            this.navChange('DistributionDelivery');
             setInterval(function(){
                 vThis.getCurDate();
             }, 1000);

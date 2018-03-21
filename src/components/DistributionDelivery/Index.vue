@@ -93,7 +93,12 @@
                     <el-table-column prop="assign_sn" label="发货单号" align="center" width="200">
                     </el-table-column>
 
-                    <el-table-column prop="status_text" label="发货状态" align="center" width="200">
+                    <el-table-column prop="status" label="发货状态" align="center" width="200">
+                        <template slot-scope="scope">
+                            <span v-if="scope.row.status==0">待发</span>
+                            <span v-if="scope.row.status==1">已发</span>
+                            <span v-if="scope.row.status==2">废单</span>
+                        </template>
                     </el-table-column>
 
                     <el-table-column prop="cus_name" label="客户姓名" align="center" width="200">
@@ -118,12 +123,24 @@
                     </el-table-column>
 
                     <el-table-column prop="express_print_status" label="快递单打印状态" align="center" width="200">
+                        <template slot-scope="scope">
+                            <span v-if="scope.row.express_print_status==0">未打印</span>
+                            <span v-if="scope.row.express_print_status==1">已打印</span>
+                        </template>
                     </el-table-column>
 
                     <el-table-column prop="assign_print_status" label="发货单打印状态" align="center" width="200">
+                        <template slot-scope="scope">
+                            <span v-if="scope.row.assign_print_status==0">未打印</span>
+                            <span v-if="scope.row.assign_print_status==1">已打印</span>
+                        </template>
                     </el-table-column>
 
                     <el-table-column prop="set_express" label="是否指定快递" align="center" width="200">
+                        <template slot-scope="scope">
+                            <span v-if="scope.row.set_express==2">否</span>
+                            <span v-if="scope.row.set_express==1">是</span>
+                        </template>
                     </el-table-column>
                     
                     <el-table-column prop="deliver_name" label="收件人" align="center" width="200">
@@ -390,7 +407,7 @@ export default {
             }
         },
         handleEdit(){
-            this.$modal.show('handle-edit');
+            this.$modal.show('handle-edit', this.currentRow);
         },
         setDropOrder(){
             this.$modal.show('set-drop-order');

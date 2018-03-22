@@ -16,13 +16,13 @@
                 </el-row>
                 <el-row>
                     <el-col :span="12">
-                        <el-form-item label="品种" prop="category" >
-                            {{ model.category}}
+                        <el-form-item label="品种" prop="cate_kind" >
+                            {{ model.cate_kind}}
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="数量" prop="num">
-                            {{ model.num}}
+                        <el-form-item label="数量" prop="goods_num">
+                            {{ model.goods_num}}
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -53,9 +53,10 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="是否指定快递" prop="set_express">
-                            <!-- <el-input v-model="addForm.set_express" placeholder="是否指定快递"></el-input> -->
-                            <el-radio class="radio" v-model="addForm.set_express" :label="1">是</el-radio>
-                            <el-radio class="radio" v-model="addForm.set_express" :label="2">否</el-radio>
+                            <el-radio-group v-model="addForm.set_express">
+                                <el-radio class="radio"  :label="1" >是</el-radio>
+                                <el-radio class="radio"  :label="2" >否</el-radio>
+                            </el-radio-group>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -118,10 +119,15 @@
 <script>
 import DialogForm from '../../mix/DialogForm';
 import APP_CONST from '../../config';
+import { mapGetters, mapMutations } from 'vuex';
 export default {
     name: 'add-delivery',
     mixins:[DialogForm],
-
+    computed:{
+        ...mapGetters([
+            'getUser'
+        ])
+    },
     data(){
         return {
             dialogThis:this,
@@ -130,7 +136,7 @@ export default {
             addForm:{
                 id:"",
                 sku_sn:"",
-                set_express:2,
+                set_express:0,
                 express_name:"",
                 express_id:'',
                 express_sn:"",
@@ -138,6 +144,8 @@ export default {
                 deliver_phone:"",
                 weight:"",
                 express_fee:"",
+                user_id:"",
+                user_name:"",
                 assign_fee:""
             },
             model:{}
@@ -149,6 +157,8 @@ export default {
         },
         onBeforeOpen(model) {
             this.model =  model.params;
+            this.model.user_id=this.getUser.id;
+            this.model.user_name=this.getUser.realname;
         }
     },
     watch:{

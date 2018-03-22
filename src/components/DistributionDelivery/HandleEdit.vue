@@ -16,13 +16,13 @@
                 </el-row>
                 <el-row>
                     <el-col :span="12">
-                        <el-form-item label="品种" prop="category" >
-                            {{ model.category}}
+                        <el-form-item label="品种" prop="cate_kind" >
+                            {{ model.cate_kind}}
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="数量" prop="num">
-                            {{ model.num}}
+                        <el-form-item label="数量" prop="goods_num">
+                            {{ model.goods_num}}
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -96,20 +96,20 @@
                 </el-row>
                 <el-row>
                     <el-col :span="12">
-                        <el-form-item label="配送费" prop="express_fee">
-                            <el-input v-model="editForm.express_fee" placeholder="配送费"></el-input>
+                        <el-form-item label="配送费" prop="assign_fee">
+                            <el-input v-model="editForm.assign_fee" placeholder="配送费"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
             </el-form>
             <div slot="dialog-foot" class="dialog-footer">
                 <el-button @click="handleClose">取 消</el-button>
-                <el-button type="info" @click="handleClose">保 存</el-button>
-                <!-- <submit-button 
-                    @click="beforeFormSubmit('editForm')"
+                <!--<el-button type="info" @click="handleClose">保 存</el-button>-->
+                <submit-button
+                    @click="formSubmit('editForm')"
                     :observer="dialogThis">
                     保 存
-                </submit-button> -->
+                </submit-button>
             </div>
         </MyDialog>
     </div>
@@ -130,7 +130,7 @@ export default {
         return {
             dialogThis:this,
             labelPosition:"right",
-            labelWidth:'80px',
+            labelWidth:'120px',
             editForm:{
                 id:"",
                 sku_sn:"",
@@ -142,6 +142,8 @@ export default {
                 deliver_phone:"",
                 weight:"",
                 express_fee:"",
+                user_id:"",
+                user_name:"",
                 assign_fee:""
             },
             model:{}
@@ -149,11 +151,10 @@ export default {
     },
     methods:{
         getAjaxPromise(model){
-            // return this.ajaxProxy.update(model.id, model);
+         return this.ajaxProxy.update(model.id, model);
         },
         onBeforeOpen(model) {
             this.model =  model.params;
-            console.log(this.model)
         },
     },
     watch:{

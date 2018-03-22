@@ -5,43 +5,43 @@
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="客户姓名" prop="cus_name" :disabled="true">
-                            <el-input v-model="model.cus_name" :disabled="true" placeholder="客户姓名"></el-input>
+                            {{ model.cus_name}}
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="购买商品" prop="goods_name">
-                            <el-input v-model="model.goods_name" :disabled="true" placeholder="购买商品"></el-input>
+                            {{ model.goods_name}}
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row>
                     <el-col :span="12">
-                        <el-form-item label="品种" prop="category" >
-                            <el-input v-model="model.category" :disabled="true" placeholder="品种"></el-input>
+                        <el-form-item label="品种" prop="cate_kind" >
+                            {{ model.cate_kind}}
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="数量" prop="num">
-                            <el-input v-model="model.num" :disabled="true" placeholder="数量"></el-input>
+                        <el-form-item label="数量" prop="goods_num">
+                            {{ model.goods_num}}
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="销售人员" prop="sale_name" >
-                            <el-input v-model="model.sale_name" :disabled="true" placeholder="销售人员"></el-input>
+                            {{ model.sale_name}}
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="购买时间" prop="buy_time">
-                            <el-input v-model="model.buy_time" :disabled="true" placeholder="购买时间"></el-input>
+                            {{ model.buy_time}}
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="经理审核时间" prop="manager_check_time" >
-                            <el-input v-model="model.manager_check_time" :disabled="true" placeholder="经理审核时间"></el-input>
+                            {{ model.manager_check_time}}
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -53,9 +53,10 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="是否指定快递" prop="set_express">
-                            <!-- <el-input v-model="addForm.set_express" placeholder="是否指定快递"></el-input> -->
-                            <el-radio class="radio" v-model="addForm.set_express" :label="1">是</el-radio>
-                            <el-radio class="radio" v-model="addForm.set_express" :label="2">否</el-radio>
+                            <el-radio-group v-model="addForm.set_express">
+                                <el-radio class="radio"  :label="1" >是</el-radio>
+                                <el-radio class="radio"  :label="2" >否</el-radio>
+                            </el-radio-group>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -118,19 +119,24 @@
 <script>
 import DialogForm from '../../mix/DialogForm';
 import APP_CONST from '../../config';
+import { mapGetters, mapMutations } from 'vuex';
 export default {
     name: 'add-delivery',
     mixins:[DialogForm],
-
+    computed:{
+        ...mapGetters([
+            'getUser'
+        ])
+    },
     data(){
         return {
             dialogThis:this,
             labelPosition:"right",
-            labelWidth:'80px',
+            labelWidth:'120px',
             addForm:{
                 id:"",
                 sku_sn:"",
-                set_express:2,
+                set_express:0,
                 express_name:"",
                 express_id:'',
                 express_sn:"",
@@ -138,6 +144,8 @@ export default {
                 deliver_phone:"",
                 weight:"",
                 express_fee:"",
+                user_id:"",
+                user_name:"",
                 assign_fee:""
             },
             model:{}
@@ -149,6 +157,8 @@ export default {
         },
         onBeforeOpen(model) {
             this.model =  model.params;
+            this.model.user_id=this.getUser.id;
+            this.model.user_name=this.getUser.realname;
         }
     },
     watch:{

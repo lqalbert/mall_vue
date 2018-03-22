@@ -224,7 +224,6 @@ export default {
 
         },
         loadEntrepot(data){
-            console.log(data);
             this.entrepotlist = data.items;
         }
 
@@ -235,7 +234,7 @@ export default {
         this.departMentInit();
         
         this.entrepot = new DistributionCenterSelectProxy({}, this.loadEntrepot, this);
-
+        this.entrepot.load()
 
     }
 }

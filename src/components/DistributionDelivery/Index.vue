@@ -4,23 +4,23 @@
             <el-form :inline="true" :model="searchForm" ref="searchForm" class="demo-form-inline" size="small">
                 <el-form-item prop="entrepot_id">
                     <el-select v-model="searchForm.entrepot_id" size="small" placeholder="配送中心" clearable>
-                        <el-option label="郑州配送中心" value="1"></el-option>
-                        <el-option label="广州配送中心" value="2"></el-option>
-                        <el-option label="深圳配送中心" value="3"></el-option>
+                        <el-option v-for="v in distributors" :label="v.name"
+                                   :value="v.id" :key="v.id">
+                        </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item prop="cate_type">
-                    <el-select v-model="searchForm.cate_type" size="small" placeholder="商品类型">
-                        <el-option label="面膜" value="1"></el-option>
-                        <el-option label="补水" value="2"></el-option>
-                        <el-option label="祛痘" value="3"></el-option>
+                <el-form-item prop="cate_type_id" >
+                    <el-select v-model="searchForm.cate_type_id" size="small" placeholder="商品类型" clearable @change="cate_type_change">
+                        <el-option v-for="v in CategoryList" :label="v.label"
+                                   :value="v.id" :key="v.id">
+                        </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item prop="cate_kind">
-                    <el-select v-model="searchForm.cate_kind" size="small" placeholder="商品品种">
-                        <el-option label="面膜-补水-补肾" value="1"></el-option>
-                        <el-option label="补身-补水-补肾" value="2"></el-option>
-                        <el-option label="大补-补水-补肾" value="3"></el-option>
+                <el-form-item prop="cate_kind_id" >
+                    <el-select v-model="searchForm.cate_kind_id" size="small" placeholder="商品品类" >
+                        <el-option v-for="v in CategoryChildrenList" :label="v.label"
+                                   :value="v.id" :key="v.id">
+                        </el-option>
                     </el-select>
                 </el-form-item>
                 <br>
@@ -30,27 +30,22 @@
                 <el-form-item prop="sale_name">
                     <el-input v-model="searchForm.sale_name" size="small" placeholder="销售人员"></el-input>
                 </el-form-item>
-                <el-form-item prop="start">
+
+                <el-form-item prop="times">
                     <el-date-picker
-                    v-model="searchForm.start"
-                    type="date"
-                    placeholder="选择开始日期"
-                    :picker-options="pickerOptions0" @change="setStartTime">
+                            v-model="times"
+                            type="daterange"
+                            size="small"
+                            placeholder="选择日期范围"
+                            @change="timeChange">
                     </el-date-picker>
                 </el-form-item>
-                <el-form-item prop="end">
-                    <el-date-picker
-                    v-model="searchForm.end"
-                    type="date"
-                    placeholder="选择结束日期"
-                    :picker-options="pickerOptions1" @change="setEndTime">
-                    </el-date-picker>
-                </el-form-item>
-                <el-form-item prop="cus_name">
-                    <el-input v-model="searchForm.cus_name" size="small" placeholder="客户姓名"></el-input>
+
+                <el-form-item prop="deliver_name">
+                    <el-input v-model="searchForm.deliver_name" size="small" placeholder="收货人姓名"></el-input>
                 </el-form-item>
                 <el-form-item prop="deliver_phone">
-                    <el-input v-model="searchForm.deliver_phone" size="small" placeholder="客户电话"></el-input>
+                    <el-input v-model="searchForm.deliver_phone" size="small" placeholder="收货人电话"></el-input>
                 </el-form-item>
                 <br>
                 <el-form-item prop="express_name">
@@ -58,23 +53,20 @@
                 </el-form-item>
                 <el-form-item prop="status">
                     <el-select v-model="searchForm.status" size="small" placeholder="发货状态">
+                        <el-option label="待发" value="0"></el-option>
                         <el-option label="已发" value="1"></el-option>
-                        <el-option label="待发" value="2"></el-option>
+                        <el-option label="废单" value="2"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item prop="assign_type">
                     <el-select v-model="searchForm.assign_type" size="small" placeholder="发货类型">
-                        <el-option label="正常" value="1"></el-option>
-                        <el-option label="退货" value="2"></el-option>
+                        <el-option label="正常" value="0"></el-option>
+                        <el-option label="退货" value="1"></el-option>
                         <el-option label="换货" value="2"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item prop="user_id">
-                    <el-select v-model="searchForm.user_id" size="small" placeholder="发货人员">
-                        <el-option label="张三" value="1"></el-option>
-                        <el-option label="李四" value="2"></el-option>
-                        <el-option label="王五" value="2"></el-option>
-                    </el-select>
+                <el-form-item prop="user_name">
+                    <el-input v-model="searchForm.user_name" size="small" placeholder="发货人员"></el-input>
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" size="small" icon="search" @click="searchToolChange('searchForm')">查询</el-button>
@@ -143,7 +135,7 @@
                         </template>
                     </el-table-column>
                     
-                    <el-table-column prop="deliver_name" label="收件人" align="center" width="200">
+                    <el-table-column prop="deliver_name" label="收货人姓名" align="center" width="200">
                     </el-table-column>
 
                     <el-table-column prop="deliver_phone" label="收件人手机" align="center" width="200">
@@ -260,23 +252,28 @@
         </add-delivery>
 
         <handle-edit name='handle-edit'
-            :ajax-proxy="ajaxProxy">
+            :ajax-proxy="ajaxProxy"
+            @submit-success="handleReload">
         </handle-edit>
 
         <set-drop-order name='set-drop-order'
-            :ajax-proxy="ajaxProxy">
+            :ajax-proxy="ajaxProxy"
+            @submit-success="handleReload">
         </set-drop-order>
 
         <handle-receive name='handle-receive'
+             @submit-success="handleReload"
             :ajax-proxy="ajaxProxy">
         </handle-receive>
 
         <add-contact name='add-contact'
-            :ajax-proxy="ajaxProxy">
+            :ajax-proxy="ajaxProxy"
+             @submit-success="handleReload">
         </add-contact>
 
         <edit-address name='edit-address'
-            :ajax-proxy="ajaxProxy">
+            :ajax-proxy="ajaxProxy"
+            @submit-success="handleReload">
         </edit-address>
     </div>
 </template>
@@ -292,13 +289,16 @@ import HandleReceive from './HandleReceive';
 import AddContact from './AddContact';
 import EditAddress from './EditAddress';
 
+import GoodsSelectProxy from '../../packages/GoodsSelectProxy';
+import DistributionCenterProxy from '../../packages/DistributionCenterSelectProxy';
 import AssignAjaxProxy from '@/ajaxProxy/Assign';
-
+import SelectProxy from  '../../packages/SelectProxy';
 
 export default {
     name: 'DistributionDelivery',
     pageTitle:"配送发货",
     mixins:[PageMix,SearchTool,DataTable],
+
     components:{
         AddDelivery,
         HandleEdit,
@@ -310,30 +310,32 @@ export default {
     data(){
         return {
             mainparam:"",
-            mainurl:AssignAjaxProxy,
+            mainurl:AssignAjaxProxy.getUrl(),
             ajaxProxy:AssignAjaxProxy,
             searchForm:{
                 entrepot_id:'',
-                cate_type:'',
-                cate_kind:'',
+                cate_type_id:'',
+                cate_kind_id:'',
                 goods_name:'',
                 sale_name:'',
                 start:'',
                 end:'',
-                cus_name:'',
+                deliver_name:'',
                 deliver_phone:'',
                 express_name:'',
                 status:'',
                 assign_type:'',
-                user_id:'',
-
+                user_name:'',
                 with:['order'],
                 appends:['status_text'],
-                // fields:['id','assign_sn','status','cus_name','goods_name','goods_num','unit_type','cate_type','express_name',
-                //         'express_sn','express_print_status','assign_print_status','deliver_name',
-                //         'deliver_phone','weight','assign_fee','express_fee','express_print_at','assign_print_at',
-                //         'out_entrepot_at','order_id','sign_at','sale_name','set_express']
             },
+            distributors:[],
+            CategoryList:[],
+            CategoryChildrenList:[],
+            times:'',
+
+
+
             tableData1:[
                 {goods_name:'神油啊',goods_type_two:'补肾',num:100,goods_price:100.11,weight:'100kg',},
                 {goods_name:'神油啊',goods_type_two:'补肾',num:100,goods_price:100.11,weight:'100kg',},
@@ -377,17 +379,6 @@ export default {
                 {handle_time:'2018-03-01',handle_name:'李福清',change_content:'李福清李福清李福清李福清',},
                 {handle_time:'2018-03-01',handle_name:'李福清',change_content:'李福清李福清李福清李福清',},
             ],
-            
-            pickerOptions0: {
-                disabledDate(time) {
-                    return time.getTime() > Date.now();//- 8.64e7
-                }
-            },
-            pickerOptions1: {
-                disabledDate(time) {
-                    return time.getTime() < Date.now()- 8.64e7;//
-                }
-            },
             activeName:'first',
 
             bubble:null,
@@ -395,11 +386,34 @@ export default {
         }
     },
     methods:{
-        setStartTime(v){
-            this.searchForm.start = v;
+        searchToolReset(name){
+            this.$refs[name].resetFields();
+            this.$refs[name].$emit('reset');
+            this.$emit('search-tool-change', this[name]);
+            this.times='';
         },
-        setEndTime(v){
-            this.searchForm.end = v;
+        getDistributionCenter(data){
+            this.distributors = data.items;
+        },
+        // searchToolChange(data){
+        //    console.log(this.searchForm);
+        //    return false;
+        // },
+        getCategoryList(data){
+            this.CategoryList=data.items;
+        },
+        getCategoryChildrenList(data){
+            this.CategoryChildrenList=data;
+        },
+        cate_type_change(v){
+            if(v){
+                let selectProxy = new SelectProxy('/getCategorys/'+ v, this.getCategoryChildrenList, this);
+                selectProxy.load();
+            }
+        },
+        timeChange(v){
+            this.searchForm.start = v.split(' - ')[0];
+            this.searchForm.end = v.split(' - ')[1];
         },
         addDelivery(){
             if (this.openDialogCheck()) {
@@ -407,19 +421,29 @@ export default {
             }
         },
         handleEdit(){
-            this.$modal.show('handle-edit', this.currentRow);
+            if (this.openDialogCheck()) {
+                this.$modal.show('handle-edit', this.currentRow);
+            }
         },
         setDropOrder(){
-            this.$modal.show('set-drop-order');
+            if (this.openDialogCheck()) {
+                this.$modal.show('set-drop-order', this.currentRow);
+            }
         },
         handleReceive(){
-            this.$modal.show('handle-receive');
+            if (this.openDialogCheck()) {
+                this.$modal.show('handle-receive',this.currentRow);
+            }
         },
         addContact(){
-            this.$modal.show('add-contact');
+            if (this.openDialogCheck()) {
+                this.$modal.show('add-contact',this.currentRow);
+            }
         },
         editAddress(){
-            this.$modal.show('edit-address');
+            if (this.openDialogCheck()) {
+                this.$modal.show('edit-address',this.currentRow);
+            }
         },  
         handleClick(tab, event){
             console.log(tab, event);
@@ -453,6 +477,13 @@ export default {
         }
     },
     created(){
+        //获取配送中心数据
+        let DistributionCenterSelect = new DistributionCenterProxy({}, this.getDistributionCenter, this);
+        DistributionCenterSelect.load();
+        //获取商品类型
+        let selectProxy = new SelectProxy('/tree', this.getCategoryList, this);
+        selectProxy.load();
+
         this.mainparam = JSON.stringify(this.searchForm);
 
         this.$on('search-tool-change', this.onSearchChange);

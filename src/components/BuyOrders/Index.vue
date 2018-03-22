@@ -1,41 +1,43 @@
 <template>
     <div class="hello">
         <el-row>
-            <el-form :inline="true" :model="searchForm" ref="searchForm" class="demo-form-inline">
-                <el-form-item prop="users">
-                  <el-input v-model="searchForm.consignee" placeholder="客户名称" size="small"></el-input>
-                </el-form-item>
-
-                <el-form-item prop="employee">
-                  <el-input v-model="searchForm.sale_name" placeholder="销售员工" size="small"></el-input>
-                </el-form-item>
-
-                <el-form-item prop="goods_name">
-                  <el-input v-model="searchForm.goods_name" placeholder="产品名称" size="small"></el-input>
-                </el-form-item>
-
-                <el-form-item prop="value7" >
-                    <el-date-picker
-                            v-model="searchForm.value7"
-                            type="daterange"
-                            align="right"
-                            placeholder="选择日期"
-                            unlink-panels
-                            range-separator="/"
-                            start-placeholder="开始日期"
-                            end-placeholder="结束日期"
-                            :picker-options="pickerOptions2"
-                            @change="startDateChange">
-                    </el-date-picker>
-                </el-form-item>
-
-                <el-form-item>
-                  <el-button type="primary" size="small" icon="search" @click="searchToolChange('searchForm')">查询</el-button>
-                  <el-button type="primary" size="small" @click="show_all">重置</el-button>
-                  <el-button type="danger" size="small" @click="refresh">刷新</el-button>
-                </el-form-item>
-            </el-form>
+            <el-col :span="24">
+                    <el-form :inline="true" :model="searchForm" ref="searchForm" class="demo-form-inline">
+                            <el-form-item prop="users">
+                              <el-input v-model="searchForm.consignee" placeholder="客户名称" size="small"></el-input>
+                            </el-form-item>
+            
+                            <el-form-item prop="employee">
+                              <el-input v-model="searchForm.sale_name" placeholder="销售员工" size="small"></el-input>
+                            </el-form-item>
+            
+                            <!-- <el-form-item prop="goods_name">
+                              <el-input v-model="searchForm.goods_name" placeholder="产品名称" size="small"></el-input>
+                            </el-form-item> -->
+            
+                            <el-form-item prop="value7" >
+                                <el-date-picker
+                                        size="small"
+                                        v-model="searchForm.value7"
+                                        type="daterange"
+                                        placeholder="选择日期"
+                                        unlink-panels
+                                        start-placeholder="开始日期"
+                                        end-placeholder="结束日期"
+                                        :picker-options="pickerOptions2"
+                                        @change="startDateChange">
+                                </el-date-picker>
+                            </el-form-item>
+            
+                            <el-form-item>
+                              <el-button type="primary" size="small" icon="search" @click="searchToolChange('searchForm')">查询</el-button>
+                              <el-button type="primary" size="small" @click="show_all">重置</el-button>
+                              <el-button type="danger" size="small" @click="refresh">刷新</el-button>
+                            </el-form-item>
+                    </el-form>
+            </el-col>
         </el-row>
+        
         <el-row>
 					<el-col>
                         <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload">
@@ -270,7 +272,5 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .el-form-item {
-      margin-bottom: 2px;
-  }
+
 </style>

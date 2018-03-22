@@ -5,12 +5,12 @@
                 <el-row>
                     <el-col :span="12">
                         <el-form-item  label="订单号" prop="id">
-                            <el-input v-model="rowInfoForm.id" size="small"></el-input>
+                            {{ rowInfoForm.order_sn }}
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="总金额" prop="order_all_money">
-                            <el-input v-model="rowInfoForm.order_all_money" size="small" :disabled="true"></el-input>
+                            {{ rowInfoForm.order_all_money }}
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -22,30 +22,20 @@
                     </el-col>
                     <el-col :span='12'>
                         <el-form-item label="购买客户"  prop="cus_id">
-                            <el-select v-model='rowInfoForm.cus_id'>
-                                <el-option v-for="buy in buyer" :label="buy.name"
-                                           :value="buy.id" :key="buy.id">
-                                </el-option>
-                            </el-select>
+                            {{ rowInfoForm.cus_name }}
                         </el-form-item>
                     </el-col>
 
                 </el-row>
                 <el-row>
                     <el-col :span='12'>
-                        <el-form-item label="成交员工" prop="deal_id">
-                            <el-select v-model='rowInfoForm.deal_id' :disabled="true">
-                                <el-option v-for="user in users"
-                                           :label="user.realname"
-                                           :value="user.id"
-                                           :key="user.id">
-                                </el-option>
-                            </el-select>
+                        <el-form-item label="成交员工" prop="deal_name">
+                                {{ rowInfoForm.deal_name }}
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="发货状态" prop="shipping_status">
-                            <el-select v-model='rowInfoForm.shipping_status' :disabled="true">
+                        <el-form-item label="发货状态" prop="product_status">
+                            <el-select v-model='rowInfoForm.product_status' :disabled="true">
                                 <el-option
                                         v-for="shipping_status in shipping_statuslist"
                                         :label="shipping_status.status"
@@ -57,8 +47,8 @@
                 </el-row>
                 <el-row>
                     <el-col :span="12">
-                        <el-form-item label="订单状态" prop="order_status">
-                            <el-select v-model='rowInfoForm.order_status'>
+                        <el-form-item label="订单状态" prop="status">
+                            <el-select v-model='rowInfoForm.status'>
                                 <el-option
                                         v-for="order_status in order_statuslist"
                                         :label="order_status.status"
@@ -67,11 +57,11 @@
                             </el-select>
                         </el-form-item>
                     </el-col>
-                    <el-col :span='12'>
+                    <!-- <el-col :span='12'>
                         <el-form-item label="配送方式" prop="shipping_name">
                             <el-input v-model="rowInfoForm.shipping_name" size="small" :disabled="true"></el-input>
                         </el-form-item>
-                    </el-col>
+                    </el-col> -->
                 </el-row>
                 <!--<el-row>-->
                 <!--<el-col :span="12">-->
@@ -103,19 +93,10 @@
 
 <script>
     import DialogForm from '../../mix/DialogForm';
-//    import SubmitButton from '../../components/common/SubmitButton';
     export default {
         name: 'addDialog',
         mixins:[DialogForm],
         props:{
-            users:{
-                type:Array,
-                default:[],
-            },
-            buyer:{
-                type:Array,
-                default:[],
-            },
 
         },
         ajaxProxy:{
@@ -126,16 +107,18 @@
         data () {
             return {
                 order_statuslist:[
-                    {id:'0',status:'未付款'},
-                    {id:'1',status:'待确认'},
-                    {id:'2',status:'已完成'},
-                    {id:'3',status:'已关闭'},
-                    {id:'4',status:'退款中'},
+                    {id:0,status:'待审核'},
+                    {id:1,status:'审核通过'},
+                    {id:2,status:'待充值'},
+                    {id:3,status:'订单完成'},
+                    {id:4,status:'订单取消'},
+                    {id:5,status:'审核未通过'},
                 ],
                 shipping_statuslist:[
-                    {id:'0',status:'待发货'},
-                    {id:'1',status:'已发货'},
-                    {id:'2',status:'已收货'},
+                    {id:0,status:'未处理'},
+                    {id:1,status:'配货中'},
+                    {id:2,status:'已发货'},
+                    {id:3,status:'已签收'},
                 ],
                 check_status:[
                     {id:'0', status:'通过'},

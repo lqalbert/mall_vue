@@ -121,7 +121,7 @@
                         </el-table>
                     </el-tab-pane>
 
-                    <el-tab-pane label="退货入库">
+                    <el-tab-pane label="退货入库(在退货登记生成)">
                         <el-table :data="backListData" empty-text="暂无数据" border>
                             <el-table-column label="序号" align="center" type="index" width="65"></el-table-column>
                             <el-table-column prop="goods_name" label="商品名称" width="180" align="center"></el-table-column>
@@ -182,7 +182,7 @@
                         </el-table>
                     </el-tab-pane>
 
-                    <el-tab-pane label="换货锁定">
+                    <el-tab-pane label="换货锁定(通过审核之后生成)">
                         <el-table :data="exchangeLockListData" empty-text="暂无数据" border>
                             <el-table-column prop="customer_name" label="客户姓名"  align="center"></el-table-column>
                             <el-table-column prop="old_goods_name" label="原商品名称"  align="center"></el-table-column>

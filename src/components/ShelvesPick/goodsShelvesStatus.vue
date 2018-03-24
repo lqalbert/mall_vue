@@ -1,13 +1,12 @@
 <template>
     <div >
-        <MyDialog title="货架状态" :name="name" :width="width" :height="height" >
+        <MyDialog title="货架状态" :name="name" :width="width" :height="height" @before-open="onBeforeOpen">
             <el-form :model="addForm"  :label-width="labelWidth"  ref="addForm" :label-position="labelPosition">
                 <el-row>
                     <el-col :span="12">
-                        <el-form-item prop="status_id"  label="货架状态">
+                        <el-form-item prop="shelves_status"  label="货架状态">
                             <el-select
-                                    v-model="addForm.status_id"
-
+                                    v-model="addForm.shelves_status"
                                     placeholder="货架状态">
                                 <el-option v-for="v in status" :label="v.name"
                                            :value="v.id" :key="v.id">
@@ -19,17 +18,18 @@
                 </el-row>
                 <el-row>
                     <el-col :span="12">
-                        <el-form-item label="修改人" prop="change_name" >
-                            <el-input class="name-input" v-model="addForm.change_name"  auto-complete="off" placeholder="请填写商品名称"></el-input>
+                        <el-form-item label="修改人" prop="change_user" >
+                            <el-input class="name-input" v-model="addForm.change_user"  auto-complete="off" placeholder="请填写商品名称"></el-input>
                         </el-form-item>
                     </el-col>
 
                     <el-col :span="12">
                         <el-form-item label="修改时间" prop="change_time" >
                             <el-date-picker
-                                    v-model="addForm.change_time"
+                                    v-model="change_time"
                                     type="datetime"
                                     size="small"
+                                    @change='timeChange'
                                     placeholder="选择日期时间">
                             </el-date-picker>
                         </el-form-item>
@@ -37,8 +37,8 @@
                 </el-row>
                 <el-row>
                     <el-col :span="24">
-                        <el-form-item label="备注"  prop="remarks">
-                            <el-input type="textarea"  auto-complete="off" v-model="addForm.remarks" placeholder="请填写备注"></el-input>
+                        <el-form-item label="备注"  prop="change_remark">
+                            <el-input type="textarea"  auto-complete="off" v-model="addForm.change_remark" placeholder="请填写备注"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -47,7 +47,7 @@
                 <el-button @click="handleClose">取 消</el-button>
                 <submit-button
                     :observer="dialogThis"
-                    @click="formSubmit('addForm')" >
+                    @click="beforeFormSubmit('addForm')" >
                     保 存
                 </submit-button>
             </div>
@@ -56,12 +56,7 @@
 </template>
 
 <script>
-
     import DialogForm from '../../mix/DialogForm';
-    import EmployeeSelectProxy from '../../packages/EmployeeSelectProxy';
-    import { mapGetters } from 'vuex';
-
-    // import Dialog from '../common/Dialog';
     export default {
         name: 'addDialog',
         mixins:[DialogForm],
@@ -77,38 +72,20 @@
                 labelPosition:"right",
                 labelWidth:'80px',
                 computedusers:[],
-                text:'满',
-                number:21354,
-                allNumber:50,
-                putNumber:20,
                 status: [
                     {id:1,name:'满'},
-                    {id:2,name:'空'},
-                    {id:3,name:'坏'},
-                ],
-                productNames: [
-                    {id:1,name:'面膜 6张'},
-                    {id:2,name:'爽肤水 200ml'},
-                ],
-                storageUsers: [
-                    {id:1,name:'张三'},
-                    {id:2,name:'李四'},
-                ],
-                departments:[
-                    {id:1,name:'面膜'},
-                    {id:2,name:'爽肤水'},
-                ],
-                distributors: [
-                    {id:1,name:'顺丰'},
-                    {id:2,name:'圆通'},
+                    {id:0,name:'空'},
+                    {id:2,name:'坏'},
                 ],
                 addForm:{
-                    status_id: "",
-                    change_name: "",
+                    id:'',
+                    shelves_status: "",
+                    change_user: "",
                     change_time: "",
-                    remarks:''
+                    change_remark:''
                 },
-
+                model:'',
+                change_time:'',
                 rules:{
                     name:[
                         { required: true, message: '请输入小组名称', trigger: 'blur' }
@@ -123,26 +100,34 @@
             }
         },
         computed:{
-            ...mapGetters({
-                'user_department_id':'department_id'
-            }),
 
         },
         methods:{
             getAjaxPromise(model){
-                return this.ajaxProxy.create(model);
+                return this.ajaxProxy.update(model.id,model);
             },
-            loadUsers(data){
-                this.computedusers = data.items;
+            onBeforeOpen(model) {
+                this.model =  model.params.model;
             },
-            onDepartChange(v){
-                this.employeeSelect.setParam({department_id:v, role:'group-captain', group_candidate:1})
-                this.employeeSelect.load();
-                this.addForm.manager_id = "";
+            timeChange(v) {
+                this.addForm.change_time=v;
+            },
+            beforeFormSubmit(name) {
+                this.formSubmit(name);
+                let data ={shelves_id:this.model.id};
+                let that = this;
+                this.ajaxProxy.get(data).then(function(response){
+                    that.$emit('add-submit',response.data)
+                })
             },
         },
+        watch:{
+            model:function(val, oldVal){
+                this.initObject(val, this.addForm);
+            }
+        },
         created(){
-            this.employeeSelect = new EmployeeSelectProxy({}, this.loadUsers, this);
+
 
         }
         

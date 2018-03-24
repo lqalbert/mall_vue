@@ -247,7 +247,7 @@
         },
         mounted:function(){
             let vThis = this;
-            this.navChange('DistributionDelivery');
+            this.navChange('ShelvesPick');
             setInterval(function(){
                 vThis.getCurDate();
             }, 1000);

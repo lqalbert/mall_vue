@@ -82,6 +82,7 @@
                 labelWidth:'80px',
                 addForm:{
                     shelves_name: "",
+                    shelves_status:0,
                     shelves_num: "",
                     distributor_id: "",
                     distributor_name: "",
@@ -108,6 +109,7 @@
             }
         },
         methods:{
+
             getAjaxPromise(model){
                 return this.ajaxProxy.create(model);
             },

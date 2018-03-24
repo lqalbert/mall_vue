@@ -67,7 +67,7 @@
                     <el-row>
                         <el-col :span="12">
                             <el-form-item prop="deal_id" label="成交员工">
-                                <el-select v-model="addOrderForm.deal_id" placeholder="请选择成交员工"  @change="userChange">
+                                <el-select v-model="addOrderForm.deal_id" placeholder="请选择成交员工" disabled @change="userChange">
                                     <el-option v-for="v in users" :value="v.id" :key="v.id" :label="v.realname"></el-option>
                                 </el-select>
                             </el-form-item>
@@ -187,6 +187,9 @@
                     goods_number:'',
                     remark:'',
                     dep_group_realname:'',
+                    cus_name:'',
+                    group_id:'',
+                    department_id:'',
                     
                 },
                 orderData:[],
@@ -356,6 +359,10 @@
                 });
             },
             onOpen(param){
+                console.log(param.params);
+                this.addOrderForm.cus_name = param.params.model.name;
+                this.addOrderForm.group_id = param.params.model.mid_relative.group_id;
+                this.addOrderForm.department_id = param.params.model.mid_relative.department_id;
                 this.addOrderForm.deal_id=this.user_id;
                 this.addOrderForm.deal_name=this.getUser.realname;
                 this.cus_id = param.params.model.id;

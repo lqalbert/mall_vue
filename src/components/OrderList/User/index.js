@@ -39,12 +39,10 @@ export default {
                 goods_name:'',
                 consignee:'',
                 sn:'',
-                deal_name:'',
+                // deal_name:'',
                 end:'',
                 condition:'',
                 deal_id:'',
-
-                
                 value7:"",
 
                 // hyf 添加
@@ -81,7 +79,10 @@ export default {
                         start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
                         picker.$emit('pick', [start, end]);
                     }
-                }]
+                }],
+                disabledDate(time) {
+                    return time.getTime() > Date.now();//- 8.64e7
+                }
             },
             value6: '',
             value7: '',

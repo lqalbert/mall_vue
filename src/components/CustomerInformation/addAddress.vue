@@ -82,7 +82,7 @@ export default {
         return {
             dialogThis:this,
             labelPosition:"right",
-            labelWidth:'80px',
+            labelWidth:'120px',
             formstate:'',
             contactFormvisible:false,
             cus_id:'',

@@ -247,7 +247,7 @@
         },
         mounted:function(){
             let vThis = this;
-            this.navChange('ShelvesPick');
+            this.navChange('StockOutDetails');
             setInterval(function(){
                 vThis.getCurDate();
             }, 1000);

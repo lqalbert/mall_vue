@@ -47,22 +47,14 @@
                 labelPosition:"right",
                 labelWidth:'100px',
                 checkForm:{
+                    id:"",
+                    status:'',
+
                 },
-                order_statuslist:[
-                    {id:'0',status:'未付款'},
-                    {id:'1',status:'待确认'},
-                    {id:'2',status:'已完成'},
-                    {id:'3',status:'已关闭'},
-                    {id:'4',status:'退款中'},
-                ],
-                shipping_statuslist:[
-                    {id:'0',status:'待发货'},
-                    {id:'1',status:'已发货'},
-                    {id:'2',status:'已收货'},
-                ],
+                
                 c_status:[
                     {id:'1', status:'通过'},
-                    {id:'2', status:'未通过'}
+                    {id:'5', status:'未通过'}
                 ],
 
             }
@@ -83,7 +75,8 @@
                 this.checkForm.into_time = v;
             },
             onOpen(event){
-              this.checkForm = event.params.row;
+              this.checkForm.id = event.params.row.id;
+              this.checkForm.status = row.id;
             },
             getAjaxPromise(model){
                 delete model.cus_name;

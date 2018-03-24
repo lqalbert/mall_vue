@@ -3,12 +3,12 @@
         <el-row>
             <el-col :span="24">
                     <el-form :inline="true" :model="searchForm" ref="searchForm" class="demo-form-inline">
-                            <el-form-item prop="users">
-                              <el-input v-model="searchForm.consignee" placeholder="客户名称" size="small"></el-input>
+                            <el-form-item prop="cus_name">
+                              <el-input v-model="searchForm.cus_name" placeholder="客户名称" size="small"></el-input>
                             </el-form-item>
             
-                            <el-form-item prop="employee">
-                              <el-input v-model="searchForm.sale_name" placeholder="销售员工" size="small"></el-input>
+                            <el-form-item prop="deal_name">
+                              <el-input v-model="searchForm.deal_name" placeholder="销售员工" size="small"></el-input>
                             </el-form-item>
             
                             <!-- <el-form-item prop="goods_name">
@@ -32,7 +32,7 @@
                             <el-form-item>
                               <el-button type="primary" size="small" icon="search" @click="searchToolChange('searchForm')">查询</el-button>
                               <el-button type="primary" size="small" @click="show_all">重置</el-button>
-                              <el-button type="danger" size="small" @click="refresh">刷新</el-button>
+                              <!-- <el-button type="danger" size="small" @click="refresh">刷新</el-button> -->
                             </el-form-item>
                     </el-form>
             </el-col>
@@ -51,25 +51,11 @@
                             </el-table-column>
                             <el-table-column prop="cus_name" label="购买顾客" align="center" width="200">
                             </el-table-column>
-                            <el-table-column prop="user_name" label="成交员工" align="center" width="200">
+                            <el-table-column prop="deal_name" label="成交员工" align="center" width="200">
                             </el-table-column>
-                            <el-table-column prop="order_status" label="订单状态" align="center">
-                                <template slot-scope="scope">
-                                    <span v-if="scope.row.order_status==0">待付款</span>
-                                    <span v-else-if="scope.row.order_status==1" >待确认</span>
-                                    <span v-else-if="scope.row.order_status==2">已完成</span>
-                                    <span v-else-if="scope.row.order_status==3">已关闭</span>
-                                    <span v-else-if="scope.row.order_status==4">退货中</span>
-                                    <span v-else-if="scope.row.order_status==5">换货中</span>
-                                </template>
+                            <el-table-column prop="status_text" label="订单状态" align="center">
                             </el-table-column>
-                            <el-table-column prop="check_status" label="审核状态" align="center" width="100">
-                                <template slot-scope="scope">
-                                    <span v-if="scope.row.check_status==0">未审核</span>
-                                    <span v-else-if="scope.row.check_status==1" >通过</span>
-                                    <span v-else-if="scope.row.check_status==2">未通过</span>
-                                </template>
-                            </el-table-column>
+                           
                             <el-table-column  label="操作" align="center" width="140">
                                 <template slot-scope="scope">
                                     <el-button type="info" size="small" @click="showRow(scope.row)">查看</el-button>
@@ -124,10 +110,12 @@ export default {
         mainparam:"",
         msg: 'Welcome to Your Vue.js App',
         searchForm:{
-            users:'',
-            employee:'',
-            goods_name:'',
-            pay_name:'',
+            cus_name:'',
+            deal_name:'',
+            // goods_name:'',
+            // pay_name:'',
+            status:0,
+            appends:['status_text']
         },
           total:100,
           buyer:[],

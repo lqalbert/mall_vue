@@ -146,24 +146,24 @@
 
                     <el-tab-pane label="发货锁定" name="Fourth">
                         <el-table :data="sendLockListData" empty-text="暂无数据" border>
-                            <el-table-column prop="customer_name" label="客户姓名"  align="center"></el-table-column>
+                            <el-table-column prop="deliver_name" label="收件人姓名"  align="center"></el-table-column>
                             <el-table-column prop="goods_name" label="商品名称"  align="center"></el-table-column>
-                            <el-table-column prop="send_number" label="数量"  align="center"></el-table-column>
+                            <el-table-column prop="goods_num" label="数量"  align="center"></el-table-column>
                             <el-table-column prop="sale_name" label="销售人员"  align="center"></el-table-column>
                         </el-table>
                     </el-tab-pane>
 
                     <el-tab-pane label="发货在途" name="Fifth">
                         <el-table :data="sendInTheWayListData" empty-text="暂无数据" border>
-                            <el-table-column prop="customer_name" label="客户姓名"  align="center"></el-table-column>
+                            <el-table-column prop="deliver_name" label="收件人姓名"  align="center"></el-table-column>
                             <el-table-column prop="goods_name" label="商品名称"  align="center"></el-table-column>
-                            <el-table-column prop="send_number" label="数量"  align="center"></el-table-column>
-                            <el-table-column prop="send_odd_number" label="发货单号"  align="center"></el-table-column>
-                            <el-table-column prop="express_order" label="快递单号"  align="center"></el-table-column>
-                            <el-table-column prop="express_company" label="快递公司"  align="center"></el-table-column>
+                            <el-table-column prop="goods_num" label="数量"  align="center"></el-table-column>
+                            <el-table-column prop="assign_sn" label="发货单号"  align="center"></el-table-column>
+                            <el-table-column prop="express_sn" label="快递单号"  align="center"></el-table-column>
+                            <el-table-column prop="express_name" label="快递公司"  align="center"></el-table-column>
                             <el-table-column prop="sale_name" label="销售人员"  align="center"></el-table-column>
-                            <el-table-column prop="send_time" label="发货时间"  align="center" ></el-table-column>
-                            <el-table-column prop="send_name" label="发货人"  align="center"></el-table-column>
+                            <el-table-column prop="out_entrepot_at" label="发货时间"  align="center" ></el-table-column>
+                            <el-table-column prop="user_name" label="发货人"  align="center"></el-table-column>
                         </el-table>
                     </el-tab-pane>
 
@@ -243,6 +243,7 @@
     import CategorySelectProxy from '../../packages/CategorySelectProxy';
     import EntryProductSelectProxy from '../../packages/EntryProductSelectProxy';
     import OrderGoodsSelectProxy from '../../packages/OrderGoodsSelectProxy';
+    import AssignSelectProxy from '../../packages/AssignSelectProxy';
     
     import { mapGetters } from 'vuex';
 
@@ -266,19 +267,7 @@
                 productionListData: [],
                 backListData: [],
                 saleLockListData: [],
-                sendLockListData: [
-                    {
-                        sale_name:"销售二部-猛虎队-李四",
-                        customer_name:'二佬',
-                        goods_name:"爽肤水",
-                        send_number:'5',
-                    }, {
-                        sale_name:"销售二部-猛虎队-李四",
-                        customer_name:'二佬',
-                        goods_name:"爽肤水",
-                        send_number:'5',
-                    },
-                ],
+                sendLockListData: [],
                 sendInTheWayListData: [
                     {
                         customer_name:'三佬',
@@ -509,13 +498,26 @@
                     load:['order']
                 }).load();
             },
-            tabFourthHandel(){
-                
+            tabFourthHandel(row){
+                //后端start end 日期没加上
+                this.assignProxy.setParam({
+                    entrepot_id:row.entrepot_id,
+                    sku_sn:row.sku_sn,
+                    start:this.searchForm.start,
+                    end:this.searchForm.end,
+                    status:0
+                }).load();
             },
-            tabFifthHandel(){
-                
+            tabFifthHandel(row){
+                this.assignProxy.setParam({
+                    entrepot_id:row.entrepot_id,
+                    sku_sn:row.sku_sn,
+                    start:this.searchForm.start,
+                    end:this.searchForm.end,
+                    status:1
+                }).load();
             },
-            tabSixhtHandel(){
+            tabSixhtHandel(row){
                 
             },
             loadProduct(data){
@@ -523,6 +525,9 @@
             },
             loadOrderGoods(data){
                 this.saleLockListData = data.items;
+            },
+            loadAssin(data){
+                this.sendLockListData = data.items;
             }
 
         },
@@ -556,6 +561,9 @@
 
             this.entryProductProxy = new EntryProductSelectProxy({}, this.loadProduct, this);
             this.OrderGoodsProxy   = new OrderGoodsSelectProxy({}, this.loadOrderGoods, this);
+            this.assignProxy   = new AssignSelectProxy({}, this.loadAssin, this);
+
+            
         }
     }
 </script>

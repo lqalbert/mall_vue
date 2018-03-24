@@ -228,6 +228,8 @@
         <bad-dialog
                 name="badProduction"
                 :ajax-proxy="ajaxProxy"
+                :types="types"
+                :distributors="distributors"
                 @submit-success="handleReload">
         </bad-dialog>
 

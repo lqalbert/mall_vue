@@ -31,9 +31,10 @@
 
                     <el-form-item prop="searchTime">
                         <el-date-picker
-                                v-model="searchForm.searchTime"
-                                type="datetimerange"
-                                placeholder="选择时间范围">
+                            size="small"
+                            v-model="searchForm.searchTime"
+                            type="datetimerange"
+                            placeholder="选择时间范围">
                         </el-date-picker>
                     </el-form-item>
                     <el-form-item>
@@ -57,7 +58,6 @@
                         <el-table-column prop="total_production_in_number" label="累记生产入库数量" align="center"></el-table-column>
                         <el-table-column prop="damage_number" label="损坏数量" align="center"></el-table-column>
                         <el-table-column prop="summary_time" label="汇总时间" align="center"></el-table-column>
-
                     </el-table>
                 </el-tabs>
             </el-col>

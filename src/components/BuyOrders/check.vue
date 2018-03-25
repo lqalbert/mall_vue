@@ -30,6 +30,7 @@
 
 <script>
     import DialogForm from '../../mix/DialogForm';
+    import { mapGetters } from 'vuex';
     export default {
         name: 'checkDialog',
         mixins:[DialogForm],
@@ -59,7 +60,12 @@
 
             }
         },
-
+        computed:{
+            ...mapGetters({
+                'auditor_id':'user_id',
+                'auditor_name':'realname'
+            })
+        },
         methods:{
             addFormSubmit:function(){
                 console.log(this.checkForm);
@@ -81,10 +87,14 @@
             getAjaxPromise(model){
                 delete model.cus_name;
                 delete model.user_name;
-                return this.ajaxProxy.update(model.id, model);
+                return this.ajaxProxy.updateCheckStatus(model.id, model);
             },
         },
-
+        created(){
+            //需要检测 reset 会不会 把下面的置空
+            this.checkForm.auditor_id = this.user_id;
+            this.checkForm.auditor_name = this.realname;
+        }
     }
 </script>
 

@@ -11,7 +11,7 @@
                     <div class="top-date">北京时间 {{dateTime}}</div>
                 </el-col>
                 <el-col  :span="6">
-                    <div class="top-name">销售二区-猛龙组-{{realname}}</div>
+                    <div class="top-name">{{realname}}</div>
                     <el-menu class="el-menu-demo" id="top-css" mode="horizontal" @select="handleSelect">
                         <el-submenu index="999">
                             <template slot="title">{{realname}}</template>

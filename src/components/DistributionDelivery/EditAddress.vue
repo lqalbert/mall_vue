@@ -13,11 +13,22 @@
                             {{model.deliver_phone}}
                         </el-form-item>
                     </el-col>
+
                 </el-row>
                 <el-row>
                     <el-col :span="18">
                         <el-form-item label="旧地址" prop="deliver_address">
                             {{model.deliver_address}}
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="修改时间" prop="edit_address_time">
+                            <el-date-picker
+                                    v-model="addForm.edit_address_time"
+                                    type="datetime"
+                                    @change="timeChange"
+                                    placeholder="选择日期时间">
+                            </el-date-picker>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -60,18 +71,18 @@ export default {
             addForm:{
                 id:'',
                 deliver_address:'',
+                edit_address_time:'',
             },
             model:{}
         }
     },
     methods:{
+        timeChange(v){
+            this.addForm.edit_address_time=v;
+        },
         getAjaxPromise(model){
             return this.ajaxProxy.update(model.id, model);
         },
-        // formSubmit(model){
-        //     console.log(this.addForm)
-        //     return false;
-        // },
         onBeforeOpen(model) {
             this.model =  model.params;
         }

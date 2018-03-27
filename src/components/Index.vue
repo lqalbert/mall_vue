@@ -11,10 +11,10 @@
                     <div class="top-date">北京时间 {{dateTime}}</div>
                 </el-col>
                 <el-col  :span="6">
-                    <div class="top-name">销售二区-猛龙组-特朗普</div>
+                    <div class="top-name">销售二区-猛龙组-{{realname}}</div>
                     <el-menu class="el-menu-demo" id="top-css" mode="horizontal" @select="handleSelect">
                         <el-submenu index="999">
-                            <template slot="title">特朗普</template>
+                            <template slot="title">{{realname}}</template>
                             <!-- <el-menu-item index="UserInfo"><i class="el-icon-setting"></i>个人信息</el-menu-item> -->
                             <!-- <el-menu-item index="UserSetting"><i class="el-icon-setting"></i>设置密码</el-menu-item> -->
                             <el-menu-item index="Logout"><i class="el-icon-circle-close"></i>退出登录</el-menu-item>
@@ -63,6 +63,7 @@
     // import Navgation from './Navgation.vue';
     import { mapActions } from 'vuex';
     import PageList from "./PageList";
+    import { mapGetters } from 'vuex';
     export default {
         name: 'Index',
         components:PageList,
@@ -78,6 +79,11 @@
                 isshadow:false,
                 dateTime:'',
             }
+        },
+        computed:{
+            ...mapGetters({
+                'realname':'realname'
+            }),
         },
         methods:{
             ...mapActions([

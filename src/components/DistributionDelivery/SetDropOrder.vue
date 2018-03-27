@@ -12,9 +12,19 @@
                             </el-select>
                         </el-form-item>
                     </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="废单时间" prop="waste_time">
+                            <el-date-picker
+                                    v-model="addForm.waste_time"
+                                    type="datetime"
+                                    @change="timeChange"
+                                    placeholder="选择日期时间">
+                            </el-date-picker>
+                        </el-form-item>
+                    </el-col>
                 </el-row>
                 <el-row>
-                    <el-col :span="12">
+                    <el-col :span="24">
                         <el-form-item label="原因" prop="waste_reason">
                             <el-input v-model="addForm.waste_reason" type="textarea" placeholder="原因"></el-input>
                         </el-form-item>
@@ -54,18 +64,18 @@ export default {
                 id:'',
                 status:0,
                 waste_reason:'',
+                waste_time:'',
             },
             model:{}
         }
     },
     methods:{
+        timeChange(v){
+            this.addForm.waste_time=v;
+        },
         getAjaxPromise(model){
             return this.ajaxProxy.update(model.id, model);
         },
-        // formSubmit(model){
-        //     console.log(this.addForm)
-        //     return false;
-        // },
         onBeforeOpen(model) {
             this.model =  model.params;
         }

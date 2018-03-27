@@ -100,6 +100,16 @@
                             <el-input v-model="editForm.assign_fee" placeholder="配送费"></el-input>
                         </el-form-item>
                     </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="修改时间" prop="edit_time">
+                            <el-date-picker
+                                    v-model="editForm.edit_time"
+                                    type="datetime"
+                                    @change="timeChange"
+                                    placeholder="选择日期时间">
+                            </el-date-picker>
+                        </el-form-item>
+                    </el-col>
                 </el-row>
             </el-form>
             <div slot="dialog-foot" class="dialog-footer">
@@ -144,12 +154,16 @@ export default {
                 express_fee:"",
                 user_id:"",
                 user_name:"",
+                edit_time:"",
                 assign_fee:""
             },
             model:{}
         }
     },
     methods:{
+        timeChange(v){
+            this.editForm.edit_time=v;
+        },
         getAjaxPromise(model){
          return this.ajaxProxy.update(model.id, model);
         },

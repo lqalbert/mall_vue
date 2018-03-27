@@ -26,7 +26,19 @@
                         </el-form-item>
                     </el-col>
                 </el-row>
-                
+
+                <el-row>
+                    <el-col :span="12">
+                        <el-form-item label="沟通时间" prop="communicate_time">
+                            <el-date-picker
+                                    v-model="addForm.communicate_time"
+                                    type="datetime"
+                                    @change="timeChange"
+                                    placeholder="选择日期时间">
+                            </el-date-picker>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
                 <el-row>
                     <el-col :span="24">
                         <el-form-item label="沟通明细" prop="contact_content">
@@ -66,6 +78,7 @@ export default {
             addForm:{
                 id:'',
                 contact_content:'',
+                communicate_time:'',
             },
             model:{}
         }
@@ -73,6 +86,9 @@ export default {
     methods:{
         getAjaxPromise(model){
             return this.ajaxProxy.update(model.id, model);
+        },
+        timeChange(v){
+           this.addForm.communicate_time=v;
         },
 
         onBeforeOpen(model) {

@@ -154,6 +154,8 @@
                  @submit-success="handleReload"/>
         <ReturnGoods name="returnGoods" :ajax-proxy="ajaxProxy"  @submit-success="handleReload">
         </ReturnGoods>
+        <ExchangeGoods name="exchangeGoods" :ajax-proxy="ajaxProxy"  @submit-success="handleReload">
+        </ExchangeGoods>
     </div>
 </template>
 <script src="./index.js"></script>

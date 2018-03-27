@@ -4,13 +4,14 @@ import SubDetail from '../SubDetail';
 
 import rowInfo from "../rowInfo";
 import ReturnGoods from '../ReturnGoods';
+import ExchangeGoods from '../ExchangeGoods';
 
 const ORDER_ASSIGN = 3;
 
 const mix = {
     mixins: [SearchTool,DataTable,],
     components: {
-        SubDetail,rowInfo,ReturnGoods
+        SubDetail,rowInfo,ReturnGoods,ExchangeGoods
     },
     data(){
         return {

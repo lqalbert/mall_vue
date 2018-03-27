@@ -305,61 +305,11 @@
             getAjaxProxy(){
                 return  this.ajaxProxy;
             },
-            formSubmit(name){
-                let model = this[name];
-                if (this.$refs[name].rules) {
-                    this.$refs[name].validate((valid)=>{
-                        if (valid) {
-                            this.realSubmit(model, name);
-                        } else {
-                            console.log('error submit!!', name);
-                            this.$emit('valid-error', name);
-                            return false;
-                        }
-                    })
-                } else {
-                    this.realSubmit(model, name);
-                }
-            },
             getAjaxPromise(model){
                 return this.ajaxProxy.create(model);
             },
-            realSubmit(model, name){
-                let ajaxPromise = this.getAjaxPromise(model);
-                let vmthis = this;
-                ajaxPromise.then(function(response){
-                    vmthis.$message.success('操作成功');
-                    vmthis.$refs[name].resetFields();
-                    vmthis.addressList=[];
-                    vmthis.orderData=[];
-                    vmthis.orderAddressData=[];
-                    vmthis.goodsIds=[];
-                    vmthis.deal_id='';
-                    vmthis.cus_id = '',
-                    vmthis.data2 = {},
-                    vmthis.gdsInpurNum = 100000,
-                    vmthis.alertNum = 0,
-                    vmthis.allNum = '',
-                    vmthis.deal_name = '',
-                    vmthis.totalMoney=0;
-                    vmthis.active=0;
-                    vmthis.depositMoney = 0;
-                    vmthis.$emit('submit-success', name);
-                }).catch(function(error){
-                    if(error.response){
-                        console.log(error.response.data);
-                        console.log(error.response.status);
-                        console.log(error.response.headers);
-                    }else{
-                        console.log('Error',error.message);
-                    }
-                    vmthis.$message.error('出错了');
-                }).then(function(){
-                    vmthis.$emit('submit-final', name);
-                });
-            },
             onOpen(param){
-                console.log(param.params);
+                // console.log(param.params);
                 this.addOrderForm.cus_name = param.params.model.name;
                 this.addOrderForm.group_id = param.params.model.mid_relative.group_id;
                 this.addOrderForm.department_id = param.params.model.mid_relative.department_id;
@@ -414,11 +364,6 @@
                 if (this.active++ > 1) this.active = 2;
             },
             categoryChange(cate_id){
-                // let orderDataProxy = new DataProxy('/goodsdetails',this.pageSize,this.getOrderData, this);
-                // this.orderDataProxy = orderDataProxy;
-                // let cates = {cate_id:cate_id};
-                // this.orderDataProxy.setExtraParam(cates);
-                // this.orderDataProxy.load();
                 this.goodsProxy.setParam({
                     cate_id:cate_id,
                     with:['skus'],
@@ -509,6 +454,24 @@
                 }    
             },
 
+            resetForms(name){
+                this.$refs[name].resetFields();
+                this.addressList=[];
+                this.orderData=[];
+                this.orderAddressData=[];
+                this.goodsIds=[];
+                this.deal_id='';
+                this.cus_id = '',
+                this.data2 = {},
+                this.gdsInpurNum = 100000,
+                this.alertNum = 0,
+                this.allNum = '',
+                this.deal_name = '',
+                this.totalMoney=0;
+                this.active=0;
+                this.depositMoney = 0;
+            }
+
 
         },
         created(){
@@ -517,6 +480,8 @@
 
 
             this.goodsProxy = new GoodsSelectProxy({}, this.loadGoods, this);
+
+            this.$on('submit-error', this.resetForms)
 
         }
 

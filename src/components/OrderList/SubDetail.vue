@@ -134,15 +134,15 @@
                 this.usertableData = data.items;
             },
             getOrderGoods(data){
-                console.log(data);
+                // console.log(data);
                 this.goodstableData = data.items;
             },
             getOrderAddress(data){
-                console.log(data);
+                // console.log(data);
                 this.addresstableData = data.items;
             },
             getOrderAssign(data){
-                console.log(data);
+                // console.log(data);
                 this.assignData = data.items;
             },
             handleFirst(row){
@@ -154,25 +154,25 @@
                 this.tabFirst = true;
             },
             handleSecond(row){
-                console.log('second');
+                // console.log('second');
                 this.OrderGoodsProxy.setParam({
                     order_id:row.id,
                 }).load();
                 this.tabSecond = true;
             },
             handleThird(row){
-                console.log('third');
+                // console.log('third');
                 this.OrderAddressProxy.setParam({
                     order_id:row.id,
                 }).load();
                 this.tabThird = true;
             },
             handleFourth(row){
-                console.log("fourth");
+                // console.log("fourth");
                 this.tabFourth = true;
             },
             handleFifth(row){
-                console.log('fifth');
+                // console.log('fifth');
                 this.OrderAssignProxy.setParam({
                     order_id:row.id,
                 }).load();

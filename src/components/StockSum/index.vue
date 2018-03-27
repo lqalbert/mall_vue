@@ -3,7 +3,7 @@
         <el-row>
             <el-col :span="24">
                 <el-form :inline="true"  ref="searchForm" :model="searchForm" class="demo-form-inline" size="small">
-                    <el-form-item prop="department_id"  >
+                    <el-form-item prop="entrepot_id"  >
                         <el-select
                                 clearable
                                 v-model="searchForm.entrepot_id"
@@ -109,40 +109,16 @@
                     start:"",
                     end:""
                 },
-                dataList:[
-                    {   distribution_name:"圆通",
-                        goods_name:"爽肤水",
-                        product_name:"护肤品",
-                        usable_stock_number:"100",
-                        production_out_number:"50",
-                        total_production_in_number:"120",
-                        damage_number:"5",
-                        summary_time:"2018-03-10",
-                    },{   distribution_name:"圆通",
-                        goods_name:"爽肤水",
-                        product_name:"护肤品",
-                        usable_stock_number:"100",
-                        production_out_number:"50",
-                        total_production_in_number:"120",
-                        damage_number:"5",
-                        summary_time:"2018-03-10",
-                    },
-
-                ],
                 types: [],
                 cate_kinds:[],
-                productNames: [
-                    {id:1,name:'面膜 6张'},
-                    {id:2,name:'爽肤水 200ml'},
-                ],
-                storageUsers: [
-                    {id:1,name:'张三'},
-                    {id:2,name:'李四'},
-                ],
                 distributors:[]
             }
         },
         methods:{
+            handleReload(){
+                this.dataTableReload++;
+                this.cate_kinds = [];
+            },
             onSearchChange(param){
                 if (this.searchForm.searchTime.length!=2) {
                     param.start = "";
@@ -157,6 +133,8 @@
                 this.types = data.items;
             },
             typeChange(v){
+                this.cate_kinds = [];
+                this.searchForm.cate_kind_id = '';
                 for (let index = 0; index < this.types.length; index++) {
                     const element = this.types[index];
                     if (element.id == v) {

@@ -247,7 +247,8 @@
         },
         mounted:function(){
             let vThis = this;
-            this.navChange('StockOutDetails');
+            // this.navChange('StockOutDetails');
+            this.navChange('StockWarning');
             setInterval(function(){
                 vThis.getCurDate();
             }, 1000);

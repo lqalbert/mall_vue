@@ -122,7 +122,7 @@
                     <el-table-column prop="product_status_text" label="货物状态" align="center">
                     </el-table-column>
 
-                    <el-table-column prop="after_sale_status_text" label="货物状态" align="center">
+                    <el-table-column prop="after_sale_status_text" label="售后状态" align="center">
                     </el-table-column>
 
                     <el-table-column prop="created_at" label="下单时间" align="center" width="180">
@@ -166,7 +166,7 @@
     </div>
 </template>
 <script>
-import rowInfo from "../rowInfo";
+
 import exchange from "../exchange";
 import addDialog from "../Add.vue";
 
@@ -184,7 +184,7 @@ export default {
     pageTitle:"订单详情",
     mixins: [mix,deleteMix],
     components:{
-        rowInfo,addDialog,exchange
+        addDialog,exchange
     },
     data () {
         return {
@@ -215,36 +215,7 @@ export default {
             },
             // tableData: '',
             bubble:null,
-            pickerOptions2: {
-                shortcuts: [{
-                    text: '最近一周',
-                    onClick(picker) {
-                        const end = new Date();
-                        const start = new Date();
-                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-                        picker.$emit('pick', [start, end]);
-                    }
-                }, {
-                    text: '最近一个月',
-                    onClick(picker) {
-                        const end = new Date();
-                        const start = new Date();
-                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-                        picker.$emit('pick', [start, end]);
-                    }
-                }, {
-                    text: '最近三个月',
-                    onClick(picker) {
-                        const end = new Date();
-                        const start = new Date();
-                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-                        picker.$emit('pick', [start, end]);
-                    }
-                }],
-                disabledDate(time) {
-                    return time.getTime() > Date.now();//- 8.64e7
-                }
-            },
+
             value6: '',
             value7: '',
             dbRow:null,
@@ -329,12 +300,7 @@ export default {
             this.mainparam = JSON.stringify(param);
         },
 
-        // hyf 添加
-        singlbutton(status, product_status, after_sale_status){
-            this.searchForm.status = status,
-            this.searchForm.product_status = product_status;
-            this.searchForm.after_sale_status = after_sale_status;
-        },
+        
         getGroup(data){
             this.group = data.items;
         },

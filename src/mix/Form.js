@@ -38,7 +38,8 @@ const config = {
             let vmthis = this;
 
             ajaxPromise.then(function(response){
-                if (response.data.status==0) {
+                
+                if (response.data.status　==　0) {
                     vmthis.$message.error(response.data.msg ? response.data.msg : "操作失败" );
                     vmthis.$emit('submit-error', name);
                     

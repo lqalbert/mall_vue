@@ -176,14 +176,13 @@
                     </el-table-column> -->
 
                     <div slot="buttonbar">
-                        <el-button type="primary" size="small" @click="addDelivery">发 货</el-button>     
-                        <el-button type="primary" size="small" @click="handleEdit">修 改</el-button>     
+                        <el-button type="primary" size="small" @click="addDelivery">发 货</el-button>
+                        <el-button type="primary" size="small" @click="handleEdit">修 改</el-button>
                         <el-button type="primary" size="small" @click="setDropOrder">废 单</el-button>     
                         <el-button type="primary" size="small" @click="handleReceive">签 收</el-button>     
                         <el-button type="primary" size="small" @click="addContact">沟 通</el-button>     
                         <el-button type="primary" size="small" @click="editAddress">修改地址</el-button>     
                     </div>
-                <!-- </el-table> -->
                 </TableProxy>
             </el-col>
         </el-row>

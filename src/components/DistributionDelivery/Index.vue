@@ -23,7 +23,6 @@
                         </el-option>
                     </el-select>
                 </el-form-item>
-                <br>
                 <el-form-item prop="goods_name">
                     <el-input v-model="searchForm.goods_name" size="small" placeholder="商品名称"></el-input>
                 </el-form-item>
@@ -47,7 +46,6 @@
                 <el-form-item prop="deliver_phone">
                     <el-input v-model="searchForm.deliver_phone" size="small" placeholder="收货人电话"></el-input>
                 </el-form-item>
-                <br>
                 <el-form-item prop="express_name">
                     <el-input v-model="searchForm.express_name" size="small" placeholder="快递公司"></el-input>
                 </el-form-item>
@@ -77,7 +75,7 @@
         <!-- table -->
         <el-row>
             <el-col>
-                <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" :page-size="20" :bubble="bubble">
+                <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" :page-size="20" :bubble="bubble" @dbclick="dbClick">
                 <!-- <el-table :data="mainData" border highlight-current-row style="width: 100%"> -->
                     <el-table-column label="序号" align="center"  type="index" width="65">
                     </el-table-column>
@@ -192,55 +190,53 @@
         <el-row>
             <el-tabs v-model="activeName" type="border-card" @tab-click="handleClick">
                 <el-tab-pane label="发货明细" name="first">
-                    <el-table :data="tableData1" border style="width: 100%">
-                        <el-table-column prop="goods_name" label="商品" width="180"></el-table-column>
-                        <el-table-column prop="goods_type_two" label="小类型" width="180"></el-table-column>
-                        <el-table-column prop="num" label="数量" width="180"></el-table-column>
-                        <el-table-column prop="goods_price" label="价格" width="180"></el-table-column>
-                        <el-table-column prop="weight" label="重量" width="180"></el-table-column>
+                    <el-table :data="delivery_details_data" border style="width: 100%">
+                        <el-table-column prop="goods_name" label="商品" align="center"></el-table-column>
+                        <el-table-column prop="cate_kind" label="小类型" align="center"></el-table-column>
+                        <el-table-column prop="goods_num" label="数量" align="center"></el-table-column>
+                        <el-table-column prop="goods_price" label="价格" align="center"></el-table-column>
+                        <el-table-column prop="weight" label="重量" align="center"></el-table-column>
                     </el-table>
                 </el-tab-pane>
                 <el-tab-pane label="订单明细" name="second">
                     <el-table :data="tableData2" border style="width: 100%">
-                        <el-table-column prop="order_num" label="订单编号" width="180"></el-table-column>
-                        <el-table-column prop="cus_name" label="客户姓名" width="180"></el-table-column>
-                        <el-table-column prop="buy_goods" label="购买商品" width="180"></el-table-column>
-                        <el-table-column prop="buy_num" label="数量" width="180"></el-table-column>
-                        <el-table-column prop="trade" label="成交时间" width="180"></el-table-column>
-                        <el-table-column prop="sale_name" label="销售人员" width="180"></el-table-column>
+                        <el-table-column prop="order_num" label="订单编号" align="center"></el-table-column>
+                        <el-table-column prop="cus_name" label="客户姓名" align="center"></el-table-column>
+                        <el-table-column prop="buy_goods" label="购买商品" align="center"></el-table-column>
+                        <el-table-column prop="buy_num" label="数量" align="center"></el-table-column>
+                        <el-table-column prop="trade" label="成交时间" align="center"></el-table-column>
+                        <el-table-column prop="sale_name" label="销售人员" align="center"></el-table-column>
                     </el-table>
                 </el-tab-pane>
                 <el-tab-pane label="历史快递" name="third">
                     <el-table :data="tableData3" border style="width: 100%">
-                        <el-table-column prop="express_num" label="快递单号" width="180"></el-table-column>
-                        <el-table-column prop="express_company" label="快递公司" width="180"></el-table-column>
-                        <el-table-column prop="express_fee" label="快递费用" width="180"></el-table-column>
-                        <el-table-column prop="recevie_name" label="签收人" width="180"></el-table-column>
-                        <el-table-column prop="receive_time" label="客户签收时间" width="180"></el-table-column>
+                        <el-table-column prop="express_num" label="快递单号" align="center"></el-table-column>
+                        <el-table-column prop="express_company" label="快递公司" align="center"></el-table-column>
+                        <el-table-column prop="express_fee" label="快递费用" align="center"></el-table-column>
+                        <el-table-column prop="recevie_name" label="签收人" align="center"></el-table-column>
+                        <el-table-column prop="receive_time" label="客户签收时间" align="center"></el-table-column>
                     </el-table>
                 </el-tab-pane>
                 <el-tab-pane label="收货地址" name="fourth">
-                    <el-table :data="tableData4" border style="width: 100%">
-                        <el-table-column prop="cus_name" label="客户姓名" width="180"></el-table-column>
-                        <el-table-column prop="province" label="省" width="180"></el-table-column>
-                        <el-table-column prop="city" label="市" width="180"></el-table-column>
-                        <el-table-column prop="zone" label="区" width="180"></el-table-column>
-                        <el-table-column prop="address" label="收货详细地址" width="180"></el-table-column>
+                    <el-table :data="delivery_addresses_data" border style="width: 100%">
+                        <el-table-column prop="deliver_name" label="收件人姓名" align="center"></el-table-column>
+                        <el-table-column prop="deliver_phone" label="收件人手机号" align="center"></el-table-column>
+                        <el-table-column prop="deliver_address" label="收货详细地址" align="center"></el-table-column>
                     </el-table>
                 </el-tab-pane>
                 <el-tab-pane label="沟通联系" name="five">
-                    <el-table :data="tableData5" border style="width: 100%">
-                        <el-table-column prop="cus_name" label="客户姓名" width="180"></el-table-column>
-                        <el-table-column prop="contact_time" label="沟通时间" width="180"></el-table-column>
-                        <el-table-column prop="contact_name" label="沟通人" width="180"></el-table-column>
-                        <el-table-column prop="contact_content" label="沟通内容" width="180"></el-table-column>
+                    <el-table :data="communication_data" border style="width: 100%">
+                        <el-table-column prop="cus_name" label="客户姓名" align="center"></el-table-column>
+                        <el-table-column prop="contact_content_time" label="沟通时间" align="center"></el-table-column>
+                        <el-table-column prop="user_name" label="沟通人" align="center"></el-table-column>
+                        <el-table-column prop="contact_content" label="沟通内容" align="center"></el-table-column>
                     </el-table>
                 </el-tab-pane>
                 <el-tab-pane label="操作记录" name="six">
-                    <el-table :data="tableData6" border style="width: 100%">
-                        <el-table-column prop="handle_time" label="操作时间" width="180"></el-table-column>
-                        <el-table-column prop="handle_name" label="操作人" width="180"></el-table-column>
-                        <el-table-column prop="change_content" label="变更内容明细" width="180"></el-table-column>
+                    <el-table :data="operation_data" border style="width: 100%">
+                        <el-table-column prop="time" label="操作时间" align="center"></el-table-column>
+                        <el-table-column prop="user_name" label="操作人" align="center"></el-table-column>
+                        <el-table-column prop="type_name" label="变更内容明细" align="center"></el-table-column>
                     </el-table>
                 </el-tab-pane>
             </el-tabs>
@@ -291,6 +287,7 @@ import EditAddress from './EditAddress';
 
 import GoodsSelectProxy from '../../packages/GoodsSelectProxy';
 import DistributionCenterProxy from '../../packages/DistributionCenterSelectProxy';
+import DistributionDeliveryTabPaneProxy from '../../packages/DistributionDeliveryTabPaneProxy';
 import AssignAjaxProxy from '@/ajaxProxy/Assign';
 import SelectProxy from  '../../packages/SelectProxy';
 
@@ -334,16 +331,12 @@ export default {
             CategoryChildrenList:[],
             times:'',
 
+            delivery_details_data:[],
+            delivery_addresses_data:[],
+            communication_data:[],
+            operation_data:[],
 
 
-            tableData1:[
-                {goods_name:'神油啊',goods_type_two:'补肾',num:100,goods_price:100.11,weight:'100kg',},
-                {goods_name:'神油啊',goods_type_two:'补肾',num:100,goods_price:100.11,weight:'100kg',},
-                {goods_name:'神油啊',goods_type_two:'补肾',num:100,goods_price:100.11,weight:'100kg',},
-                {goods_name:'神油啊',goods_type_two:'补肾',num:100,goods_price:100.11,weight:'100kg',},
-                {goods_name:'神油啊',goods_type_two:'补肾',num:100,goods_price:100.11,weight:'100kg',},
-                {goods_name:'神油啊',goods_type_two:'补肾',num:100,goods_price:100.11,weight:'100kg',},
-            ],
             tableData2:[
                 {order_num:'201803061545',cus_name:'李四',buy_goods:'神油2号',buy_num:100,trade:'2018-03-09',sale_name:'李思思',},
                 {order_num:'201803061545',cus_name:'李四',buy_goods:'神油2号',buy_num:100,trade:'2018-03-09',sale_name:'李思思',},
@@ -357,28 +350,7 @@ export default {
                 {express_num:'201803091148',express_company:'顺丰',express_fee:88,recevie_name:'王武',receive_time:'2018-03-09',},
                 {express_num:'201803091148',express_company:'顺丰',express_fee:88,recevie_name:'王武',receive_time:'2018-03-09',},
             ],
-            tableData4:[
-                {cus_name:'王五',province:'广州',city:'深圳',zone:'天台',address:'八成八成八成八成八成',},
-                {cus_name:'王五',province:'广州',city:'深圳',zone:'天台',address:'八成八成八成八成八成',},
-                {cus_name:'王五',province:'广州',city:'深圳',zone:'天台',address:'八成八成八成八成八成',},
-                {cus_name:'王五',province:'广州',city:'深圳',zone:'天台',address:'八成八成八成八成八成',},
-                {cus_name:'王五',province:'广州',city:'深圳',zone:'天台',address:'八成八成八成八成八成',},
-            ],
-            tableData5:[
-                {cus_name:'美丽',contact_time:'2018-03-01',contact_name:'好丑',contact_content:'好丑好丑好丑好丑好丑好丑好丑',},
-                {cus_name:'美丽',contact_time:'2018-03-01',contact_name:'好丑',contact_content:'好丑好丑好丑好丑好丑好丑好丑',},
-                {cus_name:'美丽',contact_time:'2018-03-01',contact_name:'好丑',contact_content:'好丑好丑好丑好丑好丑好丑好丑',},
-                {cus_name:'美丽',contact_time:'2018-03-01',contact_name:'好丑',contact_content:'好丑好丑好丑好丑好丑好丑好丑',},
-                {cus_name:'美丽',contact_time:'2018-03-01',contact_name:'好丑',contact_content:'好丑好丑好丑好丑好丑好丑好丑',},
-                {cus_name:'美丽',contact_time:'2018-03-01',contact_name:'好丑',contact_content:'好丑好丑好丑好丑好丑好丑好丑',},
-            ],
-            tableData6:[
-                {handle_time:'2018-03-01',handle_name:'李福清',change_content:'李福清李福清李福清李福清',},
-                {handle_time:'2018-03-01',handle_name:'李福清',change_content:'李福清李福清李福清李福清',},
-                {handle_time:'2018-03-01',handle_name:'李福清',change_content:'李福清李福清李福清李福清',},
-                {handle_time:'2018-03-01',handle_name:'李福清',change_content:'李福清李福清李福清李福清',},
-                {handle_time:'2018-03-01',handle_name:'李福清',change_content:'李福清李福清李福清李福清',},
-            ],
+
             activeName:'first',
 
             bubble:null,
@@ -386,6 +358,12 @@ export default {
         }
     },
     methods:{
+        dbClick(row){
+            //获取标签页展示数据
+            let DistributionDeliveryTabPaneSelect = new DistributionDeliveryTabPaneProxy(row, this.getDistributionDeliveryTabPane, this);
+            DistributionDeliveryTabPaneSelect.load();
+
+        },
         searchToolReset(name){
             this.$refs[name].resetFields();
             this.$refs[name].$emit('reset');
@@ -395,10 +373,12 @@ export default {
         getDistributionCenter(data){
             this.distributors = data.items;
         },
-        // searchToolChange(data){
-        //    console.log(this.searchForm);
-        //    return false;
-        // },
+        getDistributionDeliveryTabPane(data){
+            this.delivery_details_data = data.delivery_details_data;
+            this.delivery_addresses_data = data.delivery_addresses_data;
+            this.communication_data = data.communication_data;
+            this.operation_data = data.operation_data[0];
+        },
         getCategoryList(data){
             this.CategoryList=data.items;
         },
@@ -446,7 +426,7 @@ export default {
             }
         },  
         handleClick(tab, event){
-            console.log(tab, event);
+            // console.log(tab, event);
         },
         onSearchChange(param){
             this.mainparam = JSON.stringify(param);

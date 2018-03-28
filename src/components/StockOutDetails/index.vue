@@ -81,7 +81,7 @@
                     <TableProxy
                             :url="mainurl"
                             :param="mainparam"
-                            :reload="dataTableReload">
+                            :reload="dataTableReload" :page-size="15">
                         <el-table-column label="序号" align="center" type="index" ></el-table-column>
                         <el-table-column prop="sku_sn" label="商品编号"  align="center"></el-table-column>
                         <el-table-column prop="assign_sn" label="快递单号"  align="center"></el-table-column>

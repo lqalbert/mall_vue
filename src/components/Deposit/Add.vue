@@ -54,7 +54,7 @@
                                     <el-option v-for="(v,index) in chargeTypes"
                                         :label="v.name"
                                         :value="v.id"
-                                        :key="v.id">
+                                        :key="index">
                                     </el-option>
                                 </el-select>
                             </el-form-item>

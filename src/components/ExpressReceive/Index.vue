@@ -41,7 +41,7 @@
         </el-row>
         <el-row>
             <el-col>
-                 <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload">
+                 <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" :page-size="15">
                     <el-table-column label="序号" align="center"  type="index" width="65">
                     </el-table-column>
 

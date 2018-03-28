@@ -62,7 +62,7 @@
 
         <el-row>
             <el-col>
-                <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" @dbclick="showRow" >
+                <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" @dbclick="showRow" :page-size="15">
                     <el-table-column type="selection" align="center" width="50"></el-table-column>
                     <el-table-column label="序号" align="center" type="index" width="65"></el-table-column>
                     <!--<el-table-column prop="id" label="订单号" width="200" align="center">-->

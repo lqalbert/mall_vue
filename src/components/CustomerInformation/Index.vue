@@ -39,7 +39,7 @@
                 <TableProxy
                         :url="mainurl"
                         :param="mainparam"
-                        :reload="dataTableReload">
+                        :reload="dataTableReload" :page-size="pageSize">
                     <el-table-column label="序号"  type="index" align="center" width="80"></el-table-column>
                     <el-table-column prop="mid_relative.department_name" label="部门"  width="100" v-if="strategyColumnDepart">
                     </el-table-column>
@@ -48,7 +48,7 @@
                     <el-table-column prop="name" label="客户姓名" width="160"></el-table-column>
                     <el-table-column prop="sex_text" label="性别"  align="center"></el-table-column>
                     <el-table-column prop="age" label="年龄" align="center" width="100"></el-table-column>
-                    <el-table-column label="QQ号"  align="center" width="160">
+                    <el-table-column label="QQ号" prop="qq" align="center" width="160">
                         <template slot-scope="scope">
                             {{ scope.row.contacts[0].qq }}
                         </template>
@@ -192,6 +192,7 @@
                 orderBasicAjaxProxy:OrderBasic,
                 mainurl:Customer.getUrl(),
                 mainparam:'',
+                pageSize:15,
                 CategoryList:'',
                 strategies:""
             }

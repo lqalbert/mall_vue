@@ -61,9 +61,8 @@
 <script>
 
     // import Navgation from './Navgation.vue';
-    import { mapActions } from 'vuex';
+    import { mapActions,mapGetters } from 'vuex';
     import PageList from "./PageList";
-    import { mapGetters } from 'vuex';
     export default {
         name: 'Index',
         components:PageList,

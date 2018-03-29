@@ -39,7 +39,7 @@ const user = {
         //     state.roles = roles;
         // }
     },
-
+    //可以把他看作在获取数据之前进行的一种再编辑 相当于computed属性
     getters:{
         isLogin(state){
             return state.login;

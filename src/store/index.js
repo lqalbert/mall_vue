@@ -10,10 +10,10 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
     state: {
-        //
+        //数据
     },
     mutations: {
-        //
+        //方法
     },
     actions: {
 

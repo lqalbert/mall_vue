@@ -7,7 +7,7 @@
                         <el-step title="添加更换的商品"></el-step>
                         <el-step title="填写备注"></el-step>
                     </el-steps>
-                    <div　v-show="active == 0">
+                    <div v-show="active == 0">
                         <h5>订单信息</h5>
                         <el-row>
                             <el-col :span="12">
@@ -28,7 +28,7 @@
                                 </el-form-item>
                             </el-col>
                         </el-row>
-                        <h5>勾选要退回的商品</h5>
+                        <h5>勾选要替换的商品</h5>
                         <el-row>
                             <el-col :span="24">
                                 <el-table :data="goods" @selection-change="handleSelectionChange">
@@ -40,28 +40,28 @@
                                                 <el-input-number size="small" :min="1" :controls="false" :max="scope.row.goods_number"  v-model="scope.row.goods_num" @change="numberChange"></el-input-number>
                                             </template>
                                     </el-table-column>
-                                    <el-table-column label="单价"     prop="price" width="100"></el-table-column>
+                                    <el-table-column label="单价" prop="price" width="100"></el-table-column>
                                 </el-table>
                             </el-col>
                         </el-row>
                     </div>
     
                     <div v-show="active == 1">
-                        <h5>要更换的商品</h5>
+                        <h5>将更换成以下商品</h5>
                         <el-row>
                             <el-col :span="24">
                                 <el-table :data="rowInfoForm.goods" >
                                     <el-table-column label="商品名称" prop="goods_name"></el-table-column>
                                     <el-table-column label="商品编号" prop="sku_sn" width="120"></el-table-column>
-                                    <el-table-column label="数量"    prop="goods_num"  width="160">
+                                    <el-table-column label="数量"    prop="goods_number"  width="160">
                                         <template slot-scope="scope">
-                                            <el-input-number size="small" :min="1" :controls="false" :max="scope.row.goods_number"  v-model="scope.row.goods_num" @change="numberChange"></el-input-number>
+                                            <el-input-number size="small" :min="1" :controls="false" :max="scope.row.goods_num"  v-model="scope.row.goods_number" @change="numberChange"></el-input-number>
                                         </template>
                                     </el-table-column>
                                     <el-table-column label="单价"  prop="price" width="100"></el-table-column>
                                     <el-table-column label="操作"  width="100">
                                         <template slot-scope="scope">
-                                            <el-button　type="danger" @click="del(scope.$index)"　size="small">删除</el-button>
+                                            <el-button type="danger" @click="del_row(scope.$index)"　size="small">删除</el-button>
                                         </template>
                                     </el-table-column>
                                 </el-table>
@@ -70,44 +70,56 @@
                         <br>
                         <el-row>
                             <el-col :span="24">
-                                <el-button size="small" @click="changeNew">换新</el-button><el-button size="small" @click="changeOther">其它商品</el-button>
+                                <el-button size="small" @click="changeNew">修改原数量</el-button>
+                                <el-button size="small" @click="changeOther">添加新商品</el-button>
                             </el-col>
                         </el-row>
                         <div v-show="addOther">
                             <br>
-                                <el-row>
-                                    <el-col :span="24">
-                                        <el-row>
-                                            <el-col :span="12">
-                                                <el-form-item label="商品分类"  >
-                                                    <el-cascader size="small">
-                                                    </el-cascader>
-                                                </el-form-item>
-                                            </el-col>
-                                            <el-col :span="12">
-                                                <el-form-item  label="商品名称">
-                                                    <el-select size="small">
-                                                        <el-option>
-                                                        </el-option>
-                                                    </el-select>
-                                                </el-form-item>
-                                            </el-col>
-                                        </el-row>
-                                        <el-row>
-                                            <el-col :span="12">
-                                                <el-form-item prop="goods_number" label="商品数量">
-                                                    <el-input-number size="small" :min="1"    >
-                                                    </el-input-number>
-                                                </el-form-item>
-                                            </el-col>
-                                            <el-col :span="12">
-                                                <el-form-item >
-                                                    <el-button size="small" type="info">添加</el-button>
-                                                </el-form-item>
-                                            </el-col>
-                                        </el-row> 
-                                    </el-col>
-                                </el-row>  
+                             <el-form ref="exchangeForm" :model="exchangeForm">
+                                 <el-row>
+                                 <el-col :span="24">
+                                     <el-row>
+                                         <el-col :span="12">
+                                                 <el-form-item label="商品分类" prop="dev">
+                                                     <el-cascader
+                                                             v-model="exchangeForm.dev"
+                                                             :options="CategoryList"
+                                                             @change="categoryChange"
+                                                     >
+                                                     </el-cascader>
+                                                 </el-form-item>
+                                         </el-col>
+                                         <el-col :span="12">
+                                             <el-form-item prop="goods_id" label="商品名称">
+                                                 <el-select v-model="exchangeForm.goods_id" @change="getGoodsInfo">
+                                                     <el-option v-for="(value, item) in data2" :value="item" :key="item" :label="value.goods_name+'-'+value.sku_name+'-'+value.price">
+                                                         <span>{{value.goods_name}}{{value.sku_name.length > 0 ? '-'+value.sku_name: ''  }}-{{value.price}}</span>
+                                                     </el-option>
+                                                 </el-select>
+                                             </el-form-item>
+                                         </el-col>
+                                     </el-row>
+                                     <el-row>
+                                         <el-col :span="12">
+                                             <el-form-item prop="goods_number" label="商品数量">
+                                                 <el-input-number size="small" :min="1"   v-model="exchangeForm.goods_number" ></el-input-number>
+                                             </el-form-item>
+                                         </el-col>
+                                         <el-col :span="12">
+                                             <el-form-item prop="remark" label="备注">
+                                                 <el-input type="textarea" class="name-input"  v-model="exchangeForm.remark"  placeholder="备注" ></el-input>
+                                             </el-form-item>
+                                         </el-col>
+                                         <el-col :span="12">
+                                             <el-form-item >
+                                                 <el-button size="small" type="info" @click="addOrder">添加</el-button>
+                                             </el-form-item>
+                                         </el-col>
+                                     </el-row>
+                                 </el-col>
+                             </el-row>
+                             </el-form>
                         </div>
                         
                     </div>
@@ -117,37 +129,39 @@
                             <el-col :span="20">
                                 <el-form-item label="差价计算">
                                     <el-col :span="8">
-                                        <el-input　size="small" placeholder="请输入内容">
-                                        </el-input>
+                                        <el-input size="small" v-model="this.difference_money" :disabled="true"></el-input>
                                     </el-col>
                                     <el-col :span="2">&nbsp;</el-col>
                                     <el-col :span="4">
-                                            <el-button size="small">计算</el-button>
+                                            <el-button size="small"  @click="difference_price">计算</el-button>
                                     </el-col>
-                                    
                                 </el-form-item>
                             </el-col>
                             
                         </el-row>
                         <el-row>
                             <el-col :span="12">
-                                <el-form-item label="备注">
-                                    <el-input type="textarea" :rows="2" placeholder="请输入内容">
+                                <el-form-item label="备注" prop="remark">
+                                    <el-input type="textarea" :rows="2" v-model="rowInfoForm.remark" placeholder="请输入内容">
                                     </el-input>
                                 </el-form-item>
                             </el-col>
                         </el-row>
-        
-                        <el-row>
-                            <el-col :span="12">
-                                <el-form-item label="快递号">
-                                    <el-input placeholder="请输入内容">
-                                    </el-input><el-button>
-                                        <i class="el-icon-plus"></i>
-                                    </el-button>
-                                </el-form-item>
-                            </el-col>
-                        </el-row>
+
+                                <el-row>
+                                    <el-col :span="12">
+                                        <el-form-item v-for="(items,index) in rowInfoForm.express" :label="'快递号'+(index+1)"
+                                                      :key="index" :prop="'express.'+index+'.value'">
+                                            <el-input placeholder="快递号" size="small" v-model="items.value">
+                                            </el-input>
+                                            <el-button v-if="index!==0" size="small" type="warning" @click.prevent="removeExpress(items)">
+                                                删除
+                                            </el-button>
+                                        </el-form-item>
+                                        <el-button style="margin:-10px 0 0 10px" size="small" type="info" icon="plus" @click="addExpress">
+                                        </el-button>
+                                    </el-col>
+                                </el-row>
                     </div>
                 </el-form>
     
@@ -175,7 +189,9 @@
     <script>
         import DialogForm from '../../mix/DialogForm';
         import OrderGoodsAjaxProxy from '@/ajaxProxy/Ordergoods';
-    
+        import SelectProxy from  '../../packages/SelectProxy';
+        import EntrepotProductAjaxProxy from '@/ajaxProxy/EntrepotProduct';
+        import GoodsSelectProxy from '../../packages/GoodsSelectProxy';
         export default {
             name: 'ExchangeGoods',
             mixins: [DialogForm],
@@ -193,28 +209,141 @@
                     dialogThis: this,
                     labelPosition: "right",
                     labelWidth: '70px',
+                    CategoryList:[],
+                    CategoryChildrenList:[],
+                    difference_money:0,
                     rowInfoForm: {
                         order_id: "",
                         goods: [],
                         refund:"",
-                        express:[],
+                        express:[
+                            {value:''}
+                        ],
+                        remark:'',
+                    },
+                    exchangeForm:{
+                        dev:[],
+                        goods_id:'',
+                        goods_number:'',
+                        remark:'',
                     },
                     goods:[],
+                    pop_goods_index:[],
                     model: {},
+                    data2:{},
+                    totalMoney:0,
+                    selected_money:0,
                     multipleSelection:[],
+                    goods_data:[],
                     active:0
-    
                 }
             },
     
             methods: {
+                removeExpress(item){
+                    var index = this.rowInfoForm.express.indexOf(item);
+                    if (index !== -1) {
+                        this.rowInfoForm.express.splice(index, 1);
+                    }
+                },
+                sum_price(arr){
+                    if (arr.length > 0) {
+                        let total = 0;
+                        for(let v in arr){
+                            total += parseInt(arr[v]['goods_number']) * parseInt(arr[v]['price']);
+                        }
+                        return   total;
+                    }
+
+                },
+                difference_price(){
+                    return   this.difference_money = (this.sum_price(this.rowInfoForm.goods) - this.model.order_all_money).toFixed(2);
+                },
+                addExpress(){
+                    this.rowInfoForm.express.push({ value: '' });
+                },
+                addOrder(){
+                    var vmthis = this;
+                    let moneyNotes =parseInt(this.data2[this.exchangeForm.goods_id].price) * parseInt(this.exchangeForm.goods_number);
+                    let item = vmthis.data2[vmthis.exchangeForm.goods_id];
+                    let addData ={
+                        goods_id:    item.goods_id,
+                        sku_id:      item.sku_id,
+                        sku_name:    item.sku_name,
+                        goods_name:  item.goods_name,
+                        price:       item.price,
+                        goods_number:vmthis.exchangeForm.goods_number,
+                        remark:      vmthis.exchangeForm.remark,
+                        moneyNotes:  moneyNotes,
+                        sku_sn:      item.sku_sn,
+                        unit_type:   item.unit_type,
+                    };
+                    this.totalMoney += moneyNotes;
+                    this.rowInfoForm.goods.push(addData);
+                    console.log(this.rowInfoForm.goods);
+                    this.$refs['exchangeForm'].resetFields();
+                },
+
+                loadGoods(data){
+                    this.data2 = {};
+                    for (let i = 0; i < data.items.length; i++) {
+                        let gid1 = data.items[i].id;
+                        let goods_name1 = data.items[i].goods_name;
+                        let goods_price1 = data.items[i].goods_price;
+                        let goods_number1 = data.items[i].goods_number;
+                        let unit_type1 = data.items[i].unit_type;
+                        let vv1 = this.contactItem(gid1, goods_price1, goods_name1, goods_number1, 0, '',  data.items[i].sku_sn,unit_type1);
+                        let kk1 = 'goods_id_'+gid1+'_sku_id_0';
+                        this.data2[kk1] = vv1;
+                        if (data.items[i].skus.length > 0) {
+                            this.contactChildren(data.items[i].skus, gid1, goods_name1,unit_type1);
+                        }
+                    }
+                },
+                contactItem(goods_id, price, name, num, sku_id, sku, sku_sn,unit_type){
+                    return {goods_id: goods_id, price: price, goods_name: name,  num: num, sku_id:sku_id, sku_name:sku, sku_sn:sku_sn,unit_type:unit_type};
+                },
+                contactChildren(children, goods_id, goods_name,unit_type){
+                    for (let i = 0; i < children.length; i++) {
+                        const item = children[i];
+                        let vv1 = this.contactItem(goods_id, item.price, goods_name, item.num, item.id, item.name, item.sku_sn,unit_type);
+                        let kk1 = 'goods_id_'+goods_id+'_sku_id_'+ item.id;
+                        this.data2[kk1] = vv1;
+                    }
+                },
+                getCategory(){
+                    let selectProxy = new SelectProxy('/tree', this.getCategoryList, this);
+                    selectProxy.load();
+                },
+                getCategoryList(data){
+                    this.CategoryList=data.items;
+                },
+                categoryChange(cate_id){
+                    this.goodsProxy.setParam({
+                        cate_id:cate_id,
+                        with:['skus'],
+                        fields:['id','goods_name','goods_price','goods_number','sku_sn','unit_type']
+                    }).load();
+                },
+                getGoodsInfo(goods_id){
+                    if(this.data2[goods_id]){
+                        EntrepotProductAjaxProxy.getEntrepotCount(this.data2[goods_id].sku_sn).then((data)=>{
+                            this.gdsInpurNum = parseInt(data.data.num);
+                            this.alertNum = parseInt(data.data.num);
+                            this.allNum = this.alertNum;
+                        })
+                    }
+
+                },
                 onOpen(param) {
                     this.model = param.params;
+                    this.goods_data =[];
                     OrderGoodsAjaxProxy.get({order_id: this.model.id}).then((response)=>{
                         response.data.items.forEach(element => {
                             element.goods_num = parseInt(element.goods_number);
                         });
                         this.goods = response.data.items;
+                        this.rowInfoForm.goods=this.goods.slice(0);
                     });
                     this.rowInfoForm.order_id = this.model.id;
                 },
@@ -225,12 +354,17 @@
                 getAjaxPromise(model) {
                     return this.ajaxProxy.update(model.id, model);
                 },
-    
                 handleSelectionChange(v){
-                    this.multipleSelection = [].concat(v);
+                    for(let i in v){
+                        let index =  this.rowInfoForm.goods.indexOf(v[i]);
+                        if(index > -1){
+                            this.rowInfoForm.goods.splice(index,1)
+                        }
+                    }
+                    this.multipleSelection = v;
                     this.multipleSelection.forEach(element => {
-                        element.type = 1;
-                        element.type_text = '换货退回';
+                        element.type = 2;
+                        element.type_text = '替换商品';
                     });
                 },
                 next(){
@@ -243,8 +377,8 @@
                         this.active = 0;
                     } 
                 },
-                del(index){
-                    this.multipleSelection.splice(index,1);
+                del_row(index){
+                    this.rowInfoForm.goods.splice(index,1);
                 },
                 numberChange(){
                     this.$nextTick(function(){
@@ -256,36 +390,32 @@
                         let goods_price = this.multipleSelection.map(element=>{
                             return element.goods_num * parseFloat(element.price);
                         });
-                        
                         this.rowInfoForm.refund = goods_price.reduce((ac, cu)=>{
                             return ac+cu;
                         }).toFixed(2);
                     } else {
-                        this.rowInfoForm.refund = '0.00';
+                        this.rowInfoForm.refund ='0.00';
                     }  
                 },
                 changeNew(){
-                    this.rowInfoForm.goods = [].concat(this.multipleSelection);
+                    if(this.rowInfoForm.goods.length < this.goods.length){
+                        this.rowInfoForm.goods= this.rowInfoForm.goods.concat(this.multipleSelection);
+                    }else{
+                        return false;
+                    }
                 },
                 changeOther(){
                     this.addOther = true;
                 }
             },
             watch: {
-    
-                model: function (val, oldVal) {
-                    for (const key in this.rowInfoForm) {
-                        if (this.rowInfoForm.hasOwnProperty(key)) {
-                            // console.log(key);
-                            this.rowInfoForm[key] = val[key]
-                        }
-                    }
-                },
-    
                 multipleSelection:function(val, oldVal){
-                    console.log(val);
                     this.sumPrice();
                 }
+            },
+            created(){
+                this.getCategory();
+                this.goodsProxy = new GoodsSelectProxy({}, this.loadGoods, this);
             }
     
         }
@@ -295,5 +425,8 @@
     <style scoped>
         .button_step {
             text-align: left;
+        }
+        .name-input{
+            max-width: 217px;
         }
     </style>

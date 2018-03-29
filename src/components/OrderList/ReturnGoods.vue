@@ -96,9 +96,11 @@
                         </submit-button>
                     </el-col>
                 </el-row>
+                
+
+                
             </div>
         </MyDialog>
-
     </div>
 </template>
 
@@ -209,7 +211,7 @@
                 }  
             },
             addExpress(){
-                this.rowInfoForm.express.push({ value: '' });
+                this.rowInfoForm.express.push({ express_sn: '' });
             },
             removeExpress(item){
                 var index = this.rowInfoForm.express.indexOf(item);

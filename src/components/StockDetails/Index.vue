@@ -197,7 +197,7 @@
         
         <add-dialog-two
                 name="addProductionTwo"
-                :ajax-proxy="ajaxProxy"
+                :ajax-proxy="producEntryAjajx"
                 :types="types"
                 :distributors="distributors"
                 @submit-success="handleReload">
@@ -262,6 +262,7 @@
             return {
                 ajaxProxy: InventoryDetailAjaxProxy,
                 mainurl:InventoryDetailAjaxProxy,
+                producEntryAjajx:ProduceEntryAjaxProxy,
                 mainparam:"",
                 cate_kinds:[],
                 productionListData: [],

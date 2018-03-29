@@ -91,7 +91,7 @@
     import ShelvesPickProxy from  '../../packages/ShelvesPickProxy';
     export default {
         name:'ShelvesPick',
-        pageTitle:"货架上货",
+        pageTitle:"货架拣货",
         mixins: [PageMix, SearchTool,DataTable,ShelvesPick],
         components: {
             addGoodsDialog,

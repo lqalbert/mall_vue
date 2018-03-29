@@ -10,8 +10,6 @@ import OrderBasic from '@/ajaxProxy/OrderBasic';
 import mix from '../mix';
 import { mapGetters  } from 'vuex';
 
-
-
 export default {
     name: 'OrderList',
     pageTitle:"订单详情",

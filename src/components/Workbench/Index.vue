@@ -167,6 +167,7 @@
             },
             getContactsData(){
                 let selectProxy = new SelectProxy(this.contactsUrl, this.contactsData, this);
+                selectProxy.setExtraParam({id:this.getUser.id});
                 selectProxy.load();
             },
             contactsData(data){

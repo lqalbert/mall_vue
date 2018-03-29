@@ -6,7 +6,8 @@
                     <el-step title="选择退货的商品"></el-step>
                     <el-step title="填写快递号"></el-step>
                 </el-steps>
-                <div　v-show="active == 0">
+
+                <div v-show="active==0">
                     <h5>订单信息</h5>
                     <el-row>
                         <el-col :span="12">
@@ -34,15 +35,14 @@
                                 <el-table-column type="selection" width="55"></el-table-column>
                                 <el-table-column label="商品名称" prop="goods_name"></el-table-column>
                                 <el-table-column label="商品编号" prop="sku_sn" width="120"></el-table-column>
-                                <el-table-column label="数量"     prop="goods_number" width="160">
-                                </el-table-column>
-                                <el-table-column label="单价"     prop="price" width="100"></el-table-column>
+                                <el-table-column label="数量" prop="goods_number" width="160"></el-table-column>
+                                <el-table-column label="单价" prop="price" width="100"></el-table-column>
                             </el-table>
                         </el-col>
                     </el-row>
                 </div>
 
-                <div v-show="active == 1">
+                <div v-show="active==1">
                     <h5>要退货的商品</h5>
                     <el-row>
                         <el-col :span="24">
@@ -51,13 +51,15 @@
                                 <el-table-column label="商品编号" prop="sku_sn" width="120"></el-table-column>
                                 <el-table-column label="数量"    prop="goods_num"  width="160">
                                     <template slot-scope="scope">
-                                        <el-input-number size="small" :min="1" :controls="false" :max="scope.row.goods_number"  v-model="scope.row.goods_num" @change="numberChange"></el-input-number>
+                                        <el-input-number size="small" :min="1" :controls="false" :max="scope.row.goods_number"
+                                                         v-model="scope.row.goods_num" @change="numberChange">
+                                        </el-input-number>
                                     </template>
                                 </el-table-column>
                                 <el-table-column label="单价"  prop="price" width="100"></el-table-column>
                                 <el-table-column label="操作"  width="100">
                                     <template slot-scope="scope">
-                                        <el-button　type="danger" @click="del(scope.$index)"　size="small">删除</el-button>
+                                        <el-button type="danger" size="small" @click="del(scope.$index)">删除</el-button>
                                     </template>
                                 </el-table-column>
                             </el-table>
@@ -70,24 +72,30 @@
                             </el-form-item>
                         </el-col>
                     </el-row>
-    
+
                     <el-row>
                         <el-col :span="12">
-                            <el-form-item label="备注">
-                                <el-input type="textarea" :rows="2" placeholder="请输入内容">
+                            <el-form-item label="备注" prop="remark">
+                                <el-input type="textarea" :rows="2" v-model="rowInfoForm.remark"
+                                          placeholder="请输入内容" size="small">
                                 </el-input>
                             </el-form-item>
                         </el-col>
                     </el-row>
-    
+
                     <el-row>
                         <el-col :span="12">
-                            <el-form-item label="快递号">
-                                <el-input placeholder="请输入内容">
-                                </el-input><el-button>
-                                    <i class="el-icon-plus"></i>
+                            <el-form-item v-for="(items,index) in rowInfoForm.express" :label="'快递号'+(index+1)"
+                                          :key="index" :prop="'express.'+index+'.value'">
+
+                                <el-input placeholder="快递号" size="small" v-model="items.value">
+                                </el-input>
+                                <el-button v-if="index!==0" size="small" type="warning" @click.prevent="removeExpress(items)">
+                                    删除
                                 </el-button>
                             </el-form-item>
+                            <el-button style="margin:-10px 0 0 10px" size="small" type="info" icon="plus" @click="addExpress">
+                            </el-button>
                         </el-col>
                     </el-row>
                 </div>
@@ -106,18 +114,16 @@
                         </submit-button>
                     </el-col>
                 </el-row>
-                
-
-                
             </div>
         </MyDialog>
+
     </div>
 </template>
 
 <script>
     import DialogForm from '../../mix/DialogForm';
     import OrderGoodsAjaxProxy from '@/ajaxProxy/Ordergoods';
-
+    import { mapGetters } from 'vuex';
     export default {
         name: 'ReturnGoods',
         mixins: [DialogForm],
@@ -156,18 +162,30 @@
                 labelWidth: '70px',
                 rowInfoForm: {
                     order_id: "",
+                    user_id:'',
+                    user_name:'',
+                    group_id:'',
+                    department_id:'',
+                    type:0,
+                    remark:'',
                     goods: [],
                     refund:"",
-                    express:[],
+                    express:[
+                        {value:''}
+                    ],
                 },
                 goods:[],
                 model: {},
                 multipleSelection:[],
-                active:0
+                active:0,
 
             }
         },
-
+        computed:{
+            ...mapGetters([
+                'getUser'
+            ]),
+        },
         methods: {
             onOpen(param) {
                 this.model = param.params;
@@ -175,6 +193,10 @@
                     this.goods = response.data.items;
                 });
                 this.rowInfoForm.order_id = this.model.id;
+                this.rowInfoForm.user_id = this.getUser.id;
+                this.rowInfoForm.user_name = this.getUser.realname;
+                this.rowInfoForm.group_id = this.getUser.group_id;
+                this.rowInfoForm.department_id = this.getUser.department_id;
             },
             onBeforeClose(){
                 this.multipleSelection = [];
@@ -198,7 +220,7 @@
                     this.active --;
                 } else {
                     this.active = 0;
-                } 
+                }
             },
             del(index){
                 this.multipleSelection.splice(index,1);
@@ -213,25 +235,33 @@
                     let goods_price = this.multipleSelection.map(element=>{
                         return element.goods_num * parseFloat(element.price);
                     });
-                    
+
                     this.rowInfoForm.refund = goods_price.reduce((ac, cu)=>{
                         return ac+cu;
                     }).toFixed(2);
                 } else {
                     this.rowInfoForm.refund = '0.00';
-                }  
-            }
-        },
-        watch: {
-
-            model: function (val, oldVal) {
-                for (const key in this.rowInfoForm) {
-                    if (this.rowInfoForm.hasOwnProperty(key)) {
-                        // console.log(key);
-                        this.rowInfoForm[key] = val[key]
-                    }
                 }
             },
+            addExpress(){
+                this.rowInfoForm.express.push({ value: '' });
+            },
+            removeExpress(item){
+                var index = this.rowInfoForm.express.indexOf(item);
+                if (index !== -1) {
+                    this.rowInfoForm.express.splice(index, 1);
+                }
+            },
+        },
+        watch: {
+            // model: function (val, oldVal) {
+            //     for (const key in this.rowInfoForm) {
+            //         if (this.rowInfoForm.hasOwnProperty(key)) {
+            //             // console.log(key);
+            //             this.rowInfoForm[key] = val[key]
+            //         }
+            //     }
+            // },
 
             multipleSelection:function(val, oldVal){
                 console.log(val);

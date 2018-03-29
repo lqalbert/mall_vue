@@ -247,7 +247,7 @@
         },
         mounted:function(){
             let vThis = this;
-            this.navChange('Workbench');
+            this.navChange('OrderList');
             setInterval(function(){
                 vThis.getCurDate();
             }, 1000);

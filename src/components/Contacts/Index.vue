@@ -94,6 +94,7 @@ import SearchTool from '../../mix/SearchTool';
 import SelectProxy from  '../../packages/SelectProxy';
 
 import Contacts from '../../ajaxProxy/Contacts';
+import { mapGetters, mapMutations } from 'vuex';
 //import TableProxy from '../common/TableProxy';
 
 export default {
@@ -104,12 +105,16 @@ export default {
         Add,
         Edit,
     },
-
+    computed:{
+        ...mapGetters([
+            'getUser'
+        ])
+    },
     data () {
         return {
             ajaxProxy:Contacts,
             mainurl:Contacts.getUrl(),
-            mainparam:"",
+            mainparam:'',
             total:100,
             dataLoad:false,
             searchForm:{
@@ -122,9 +127,6 @@ export default {
     methods:{
         getAjaxProxy(){
             return  this.ajaxProxy;
-        },
-        dataReload:function(){
-          console.log(this.searchForm);
         },
         searchReset:function(){
             this.$refs['searchForm'].resetFields();
@@ -144,7 +146,7 @@ export default {
     },
     created(){
         this.$on('search-tool-change', this.onSearchChange);
-
+        this.onSearchChange({id:this.getUser.id});
     }
 }
 </script>

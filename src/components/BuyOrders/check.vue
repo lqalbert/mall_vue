@@ -5,7 +5,7 @@
                 <el-row>
                     <el-col :span="12">
                         <el-form-item  label="是否通过">
-                            <el-select size="small" placeholder="是否通过" v-model="checkForm.check_status">
+                            <el-select size="small" placeholder="是否通过" v-model="checkForm.status">
                                 <el-option
                                         v-for="check in c_status"
                                         :label="check.status"

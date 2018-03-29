@@ -113,22 +113,22 @@
                         </el-table>
                     </el-tab-pane>
 
-                    <el-tab-pane label="退货入库(在退货登记生成)" name="Second">
+                    <el-tab-pane label="退货入库" name="Second">
                         <el-table :data="backListData" empty-text="还未实现" border>
                             <el-table-column label="序号" align="center" type="index" width="65"></el-table-column>
                             <el-table-column prop="goods_name" label="商品名称" width="180" align="center"></el-table-column>
-                            <el-table-column prop="goods_number" label="商品编号" width="180" align="center"></el-table-column>
-                            <el-table-column prop="back_in_number" label="退货数量" width="180" align="center"></el-table-column>
-                            <el-table-column prop="express_number" label="快递单号" width="180" align="center"></el-table-column>
-                            <el-table-column prop="customer_name" label="退货客户姓名" width="180" align="center"></el-table-column>
-                            <el-table-column prop="customer_qq" label="退货客户QQ" width="180" align="center"></el-table-column>
-                            <el-table-column prop="customer_phone" label="退货客户手机号" width="180" align="center"></el-table-column>
-                            <el-table-column prop="customer_weixin" label="退货客户微信" width="180" align="center"></el-table-column>
-                            <el-table-column prop="back_reason" label="退货原因" width="180" align="center"></el-table-column>
+                            <el-table-column prop="sku_sn" label="商品编号" width="180" align="center"></el-table-column>
+                            <el-table-column prop="goods_num" label="退货数量" width="180" align="center"></el-table-column>
+                            <el-table-column prop="express_sn" label="快递单号" width="180" align="center"></el-table-column>
+                            <el-table-column prop="cus_name" label="退货客户姓名" width="180" align="center"></el-table-column>
+                            <el-table-column prop="cus_qq" label="退货客户QQ" width="180" align="center"></el-table-column>
+                            <el-table-column prop="cus_phone" label="退货客户手机号" width="180" align="center"></el-table-column>
+                            <el-table-column prop="cus_weixin" label="退货客户微信" width="180" align="center"></el-table-column>
+                            <el-table-column prop="reason" label="退货原因" width="180" align="center"></el-table-column>
                             <el-table-column prop="sale_name" label="销售人员" width="180" align="center"></el-table-column>
-                            <el-table-column prop="storage_name" label="入库操作人" align="center" width="180"></el-table-column>
-                            <el-table-column prop="back_in_time" label="退货入库时间" align="center" width="180"></el-table-column>
-                            <el-table-column prop="remarks" label="备注" align="center"></el-table-column>
+                            <el-table-column prop="user_name" label="入库操作人" align="center" width="180"></el-table-column>
+                            <el-table-column prop="return_at" label="退货入库时间" align="center" width="180"></el-table-column>
+                            <el-table-column prop="remark" label="备注" align="center"></el-table-column>
                         </el-table>
                     </el-tab-pane>
 
@@ -244,6 +244,7 @@
     import EntryProductSelectProxy from '../../packages/EntryProductSelectProxy';
     import OrderGoodsSelectProxy from '../../packages/OrderGoodsSelectProxy';
     import AssignSelectProxy from '../../packages/AssignSelectProxy';
+    import ReturnRecordSelectProxy from '@/packages/ReturnRecordSelectProxy';
     
     import { mapGetters } from 'vuex';
 
@@ -486,8 +487,13 @@
                     end:this.searchForm.end
                 }).load();
             },
-            tabSecondHandel (){
-                
+            tabSecondHandel(row){
+                this.returnRecord.setParam({
+                    entrepot_id:row.entrepot_id,
+                    sku_sn:row.sku_sn,
+                    start:this.searchForm.start,
+                    end:this.searchForm.end
+                }).load();
             },
             tabThirdHandel (row){
                 // console.log('handel');
@@ -529,6 +535,9 @@
             },
             loadAssin(data){
                 this.sendLockListData = data.items;
+            },
+            loadReturn(data){
+                this.backListData = data.items;
             }
 
         },
@@ -563,6 +572,10 @@
             this.entryProductProxy = new EntryProductSelectProxy({}, this.loadProduct, this);
             this.OrderGoodsProxy   = new OrderGoodsSelectProxy({}, this.loadOrderGoods, this);
             this.assignProxy   = new AssignSelectProxy({}, this.loadAssin, this);
+            this.returnRecord  = new ReturnRecordSelectProxy({}, this.loadReturn, this);
+
+
+
 
             
         }

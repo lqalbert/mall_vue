@@ -42,7 +42,7 @@
                     :param="mainparam"
                     @dbclick="doubleClick"
                     :bubble="bubble"
-                    :reload="dataTableReload">
+                    :reload="dataTableReload" :page-size="15">
                     <el-table-column label="序号" align="center" type="index" width="65"> 
                     </el-table-column>
 

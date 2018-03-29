@@ -85,11 +85,17 @@
     
                     <el-row>
                         <el-col :span="12">
-                            <el-form-item v-for="(items,index) in rowInfoForm.express" :label="'快递号'+index" :key="index" :prop="'express.'+index+'.value'">
-                                <el-input placeholder="快递号" size="small" v-model="items.value"></el-input>
-                                <el-button v-if="index!==0" @click.prevent="removeExpress(items)">删除</el-button>
+                            <el-form-item v-for="(items,index) in rowInfoForm.express" :label="'快递号'+(index+1)" 
+                                :key="index" :prop="'express.'+index+'.value'">
+
+                                <el-input placeholder="快递号" size="small" v-model="items.value">
+                                </el-input>
+                                <el-button v-if="index!==0" size="small" type="warning" @click.prevent="removeExpress(items)">
+                                    删除
+                                </el-button>
                             </el-form-item>
-                            <el-button size="small" type="info" icon="plus" @click="addExpress"></el-button>
+                            <el-button style="margin:-10px 0 0 10px" size="small" type="info" icon="plus" @click="addExpress">
+                            </el-button>
                         </el-col>
                     </el-row>
                 </div>

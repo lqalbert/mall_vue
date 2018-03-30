@@ -175,7 +175,11 @@
                             <el-table-column prop="after_goods_name" label="换后商品名称"  align="center"></el-table-column>
                             <el-table-column prop="after_goods_num" label="换后数量"  align="center"></el-table-column>
                             <el-table-column prop="exchange_reason" label="换货原因"  align="center"></el-table-column>
-                            <el-table-column prop="in_inventory" label="退货是否入库"  align="center"></el-table-column>
+                            <el-table-column prop="in_inventory" label="退货是否入库"  align="center">
+                                <template slot-scope="scope">
+                                    {{setInInventory(scope.row.in_inventory)}}
+                                </template>
+                            </el-table-column>
                             <el-table-column prop="user_name" label="操作人"  align="center"></el-table-column>
                             <el-table-column prop="exchange_at" label="操作时间"  align="center"></el-table-column>
                         </el-table>
@@ -301,7 +305,10 @@
                 bubble:null,
                 types:[],
                 distributors:[],
-
+                InInventory:[
+                    '是',
+                    '否'
+                ],
                 tabFirst : false,
                 tabSecond : false,
                 tabThird : false,
@@ -335,6 +342,10 @@
             }
         },
         methods: {
+            setInInventory(v){
+                let res = this.InInventory[v-1];
+                return res;
+            },
             searchToolChange(){
                 console.log(this.searchForm);
             },

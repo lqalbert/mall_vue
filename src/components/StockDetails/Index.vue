@@ -75,24 +75,24 @@
             </el-col>
         </el-row>
         <el-row>
-            <el-col :span="24">
+            <el-col>
                 <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" :bubble="bubble"  :page-size="20" >
-                        <el-table-column label="序号" align="center" type="index" width="65"></el-table-column>
-                        <el-table-column prop="entrepot.name" label="配送中心" width="180" align="center"></el-table-column>
-                        <el-table-column prop="goods_name" label="商品名称" width="180" align="center"></el-table-column>
-                        <el-table-column prop="entrepot_count" label="库存数量" width="180" align="center"></el-table-column>
-                        <el-table-column prop="entrepot_in" label="生产入库数量" align="center"></el-table-column>
-                        <el-table-column prop="return_num" label="退货入库数量" align="center"></el-table-column>
-                        <el-table-column prop="order_lock" label="销售锁定数" align="center"></el-table-column>
-                        <el-table-column prop="assign_lock" label="发货锁定数" align="center"></el-table-column>
-                        <el-table-column prop="exchange_lock" label="换货锁定数" align="center"></el-table-column>
-                        <el-table-column prop="last_production_in_time" label="最后生产入库时间(暂未实现)" align="center"></el-table-column>
-                        <div slot="buttonbar">
-                                <el-button size="small"  type="info" @click="addProduction2" >生产入库</el-button>
-                                <el-button size="small" type="info" @click="backProduction">退货登记</el-button>
-                                <el-button size="small" type="info" @click="badProduction">坏货登记</el-button>
-                                <el-button size="small" type="info" @click="exchangeProduction">换货登记</el-button>
-                        </div> 
+                    <el-table-column label="序号" align="center" type="index" width="65"></el-table-column>
+                    <el-table-column prop="entrepot.name" label="配送中心" width="180" align="center"></el-table-column>
+                    <el-table-column prop="goods_name" label="商品名称" width="180" align="center"></el-table-column>
+                    <el-table-column prop="entrepot_count" label="库存数量" width="180" align="center"></el-table-column>
+                    <el-table-column prop="entrepot_in" label="生产入库数量" align="center"></el-table-column>
+                    <el-table-column prop="return_num" label="退货入库数量" align="center"></el-table-column>
+                    <el-table-column prop="order_lock" label="销售锁定数" align="center"></el-table-column>
+                    <el-table-column prop="assign_lock" label="发货锁定数" align="center"></el-table-column>
+                    <el-table-column prop="exchange_lock" label="换货锁定数" align="center"></el-table-column>
+                    <el-table-column prop="last_production_in_time" label="最后生产入库时间(暂未实现)" align="center"></el-table-column>
+                    <div slot="buttonbar">
+                        <el-button size="small"  type="info" @click="addProduction2" >生产入库</el-button>
+                        <el-button size="small" type="info" @click="backProduction">退货登记</el-button>
+                        <el-button size="small" type="info" @click="badProduction">坏货登记</el-button>
+                        <el-button size="small" type="info" @click="exchangeProduction">换货登记</el-button>
+                    </div> 
                 </TableProxy>
                
             </el-col>
@@ -100,7 +100,7 @@
         <br>
         <el-row>
             <el-col :span="24">
-                <el-tabs v-model="activeName">
+                <el-tabs v-model="activeName" type="border-card">
                     <el-tab-pane label="生产入库" name="First">
                         <el-table :data="productionListData" empty-text="暂无数据" border>
                             <el-table-column label="序号" align="center" type="index" width="65"></el-table-column>
@@ -169,15 +169,15 @@
 
                     <el-tab-pane label="换货锁定(通过审核之后生成)" name="Sixth">
                         <el-table :data="exchangeLockListData" empty-text="暂无数据" border>
-                            <el-table-column prop="customer_name" label="客户姓名"  align="center"></el-table-column>
-                            <el-table-column prop="old_goods_name" label="原商品名称"  align="center"></el-table-column>
-                            <el-table-column prop="old_goods_number" label="原数量"  align="center"></el-table-column>
-                            <el-table-column prop="new_goods_name" label="更换后商品名称"  align="center"></el-table-column>
-                            <el-table-column prop="new_goods_number" label="更换后数量"  align="center"></el-table-column>
+                            <el-table-column prop="cus_name" label="客户姓名"  align="center"></el-table-column>
+                            <el-table-column prop="before_goods_name" label="原商品名称"  align="center"></el-table-column>
+                            <el-table-column prop="before_goods_num" label="原商品数量"  align="center"></el-table-column>
+                            <el-table-column prop="after_goods_name" label="换后商品名称"  align="center"></el-table-column>
+                            <el-table-column prop="after_goods_num" label="换后数量"  align="center"></el-table-column>
                             <el-table-column prop="exchange_reason" label="换货原因"  align="center"></el-table-column>
-                            <el-table-column prop="if_in_warehouse" label="退货是否入库"  align="center"></el-table-column>
-                            <el-table-column prop="operation_name" label="操作人"  align="center"></el-table-column>
-                            <el-table-column prop="operation_time" label="操作时间"  align="center"></el-table-column>
+                            <el-table-column prop="in_inventory" label="退货是否入库"  align="center"></el-table-column>
+                            <el-table-column prop="user_name" label="操作人"  align="center"></el-table-column>
+                            <el-table-column prop="exchange_at" label="操作时间"  align="center"></el-table-column>
                         </el-table>
                     </el-tab-pane>
                 </el-tabs>
@@ -214,6 +214,8 @@
         <exchange-dialog
             name="exchangeProduction"
             :ajax-proxy="ajaxProxy"
+            :distributors="distributors"
+            :types="types"
             @submit-success="handleReload">
         </exchange-dialog>
 
@@ -245,6 +247,7 @@
     import OrderGoodsSelectProxy from '../../packages/OrderGoodsSelectProxy';
     import AssignSelectProxy from '../../packages/AssignSelectProxy';
     import ReturnRecordSelectProxy from '@/packages/ReturnRecordSelectProxy';
+    import InventoryExchangeSelectProxy from '@/packages/InventoryExchangeSelectProxy';
     
     import { mapGetters } from 'vuex';
 
@@ -270,52 +273,8 @@
                 backListData: [],
                 saleLockListData: [],
                 sendLockListData: [],
-                sendInTheWayListData: [
-                    {
-                        customer_name:'三佬',
-                        goods_name:'爽肤水',
-                        send_number:'3',
-                        send_odd_number:'1324546',
-                        express_order:'465897845465',
-                        express_company:'顺丰',
-                        sale_name:"销售二部-猛虎队-李四",
-                        send_time:"2018-03-10 15:23:40",
-                        send_name:'张三'
-                    }, {
-                        customer_name:'三佬',
-                        goods_name:'爽肤水',
-                        send_number:'3',
-                        send_odd_number:'1324546',
-                        express_order:'465897845465',
-                        express_company:'顺丰',
-                        sale_name:"销售二部-猛虎队-李四",
-                        send_time:"2018-03-10 15:23:40",
-                        send_name:'张三'
-                    },
-                ],
-                exchangeLockListData: [
-                    {
-                        customer_name:"四佬",
-                        old_goods_name:"爽肤水",
-                        old_goods_number:"4",
-                        new_goods_name  :"面膜",
-                        new_goods_number  :"6",
-                        exchange_reason  :"尝试下新商品",
-                        if_in_warehouse  :"是",
-                        operation_name  :"张三",
-                        operation_time  :"2018-03-10 15:23:40",
-                    },{
-                        customer_name:"四佬",
-                        old_goods_name:"爽肤水",
-                        old_goods_number:"4",
-                        new_goods_name  :"面膜",
-                        new_goods_number  :"6",
-                        exchange_reason  :"尝试下新商品",
-                        if_in_warehouse  :"是",
-                        operation_name  :"张三",
-                        operation_time  :"2018-03-10 15:23:40",
-                    },
-                ],
+                sendInTheWayListData: [],
+                exchangeLockListData: [],
                 
                 groups: [],
                 users: [],
@@ -361,38 +320,30 @@
                 console.log('index addDialog', val);
             },
             activeName(val, oldVal) {
-                this['tab'+this.activeName+"Handel"].call(this, this.currentRow);
+                if(!this['tab'+val] && this.currentRow !== null){
+                    this['tab'+val+"Handel"].call(this, this.currentRow);
+                }
             },
             currentRow(val, oldVal){
+                this['tab'+this.activeName+"Handel"].call(this, this.currentRow);
                 this.tabFirst  = false;
                 this.tabSecond = false;
                 this.tabThird  = false;
                 this.tabFourth = false;
                 this.tabFifth  = false;
                 this.tabSixht  = false;
-
-                this['tab'+this.activeName+"Handel"].call(this, val);
             }
         },
         methods: {
             searchToolChange(){
                 console.log(this.searchForm);
-            } ,
-            onCurrentChange(currentRow){
-                console.log(currentRow);
-                this.currentRow = currentRow;
-            } ,
-            doubleClick:function (row) {
-                // this.getUsersAjax(row.id);
-                // this.emSelect.setParam({
-                //     group_id:row.id,
-                //     fields:['id','realname', 'mobilephone', 'qq'],
-                //     with:['roles']
-                // });
-                // this.emSelect.load();
-                // let categoryProxy = new SelectProxy(this.url+'/'+row.id,this.userLoaded, this,);
-                // categoryProxy.load();
             },
+            onCurrentChange(currentRow){
+                this.currentRow = currentRow;
+            },
+            // showRow:function (row) {
+            //     //console.log(row);
+            // },
             userLoaded(data){
                 this.tableData1=data.items;
             }, getAjaxProxy(){
@@ -486,6 +437,7 @@
                     start:this.searchForm.start,
                     end:this.searchForm.end
                 }).load();
+                this.tabFirst = true;
             },
             tabSecondHandel(row){
                 this.returnRecord.setParam({
@@ -494,6 +446,7 @@
                     start:this.searchForm.start,
                     end:this.searchForm.end
                 }).load();
+                this.tabSecond = true;
             },
             tabThirdHandel (row){
                 // console.log('handel');
@@ -504,6 +457,7 @@
                     end:this.searchForm.end,
                     load:['order']
                 }).load();
+                this.tabThird = true;
             },
             tabFourthHandel(row){
                 //后端start end 日期没加上
@@ -514,6 +468,7 @@
                     end:this.searchForm.end,
                     status:0
                 }).load();
+                this.tabFourth = true;
             },
             tabFifthHandel(row){
                 this.assignProxy.setParam({
@@ -523,9 +478,11 @@
                     end:this.searchForm.end,
                     status:1
                 }).load();
+                this.tabFifth = true;
             },
-            tabSixhtHandel(row){
-                
+            tabSixthHandel(row){
+                this.InventoryExchangeProxy.setParam({}).load();
+                this.tabSixth = true;
             },
             loadProduct(data){
                 this.productionListData = data.items;
@@ -538,7 +495,10 @@
             },
             loadReturn(data){
                 this.backListData = data.items;
-            }
+            },
+            loadExchange(data){
+                this.exchangeLockListData = data.items;
+            },
 
         },
         created() {
@@ -573,6 +533,7 @@
             this.OrderGoodsProxy   = new OrderGoodsSelectProxy({}, this.loadOrderGoods, this);
             this.assignProxy   = new AssignSelectProxy({}, this.loadAssin, this);
             this.returnRecord  = new ReturnRecordSelectProxy({}, this.loadReturn, this);
+            this.InventoryExchangeProxy  = new InventoryExchangeSelectProxy({}, this.loadExchange, this);
 
 
 

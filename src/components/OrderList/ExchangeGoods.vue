@@ -149,10 +149,10 @@
                                 <el-row>
                                     <el-col :span="16">
                                         <el-form-item v-for="(items,index) in rowInfoForm.express" :label="'快递号'+(index+1)"
-                                                      :key="index" :prop="'express.'+index+'.value'">
+                                                      :key="index" :prop="'express.'+index+'.express_sn'">
 
                                                     <el-col :span="12">
-                                                        <el-input placeholder="快递号" size="small" v-model="items.value">
+                                                        <el-input placeholder="快递号" size="small" v-model="items.express_sn">
                                                         </el-input>
                                                     </el-col>
                                                     <el-col :span="1">&nbsp;</el-col>
@@ -166,8 +166,7 @@
                                             <el-button   size="small" type="info" icon="plus" @click="addExpress">添加快递号
                                             </el-button>
                                         </el-form-item>
-                                        <el-button style="margin:-10px 0 0 10px" size="small" type="info" icon="plus" @click="addExpress">
-                                        </el-button>
+                                        
                                     </el-col>
                                 </el-row>
                     </div>
@@ -262,13 +261,7 @@
                 ]),
             },
             methods: {
-                getAjaxPromise(model) {
-                    for (let i = 0; i < model.goods.length; i++) {
-                        let element = model.goods[i];
-                        element.goods_num = element.goods_number;
-                    }
-                    return AfterSaleAjaxProxy.create(model);
-                },
+                
                 removeExpress(item){
                     var index = this.rowInfoForm.express.indexOf(item);
                     if (index !== -1) {
@@ -388,8 +381,15 @@
                     this.active = 0;
                     this.addOther = false;
                 },
+                // getAjaxPromise(model) {
+                //     return this.ajaxProxy.update(model.id, model);
+                // },
                 getAjaxPromise(model) {
-                    return this.ajaxProxy.update(model.id, model);
+                    for (let i = 0; i < model.goods.length; i++) {
+                        let element = model.goods[i];
+                        element.goods_num = element.goods_number;
+                    }
+                    return AfterSaleAjaxProxy.create(model);
                 },
                 handleSelectionChange(v){
                     for(let i in v){

@@ -32,7 +32,7 @@
                     <!-- /订单客户信息 -->
                     <!--  订单商品信息 -->
                     <el-tab-pane label="订单商品信息" name="Second">
-                        <el-table :data="goodstableData"    border   empty-text="请点击客户显示跟踪信息">
+                        <el-table :data="goodstableData"    border   empty-text="暂无数据">
         
                             <el-table-column prop="goods_name" label="商品名称" align="center">
                             </el-table-column>
@@ -61,7 +61,7 @@
                     <!--  / 订单收货地址 -->
                     <!-- 订单操作记录  -->
                     <el-tab-pane label="订单操作记录" name="Fourth">
-                        <el-table :data="manageData" empty-text="请点击客户显示跟踪信息" border style="width: 100%">
+                        <el-table :data="manageData" empty-text="暂无数据" border style="width: 100%">
                             <el-table-column prop="order_id" label="订单id" align="center">
                             </el-table-column>
                             <el-table-column prop="order_action" label="操作动作" align="center">
@@ -78,7 +78,7 @@
                     <!-- /订单操作记录 -->
                     <!-- 订单发货信息 -->
                     <el-tab-pane label="订单发货信息" name="Fifth">
-                        <el-table :data="assignData" empty-text="请点击客户显示跟踪信息" border style="width: 100%">
+                        <el-table :data="assignData" empty-text="暂无数据" border style="width: 100%">
                             <el-table-column prop="user_name" label="发货人员" align="center">
                             </el-table-column>
                             <el-table-column prop="express_name" label="快递公司" align="center">

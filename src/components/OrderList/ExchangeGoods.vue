@@ -61,7 +61,7 @@
                                     <el-table-column label="单价"  prop="price" width="100"></el-table-column>
                                     <el-table-column label="操作"  width="100">
                                         <template slot-scope="scope">
-                                            <el-button type="danger" @click="del_row(scope.$index)"　size="small">删除</el-button>
+                                            <el-button type="danger" @click="del_row(scope.$index)" size="small">删除</el-button>
                                         </template>
                                     </el-table-column>
                                 </el-table>
@@ -123,7 +123,7 @@
                     </div>
                     <div v-show="active == 2">
                         <h5>备注</h5>
-                        <el-row>
+                        <el-row v-show="false">
                             <el-col :span="20">
                                 <el-form-item label="差价计算">
                                     <el-col :span="8">
@@ -135,7 +135,6 @@
                                     </el-col>
                                 </el-form-item>
                             </el-col>
-                            
                         </el-row>
                         <el-row>
                             <el-col :span="12">
@@ -150,7 +149,7 @@
                                     <el-col :span="12">
                                         <el-form-item v-for="(items,index) in rowInfoForm.express" :label="'快递号'+(index+1)"
                                                       :key="index" :prop="'express.'+index+'.value'">
-                                            <el-input placeholder="快递号" size="small" v-model="items.value">
+                                            <el-input placeholder="快递号" size="small" v-model="items.express_sn">
                                             </el-input>
                                             <el-button v-if="index!==0" size="small" type="warning" @click.prevent="removeExpress(items)">
                                                 删除
@@ -190,6 +189,10 @@
         import SelectProxy from  '../../packages/SelectProxy';
         import EntrepotProductAjaxProxy from '@/ajaxProxy/EntrepotProduct';
         import GoodsSelectProxy from '../../packages/GoodsSelectProxy';
+
+        import AfterSaleAjaxProxy from '@/ajaxProxy/AfterSale';
+
+        import { mapGetters } from 'vuex';
         export default {
             name: 'ExchangeGoods',
             mixins: [DialogForm],
@@ -213,11 +216,17 @@
                     rowInfoForm: {
                         order_id: "",
                         goods: [],
-                        refund:"",
+                        refund:0.00,
                         express:[
-                            {value:''}
+                            {express_sn:''}
                         ],
                         remark:'',
+                        type:1,
+                        user_id:'',
+                        user_name:'',
+                        group_id:'',
+                        department_id:'',
+
                     },
                     exchangeForm:{
                         dev:[],
@@ -236,8 +245,19 @@
                     active:0
                 }
             },
-    
+            computed:{
+                ...mapGetters([
+                    'getUser'
+                ]),
+            },
             methods: {
+                getAjaxPromise(model) {
+                    for (let i = 0; i < model.goods.length; i++) {
+                        let element = model.goods[i];
+                        element.goods_num = element.goods_number;
+                    }
+                    return AfterSaleAjaxProxy.create(model);
+                },
                 removeExpress(item){
                     var index = this.rowInfoForm.express.indexOf(item);
                     if (index !== -1) {
@@ -255,10 +275,12 @@
 
                 },
                 difference_price(){
-                    return   this.difference_money = (this.sum_price(this.rowInfoForm.goods) - this.model.order_all_money).toFixed(2);
+                    this.difference_money = (this.sum_price(this.rowInfoForm.goods) - this.model.order_all_money).toFixed(2);
+                    this.rowInfoForm.refund = this.difference_money;
+                    return   this.difference_money;
                 },
                 addExpress(){
-                    this.rowInfoForm.express.push({ value: '' });
+                    this.rowInfoForm.express.push({ express_sn: '' });
                 },
                 addOrder(){
                     var vmthis = this;
@@ -339,19 +361,21 @@
                     OrderGoodsAjaxProxy.get({order_id: this.model.id}).then((response)=>{
                         response.data.items.forEach(element => {
                             element.goods_num = parseInt(element.goods_number);
+                            element.type = 2;
                         });
                         this.goods = response.data.items;
                         this.rowInfoForm.goods=this.goods.slice(0);
                     });
                     this.rowInfoForm.order_id = this.model.id;
+                    this.rowInfoForm.user_id = this.getUser.id;
+                    this.rowInfoForm.user_name = this.getUser.realname;
+                    this.rowInfoForm.group_id = this.getUser.group_id;
+                    this.rowInfoForm.department_id = this.getUser.department_id;
                 },
                 onBeforeClose(){
                     this.multipleSelection = [];
                     this.active = 0;
                     this.addOther = false;
-                },
-                getAjaxPromise(model) {
-                    return this.ajaxProxy.update(model.id, model);
                 },
                 handleSelectionChange(v){
                     for(let i in v){
@@ -380,9 +404,9 @@
                     this.rowInfoForm.goods.splice(index,1);
                 },
                 numberChange(){
-                    this.$nextTick(function(){
-                        this.sumPrice();
-                    });
+                    // this.$nextTick(function(){
+                    //     this.sumPrice();
+                    // });
                 },
                 sumPrice(){
                     if (this.multipleSelection.length > 0) {
@@ -398,6 +422,10 @@
                 },
                 changeNew(){
                     if(this.rowInfoForm.goods.length < this.goods.length){
+                        for (let i = 0; i < this.multipleSelection.length; i++) {
+                            let element = this.multipleSelection[i];
+                            element.type = 1;
+                        }
                         this.rowInfoForm.goods= this.rowInfoForm.goods.concat(this.multipleSelection);
                     }else{
                         return false;
@@ -409,7 +437,7 @@
             },
             watch: {
                 multipleSelection:function(val, oldVal){
-                    this.sumPrice();
+                    //this.sumPrice();
                 }
             },
             created(){

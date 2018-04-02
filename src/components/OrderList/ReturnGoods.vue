@@ -70,7 +70,7 @@
     
                     <el-row>
                         <el-col :span="16">
-                            <el-form-item v-for="(items,index) in rowInfoForm.express" :label="'快递号'+index" :key="index" :prop="'express.'+index+'.value'">
+                            <el-form-item v-for="(items,index) in rowInfoForm.express" :label="'快递号'+(index+1)" :key="index" :prop="'express.'+index+'.value'">
                                 <el-col :span="10"><el-input placeholder="快递号" size="small" v-model="items.express_sn"></el-input></el-col>
                                 <el-col :span="1">&nbsp;</el-col>
                                 <el-col :span="5"><el-button v-if="index!==0" size="small" @click.prevent="removeExpress(items)">删除</el-button></el-col>

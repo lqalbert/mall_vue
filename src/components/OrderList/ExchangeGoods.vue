@@ -61,7 +61,7 @@
                                     <el-table-column label="单价"  prop="price" width="100"></el-table-column>
                                     <el-table-column label="操作"  width="100">
                                         <template slot-scope="scope">
-                                            <el-button type="danger" @click="del_row(scope.$index)" size="small">删除</el-button>
+                                            <el-button type="danger" @click="del_row(scope.$index)"　size="small">删除</el-button>
                                         </template>
                                     </el-table-column>
                                 </el-table>
@@ -123,7 +123,7 @@
                     </div>
                     <div v-show="active == 2">
                         <h5>备注</h5>
-                        <el-row v-show="false">
+                        <!-- <el-row>
                             <el-col :span="20">
                                 <el-form-item label="差价计算">
                                     <el-col :span="8">
@@ -135,7 +135,8 @@
                                     </el-col>
                                 </el-form-item>
                             </el-col>
-                        </el-row>
+                            
+                        </el-row> -->
                         <el-row>
                             <el-col :span="12">
                                 <el-form-item label="备注" prop="remark">
@@ -146,13 +147,23 @@
                         </el-row>
 
                                 <el-row>
-                                    <el-col :span="12">
+                                    <el-col :span="16">
                                         <el-form-item v-for="(items,index) in rowInfoForm.express" :label="'快递号'+(index+1)"
                                                       :key="index" :prop="'express.'+index+'.value'">
-                                            <el-input placeholder="快递号" size="small" v-model="items.express_sn">
-                                            </el-input>
-                                            <el-button v-if="index!==0" size="small" type="warning" @click.prevent="removeExpress(items)">
-                                                删除
+
+                                                    <el-col :span="12">
+                                                        <el-input placeholder="快递号" size="small" v-model="items.value">
+                                                        </el-input>
+                                                    </el-col>
+                                                    <el-col :span="1">&nbsp;</el-col>
+                                                    <el-col :span="5">
+                                                        <el-button v-if="index!==0" size="small"   @click.prevent="removeExpress(items)">
+                                                            删除
+                                                        </el-button>
+                                                    </el-col>
+                                        </el-form-item>
+                                        <el-form-item>
+                                            <el-button   size="small" type="info" icon="plus" @click="addExpress">添加快递号
                                             </el-button>
                                         </el-form-item>
                                         <el-button style="margin:-10px 0 0 10px" size="small" type="info" icon="plus" @click="addExpress">
@@ -377,6 +388,9 @@
                     this.active = 0;
                     this.addOther = false;
                 },
+                getAjaxPromise(model) {
+                    return this.ajaxProxy.update(model.id, model);
+                },
                 handleSelectionChange(v){
                     for(let i in v){
                         let index =  this.rowInfoForm.goods.indexOf(v[i]);
@@ -404,9 +418,9 @@
                     this.rowInfoForm.goods.splice(index,1);
                 },
                 numberChange(){
-                    // this.$nextTick(function(){
-                    //     this.sumPrice();
-                    // });
+                    this.$nextTick(function(){
+                        this.sumPrice();
+                    });
                 },
                 sumPrice(){
                     if (this.multipleSelection.length > 0) {

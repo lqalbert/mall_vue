@@ -22,7 +22,7 @@
             <el-col>
                  <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload">
 
-                    <el-table-column label="ID" align="center" prop="id"></el-table-column>
+                    <el-table-column label="序号" align="center" type="index" width="80"></el-table-column>
 
                     <el-table-column prop="name" label="名称" align="center"></el-table-column>
 

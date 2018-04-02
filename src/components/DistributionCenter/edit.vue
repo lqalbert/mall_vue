@@ -77,30 +77,6 @@
                 labelPosition:"right",
                 labelWidth:'80px',
                 computedusers:[],
-                text:'满',
-                number:21354,
-                allNumber:50,
-                putNumber:20,
-                types: [
-                    {id:1,name:'面膜'},
-                    {id:2,name:'爽肤水'},
-                ],
-                productNames: [
-                    {id:1,name:'面膜 6张'},
-                    {id:2,name:'爽肤水 200ml'},
-                ],
-                storageUsers: [
-                    {id:1,name:'张三'},
-                    {id:2,name:'李四'},
-                ],
-                departments:[
-                    {id:1,name:'面膜'},
-                    {id:2,name:'爽肤水'},
-                ],
-                distributors: [
-                    {id:1,name:'顺丰'},
-                    {id:2,name:'圆通'},
-                ],
                 editForm:{
                     id:'',
                     name: "",
@@ -126,7 +102,8 @@
                         { required: true,message:'请输入联系人电话', type: 'string', trigger:'blur'}
                     ],
                     address:[
-                        { required: true, message:'请输入地址', type: 'string', trigger:'blur'}
+                        { required: true, message:'请输入地址', type: 'string', trigger:'blur'},
+                        {   max: 200, message: '长度不能超过200个字符', trigger: 'blur'  }
                     ],
                 }
             }

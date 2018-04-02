@@ -70,15 +70,14 @@
                         <br>
                         <el-row>
                             <el-col :span="24">
-                                <el-button size="small" @click="changeNew">修改原数量</el-button>
+                                <el-button size="small" @click="changeNew">直接换新</el-button>
                                 <el-button size="small" @click="changeOther">添加新商品</el-button>
                             </el-col>
                         </el-row>
                         <div v-show="addOther">
                             <br>
                              <el-form ref="exchangeForm" :model="exchangeForm">
-                                 <el-row>
-                                 <el-col :span="24">
+                                
                                      <el-row>
                                          <el-col :span="12">
                                                  <el-form-item label="商品分类" prop="dev">
@@ -111,14 +110,13 @@
                                                  <el-input type="textarea" class="name-input"  v-model="exchangeForm.remark"  placeholder="备注" ></el-input>
                                              </el-form-item>
                                          </el-col>
-                                         <el-col :span="12">
-                                             <el-form-item >
-                                                 <el-button size="small" type="info" @click="addOrder">添加</el-button>
-                                             </el-form-item>
+                                     </el-row>
+                                     <el-row type="flex" justify="center">
+                                         <el-col :span="5">
+                                            <el-button size="small" type="info" @click="addOrder">添加</el-button>
                                          </el-col>
                                      </el-row>
-                                 </el-col>
-                             </el-row>
+                                 
                              </el-form>
                         </div>
                         
@@ -350,6 +348,7 @@
                 onBeforeClose(){
                     this.multipleSelection = [];
                     this.active = 0;
+                    this.addOther = false;
                 },
                 getAjaxPromise(model) {
                     return this.ajaxProxy.update(model.id, model);

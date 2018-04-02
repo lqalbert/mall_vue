@@ -115,7 +115,9 @@ export default {
             // goods_name:'',
             // pay_name:'',
             status:0,
-            appends:['status_text']
+            appends:['status_text'],
+            // orderField:''
+
         },
           total:100,
           buyer:[],

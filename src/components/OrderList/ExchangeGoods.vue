@@ -123,7 +123,7 @@
                     </div>
                     <div v-show="active == 2">
                         <h5>备注</h5>
-                        <el-row>
+                        <!-- <el-row>
                             <el-col :span="20">
                                 <el-form-item label="差价计算">
                                     <el-col :span="8">
@@ -136,7 +136,7 @@
                                 </el-form-item>
                             </el-col>
                             
-                        </el-row>
+                        </el-row> -->
                         <el-row>
                             <el-col :span="12">
                                 <el-form-item label="备注" prop="remark">
@@ -147,17 +147,26 @@
                         </el-row>
 
                                 <el-row>
-                                    <el-col :span="12">
+                                    <el-col :span="16">
                                         <el-form-item v-for="(items,index) in rowInfoForm.express" :label="'快递号'+(index+1)"
                                                       :key="index" :prop="'express.'+index+'.value'">
-                                            <el-input placeholder="快递号" size="small" v-model="items.value">
-                                            </el-input>
-                                            <el-button v-if="index!==0" size="small" type="warning" @click.prevent="removeExpress(items)">
-                                                删除
+
+                                                    <el-col :span="12">
+                                                        <el-input placeholder="快递号" size="small" v-model="items.value">
+                                                        </el-input>
+                                                    </el-col>
+                                                    <el-col :span="1">&nbsp;</el-col>
+                                                    <el-col :span="5">
+                                                        <el-button v-if="index!==0" size="small"   @click.prevent="removeExpress(items)">
+                                                            删除
+                                                        </el-button>
+                                                    </el-col>
+                                        </el-form-item>
+                                        <el-form-item>
+                                            <el-button   size="small" type="info" icon="plus" @click="addExpress">添加快递号
                                             </el-button>
                                         </el-form-item>
-                                        <el-button style="margin:-10px 0 0 10px" size="small" type="info" icon="plus" @click="addExpress">
-                                        </el-button>
+                                        
                                     </el-col>
                                 </el-row>
                     </div>

@@ -103,159 +103,158 @@ export default {
       checkDialog
     },
     data () {
-      return {
-        ajaxProxy:OrderBasic,
-        orderBasicAjaxProxy:OrderBasic,
-        mainurl:OrderBasic.getUrl(),
-        mainparam:"",
-        msg: 'Welcome to Your Vue.js App',
-        searchForm:{
-            cus_name:'',
-            deal_name:'',
-            // goods_name:'',
-            // pay_name:'',
-            status:0,
-            appends:['status_text'],
-            // orderField:''
+        return {
+            ajaxProxy:OrderBasic,
+            orderBasicAjaxProxy:OrderBasic,
+            mainurl:OrderBasic.getUrl(),
+            mainparam:"",
+            msg: 'Welcome to Your Vue.js App',
+            searchForm:{
+                cus_name:'',
+                deal_name:'',
+                // goods_name:'',
+                // pay_name:'',
+                status:0,
+                appends:['status_text'],
+                // orderField:''
 
-        },
-          total:100,
-          buyer:[],
-          users:[],
-          dataLoad:false,
-          currentPage4:1,
-          tableData:'',
-          pickerOptions2: {
-              shortcuts: [{
-                  text: '最近一周',
-                  onClick(picker) {
-                      const end = new Date();
-                      const start = new Date();
-                      start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-                      picker.$emit('pick', [start, end]);
-                  }
-              }, {
-                  text: '最近一个月',
-                  onClick(picker) {
-                      const end = new Date();
-                      const start = new Date();
-                      start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-                      picker.$emit('pick', [start, end]);
-                  }
-              }, {
-                  text: '最近三个月',
-                  onClick(picker) {
-                      const end = new Date();
-                      const start = new Date();
-                      start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-                      picker.$emit('pick', [start, end]);
-                  }
-              }]
-          },
-          value6: '',
-          value7: ''
-      }
+            },
+                total:100,
+                buyer:[],
+                users:[],
+                dataLoad:false,
+                currentPage4:1,
+                tableData:'',
+                pickerOptions2: {
+                    shortcuts: [{
+                        text: '最近一周',
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+                            picker.$emit('pick', [start, end]);
+                        }
+                    }, {
+                        text: '最近一个月',
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+                            picker.$emit('pick', [start, end]);
+                        }
+                    }, {
+                        text: '最近三个月',
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+                            picker.$emit('pick', [start, end]);
+                        }
+                    }]
+                },
+                value6: '',
+                value7: ''
+        }
     },
     methods:{
-      getAjaxProxy(){
-          return  this.ajaxProxy;
-      },
-      refresh(){
-          this.$emit('refresh-success');
-      },
-      showRow(row){
-//        this.$modal.show('showRow',{row:row});
-          this.$modal.show('showRow',{rowData:row});
-      },
-      handleCheck(row){
-        this.$modal.show('check',{row:row});
-      },
-      show_all:function(){
-          this.searchForm.type = '';
-          this.searchForm.deliver = '';
-          this.searchForm.goods_name = '';
-          this.searchForm.consignee = '';
-          this.searchForm.id = '';
-          this.searchForm.sale_name = '';
-          this.searchForm.end = '';
-          this.searchForm.condition = '';
-          this.searchForm.type = '';
-          this.searchForm.deliver = '';
-          this.searchForm.value7 = '';
-          this.searchToolChange('searchForm');
-          this.refresh();
-      },
-      mainTableLoad(data){
-          this.toggleTableLoad();
-          this.tableData = data.items;
-          this.total = data.total;
-      },
-      currentChange(v){
-          this.toggleTableLoad();
-          this.mainProxy.setPage(v).load();
-      },
-      searchToolReset(name){
-          this.$refs[name].resetFields();
-          this.$emit('search-tool-change', this[name]);
-          this.refresh();
-      },
-      loadbuyer(data) {
-          this.buyer = data.items;
-      },
-      loadUsers(data) {
-          this.users = data.items;
-      },
-      toggleTableLoad(){
-          this.dataLoad = !this.dataLoad;
-      },
+        getAjaxProxy(){
+            return  this.ajaxProxy;
+        },
+        refresh(){
+            this.$emit('refresh-success');
+        },
+        showRow(row){
+    //        this.$modal.show('showRow',{row:row});
+            this.$modal.show('showRow',{rowData:row});
+        },
+        handleCheck(row){
+            this.$modal.show('check',{row:row});
+        },
+        show_all:function(){
+            this.searchForm.type = '';
+            this.searchForm.deliver = '';
+            this.searchForm.goods_name = '';
+            this.searchForm.consignee = '';
+            this.searchForm.id = '';
+            this.searchForm.sale_name = '';
+            this.searchForm.end = '';
+            this.searchForm.condition = '';
+            this.searchForm.type = '';
+            this.searchForm.deliver = '';
+            this.searchForm.value7 = '';
+            this.searchToolChange('searchForm');
+            this.refresh();
+        },
+        mainTableLoad(data){
+            this.toggleTableLoad();
+            this.tableData = data.items;
+            this.total = data.total;
+        },
+        currentChange(v){
+            this.toggleTableLoad();
+            this.mainProxy.setPage(v).load();
+        },
+        searchToolReset(name){
+            this.$refs[name].resetFields();
+            this.$emit('search-tool-change', this[name]);
+            this.refresh();
+        },
+        loadbuyer(data) {
+            this.buyer = data.items;
+        },
+        loadUsers(data) {
+            this.users = data.items;
+        },
+        toggleTableLoad(){
+            this.dataLoad = !this.dataLoad;
+        },
 //      onSearchChange(param) {
 //              this.toggleTableLoad();
 //              this.mainProxy.setExtraParam(param).load();
 //      },
         onSearchChange(param){
-          console.log(11111);
-          console.log(JSON.stringify(param));
             this.mainparam = JSON.stringify(param);
         },
-      buyTimeDateChange(v){
-        this.searchForm.buy_time = v;
-      },
-      mainTableLoad(data){
-          this.toggleTableLoad();
-          this.tableData = data.items;
-          this.total = data.total;
-      },
-      toggleTableLoad(){
-          this.dataLoad = !this.dataLoad;
-      },
-      startDateChange:function(v){
-          var date = v.split('/');
-          this.searchForm.start = date[0]+" 00:00:00";
-          this.searchForm.end = date[1]+" 23:59:59";
-      },
+        buyTimeDateChange(v){
+            this.searchForm.buy_time = v;
+        },
+        mainTableLoad(data){
+            this.toggleTableLoad();
+            this.tableData = data.items;
+            this.total = data.total;
+        },
+        toggleTableLoad(){
+            this.dataLoad = !this.dataLoad;
+        },
+        startDateChange:function(v){
+            var date = v.split('/');
+            this.searchForm.start = date[0]+" 00:00:00";
+            this.searchForm.end = date[1]+" 23:59:59";
+        },
 
     },
 
-     created(){
-         let selectProxy = new SelectProxy(BuyerAjaxProxy.getUrl(), this.loadbuyer, this);
-         selectProxy.load();
-         let orderProxy = new UsersSelectProxy(null, this.loadUsers, this);
-         this.orderProxy = orderProxy;
-         this.orderProxy.load();
-         this.$on('search-tool-change', this.onSearchChange);
-         this.$on('refresh-success', this.handleReload);
-     },
+    created(){
+        let selectProxy = new SelectProxy(BuyerAjaxProxy.getUrl(), this.loadbuyer, this);
+        selectProxy.load();
+        let orderProxy = new UsersSelectProxy(null, this.loadUsers, this);
+        this.orderProxy = orderProxy;
+        this.orderProxy.load();
+        this.$on('search-tool-change', this.onSearchChange);
+        this.$on('refresh-success', this.handleReload);
+        this.onSearchChange(this.searchForm);
+    },
     filters: {
-      handleString: function (v) {
-        if(v.length > 16){
-          return v.substring(0,6)+'......';
-        }else{
-          return v;
+        handleString: function (v) {
+            if(v.length > 16){
+            return v.substring(0,6)+'......';
+            }else{
+            return v;
+            }
+        },
+        delHtmlTag:function(v){
+            return v.replace(/<[^>]+>/g,"");
         }
-      },
-      delHtmlTag:function(v){
-        return v.replace(/<[^>]+>/g,"");
-      }
     },
 }
 </script>

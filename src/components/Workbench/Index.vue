@@ -157,9 +157,6 @@
             handleSelectionChange(val) {
                 this.multipleSelection = val;
             },
-
-
-
             getSysNoticeData(){
                 let selectProxy = new SelectProxy(this.sysNoticeUrl, this.sysNoticeData, this);
                 selectProxy.load();

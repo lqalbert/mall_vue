@@ -13,10 +13,10 @@ const store = new Vuex.Store({
         //数据
     },
     mutations: {
-        //方法
+        //方法 
     },
     actions: {
-
+        //方法 异步
     }, 
     modules: {
         app,

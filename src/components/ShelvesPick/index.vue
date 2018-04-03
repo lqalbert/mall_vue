@@ -7,8 +7,8 @@
                         <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" @cellclick="rowCellClick" :page-size="20" >
                         <el-table-column label="序号" align="center" type="index" width="65"></el-table-column>
                         <el-table-column prop="shelves_num" label="货架编号"  align="center"></el-table-column>
-                        <el-table-column prop="shelves_name" label="货架名称"  align="center"></el-table-column>
-                        <el-table-column prop="distributor_name" label="配送中心"  align="center"></el-table-column>
+                        <el-table-column prop="shelves_name" label="货架名称"  align="center" :show-overflow-tooltip="true"></el-table-column>
+                        <el-table-column prop="distributor_name" label="配送中心"  align="center" :show-overflow-tooltip="true"></el-table-column>
                         <el-table-column prop="shelves_manager_name" label="负责人"  align="center"></el-table-column>
                         <el-table-column prop="shelves_status" label="货架状态"  align="center">
                             <template slot-scope="scope">
@@ -17,7 +17,7 @@
                                 <span v-if="scope.row.shelves_status==2">坏</span>
                             </template>
                         </el-table-column>
-                        <el-table-column prop="remark" label="备注"  align="center"></el-table-column>
+                        <el-table-column prop="remark" label="备注"  align="center" :show-overflow-tooltip="true"></el-table-column>
                         </TableProxy>
                     <!--</el-table>-->
                 </el-tabs>
@@ -41,7 +41,7 @@
                                 <el-table-column prop="goods_name" label="商品名称" width="180" align="center"></el-table-column>
                                 <el-table-column prop="goods_num" label="数量" align="center"></el-table-column>
                                 <el-table-column prop="sku_sn" label="商品编号" align="center"></el-table-column>
-                                <el-table-column prop="remarks" label="备注" align="center"></el-table-column>
+                                <el-table-column prop="remarks" label="备注" align="center" :show-overflow-tooltip="true"></el-table-column>
                             </el-table>
                         <!--</TableProxy>-->
                     </el-tab-pane>

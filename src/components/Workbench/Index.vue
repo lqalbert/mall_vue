@@ -43,7 +43,7 @@
 
                                 <el-table-column prop="title" label="公告标题" align="center"></el-table-column>
 
-                                <el-table-column prop="content" label="公告内容" align="center"></el-table-column>
+                                <el-table-column prop="content" label="公告内容" align="center" :show-overflow-tooltip="true"></el-table-column>
                             </el-table>
                         </div>
                     </el-card>
@@ -59,7 +59,7 @@
 
                                 <el-table-column prop="name" label="联系人姓名" align="center"></el-table-column>
 
-                                <el-table-column label="备注"  prop="relationship_id" align="center">
+                                <el-table-column label="备注"  prop="relationship_id" align="center" :show-overflow-tooltip="true">
                                     <template slot-scope="scope">
                                         <span v-if="scope.row.relationship_id==1">父子(女)</span>
                                         <span v-if="scope.row.relationship_id==2">母子(女)</span>
@@ -90,7 +90,7 @@
                                     </template>
                                 </el-table-column>
 
-                                <el-table-column prop="remark" label="备注"  align="center"></el-table-column>
+                                <el-table-column prop="remark" label="备注"  align="center" :show-overflow-tooltip="true"></el-table-column>
 
                             </el-table>
 

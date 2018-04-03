@@ -39,7 +39,7 @@
 
                     <el-table-column prop="title" label="公告标题" align="center"></el-table-column>
 
-                    <el-table-column prop="content" label="公告内容" align="center"></el-table-column>
+                    <el-table-column prop="content" label="公告内容" align="center" :show-overflow-tooltip="true"></el-table-column>
 
                     <el-table-column prop="start_time" label="开始日期"  align="center"></el-table-column>
                     

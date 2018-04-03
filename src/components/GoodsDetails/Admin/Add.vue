@@ -256,7 +256,7 @@ export default {
             skuForm:{
                 name:"",
                 price:"",
-                num:0,
+                // num:0,
                 sku_sn:""
             },
             addFormRules:{
@@ -374,8 +374,8 @@ export default {
             let obj = Object.assign({}, this.skuForm);
             this.addForm.skus.push(obj);
             this.attrForm = [];
-            this.copy(this._attrForm, this.attrForm);
-            this.$refs.skuForm.resetFields();
+            // this.copy(this._attrForm, this.attrForm);
+            this.$refs['skuForm'].resetFields();
         },
         
         deleteAttrItem(index){

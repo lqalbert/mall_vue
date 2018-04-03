@@ -34,7 +34,7 @@
                         </template>
                     </el-table-column>
 
-                    <el-table-column prop="remark" label="备注"  align="center"></el-table-column>
+                    <el-table-column prop="remark" label="备注"  align="center" :show-overflow-tooltip="true"></el-table-column>
                     
 
                     <el-table-column   align="center" width="180" fixed="right"  label="操作"  >

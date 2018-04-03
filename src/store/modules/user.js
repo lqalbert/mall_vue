@@ -28,7 +28,6 @@ const user = {
             console.log('before logout');  
         },
         login(state, userLogin){
-            
             state.login = true;
             sessionStorage.setItem('login', true);
             sessionStorage.setItem('user', JSON.stringify(userLogin));
@@ -44,7 +43,6 @@ const user = {
         isLogin(state){
             return state.login;
         },
-        
         getUser(state){
             return state.user;
         },
@@ -52,11 +50,13 @@ const user = {
             return state.user.realname;
         },
         departName(state){
-            console.log(state.user);
-            return state.user.department_name;
+            return state.user.department[0].name;
         },
         department_id(state){
             return state.user.department_id;
+        },
+        groupName(state) {
+            return state.user.group[0].name;
         },
         group_id(state){
             return state.user.group_id;

@@ -11,10 +11,10 @@
                             <img :src="getUser.head" class="image"  style="width:200px;height:200px;border-radius:100%; vertical-align:middle;">
 
                             <div id="th" style="float:right;width:200px;border-left:1px solid #e2e2e2;line-height:180%">
-                                &nbsp;&nbsp;&nbsp;<span>姓名：{{getUser.account}}</span><br>
+                                &nbsp;&nbsp;&nbsp;<span>姓名：{{getUser.realname}}</span><br>
                                 &nbsp;&nbsp;&nbsp;<span>I  D：{{getUser.id}}</span><br>
-                                &nbsp;&nbsp;&nbsp;<span>职位类型：总经办</span><br>
-                                &nbsp;&nbsp;&nbsp;<span>单位：成都总部</span><br>
+                                &nbsp;&nbsp;&nbsp;<span>职位类型：{{getUserRoles[0].display_name}}</span><br>
+                                &nbsp;&nbsp;&nbsp;<span>单位：{{departName}}</span><br>
                                 &nbsp;&nbsp;&nbsp;<span>Q  Q：{{getUser.qq}}</span><br>
                                 &nbsp;&nbsp;&nbsp;<span>电话：{{getUser.mobilephone}}</span><br>
                                 &nbsp;&nbsp;&nbsp;<span>地址：{{getUser.address}}</span>
@@ -125,7 +125,9 @@
         mixins: [PageMix, SearchTool,DataTable],
         computed:{
             ...mapGetters([
-                'getUser'
+                'getUser',
+                'departName',
+                'getUserRoles'
             ])
         },
         data() {

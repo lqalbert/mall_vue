@@ -175,6 +175,7 @@
             },
             getWebsiteData(){
                 let selectProxy = new SelectProxy(this.websiteUrl, this.websiteData, this);
+                selectProxy.setExtraParam({id:this.getUser.id});
                 selectProxy.load();
             },
             websiteData(data){
@@ -200,7 +201,7 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
     /*#one #two{*/
-        /*padding:22px;*/
+    /*padding:22px;*/
     /*}*/
     .head {
         padding: 15px 20px;

@@ -22,6 +22,7 @@
                         :url="mainurl"
                         :param="mainparam"
                         :reload="dataTableReload" :page-size="15">
+
                     <el-table-column label="序号" align="center"  type="index" width="65"></el-table-column>
 
                     <el-table-column prop="describe" label="网址描述" align="center"></el-table-column>
@@ -85,6 +86,7 @@ import SearchTool from '../../mix/SearchTool';
 import SelectProxy from  '../../packages/SelectProxy';
 
 import Website from '../../ajaxProxy/Website';
+import { mapGetters, mapMutations } from 'vuex';
 //import TableProxy from '../common/TableProxy';
 
 export default {
@@ -95,13 +97,16 @@ export default {
         Add,
         Edit,
     },
-
+    computed:{
+        ...mapGetters([
+            'getUser'
+        ])
+    },
     data () {
         return {
             ajaxProxy:Website,
             mainurl:Website.getUrl(),
             mainparam:"",
-            total:100,
             dataLoad:false,
             searchForm:{
                 webUrl:"",
@@ -129,6 +134,7 @@ export default {
     },
     created(){
         this.$on('search-tool-change', this.onSearchChange);
+        this.onSearchChange({id:this.getUser.id});
     }
 }
 </script>

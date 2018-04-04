@@ -46,7 +46,7 @@
                     </el-col>
                 </el-row>
 
-                <el-table :data="addForm.childrenData" border style="width: 100%">
+                <el-table :data="addForm.childrenData" border style="width: 100%" max-height="250">
                     <el-table-column prop="goods_name" label="商品名称"></el-table-column>
                     <el-table-column prop="sku_sn" label="商品编号"></el-table-column>
                     <el-table-column prop="num" label="输入数量"></el-table-column>

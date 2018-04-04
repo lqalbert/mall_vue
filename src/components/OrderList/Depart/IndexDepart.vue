@@ -57,39 +57,39 @@
                 <br>
                 <el-form-item prop="type">
                     <!-- 改成新的 -->
-                    <el-badge :value="0"  class="badge-dot" hidden>
+                    <el-badge :value="0"  class="badge-dot" >
                         <el-button size="small" @click="searchToolReset('searchForm')"  type="info" >全部</el-button>
                     </el-badge>
-                    <el-badge :value="0" class="badge-dot" is-dot hidden>
-                        <el-button size="small" @click="typesearch('0', '', '')"  type="info" >待审核</el-button>
+                    <el-badge :value="0" class="badge-dot" :is-dot="false">
+                        <el-button size="small" @click="singlbutton('0', '', '')"  type="info" >待审核</el-button>
                     </el-badge>
 
-                    <el-badge :value="0" :max="9" class="badge-dot" is-dot hidden>
-                        <el-button size="small" @click="typesearch('2', '', '')"  type="info" >待充值</el-button>
+                    <el-badge :value="0" :max="9" class="badge-dot" is-dot>
+                        <el-button size="small" @click="singlbutton('2', '', '')"  type="info" >待充值</el-button>
                     </el-badge>
 
-                    <el-badge :value="200" class="badge-dot" is-dot hidden>
-                        <el-button size="small" @click="typesearch('', '1', '')"  type="info" >配货中</el-button>
+                    <el-badge :value="200" class="badge-dot" is-dot>
+                        <el-button size="small" @click="singlbutton('', '1', '')"  type="info" >配货中</el-button>
                     </el-badge>
 
-                    <el-badge :value="200" class="badge-dot" is-dot hidden>
-                        <el-button size="small" @click="typesearch('', '2', '')"  type="info" >已发送</el-button>
+                    <el-badge :value="200" class="badge-dot" is-dot>
+                        <el-button size="small" @click="singlbutton('', '2', '')"  type="info" >已发送</el-button>
                     </el-badge>
 
-                    <el-badge :value="200" class="badge-dot" is-dot hidden>
-                        <el-button size="small" @click="typesearch('', '3', '')"  type="info" >已签收</el-button>
+                    <el-badge :value="200" class="badge-dot" is-dot>
+                        <el-button size="small" @click="singlbutton('', '3', '')"  type="info" >已签收</el-button>
                     </el-badge>
 
-                    <el-badge :value="200" class="badge-dot" is-dot hidden>
-                        <el-button size="small" @click="typesearch('3', '', '')"  type="info" >完成</el-button>
+                    <el-badge :value="200" class="badge-dot" is-dot>
+                        <el-button size="small" @click="singlbutton('3', '', '')"  type="info" >完成</el-button>
                     </el-badge>
 
-                    <el-badge :value="200" class="badge-dot" is-dot hidden>
-                        <el-button size="small" @click="typesearch('4', '', '')"  type="info" >已取消</el-button>
+                    <el-badge :value="200" class="badge-dot" is-dot>
+                        <el-button size="small" @click="singlbutton('4', '', '')"  type="info" >已取消</el-button>
                     </el-badge>
 
-                    <el-badge :value="200" class="badge-dot" is-dot hidden>
-                        <el-button size="small" @click="typesearch('', '', '1')"  type="info" >退换货</el-button>
+                    <el-badge :value="200" class="badge-dot" is-dot>
+                        <el-button size="small" @click="singlbutton('', '', '1')"  type="info" >退换货</el-button>
                     </el-badge>
                    
                    
@@ -134,12 +134,15 @@
                                 编辑
                                 <el-dropdown-menu slot="dropdown" split-button>
                                     <el-dropdown-item>
-                                        <el-button type="text"  @click="open2(scope.row.id)">发起退款</el-button>
+                                        <el-button type="text"  @click="open2(scope.row)">发起退货</el-button>
                                     </el-dropdown-item>
                                     <el-dropdown-item>
                                         <el-button type="text"  @click="showExchange(scope.row)">发起换货</el-button>
                                     </el-dropdown-item>
-                                    <!-- 总经办这里就没有发起退款 -->
+                                    <el-dropdown-item>
+                                        <el-button type="text"  @click="cancelOrder(scope.row)">取消</el-button>
+                                    </el-dropdown-item>
+                                 
                                 </el-dropdown-menu>
                             </el-dropdown>
                             <el-button type="danger" @click="handleDelete(scope.row.id)" size="small">删除</el-button>
@@ -163,11 +166,13 @@
         <rowInfo name="rowInfo"
                  :ajax-proxy="ajaxProxy"
                  @submit-success="handleReload"/>
+        
+        <ReturnGoods name="returnGoods" :ajax-proxy="ajaxProxy"  @submit-success="handleReload"></ReturnGoods>
+        <ExchangeGoods name="exchangeGoods" :ajax-proxy="ajaxProxy"  @submit-success="handleReload"></ExchangeGoods>
     </div>
 </template>
 <script>
 
-import exchange from "../exchange";
 import addDialog from "../Add.vue";
 
 import deleteMix from '@/mix/Delete';
@@ -184,7 +189,7 @@ export default {
     pageTitle:"订单详情",
     mixins: [mix,deleteMix],
     components:{
-        addDialog,exchange
+        addDialog
     },
     data () {
         return {
@@ -237,39 +242,13 @@ export default {
         showRowData(row){
             this.$modal.show('rowInfo',{rowData:row});
         },
-        showExchange(row){
-            // this.$modal.show('exchange',{rowData:row});
-        },
-        /** 发起退款弹窗  */
-        open2(id) {
-            /*     this.$confirm('确认发起退款（需要审核）?', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(() => {
-                    this.refund(id),
-                    // this.refresh(),
-                    this.$message({
-                        type: 'success',
-                        message: '发起退款成功!'
-                    });
-            }).catch(() => {
-                    this.$message({
-                    type: 'info',
-                    message: '已取消'
-                });
-            }); */
-        },
+        
 
         /** 点击订单列表展示用户信息 */
         showRow(row){
             this.dbRow = row;
         },
-        typesearch:function($criteria){
-            this.searchToolReset('searchForm');
-            this.searchForm.type=$criteria;
-            this.searchToolChange('searchForm');
-        },
+        
         refund(id)
         {
             let refundProxy = new SelectProxy(OrderlistAjaxProxy.getUrl(), this.loadtest, this);

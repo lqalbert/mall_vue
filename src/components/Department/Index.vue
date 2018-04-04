@@ -66,6 +66,7 @@
                             {{ scope.row.manager ? scope.row.manager.mobilephone : '' }}
                         </template>
                     </el-table-column>
+                    <el-table-column label="保证金"　prop="deposit"></el-table-column>
                     <!-- 让这个部门的人暂无法登录 -->
                     <el-table-column label="是否启用" align="center" prop="status">
                         <template slot-scope="scope">

@@ -5,12 +5,12 @@
                 <el-row>
                     <el-col :span="12">
                         <el-form-item  label="订单号" prop="id">
-                            {{ rowInfoForm.order_sn }}
+                            {{ model.order_sn }}
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="总金额" prop="order_all_money">
-                            {{ rowInfoForm.order_all_money }}
+                            {{ model.order_all_money }}
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -22,7 +22,7 @@
                     </el-col>
                     <el-col :span='12'>
                         <el-form-item label="购买客户"  prop="cus_id">
-                            {{ rowInfoForm.cus_name }}
+                            {{ model.cus_name }}
                         </el-form-item>
                     </el-col>
 
@@ -30,7 +30,7 @@
                 <el-row>
                     <el-col :span='12'>
                         <el-form-item label="成交员工" prop="deal_name">
-                                {{ rowInfoForm.deal_name }}
+                                {{ model.deal_name }}
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -154,7 +154,8 @@
             },
 
             onOpen(event){
-              this.rowInfoForm = event.params.rowData;
+            //   this.rowInfoForm = event.params.rowData;
+                this.model = event.params.rowData;
             },
             getAjaxPromise(model){
                 delete model.cus_name;

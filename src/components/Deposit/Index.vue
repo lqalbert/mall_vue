@@ -13,7 +13,7 @@
                             </el-option>
                         </el-select>
                     </el-form-item>
-                    <el-form-item prop="group_id" >
+                    <!-- <el-form-item prop="group_id" >
                         <el-select size="small" placeholder="请选择小组"  v-model="searchForm.group_id" @change="onGroupChange">
                             <el-option v-for="v in groups" 
                                 :label="v.name" 
@@ -30,7 +30,7 @@
                                 :key="v.id">
                             </el-option>
                         </el-select>
-                    </el-form-item>
+                    </el-form-item> -->
                     <el-form-item>
                         <el-button size="small" type="primary" icon="search" @click="searchToolChange('searchForm')" >查询</el-button>
                         <el-button size="small" @click="searchToolReset('searchForm')" type="primary">重置</el-button>
@@ -50,21 +50,21 @@
                     <el-table-column label="序号" align="center"  type="index" width="65">
                     </el-table-column>
                     <el-table-column label="部门" prop="department_name"></el-table-column>
-                    <el-table-column label="小组" prop="group_name"></el-table-column>
-                    <el-table-column label="员工" prop="realname"></el-table-column>
+                    <!-- <el-table-column label="小组" prop="group_name"></el-table-column>
+                    <el-table-column label="员工" prop="realname"></el-table-column> -->
                     <!-- 充值金额、充值时间、充值操作人、充值部门 -->
                     <el-table-column label="充值金额" prop="money"></el-table-column>
-                    <el-table-column label="充值方式" prop="charge_type">
+                    <!-- <el-table-column label="充值方式" prop="charge_type">
                         <template slot-scope="scope">
                             <span v-if="scope.row.charge_type==1">微信</span>
                             <span v-else-if="scope.row.charge_type==2">支付宝</span>
                             <span v-else-if="scope.row.charge_type==3">银行转账</span>
                         </template>
-                    </el-table-column>
+                    </el-table-column> -->
                      <el-table-column label="充值时间" prop="charge_time"></el-table-column>
                     <el-table-column label="记录时间" prop="created_at" width="190"></el-table-column>
                     <el-table-column label="操作员工" prop="creator"></el-table-column>
-                    <el-table-column label="充值部门" prop="charge_department"></el-table-column>
+                    <!-- <el-table-column label="充值部门" prop="charge_department"></el-table-column> -->
                     <el-table-column label="备注" prop="remark" :show-overflow-tooltip="true"></el-table-column>
 
                     <!-- <el-table-column   align="center" width="180" fixed="right"  label="操作"  >

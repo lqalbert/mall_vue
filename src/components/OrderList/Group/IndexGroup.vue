@@ -156,11 +156,14 @@
         <rowInfo name="rowInfo"
                  :ajax-proxy="ajaxProxy"
                  @submit-success="handleReload"/>
+        
+        <ReturnGoods name="returnGoods" :ajax-proxy="ajaxProxy"  @submit-success="handleReload"></ReturnGoods>
+        <ExchangeGoods name="exchangeGoods" :ajax-proxy="ajaxProxy"  @submit-success="handleReload"></ExchangeGoods>
     </div>
 </template>
 <script>
 
-import exchange from "../exchange";
+
 import addDialog from "../Add.vue";
 
 import deleteMix from '@/mix/Delete';
@@ -176,7 +179,7 @@ export default {
     pageTitle:"订单详情",
     mixins: [mix,deleteMix],
     components:{
-        addDialog,exchange
+        addDialog
     },
     data () {
         return {
@@ -229,39 +232,13 @@ export default {
         showRowData(row){
             this.$modal.show('rowInfo',{rowData:row});
         },
-        showExchange(row){
-            // this.$modal.show('exchange',{rowData:row});
-        },
-        /** 发起退款弹窗  */
-        open2(id) {
-            /*     this.$confirm('确认发起退款（需要审核）?', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(() => {
-                    this.refund(id),
-                    // this.refresh(),
-                    this.$message({
-                        type: 'success',
-                        message: '发起退款成功!'
-                    });
-            }).catch(() => {
-                    this.$message({
-                    type: 'info',
-                    message: '已取消'
-                });
-            }); */
-        },
+        
 
         /** 点击订单列表展示用户信息 */
         showRow(row){
             this.dbRow = row;
         },
-        typesearch:function($criteria){
-            this.searchToolReset('searchForm');
-            this.searchForm.type=$criteria;
-            this.searchToolChange('searchForm');
-        },
+
         refund(id)
         {
             let refundProxy = new SelectProxy(OrderlistAjaxProxy.getUrl(), this.loadtest, this);

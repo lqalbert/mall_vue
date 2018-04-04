@@ -46,7 +46,7 @@
                 <el-button @click="handleClose">取 消</el-button>
                 <submit-button
                     :observer="dialogThis"
-                    @click="formSubmit('addForm')" >
+                    @click="beforeSubmit" >
                     保 存
                 </submit-button>
             </div>
@@ -90,8 +90,8 @@
                         { required: true, message: '请输入配送中心名称', trigger: 'blur' }
                     ],
                     eng_name:[
-                        { required: true, message:'请输入英文简称', trigger: 'blur', },
-                        {  min: 1, max: 2, message: '长度不能超过3个字符', trigger: 'blur'  }
+                        { type:'string', pattern:/^[a-zA-Z]+$/, required: true, message:'请输入英文简称', trigger: 'blur', },
+                        {  min: 1, max: 2, message: '长度不能超过1个字符', trigger: 'blur'  }
                     ],
                     contact:[
                         { required: true,message:'请输入联系人', type: 'string', trigger:'blur'}
@@ -119,6 +119,10 @@
                 this.employeeSelect.load();
                 this.addForm.manager_id = "";
             },
+            beforeSubmit(){
+                this.addForm.eng_name.toUpperCase();
+                this.formSubmit('addForm');
+            }
         },
         created(){
             this.employeeSelect = new EmployeeSelectProxy({}, this.loadUsers, this);

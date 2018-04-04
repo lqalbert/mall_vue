@@ -62,14 +62,7 @@ export default {
         showRowData(row){
             this.$modal.show('rowInfo',{rowData:row});
         },
-        //发起换货弹窗
-        showExchange(row){
-            this.$modal.show('exchangeGoods',row);
-        },
-        /** 发起退款弹窗  */
-        open2(row) {
-            this.$modal.show('returnGoods', row);
-        },
+        
 
 
         /** 点击订单列表展示用户信息 */

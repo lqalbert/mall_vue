@@ -48,6 +48,16 @@ const mix = {
         }
     },
     methods:{
+
+        //发起换货弹窗
+        showExchange(row){
+            this.$modal.show('exchangeGoods',row);
+        },
+        /** 发起退款弹窗  */
+        open2(row) {
+            this.$modal.show('returnGoods', row);
+        },
+        
         // hyf 添加
         singlbutton(status, product_status, after_sale_status){
             this.searchForm.status = status,

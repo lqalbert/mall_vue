@@ -197,10 +197,10 @@ export default {
 		},
 		resetSkuForm(){
 			this.attrForm = [];
-            this.copy(this._attrForm, this.attrForm);
+            // this.copy(this._attrForm, this.attrForm);
             this.skuForm.name = "";
             this.skuForm.price = "";
-			this.skuForm.num = "";
+			this.skuForm.num = 0;
 			delete this.skuForm.id;
 
 			this.button_label = SET_BUTTON_LABLE_ADD;

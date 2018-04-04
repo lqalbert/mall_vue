@@ -150,7 +150,7 @@
                     <el-table-column prop="weixin_nickname" label="微信昵称" width="190" align="center">
                     </el-table-column>
 
-                    <el-table-column prop="address" label="地址" width="190" align="center">
+                    <el-table-column prop="address" label="地址" width="190" align="center" :show-overflow-tooltip="true">
                     </el-table-column>
 
                     <el-table-column prop="ip" label="登录IP" width="170" header-align="center">

@@ -80,7 +80,7 @@
                         </template>
                     </el-table-column>
 
-                    <el-table-column prop="remarks" label="备注" >
+                    <el-table-column prop="remarks" label="备注" :show-overflow-tooltip="true">
                     </el-table-column>
 
                     <el-table-column   align="center" width="180" fixed="right"  label="操作"  >

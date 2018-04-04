@@ -24,7 +24,14 @@
                 <TableProxy
                         :url="mainurl"
                         :param="mainparam"
+<<<<<<< HEAD
+
                         :reload="dataTableReload" :page-size="15">
+
+=======
+                        :reload="dataTableReload"
+                        :page-size="15">
+>>>>>>> 6bd5b3498c5909ea66a69589843b454b22490fa6
                     <el-table-column label="序号" align="center"  type="index" width="65"></el-table-column>
 
                     <el-table-column prop="name" label="联系人姓名" align="center"></el-table-column>

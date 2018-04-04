@@ -32,10 +32,10 @@
                     <el-table-column label="ID" align="center" prop="id">
                     </el-table-column>
 
-                    <el-table-column prop="shelves_num" label="货架编号" align="center">
+                    <el-table-column prop="shelves_num" label="货架编号" align="center" :show-overflow-tooltip="true">
                     </el-table-column>
 
-                    <el-table-column prop="shelves_name" label="货架名称" align="center">
+                    <el-table-column prop="shelves_name" label="货架名称" align="center" :show-overflow-tooltip="true">
                     </el-table-column>
 
                     <el-table-column prop="distributor_name" label="所属配送中心" align="center">
@@ -44,7 +44,7 @@
                     <el-table-column prop="shelves_manager_name" label="货架负责人" align="center">
                     </el-table-column>
 
-                     <el-table-column prop="remark" label="备注" align="center">
+                     <el-table-column prop="remark" label="备注" align="center" :show-overflow-tooltip="true">
                      </el-table-column>
                     <el-table-column  label="操作" align="center" width="200">
                         <template slot-scope="scope">

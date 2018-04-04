@@ -72,7 +72,7 @@
 
                     <el-table-column prop="type_text" label="申请类型"　width="100"></el-table-column>
                     <el-table-column prop="check_status_text" label="审核状态"></el-table-column>
-                    <el-table-column prop="check_remark" label="审核备注"></el-table-column>
+                    <el-table-column prop="check_remark" label="审核备注" :show-overflow-tooltip="true"></el-table-column>
                     <el-table-column prop="created_at" label="申请时间" align="center">
                     </el-table-column>
                     <el-table-column v-if="showOperator" label="操作" align="center" width="200">

@@ -60,7 +60,9 @@
                             </el-form-item>
                         </el-col>
                     </el-row>
-                    <el-button @click="addOrder" type="primary" class="right" >添 加</el-button>
+                    <div style="float: left;margin-left: 50%;">
+                        <el-button @click="addOrder" type="primary" class="right">添 加</el-button>
+                    </div>
                 </div>
                 <br>
                 <div v-show="active==1">
@@ -211,27 +213,29 @@
         },
         methods:{
             addOrder(){
-                //console.log(this.data2);
-                var vmthis = this;
-                let moneyNotes =parseInt(this.data2[this.addOrderForm.goods_id].price) * parseInt(this.addOrderForm.goods_number);
-                let item = vmthis.data2[vmthis.addOrderForm.goods_id];
-                let addData ={
-                    goods_id:    item.goods_id,
-                    sku_id:      item.sku_id,
-                    sku_name:    item.sku_name,
-                    goods_name:  item.goods_name,
-                    price:       item.price,
-                    goods_number:vmthis.addOrderForm.goods_number,
-                    remark:      vmthis.addOrderForm.remark,
-                    moneyNotes:  moneyNotes,
-                    sku_sn:      item.sku_sn,
-                    unit_type:   item.unit_type,
-                };
-                this.totalMoney += moneyNotes;
-                this.orderData.push(addData);
-                this.goodsIds.push(addData.goods_id);
-                this.$refs.addOrderForm.resetFields();
-                this.alertNum = 0;
+                if(this.alertNum != 0 ){
+                    //console.log(this.data2);
+                    var vmthis = this;
+                    let moneyNotes =parseInt(this.data2[this.addOrderForm.goods_id].price) * parseInt(this.addOrderForm.goods_number);
+                    let item = vmthis.data2[vmthis.addOrderForm.goods_id];
+                    let addData ={
+                        goods_id:    item.goods_id,
+                        sku_id:      item.sku_id,
+                        sku_name:    item.sku_name,
+                        goods_name:  item.goods_name,
+                        price:       item.price,
+                        goods_number:vmthis.addOrderForm.goods_number,
+                        remark:      vmthis.addOrderForm.remark,
+                        moneyNotes:  moneyNotes,
+                        sku_sn:      item.sku_sn,
+                        unit_type:   item.unit_type,
+                    };
+                    this.totalMoney += moneyNotes;
+                    this.orderData.push(addData);
+                    this.goodsIds.push(addData.goods_id);
+                    this.$refs.addOrderForm.resetFields();
+                    this.alertNum = 0;
+                }
             },
             getGoodsInfo(goods_id){
                 if(this.data2[goods_id]){

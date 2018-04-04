@@ -20,7 +20,7 @@
             
             <br/>
                 <el-button v-show="showAddButton" type="primary" size="small" @click="handleAdd"> 添加地址 </el-button> <span></span>
-            <el-form v-show="contactFormvisible" ref="addDeliveryAddressForm" :model="addDeliveryAddressForm"  :label-width="labelWidth"   :label-position="labelPosition">
+            <el-form v-show="contactFormvisible" ref="addDeliveryAddressForm" :rules="rules" :model="addDeliveryAddressForm"  :label-width="labelWidth"   :label-position="labelPosition">
                 <el-row>
                     <el-col :span="12">
                         <el-form-item prop="name" label="收货人姓名">
@@ -29,12 +29,12 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item prop="phone" label="收货人手机号">
-                            <el-input class="name-input" v-model="addDeliveryAddressForm.phone" size="small" placeholder="收货人手机号" ></el-input>
+                            <el-input class="name-input" v-model.number="addDeliveryAddressForm.phone" size="small" placeholder="收货人手机号" ></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item prop="zip_code" label="收货邮编">
-                            <el-input class="name-input" v-model="addDeliveryAddressForm.zip_code" size="small" placeholder="收货邮编" ></el-input>
+                            <el-input class="name-input" v-model.number="addDeliveryAddressForm.zip_code" size="small" placeholder="收货邮编" ></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -97,6 +97,26 @@ export default {
             },
             addressData:[],
             model:'',
+            rules:{
+                name:[
+                    { required: true, message: '请输入姓名', trigger: 'blur' },
+                    { min:1,   max: 10, message: '长度不能超过10个字符', trigger: 'blur'  }
+                ],
+                phone:[
+                    { required: true,max: 99999999999, message:'请输入正确的手机号', type: 'number', trigger:'blur'},
+                ],
+                address:[
+                    { required: true,message:'请输入收货地址',  trigger:'blur'},
+                    {min:1, max: 100, message: '长度不能超过100个字符', trigger: 'blur'  }
+
+                ],
+                zip_code:[
+                    { required: true,message:'请输入邮编号', type: 'number', trigger:'blur'},
+                    {min:1, max: 99999999, message: '长度不能超过7个字符', type: 'number',trigger: 'blur'  }
+
+                ],
+
+            },
             dev:[]
         }
     },

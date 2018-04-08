@@ -103,6 +103,8 @@
     import OrderGoodsAjaxProxy from "@/packages/OrderGoodsAjaxProxy";
     import OrderAddressAjaxProxy from "@/packages/OrderAddressAjaxProxy";
     import OrderAssignAjaxProxy from "@/packages/OrderAssignAjaxProxy";
+    import OrderOperateAjaxProxy from "@/packages/OrderOperateSelectProxy";
+
     export default {
         name: 'SubDetail',
         props:{
@@ -145,6 +147,9 @@
                 // console.log(data);
                 this.assignData = data.items;
             },
+            getOrderOperate(data){
+                this.manageData = data.items;
+            },
             handleFirst(row){
                 this.customerProxy.setParam({
                     fields:['*'],
@@ -169,6 +174,9 @@
             },
             handleFourth(row){
                 // console.log("fourth");
+                this.orderOperateProxy.setParam({
+                    order_id:row.id
+                }).load();
                 this.tabFourth = true;
             },
             handleFifth(row){
@@ -178,8 +186,6 @@
                 }).load();
                 this.tabFifth = true;
             },
-            
-
         },
         watch:{
             row:function(val, oldVal) {
@@ -206,7 +212,7 @@
             this.OrderGoodsProxy = new OrderGoodsAjaxProxy({fields:["*"]},    this.getOrderGoods,this);
             this.OrderAddressProxy = new OrderAddressAjaxProxy({fields:["*"]},    this.getOrderAddress,this);
             this.OrderAssignProxy = new OrderAssignAjaxProxy({fields:["*"]},    this.getOrderAssign,this);
-
+            this.orderOperateProxy = new OrderOperateAjaxProxy({fields:['*']}, this.getOrderOperate, this);
         }
     }
 </script>

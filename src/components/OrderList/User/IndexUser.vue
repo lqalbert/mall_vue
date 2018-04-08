@@ -116,7 +116,7 @@
 
                     <el-table-column fixed="right" label="操作" align="center" width="210">
                         <template slot-scope="scope">
-                            <el-dropdown trigger="click" type="primary" size="small" split-button @click="showRowData(scope.row)" menu-align="start">
+                            <el-dropdown trigger="click" type="primary" size="small" split-button @click="showRowData(scope.row)"  >
                                 编辑
                                 <el-dropdown-menu slot="dropdown" split-button>
                                     <el-dropdown-item>

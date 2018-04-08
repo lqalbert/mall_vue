@@ -140,7 +140,7 @@
                     shipping_name:'',
                     order_time:'',
                 },
-                model:null
+                model:{}
 
             }
         },

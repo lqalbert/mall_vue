@@ -5,13 +5,18 @@ import SubDetail from '../SubDetail';
 import rowInfo from "../rowInfo";
 import ReturnGoods from '../ReturnGoods';
 import ExchangeGoods from '../ExchangeGoods';
+import CheckOrder from '../checkOrder';
 
 const ORDER_ASSIGN = 3;
 
 const mix = {
     mixins: [SearchTool,DataTable,],
     components: {
-        SubDetail,rowInfo,ReturnGoods,ExchangeGoods
+        SubDetail,
+        rowInfo,
+        ReturnGoods,
+        ExchangeGoods,
+        CheckOrder
     },
     data(){
         return {
@@ -66,7 +71,7 @@ const mix = {
 
             this.searchToolChange('searchForm');
         },
-
+        //取消订单
         cancelOrder(row){
             // console.log(row.status);
             if (row.status >= ORDER_ASSIGN) {
@@ -86,7 +91,11 @@ const mix = {
 
                   });
             }   
-        }
+        },
+        //订单审核
+        checkOrder(row){
+            this.$modal.show('checkOrder', { row:row});
+        },
     }
 };
 

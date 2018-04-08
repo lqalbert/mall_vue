@@ -126,7 +126,7 @@
                                         <el-button type="text"  @click="showExchange(scope.row)">发起换货</el-button>
                                     </el-dropdown-item>
                                     <el-dropdown-item>
-                                        <el-button type="text"  @click="cancelOrder(scope.row)">取消</el-button>
+                                        <el-button type="text"  @click="cancelOrder(scope.row)">取消订单</el-button>
                                     </el-dropdown-item>
                                     <!-- 总经办这里就没有发起退款 -->
                                 </el-dropdown-menu>

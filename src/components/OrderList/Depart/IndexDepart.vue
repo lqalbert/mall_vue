@@ -140,9 +140,11 @@
                                         <el-button type="text"  @click="showExchange(scope.row)">发起换货</el-button>
                                     </el-dropdown-item>
                                     <el-dropdown-item>
-                                        <el-button type="text"  @click="cancelOrder(scope.row)">取消</el-button>
+                                            <el-button type="text"  @click="checkOrder(scope.row)">订单审核</el-button>
                                     </el-dropdown-item>
-                                 
+                                    <el-dropdown-item>
+                                        <el-button type="text"  @click="cancelOrder(scope.row)">取消订单</el-button>
+                                    </el-dropdown-item>
                                 </el-dropdown-menu>
                             </el-dropdown>
                             <el-button type="danger" @click="handleDelete(scope.row.id)" size="small">删除</el-button>
@@ -167,8 +169,20 @@
                  :ajax-proxy="ajaxProxy"
                  @submit-success="handleReload"/>
         
-        <ReturnGoods name="returnGoods" :ajax-proxy="ajaxProxy"  @submit-success="handleReload"></ReturnGoods>
-        <ExchangeGoods name="exchangeGoods" :ajax-proxy="ajaxProxy"  @submit-success="handleReload"></ExchangeGoods>
+        <ReturnGoods name="returnGoods" 
+            :ajax-proxy="ajaxProxy"  
+            @submit-success="handleReload">
+        </ReturnGoods>
+
+        <ExchangeGoods name="exchangeGoods" 
+            :ajax-proxy="ajaxProxy" 
+            @submit-success="handleReload">
+        </ExchangeGoods>
+
+        <check-order name="checkOrder" 
+            :ajax-proxy="ajaxProxy" 
+            @submit-success="handleReload">
+        </check-order>
     </div>
 </template>
 <script>

@@ -4,13 +4,14 @@
             <el-form :model="checkForm" ref="checkForm" :label-width="labelWidth" :label-position="labelPosition">
                 <el-row>
                     <el-col :span="12">
-                        <el-form-item  label="是否通过">
+                        <el-form-item  label="是否通过" prop="status">
                             <el-select size="small" placeholder="是否通过" v-model="checkForm.status">
                                 <el-option
-                                        v-for="check in c_status"
-                                        :label="check.status"
-                                        :value="check.id"
-                                        :key="check.id"></el-option>
+                                    v-for="check in c_status"
+                                    :label="check.status"
+                                    :value="check.id"
+                                    :key="check.id">
+                                </el-option>
                           </el-select>
                         </el-form-item>
                     </el-col>

@@ -6,6 +6,7 @@ import rowInfo from "../rowInfo";
 import ReturnGoods from '../ReturnGoods';
 import ExchangeGoods from '../ExchangeGoods';
 import CheckOrder from '../checkOrder';
+import RefundCheck from '../Rcheck';
 
 const ORDER_ASSIGN = 3;
 
@@ -16,7 +17,8 @@ const mix = {
         rowInfo,
         ReturnGoods,
         ExchangeGoods,
-        CheckOrder
+        CheckOrder,
+        RefundCheck
     },
     data(){
         return {
@@ -96,6 +98,10 @@ const mix = {
         checkOrder(row){
             this.$modal.show('checkOrder', { row:row});
         },
+
+        RefundCheck(row) {
+            this.$modal.show('refundcheck', {row:row});
+        }
     }
 };
 

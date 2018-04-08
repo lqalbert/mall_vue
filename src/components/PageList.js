@@ -34,7 +34,7 @@ const PageList = {
     'StockSum': (resolve) => { require(['./StockSum/Index.vue'], resolve)},
     'StockOutDetails': (resolve) => { require(['./StockOutDetails/Index.vue'], resolve)},
     'StockWarning': (resolve) => { require(['./StockWarning/Index.vue'], resolve)},
-    'ShelvesPick': (resolve) => { require(['./ShelvesPick/Index.vue'], resolve)},
+    // 'ShelvesPick': (resolve) => { require(['./ShelvesPick/Index.vue'], resolve)},
 
     'ExpressCompany': (resolve) => { require(['./ExpressCompany/Index.vue'], resolve)},
     'ExpressReceive': (resolve) => { require(['./ExpressReceive/Index.vue'], resolve)},

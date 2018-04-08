@@ -37,7 +37,7 @@
                 <el-row>
                     <el-col :span="24">
                         <el-form-item label="备注"  prop="comment">
-                            <el-input type="textarea"  auto-complete="off" v-model="addForm.comment" placeholder="请填写备注"></el-input>
+                            <el-input type="textarea"  auto-complete="off" v-model="addForm.comment" placeholder="请填写备注(100字以内)"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -101,7 +101,7 @@
                     ],
                     address:[
                         { required: true, message:'请输入地址', type: 'string', trigger:'blur'},
-                        {   max: 200, message: '长度不能超过200个字符', trigger: 'blur'  }
+                        {   max: 100, message: '长度不能超过100个字符', trigger: 'blur'  }
                     ],
                 }
             }

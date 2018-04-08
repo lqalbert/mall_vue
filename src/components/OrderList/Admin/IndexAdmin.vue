@@ -248,7 +248,7 @@ export default {
             return  this.ajaxProxy;
         },
         showRowData(row){
-            this.$modal.show('rowInfo',{rowData:row});
+            console.log(this.$modal.show('rowInfo',{rowData:row}));
         },
         
  
@@ -256,11 +256,7 @@ export default {
         showRow(row){
             this.dbRow = row;
         },
-        typesearch:function($criteria){
-            this.searchToolReset('searchForm');
-            this.searchForm.type=$criteria;
-            this.searchToolChange('searchForm');
-        },
+         
         refund(id)
         {
             let refundProxy = new SelectProxy(OrderlistAjaxProxy.getUrl(), this.loadtest, this);
@@ -327,6 +323,8 @@ export default {
 
         this.GroupProxy = new GroupSelectProxy({fields:["*"]},this.getGroup,this);
         this.EmployeeProxy = new EmployeeSelectProxy({ fields:["*"]},this.getUsers,this);
+
+        console.log(this.$options.components);
     }
 }
 </script>

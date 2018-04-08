@@ -301,6 +301,7 @@
                         moneyNotes:  moneyNotes,
                         sku_sn:      item.sku_sn,
                         unit_type:   item.unit_type,
+                        type:       2
                     };
                     this.totalMoney += moneyNotes;
                     this.rowInfoForm.goods.push(addData);
@@ -438,7 +439,7 @@
                     if(this.rowInfoForm.goods.length < this.goods.length){
                         for (let i = 0; i < this.multipleSelection.length; i++) {
                             let element = this.multipleSelection[i];
-                            element.type = 1;
+                            element.type = 2;
                         }
                         this.rowInfoForm.goods= this.rowInfoForm.goods.concat(this.multipleSelection);
                     }else{

@@ -81,9 +81,9 @@
             intoTimeDateChange(v){
                 this.checkForm.into_time = v;
             },
-            onOpen(event){
-                console.log(event);
-                this.checkForm.id = event.params.row.id;
+            onOpen(param){
+                console.log(param);
+                this.checkForm.id = param.params.row.id;
                 // this.checkForm.status = event.params.row.status;
             },
             getAjaxPromise(model){

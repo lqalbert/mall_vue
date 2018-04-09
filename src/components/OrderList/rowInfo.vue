@@ -139,6 +139,7 @@
                     shipping_status:'',
                     shipping_name:'',
                     order_time:'',
+                    id:""
                 },
                 model:{}
 

@@ -167,7 +167,7 @@
                         </el-table>
                     </el-tab-pane>
 
-                    <el-tab-pane label="换货锁定(通过审核之后生成)" name="Sixth">
+                    <el-tab-pane label="换货锁定" name="Sixth">
                         <el-table :data="exchangeLockListData" empty-text="暂无数据" border>
                             <el-table-column prop="cus_name" label="客户姓名"  align="center"></el-table-column>
                             <el-table-column prop="before_goods_name" label="原商品名称"  align="center"></el-table-column>

@@ -273,17 +273,11 @@
         },
         methods: {
             openAdd(){
-                this.setCustomerType();
-                this.setCustomerSource();
-                this.setAreaProvinces();
                 this.$modal.show('add-customerinformation',{
                     extra:this.cusData,
                 });
             },
             openEdit(row){
-                this.setCustomerType();
-                this.setCustomerSource();
-                this.setAreaProvinces();
                 this.$modal.show('edit-customerinformation', {model:row,extra:this.cusData,});
             },
             openAddDeliveryAddress(row){
@@ -453,6 +447,10 @@
 
             this.mainparam = JSON.stringify(this.searchForm);
             // this.$emit('search-tool-change', this.searchForm);
+
+            this.setCustomerType();
+            this.setCustomerSource();
+            this.setAreaProvinces();
         },
         mounted(){
             this.$refs['searchForm'].$on('reset', this.onSearchReset);

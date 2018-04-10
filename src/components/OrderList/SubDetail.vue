@@ -197,7 +197,6 @@
                 this.tabFourth = false;
                 this.tabFifth = false;
             },
-
             activeName:function(val, olvVal){
                 // console.log(this.activeName);
                 if (!this['tab'+ val] && this.row !== null) {

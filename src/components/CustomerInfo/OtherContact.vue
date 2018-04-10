@@ -11,10 +11,10 @@
                 <el-table-column prop="qq_nickname" label="QQ昵称" width="170"></el-table-column>
                 <el-table-column prop="weixin" label="微信" width="170"></el-table-column>
                 <el-table-column prop="weixin_nickname" label="微信昵称" width="170"></el-table-column>
-                <el-table-column  label="操作" fixed="right" width="170">
+                <el-table-column  label="操作" fixed="right" width="100">
                     <template slot-scope="scope">
                         <el-button size="small" type="primary" @click="handleCurrentChange(scope.row)">编 辑</el-button>
-                        <el-button size="small" type="danger" @click="deleteAddress(scope.row)">删 除</el-button>
+                        <!-- <el-button size="small" type="danger" @click="deleteAddress(scope.row)">删 除</el-button> -->
                     </template>
                 </el-table-column>
             </el-table>
@@ -26,9 +26,9 @@
               :label-width="labelWidth">
                 <el-row>
                     <el-col :span="12">
-                            <el-form-item label="手机号"  prop="phone">
-                                <el-input class="name-input" v-model.number="addContactForm.phone" auto-complete="off" placeholder="请填写客户手机号"></el-input>
-                            </el-form-item>
+                        <el-form-item label="手机号"  prop="phone">
+                            <el-input class="name-input" v-model.number="addContactForm.phone" auto-complete="off" placeholder="请填写客户手机号"></el-input>
+                        </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row>
@@ -74,7 +74,7 @@ import DialogForm from '../../mix/DialogForm';
 import CustomerContact from '../../ajaxProxy/CustomerContact';
 import CustomerContactProxy from  '../../packages/CustomerContactProxy';
 
-const maxLengthContacts = 20;
+const maxLengthContacts = 2;
 const FORMSTATE_ADD = '确 定';
 const FORMSTATE_EDIT = '编 辑';
 export default {
@@ -124,7 +124,8 @@ export default {
                     { required: true,max: 99999999999, message:'请输入正确的手机号', type: 'number', trigger:'blur'},
                 ],
             },
-            dev:[]
+            dev:[],
+            contactsLength:1,
         }
     },
     computed:{
@@ -137,6 +138,7 @@ export default {
     },
     methods:{
         onOpen(param){
+            this.contactsLength = 1;
             this.cus_id = param.params.model.id;
             this.setContactData(this.cus_id);
         },
@@ -179,6 +181,9 @@ export default {
                 vmthis.$refs[name].resetFields();
                 vmthis.setContactData(vmthis.cus_id);
                 vmthis.hideForm();
+                if(vmthis.cusContactData.length >=2){
+                    vmthis.contactsLength = 2;
+                }
                 // vmthis.$emit('submit-success', name);
             }).catch(function(error){
                 if(error.response){
@@ -261,6 +266,9 @@ export default {
         },
         getContactData(data){
             this.cusContactData=data;
+            if(data.length >=2){
+                this.contactsLength = 2;
+            }
         },
 
     },

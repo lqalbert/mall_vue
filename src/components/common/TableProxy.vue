@@ -36,11 +36,11 @@
             <slot></slot>
         </el-table>
         <br>
-        <el-row >
+        <el-row type="flex" justify="end">
             <el-col :span="12">
                 <slot name="buttonbar"></slot>            
             </el-col>
-            <el-col :span="12" :offset="12">
+            <el-col :span="12" >
                 <div class="pull-right">
                     <el-pagination
                         :current-page="currentPage"

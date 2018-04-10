@@ -1,21 +1,148 @@
+import Add from "../Add";
+import Edit from "../Edit";
+import Chat from "../Chat";
+import addOrder from "../addOrder";
+import addAddress from "../addAddress";
+import Transfer from '../Transfer';
+import QuitDepart from '../QuitForDepart';
+import Quit from '../Quit';
+import OtherContact from '../OtherContact';
+import AddTrack from '../AddTrack';
+import SubDetail from '../SubDetail';
+
+import DataTable from '@/mix/DataTable';
+import SearchTool from '@/mix/SearchTool';
+
+import Customer from '@/ajaxProxy/Customer';
+import OrderBasic from '@/ajaxProxy/OrderBasic';
+import SelectProxy from  '@/packages/SelectProxy';
+
+import CustomerSelect from '@/packages/CustomerSelectProxy';
+import AreaSelect from '@/packages/AreaSelectProxy';
+
+import DeliveryAddress from '@/ajaxProxy/DeliveryAddress';
+
+
 const mix = {
-    methods:{
-        trasnGroupToOptions(option){
-            let re = [];
-            for (let index = 0; index < option.length; index++) {
-                var element = option[index];
-                var children = [];
-                if (element.users) {
-                    children =  this.trasnGroupToOptions(element.users);
-                }
-                var result = {value:element.id, label:element.name ? element.name : element.realname};
-                if (children.length > 0) {
-                    result.children = children;
-                }
-                re.push(result);
-            }
-            return re;
+    mixins: [DataTable,SearchTool],
+    components: {
+        // advancedQuery,
+        Add,
+        // Chat,
+        Edit,
+        addOrder,
+        addAddress,
+        Transfer,
+        QuitDepart,
+        Quit,
+        OtherContact,
+        AddTrack,
+        SubDetail
+    },
+    data(){
+        return {
+            addressData:'',
+            CategoryList:'',
+            addressAjaxProxy:DeliveryAddress,
+            ajaxProxy:Customer, 
+            mainurl:Customer.getUrl(),
+            customerType:{},
+            customerSource:{},
+            orderBasicAjaxProxy:OrderBasic,
+            model:null,
+            pageSize:15,
+            mainparam:'',
         }
+    },
+    methods:{
+        
+        openAdd(){
+            this.$modal.show('add-customerinformation',{
+                extra:this.cusData,
+            });
+        },
+        openEdit(row){
+            this.$modal.show('edit-customerinformation', {model:row,extra:this.cusData,});
+        },
+        openAddDeliveryAddress(row){
+            this.$modal.show('add-Address', {model:row});
+        },
+        addTrackLog(){
+            if (this.selectRowCheck()) {
+                this.$modal.show('add-track',{model:this.model});
+            }
+        },
+        openAddOrder(row){
+            this.$modal.show('add-orderBasic', {model:row});
+        },
+        addOtherContact(){
+            if (this.selectRowCheck()) {
+                this.$modal.show('other-contact',{model:this.model});
+            }
+        },
+        onSearchChange(param){
+            this.mainparam = JSON.stringify(param);
+        },
+        getCategoryList(data){
+            this.CategoryList=data.items;
+        },
+        getAddressData(data){
+            this.addressData=data.items;
+        },
+        getCategory(){
+            let selectProxy = new SelectProxy('/tree', this.getCategoryList, this);
+            selectProxy.load();
+        },
+        getAddress(){
+            let selectProxy = new SelectProxy(DeliveryAddress.getUrl(), this.getAddressData, this);
+            selectProxy.load();
+        },
+        getCustomerType(data){
+            this.cusData['type'] = data;
+        },
+        setCustomerType(){
+            let customerSelect = new CustomerSelect(null,this.getCustomerType,this);
+            customerSelect.setParam({business:'customerType'}).load();
+        },
+        getCustomerSource(data){
+            this.cusData['source'] = data;
+        },
+        setCustomerSource(){
+            let customerSelect = new CustomerSelect(null,this.getCustomerSource,this);
+            customerSelect.setParam({business:'customerSource'}).load();
+        },
+        getAreaProvinces(data){
+            this.cusData['provinces'] = data;
+        },
+        setAreaProvinces(){
+            let areaSelect = new AreaSelect({pid:1},this.getAreaProvinces,this);
+            areaSelect.load();
+        },
+        rowCellClick(row){
+            this.model=row;
+        },
+        hasCurrentRow(){
+            if (this.model) {
+                return true;
+            } else {
+                return false;
+            }
+        },
+        selectRowCheck(){
+            if (!this.hasCurrentRow()) {
+                this.$alert('请选择一行', '警告', {
+                    confirmButtonText: '确定',
+                })
+                return false;
+            } else {
+                return true;
+            }
+        },
+    },
+    created(){
+        this.setCustomerType();
+        this.setCustomerSource();
+        this.setAreaProvinces();
     }  
 };
 

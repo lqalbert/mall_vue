@@ -46,13 +46,13 @@
     import EmployeeAjax from '../../ajaxProxy/Employee';
     import CustomerAjax from '../../ajaxProxy/Customer';
     import GroupSelect from '../../packages/GroupSelectProxy';
-    import LocalMix from './mix';
+    
 
     import { mapGetters } from 'vuex';
 
     export default {
         name: 'QuitDepart',
-        mixins:[DataTable,FormMix,DialogMix,LocalMix],
+        mixins:[DataTable,FormMix,DialogMix],
         data () {
             return {
                 mainurl:EmployeeAjax,
@@ -86,6 +86,22 @@
                     re.push(element.id);
                 }
                 this.quitForm.user_ids = re;
+            },
+            trasnGroupToOptions(option){
+                let re = [];
+                for (let index = 0; index < option.length; index++) {
+                    var element = option[index];
+                    var children = [];
+                    if (element.users) {
+                        children =  this.trasnGroupToOptions(element.users);
+                    }
+                    var result = {value:element.id, label:element.name ? element.name : element.realname};
+                    if (children.length > 0) {
+                        result.children = children;
+                    }
+                    re.push(result);
+                }
+                return re;
             },
             targeChange(arr){
                 this.quitForm.to_id = arr[1];

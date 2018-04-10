@@ -50,13 +50,22 @@ const user = {
             return state.user.realname;
         },
         departName(state){
-            return state.user.department[0].name;
+            if (state.user.department.length > 0) {
+                return state.user.department[0].name;
+            } else {
+                return '未分配';
+            }
+            
         },
         department_id(state){
             return state.user.department_id;
         },
         groupName(state) {
-            return state.user.group[0].name;
+            if (state.user.group.length > 0) {
+                return state.user.group[0].name;
+            } else {
+                return '未分配';
+            }
         },
         group_id(state){
             return state.user.group_id;

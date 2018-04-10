@@ -157,7 +157,8 @@ export default {
                 user_id:"",
                 user_name:"",
                 assign_fee:"",
-                send_time:""
+                send_time:"",
+                status:""
             },
             model:{}
         }
@@ -167,6 +168,9 @@ export default {
             this.addForm.send_time=v;
         },
         getAjaxPromise(model){
+            if (model.status==0) {
+                model.status = 1;
+            }
             return this.ajaxProxy.update(model.id, model);
         },
         onBeforeOpen(model) {

@@ -13,7 +13,7 @@
                                 <el-input type="password" v-model="loginForm.password" ></el-input>
                             </el-form-item>
                             <el-form-item >
-                                <el-button class="but" type="primary" @click="login">登 录</el-button>
+                                <el-button class="but" type="primary" @click="login" :loading="logining">登 录</el-button>
                                 <!--<el-button @click="resetForm">重 置</el-button>-->
                             </el-form-item>
                         </el-form>
@@ -35,7 +35,8 @@
                 loginForm:{
                     account:"",
                     password:"",
-                }
+                },
+                logining:false,
             }
         },
         methods:{
@@ -45,6 +46,7 @@
 
             login(){
                 let vmThis = this;
+                this.logining = true;
                 loginAjaxProxy.login(vmThis.loginForm).then(function(response){
                     let data = response.data;
                     console.log(response);
@@ -56,8 +58,10 @@
                     }
                     // console.log(data.data);
                     vmThis.loginUser(data.data)
+                    vmThis.logining = false;
                 }).catch(function(data){
                     vmThis.$message.error('出错了');
+                    vmThis.logining = false;
                 })
                 
             },

@@ -39,7 +39,7 @@
                 <TableProxy
                         :url="mainurl"
                         :param="mainparam"
-                        :reload="dataTableReload" :page-size="pageSize">
+                        :reload="dataTableReload" :page-size="pageSize" @cellclick="rowCellClick" @dbclick="showRow">
                     <el-table-column label="序号"  type="index" align="center" width="80"></el-table-column>
                     <el-table-column prop="mid_relative.department_name" label="部门"  width="100" v-if="strategyColumnDepart">
                     </el-table-column>
@@ -82,7 +82,10 @@
                         </template>
                     </el-table-column>
                     <div slot="buttonbar">
-                        <el-button size="small"  type="primary" @click="$modal.show('add-customerinformation')" >添加客户</el-button>
+                        <el-button size="small"  type="primary" @click="openAdd" >添加客户</el-button>
+                        <el-button size="small"  type="info" @click="addOtherContact" icon="plus">联系方式</el-button>
+                        <el-button size="small"  type="info" @click="addTrackLog">录入跟踪</el-button>
+
                         <el-button size="small"  type="info" @click="showDialog('set-transfer')" v-show="strategyButtonTransferShow">转让</el-button>
                         <!-- 一个小组员工 到 另一个小组员工 -->
                         <el-button size="small" @click="showDialog('quit-depart')" v-show="strategyButtonQuit1Show">离职接收</el-button>
@@ -93,6 +96,18 @@
             </el-col>
         </el-row>
 
+        <el-row>
+            <el-tabs v-model="activeName" type="border-card">
+                <el-tab-pane label="跟踪记录" name="first">
+                    <el-table :data="TrackLogData" border style="width: 100%">
+                        <el-table-column prop="cus_name" label="客户姓名" align="center"></el-table-column>
+                        <el-table-column prop="user_name" label="录入人姓名" align="center"></el-table-column>
+                        <el-table-column prop="content" label="跟踪内容" align="center"></el-table-column>
+                        <el-table-column prop="created_at" label="录入时间" align="center"></el-table-column>
+                    </el-table>
+                </el-tab-pane>
+            </el-tabs>
+        </el-row>
 
         <Add name='add-customerinformation'
              :ajax-proxy="ajaxProxy"
@@ -109,8 +124,12 @@
         <addAddress name='add-Address'
                     width="60%"
                     :ajax-proxy="addressAjaxProxy" @submit-success="handleReload">
-
         </addAddress>
+
+        <other-contact name='other-contact'
+            @submit-success="handleReload">
+        </other-contact>
+
         <!--<Chat name='chat'></Chat>-->
         <addOrder name='add-orderBasic'
                   width="60%"
@@ -118,6 +137,10 @@
                   :CategoryList="CategoryList" @submit-success="handleReload">
         </addOrder>
         
+        <add-track name='add-track'
+            @submit-success="handleReload">
+        </add-track>
+
         <Transfer name='set-transfer'></Transfer>
 
         <QuitDepart name="quit-depart"></QuitDepart>
@@ -137,26 +160,30 @@
     import Transfer from './Transfer';
     import QuitDepart from './QuitForDepart';
     import Quit from './Quit';
+    import OtherContact from './OtherContact';
+    import AddTrack from './AddTrack';
 
-    import DataTable from '../../mix/DataTable';
-    import PageMix from '../../mix/Page';
-    //import DataProxy from '../../packages/DataProxy';
-    import SearchTool from '../../mix/SearchTool';
-    import SelectProxy from  '../../packages/SelectProxy';
+    import DataTable from '@/mix/DataTable';
+    import PageMix from '@/mix/Page';
+    //import DataProxy from '@/packages/DataProxy';
+    import SearchTool from '@/mix/SearchTool';
+    import SelectProxy from  '@/packages/SelectProxy';
 
-    import Customer from '../../ajaxProxy/Customer';
+    import Customer from '@/ajaxProxy/Customer';
    
-    import Category from '../../ajaxProxy/Category';
-    import DeliveryAddress from '../../ajaxProxy/DeliveryAddress';
-    import OrderBasic from '../../ajaxProxy/OrderBasic';
+    import Category from '@/ajaxProxy/Category';
+    import DeliveryAddress from '@/ajaxProxy/DeliveryAddress';
+    import OrderBasic from '@/ajaxProxy/OrderBasic';
 
-
-    import DepartSelect from '../../packages/DepartSelectProxy';
-    import GroupSelect from '../../packages/GroupSelectProxy';
-    import EmployeeSelect from '../../packages/EmployeeSelectProxy';
+    import DepartSelect from '@/packages/DepartSelectProxy';
+    import GroupSelect from '@/packages/GroupSelectProxy';
+    import EmployeeSelect from '@/packages/EmployeeSelectProxy';
+    import CustomerSelect from '@/packages/CustomerSelectProxy';
+    import AreaSelect from '@/packages/AreaSelectProxy';
+    import CustomerTrackLogProxy from '@/packages/CustomerTrackLogProxy';
 
     import { mapGetters } from 'vuex';
-    import APP_CONST from '../../config';
+    import APP_CONST from '@/config';
 
     export default {
         name: 'Customer',
@@ -171,7 +198,9 @@
             addAddress,
             Transfer,
             QuitDepart,
-            Quit
+            Quit,
+            OtherContact,
+            AddTrack,
         },
         data() {
             return {
@@ -194,7 +223,13 @@
                 mainparam:'',
                 pageSize:15,
                 CategoryList:'',
-                strategies:""
+                strategies:"",
+                customerType:{},
+                customerSource:{},
+                cusData:{},
+                model:null,
+                activeName:'first',
+                TrackLogData:[],
             }
         },
         computed:{
@@ -237,14 +272,62 @@
 
         },
         methods: {
+            openAdd(){
+                this.setCustomerType();
+                this.setCustomerSource();
+                this.setAreaProvinces();
+                this.$modal.show('add-customerinformation',{
+                    extra:this.cusData,
+                });
+            },
             openEdit(row){
-                this.$modal.show('edit-customerinformation', {model:row});
+                this.setCustomerType();
+                this.setCustomerSource();
+                this.setAreaProvinces();
+                this.$modal.show('edit-customerinformation', {model:row,extra:this.cusData,});
             },
             openAddDeliveryAddress(row){
                 this.$modal.show('add-Address', {model:row});
             },
+            addTrackLog(){
+                if (this.selectRowCheck()) {
+                    this.$modal.show('add-track',{model:this.model});
+                }
+            },
             openAddOrder(row){
                 this.$modal.show('add-orderBasic', {model:row});
+            },
+            addOtherContact(){
+                if (this.selectRowCheck()) {
+                    this.$modal.show('other-contact',{model:this.model});
+                }
+            },
+            rowCellClick(row){
+                this.model=row;
+            },
+            hasCurrentRow(){
+                if (this.model) {
+                    return true;
+                } else {
+                    return false;
+                }
+            },
+            selectRowCheck(){
+                if (!this.hasCurrentRow()) {
+                    this.$alert('请选择一行', '警告', {
+                        confirmButtonText: '确定',
+                    })
+                    return false;
+                } else {
+                    return true;
+                }
+            },
+            getTrackLog(data){
+                this.TrackLogData = data;
+            },
+            showRow(row){
+                let customerTrackLogProxy = new CustomerTrackLogProxy(null,this.getTrackLog,this);
+                customerTrackLogProxy.setParam({cus_id:row.id,business:'theCus'}).load();
             },
             getAjaxProxy(){
                 return  this.ajaxProxy;
@@ -330,7 +413,29 @@
                     this.employeeSelect.setParam({group_id:v,fields:['id', 'realname']});
                     this.employeeSelect.load();
                 }  
-            }
+            },
+            getCustomerType(data){
+                this.cusData['type'] = data;
+            },
+            setCustomerType(){
+                let customerSelect = new CustomerSelect(null,this.getCustomerType,this);
+                customerSelect.setParam({business:'customerType'}).load();
+            },
+            getCustomerSource(data){
+                this.cusData['source'] = data;
+            },
+            setCustomerSource(){
+                let customerSelect = new CustomerSelect(null,this.getCustomerSource,this);
+                customerSelect.setParam({business:'customerSource'}).load();
+            },
+            getAreaProvinces(data){
+                this.cusData['provinces'] = data;
+            },
+            setAreaProvinces(){
+                let areaSelect = new AreaSelect({pid:1},this.getAreaProvinces,this);
+                areaSelect.load();
+            },
+
 
         },
         created(){

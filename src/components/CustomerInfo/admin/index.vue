@@ -37,15 +37,15 @@
         
         <el-row>
             <el-col :span="24">
-                    <el-button size="small" @click="setBusiness('tracked')">跟踪</el-button>
-                    <el-button size="small" @click="setBusiness('untracked')">未跟踪</el-button>
-                    <el-button size="small" @click="setBusiness('plan')">计划</el-button>
-                    <el-button size="small" @click="setSourceType('out')">转让</el-button>
-                    <el-button size="small" @click="setSourceType('in')">转入</el-button>
-                    <el-button size="small" @click="setType('V')">服务</el-button>
+                    <el-button size="small" type="info" @click="setBusiness('tracked')">跟踪</el-button>
+                    <el-button size="small" type="info" @click="setBusiness('untracked')">未跟踪</el-button>
+                    <el-button size="small" type="info" @click="setBusiness('plan')">计划</el-button>
+                    <el-button size="small" type="info" @click="setSourceType('out')">转让</el-button>
+                    <el-button size="small" type="info" @click="setSourceType('in')">转入</el-button>
+                    <el-button size="small" type="info" @click="setType('V')">服务</el-button>
                     
-                    <el-button size="small" @click="setBusiness('conflict')">冲突</el-button>
-                    <el-button size="small">客户预查</el-button>
+                    <el-button size="small" type="info" @click="setBusiness('conflict')">冲突</el-button>
+                    <el-button size="small" type="info">客户预查</el-button>
             </el-col>
         </el-row>
         <br>
@@ -61,6 +61,11 @@
                     <el-table-column prop="mid_relative.group_name" label="小组" width="100"></el-table-column>
                     <el-table-column prop="mid_relative.user_name" label="员工" width="100"></el-table-column>
                     <el-table-column prop="name" label="客户姓名" width="160"></el-table-column>
+                    <el-table-column prop="type" label="客户类型" width="160">
+                        <template slot-scope="scope">
+                            {{ setCustomerTypeLabel(scope.row.type) }}
+                        </template>
+                    </el-table-column>
                     <el-table-column prop="sex_text" label="性别"  align="center"></el-table-column>
                     <el-table-column prop="age" label="年龄" align="center" width="100"></el-table-column>
                     <el-table-column label="QQ号" prop="qq" align="center" width="160">
@@ -100,16 +105,17 @@
                         <el-button size="small"  type="primary" @click="openAdd" >添加客户</el-button>
                         <el-button size="small"  type="info" @click="addOtherContact">联系方式</el-button>
                         <el-button size="small"  type="info" @click="addTrackLog">录入跟踪</el-button>
-                        <el-button size="small" @click="showDialog('quit')" >离职接收</el-button>
-                        <el-button size="small" @click="addComplain">投诉</el-button>
-                        <el-button size="small" @click="setPlan">计划</el-button>
+                        <el-button size="small"  type="info" @click="showDialog('quit')" >离职接收</el-button>
+                        <el-button size="small"  type="info" @click="addComplain">投诉</el-button>
+                        <el-button size="small"  type="info" @click="setPlan">计划</el-button>
                     </div>
                 </TableProxy>
             </el-col>
         </el-row>
         <br>
 
-        <SubDetail :row="model"></SubDetail>
+        <SubDetail :row="model" :complain-type="complainType">
+        </SubDetail>
 
         <Add name='add-customerinformation'
              :ajax-proxy="ajaxProxy"
@@ -139,14 +145,18 @@
                   :CategoryList="CategoryList" @submit-success="handleReload">
         </addOrder>
         
-         <add-track name='add-track'
+        <add-track name='add-track'
             @submit-success="handleReload">
         </add-track>
 
         <!--<Transfer name='set-transfer'></Transfer>-->
 
         <!-- <QuitDepart name="quit-depart"></QuitDepart> -->
-        <Quit name="quit"></Quit>  
+        <Quit name="quit"></Quit>
+
+        <add-complain name='add-complain' 
+            @submit-success="handleReload">
+        </add-complain>
 
     </div>
 
@@ -199,6 +209,9 @@
             getAjaxProxy(){
                 return  this.ajaxProxy;
             },
+            setCustomerTypeLabel(type){
+                return this.cusData['type'][type];
+            },
             onSearchReset(){
                 this.departSelect.setParam({type:'0'});
                 this.departSelect.load();
@@ -236,6 +249,7 @@
                     this.employeeSelect.load();
                 }  
             },
+            
         },
         created(){
             this.$on('search-tool-change', this.onSearchChange);

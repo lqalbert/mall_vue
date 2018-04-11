@@ -22,6 +22,21 @@
                     </el-form>
                 </el-col>
             </el-row>
+            
+            <el-row>
+                <el-col :span="24">
+                        <el-button size="small" @click="setBusiness('tracked')">跟踪</el-button>
+                        <el-button size="small" @click="setBusiness('untracked')">未跟踪</el-button>
+                        <el-button size="small" @click="setBusiness('plan')">计划</el-button>
+                        <el-button size="small" @click="setSourceType('out')">转让</el-button>
+                        <el-button size="small" @click="setSourceType('in')">转入</el-button>
+                        <el-button size="small" @click="setType('V')">服务</el-button>
+                        
+                        <el-button size="small" @click="setBusiness('conflict')">冲突</el-button>
+                        <el-button size="small">客户预查</el-button>
+                </el-col>
+            </el-row>
+            <br>
             <el-row>
                 <el-col >
                     <TableProxy
@@ -70,6 +85,9 @@
                             <el-button size="small"  type="primary" @click="openAdd" >添加客户</el-button>
                             <el-button size="small"  type="info" @click="addOtherContact" icon="plus">联系方式</el-button>
                             <el-button size="small"  type="info" @click="addTrackLog">录入跟踪</el-button>
+
+                            <el-button size="small" @click="addComplain">投诉</el-button>
+                            <el-button size="small" @click="setPlan">计划</el-button>
                         </div>
                     </TableProxy>
                 </el-col>
@@ -151,7 +169,11 @@
                     user_id:"",
                     name:'',
                     phone:'',
-                    with:['contacts', 'midRelative']
+                    with:['contacts', 'midRelative'],
+
+                    user_business:'',
+                    type:'',
+                    source:"",
                 },
                 orderBasicAjaxProxy:OrderBasic,
                 cusData:{},
@@ -181,6 +203,8 @@
                 }  else {
                     return ;
                 }
+
+                this.resetB();
             },
             
             loadUsers(data){

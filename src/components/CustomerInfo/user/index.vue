@@ -18,6 +18,20 @@
                 </el-col>
             </el-row>
             <el-row>
+                    <el-col :span="24">
+                        <el-button size="small" @click="setBusiness('tracked')">跟踪</el-button>
+                        <el-button size="small" @click="setBusiness('untracked')">未跟踪</el-button>
+                        <el-button size="small" @click="setBusiness('plan')">计划</el-button>
+                        <el-button size="small" @click="setSourceType('out')">转让</el-button>
+                        <el-button size="small" @click="setSourceType('in')">转入</el-button>
+                        <el-button size="small" @click="setType('V')">服务</el-button>
+                        
+                        <el-button size="small" @click="setBusiness('conflict')">冲突</el-button>
+                        <el-button size="small">客户预查</el-button>
+                    </el-col>
+            </el-row>
+            <br>
+            <el-row>
                 <el-col >
                     <TableProxy
                             :url="mainurl"
@@ -63,15 +77,15 @@
                         </el-table-column>
                         <div slot="buttonbar">
                             <el-button size="small"  type="primary" @click="openAdd" >添加客户</el-button>
-                            <el-button size="small"  type="info" @click="addOtherContact" icon="plus">联系方式</el-button>
+                            <el-button size="small"  type="info" @click="addOtherContact">联系方式</el-button>
                             <el-button size="small"  type="info" @click="addTrackLog">录入跟踪</el-button>
+                            
+                            <el-button size="small" @click="addComplain">投诉</el-button>
+                            <el-button size="small" @click="setPlan">计划</el-button>
                         </div>
                     </TableProxy>
                 </el-col>
             </el-row>
-    
-            
-
             <br>
             <SubDetail :row="model"></SubDetail>
     
@@ -142,11 +156,15 @@
                 groups:[],
                 users:[],
                 searchForm: {
-                    group_id:"",
+                    
                     user_id:"",
                     name:'',
                     phone:'',
-                    with:['contacts', 'midRelative']
+                    with:['contacts', 'midRelative'],
+
+                    user_business:'',
+                    type:'',
+                    source:"",
                 },
                 orderBasicAjaxProxy:OrderBasic,
                 cusData:{},
@@ -169,31 +187,21 @@
             },
             
             onSearchReset(){
-                // todo 把角色有关的字符串 通通改成常量
-                if (this.user_group_id != 0) {
-                    this.searchForm.group_id = this.user_group_id;
-                    this.onGroupChange(this.searchForm.group_id);
-                }  else {
-                    return ;
-                }
+                this.resetB();
             },
+
             
             loadUsers(data){
                 this.users = data.items;
             },
+            
         },
         created(){
             this.$on('search-tool-change', this.onSearchChange);
-            this.getCategory();   
-            
-            
-           
+            this.getCategory();  
 
             this.onSearchReset();
-
-            this.searchForm.user_id = this.user_user_id;
-
-            
+            this.searchForm.user_id = this.user_user_id;            
             this.mainparam = JSON.stringify(this.searchForm);
         },
         mounted(){

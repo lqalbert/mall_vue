@@ -138,6 +138,35 @@ const mix = {
                 return true;
             }
         },
+
+        resetB(){
+            this.searchForm.user_business = "";
+            this.searchForm.type = "";
+            this.searchForm.source="";
+        },
+        setBusiness(value){
+            this.resetB();
+            this.searchForm.user_business = value;
+            
+            this.onSearchChange(this.searchForm);
+        },
+        setType(value){
+            this.resetB();
+            this.searchForm.type = value;
+            this.onSearchChange(this.searchForm);
+        },
+        setSourceType(value){
+            this.resetB();
+            this.searchForm.source = value;
+            this.onSearchChange(this.searchForm);
+        },
+        addComplain(){
+            console.log('mix里同')
+        },
+        setPlan(){
+            console.log('mix里头');
+        }
+
     },
     created(){
         this.setCustomerType();

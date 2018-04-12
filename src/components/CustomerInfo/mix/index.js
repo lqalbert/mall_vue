@@ -44,7 +44,7 @@ const mix = {
         SubDetail,
         Plan,
         preCheck,
-	AddComplain,
+	    AddComplain,
     },
     data(){
         return {

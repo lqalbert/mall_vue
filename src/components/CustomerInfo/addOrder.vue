@@ -251,7 +251,7 @@
                 // this.alertNum = this.allNum-v>0 ? this.allNum-v : 0;
             },
             userChange(deal_id){
-                console.log(this.users);
+                // console.log(this.users);
                 this.deal_id=deal_id;
                 this.addOrderForm.deal_id=deal_id;
                 for (let i = 0; i < this.users.length; i++) {
@@ -315,8 +315,8 @@
             onOpen(param){
                 // console.log(param.params);
                 this.addOrderForm.cus_name = param.params.model.name;
-                this.addOrderForm.group_id = param.params.model.mid_relative.group_id;
-                this.addOrderForm.department_id = param.params.model.mid_relative.department_id;
+                this.addOrderForm.group_id = this.getUser.group_id;
+                this.addOrderForm.department_id = this.getUser.department_id;
                 this.addOrderForm.deal_id=this.user_id;
                 this.addOrderForm.deal_name=this.getUser.realname;
                 this.cus_id = param.params.model.id;
@@ -440,7 +440,7 @@
              *  
              */
             loadGoods(data){
-                console.log(data);
+               
                 var vmThis = this;
                 this.data2 = {};
                 for (let i = 0; i < data.items.length; i++) {

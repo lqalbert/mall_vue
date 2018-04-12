@@ -1,6 +1,6 @@
 <template>
     <div >
-        <MyDialog title="添加联系方式" :name="name" :width="width" :height="height" @before-open="onOpen">
+        <MyDialog title="添加联系方式" :name="name" :width="width" :height="height" @before-open="onOpen" @before-close="onBeforeClose">
             <el-table
              :data="cusContactData"
              border
@@ -108,16 +108,16 @@ export default {
 
                 ],
                 qq_nickname:[
-                    { required: true,message:'请输入QQ昵称', type: 'string', trigger:'blur'},
+                    // { required: true,message:'请输入QQ昵称', type: 'string', trigger:'blur'},
                     {min:1, max: 20, message: '长度不能超过20个字符', trigger: 'blur'  }
 
                 ],
                 weixin:[
-                    { required: true, message:'请输入微信号', type: 'string', trigger:'blur'},
+                    // { required: true, message:'请输入微信号', type: 'string', trigger:'blur'},
                     {   max: 20, message: '长度不能超过20个字符', trigger: 'blur'  }
                 ],
                 weixin_nickname:[
-                    { required: true, message:'请输入微信昵称', type: 'string', trigger:'blur'},
+                    // { required: true, message:'请输入微信昵称', type: 'string', trigger:'blur'},
                     {   max: 20, message: '长度不能超过20个字符', trigger: 'blur'  }
                 ],
                 phone:[
@@ -149,23 +149,6 @@ export default {
         getAjaxProxy(){
             return  CustomerContact;
         },
-        
-        formSubmit(name){
-            let model = this[name];
-            if (this.$refs[name].rules) {
-                this.$refs[name].validate((valid)=>{
-                    if (valid) {
-                        this.realSubmit(model, name);
-                    } else {
-                        console.log('error submit!!', name);
-                        this.$emit('valid-error', name);
-                        return false;
-                    }
-                })
-            } else {
-                this.realSubmit(model, name);
-            }
-        },
         getAjaxPromise(model){
             if(this.formstate == FORMSTATE_EDIT){
                 return CustomerContact.update(model.id, model);
@@ -173,36 +156,10 @@ export default {
                 return CustomerContact.create(model);
             }
         },
-        realSubmit(model, name){
-            let ajaxPromise =  this.getAjaxPromise(model);
-            let vmthis = this;
-            ajaxPromise.then(function(response){
-                vmthis.$message.success('操作成功');
-                vmthis.$refs[name].resetFields();
-                vmthis.setContactData(vmthis.cus_id);
-                vmthis.hideForm();
-                if(vmthis.cusContactData.length >=2){
-                    vmthis.contactsLength = 2;
-                }
-                // vmthis.$emit('submit-success', name);
-            }).catch(function(error){
-                if(error.response){
-                    console.log(error.response.data);
-                    console.log(error.response.status);
-                    console.log(error.response.headers);
-                }else{
-                    console.log('Error',error.message);
-                }
-                vmthis.$message.error('出错了');
-            }).then(function(){
-                vmthis.$emit('submit-final', name);
-            });
-        },
-        
         handleCurrentChange(row){
             this.showForm();
             this.formstate = FORMSTATE_EDIT;
-            this.addContactForm = row;
+            // this.addContactForm = row;
             this.initObject(row, this.addContactForm);
         },
         showForm(){
@@ -223,11 +180,10 @@ export default {
              this.setContactData(this.cus_id);
         },
         formReset(){
+            this.$refs.addContactForm.resetFields();
             if(this.formstate == FORMSTATE_ADD){
-                this.$refs.addContactForm.resetFields();
                 this.addContactForm.id = '';
             }else if(this.formstate == FORMSTATE_EDIT){
-                this.$refs.addContactForm.resetFields();
                 this.addContactForm.id = this.id;
             }
             this.addContactForm.cus_id = this.cus_id;
@@ -270,9 +226,11 @@ export default {
                 this.contactsLength = 2;
             }
         },
-
-    },
-
+        onBeforeClose(){
+            this.formReset();
+            this.hideForm();
+        }
+    }
 }
 </script>
 

@@ -1,6 +1,7 @@
 import Add from "../Add";
 import Edit from "../Edit";
 import Chat from "../Chat";
+import Plan from "../Plan";
 import addOrder from "../addOrder";
 import addAddress from "../addAddress";
 import Transfer from '../Transfer';
@@ -9,6 +10,7 @@ import Quit from '../Quit';
 import OtherContact from '../OtherContact';
 import AddTrack from '../AddTrack';
 import SubDetail from '../SubDetail';
+import preCheck from '../preCheck';
 
 import DataTable from '@/mix/DataTable';
 import SearchTool from '@/mix/SearchTool';
@@ -21,6 +23,7 @@ import CustomerSelect from '@/packages/CustomerSelectProxy';
 import AreaSelect from '@/packages/AreaSelectProxy';
 
 import DeliveryAddress from '@/ajaxProxy/DeliveryAddress';
+import PlanAjax from '@/ajaxProxy/Plan';
 
 
 const mix = {
@@ -37,7 +40,9 @@ const mix = {
         Quit,
         OtherContact,
         AddTrack,
-        SubDetail
+        SubDetail,
+        Plan,
+        preCheck
     },
     data(){
         return {
@@ -45,6 +50,7 @@ const mix = {
             CategoryList:'',
             addressAjaxProxy:DeliveryAddress,
             ajaxProxy:Customer, 
+            planAjaxProxy:PlanAjax,
             mainurl:Customer.getUrl(),
             customerType:{},
             customerSource:{},
@@ -163,8 +169,13 @@ const mix = {
         addComplain(){
             console.log('mix里同')
         },
+        preCheck(){
+            this.$modal.show('preCheck');
+        },
         setPlan(){
-            console.log('mix里头');
+            if (this.selectRowCheck()) {
+                this.$modal.show('plan', {model: this.model});
+            }
         }
 
     },

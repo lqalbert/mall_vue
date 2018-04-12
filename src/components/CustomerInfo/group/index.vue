@@ -129,8 +129,11 @@
             <add-track name='add-track'
                 @submit-success="handleReload">
             </add-track>
-    
-            
+
+            <plan name="plan"
+                  :ajax-proxy="planAjaxProxy"
+                  @submit-success="handleReload">
+            </plan>
     
         </div>
     

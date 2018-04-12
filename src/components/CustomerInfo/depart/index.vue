@@ -141,8 +141,11 @@
     
              <Transfer name='set-transfer'></Transfer>
              <QuitDepart name="quit-depart"></QuitDepart>
-            
-            
+
+            <plan name="plan"
+                  :ajax-proxy="planAjaxProxy"
+                  @submit-success="handleReload">
+            </plan>
     
         </div>
     

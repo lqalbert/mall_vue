@@ -129,7 +129,11 @@
     
             <add-complain name='add-complain' 
                 @submit-success="handleReload">
-            </add-complain>        
+            </add-complain>
+	    <plan name="plan"
+                  :ajax-proxy="planAjaxProxy"
+                  @submit-success="handleReload">
+            </plan>        
     
         </div>
     
@@ -196,9 +200,12 @@
             onSearchChange(param){
                 this.mainparam = JSON.stringify(param);
             },
+            
             onSearchReset(){
                 this.resetB();
             },
+
+            
             loadUsers(data){
                 this.users = data.items;
             },

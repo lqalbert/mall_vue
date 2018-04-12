@@ -44,8 +44,8 @@
                     <el-button size="small" type="info" @click="setSourceType('in')">转入</el-button>
                     <el-button size="small" type="info" @click="setType('V')">服务</el-button>
                     
-                    <el-button size="small" type="info" @click="setBusiness('conflict')">冲突</el-button>
-                    <el-button size="small" type="info">客户预查</el-button>
+                    <el-button size="small" @click="setBusiness('conflict')">冲突</el-button>
+                    <el-button size="small" @click="preCheck">客户预查</el-button>
             </el-col>
         </el-row>
         <br>
@@ -145,10 +145,22 @@
                   :CategoryList="CategoryList" @submit-success="handleReload">
         </addOrder>
         
-        <add-track name='add-track'
+         <add-track name='add-track'
             @submit-success="handleReload">
         </add-track>
 
+        <plan name="plan"
+              :ajax-proxy="planAjaxProxy"
+              @submit-success="handleReload">
+        </plan>
+
+        <preCheck name="preCheck"
+                  width="60%"
+                  :ajax-proxy="ajaxProxy"
+                  :preCheckData="preCheckData"
+                  @submit-success="handleReload"
+                  @preCheckSearchChange="preCheckSearchChange">
+        </preCheck>
         <!--<Transfer name='set-transfer'></Transfer>-->
 
         <!-- <QuitDepart name="quit-depart"></QuitDepart> -->
@@ -170,7 +182,7 @@
     import DepartSelect from '@/packages/DepartSelectProxy';
     import GroupSelect from '@/packages/GroupSelectProxy';
     import EmployeeSelect from '@/packages/EmployeeSelectProxy';
-    
+    import CustomerSelect from '@/packages/CustomerSelectProxy';
     import { mapGetters } from 'vuex';
     import APP_CONST from '@/config';
 
@@ -183,6 +195,15 @@
                 departments:[],
                 groups:[],
                 users:[],
+                preCheckData:[],
+                preCheckSearchForm:{
+                    qq:'',
+                    phone:'',
+                    weixin:'',
+                    with:['contacts', 'midRelative'],
+                    preCheck:true,
+                    fields:['*'],
+                },
                 searchForm: {
                     department_id:'',
                     group_id:"",
@@ -211,6 +232,18 @@
             },
             setCustomerTypeLabel(type){
                 return this.cusData['type'][type];
+            },
+	    preCheckSearchChange(v){
+                this.preCheckSearchForm.qq = v.qq;
+                this.preCheckSearchForm.phone = v.phone;
+                this.preCheckSearchForm.weixin = v.weixin;
+                this.customerSelect = new CustomerSelect(null, this.loadCustomer, this);
+                this.customerSelect.setParam(this.preCheckSearchForm);
+                this.customerSelect.load();
+
+            },
+            loadCustomer(res){
+                this.preCheckData = res.items;
             },
             onSearchReset(){
                 this.departSelect.setParam({type:'0'});
@@ -249,7 +282,6 @@
                     this.employeeSelect.load();
                 }  
             },
-            
         },
         created(){
             this.$on('search-tool-change', this.onSearchChange);

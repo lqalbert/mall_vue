@@ -39,8 +39,8 @@
                         <el-button size="small" type="info" @click="setSourceType('in')">转入</el-button>
                         <el-button size="small" type="info" @click="setType('V')">服务</el-button>
                         
-                        <el-button size="small" type="info" @click="setBusiness('conflict')">冲突</el-button>
-                        <el-button size="small" type="info">客户预查</el-button>
+                        <el-button size="small" @click="setBusiness('conflict')">冲突</el-button>
+                        <el-button size="small">客户预查</el-button>
                 </el-col>
             </el-row>
             <br>
@@ -114,9 +114,11 @@
             <SubDetail :row="model" :complain-type="complainType">
             </SubDetail>
            
+    
             <Add name='add-customerinformation'
                  :ajax-proxy="ajaxProxy"
                  @submit-success="handleReload">
+    
             </Add>
     
             <Edit name='edit-customerinformation'
@@ -144,10 +146,14 @@
                 @submit-success="handleReload">
             </add-track>
     
-            <Transfer name='set-transfer'></Transfer>
-            <QuitDepart name="quit-depart"></QuitDepart>
-            
-            <add-complain name='add-complain' 
+             <Transfer name='set-transfer'></Transfer>
+             <QuitDepart name="quit-depart"></QuitDepart>
+
+            <plan name="plan"
+                  :ajax-proxy="planAjaxProxy"
+                  @submit-success="handleReload">
+            </plan>
+	    <add-complain name='add-complain' 
                 @submit-success="handleReload">
             </add-complain>
     

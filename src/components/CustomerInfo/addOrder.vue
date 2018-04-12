@@ -121,7 +121,7 @@
                         <el-table-column prop="zip_code" label="收货邮编"></el-table-column>
                         <el-table-column prop="deal_name" label="成交员工"></el-table-column>
                     </el-table>
-                    <h3> <span>当前保证金:{{ depositMoney }}</span></h3>
+                    <!--<h3> <span>当前保证金:{{ depositMoney }}</span></h3>-->
                     <br>
                     <div slot="dialog-foot" class="right">
                         <el-button @click="handleClose">取 消</el-button>

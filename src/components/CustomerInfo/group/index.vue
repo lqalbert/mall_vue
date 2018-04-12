@@ -25,15 +25,15 @@
             
             <el-row>
                 <el-col :span="24">
-                        <el-button size="small" type="info" @click="setBusiness('tracked')">跟踪</el-button>
-                        <el-button size="small" type="info" @click="setBusiness('untracked')">未跟踪</el-button>
-                        <el-button size="small" type="info" @click="setBusiness('plan')">计划</el-button>
-                        <el-button size="small" type="info" @click="setSourceType('out')">转让</el-button>
-                        <el-button size="small" type="info" @click="setSourceType('in')">转入</el-button>
-                        <el-button size="small" type="info" @click="setType('V')">服务</el-button>
+                        <el-button size="small" @click="setBusiness('tracked')">跟踪</el-button>
+                        <el-button size="small" @click="setBusiness('untracked')">未跟踪</el-button>
+                        <el-button size="small" @click="setBusiness('plan')">计划</el-button>
+                        <el-button size="small" @click="setSourceType('out')">转让</el-button>
+                        <el-button size="small" @click="setSourceType('in')">转入</el-button>
+                        <el-button size="small" @click="setType('V')">服务</el-button>
                         
-                        <el-button size="small" type="info" @click="setBusiness('conflict')">冲突</el-button>
-                        <el-button size="small" type="info">客户预查</el-button>
+                        <el-button size="small" @click="setBusiness('conflict')">冲突</el-button>
+                        <el-button size="small">客户预查</el-button>
                 </el-col>
             </el-row>
             <br>
@@ -139,7 +139,10 @@
             <add-complain name='add-complain' 
                 @submit-success="handleReload">
             </add-complain>
-            
+            <plan name="plan"
+                  :ajax-proxy="planAjaxProxy"
+                  @submit-success="handleReload">
+            </plan>
     
         </div>
     

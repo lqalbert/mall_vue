@@ -314,7 +314,7 @@
                 tabThird : false,
                 tabFourth: false,
                 tabFifth: false,
-                tabSixht: false
+                tabSixth: false
             }
         },
         computed:{

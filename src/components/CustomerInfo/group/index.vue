@@ -33,7 +33,7 @@
                         <el-button size="small" @click="setType('V')">服务</el-button>
                         
                         <el-button size="small" @click="setBusiness('conflict')">冲突</el-button>
-                        <el-button size="small">客户预查</el-button>
+                        <el-button size="small" @click="preCheck">客户预查</el-button>
                 </el-col>
             </el-row>
             <br>
@@ -143,6 +143,9 @@
                   :ajax-proxy="planAjaxProxy"
                   @submit-success="handleReload">
             </plan>
+            <preCheck name="preCheck"
+                  width="60%">
+            </preCheck>
     
         </div>
     

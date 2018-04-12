@@ -196,7 +196,7 @@ export default {
             model:null,
             editFormRules:{
                 goods_price:[
-                    {required: true,pattern:/^(([1-9]\d{0,9})|0)(\.\d{1,2})?$/,  message: '价格格式为88:88', trigger:'blur'}
+                    {required: true,pattern:/^(([1-9]\d{0,9})|0)(\.\d{1,2})?$/,  message: '价格格式为88.88', trigger:'blur'}
                 ],
             },
         }

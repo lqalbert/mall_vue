@@ -155,11 +155,7 @@
         </plan>
 
         <preCheck name="preCheck"
-                  width="60%"
-                  :ajax-proxy="ajaxProxy"
-                  :preCheckData="preCheckData"
-                  @submit-success="handleReload"
-                  @preCheckSearchChange="preCheckSearchChange">
+                  width="60%">
         </preCheck>
         <!--<Transfer name='set-transfer'></Transfer>-->
 
@@ -195,15 +191,6 @@
                 departments:[],
                 groups:[],
                 users:[],
-                preCheckData:[],
-                preCheckSearchForm:{
-                    qq:'',
-                    phone:'',
-                    weixin:'',
-                    with:['contacts', 'midRelative'],
-                    preCheck:true,
-                    fields:['*'],
-                },
                 searchForm: {
                     department_id:'',
                     group_id:"",
@@ -233,18 +220,8 @@
             setCustomerTypeLabel(type){
                 return this.cusData['type'][type];
             },
-	    preCheckSearchChange(v){
-                this.preCheckSearchForm.qq = v.qq;
-                this.preCheckSearchForm.phone = v.phone;
-                this.preCheckSearchForm.weixin = v.weixin;
-                this.customerSelect = new CustomerSelect(null, this.loadCustomer, this);
-                this.customerSelect.setParam(this.preCheckSearchForm);
-                this.customerSelect.load();
-
-            },
-            loadCustomer(res){
-                this.preCheckData = res.items;
-            },
+	    
+           
             onSearchReset(){
                 this.departSelect.setParam({type:'0'});
                 this.departSelect.load();

@@ -1,86 +1,93 @@
 <template>
     <div >
         <MyDialog title="客户预查" :name="name" :width="width" :height="height" >
-<el-row>
-    <el-col :span="24">
-        <el-form :model="searchForm" class="search-bar" :inline="true" ref="searchForm"  :label-width="labelWidth" :label-position="labelPosition">
-            <el-form-item prop="qq">
-                <el-input v-model="searchForm.qq" placeholder="QQ号" size="small"></el-input>
-            </el-form-item>
-            <el-form-item prop="phone">
-                <el-input v-model="searchForm.phone" placeholder="手机号" size="small"></el-input>
-            </el-form-item>
-            <el-form-item prop="weixin">
-                <el-input v-model="searchForm.weixin" placeholder="微信号" size="small"></el-input>
-            </el-form-item>
+            <el-row>
+                <el-col :span="24">
+                    <el-form :model="searchForm" class="search-bar" :inline="true" ref="searchForm"  >
+                        <el-form-item prop="qq">
+                            <el-input v-model="searchForm.qq" placeholder="QQ号" size="small"></el-input>
+                        </el-form-item>
+                        <el-form-item prop="phone">
+                            <el-input v-model="searchForm.phone" placeholder="手机号" size="small"></el-input>
+                        </el-form-item>
+                        <el-form-item prop="weixin">
+                            <el-input v-model="searchForm.weixin" placeholder="微信号" size="small"></el-input>
+                        </el-form-item>
 
-            <el-form-item>
-                <el-button type="primary" size="small"  @click="searchChange()">查询</el-button>
-                <el-button type="primary" size="small"  @click="searchReset('searchForm')">重置</el-button>
-            </el-form-item>
-        </el-form>
+                        <el-form-item>
+                            <el-button type="primary" size="small"  @click="searchChange()">查询</el-button>
+                            <el-button type="primary" size="small"  @click="searchReset()">重置</el-button>
+                        </el-form-item>
+                    </el-form>
 
-    </el-col>
-</el-row>
-<el-row>
-    <el-col :span="24">
-    <el-table :data="list" border>
-        <el-table-column prop="name" label="客户姓名" align="center"></el-table-column>
-        <el-table-column prop="mid_relative.user_name" label="所属员工" align="center"></el-table-column>
-    </el-table>
-</el-col></el-row>
-
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="24">
+                    <el-table :data="datas" border v-loading="loading">
+                        <el-table-column prop="name" label="客户姓名" align="center"></el-table-column>
+                        <el-table-column prop="mid_relative.user_name" label="所属员工" align="center"></el-table-column>
+                    </el-table>
+                </el-col>
+            </el-row>
         </MyDialog>
     </div>
 </template>
 
 <script>
-import SearchTool from '../../mix/SearchTool';
 import DialogForm from '../../mix/DialogForm';
-import AreaSelect from '../../packages/AreaSelectProxy';
+import CustomerSelectProxy from '@/packages/CustomerSelectProxy';
+
 export default {
     name: 'Edit',
-    mixins:[SearchTool,DialogForm],
-    props:{
-        ajaxProxy:{
-            required:true,
-            type: Object,
-            default: null
-        },
-        preCheckData:{
-            required:true,
-            type: Array,
-            default: []
-        }
-    },
+    mixins:[DialogForm],
     data () {
         return {
-            list:this.preCheckData,
-            dialogThis:this,
-            labelPosition:"right",
-            labelWidth:'200px',
+            datas:[],
             searchForm:{
                 qq:'',
                 weixin:"",
                 phone:'',
+                with:['midRelative'],
+                id:""
             },
-            model:''
+            loading:false
         }
     },
     methods:{
         searchChange(){
-        this.$emit('preCheckSearchChange',this.searchForm)
+            if (this.pro != JSON.stringify(this.searchForm)) {
+                this.customProxy.setParam(this.searchForm).load();
+                this.loading = true;
+            }
+            
         },
-        searchReset(name){
-            this.searchToolReset(name);
-            this.list=[];
+        searchReset(){
+            this.$refs['searchForm'].resetFields();
+            this.searchForm.id = 0;
+            this.searchChange();
         },
+        loadCustomer(data) {
+            this.loading = false;
+            this.datas = data.items;
+        }
     },
     watch:{
-        preCheckData:function(val,oldval){
-            this.list=val;
-        }
+        'searchForm.qq':function(val, oldVal){
+            this.searchForm.id = "";
+        },
+        'searchForm.weixin':function(val, oldVal){
+            this.searchForm.id = "";
+        },
+        'searchForm.phone':function(val, oldVal){
+            this.searchForm.id = "";
+        },
+    },
+    created(){
+        this.customProxy = new CustomerSelectProxy(null, this.loadCustomer, this);
+        this.pro = JSON.stringify(this.searchForm);
     }
+    
 
 }
 </script>

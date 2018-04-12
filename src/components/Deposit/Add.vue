@@ -143,7 +143,7 @@
                 },
                 rules:{
                     money:[
-                        { required: true, message:'金额未输入或输入的格式不正确', type:'integer', trigger:'blur',min:0 }
+                        { required: true, message:'金额未输入或输入的格式不正确', pattern:/^(([1-9]\d{0,9})|0)(\.\d{1,2})?$/ , trigger:'blur',min:0 }
                     ],
                     remark:[
                         { message:'输入内容最大长度为200', type: 'string', trigger:'blur', max:200}

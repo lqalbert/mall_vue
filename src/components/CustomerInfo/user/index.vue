@@ -19,15 +19,15 @@
             </el-row>
             <el-row>
                     <el-col :span="24">
-                        <el-button size="small" @click="setBusiness('tracked')">跟踪</el-button>
-                        <el-button size="small" @click="setBusiness('untracked')">未跟踪</el-button>
-                        <el-button size="small" @click="setBusiness('plan')">计划</el-button>
-                        <el-button size="small" @click="setSourceType('out')">转让</el-button>
-                        <el-button size="small" @click="setSourceType('in')">转入</el-button>
-                        <el-button size="small" @click="setType('V')">服务</el-button>
+                        <el-button size="small" type="info" @click="setBusiness('tracked')">跟踪</el-button>
+                        <el-button size="small" type="info" @click="setBusiness('untracked')">未跟踪</el-button>
+                        <el-button size="small" type="info" @click="setBusiness('plan')">计划</el-button>
+                        <el-button size="small" type="info" @click="setSourceType('out')">转让</el-button>
+                        <el-button size="small" type="info" @click="setSourceType('in')">转入</el-button>
+                        <el-button size="small" type="info" @click="setType('V')">服务</el-button>
                         
-                        <el-button size="small" @click="setBusiness('conflict')">冲突</el-button>
-                        <el-button size="small">客户预查</el-button>
+                        <el-button size="small" type="info" @click="setBusiness('conflict')">冲突</el-button>
+                        <el-button size="small" type="info">客户预查</el-button>
                     </el-col>
             </el-row>
             <br>
@@ -40,6 +40,11 @@
                         <el-table-column label="序号"  type="index" align="center" width="80"></el-table-column>
                         <!-- <el-table-column prop="mid_relative.user_name" label="员工" width="100" ></el-table-column> -->
                         <el-table-column prop="name" label="客户姓名" width="160"></el-table-column>
+                        <el-table-column prop="type" label="客户类型" width="160">
+                            <template slot-scope="scope">
+                                {{ setCustomerTypeLabel(scope.row.type) }}
+                            </template>
+                        </el-table-column>
                         <el-table-column prop="sex_text" label="性别"  align="center"></el-table-column>
                         <el-table-column prop="age" label="年龄" align="center" width="100"></el-table-column>
                         <el-table-column label="QQ号" prop="qq" align="center" width="160">
@@ -80,14 +85,15 @@
                             <el-button size="small"  type="info" @click="addOtherContact">联系方式</el-button>
                             <el-button size="small"  type="info" @click="addTrackLog">录入跟踪</el-button>
                             
-                            <el-button size="small" @click="addComplain">投诉</el-button>
-                            <el-button size="small" @click="setPlan">计划</el-button>
+                            <el-button size="small" type="info" @click="addComplain">投诉</el-button>
+                            <el-button size="small" type="info" @click="setPlan">计划</el-button>
                         </div>
                     </TableProxy>
                 </el-col>
             </el-row>
             <br>
-            <SubDetail :row="model"></SubDetail>
+            <SubDetail :row="model" :complain-type="complainType">
+            </SubDetail>
     
             <Add name='add-customerinformation'
                  :ajax-proxy="ajaxProxy"
@@ -121,7 +127,9 @@
                 @submit-success="handleReload">
             </add-track>
     
-            
+            <add-complain name='add-complain' 
+                @submit-success="handleReload">
+            </add-complain>        
     
         </div>
     
@@ -182,15 +190,15 @@
             getAjaxProxy(){
                 return  this.ajaxProxy;
             },
+            setCustomerTypeLabel(type){
+                return this.cusData['type'][type];
+            },
             onSearchChange(param){
                 this.mainparam = JSON.stringify(param);
             },
-            
             onSearchReset(){
                 this.resetB();
             },
-
-            
             loadUsers(data){
                 this.users = data.items;
             },

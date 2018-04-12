@@ -9,6 +9,7 @@ import Quit from '../Quit';
 import OtherContact from '../OtherContact';
 import AddTrack from '../AddTrack';
 import SubDetail from '../SubDetail';
+import AddComplain from '../AddComplain';
 
 import DataTable from '@/mix/DataTable';
 import SearchTool from '@/mix/SearchTool';
@@ -37,7 +38,8 @@ const mix = {
         Quit,
         OtherContact,
         AddTrack,
-        SubDetail
+        SubDetail,
+        AddComplain,
     },
     data(){
         return {
@@ -52,6 +54,7 @@ const mix = {
             model:null,
             pageSize:15,
             mainparam:'',
+            complainType:{},
         }
     },
     methods:{
@@ -96,6 +99,13 @@ const mix = {
         getAddress(){
             let selectProxy = new SelectProxy(DeliveryAddress.getUrl(), this.getAddressData, this);
             selectProxy.load();
+        },
+        getComplainType(data) {
+            this.complainType = data;
+        },
+        setComplainType() {
+            let customerSelect = new CustomerSelect(null, this.getComplainType, this);
+            customerSelect.setParam({ business: 'complainType' }).load();
         },
         getCustomerType(data){
             this.cusData['type'] = data;
@@ -161,7 +171,10 @@ const mix = {
             this.onSearchChange(this.searchForm);
         },
         addComplain(){
-            console.log('mix里同')
+            if (this.selectRowCheck()) {
+                this.$modal.show('add-complain', { model: this.model,
+                    extra:this.complainType});
+            }
         },
         setPlan(){
             console.log('mix里头');
@@ -172,6 +185,7 @@ const mix = {
         this.setCustomerType();
         this.setCustomerSource();
         this.setAreaProvinces();
+        this.setComplainType();
     }  
 };
 

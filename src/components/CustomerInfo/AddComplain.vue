@@ -10,12 +10,23 @@
 							</el-input>
                         </el-form-item>
                     </el-col>
+					<el-col :span="12">
+						<el-form-item label="投诉类型" prop="type">
+							<el-select v-model="addForm.type">
+								<el-option
+									v-for="(value, key) in complainTypes"
+									:label="value"
+									:value="key" :key="key">
+								</el-option>
+							</el-select>
+						</el-form-item>
+					</el-col>
                 </el-row>
                 <el-row>
                     <el-col :span="20">
-                        <el-form-item label="跟踪内容" prop="content" >
+                        <el-form-item label="投诉内容" prop="content" >
                             <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 3}"
-							 	size="small" placeholder="跟踪内容" v-model.number="addForm.content">
+							 	size="small" placeholder="投诉内容" v-model.number="addForm.content">
 							</el-input>
                         </el-form-item>
                     </el-col>
@@ -36,7 +47,7 @@
 </template>
 <script>
 import DialogForm from '../../mix/DialogForm';
-import CustomerTrackLog from '../../ajaxProxy/CustomerTrackLog';
+import CustomerComplain from '../../ajaxProxy/CustomerComplain';
 import { mapGetters } from "vuex";
 export default {
     name: 'add-track',
@@ -57,9 +68,11 @@ export default {
 				content:'',
 				cus_id:'',
 				user_id:'',
+				type:'',
 			},
 			cus_id:null,
 			rules:{},
+			complainTypes:{},
 
         }
 	},
@@ -71,9 +84,10 @@ export default {
 	},
 	methods:{
 		getAjaxPromise(model){
-            return CustomerTrackLog.create(model);
+            return CustomerComplain.create(model);
         },
         onOpen(param){
+            this.complainTypes = param.params.extra;
 			this.cus_id = param.params.model.id;
 			this.addForm.cus_id = this.cus_id;
 			this.addForm.user_id = this.user_id;

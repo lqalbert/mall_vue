@@ -78,7 +78,7 @@ const user = {
         },
         hasRole : (state, getters)=>(roleName)=> {
             let roles = state.user.roles;
-            console.log(roles);
+            // console.log(roles);
             for (let index = 0; index < roles.length; index++) {
                 var element = roles[index];
                 if (element['name'] == roleName) {

@@ -1,6 +1,6 @@
 <template>
     <div >
-        <MyDialog title="添加客户" :name="name" :width="width" :height="height" @before-open="onOpen">
+        <MyDialog title="修改客户资料" :name="name" :width="width" :height="height" @before-open="onOpen">
             <el-form :model="editForm" ref="editForm"  :label-width="labelWidth" :rules="rules"  :label-position="labelPosition">
                 <el-tabs v-model="activeName">
                     <el-tab-pane label="核心资料" name="first">
@@ -32,7 +32,7 @@
                                 </el-form-item>
                             </el-col>
                         </el-row>
-                        <el-row>
+                        <!-- <el-row>
                             <el-col :span="12">
                                 <el-form-item label="QQ号"  prop="qq">
                                     <el-input class="name-input" v-model.number="editForm.qq"  auto-complete="off" placeholder="请填写QQ"></el-input>
@@ -55,13 +55,13 @@
                                     <el-input class="name-input" v-model="editForm.weixin_nickname"  auto-complete="off" placeholder="请填写微信昵称"></el-input>
                                 </el-form-item>
                             </el-col>
-                        </el-row>
+                        </el-row> -->
                         <el-row>
-                            <el-col :span="12">
+                            <!-- <el-col :span="12">
                                     <el-form-item label="手机号"  prop="phone">
                                         <el-input class="name-input" v-model.number="editForm.phone"  auto-complete="off" placeholder="请填写客户手机号"></el-input>
                                     </el-form-item>
-                            </el-col>
+                            </el-col> -->
                             <el-col :span="12">
                                 <el-form-item label="性别" prop="sex">
                                     <el-radio-group v-model="editForm.sex">
@@ -167,12 +167,12 @@ export default {
                 id:'',
                 name:"",
                 age:'',
-                qq:'',
-                qq_nickname:"",
-                weixin:"",
-                weixin_nickname:'',
+                // qq:'',
+                // qq_nickname:"",
+                // weixin:"",
+                // weixin_nickname:'',
                 sex:1,
-                phone:'',
+                // phone:'',
                 type:'',
                 source:'',
                 area_province:'',

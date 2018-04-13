@@ -3,11 +3,28 @@
 		<el-tabs v-model="activeName" type="border-card">
 			<el-tab-pane label="发货明细" name="First">
 				<el-table :data="deliveryDetailsData" border style="width: 100%">
-					<el-table-column prop="goods_name" label="商品" align="center"></el-table-column>
+					<el-table-column prop="goods_name" label="商品名" align="center"></el-table-column>
+					<el-table-column prop="cate_type" label="大类型" align="center"></el-table-column>
 					<el-table-column prop="cate_kind" label="小类型" align="center"></el-table-column>
 					<el-table-column prop="goods_num" label="数量" align="center"></el-table-column>
-					<el-table-column prop="goods_price" label="价格" align="center"></el-table-column>
-					<el-table-column prop="weight" label="重量" align="center"></el-table-column>
+					<el-table-column prop="assign_fee" label="配送费" align="center">
+						<template slot-scope="scope">
+							<div v-if="scope.row.assign_fee == null">还未发货</div>
+							<div v-else>{{ scope.row.assign_fee }}</div>
+						</template>
+					</el-table-column>
+					<el-table-column prop="express_fee" label="快递费" align="center">
+						<template slot-scope="scope">
+							<div v-if="scope.row.express_fee == null">还未发货</div>
+							<div v-else>{{ scope.row.express_fee }}</div>
+						</template>
+					</el-table-column>
+					<el-table-column prop="weight" label="重量" align="center">
+						<template slot-scope="scope">
+							<div v-if="scope.row.weight == null">还未发货</div>
+							<div v-else>{{ scope.row.weight }}</div>
+						</template>
+					</el-table-column>
 				</el-table>
 			</el-tab-pane>
 			<el-tab-pane label="订单明细" name="Second">
@@ -39,29 +56,44 @@
 			<el-tab-pane label="沟通联系" name="Fifth">
 				<el-table :data="communicationData" border style="width: 100%">
 					<el-table-column prop="cus_name" label="客户姓名" align="center"></el-table-column>
-					<el-table-column prop="contact_content_time" label="沟通时间" align="center"></el-table-column>
-					<el-table-column prop="user_name" label="沟通人" align="center"></el-table-column>
-					<el-table-column prop="contact_content" label="沟通内容" align="center"></el-table-column>
+					<el-table-column prop="communicate_time" label="沟通时间" align="center">
+						<template slot-scope="scope">
+							<div v-if="scope.row.communicate_time == null">还未沟通</div>
+							<div v-else>{{ scope.row.communicate_time }}</div>
+						</template>
+					</el-table-column>
+					<el-table-column prop="user_name" label="沟通人" align="center">
+						<template slot-scope="scope">
+							<div v-if="scope.row.user_name == null">还未沟通</div>
+							<div v-else>{{ scope.row.user_name }}</div>
+						</template>
+					</el-table-column>
+					<el-table-column prop="contact_content" label="沟通内容" align="center">
+						<template slot-scope="scope">
+							<div v-if="scope.row.contact_content == null">还未沟通</div>
+							<div v-else>{{ scope.row.contact_content }}</div>
+						</template>
+					</el-table-column>
 				</el-table>
 			</el-tab-pane>
 			<el-tab-pane label="操作记录" name="Sixth">
 				<el-table :data="operationData" border style="width: 100%">
-					<el-table-column prop="time" label="操作时间" align="center"></el-table-column>
+					<el-table-column prop="op_time" label="操作时间" align="center"></el-table-column>
 					<el-table-column prop="user_name" label="操作人" align="center"></el-table-column>
-					<el-table-column prop="type_name" label="变更内容明细" align="center"></el-table-column>
+					<el-table-column prop="type_name" label="内容明细" align="center"></el-table-column>
 				</el-table>
 			</el-tab-pane>
 		</el-tabs>
 	</el-row>
 </template>
 <script>
-import DistributionDeliveryTabPaneProxy from '@/packages/DistributionDeliveryTabPaneProxy';
+import DistributionDeliveryProxy from '@/packages/DistributionDeliveryProxy';
 export default {
 	name: 'SubDetail',
 	props:{
 		row:{
 			type: Object,
-			default:null
+			default:{}
 		},
 	},
 	data(){
@@ -73,6 +105,7 @@ export default {
 			deliveryAddressesData:[],
 			communicationData:[],
 			operationData:[],
+			
 			tabFirst:false,
 			tabSecond:false,
 			tabThird:false,
@@ -83,65 +116,113 @@ export default {
 	},
 	methods:{
 		handleFirst(row){
-			// this.customerTrackLogProxy.setParam({
-			// 	cus_id:row.id,
-			// 	business:'theCus'
-			// }).load();
+			let distributionDeliveryProxy = new DistributionDeliveryProxy(null, this.getDeliveryDetail, this);
+			distributionDeliveryProxy.setParam({
+				id:row.id,
+				fields:['id','goods_name','cate_type','cate_kind','goods_num','assign_fee','express_fee','weight'],
+				business:'deliveryDetail'
+			}).load()
 			this.tabFirst = true;
 		},
 		handleSecond(row){
-			// this.customerComplainProxy.setParam({
-			// 	cus_id:row.id,
-			// 	business:'theCus'
-			// }).load();
+
 			this.tabSecond = true;
 		},
 		handleThird(row){
-			// this.customerComplainProxy.setParam({
-			// 	cus_id:row.id,
-			// 	business:'theCus'
-			// }).load();
+
 			this.tabThird = true;
 		},
 		handleFourth(row){
-			// this.customerComplainProxy.setParam({
-			// 	cus_id:row.id,
-			// 	business:'theCus'
-			// }).load();
+			let deliveryAddressProxy = new DistributionDeliveryProxy(null, this.getDeliveryAddress, this);
+			deliveryAddressProxy.setParam({
+				id:row.id,
+				fields:['id','deliver_name','deliver_phone','deliver_address'],
+				business:'deliveryAddress'
+			}).load()
 			this.tabFourth = true;
 		},
 		handleFifth(row){
-			// this.customerComplainProxy.setParam({
-			// 	cus_id:row.id,
-			// 	business:'theCus'
-			// }).load();
+			let communicationProxy = new DistributionDeliveryProxy(null, this.getCommunication, this);
+			communicationProxy.setParam({
+				id:row.id,
+				fields:['id','cus_name','communicate_time','user_name','contact_content'],
+				business:'communication'
+			}).load()
 			this.tabFifth = true;
 		},
 		handleSixth(row){
-			// this.customerComplainProxy.setParam({
-			// 	cus_id:row.id,
-			// 	business:'theCus'
-			// }).load();
+			let operationProxy = new DistributionDeliveryProxy(null, this.getOperation, this);
+			operationProxy.setParam({
+				id:row.id,
+				business:'operation'
+			}).load()
 			this.tabSixth = true;
 		},
-		getTrackLog(data){
-			// this.TrackLogData = data;
+		getDeliveryDetail(data){
+			this.deliveryDetailsData = data;
 		},
-		getComplainLog(data){
-			// this.ComplainData = data;
+		getDeliveryAddress(data){
+			this.deliveryAddressesData = data;
+		},
+		getCommunication(data){
+			this.communicationData = data;
+		},
+		getOperation(data){
+			let newData = {};
+			this.operationData = [];
+			if(data[0].sign_at){
+				newData['type_name'] = '客户签收';
+				newData['op_time'] = data[0].sign_at;
+				newData['user_name'] = data[0].user_name;
+				newData['id'] = data[0].id;
+			}
+			if(data[0].communicate_time){
+				newData['type_name'] = '与客户沟通';
+				newData['op_time'] = data[0].communicate_time;
+				newData['user_name'] = data[0].user_name;
+				newData['id'] = data[0].id;
+			}
+			if(data[0].send_time){
+				newData['type_name'] = '操作发货';
+				newData['op_time'] = data[0].send_time;
+				newData['user_name'] = data[0].user_name;
+				newData['id'] = data[0].id;
+			}
+			if(data[0].edit_time){
+				newData['type_name'] = '修改发货';
+				newData['op_time'] = data[0].edit_time;
+				newData['user_name'] = data[0].user_name;
+				newData['id'] = data[0].id;
+			}
+			if(data[0].waste_time){
+				newData['type_name'] = '订单废除';
+				newData['op_time'] = data[0].waste_time;
+				newData['user_name'] = data[0].user_name;
+				newData['id'] = data[0].id;
+			}
+			if(data[0].edit_address_time){
+				newData['type_name'] = '修改收货地址';
+				newData['op_time'] = data[0].edit_address_time;
+				newData['user_name'] = data[0].user_name;
+				newData['id'] = data[0].id;
+			}
+			if(newData['id']){
+				this.operationData.push(newData);
+			}
+			
 		},
 	},
 	watch:{
-		row(val, oldVal){
+		row:function(val, oldVal){
 			this['handle'+ this.activeName].call(this, this.row);
-			tabFirst = false;
-			tabSecond = false;
-			tabThird = false;
-			tabFourth = false;
-			tabFifth = false;
-			tabSixth = false;
+			this.tabFirst = false;
+			this.tabSecond = false;
+			this.tabThird = false;
+			this.tabFourth = false;
+			this.tabFifth = false;
+			this.tabSixth = false;
 		},
-		activeName(val,oldVal){
+		activeName:function(val, oldVal){
 			if (!this['tab'+ val] && this.row !== null) {
 				this['handle'+ val].call(this, this.row);
 			}
@@ -149,9 +230,7 @@ export default {
 
 	},
 	created(){
-		// this.customerTrackLogProxy = new CustomerTrackLogProxy(null,this.getTrackLog,this);
-		// this.customerComplainProxy = new CustomerComplainProxy(null,this.getComplainLog,this);
-		
+
 	}
 }
 </script>

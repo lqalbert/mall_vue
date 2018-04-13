@@ -1,7 +1,7 @@
 <template>
     <div class="hello">
         <el-row>
-            <el-form :inline="true" :model="searchForm" ref="searchForm" class="demo-form-inline" size="small">
+            <el-form :inline="true" :model="searchForm" ref="searchForm" class="search-bar" size="small">
                 <el-form-item prop="entrepot_id">
                     <el-select v-model="searchForm.entrepot_id" size="small" placeholder="配送中心" clearable>
                         <el-option v-for="v in distributors" :label="v.name"
@@ -237,7 +237,6 @@ import SubDetail from './SubDetail';
 
 import GoodsSelectProxy from '../../packages/GoodsSelectProxy';
 import DistributionCenterProxy from '../../packages/DistributionCenterSelectProxy';
-import DistributionDeliveryTabPaneProxy from '../../packages/DistributionDeliveryTabPaneProxy';
 import AssignAjaxProxy from '@/ajaxProxy/Assign';
 import SelectProxy from  '../../packages/SelectProxy';
 
@@ -282,24 +281,6 @@ export default {
             CategoryChildrenList:[],
             times:'',
 
-            delivery_details_data:[],
-            delivery_addresses_data:[],
-            communication_data:[],
-            operation_data:[],
-            tableData2:[
-                {order_num:'201803061545',cus_name:'李四',buy_goods:'神油2号',buy_num:100,trade:'2018-03-09',sale_name:'李思思',},
-                {order_num:'201803061545',cus_name:'李四',buy_goods:'神油2号',buy_num:100,trade:'2018-03-09',sale_name:'李思思',},
-                {order_num:'201803061545',cus_name:'李四',buy_goods:'神油2号',buy_num:100,trade:'2018-03-09',sale_name:'李思思',},
-                {order_num:'201803061545',cus_name:'李四',buy_goods:'神油2号',buy_num:100,trade:'2018-03-09',sale_name:'李思思',},
-            ],
-            tableData3:[
-                {express_num:'201803091148',express_company:'顺丰',express_fee:88,recevie_name:'王武',receive_time:'2018-03-09',},
-                {express_num:'201803091148',express_company:'顺丰',express_fee:88,recevie_name:'王武',receive_time:'2018-03-09',},
-                {express_num:'201803091148',express_company:'顺丰',express_fee:88,recevie_name:'王武',receive_time:'2018-03-09',},
-                {express_num:'201803091148',express_company:'顺丰',express_fee:88,recevie_name:'王武',receive_time:'2018-03-09',},
-                {express_num:'201803091148',express_company:'顺丰',express_fee:88,recevie_name:'王武',receive_time:'2018-03-09',},
-            ],
-
             activeName:'first',
 
             bubble:null,
@@ -309,9 +290,6 @@ export default {
     },
     methods:{
         dbClick(row){
-            //获取标签页展示数据
-            // let DistributionDeliveryTabPaneSelect = new DistributionDeliveryTabPaneProxy(row, this.getDistributionDeliveryTabPane, this);
-            // DistributionDeliveryTabPaneSelect.load();
             this.model=row;
 
         },
@@ -383,7 +361,6 @@ export default {
             this.mainparam = JSON.stringify(param);
         },
         onCurrentChange(currentRow) {
-            console.log(currentRow);
             this.currentRow = currentRow;
         },
         hasCurrentRow(){
@@ -430,6 +407,8 @@ export default {
 }
 </script>
 <style scoped>
-
+    .search-bar .el-form-item {
+        width: 140px;
+    }
 </style>
 

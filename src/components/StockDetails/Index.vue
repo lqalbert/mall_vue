@@ -3,7 +3,7 @@
         <el-row>
             <el-col :span="24">
                 <el-form :inline="true"  ref="searchForm" :model="searchForm" >
-                    <el-form-item prop="department_id"  >
+                    <el-form-item prop="department_id" class="form-item-unique">
                             <el-select
                                     clearable
                                     v-model="searchForm.distribution_id"
@@ -14,7 +14,7 @@
                                 </el-option>
                             </el-select>
                         </el-form-item>
-                    <el-form-item prop="cate_type_id"  >
+                    <el-form-item prop="cate_type_id" class="form-item-unique">
                         <el-select
                                 v-model="searchForm.cate_type_id"
                                 size="small"
@@ -24,7 +24,7 @@
                         </el-select>
                     </el-form-item>
 
-                    <el-form-item prop="cate_kind_id"  >
+                    <el-form-item prop="cate_kind_id" class="form-item-unique">
                         <el-select
                                 v-model="searchForm.cate_kind_id"
                                 size="small"
@@ -35,7 +35,7 @@
                         </el-select>
                     </el-form-item>
 
-                    <el-form-item prop="goods_name">
+                    <el-form-item prop="goods_name" class="form-item-unique">
                         <el-input v-model="searchForm.goods_name" size="small" placeholder="商品名称"></el-input>
                     </el-form-item>
 
@@ -559,5 +559,7 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+    .form-item-unique{
+        width: 140px !important;
+    }
 </style>

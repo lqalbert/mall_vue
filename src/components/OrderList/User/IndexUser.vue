@@ -24,11 +24,11 @@
                     <el-input size="small" v-model="searchForm.deal_name" placeholder="请输入员工名称"></el-input>
                 </el-form-item> -->
 
-                <el-form-item prop="consignee">
+                <el-form-item prop="consignee" class="form-item-unique">
                     <el-input size="small" v-model="searchForm.consignee" placeholder="请输入客户名称"></el-input>
                 </el-form-item>
 
-                <el-form-item prop="sn">
+                <el-form-item prop="sn" class="form-item-unique">
                     <el-input size="small" v-model="searchForm.sn" placeholder="请输入订单编号"></el-input>
                 </el-form-item>
                 
@@ -176,5 +176,7 @@
         background-color: #20A0FF;
         color: black;
     }
-    
+    .form-item-unique{
+        width: 140px !important;
+    }
 </style>

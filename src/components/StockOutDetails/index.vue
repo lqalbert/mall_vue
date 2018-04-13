@@ -2,7 +2,7 @@
     <div>
         <el-row>
             <el-col :span="24">
-                <el-form :inline="true" :model="searchForm" ref="searchForm" class="demo-form-inline" size="small">
+                <el-form :inline="true" :model="searchForm" ref="searchForm" class="search-bar" size="small">
                     <el-form-item prop="entrepot_id">
                         <el-select v-model="searchForm.entrepot_id" size="small" placeholder="配送中心" clearable>
                             <el-option v-for="v in distributors" :label="v.name"
@@ -33,15 +33,6 @@
                     <el-form-item prop="sale_name">
                         <el-input v-model="searchForm.sale_name" size="small" placeholder="销售人员"></el-input>
                     </el-form-item>
-                    <el-form-item prop="times">
-                        <el-date-picker
-                                v-model="times"
-                                type="daterange"
-                                size="small"
-                                placeholder="选择日期范围"
-                                @change="timeChange">
-                        </el-date-picker>
-                    </el-form-item>
                     <el-form-item prop="deliver_name">
                         <el-input v-model="searchForm.deliver_name" size="small" placeholder="收货人姓名"></el-input>
                     </el-form-item>
@@ -67,6 +58,15 @@
                     </el-form-item>
                     <el-form-item prop="user_name">
                         <el-input v-model="searchForm.user_name" size="small" placeholder="发货人员"></el-input>
+                    </el-form-item>
+                    <el-form-item prop="times" class="date-item">
+                        <el-date-picker
+                                v-model="searchForm.times"
+                                type="daterange"
+                                size="small"
+                                placeholder="选择日期范围"
+                                @change="timeChange">
+                        </el-date-picker>
                     </el-form-item>
                     <el-form-item>
                         <el-button type="primary" size="small" icon="search" @click="searchToolChange('searchForm')">查询</el-button>
@@ -218,5 +218,10 @@
 </script>
 
 <style scoped>
-
+    .search-bar .el-form-item {
+        width: 140px;
+    }
+    .date-item{
+        width: 220px !important;
+    }
 </style>

@@ -20,22 +20,22 @@
                     <el-input size="small" v-model="searchForm.goods_name" placeholder="请输入商品名称"></el-input>
                 </el-form-item> -->
 
-                <el-form-item prop="deal_id">
+                <el-form-item prop="deal_id" class="form-item-unique">
                     <el-select v-model="searchForm.deal_id" placeholder="请选择员工" size="small">
                         <el-option v-for="item in users" :key="item.id" :label="item.realname" :value="item.id">
                         </el-option>
                     </el-select>
                 </el-form-item>
 
-                <el-form-item prop="deal_name">
+                <el-form-item prop="deal_name" class="form-item-unique">
                     <el-input size="small" v-model="searchForm.deal_name" placeholder="请输入员工名称"></el-input>
                 </el-form-item>
 
-                <el-form-item prop="consignee">
+                <el-form-item prop="consignee" class="form-item-unique">
                     <el-input size="small" v-model="searchForm.consignee" placeholder="请输入客户名称"></el-input>
                 </el-form-item>
 
-                <el-form-item prop="sn">
+                <el-form-item prop="sn" class="form-item-unique">
                     <el-input size="small" v-model="searchForm.sn" placeholder="请输入订单编号"></el-input>
                 </el-form-item>
                 
@@ -313,5 +313,7 @@ export default {
         background-color: #20A0FF;
         color: black;
     }
-    
+    .form-item-unique{
+        width: 140px !important;
+    }
 </style>

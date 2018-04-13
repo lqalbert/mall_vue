@@ -2,16 +2,16 @@
     <div class="hello">
         <el-row>
             <el-form :inline="true" :model="searchForm" ref="searchForm" class="demo-form-inline" size="small">
-                <el-form-item prop="express_id">
+                <el-form-item prop="express_id" class="form-item-unique">
                     <el-select v-model="searchForm.express_id" size="small" placeholder="物流公司">
                         <el-option v-for="v in companys" :value="v.id" :key="v.id" :label="v.company_name">
                         </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item prop="assign_sn">
+                <el-form-item prop="assign_sn" class="form-item-unique">
                     <el-input v-model="searchForm.assign_sn" size="small" placeholder="发货单号"></el-input>
                 </el-form-item>
-                <el-form-item prop="express_sn">
+                <el-form-item prop="express_sn" class="form-item-unique">
                     <el-input v-model="searchForm.express_sn" size="small" placeholder="快递单号"></el-input>
                 </el-form-item>
                 <el-form-item prop="start">
@@ -165,6 +165,8 @@ export default {
 }
 </script>
 <style scoped>
-
+    .form-item-unique{
+        width: 140px !important;
+    }
 </style>
 

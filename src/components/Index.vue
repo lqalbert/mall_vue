@@ -70,7 +70,7 @@
         data () {
             return {
                 currentView:"",
-                editableTabsValue: '2',
+                editableTabsValue: '',
                 editableTabs: [],
 
                 exclude:[],
@@ -140,18 +140,18 @@
 
                 let i = this.exclude.indexOf(component.$options.name);
                 if (i!=-1) {
-                    console.log('reset component', component.$options.name);
+                    // console.log('reset component', component.$options.name);
                     component.$emit('page-reset');
                     this.exclude.splice(i,1);
                 }
             },
             beforeDestroy(name){
-                console.log('set destroy');
+                // console.log('set destroy');
                 // this.$nextTick(function () {
 
                 // })
                 l
-                console.log(this.exclude);
+                // console.log(this.exclude);
             },
 
             navChange(name){

@@ -101,7 +101,16 @@ const mix = {
 
         RefundCheck(row) {
             this.$modal.show('refundcheck', {row:row});
+        },
+        resetHiddenFields(){
+            this.searchForm.status = '',
+            this.searchForm.product_status = '';
+            this.searchForm.after_sale_status = '';
+            
         }
+    },
+    mounted(){
+        this.$refs['searchForm'].$on('reset', this.resetHiddenFields);
     }
 };
 

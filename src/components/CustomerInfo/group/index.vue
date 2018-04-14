@@ -218,7 +218,7 @@
                 if (this.user_group_id != 0) {
                     this.searchForm.group_id = this.user_group_id;
                 }  else {
-                    return ;
+                    this.searchForm.group_id = 0;
                 }
 
                 this.resetB();

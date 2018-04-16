@@ -217,15 +217,15 @@
                 // todo 把角色有关的字符串 通通改成常量
                 if (this.user_group_id != 0) {
                     this.searchForm.group_id = this.user_group_id;
-                    this.onGroupChange(this.searchForm.group_id);
                 }  else {
-                    return ;
+                    this.searchForm.group_id = 0;
                 }
 
                 this.resetB();
             },
             
             loadUsers(data){
+                console.log(data);
                 this.users = data.items;
             },
         },
@@ -237,8 +237,9 @@
             this.employeeSelect = new EmployeeSelect(null, this.loadUsers, this);
 
             this.onSearchReset();
-
+           
             if (this.user_group_id && this.user_group_id != 0 ) {
+                // console.log('asdf');
                 this.employeeSelect.setParam({group_id:this.user_group_id,fields:['id','name']});
                 this.employeeSelect.load();
             }

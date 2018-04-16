@@ -48,7 +48,7 @@
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="订单状态" prop="status">
-                            <el-select v-model='rowInfoForm.status'>
+                            <el-select v-model='rowInfoForm.status' clearable>
                                 <el-option
                                         v-for="order_status in order_statuslist"
                                         :label="order_status.status"

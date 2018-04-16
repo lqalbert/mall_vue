@@ -234,7 +234,7 @@
                         this.searchForm.group_id = this.user_group_id;
                         this.onGroupChange(this.searchForm.group_id);
                     } else {
-                        return ;
+                        this.searchForm.department_id = 0;
                     }
 
                     this.resetB();
@@ -269,13 +269,17 @@
                 this.employeeSelect = new EmployeeSelect(null, this.loadUsers, this);
     
                 this.onSearchReset();
-    
-                this.mainparam = JSON.stringify(this.searchForm);
                 
                 if (this.user_department_id && this.user_department_id != 0 ) {
+                    this.searchForm.department_id = this.user_department_id;
                     this.groupSelect.setParam({department_id:this.user_department_id,fields:['id','name']});
                     this.groupSelect.load();
+                } else {
+                    this.searchForm.department_id = 0;
                 }
+                this.mainparam = JSON.stringify(this.searchForm);
+                
+                
                 
             },
             mounted(){

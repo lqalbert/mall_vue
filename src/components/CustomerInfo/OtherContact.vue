@@ -27,7 +27,7 @@
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="手机号"  prop="phone">
-                            <el-input class="name-input" v-model.number="addContactForm.phone" auto-complete="off" placeholder="请填写客户手机号"></el-input>
+                            <el-input class="name-input" v-model="addContactForm.phone" auto-complete="off" placeholder="请填写客户手机号"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -73,6 +73,7 @@
 import DialogForm from '../../mix/DialogForm';
 import CustomerContact from '../../ajaxProxy/CustomerContact';
 import CustomerContactProxy from  '../../packages/CustomerContactProxy';
+import { PHONE_REG,QQ_REG } from '@/config/index';
 
 const maxLengthContacts = 2;
 const FORMSTATE_ADD = '确 定';
@@ -98,14 +99,13 @@ export default {
                 weixin:'',
                 weixin_nickname:'',
                 cus_id:'',
+                id:""
             },
             cusContactData:[],
             model:'',
             rules:{
                 qq:[
-                    { required: true,message:'请输入正确格式的QQ号', type: 'number', trigger:'blur'},
-                    {min:1, max: 999999999999999, message: '请输入合理的QQ',type: 'number', trigger: 'blur'  }
-
+                    { required: true, message:'请输入正确格式的QQ号',  pattern: QQ_REG, trigger:'blur'},
                 ],
                 qq_nickname:[
                     // { required: true,message:'请输入QQ昵称', type: 'string', trigger:'blur'},
@@ -121,7 +121,7 @@ export default {
                     {   max: 20, message: '长度不能超过20个字符', trigger: 'blur'  }
                 ],
                 phone:[
-                    { required: true,max: 99999999999, message:'请输入正确的手机号', type: 'number', trigger:'blur'},
+                    { required: true, message:'请输入正确的手机号', pattern: PHONE_REG, trigger:'blur'},
                 ],
             },
             dev:[],

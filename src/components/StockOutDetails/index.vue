@@ -18,7 +18,7 @@
                         </el-select>
                     </el-form-item>
                     <el-form-item prop="cate_kind_id" >
-                        <el-select v-model="searchForm.cate_kind_id" size="small" placeholder="商品品类" >
+                        <el-select v-model="searchForm.cate_kind_id" size="small" placeholder="商品品类" clearable >
                             <el-option v-for="v in CategoryChildrenList" :label="v.label"
                                        :value="v.id" :key="v.id">
                             </el-option>
@@ -193,6 +193,7 @@
                 this.CategoryChildrenList=data;
             },
             cate_type_change(v){
+                this.searchForm.cate_kind_id = '';
                 if(v){
                     let selectProxy = new SelectProxy('/getCategorys/'+ v, this.getCategoryChildrenList, this);
                     selectProxy.load();

@@ -317,12 +317,15 @@ export default {
             this.users = data.items;
         },
         depChange(department_id){
+            this.searchForm.group_id = '';
+            this.searchForm.deal_id = '';
             this.GroupProxy.setParam({
                 department_id:department_id,
             }).load();
         },
         groupChange(group_id){
             let vmThis = this;
+            vmThis.searchForm.deal_id = '';
             this.EmployeeProxy.setParam({
                 department_id:vmThis.searchForm.department_id,
                 group_id:group_id,

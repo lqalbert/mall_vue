@@ -369,6 +369,7 @@
             },
             categoryChange(cate_id){
                 this.addOrderForm.goods_id = '';
+                this.alertNum = 0;
                 this.goodsProxy.setParam({
                     cate_id:cate_id,
                     with:['skus'],

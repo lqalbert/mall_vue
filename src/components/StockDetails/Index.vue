@@ -411,7 +411,7 @@
                 this.users = data.items;
             },
             GetSaleLockDataFun(data){
-                this.saleLockListData = data.items;
+                //this.saleLockListData = data.items;
             },
             displayRoleName(roles){
                 let cate = [];
@@ -427,6 +427,7 @@
                 this.types = data.items;
             },
             typeChange(v){
+                this.searchForm.cate_kind_id = '';
                 for (let index = 0; index < this.types.length; index++) {
                     const element = this.types[index];
                     if (element.id == v) {
@@ -532,8 +533,8 @@
             DistributionCenterSelect.load();
             
             //获取销售锁定展示数据
-            let GetSaleLockDataSelect = new GetSaleLockData({}, this.GetSaleLockDataFun, this);
-            GetSaleLockDataSelect.load();
+            // let GetSaleLockDataSelect = new GetSaleLockData({}, this.GetSaleLockDataFun, this);
+            // GetSaleLockDataSelect.load();
 
             this.searchForm.department_id = this.user_department_id !=0 ? this.user_department_id :'';
             this.mainparam = JSON.stringify({department_id: this.searchForm.department_id});

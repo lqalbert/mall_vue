@@ -194,6 +194,7 @@
                 })
             },
             cate_type_change(v){
+                this.addForm.cate_kind_id = '';
                 if(v){
                     let selectProxy = new SelectProxy('/getCategorys/'+ v, this.getCategoryChildrenList, this);
                     selectProxy.load();

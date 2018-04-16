@@ -235,6 +235,7 @@
                 return InventoryExchangeAjaxProxy.create(model);
             },
             setBeforeCateKind(pid){
+                this.addForm.before_cate_kind_id = '';
                 for (let i = 0; i < this.types.length; i++) {
                     if (this.types[i].id == pid) {
                         this.typesKind = this.types[i].children;// && this.types[i].children
@@ -243,13 +244,17 @@
                 }
             },
             setBeforeKindName(id){
-                for (let i = 0; i < this.typesKind.length; i++) {
-                    if (this.typesKind[i].id == id) {
-                        this.addForm.before_cate_kind = this.typesKind[i].label;
+                if(id){
+                    for (let i = 0; i < this.typesKind.length; i++) {
+                        if (this.typesKind[i].id == id) {
+                            this.addForm.before_cate_kind = this.typesKind[i].label;
+                        }
                     }
                 }
+                
             },
             setAfterCateKind(pid){
+                this.addForm.after_cate_kind_id = '';
                 for (let i = 0; i < this.types.length; i++) {
                     if (this.types[i].id == pid) {
                         this.typesKind = this.types[i].children;// && this.types[i].children
@@ -258,11 +263,14 @@
                 }
             },
             setAfterKindName(id){
-                for (let i = 0; i < this.typesKind.length; i++) {
-                    if (this.typesKind[i].id == id) {
-                        this.addForm.after_cate_kind = this.typesKind[i].label;
+                if(id){
+                    for (let i = 0; i < this.typesKind.length; i++) {
+                        if (this.typesKind[i].id == id) {
+                            this.addForm.after_cate_kind = this.typesKind[i].label;
+                        }
                     }
                 }
+
             },
             setExchangeTime(v){
                 this.addForm.exchange_at = v;

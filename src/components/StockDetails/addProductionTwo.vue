@@ -222,6 +222,7 @@
                 this.types = data.items;
             },
             setCateKind(pid){
+                this.productForm.cate_kind_id = '';
                 for (let i = 0; i < this.types.length; i++) {
                     if (this.types[i].id == pid) {
                         this.typesKind = this.types[i].children;// && this.types[i].children
@@ -230,11 +231,14 @@
                 }
             },
             setKindName(id){
-                for (let i = 0; i < this.typesKind.length; i++) {
-                    if (this.typesKind[i].id == id) {
-                        this.productForm.cate_kind = this.typesKind[i].label;
+                if(id){
+                    for (let i = 0; i < this.typesKind.length; i++) {
+                        if (this.typesKind[i].id == id) {
+                            this.productForm.cate_kind = this.typesKind[i].label;
+                        }
                     }
                 }
+
             },
             setEntyAt(v){
                 this.addForm.entry_at = v;

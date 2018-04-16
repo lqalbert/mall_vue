@@ -315,6 +315,7 @@ export default {
             this.CategoryChildrenList=data;
         },
         cate_type_change(v){
+            this.searchForm.cate_kind_id = '';
             if(v){
                 let selectProxy = new SelectProxy('/getCategorys/'+ v, this.getCategoryChildrenList, this);
                 selectProxy.load();

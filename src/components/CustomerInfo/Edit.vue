@@ -244,6 +244,7 @@ export default {
             this.cities = data;
         },
         provinceChange(id){
+            this.editForm.area_city = '';
             let areaSelect = new AreaSelect({pid:id,business:'city'},this.getAreaCities,this);
             areaSelect.load();
         },

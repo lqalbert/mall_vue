@@ -1,5 +1,5 @@
 <template>
-        <div class="hello">
+        <div class="bar-wrapper" v-bind:class="{ 'bar-wrapper-move': isbaractive }"  @mouseup.left="deactiveMove" @mousemove="barEnter">
             <el-row>
                 <el-col :span="24">
                     <el-form :inline="true" :model="searchForm" ref="searchForm" class="search-bar">
@@ -32,8 +32,9 @@
             </el-row>
             <br>
             <el-row>
-                <el-col >
+                <el-col :span="24">
                     <TableProxy
+                            :height="mainHeight"
                             :url="mainurl"
                             :param="mainparam"
                             :reload="dataTableReload" :page-size="pageSize" @cellclick="rowCellClick" >
@@ -89,6 +90,9 @@
                             <el-button size="small" type="info" @click="setPlan">计划</el-button>
                         </div>
                     </TableProxy>
+                </el-col>
+                <el-col :span="24">
+                    <div class="sl-bar"   @mousedown.left="activeMove"></div>
                 </el-col>
             </el-row>
             <br>
@@ -227,3 +231,6 @@
         }
     }
 </script>
+<style scoped>
+    @import '../mix/style.css';
+</style>

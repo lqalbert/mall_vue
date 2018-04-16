@@ -99,4 +99,16 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+    .sl-bar {
+        width: 100%;
+        height: 10px;
+        background: red;
+    }
+    .sl-bar:hover {
+        cursor: n-resize;
+    }
+
+    .bar-wrapper-move .sl-bar{
+        cursor: n-resize;
+    }
 </style>

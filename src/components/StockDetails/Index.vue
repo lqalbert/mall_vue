@@ -411,7 +411,7 @@
                 this.users = data.items;
             },
             GetSaleLockDataFun(data){
-                this.saleLockListData = data.items;
+                //this.saleLockListData = data.items;
             },
             displayRoleName(roles){
                 let cate = [];
@@ -532,8 +532,8 @@
             DistributionCenterSelect.load();
             
             //获取销售锁定展示数据
-            let GetSaleLockDataSelect = new GetSaleLockData({}, this.GetSaleLockDataFun, this);
-            GetSaleLockDataSelect.load();
+            // let GetSaleLockDataSelect = new GetSaleLockData({}, this.GetSaleLockDataFun, this);
+            // GetSaleLockDataSelect.load();
 
             this.searchForm.department_id = this.user_department_id !=0 ? this.user_department_id :'';
             this.mainparam = JSON.stringify({department_id: this.searchForm.department_id});

@@ -150,6 +150,7 @@
 import DialogForm from '../../mix/DialogForm';
 import DataProxy from '../../packages/DataProxy';
 import AreaSelect from '../../packages/AreaSelectProxy';
+import { PHONE_REG,QQ_REG } from '@/config/index';
 export default {
     name: 'Add',
     mixins:[DialogForm],
@@ -198,8 +199,8 @@ export default {
                     {min:1,  max: 120, message: '请输入合理的年龄', trigger: 'blur' ,type: 'number' }
                 ],
                 qq:[
-                    { required: true,message:'请输入正确格式的QQ号', type: 'number', trigger:'blur'},
-                    {min:1, max: 999999999999999, message: '请输入合理的QQ',type: 'number', trigger: 'blur'  }
+                    { required: true,message:'请输入正确格式的QQ号',pattern: QQ_REG, trigger:'blur'},
+                    // {min:1, max: 999999999999999, message: '请输入合理的QQ',type: 'number', trigger: 'blur'  }
 
                 ],
                 qq_nickname:[
@@ -216,7 +217,7 @@ export default {
                     {   max: 20, message: '长度不能超过20个字符', trigger: 'blur'  }
                 ],
                 phone:[
-                    { required: true,max: 99999999999, message:'请输入正确的手机号', type: 'number', trigger:'blur'},
+                    {required: true, message:'请输入正确的手机号',pattern: PHONE_REG,trigger:'blur'},
                 ],
             }
 

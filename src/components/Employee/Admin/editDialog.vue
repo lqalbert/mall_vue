@@ -178,8 +178,7 @@
     import { mapGetters } from 'vuex';
 
     import APP_CONST from '../../../config';
-
-    
+    import { PHONE_REG,QQ_REG } from "@/config/index";
     export default {
         name: 'editDialog',
         mixins:[DialogForm,getGroupsByPid],
@@ -230,9 +229,15 @@
 
                 },
                 rules:{
-                    // account:[
-                    //     { required: true, message:"账号必填", type:'string'}
-                    // ]
+                    account:[
+                        { required: true, message:"账号必填", type:'string'}
+                    ],
+                    mobilephone:[
+                        { required: true, message:'请输入正确的手机号', pattern: PHONE_REG, trigger:'blur'},
+                    ],
+                    qq:[
+                        { required: true, message:'请输入正确格式的QQ号',  pattern: QQ_REG, trigger:'blur'},
+                    ],
                 },
                 model:''
 

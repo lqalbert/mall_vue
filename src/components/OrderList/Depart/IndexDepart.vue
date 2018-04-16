@@ -1,7 +1,7 @@
 <template>
     <div class="hello">
         <el-row>
-            <el-form :inline="true" ref="searchForm" :model="searchForm" class="search-bar">
+            <el-form :inline="true" ref="searchForm" :model="searchForm">
                 <el-form-item prop="value7" >
                     <el-date-picker
                             size="small"

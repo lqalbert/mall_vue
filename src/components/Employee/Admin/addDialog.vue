@@ -185,6 +185,7 @@
     
     import APP_CONST from '../../../config';
 
+    import { PHONE_REG,QQ_REG } from '@/config/index';
     export default {
         name: 'addDialog',
         mixins:[DialogForm,getGroupsByPid],
@@ -245,7 +246,13 @@
                     ],
                     address:[
                         { message:'输入内容最大长度为200', type: 'string', trigger:'blur', max:200}
-                    ]
+                    ],
+                    mobilephone:[
+                        { required: true, message:'请输入正确的手机号', pattern: PHONE_REG, trigger:'blur'},
+                    ],
+                    qq:[
+                        { required: true, message:'请输入正确格式的QQ号',  pattern: QQ_REG, trigger:'blur'},
+                    ],
                 }
 
             }

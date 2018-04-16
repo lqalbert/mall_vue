@@ -69,6 +69,7 @@
  import DialogForm from '../../mix/DialogForm';
 import DataProxy from '../../packages/DataProxy';
 import SelectProxy from  '../../packages/SelectProxy';
+import { PHONE_REG } from '@/config/index';
 
 const maxLengthContacts = 20;
 const FORMSTATE_ADD = '确 定';
@@ -103,7 +104,7 @@ export default {
                     { min:1,   max: 10, message: '长度不能超过10个字符', trigger: 'blur'  }
                 ],
                 phone:[
-                    { required: true,max: 99999999999, message:'请输入正确的手机号', type: 'number', trigger:'blur'},
+                    { required: true, message:'请输入正确的手机号', pattern:PHONE_REG, trigger:'blur'},
                 ],
                 address:[
                     { required: true,message:'请输入收货地址',  trigger:'blur'},

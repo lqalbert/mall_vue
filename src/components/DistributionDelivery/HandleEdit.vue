@@ -1,7 +1,7 @@
 <template>
     <div>
         <MyDialog title="修 改" :name="name" :width="width" :height="height" @before-open="onBeforeOpen">
-            <el-form :model="editForm" ref="editForm" :label-width="labelWidth"  :label-position="labelPosition">
+            <el-form :model="editForm" ref="editForm" :rules="rules" :label-width="labelWidth"  :label-position="labelPosition">
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="客户姓名" prop="cus_name" :disabled="true">
@@ -127,6 +127,7 @@
 <script>
 import DialogForm from '../../mix/DialogForm';
 import APP_CONST from '../../config';
+import { PHONE_REG } from "@/config/index";
 export default {
     name: 'handle-edit',
     mixins:[DialogForm],
@@ -157,7 +158,12 @@ export default {
                 edit_time:"",
                 assign_fee:""
             },
-            model:{}
+            model:{},
+            rules:{
+                deliver_phone:[
+                    { required: true,message:'请输入联系人电话', pattern:PHONE_REG, trigger:'blur'}
+                ],
+            },
         }
     },
     methods:{

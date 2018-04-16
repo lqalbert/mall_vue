@@ -47,6 +47,7 @@ import FormMix from '../../mix/Form';
 import APP_CONST from '../../config';
 import DialogMix from '../../mix/Dialog';
 import { mapGetters } from 'vuex';
+import { PHONE_REG } from "@/config/index";
 export default {
     name: 'Add',
     mixins:[DialogForm,FormMix],
@@ -75,7 +76,7 @@ export default {
                     { required: true, message:'请输入物流公司联系人', trigger: 'blur', },
                 ],
                 contact_tel:[
-                    { required: true,message:'请输入联系人电话', type: 'string', trigger:'blur'}
+                    { required: true,message:'请输入联系人电话', pattern:PHONE_REG, trigger:'blur'}
                 ],
 
             }

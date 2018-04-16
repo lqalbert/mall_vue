@@ -61,6 +61,7 @@
     import EmployeeSelectProxy from '../../packages/EmployeeSelectProxy';
     import { mapGetters } from 'vuex';
 
+    import { PHONE_REG } from "@/config/index";
     // import Dialog from '../common/Dialog';
     export default {
         name: 'editDialog',
@@ -99,7 +100,7 @@
                         { required: true,message:'请输入联系人', type: 'string', trigger:'blur'}
                     ],
                     contact_phone:[
-                        { required: true,message:'请输入联系人电话', type: 'string', trigger:'blur'}
+                        { required: true,message:'请输入联系人电话', pattern:PHONE_REG, trigger:'blur'}
                     ],
                     address:[
                         { required: true, message:'请输入地址', type: 'string', trigger:'blur'},

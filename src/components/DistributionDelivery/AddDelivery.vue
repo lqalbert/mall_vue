@@ -1,7 +1,7 @@
 <template>
     <div>
         <MyDialog title="发 货" :name="name" :width="width" :height="height" @before-open="onBeforeOpen">
-            <el-form :model="addForm" ref="addForm" :label-width="labelWidth"  :label-position="labelPosition">
+            <el-form :model="addForm" ref="addForm" :rules="rules" :label-width="labelWidth"  :label-position="labelPosition">
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="客户姓名" prop="cus_name" :disabled="true">
@@ -130,6 +130,7 @@
 import DialogForm from '../../mix/DialogForm';
 import APP_CONST from '../../config';
 import { mapGetters, mapMutations } from 'vuex';
+import { PHONE_REG } from "@/config/index";
 export default {
     name: 'add-delivery',
     mixins:[DialogForm],
@@ -160,7 +161,12 @@ export default {
                 send_time:"",
                 status:""
             },
-            model:{}
+            model:{},
+            rules:{
+                deliver_phone:[
+                    { required: true,message:'请输入联系人电话', pattern:PHONE_REG, trigger:'blur'}
+                ],
+            },
         }
     },
     methods:{

@@ -55,7 +55,7 @@
                 </el-form-item>
 
                 <br>
-                <el-form-item prop="type">
+                <el-form-item >
                     <!-- 改成新的 -->
                     <el-badge :value="0"  class="badge-dot" >
                         <el-button size="small" @click="searchToolReset('searchForm')"  type="info" >全部</el-button>

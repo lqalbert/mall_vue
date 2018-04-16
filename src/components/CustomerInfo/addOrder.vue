@@ -368,6 +368,7 @@
                 if (this.active++ > 1) this.active = 2;
             },
             categoryChange(cate_id){
+                this.addOrderForm.goods_id = '';
                 this.goodsProxy.setParam({
                     cate_id:cate_id,
                     with:['skus'],

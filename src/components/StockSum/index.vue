@@ -3,7 +3,7 @@
         <el-row>
             <el-col :span="24">
                 <el-form :inline="true"  ref="searchForm" :model="searchForm" class="demo-form-inline" size="small">
-                    <el-form-item prop="entrepot_id"  >
+                    <el-form-item prop="entrepot_id" class="form-item-unique">
                         <el-select
                                 clearable
                                 v-model="searchForm.entrepot_id"
@@ -15,7 +15,7 @@
                         </el-select>
                     </el-form-item>
 
-                    <el-form-item prop="cate_type_id"  >
+                    <el-form-item prop="cate_type_id" class="form-item-unique">
                             <el-select
                                     v-model="searchForm.cate_type_id"
                                     size="small"
@@ -27,7 +27,7 @@
                             </el-select>
                         </el-form-item>
 
-                    <el-form-item prop="cate_kind_id"  >
+                    <el-form-item prop="cate_kind_id" class="form-item-unique">
                         <el-select
                                 v-model="searchForm.cate_kind_id"
                                 size="small"
@@ -38,7 +38,7 @@
                         </el-select>
                     </el-form-item>
 
-                    <el-form-item prop="goods_name">
+                    <el-form-item prop="goods_name" class="form-item-unique">
                         <el-input v-model="searchForm.goods_name" size="small" placeholder="商品名称"></el-input>
                     </el-form-item>
 
@@ -163,5 +163,7 @@
 </script>
 
 <style scoped>
-
+    .form-item-unique{
+        width: 140px !important;
+    }
 </style>

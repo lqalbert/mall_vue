@@ -30,7 +30,7 @@
                     <el-input v-model="searchForm.sale_name" size="small" placeholder="销售人员"></el-input>
                 </el-form-item>
 
-                <el-form-item prop="times">
+                <el-form-item prop="times" class="date-item">
                     <el-date-picker
                             v-model="times"
                             type="daterange"
@@ -409,6 +409,9 @@ export default {
 <style scoped>
     .search-bar .el-form-item {
         width: 140px;
+    }
+    .date-item{
+        width: 220px !important;
     }
 </style>
 

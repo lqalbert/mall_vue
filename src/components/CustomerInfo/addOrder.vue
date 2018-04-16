@@ -213,7 +213,7 @@
         },
         methods:{
             addOrder(){
-                if(this.alertNum != 0 ){
+                // if(this.alertNum != 0 ){
                     //console.log(this.data2);
                     var vmthis = this;
                     let moneyNotes =parseInt(this.data2[this.addOrderForm.goods_id].price) * parseInt(this.addOrderForm.goods_number);
@@ -235,7 +235,7 @@
                     this.goodsIds.push(addData.goods_id);
                     this.$refs.addOrderForm.resetFields();
                     this.alertNum = 0;
-                }
+                // }
             },
             getGoodsInfo(goods_id){
                 if(this.data2[goods_id]){

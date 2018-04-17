@@ -180,8 +180,6 @@ export default {
                 id:'',
                 imgs:[],
                 category:[],
-                // skus:[],
-
             },
             attrForm:{
                 value:"",
@@ -212,7 +210,6 @@ export default {
             this.ajaxProxy.find(id).then((data)=>{
                 let row = data.data;
                 row.del_imgs = [];
-                row.img_path = [];
                 row.cate_id = [];
                 for (let index = 0; index < row.category.length; index++) {
                     row.cate_id.push(row.category[index].id);
@@ -233,7 +230,6 @@ export default {
                     this.editForm.del_imgs.push(file.id);
                 }
             }
-            // console.log(this.editForm);
         },
         handlePictureCardPreview(file) {
             this.dialogImageUrl = file.url;
@@ -243,19 +239,10 @@ export default {
             this.$refs.upload.submit();
         },
         uploadSuccess(response, file, fileList){
-
             if(fileList[fileList.length-1].response){
-                this.editForm.merge_img = [];
-                fileList.forEach(function(element){
-                    if (element.response) {
-                        this.push(response.data.url);
-                    } else {
-                        this.push(element.url);
-                    }
-                }, this.editForm.merge_img);
+                this.setMergeImg(fileList);
                 this.formSubmit('editForm');
-                this.ctrlNum = 0;
-            }    
+            }
         },
         uploadError(err, file, fileList){
             this.$message.error('上传出错：' + err.msg);
@@ -264,11 +251,13 @@ export default {
         // //重写formSubmit 因为要先提交图片
         beforeFormSubmit(name){
             this[name].description = this.editContent;
-            let upLength = this.$refs.upload.uploadFiles.length;
             this.$refs['submit-button'].$emit('submit-ing');
-            if(upLength != this.fileList.length && upLength!=0){
+            if(this.fileList.every(function(element){
+                return element.status  != 'success' ;
+            })){
                 this.submitUpload();
             }else{
+                this.setMergeImg(this.fileList);
                 this.formSubmit(name);
             }
         },
@@ -292,6 +281,16 @@ export default {
             //console.log('editor change!', quill.getContents(), html, text);
             this.editContent = html;
             //console.log(quill.getContents());
+        },
+        setMergeImg(fileList){
+            this.editForm.merge_img = [];
+            fileList.forEach(function(element){
+                if (element.response) {
+                    this.push(response.data.url);
+                } else {
+                    this.push(element.url);
+                }
+            }, this.editForm.merge_img);
         }
 
     },
@@ -300,10 +299,7 @@ export default {
             return this.$refs.myQuillEditor.quill;
         }
     },
-    created(){
-        this.editorOption = quillRedefine(APP_CONST.editor_option);
-        //console.log(this.editorOption);
-    },
+    
     watch:{
         model:function(val, oldVal){
             for (const key in this.editForm) {
@@ -316,10 +312,10 @@ export default {
                 }
             }
         }
+    },
+    created(){
+        this.editorOption = quillRedefine(APP_CONST.editor_option);
     }
-
-
-
 }
 </script>
 

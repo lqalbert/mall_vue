@@ -6,6 +6,7 @@
                     <el-col :span="12">
                         <el-form-item  label="是否通过" prop="check_status">
                             <el-select size="small" placeholder="是否通过" v-model="checkForm.check_status">
+                                <el-option :value="0" hidden> 请选择</el-option>
                                 <el-option
                                         v-for="check in c_status"
                                         :label="check.status"
@@ -55,7 +56,7 @@
                 },
                
                 c_status:[
-                    {id:　1, status:'通过'},
+                    {id:1, status:'通过'},
                     {id:2, status:'未通过'}
                 ],
                 afterRow:null

@@ -47,7 +47,8 @@ export default {
             
             value6: '',
             value7: '',
-            dbRow:null
+            dbRow:null,
+            row_model:''
         }
     },
     computed:{

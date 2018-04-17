@@ -55,14 +55,45 @@ const mix = {
         }
     },
     methods:{
+        openDialogCheck(){
+            if (!this.hasCurrentRow()) {
+                this.$alert('请选择一行', '警告', {
+                    confirmButtonText: '确定',
+                })
+                return false;
+            } else {
+                return true;
+            }
+        },
+        hasCurrentRow(){
+            if (this.row_model) {
+                return true;
+            } else {
+                return false;
+            }
+        },
+        rowCellClick(row){
+            this.row_model=row;
+            if(!(this.row_model.after_sale_status == 10 || this.row_model.after_sale_status == 20)){
+                this.reFundCheckShow = true;
+            }else{
+                this.reFundCheckShow = false;
+            }
+        },
+
+
 
         //发起换货弹窗
-        showExchange(row){
-            this.$modal.show('exchangeGoods',row);
+        showExchange(){
+            if (this.openDialogCheck()) {
+                this.$modal.show('exchangeGoods', this.row_model);
+            }
         },
         /** 发起退款弹窗  */
-        open2(row) {
-            this.$modal.show('returnGoods', row);
+        open2() {
+            if (this.openDialogCheck()) {
+                 this.$modal.show('returnGoods', this.row_model);
+            }
         },
         
         // hyf 添加
@@ -74,33 +105,40 @@ const mix = {
             this.searchToolChange('searchForm');
         },
         //取消订单
-        cancelOrder(row){
+        cancelOrder(){
             // console.log(row.status);
-            if (row.status >= ORDER_ASSIGN) {
-                this.$alert('不能取消', '警告', {
-                    confirmButtonText: '关闭',
-                  });
-            } else {
-                this.$confirm('确定取消, 是否继续?', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                  }).then(() => {
-                    this.getAjaxProxy().cancel(row.id).then(()=>{
-                        this.$message.info('取消成功');
-                        this.handleReload();
-                    })
 
-                  });
-            }   
+            if (this.openDialogCheck()){
+                if (this.row_model.status >= ORDER_ASSIGN) {
+                    this.$alert('不能取消', '警告', {
+                        confirmButtonText: '关闭',
+                    });
+                } else {
+                    this.$confirm('确定取消, 是否继续?', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        this.getAjaxProxy().cancel(this.row_model.id).then(() => {
+                            this.$message.info('取消成功');
+                            this.handleReload();
+                        })
+
+                    });
+                }
+            }
         },
         //订单审核
-        checkOrder(row){
-            this.$modal.show('checkOrder', { row:row});
+        checkOrder(){
+            if (this.openDialogCheck()) {
+                this.$modal.show('checkOrder', {row: this.row_model});
+            }
         },
 
-        RefundCheck(row) {
-            this.$modal.show('refundcheck', {row:row});
+        RefundCheck() {
+            if (this.openDialogCheck()){
+                this.$modal.show('refundcheck', {row: this.row_model});
+            }
         },
         resetHiddenFields(){
             this.searchForm.status = '',

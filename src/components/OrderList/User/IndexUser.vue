@@ -86,7 +86,7 @@
 
         <el-row>
             <el-col>
-                <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload"  @dbclick="showRow" :page-size="20" >
+                <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" @cellclick="rowCellClick" @dbclick="showRow" :page-size="20" >
                     <el-table-column prop="order_sn" label="订单号" align="center" width="180">
                     </el-table-column>
 
@@ -116,31 +116,18 @@
 
                     <el-table-column fixed="right" label="操作" align="center" width="210">
                         <template slot-scope="scope">
-                            <el-dropdown trigger="click" type="primary" size="small" split-button @click="showRowData(scope.row)"  >
-                                编辑
-                                <el-dropdown-menu slot="dropdown" split-button>
-                                    <el-dropdown-item>
-                                        <el-button type="text"  @click="open2(scope.row)">发起退货</el-button>
-                                    </el-dropdown-item>
-                                    <el-dropdown-item>
-                                        <el-button type="text"  @click="showExchange(scope.row)">发起换货</el-button>
-                                    </el-dropdown-item>
-                                    <el-dropdown-item>
-                                        <el-button type="text"  @click="cancelOrder(scope.row)">取消订单</el-button>
-                                    </el-dropdown-item>
-                                    <!-- 总经办这里就没有发起退款 -->
-                                </el-dropdown-menu>
-                            </el-dropdown>
+                            <el-button type="primary" @click="showRowData(scope.row)" size="small">编辑</el-button>
                             <el-button type="danger" @click="handleDelete(scope.row.id)" size="small">删除</el-button>
                         </template>
                     </el-table-column>
 
                     <div slot="buttonbar">
                         <!-- 暂时注释添加 等改完后再加回去 -->
-                        <!-- <el-tooltip content="点击添加订单" placement="right">
-                            <el-button size="small" icon="plus" type="info" @click="showAdd" >添加</el-button>
-                        </el-tooltip> -->
+                        <el-button type="primary" size="small" @click="open2()">发起退货</el-button>
+                        <el-button type="primary" size="small" @click="showExchange()">发起换货</el-button>
+                        <el-button type="primary" size="small" @click="cancelOrder()">取消订单</el-button>
                     </div>
+
 
                 </TableProxy>
             </el-col>

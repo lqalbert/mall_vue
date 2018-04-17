@@ -30,7 +30,7 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item prop="entrepot_id"  label="配送中心">
-                            <el-select v-model="addForm.entrepot_id" placeholder="郑州配送中心">
+                            <el-select v-model="addForm.entrepot_id" placeholder="配送中心">
                                 <el-option v-for="v in distributors" :label="v.name"
                                            :value="v.id" :key="v.id">
                                 </el-option>

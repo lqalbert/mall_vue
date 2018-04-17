@@ -118,6 +118,7 @@
             <div slot="dialog-foot" class="dialog-footer">
                 <el-button @click="handleClose">取 消</el-button>
                 <submit-button 
+                    ref="submit-button"
                     @click="beforeFormSubmit('editForm')"
                     :observer="dialogThis">
                     保 存
@@ -174,7 +175,6 @@ export default {
                 sku_sn:"",
                 unit_type:'',
                 description:'',
-                img_path:[],
                 del_imgs:[],
                 cover_url:'',
                 id:'',
@@ -243,20 +243,19 @@ export default {
             this.$refs.upload.submit();
         },
         uploadSuccess(response, file, fileList){
-            //console.log(1);
-            this.editForm.img_path.push(response.data.url);
-            this.ctrlNum++;
-            // console.log(fileList);
-            if(this.ctrlNum >= fileList.length){
+
+            if(fileList[fileList.length-1].response){
+                this.editForm.merge_img = [];
+                fileList.forEach(function(element){
+                    if (element.response) {
+                        this.push(response.data.url);
+                    } else {
+                        this.push(element.url);
+                    }
+                }, this.editForm.merge_img);
                 this.formSubmit('editForm');
                 this.ctrlNum = 0;
-            }else{
-                if(fileList[fileList.length-1].response){
-                    this.formSubmit('editForm');
-                    this.ctrlNum = 0;
-                }
-            }
-            console.log(fileList);
+            }    
         },
         uploadError(err, file, fileList){
             this.$message.error('上传出错：' + err.msg);
@@ -266,25 +265,12 @@ export default {
         beforeFormSubmit(name){
             this[name].description = this.editContent;
             let upLength = this.$refs.upload.uploadFiles.length;
+            this.$refs['submit-button'].$emit('submit-ing');
             if(upLength != this.fileList.length && upLength!=0){
-                if(this.$refs.upload.uploadFiles[upLength-1].status == "success"){
-                    this.formSubmit(name);
-                }else{
-                    this.submitUpload();
-                }
+                this.submitUpload();
             }else{
-                if(upLength!=0){
-                    if(this.$refs.upload.uploadFiles[upLength-1].status == "ready"){
-                        this.submitUpload();
-                    }else{
-                        this.formSubmit(name);
-                    }
-                }else{
-                    this.formSubmit(name);
-                }
+                this.formSubmit(name);
             }
-            
-            // this.editForm.img_path = [];
         },
 
         //---------提交请求

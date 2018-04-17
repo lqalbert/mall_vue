@@ -2,7 +2,7 @@
     <div >
         <MyDialog title="编辑商品" :name="name" :width="width" :height="height" @before-open="onOpen">
             <el-form :model="editForm" :rules="editFormRules" ref="editForm" :label-width="labelWidth"  :label-position="labelPosition">
-                <el-tabs v-model="activeName" @tab-click="handleClick">
+                <el-tabs v-model="activeName" >
                     <el-tab-pane label="基本信息" name="first">
                         <el-row>
                             <el-col :span="12">
@@ -59,7 +59,7 @@
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
-                                <el-form-item label="商品编号(改成必填)"  prop="sku_sn">
+                                <el-form-item label="商品编号"  prop="sku_sn">
                                     <el-input class="name-input" v-model="editForm.sku_sn"  auto-complete="off" placeholder="请填写商品编号"></el-input>
                                 </el-form-item>
                             </el-col>
@@ -180,7 +180,7 @@ export default {
                 id:'',
                 imgs:[],
                 category:[],
-                skus:[],
+                // skus:[],
 
             },
             attrForm:{
@@ -198,19 +198,17 @@ export default {
                 goods_price:[
                     {required: true,pattern:/^(([1-9]\d{0,9})|0)(\.\d{1,2})?$/,  message: '价格格式为88.88', trigger:'blur'}
                 ],
+                sku_sn:[
+                    { required: true, 　 message: '商品编号必填', trigger:'blur'}
+                ]
             },
         }
     },
     methods:{
         onOpen(param){
             this.fileList = [];
-            
             let id = param.params.id;
-            // this.model = param.params.model;
             this.UnitTypes = param.params.extra;
-            // this.fileList = param.params.fileList;
-            // this.urlDomain = param.params.urlDomain;
-
             this.ajaxProxy.find(id).then((data)=>{
                 let row = data.data;
                 row.del_imgs = [];
@@ -220,41 +218,22 @@ export default {
                     row.cate_id.push(row.category[index].id);
                 }
                 for (let index = 0; index < row.imgs.length; index++) {
-                    this.fileList.push({name:row.imgs[index].url, url:row.imgs[index].full_url});  
+                    this.fileList.push({name:row.imgs[index].url, url:row.imgs[index].url, full_url:row.imgs[index].full_url, id:row.imgs[index].id});  
                 }
-
-                // for (let index = 0; index < row.skus.length; index++) {
-                //     const element = row.skus[index];
-                //     // console.log(element);
-                //     element.attr.forEach(item => {
-                //         item.value = item.pivot.value;
-                //         item.addon_value = item.pivot.addon_value;
-                //     });
-                    
-                // }
-
-
                 this.model = row;
             })
-
-
         },
-        handleClick(tab, event) {
-            //console.log(tab, event);
-        },
+        
         handleCateChange(v){
             this.editForm.cate_id = v; 
         },
         handleRemove(file, fileList) {
             if(this.fileList.length !=0){
-                let delUrl;
-                let delUrlArr;
-                delUrlArr = file.url.split('/');
-                delUrl = '/'+delUrlArr[delUrlArr.length-2]+'/'+delUrlArr[delUrlArr.length-1];
-                this.editForm.del_imgs.push(delUrl);
+                if(file.id){
+                    this.editForm.del_imgs.push(file.id);
+                }
             }
-            console.log(this.editForm);
-
+            // console.log(this.editForm);
         },
         handlePictureCardPreview(file) {
             this.dialogImageUrl = file.url;
@@ -267,7 +246,7 @@ export default {
             //console.log(1);
             this.editForm.img_path.push(response.data.url);
             this.ctrlNum++;
-            console.log(fileList);
+            // console.log(fileList);
             if(this.ctrlNum >= fileList.length){
                 this.formSubmit('editForm');
                 this.ctrlNum = 0;
@@ -277,6 +256,7 @@ export default {
                     this.ctrlNum = 0;
                 }
             }
+            console.log(fileList);
         },
         uploadError(err, file, fileList){
             this.$message.error('上传出错：' + err.msg);
@@ -284,9 +264,7 @@ export default {
 
         // //重写formSubmit 因为要先提交图片
         beforeFormSubmit(name){
-            //console.log(this.$refs.upload);die;
             this[name].description = this.editContent;
-            console.log(this.$refs.upload);
             let upLength = this.$refs.upload.uploadFiles.length;
             if(upLength != this.fileList.length && upLength!=0){
                 if(this.$refs.upload.uploadFiles[upLength-1].status == "success"){
@@ -306,12 +284,11 @@ export default {
                 }
             }
             
-            this.editForm.img_path = [];
+            // this.editForm.img_path = [];
         },
 
         //---------提交请求
         getAjaxPromise(model){
-            //console.log(model);
             return this.ajaxProxy.update(model.id, model);
         },
         //---------编辑器

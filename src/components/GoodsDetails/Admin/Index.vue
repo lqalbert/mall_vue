@@ -67,7 +67,7 @@
                             {{setUnitTypes(scope.row.unit_type)}}
                         </template>
                     </el-table-column>
-                    <!-- <el-table-column prop="new_goods" label="新品" align="center">
+                    <el-table-column prop="new_goods" label="新品首发" align="center">
                         <template slot-scope="scope">
                             <el-switch
                                     v-model="scope.row.new_goods"
@@ -76,7 +76,7 @@
                             </el-switch>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="hot_goods" label="热卖" align="center">
+                    <el-table-column prop="hot_goods" label="畅销精品" align="center">
                         <template slot-scope="scope">
                             <el-switch
                                     v-model="scope.row.hot_goods"
@@ -85,7 +85,7 @@
                             </el-switch>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="recommend_goods" label="推荐" align="center">
+                    <!-- <el-table-column prop="recommend_goods" label="推荐" align="center">
                         <template slot-scope="scope">
                             <el-switch
                                     v-model="scope.row.recommend_goods"
@@ -103,9 +103,11 @@
 
                     <el-table-column  label="操作" align="center" width="200">
                         <template slot-scope="scope">
-                            <el-button type="info" size="small" @click="showEdit(scope.row.id)">编辑</el-button>
-                            <el-button type="info" size="small" @click="showSpec(scope.row)">规格</el-button>
-                            <el-button type="danger" size="small" @click="handleDelete(scope.row.id)">删除</el-button>
+                            <el-button-group>
+                                <el-button type="info" size="small" @click="showEdit(scope.row.id)">编辑</el-button>
+                                <el-button type="info" size="small" @click="showSpec(scope.row)">规格</el-button>
+                                <el-button type="danger" size="small" @click="handleDelete(scope.row.id)">删除</el-button>
+                            </el-button-group>
                         </template>
                     </el-table-column>
 

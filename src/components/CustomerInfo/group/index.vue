@@ -1,5 +1,5 @@
 <template>
-        <div class="hello">
+        <div class="bar-wrapper" v-bind:class="{ 'bar-wrapper-move': isbaractive }"  @mouseup.left="deactiveMove" @mousemove="barEnter">
             <el-row>
                 <el-col :span="24">
                     <el-form :inline="true" :model="searchForm" ref="searchForm" class="search-bar">
@@ -38,8 +38,9 @@
             </el-row>
             <br>
             <el-row>
-                <el-col >
+                <el-col :span="24">
                     <TableProxy
+                            :height="mainHeight"
                             :url="mainurl"
                             :param="mainparam"
                             :reload="dataTableReload" :page-size="pageSize" @cellclick="rowCellClick" >
@@ -78,12 +79,14 @@
                                 {{ scope.row.contacts[0].weixin_nickname }}
                             </template>
                         </el-table-column>
-                        <el-table-column fixed="right" label="操作" width="280" align="center">
+                        <el-table-column fixed="right" label="操作" width="200" align="center">
                             <template slot-scope="scope">
-                                <el-button type="primary" size="small"  @click="openEdit(scope.row)">编 辑</el-button>
-                                <el-button type="primary" size="small"  @click="openAddDeliveryAddress(scope.row)">收货地址</el-button>
-                                <el-button size="small" type="success"  @click="openAddOrder(scope.row)">下 单</el-button>
-                                <!--<el-button size="small" type="danger" @click="handleDelete(scope.row.id)">删除</el-button>-->
+                                <el-button-group>
+                                    <el-button type="primary" size="small"  @click="openEdit(scope.row)">编 辑</el-button>
+                                    <el-button type="primary" size="small"  @click="openAddDeliveryAddress(scope.row)">收货地址</el-button>
+                                    <el-button size="small" type="success"  @click="openAddOrder(scope.row)">下 单</el-button>
+                                    <!--<el-button size="small" type="danger" @click="handleDelete(scope.row.id)">删除</el-button>-->
+                                </el-button-group>
                             </template>
                         </el-table-column>
                         <div slot="buttonbar">
@@ -95,6 +98,9 @@
                             <el-button size="small"  type="info" @click="setPlan">计划</el-button>
                         </div>
                     </TableProxy>
+                </el-col>
+                <el-col :span="24">
+                    <div class="sl-bar"   @mousedown.left="activeMove"></div>
                 </el-col>
             </el-row>
     
@@ -252,3 +258,7 @@
         }
     }
 </script>
+
+<style scoped>
+    @import '../mix/style.css';
+</style>

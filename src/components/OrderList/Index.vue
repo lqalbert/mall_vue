@@ -61,7 +61,8 @@
                 } 
             },
             setPageDepart(){
-                if (this.$store.getters.hasRole('department-manager')) {
+                
+                if (this.$store.getters.hasRole('sale-manager')) {
                     this.page_depart = true;
 
                     this.page_admin = false;

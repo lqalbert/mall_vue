@@ -61,6 +61,8 @@ const mix = {
             pageSize:15,
             mainparam:'',
             complainType:{},
+            isbaractive:false,
+            mainHeight: 400
         }
     },
     methods:{
@@ -187,9 +189,34 @@ const mix = {
                 this.$modal.show('plan', {model: this.model});
             }
         },
-	preCheck(){
+	    preCheck(){
             this.$modal.show('preCheck');
         },
+
+        barEnter(event){
+            if (this.isbaractive) {
+                if (this.mainHeight >= 100 && this.mainHeight <= 500) {
+                    this.mainHeight = this.mainHeight + event.movementY;
+                    if (this.mainHeight< 100) {
+                        this.mainHeight = 100;
+                        // this.$message('到顶了');
+                    } 
+
+                    if (this.mainHeight > 500) {
+                        this.mainHeight = 500;
+                        // this.$message('到顶了');
+                    }
+                } 
+                
+            }
+        },
+
+        activeMove(event){
+            this.isbaractive = true;
+        },
+        deactiveMove(event){
+            this.isbaractive = false;
+        }
 
     },
     created(){

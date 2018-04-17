@@ -24,6 +24,7 @@
         <el-table
             ref="proxyTable"
             :data="mainData"
+            :height="height"
             v-loading="dataLoad"
             border
             highlight-current-row
@@ -31,8 +32,7 @@
             @sort-change="sortChange"
             @cell-dblclick="dbclick"
             @cell-click="cellclick"
-	        element-loading-text="拼命加载中"
-            >
+	        element-loading-text="拼命加载中">
             <slot></slot>
         </el-table>
         <br>
@@ -83,6 +83,10 @@
             reload:{
                 type:Number,
                 default:0
+            },
+            height:{
+                type:[String, Number],
+                default:''
             }
       },
       data () {

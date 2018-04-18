@@ -89,9 +89,9 @@ export default {
             });
         },
         showSpec(row){
-            this.$modal.show('edit-goods-spec', {
-              model: row
-            });
+            // console.log('asdf');
+            this.$modal.show('edit-goods-spec', {model: row});
+            // console.log('asdf----------bbbbb');
         },
         handleCateChange(v){
             this.searchForm.cate_id = v;

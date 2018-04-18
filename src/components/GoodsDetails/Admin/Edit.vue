@@ -44,12 +44,11 @@
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
-                                <el-form-item label="是否上架"  prop="status">
-                                    <el-radio-group v-model="editForm.status">
-                                        <el-radio :label="1">是</el-radio>
-                                        <el-radio :label="2">否</el-radio>
-                                    </el-radio-group>
-                                </el-form-item>
+                                <el-col :span="12">
+                                    <el-form-item label="原价"  prop="del_price">
+                                        <el-input class="name-input" v-model="editForm.del_price"  auto-complete="off" placeholder="0.00"></el-input>
+                                    </el-form-item>
+                                </el-col>
                             </el-col>
                         </el-row>
                         <el-row>
@@ -74,7 +73,17 @@
                                     </el-select>
                                 </el-form-item>
                             </el-col>
+                            <el-col :span="12">
+                                    <el-form-item label="是否上架"  prop="status">
+                                        <el-radio-group v-model="editForm.status">
+                                            <el-radio :label="1">是</el-radio>
+                                            <el-radio :label="2">否</el-radio>
+                                        </el-radio-group>
+                                    </el-form-item>
+                                </el-col>
                         </el-row>
+                        
+                          
                         <el-row>
                             <el-col>
                                 <quill-editor v-model="editContent"
@@ -111,6 +120,28 @@
                             <img width="100%" :src="dialogImageUrl" alt="">
                         </el-dialog>
                         <div class="el-upload__tip">默认第一张图片为封面图片</div>
+                    </el-tab-pane>
+                    <el-tab-pane label="前台显示" name="four">
+                        <el-row>
+                            <el-col :span="12">
+                                <el-form-item label="累计评价"  prop="comments">
+                                    <el-input class="name-input" v-model="editForm.comments"  auto-complete="off" placeholder="1890"></el-input>
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="12">
+                                <el-form-item label="累积销售"  prop="sale_count">
+                                    <el-input class="name-input" v-model="editForm.sale_count"  auto-complete="off" placeholder="500"></el-input>
+                                </el-form-item>
+                            </el-col>
+
+                            <el-col :span="12">
+                                <el-form-item label="显示库存"  prop="sale_able_count">
+                                    <el-input class="name-input" v-model="editForm.sale_able_count"  auto-complete="off" placeholder="1890"></el-input>
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
                     </el-tab-pane>
                 </el-tabs>
             </el-form>
@@ -180,6 +211,10 @@ export default {
                 id:'',
                 imgs:[],
                 category:[],
+                del_price:"",
+                comments:"",
+                sale_count:"",
+                sale_able_count:""
             },
             attrForm:{
                 value:"",

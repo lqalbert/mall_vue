@@ -291,6 +291,9 @@ export default {
                 sku_sn:""
             },
             addFormRules:{
+                unit_type:[
+                    {required: true,   message: '请选择单位', trigger:'change'}
+                ],
                 goods_price:[
                     {required: true,pattern:/^(([1-9]\d{0,9})|0)(\.\d{1,2})?$/,  message: '价格格式为00.00', trigger:'blur'}
                 ],

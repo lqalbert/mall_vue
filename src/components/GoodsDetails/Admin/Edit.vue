@@ -228,6 +228,9 @@ export default {
             cover_url:'',
             model:null,
             editFormRules:{
+                unit_type:[
+                    {required: true,   message: '请选择单位', trigger:'change'}
+                ],
                 goods_price:[
                     {required: true,pattern:/^(([1-9]\d{0,9})|0)(\.\d{1,2})?$/,  message: '价格格式为88.88', trigger:'blur'}
                 ],
@@ -274,7 +277,10 @@ export default {
             this.$refs.upload.submit();
         },
         uploadSuccess(response, file, fileList){
-            if(fileList[fileList.length-1].response){
+            // console.log(fileList);
+            if(this.fileList.every(function(element){
+                return element.status  != 'success' ;
+            })){
                 this.setMergeImg(fileList);
                 this.formSubmit('editForm');
             }
@@ -321,7 +327,7 @@ export default {
             this.editForm.merge_img = [];
             fileList.forEach(function(element){
                 if (element.response) {
-                    this.push(response.data.url);
+                    this.push(element.response.data.url);
                 } else {
                     this.push(element.url);
                 }

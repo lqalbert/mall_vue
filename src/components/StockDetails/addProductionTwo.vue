@@ -1,7 +1,7 @@
 <template>
     <div >
-        <MyDialog title="生产入库" :name="name" :width="width" :height="height" >
-            <el-form :model="addForm"  :label-width="labelWidth"  ref="addForm" :label-position="labelPosition">
+        <MyDialog title="生产入库" :name="name" :width="width" :height="height" @before-open="onOpen">
+            <el-form :model="addForm"  :label-width="labelWidth" :rules="addFormRules"  ref="addForm" :label-position="labelPosition">
                 <el-row>
                     <el-col :span="12">
                         <el-form-item prop="entry_sn"  label="入库单号">
@@ -204,6 +204,15 @@
                         {required: true, type: 'number',  message: '请填写商品数量', trigger:'change'}
                     ],
                 },
+
+                addFormRules:{
+                    entrepot_id:[
+                        { required:true, type: 'number', message:'请选择配送中心', trigger:'change'}
+                    ],
+                    comment:[
+                        {max:100, message:'最大支持100个字符', trigger:'blur'}
+                    ]
+                }
             }
         },
         computed:{
@@ -266,6 +275,9 @@
 
             clearChidren(){
                 this.addForm.childrenData = [];
+            },
+            onOpen(){
+                this.addForm.entry_at = new Date();
             }
         },
         created(){

@@ -61,9 +61,17 @@
 <script>
 import DialogForm from '../../mix/DialogForm';
 import APP_CONST from '../../config';
+import { mapGetters, mapMutations } from 'vuex';
 export default {
     name: 'add-delivery',
     mixins:[DialogForm],
+    computed:{
+        ...mapGetters([
+            'getUser',
+            'departName',
+            'getUserRoles'
+        ])
+    },
     components: {
         
     },
@@ -76,15 +84,22 @@ export default {
             labelPosition:"right",
             labelWidth:'120px',
             addForm:{
-                id:'',
                 contact_content:'',
                 communicate_time:'',
+                cus_name:'',
+                user_id:'',
+                user_name:'',
+                assign_id:''
             },
             model:{}
         }
     },
     methods:{
         getAjaxPromise(model){
+            this.addForm.assign_id = this.model.id;
+            this.addForm.cus_name = this.model.cus_name;
+            this.addForm.user_id = this.getUser.id;
+            this.addForm.user_name = this.getUser.realname;
             return this.ajaxProxy.update(model.id, model);
         },
         timeChange(v){
@@ -95,11 +110,11 @@ export default {
             this.model =  model.params;
         }
     },
-    watch:{
-        model:function(val, oldVal){
-            this.initObject(val, this.addForm);
-        }
-    },
+    // watch:{
+    //     model:function(val, oldVal){
+    //         this.initObject(val, this.addForm);
+    //     }
+    // },
     mounted(){
 
     },

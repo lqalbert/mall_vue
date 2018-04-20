@@ -88,6 +88,7 @@
 </template>
 <script>
 import DistributionDeliveryProxy from '@/packages/DistributionDeliveryProxy';
+import CommunicateProxy from '@/packages/CommunicateProxy';
 export default {
 	name: 'SubDetail',
 	props:{
@@ -142,11 +143,10 @@ export default {
 			this.tabFourth = true;
 		},
 		handleFifth(row){
-			let communicationProxy = new DistributionDeliveryProxy(null, this.getCommunication, this);
-			communicationProxy.setParam({
-				id:row.id,
-				fields:['id','cus_name','communicate_time','user_name','contact_content'],
-				business:'communication'
+		    console.log(row)
+			let CommunicateDataProxy = new CommunicateProxy(null, this.getCommunication, this);
+            CommunicateDataProxy.setParam({
+                assign_id:row.id,
 			}).load()
 			this.tabFifth = true;
 		},
@@ -165,7 +165,7 @@ export default {
 			this.deliveryAddressesData = data;
 		},
 		getCommunication(data){
-			this.communicationData = data;
+			this.communicationData = data.items;
 		},
 		getOperation(data){
 			let newData = {};

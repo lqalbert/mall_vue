@@ -64,9 +64,9 @@
                         <el-button size="small" @click="singlbutton('0', '', '')"  type="info" >待审核</el-button>
                     </el-badge>
 
-                    <el-badge :value="0" :max="9" class="badge-dot" is-dot>
+                    <!-- <el-badge :value="0" :max="9" class="badge-dot" is-dot>
                         <el-button size="small" @click="singlbutton('2', '', '')"  type="info" >待充值</el-button>
-                    </el-badge>
+                    </el-badge> -->
 
                     <el-badge :value="200" class="badge-dot" is-dot>
                         <el-button size="small" @click="singlbutton('', '1', '')"  type="info" >配货中</el-button>

@@ -50,5 +50,6 @@ Object.defineProperty(APP_CONST, 'ATTR',{
 
 export const PHONE_REG = /^[1][3,4,5,7,8][0-9]{9}$/;
 export const QQ_REG = /^[0-9]+$/;
+export const PRICE_REG = /^(([1-9]\d{0,9})|0)(\.\d{1,2})?$/;
 
 export default APP_CONST;

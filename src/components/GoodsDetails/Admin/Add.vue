@@ -291,6 +291,10 @@ export default {
                 sku_sn:""
             },
             addFormRules:{
+                goods_name:[
+                    {required: true, message:'名称必填', trigger:'blur'},
+                    {max:100, message:'最长100个字符', trigger:'blur'}
+                ],
                 unit_type:[
                     {required: true,   message: '请选择单位', trigger:'change'}
                 ],

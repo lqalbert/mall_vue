@@ -92,14 +92,14 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="快递费" prop="express_fee">
-                            <el-input v-model="addForm.express_fee" placeholder="快递费"></el-input>
+                            <el-input v-model="addForm.express_fee" placeholder="0.00"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="配送费" prop="assign_fee">
-                            <el-input v-model="addForm.assign_fee" placeholder="配送费"></el-input>
+                            <el-input v-model="addForm.assign_fee" placeholder="0.00"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -130,7 +130,7 @@
 import DialogForm from '../../mix/DialogForm';
 import APP_CONST from '../../config';
 import { mapGetters, mapMutations } from 'vuex';
-import { PHONE_REG } from "@/config/index";
+import { PHONE_REG,PRICE_REG } from "@/config/index";
 export default {
     name: 'add-delivery',
     mixins:[DialogForm],
@@ -154,10 +154,10 @@ export default {
                 deliver_name:"",
                 deliver_phone:"",
                 weight:"",
-                express_fee:"",
+                express_fee:"0.00",
                 user_id:"",
                 user_name:"",
-                assign_fee:"",
+                assign_fee:"0.00",
                 send_time:"",
                 status:""
             },
@@ -165,6 +165,12 @@ export default {
             rules:{
                 deliver_phone:[
                     { required: true,message:'请输入联系人电话', pattern:PHONE_REG, trigger:'blur'}
+                ],
+                express_fee:[
+                    { required:true, message:'请输入快递费', pattern:PRICE_REG, trigger:'blur'},
+                ],
+                assign_fee:[
+                    { required:true, message:'请输入配送费', pattern:PRICE_REG, trigger:'blur'},
                 ],
             },
         }

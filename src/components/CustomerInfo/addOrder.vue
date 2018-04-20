@@ -375,6 +375,8 @@
                     with:['skus'],
                     fields:['id','goods_name','goods_price','goods_number','sku_sn','unit_type']
                 }).load();
+                this.data2 = {};
+
             },
             getOrderData(data) {
                 //处理函数改成loadGoods

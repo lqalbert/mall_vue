@@ -41,7 +41,7 @@
                             <el-form-item prop="goods_id" label="商品名称">
                                 <el-select v-model="addOrderForm.goods_id" @change="getGoodsInfo">
                                     <el-option v-for="(value, item) in data2" :value="item" :key="item" :label="value.goods_name+'-'+value.sku_name+'-'+value.price">
-                                        <span>{{value.goods_name}}{{value.sku_name.length > 0 ? '-'+value.sku_name: ''  }}-{{value.price}}</span>
+                                        <span>{{value.goods_name}}{{ (value.sku_name && value.sku_name.length > 0) ? '-'+value.sku_name: ''  }}-{{value.price}}</span>
                                         <!-- <span style="float: right; color: #8492a6; font-size: 13px">{{value}}</span> -->
                                     </el-option>
                                 </el-select>
@@ -375,6 +375,8 @@
                     with:['skus'],
                     fields:['id','goods_name','goods_price','goods_number','sku_sn','unit_type']
                 }).load();
+                this.data2 = {};
+
             },
             getOrderData(data) {
                 //处理函数改成loadGoods
@@ -481,8 +483,8 @@
 
         },
         created(){
-            let userDataProxy = new DataProxy('/employees',this.pageSize,this.getUsersData, this);
-            userDataProxy.load();
+            // let userDataProxy = new DataProxy('/employees',this.pageSize,this.getUsersData, this);
+            // userDataProxy.load();
 
 
             this.goodsProxy = new GoodsSelectProxy({}, this.loadGoods, this);

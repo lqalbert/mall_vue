@@ -57,9 +57,9 @@
                         <el-button size="small" @click="typesearch('0', '', '')"  type="info" >待审核</el-button>
                     </el-badge>
 
-                    <el-badge :value="0" :max="9" class="badge-dot" is-dot hidden>
+                    <!-- <el-badge :value="0" :max="9" class="badge-dot" is-dot hidden>
                         <el-button size="small" @click="typesearch('2', '', '')"  type="info" >待充值</el-button>
-                    </el-badge>
+                    </el-badge> -->
 
                     <el-badge :value="200" class="badge-dot" is-dot hidden>
                         <el-button size="small" @click="typesearch('', '1', '')"  type="info" >配货中</el-button>

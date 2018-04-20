@@ -62,11 +62,15 @@
 
                     <el-table-column prop="goods.cate_kind" label="商品种类" width="180" align="center"></el-table-column>
 
-                    <el-table-column prop="rest_goods_number" label="商品剩余数量" width="180" align="center"></el-table-column>
+                    <el-table-column prop="entrepot_count" label="商品剩余数量" width="180" align="center"></el-table-column>
 
-                    <el-table-column prop="total_goods_number" label="累记库存总量" align="center"></el-table-column>
+                    <el-table-column prop="produce_in" label="累记库存总量" align="center"></el-table-column>
 
-                    <el-table-column prop="warehouse_status" label="库存状态" align="center"></el-table-column>
+                    <el-table-column prop="warehouse_status" label="库存状态" align="center">
+                        <template slot-scope="scope">
+                            {{ setWarehouseStatus(scope.row) }}
+                        </template>
+                    </el-table-column>
 
                     <el-table-column label="操作" fixed="right" align="center">
                         <template slot-scope="scope">
@@ -150,6 +154,15 @@
                     }
                 }
             },
+            setWarehouseStatus(row){
+                if(row.entrepot_count > row.inventory_max){
+                    return "仓库爆满";
+                }else if(row.entrepot_count < row.inventory_min){
+                    return "缺货预警";
+                }else if(row.entrepot_count <= row.inventory_max  && row.entrepot_count >= row.inventory_min){
+                    return "货物充足";
+                }
+            }
         },
         created(){
             this.$on('search-tool-change', this.onSearchChange);

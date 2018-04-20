@@ -1,7 +1,7 @@
 <template>
     <div>
         <MyDialog title="编辑/设置" :name="name" :width="width" :height="height" @before-open="onOpen">
-            <el-form :model="editForm" ref="editForm" :label-width="labelWidth" :label-position="labelPosition">
+            <el-form :model="editForm" ref="editForm" :rules="rules" :label-width="labelWidth" :label-position="labelPosition">
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="配送中心" prop="entrepot_id" >
@@ -70,12 +70,14 @@
                 <el-row>
                     <el-col :span="12">
                        <el-form-item label="库存最大量"  prop="inventory_max">
-                            <el-input v-model="editForm.inventory_max"  auto-complete="off" placeholder="库存最大量"></el-input>
+                            <el-input-number v-model="editForm.inventory_max" :min="0">
+                            </el-input-number>
                         </el-form-item> 
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="库存最小量"  prop="inventory_min">
-                            <el-input v-model="editForm.inventory_min"  auto-complete="off" placeholder="库存最小量"></el-input>
+                            <el-input-number v-model="editForm.inventory_min" :min="0">
+                            </el-input-number>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -109,6 +111,24 @@ export default {
         },
     },
     data(){
+        let validateMax = (rule, value, callback)=>{
+            if (value === '') {
+                callback(new Error('请设置预警最大值'));
+            } else if (value < this.editForm.inventory_min) {
+                callback(new Error('最大值应大于最小值'));
+            } else {
+                callback();
+            }
+        };
+        let validateMin = (rule, value, callback)=>{
+            if (value === '') {
+                callback(new Error('请设置预警最大值'));
+            } else if (value > this.editForm.inventory_max) {
+                callback(new Error('最小值小于最大值'));
+            } else {
+                callback();
+            }
+        };
         return {
             dialogThis:this,
             labelPosition:"right",
@@ -128,6 +148,14 @@ export default {
             },
             model:null,
             cate_kinds:[],
+            rules:{
+                inventory_max:[
+                    {required:true , validator:validateMax,trigger:'blur'},
+                ],
+                inventory_min:[
+                    {required:true , validator:validateMin,trigger:'blur'},
+                ],
+            },
         }
     },
     methods:{
@@ -149,6 +177,16 @@ export default {
                     this.cate_kinds = element.children;
                 }
             }
+        },
+        setMaxChange(v){
+            let max = v;
+            let min = this.editForm.inventory_min;
+            if(max < min){
+                this.$message.error('错了哦，这是一条错误消息');
+            }
+        },
+        setMinChange(v){
+
         },
     },
     created(){

@@ -179,7 +179,7 @@
                         </el-col>
                         <el-col :span="12">
                             <el-button @click="handleClose">取 消</el-button>
-                            <submit-button :observer="dialogThis" @click="formSubmit('rowInfoForm')">
+                            <submit-button v-show="active==2" :observer="dialogThis" @click="formSubmit('rowInfoForm')">
                                 保 存
                             </submit-button>
                         </el-col>

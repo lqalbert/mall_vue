@@ -20,6 +20,11 @@
                             <el-input v-model="addForm.contact_tel" placeholder="请填写联系电话"></el-input>
                         </el-form-item>
                     </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="编号前缀" prop="eng" >
+                            <el-input v-model="addForm.eng" placeholder=""></el-input>
+                        </el-form-item>
+                    </el-col>
                 </el-row>
                 <el-row>
                     <el-col :span="14">
@@ -78,6 +83,9 @@ export default {
                 contact_tel:[
                     { required: true,message:'请输入联系人电话', pattern:PHONE_REG, trigger:'blur'}
                 ],
+                eng:[
+                    { required: true, message:'必填,两个英文字母', pattern:/^[a-zA-Z]{2}$/, trigger:'blur'},
+                ]
 
             }
         }

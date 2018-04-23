@@ -92,6 +92,7 @@
                         <el-button size="small" type="info" @click="backProduction">退货登记</el-button>
                         <el-button size="small" type="info" @click="badProduction">坏货登记</el-button>
                         <el-button size="small" type="info" @click="exchangeProduction">换货登记</el-button>
+                        
                     </div> 
                 </TableProxy>
                

@@ -229,9 +229,9 @@
 
                 },
                 rules:{
-                    account:[
-                        { required: true, message:"账号必填", type:'string'}
-                    ],
+                    // account:[
+                    //     { required: true, message:"账号必填", type:'string'}
+                    // ],
                     mobilephone:[
                         { required: true, message:'请输入正确的手机号', pattern: PHONE_REG, trigger:'blur'},
                     ],

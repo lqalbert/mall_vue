@@ -20,6 +20,11 @@
                             <el-input v-model="editForm.contact_tel" placeholder="请填写联系电话"></el-input>
                         </el-form-item>
                     </el-col>
+                    <!-- <el-col :span="12">
+                        <el-form-item label="编号前缀" prop="eng" >
+                            <el-input v-model="editForm.eng" placeholder=""></el-input>
+                        </el-form-item>
+                    </el-col> -->
                 </el-row>
                 <el-row>
                     <el-col :span="14">

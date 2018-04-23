@@ -41,7 +41,7 @@
         </el-row>
         <el-row>
             <el-col>
-                 <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" :page-size="15">
+                 <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" :page-size="15" :bubble="buble">
                     <el-table-column label="序号" align="center"  type="index" width="65">
                     </el-table-column>
 
@@ -73,7 +73,8 @@
                  </TableProxy>
             </el-col>
         </el-row>
-
+        <br>
+        <SubDetail :row="currentRow"></SubDetail>
         <add-dialog
                 name="add"
                 :ajax-proxy="ajaxProxy"
@@ -97,16 +98,18 @@ import DataTable from '../../mix/DataTable';
 
 import addDialog from './add.vue';
 import editDialog from './edit.vue';
+import SubDetail from './SubDetail.vue';
 import ExpressReceiveAjaxProxy from '../../ajaxProxy/ExpressReceive';
 
 import ExpressCompanySelectProxy from '../../packages/ExpressCompanySelectProxy';
 export default {
     name: 'ExpressReceive',
     pageTitle:"物流揽收",
-    mixins:[PageMix,SearchTool,DataTable,ExpressReceiveAjaxProxy],
+    mixins:[PageMix,SearchTool,DataTable],
     components:{
         addDialog,
-        editDialog
+        editDialog,
+        SubDetail
     },
     data(){
         return {
@@ -131,6 +134,8 @@ export default {
                     return time.getTime() < Date.now()- 8.64e7;//
                 }
             },
+            buble:null,
+            currentRow:null
         }
     },
     methods:{
@@ -152,11 +157,19 @@ export default {
         getExpressCompanySelect(data){
             this.companys = data.items;
         },
+        onDbRow(row){
+            this.currentRow = row;
+        }
     },
     created(){
         //获取物流公司数据
         let ExpressCompanySelect = new ExpressCompanySelectProxy({}, this.getExpressCompanySelect, this);
         ExpressCompanySelect.load();
+
+        let o = {
+            'row-dblclick': this.onDbRow
+        };
+        this.buble = o;
     },
     mounted(){
         this.$on('search-tool-change', this.onSearchChange);

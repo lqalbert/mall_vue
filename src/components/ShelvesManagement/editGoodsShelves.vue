@@ -90,7 +90,9 @@
 
 <script>
 
-    import DialogForm from '../../mix/DialogForm';
+    
+    import FormMix from '@/mix/Form';
+    import Dialog from '@/mix/Dialog';
     import SelectProxy from  '../../packages/SelectProxy';
     import ShelvesManagementSelectProxy from '../../packages/ShelvesManagementSelectProxy';
 
@@ -99,10 +101,15 @@
     // import Dialog from '../common/Dialog';
     export default {
         name: 'addDialog',
-        mixins:[DialogForm],
+        mixins:[FormMix,Dialog],
         props:{
             CategoryList:{
                 type:Array
+            },
+            ajaxProxy:{
+                // required:true,
+                type: Object,
+                default: null
             }
         },
 
@@ -217,7 +224,7 @@
             }
         },
         created(){
-
+            console.log(this.ajaxProxy);
         }
 
     }

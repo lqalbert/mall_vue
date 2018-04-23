@@ -62,8 +62,11 @@
                 </el-row>
                 <el-row>
                     <el-col :span="12">
-                        <el-form-item label="快递公司" prop="express_name" >
-                            <el-input v-model="addForm.express_name" placeholder="快递公司"></el-input>
+                        <el-form-item label="快递公司" prop="express_id" >
+                            <el-select v-model="addForm.express_id" @change="expressIdChange">
+                                <el-option v-for="company in companies" :key="company.id" :label="company.company_name" :value="company.id"></el-option>
+                            </el-select>
+                            <!-- <el-input v-model="addForm.express_name" placeholder="快递公司"></el-input> -->
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -131,6 +134,10 @@ import DialogForm from '../../mix/DialogForm';
 import APP_CONST from '../../config';
 import { mapGetters, mapMutations } from 'vuex';
 import { PHONE_REG,PRICE_REG } from "@/config/index";
+import ExpressCompanySelectProxy from "@/packages/ExpressCompanySelectProxy";
+
+
+
 export default {
     name: 'add-delivery',
     mixins:[DialogForm],
@@ -173,6 +180,8 @@ export default {
                     { required:true, message:'请输入配送费', pattern:PRICE_REG, trigger:'blur'},
                 ],
             },
+
+            companies:[]
         }
     },
     methods:{
@@ -189,6 +198,16 @@ export default {
             this.model =  model.params;
             this.model.user_id=this.getUser.id;
             this.model.user_name=this.getUser.realname;
+
+            this.companyProxy.load();
+        },
+        loadCompany(data){
+            this.companies = data.items;
+        },
+        expressIdChange(v){
+            this.addForm.express_name = this.companies.find(element=>{
+                return element.id == v
+            }).company_name;
         }
     },
     watch:{
@@ -200,7 +219,7 @@ export default {
 
     },
     created(){
-
+        this.companyProxy =  new ExpressCompanySelectProxy({field:['id','company_name']}, this.loadCompany, this);
     }
 
 }

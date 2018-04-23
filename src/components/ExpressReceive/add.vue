@@ -42,7 +42,6 @@
                         </el-form-item>
                     </el-col>
                 </el-row>
-
             </el-form>
             <div slot="dialog-foot" class="dialog-footer">
                 <el-button @click="handleClose">取 消</el-button>

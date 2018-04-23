@@ -154,7 +154,7 @@
                     <el-table-column prop="assign_print_at" label="发货单打印时间" align="center" width="200">
                     </el-table-column>
 
-                    <el-table-column prop="out_entrepot_at" label="发货时间" align="center" width="200">
+                    <el-table-column prop="send_time" label="发货时间" align="center" width="200">
                     </el-table-column>
 
                     <el-table-column prop="sale_time" label="销售时间" align="center" width="200">
@@ -180,6 +180,9 @@
                         <el-button type="primary" size="small" @click="handleReceive">签 收</el-button>     
                         <el-button type="primary" size="small" @click="addContact">沟 通</el-button>     
                         <el-button type="primary" size="small" @click="editAddress">修改地址</el-button>     
+
+                        <el-button type="primary" size="small"   @click="showExpress">快递单打印</el-button>
+                        <el-button type="primary" size="small"   @click="showAssign">发货单打印</el-button>
                     </div>
                 </TableProxy>
             </el-col>
@@ -220,6 +223,9 @@
             :ajax-proxy="ajaxProxy"
             @submit-success="handleReload">
         </edit-address>
+
+        <Express name="express"></Express>
+        <Assign name="assign"></Assign>
     </div>
 </template>
 <script>
@@ -234,6 +240,8 @@ import HandleReceive from './HandleReceive';
 import AddContact from './AddContact';
 import EditAddress from './EditAddress';
 import SubDetail from './SubDetail';
+import Express from './Express';
+import Assign from './Assign';
 
 import GoodsSelectProxy from '../../packages/GoodsSelectProxy';
 import DistributionCenterProxy from '../../packages/DistributionCenterSelectProxy';
@@ -253,6 +261,8 @@ export default {
         AddContact,
         EditAddress,
         SubDetail,
+        Express,
+        Assign
     },
     data(){
         return {
@@ -382,6 +392,51 @@ export default {
                 return false;
             } else {
                 return true;
+            }
+        },
+        showExpress(){
+            if (this.openDialogCheck()) {
+                if (this.currentRow.status != 1) {
+                    this.$message.error('该快递单未发货,不能打印');
+                    return ;
+                    let param = {
+                        express_sn: this.currentRow.express_sn,
+                        express_name: this.currentRow.express_name,
+                        express_id: this.currentRow.express_id,
+                        user_name: this.currentRow.user_name,
+                        express_at: this.currentRow.send_time,
+                        deliver_name: this.currentRow.deliver_name,
+                        deliver_phone: this.currentRow.deliver_phone,
+                        deliver_address: this.currentRow.deliver_address,
+                        goods: this.currentRow.goods_name + " " + this.currentRow.goods_num+" " + this.currentRow.unit_type
+                    }
+
+
+                    this.$modal.show('express', param);
+
+                }
+            }
+        },
+        showAssign(){
+            if (this.openDialogCheck()) {
+                if (this.currentRow.status != 1) {
+                    this.$message.error('该快递单未发货,不能打印');
+                    return ;
+                    let param = {
+                        assign_sn: this.currentRow.assign_sn,
+                        entrepot_id: this.currentRow.entrepot_id,
+                        user_name: this.currentRow.user_name,
+                        assign_at: this.currentRow.send_time,
+                        deliver_name: this.currentRow.deliver_name,
+                        deliver_phone: this.currentRow.deliver_phone,
+                        deliver_address: this.currentRow.deliver_address,
+                        goods: this.currentRow.goods_name + " " + this.currentRow.goods_num+" " + this.currentRow.unit_type
+                    }
+
+
+                    this.$modal.show('assign', param);
+
+                }
             }
         }
     },

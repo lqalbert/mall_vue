@@ -42,7 +42,7 @@
                     <el-form-item prop="searchTime">
                         <el-date-picker
                                 v-model="searchForm.searchTime"
-                                type="datetime"
+                                type="daterange"
                                 size="small"
                                 placeholder="选择日期时间"
                                 @change="timeChange">
@@ -92,6 +92,7 @@
                         <el-button size="small" type="info" @click="backProduction">退货登记</el-button>
                         <el-button size="small" type="info" @click="badProduction">坏货登记</el-button>
                         <el-button size="small" type="info" @click="exchangeProduction">换货登记</el-button>
+                        
                     </div> 
                 </TableProxy>
                
@@ -347,7 +348,7 @@
                 return res;
             },
             searchToolChange(){
-                console.log(this.searchForm);
+                this.mainparam = JSON.stringify(this.searchForm);
             },
             onCurrentChange(currentRow){
                 this.currentRow = currentRow;
@@ -357,12 +358,11 @@
             // },
             userLoaded(data){
                 this.tableData1=data.items;
-            }, getAjaxProxy(){
+            }, 
+            getAjaxProxy(){
                 return  this.ajaxProxy;
             },
-            switchHandle:function(index,row){
-
-            },
+            
             depTypeChange: function (v) {
                 this.searchForm.type = v;
                 this.depTypeName = this.typeList[v];
@@ -493,7 +493,11 @@
                 this.tabFifth = true;
             },
             tabSixthHandel(row){
-                this.InventoryExchangeProxy.setParam({}).load();
+                this.InventoryExchangeProxy.setParam({
+                    entrepot_id:row.entrepot_id,
+                    sku_sn:row.sku_sn,
+                    start:this.searchForm.start,
+                    end:this.searchForm.end}).load();
                 this.tabSixth = true;
             },
             loadProduct(data){

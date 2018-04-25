@@ -256,6 +256,7 @@
                 let vmThis = this;
                 let data = Object.assign({}, this.productForm);
 
+                data.entry_at = this.addForm.entry_at;
                 this.$refs['productForm'].validate((valid)=>{
                     if (valid) {
                         this.addForm.childrenData.push(data);

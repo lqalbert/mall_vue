@@ -3,10 +3,10 @@
         <el-row>
             <el-col :span="24">
                 <el-form :inline="true"  ref="searchForm" :model="searchForm" >
-                    <el-form-item prop="department_id" class="form-item-unique">
+                    <el-form-item prop="entrepot_id" class="form-item-unique">
                             <el-select
                                     clearable
-                                    v-model="searchForm.distribution_id"
+                                    v-model="searchForm.entrepot_id"
                                     size="small"
                                     placeholder="配送中心">
                                 <el-option v-for="v in distributors" :label="v.name"
@@ -86,7 +86,7 @@
                     <el-table-column prop="order_lock" label="销售锁定数" align="center"></el-table-column>
                     <el-table-column prop="assign_lock" label="发货锁定数" align="center"></el-table-column>
                     <el-table-column prop="exchange_lock" label="换货锁定数" align="center"></el-table-column>
-                    <el-table-column prop="last_production_in_time" label="最后生产入库时间(暂未实现)" align="center"></el-table-column>
+                    <el-table-column prop="entry_at" label="最后生产入库时间" align="center"></el-table-column>
                     <div slot="buttonbar">
                         <el-button size="small"  type="info" @click="addProduction2" >生产入库</el-button>
                         <el-button size="small" type="info" @click="backProduction">退货登记</el-button>

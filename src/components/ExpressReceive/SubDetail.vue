@@ -11,25 +11,24 @@
                             </el-table>
                         </el-tab-pane>
                         <el-tab-pane label="商品信息">
-                                <el-table :data="tableData" border >
-                                    <el-table-column  prop="goods_name"  label="名称"  width="180"></el-table-column>
-                                    <el-table-column  prop="sku_sn"  label="编号"  width="180"></el-table-column>
-                                    <el-table-column  prop="goods_num"  label="数量"> </el-table-column>
-                                </el-table>
+                            <el-table :data="tableData" border >
+                                <el-table-column  prop="goods_name"  label="名称"  width="180"></el-table-column>
+                                <el-table-column  prop="sku_sn"  label="编号"  width="180"></el-table-column>
+                                <el-table-column  prop="goods_num"  label="数量"> </el-table-column>
+                            </el-table>
                         </el-tab-pane>
                         <el-tab-pane label="销售信息">
                             <el-table :data="orderRow" border >
-                                <el-table-column  prop="dep_group_realname"  label="部门-小组-员工"  width="180"></el-table-column>
-                                
-                            </el-table></el-tab-pane>
+                                <el-table-column  prop="dep_group_realname"  label="部门-小组-员工"  width="180"></el-table-column>  
+                            </el-table>
+                        </el-tab-pane>
                         <el-tab-pane label="发货物流">
-                                <el-table :data="tableData" border >
-                                    <el-table-column  prop="user_name"  label="发货人"  width="180"></el-table-column>
-                                    <el-table-column  prop="out_entrepot_at"  label="发货时间"  width="180"></el-table-column>
-                                    <el-table-column  prop="assign_fee"  label="配送费"  width="180"></el-table-column>
-                                    <el-table-column  prop="express_fee"  label="快递费"  width="180"></el-table-column>
-                                </el-table></el-tab-pane>
-                                
+                            <el-table :data="tableData" border >
+                                <el-table-column  prop="user_name"  label="发货人"  width="180"></el-table-column>
+                                <el-table-column  prop="out_entrepot_at"  label="发货时间"  width="180"></el-table-column>
+                                <el-table-column  prop="assign_fee"  label="配送费"  width="180"></el-table-column>
+                                <el-table-column  prop="express_fee"  label="快递费"  width="180"></el-table-column>
+                            </el-table>
                         </el-tab-pane>
                     </el-tabs>
             </el-col>    

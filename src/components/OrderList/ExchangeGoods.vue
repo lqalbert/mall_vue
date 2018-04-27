@@ -235,6 +235,7 @@
                         user_name:'',
                         group_id:'',
                         department_id:'',
+                        entrepot_id:''
 
                     },
                     exchangeForm:{
@@ -372,6 +373,7 @@
                         this.rowInfoForm.goods=this.goods.slice(0);
                     });
                     this.rowInfoForm.order_id = this.model.id;
+                    this.rowInfoForm.entrepot_id = this.model.entrepot_id;
                     this.rowInfoForm.user_id = this.getUser.id;
                     this.rowInfoForm.user_name = this.getUser.realname;
                     this.rowInfoForm.group_id = this.getUser.group_id;

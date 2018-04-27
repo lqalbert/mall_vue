@@ -399,22 +399,20 @@ export default {
                 if (this.currentRow.status != 1) {
                     this.$message.error('该快递单未发货,不能打印');
                     return ;
-                    let param = {
-                        express_sn: this.currentRow.express_sn,
-                        express_name: this.currentRow.express_name,
-                        express_id: this.currentRow.express_id,
-                        user_name: this.currentRow.user_name,
-                        express_at: this.currentRow.send_time,
-                        deliver_name: this.currentRow.deliver_name,
-                        deliver_phone: this.currentRow.deliver_phone,
-                        deliver_address: this.currentRow.deliver_address,
-                        goods: this.currentRow.goods_name + " " + this.currentRow.goods_num+" " + this.currentRow.unit_type
-                    }
-
-
-                    this.$modal.show('express', param);
-
                 }
+                let param = {
+                    express_sn: this.currentRow.express_sn,
+                    express_name: this.currentRow.express_name,
+                    express_id: this.currentRow.express_id,
+                    user_name: this.currentRow.user_name,
+                    express_at: this.currentRow.send_time,
+                    deliver_name: this.currentRow.deliver_name,
+                    deliver_phone: this.currentRow.deliver_phone,
+                    deliver_address: this.currentRow.deliver_address,
+                    goods: this.currentRow.goods_name + " " + this.currentRow.goods_num+" " + this.currentRow.unit_type
+                }
+
+                this.$modal.show('express', param);
             }
         },
         showAssign(){
@@ -422,7 +420,8 @@ export default {
                 if (this.currentRow.status != 1) {
                     this.$message.error('该快递单未发货,不能打印');
                     return ;
-                    let param = {
+                }
+                let param = {
                         assign_sn: this.currentRow.assign_sn,
                         entrepot_id: this.currentRow.entrepot_id,
                         user_name: this.currentRow.user_name,
@@ -435,8 +434,6 @@ export default {
 
 
                     this.$modal.show('assign', param);
-
-                }
             }
         }
     },

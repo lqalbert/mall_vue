@@ -51,9 +51,9 @@
                     let data = response.data;
                     console.log(response);
                     if (data.status == 0) {
-                        
                         // throw new Error(data.msg);
                         vmThis.$message.error(data.msg);
+                        vmThis.logining = false;
                         return ;
                     }
                     // console.log(data.data);

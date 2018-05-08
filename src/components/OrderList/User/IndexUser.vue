@@ -54,27 +54,27 @@
                         <el-button size="small" @click="singlbutton('2', '', '')"  type="info" >待充值</el-button>
                     </el-badge> -->
 
-                    <el-badge :value="200" class="badge-dot" is-dot>
+                    <el-badge :value="200" class="badge-dot" is-dot hidden>
                         <el-button size="small" @click="singlbutton('', '1', '')"  type="info" >配货中</el-button>
                     </el-badge>
 
-                    <el-badge :value="200" class="badge-dot" is-dot>
+                    <el-badge :value="200" class="badge-dot" is-dot hidden>
                         <el-button size="small" @click="singlbutton('', '2', '')"  type="info" >已发送</el-button>
                     </el-badge>
 
-                    <el-badge :value="200" class="badge-dot" is-dot>
+                    <el-badge :value="200" class="badge-dot" is-dot hidden>
                         <el-button size="small" @click="singlbutton('', '3', '')"  type="info" >已签收</el-button>
                     </el-badge>
 
-                    <el-badge :value="200" class="badge-dot" is-dot>
+                    <el-badge :value="200" class="badge-dot" is-dot hidden>
                         <el-button size="small" @click="singlbutton('3', '', '')"  type="info" >完成</el-button>
                     </el-badge>
 
-                    <el-badge :value="200" class="badge-dot" is-dot>
+                    <el-badge :value="200" class="badge-dot" is-dot hidden>
                         <el-button size="small" @click="singlbutton('4', '', '')"  type="info" >已取消</el-button>
                     </el-badge>
 
-                    <el-badge :value="200" class="badge-dot" is-dot>
+                    <el-badge :value="200" class="badge-dot" is-dot hidden>
                         <el-button size="small" @click="singlbutton('', '', '1')"  type="info" >退换货</el-button>
                     </el-badge>
                    

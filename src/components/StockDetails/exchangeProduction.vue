@@ -231,7 +231,7 @@
                 this.addForm.user_id = this.getUser.id;
             },
             getAjaxPromise(model){
-                console.log(model);
+                // console.log(model);
                 return InventoryExchangeAjaxProxy.create(model);
             },
             setBeforeCateKind(pid){

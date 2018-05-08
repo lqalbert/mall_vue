@@ -108,14 +108,15 @@
                     </el-table-column>
 
                     <!-- 控制一个员工 暂不能登录 -->
-                    <el-table-column label="账号状态(未完成)" align="center" prop="status">
+                    <el-table-column label="账号状态" align="center" prop="status">
                         <template slot-scope="scope">
                             <el-switch
                                     v-model="scope.row.status"
                                     :on-value="1"
-                                    :off-value="0"
+                                    :off-value="-1"
                                     on-color="#13ce66"
-                                    off-color="#ff4949">
+                                    off-color="#ff4949"
+                                    @change="setStatusChange(scope.row)">
                             </el-switch>
                             <!--  @change="switchHandle(scope.$index, scope.row)" -->
                         </template>
@@ -299,6 +300,14 @@
 
             onSearchReset(){
                 this.departProxy.load();
+            },
+            setStatusChange(row){
+                this.ajaxProxy.update(row.id, {status:row.status}).then((response)=>{
+                    this.$message.success('设置成功');
+                }).catch((response)=>{
+                    this.$message.error('更新失败');
+                    row.status = row.status == 1 ? -1 : 1 ;
+                });
             }
 
         },

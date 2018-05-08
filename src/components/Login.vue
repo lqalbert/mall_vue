@@ -51,7 +51,6 @@
                     let data = response.data;
                    
                     if (data.status == 0) {
-                        
                         // throw new Error(data.msg);
                         vmThis.$message.error(data.msg);
                         vmThis.logining = false;

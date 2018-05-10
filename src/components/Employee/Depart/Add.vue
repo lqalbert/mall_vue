@@ -98,73 +98,130 @@
                                 </el-form-item>
                             </el-col>
                         </el-row>
-                                    <el-row>
-                                        <el-col :span="12">
-                                            <el-form-item label="性别">
-                                                <el-radio-group v-model="addForm.sex" >
-                                                    <el-radio class="radio"  :label="1">男</el-radio>
-                                                    <el-radio class="radio"  :label="2">女</el-radio>
-                                                </el-radio-group>
-                                            </el-form-item>
-                                        </el-col>
-                                    </el-row>
+                        <el-row>
+                            <el-col :span="12">
+                                <el-form-item label="性别">
+                                    <el-radio-group v-model="addForm.sex" >
+                                        <el-radio class="radio"  :label="1">男</el-radio>
+                                        <el-radio class="radio"  :label="2">女</el-radio>
+                                    </el-radio-group>
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
 
-                                    <el-row>
-                                        <el-col :span="12">
+                        <el-row>
+                            <el-col :span="12">
 
-                                            <el-form-item label="手机" prop="mobilephone">
-                                                <el-input class="name-input" v-model="addForm.mobilephone"  auto-complete="off"></el-input>
-                                            </el-form-item>
-                                        </el-col>
-                                        <el-col :span="12">
-                                            <el-form-item label="固话座机" prop="telephone">
-                                                <el-input class="name-input" v-model="addForm.telephone" auto-complet="off"></el-input>
-                                            </el-form-item>
-                                        </el-col>
-                                    </el-row>
+                                <el-form-item label="手机" prop="mobilephone">
+                                    <el-input class="name-input" v-model="addForm.mobilephone"  auto-complete="off"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="12">
+                                <el-form-item label="固话座机" prop="telephone">
+                                    <el-input class="name-input" v-model="addForm.telephone" auto-complet="off"></el-input>
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
 
-                                    <el-row>
-                                        <el-col :span="12">
-                                            <el-form-item label="QQ号" prop="qq">
-                                                <el-input class="name-input" v-model="addForm.qq" auto-complete="off"></el-input>
-                                            </el-form-item>
-                                        </el-col>
-                                        <el-col :span="12">
-                                            <el-form-item label="QQ昵称">
-                                                <el-input class="name-input" v-model="addForm.qq_nickname" auto-complet="off"></el-input>
-                                            </el-form-item>
-                                        </el-col>
-                                    </el-row>
-                                    <el-row>
-                                        <el-col :span="12">
-                                            <el-form-item label="微信号" prop="weixin">
-                                                <el-input class="name-input" v-model="addForm.weixin" auto-complete="off"></el-input>
-                                            </el-form-item>
-                                        </el-col>
-                                        <el-col :span="12">
-                                            <el-form-item label="微信昵称">
-                                                <el-input class="name-input" v-model="addForm.weixin_nickname" auto-complet="off"></el-input>
-                                            </el-form-item>
-                                        </el-col>
-                                    </el-row>
-                                    <el-row>
-                                        <el-col :span="12">
-                                            <el-form-item label="身份证号" prop="id_card">
-                                                <el-input class="name-input" v-model="addForm.id_card" auto-complet="off"></el-input>
-                                            </el-form-item>
-                                        </el-col>
-                                    </el-row>
+                        <el-row>
+                            <el-col :span="12">
+                                <el-form-item label="QQ号" prop="qq">
+                                    <el-input class="name-input" v-model="addForm.qq" auto-complete="off"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="12">
+                                <el-form-item label="QQ昵称">
+                                    <el-input class="name-input" v-model="addForm.qq_nickname" auto-complet="off"></el-input>
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="12">
+                                <el-form-item label="微信号" prop="weixin">
+                                    <el-input class="name-input" v-model="addForm.weixin" auto-complete="off"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="12">
+                                <el-form-item label="微信昵称">
+                                    <el-input class="name-input" v-model="addForm.weixin_nickname" auto-complet="off"></el-input>
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="12">
+                                <el-form-item label="身份证号" prop="id_card">
+                                    <el-input class="name-input" v-model="addForm.id_card" auto-complet="off"></el-input>
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
 
-                                    <el-form-item label="住址">
-                                        <el-input
-                                                v-model="addForm.address"
-                                                type="textarea"
-                                                placeholder="请输入内容">
-                                        </el-input>
-                                    </el-form-item>
-
+                        <el-form-item label="住址">
+                            <el-input
+                                    v-model="addForm.address"
+                                    type="textarea"
+                                    placeholder="请输入内容">
+                            </el-input>
+                        </el-form-item>
                     </el-tab-pane>
-
+                    <el-tab-pane label="身份证照" name="third">
+                        <el-row>
+                            <el-col :span="24">
+                                <el-form-item label="手持身份证照">
+                                    <el-upload
+                                        class="avatar-uploader"
+                                        name="avatar"
+                                        :data="carParam"
+                                        :action="url"
+                                        accept="image/gif, image/jpeg,image/jpg,image/png"
+                                        :show-file-list="false"
+                                        :on-success="handleCardImg"
+                                        :on-error="uploadError"
+                                        :before-upload="beforeAvatarUpload">
+                                        <img v-if="cardImg" :src="cardImg" class="avatar show-img">
+                                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                                    </el-upload>
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="24">
+                                <el-form-item label="身份证正面照">
+                                    <el-upload
+                                        class="avatar-uploader"
+                                        name="avatar"
+                                        :data="carParam"
+                                        :action="url"
+                                        accept="image/gif, image/jpeg,image/jpg,image/png"
+                                        :show-file-list="false"
+                                        :on-success="handleCardFront"
+                                        :on-error="uploadError"
+                                        :before-upload="beforeAvatarUpload">
+                                        <img v-if="cardFront" :src="cardFront" class="avatar show-img">
+                                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                                    </el-upload>
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="24">
+                                <el-form-item label="身份证反面照">
+                                    <el-upload
+                                        class="avatar-uploader"
+                                        name="avatar"
+                                        :data="carParam"
+                                        :action="url"
+                                        accept="image/gif, image/jpeg,image/jpg,image/png"
+                                        :show-file-list="false"
+                                        :on-success="handleCardBack"
+                                        :on-error="uploadError"
+                                        :before-upload="beforeAvatarUpload">
+                                        <img v-if="cardBack" :src="cardBack" class="avatar show-img">
+                                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                                    </el-upload>
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+                    </el-tab-pane>
                 </el-tabs>
             </el-form>
             <div slot="dialog-foot" >
@@ -214,6 +271,10 @@
                 uplaodParam:{  name:"avater", subdir:'asdf' },
                 uploadImg:"",
                 activeName:'first',
+                carParam:{subdir:'IDCar'},
+                cardImg:'',
+                cardFront:'',
+                cardBack:'',
                 addForm:{
                     head:"",
                     account:"",
@@ -231,6 +292,9 @@
                     weixin:"",
                     weixin_nickname:"",
                     id_card:"",
+                    card_img:'',
+                    card_front:'',
+                    card_back:'',
                     // location:'成都市',
                     // ip:'192.168.0.1',
                     // create_name:"系统管理员",
@@ -290,7 +354,29 @@
                 this.addForm.creator = this.creator;
                 this.addForm.creator_name = this.creator_name;
                 this.addForm.roles = "";
-            }
+            },
+            handleCardImg(response, file, fileList){
+                this.addForm.card_img = response.data.url;
+                this.cardImg = URL.createObjectURL(file.raw);
+            },
+            handleCardFront(response, file, fileLis){
+                this.addForm.card_front = response.data.url;
+                this.cardFront = URL.createObjectURL(file.raw);
+            },
+            handleCardBack(response, file, fileLis){
+                this.addForm.card_back = response.data.url;
+                this.cardBack = URL.createObjectURL(file.raw);
+            },
+            uploadError(err, file, fileList){
+                this.$message.error('上传出错：' + err.msg);
+            },
+            beforeAvatarUpload(file) {
+                const isLt2M = file.size / 1024 / 1024 < 2;
+                if (!isLt2M) {
+                    this.$message.error('上传头像图片大小不能超过 2MB!');
+                }
+                return isLt2M;
+            },
         },
         created(){
             this.resetAddFormField();

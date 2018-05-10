@@ -94,16 +94,16 @@
                         { type:'string', pattern:/^[a-zA-Z]+$/, required: true, message:'请输入英文简称', trigger: 'blur', },
                         {  min: 1, max: 2, message: '长度不能超过2个字符', trigger: 'blur'  }
                     ],
-                    contact:[
-                        { required: true,message:'请输入联系人', type: 'string', trigger:'blur'}
-                    ],
-                    contact_phone:[
-                        { required: true,message:'请输入联系人电话', pattern:PHONE_REG, trigger:'blur'}
-                    ],
-                    address:[
-                        { required: true, message:'请输入地址', type: 'string', trigger:'blur'},
-                        {   max: 100, message: '长度不能超过100个字符', trigger: 'blur'  }
-                    ],
+                    // contact:[
+                    //     { required: true,message:'请输入联系人', type: 'string', trigger:'blur'}
+                    // ],
+                    // contact_phone:[
+                    //     { required: true,message:'请输入联系人电话', pattern:PHONE_REG, trigger:'blur'}
+                    // ],
+                    // address:[
+                    //     { required: true, message:'请输入地址', type: 'string', trigger:'blur'},
+                    //     {   max: 100, message: '长度不能超过100个字符', trigger: 'blur'  }
+                    // ],
                 }
             }
         },

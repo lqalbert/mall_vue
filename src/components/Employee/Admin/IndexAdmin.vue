@@ -237,7 +237,7 @@
             return {
                 ajaxProxy: EmployeeAjaxProxy,
                 // passowrdAjaxProxy:PassowrdAjaxProxy,
-                mainurl:EmployeeAjaxProxy.getUrl() ,
+                mainurl:EmployeeAjaxProxy.getUrl(),
                 mainparam:"",
                 searchForm: {
                     typeValue: "",

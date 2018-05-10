@@ -2,9 +2,9 @@
     <div class="hello">
         <el-row>
             <el-col :span="12">
-                <el-form :inline="true"  ref="searchForm" :model="searchForm" class="search-bar">
-                    <el-form-item prop="webUrl" style="width: 140px">
-                        <el-input type="text" size="small" v-model="searchForm.webUrl" placeholder="请输入查询网址"></el-input>
+                <el-form :inline="true" ref="searchForm" :model="searchForm" class="demo-form-inline" size="small">
+                    <el-form-item prop="webUrl">
+                        <el-input size="small" v-model="searchForm.webUrl" placeholder="请输入查询网址"></el-input>
                     </el-form-item>
 
                     <el-form-item>
@@ -26,10 +26,10 @@
 
                     <el-table-column label="序号" align="center"  type="index" width="65"></el-table-column>
 
-                    <el-table-column prop="describe" label="网址描述" align="center"></el-table-column>
+                    <el-table-column prop="describe" label="名称" align="center"></el-table-column>
 
 
-                    <el-table-column prop="webUrl" label="具体网址" align="center">
+                    <el-table-column prop="webUrl" label="网站" align="center">
                         <template slot-scope="scope">
                             <a :href="'http://' + scope.row.webUrl" target="_blank">{{scope.row.webUrl}}</a>
                         </template>

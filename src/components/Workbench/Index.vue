@@ -81,10 +81,10 @@
                             <el-table  :data="WebsiteDataList"     border ref="select" style="width: 100%">
                                 <el-table-column label="序号" align="center"  type="index" width="65"></el-table-column>
 
-                                <el-table-column prop="describe" label="网址描述" align="center"></el-table-column>
+                                <el-table-column prop="describe" label="名称" align="center"></el-table-column>
 
 
-                                <el-table-column prop="webUrl" label="具体网址" align="center">
+                                <el-table-column prop="webUrl" label="网站" align="center">
                                     <template slot-scope="scope">
                                         <a :href="'http://' + scope.row.webUrl" target="_blank">{{scope.row.webUrl}}</a>
                                     </template>

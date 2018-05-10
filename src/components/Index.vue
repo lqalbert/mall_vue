@@ -15,8 +15,8 @@
                     <el-menu class="el-menu-demo" id="top-css" mode="horizontal" @select="handleSelect">
                         <el-submenu index="999">
                             <template slot="title">{{realname}}</template>
-                            <!-- <el-menu-item index="UserInfo"><i class="el-icon-setting"></i>个人信息</el-menu-item>
-                            <el-menu-item index="UserSetting"><i class="el-icon-setting"></i>设置密码</el-menu-item> -->
+                            <!-- <el-menu-item index="UserInfo"><i class="el-icon-setting"></i>个人信息</el-menu-item> -->
+                            <el-menu-item index="UserSetting"><i class="el-icon-setting"></i>设置密码</el-menu-item>
                             <el-menu-item index="Logout"><i class="el-icon-circle-close"></i>退出登录</el-menu-item>
                         </el-submenu>
                     </el-menu>

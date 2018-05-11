@@ -127,6 +127,7 @@
                 labelPosition: "right",
                 labelWidth: '70px',
                 rowInfoForm: {
+                    cus_id:"",
                     order_id: "",
                     user_id:'',
                     user_name:'',
@@ -169,6 +170,7 @@
                 this.rowInfoForm.user_name = this.getUser.realname;
                 this.rowInfoForm.group_id = this.getUser.group_id;
                 this.rowInfoForm.department_id = this.getUser.department_id;
+                this.rowInfoForm.cus_id  = this.model.cus_id;
             },
             onBeforeClose(){
                 this.multipleSelection = [];

@@ -2,6 +2,7 @@
     <div class="bar-wrapper" v-bind:class="{ 'bar-wrapper-move': isbaractive }"  @mouseup.left="deactiveMove" @mousemove="barEnter" >
         <el-row>
             <el-col :span="24">
+                
                 <el-form :inline="true" :model="searchForm" ref="searchForm" class="search-bar">
                     <el-form-item prop="department_id">
                         <el-select size="small" v-model="searchForm.department_id" placeholder="部门" @change="onDepartChange" clearable>
@@ -29,26 +30,27 @@
                     </el-form-item>
                     <el-form-item>
                         <el-button type="primary" size="small"  @click="searchToolChange('searchForm')">查询</el-button>
-                        <el-button type="primary" size="small"  @click="searchToolReset('searchForm')">重置</el-button>
+                        <el-button type="primary" size="small"  @click="searchToolReset('searchForm')">重置</el-button></el-form-item>
+
+                    <el-form-item class="un-width">
+                        <el-button size="small" type="info" @click="showDialog('advance')">高级查询</el-button>
+                        <el-button size="small" type="info" @click="setBusiness('tracked')">跟踪</el-button>
+                        <el-button size="small" type="info" @click="setBusiness('tracked')">跟踪</el-button>
+                        <el-button size="small" type="info" @click="setBusiness('untracked')">未跟踪</el-button>
+                        <el-button size="small" type="info" @click="setBusiness('plan')">计划</el-button>
+                        <el-button size="small" type="info" @click="setSourceType('out')">转让</el-button>
+                        <el-button size="small" type="info" @click="setSourceType('in')">转入</el-button>
+                        <el-button size="small" type="info" @click="setType('V')">服务</el-button>
+                        <el-button size="small" @click="setBusiness('conflict')">冲突</el-button>
+                        <el-button size="small" @click="preCheck">客户预查</el-button>
                     </el-form-item>
                 </el-form>
+                
             </el-col>
+           
         </el-row>
         
-        <el-row>
-            <el-col :span="24">
-                    <el-button size="small" type="info" @click="setBusiness('tracked')">跟踪</el-button>
-                    <el-button size="small" type="info" @click="setBusiness('untracked')">未跟踪</el-button>
-                    <el-button size="small" type="info" @click="setBusiness('plan')">计划</el-button>
-                    <el-button size="small" type="info" @click="setSourceType('out')">转让</el-button>
-                    <el-button size="small" type="info" @click="setSourceType('in')">转入</el-button>
-                    <el-button size="small" type="info" @click="setType('V')">服务</el-button>
-                    
-                    <el-button size="small" @click="setBusiness('conflict')">冲突</el-button>
-                    <el-button size="small" @click="preCheck">客户预查</el-button>
-            </el-col>
-        </el-row>
-        <br>
+
         <el-row >
             <el-col :span="24">
                 <TableProxy
@@ -62,15 +64,13 @@
                     <el-table-column prop="mid_relative.group_name" label="小组" width="100"></el-table-column>
                     <el-table-column prop="mid_relative.user_name" label="员工" width="100"></el-table-column>
                     <el-table-column prop="name" label="客户姓名" width="160"></el-table-column>
-                    <el-table-column prop="type" label="客户类型" width="160">
-                        <template slot-scope="scope">
-                            {{ setCustomerTypeLabel(scope.row.type) }}
-                        </template>
+                    <el-table-column prop="type_text" label="客户类型" width="160">
                     </el-table-column>
                     <el-table-column prop="sex_text" label="性别"  align="center"></el-table-column>
                     <el-table-column prop="age" label="年龄" align="center" width="100"></el-table-column>
                     <el-table-column label="QQ号" prop="qq" align="center" width="160">
                         <template slot-scope="scope">
+                            <!-- 这样写　如果没数据会报错　 -->
                             {{ scope.row.contacts[0].qq }}
                         </template>
                     </el-table-column>
@@ -172,12 +172,14 @@
             @submit-success="handleReload">
         </add-complain>
 
+        <Advance name="advance" :cus-type="cusData.type"></Advance>
     </div>
 
 </template>
 
 <script>
     import localmix from '../mix';
+    import Advance from './Advance';
     
     import Category from '@/ajaxProxy/Category';
     
@@ -192,6 +194,9 @@
         name: 'Customer',
         pageTitle: "客户资料",
         mixins: [localmix],
+        components:{
+            Advance
+        },
         data() {
             return {
                 departments:[],
@@ -203,9 +208,9 @@
                     user_id:"",
                     name:'',
                     phone:'',
-                    with:['contacts', 'midRelative'],
+                    
 
-                    user_business:'',
+                    // user_business:'',
                     type:'',
                     source:"",
                 },
@@ -296,4 +301,5 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
     @import '../mix/style.css';
+    
 </style>

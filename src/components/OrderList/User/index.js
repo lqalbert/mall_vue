@@ -1,6 +1,7 @@
 
 import exchange from "../exchange";
 import addDialog from "../Add.vue";
+import Advance from './Advance.vue';
 
 import deleteMix from '@/mix/Delete';
 import DataProxy from '@/packages/DataProxy';
@@ -15,7 +16,7 @@ export default {
     pageTitle:"订单详情",
     mixins: [mix,deleteMix],
     components:{
-        addDialog,exchange
+        addDialog,exchange,Advance
     },
     data () {
         return {
@@ -25,6 +26,7 @@ export default {
             mainparam:"",
             daterange:'',
             searchForm:{
+                phone:'',
                 start:'',
                 goods_name:'',
                 consignee:'',
@@ -137,14 +139,13 @@ export default {
                 var sdate = v.split(' - ');
                 this.searchForm.start = sdate[0] + " 00:00:00";
                 this.searchForm.end = sdate[1] + " 23:59:59";
-            } 
+            }  else {
+                this.searchForm.start = "";
+                this.searchForm.end = "";
+            }
         },
        
         onSearchChange(param){
-            if (param.value7.length != 2) {
-                param.start = "";
-                param.end   = "";
-            }
             param.deal_id = this.user_id;
             this.mainparam = JSON.stringify(param);
         },
@@ -157,15 +158,5 @@ export default {
 
         this.onSearchChange(this.searchForm);
         this.$on('search-tool-change', this.onSearchChange);
-
-       /*  let selectProxy = new SelectProxy(BuyerAjaxProxy.getUrl(), this.loadcustomer, this);
-        selectProxy.load();
-        this.$on('refresh-success', this.handleReload);
-        let orderProxy = new UsersSelectProxy(null, this.loadUsers, this);
-        this.orderProxy = orderProxy;
-        this.orderProxy.load();
-        this.getCategory(); //添加订单这时在用 */
-
-
     }
 }

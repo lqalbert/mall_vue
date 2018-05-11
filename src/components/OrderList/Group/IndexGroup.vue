@@ -20,24 +20,25 @@
                     <el-input size="small" v-model="searchForm.goods_name" placeholder="请输入商品名称"></el-input>
                 </el-form-item> -->
 
-                <el-form-item prop="deal_id" class="form-item-unique">
+                <!-- <el-form-item prop="deal_id" class="form-item-unique">
                     <el-select v-model="searchForm.deal_id" placeholder="请选择员工" size="small">
                         <el-option v-for="item in users" :key="item.id" :label="item.realname" :value="item.id">
                         </el-option>
                     </el-select>
-                </el-form-item>
+                </el-form-item> -->
 
-                <el-form-item prop="deal_name" class="form-item-unique">
-                    <el-input size="small" v-model="searchForm.deal_name" placeholder="请输入员工名称"></el-input>
-                </el-form-item>
 
                 <el-form-item prop="consignee" class="form-item-unique">
-                    <el-input size="small" v-model="searchForm.consignee" placeholder="请输入客户名称"></el-input>
+                    <el-input size="small" v-model="searchForm.consignee" placeholder="请输入收货人名称"></el-input>
                 </el-form-item>
 
-                <el-form-item prop="sn" class="form-item-unique">
-                    <el-input size="small" v-model="searchForm.sn" placeholder="请输入订单编号"></el-input>
+                <el-form-item prop="phone"  class="form-item-unique">
+                    <el-input size="small" v-model="searchForm.phone" placeholder="请输入收货人手机"></el-input>
                 </el-form-item>
+
+                <!-- <el-form-item prop="sn" class="form-item-unique">
+                    <el-input size="small" v-model="searchForm.sn" placeholder="请输入订单编号"></el-input>
+                </el-form-item> -->
                 
 
                 <el-form-item label-width="5px">
@@ -46,9 +47,8 @@
                         <el-button  size="small" @click="searchToolReset('searchForm')"  type="warning">重置</el-button>
                     </el-tooltip>
                 </el-form-item>
-
-                <br>
                 <el-form-item prop="type">
+                    <el-button　size="small" type="primary" @click="showDialog('advance')">高级查询</el-button>
                     <!-- 改成新的 -->
                     <el-badge :value="0"  class="badge-dot" hidden>
                         <el-button size="small" @click="searchToolReset('searchForm')"  type="info" >全部</el-button>
@@ -152,12 +152,13 @@
         
         <ReturnGoods name="returnGoods" :ajax-proxy="ajaxProxy"  @submit-success="handleReload"></ReturnGoods>
         <ExchangeGoods name="exchangeGoods" :ajax-proxy="ajaxProxy"  @submit-success="handleReload"></ExchangeGoods>
+      
+        <Advance name="advance" :users="users"></Advance>
     </div>
 </template>
 <script>
-
-
 import addDialog from "../Add.vue";
+import Advance from './Advance.vue';
 
 import deleteMix from '@/mix/Delete';
 import TableProxy from '../../common/TableProxy';
@@ -172,7 +173,8 @@ export default {
     pageTitle:"订单详情",
     mixins: [mix,deleteMix],
     components:{
-        addDialog
+        addDialog,
+        Advance
     },
     data () {
         return {
@@ -182,8 +184,9 @@ export default {
             mainparam:"",
             daterange:'',
             searchForm:{
+                phone:'',
                 start:'',
-                goods_name:'',
+                // goods_name:'',
                 consignee:'',
                 sn:'',
                 // deal_name:'',
@@ -196,8 +199,8 @@ export default {
                 product_status:"", //货物状态
                 after_sale_status:"",//售后状态,
                 appends:['status_text','product_status_text','after_sale_status_text'],
-                group_id:'',
-                department_id:'',
+                // group_id:'',
+                // department_id:'',
                 deal_id:'',
 
             },
@@ -252,20 +255,16 @@ export default {
                 var sdate = v.split(' - ');
                 this.searchForm.start = sdate[0] + " 00:00:00";
                 this.searchForm.end = sdate[1] + " 23:59:59";
-            } 
+            } else {
+                this.searchForm.start = "";
+                this.searchForm.end = "";
+            }
         },
         onSearchChange(param){
-            if (param.value7.length != 2) {
-                param.start = "";
-                param.end   = "";
-            }
-            // param.deal_id = this.user_id;
-            param.department_id = this.getUser.department_id;
+            // param.department_id = this.getUser.department_id;
             param.group_id = this.getUser.group_id;
             this.mainparam = JSON.stringify(param);
         },
-
-        
         getUsers(data){
             this.users = data.items;
         },

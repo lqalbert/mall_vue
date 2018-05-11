@@ -92,6 +92,8 @@ const mix = {
             }
         },
         onSearchChange(param){
+            param['with']=['contacts', 'midRelative'];
+            param['appends'] =['type_text'];
             this.mainparam = JSON.stringify(param);
         },
         getCategoryList(data){

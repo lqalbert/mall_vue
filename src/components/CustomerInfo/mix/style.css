@@ -12,3 +12,7 @@
     cursor: n-resize;
     background: rgba(157, 195, 232, 0.7);
 }
+
+.un-width{
+    width: auto;
+}

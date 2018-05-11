@@ -19,21 +19,19 @@
                             <el-button type="primary" size="small"  @click="searchToolChange('searchForm')">查询</el-button>
                             <el-button type="primary" size="small"  @click="searchToolReset('searchForm')">重置</el-button>
                         </el-form-item>
+                        <el-form-item class="un-width">
+                            <el-button size="small" type="info" @click="showDialog('advance')">高级查询</el-button>
+                            <el-button size="small" @click="setBusiness('tracked')">跟踪</el-button>
+                            <el-button size="small" @click="setBusiness('untracked')">未跟踪</el-button>
+                            <el-button size="small" @click="setBusiness('plan')">计划</el-button>
+                            <el-button size="small" @click="setSourceType('out')">转让</el-button>
+                            <el-button size="small" @click="setSourceType('in')">转入</el-button>
+                            <el-button size="small" @click="setType('V')">服务</el-button>
+                            
+                            <el-button size="small" @click="setBusiness('conflict')">冲突</el-button>
+                            <el-button size="small" @click="preCheck">客户预查</el-button>
+                        </el-form-item>
                     </el-form>
-                </el-col>
-            </el-row>
-            
-            <el-row>
-                <el-col :span="24">
-                        <el-button size="small" @click="setBusiness('tracked')">跟踪</el-button>
-                        <el-button size="small" @click="setBusiness('untracked')">未跟踪</el-button>
-                        <el-button size="small" @click="setBusiness('plan')">计划</el-button>
-                        <el-button size="small" @click="setSourceType('out')">转让</el-button>
-                        <el-button size="small" @click="setSourceType('in')">转入</el-button>
-                        <el-button size="small" @click="setType('V')">服务</el-button>
-                        
-                        <el-button size="small" @click="setBusiness('conflict')">冲突</el-button>
-                        <el-button size="small" @click="preCheck">客户预查</el-button>
                 </el-col>
             </el-row>
             <br>
@@ -152,7 +150,7 @@
             <preCheck name="preCheck"
                   width="60%">
             </preCheck>
-    
+            <Advance name="advance" :cus-type="cusData.type" :group-id="user_group_id"></Advance>
         </div>
     
 </template>
@@ -160,7 +158,7 @@
 <script>
     // import advancedQuery from "./advancedQuery";
     import localmix from '../mix';
-
+    import Advance from './Advance';
     
     
     import OrderBasic from '@/ajaxProxy/OrderBasic';
@@ -179,7 +177,9 @@
         name: 'Customer',
         pageTitle: "客户资料",
         mixins: [localmix],
-        
+        components:{
+                Advance
+        },
         data() {
             return {
                 departments:[],
@@ -190,9 +190,9 @@
                     user_id:"",
                     name:'',
                     phone:'',
-                    with:['contacts', 'midRelative'],
+                    // with:['contacts', 'midRelative'],
 
-                    user_business:'',
+                    // user_business:'',
                     type:'',
                     source:"",
                 },
@@ -215,9 +215,7 @@
             setCustomerTypeLabel(type){
                 return this.cusData['type'][type];
             },
-            onSearchChange(param){
-                this.mainparam = JSON.stringify(param);
-            },
+           
             
             onSearchReset(){
                 // todo 把角色有关的字符串 通通改成常量
@@ -231,15 +229,14 @@
             },
             
             loadUsers(data){
-                console.log(data);
+                
                 this.users = data.items;
             },
         },
         created(){
             this.$on('search-tool-change', this.onSearchChange);
             this.getCategory();   
-            
-            
+
             this.employeeSelect = new EmployeeSelect(null, this.loadUsers, this);
 
             this.onSearchReset();

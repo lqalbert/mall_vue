@@ -25,11 +25,14 @@
                 </el-form-item> -->
 
                 <el-form-item prop="consignee" class="form-item-unique">
-                    <el-input size="small" v-model="searchForm.consignee" placeholder="请输入客户名称"></el-input>
+                    <el-input size="small" v-model="searchForm.consignee" placeholder="请输入收货人名称"></el-input>
                 </el-form-item>
 
-                <el-form-item prop="sn" class="form-item-unique">
+                <!-- <el-form-item prop="sn" class="form-item-unique">
                     <el-input size="small" v-model="searchForm.sn" placeholder="请输入订单编号"></el-input>
+                </el-form-item> -->
+                <el-form-item prop="phone"  class="form-item-unique">
+                    <el-input size="small" v-model="searchForm.phone" placeholder="请输入收货人手机"></el-input>
                 </el-form-item>
                 
 
@@ -39,9 +42,8 @@
                         <el-button  size="small" @click="searchToolReset('searchForm')"  type="warning">重置</el-button>
                     </el-tooltip>
                 </el-form-item>
-
-                <br>
                 <el-form-item prop="type">
+                    <el-button　size="small" type="primary" @click="showDialog('advance')">高级查询</el-button>
                     <!-- 改成新的 -->
                     <el-badge :value="0"  class="badge-dot" >
                         <el-button size="small" @click="searchToolReset('searchForm')"  type="info" >全部</el-button>
@@ -143,6 +145,7 @@
         </ReturnGoods>
         <ExchangeGoods name="exchangeGoods" :ajax-proxy="ajaxProxy"  @submit-success="handleReload">
         </ExchangeGoods>
+        <Advance name="advance" ></Advance>
     </div>
 </template>
 <script src="./index.js"></script>

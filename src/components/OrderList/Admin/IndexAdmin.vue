@@ -20,7 +20,7 @@
                     <el-input size="small" v-model="searchForm.goods_name" placeholder="请输入商品名称"></el-input>
                 </el-form-item> -->
 
-                <el-form-item prop="department_id"  class="form-item-unique">
+                <!-- <el-form-item prop="department_id"  class="form-item-unique">
                     <el-select v-model="searchForm.department_id" placeholder="请选择部门" size="small" @change="depChange">
                         <el-option v-for="item in department" :key="item.id" :label="item.name" :value="item.id">
                         </el-option>
@@ -39,19 +39,18 @@
                         <el-option v-for="item in users" :key="item.id" :label="item.realname" :value="item.id">
                         </el-option>
                     </el-select>
-                </el-form-item>
-
-                <el-form-item prop="deal_name"  class="form-item-unique">
-                    <el-input size="small" v-model="searchForm.deal_name" placeholder="请输入员工名称"></el-input>
-                </el-form-item>
-
+                </el-form-item> -->
                 <el-form-item prop="consignee"  class="form-item-unique">
-                    <el-input size="small" v-model="searchForm.consignee" placeholder="请输入客户名称"></el-input>
+                    <el-input size="small" v-model="searchForm.consignee" placeholder="请输入收货人名称"></el-input>
                 </el-form-item>
 
-                <el-form-item prop="sn"  class="form-item-unique">
-                    <el-input size="small" v-model="searchForm.sn" placeholder="请输入订单编号"></el-input>
+                <el-form-item prop="phone"  class="form-item-unique">
+                    <el-input size="small" v-model="searchForm.phone" placeholder="请输入收货人手机"></el-input>
                 </el-form-item>
+
+                <!-- <el-form-item prop="sn"  class="form-item-unique">
+                    <el-input size="small" v-model="searchForm.sn" placeholder="请输入订单编号"></el-input>
+                </el-form-item> -->
                 
 
                 <el-form-item label-width="5px">
@@ -61,8 +60,9 @@
                     </el-tooltip>
                 </el-form-item>
 
-                <br>
+                <!-- <br> -->
                 <el-form-item prop="type">
+                    <el-button　size="small" type="primary" @click="showDialog('advance')">高级查询</el-button>
                     <!-- 改成新的 -->
                     <el-badge :value="0"  class="badge-dot" >
                         <el-button size="small" @click="searchToolReset('searchForm')"  type="info" >全部</el-button>
@@ -181,12 +181,13 @@
         </check-order>
 
         <RefundCheck name="refundcheck" @submit-success="handleReload"></RefundCheck>
+
+        <advance name="advance"></advance>
     </div>
 </template>
 <script>
-
-
 import addDialog from "../Add.vue";
+import advance from './Advance.vue';
 
 import deleteMix from '@/mix/Delete';
 import TableProxy from '../../common/TableProxy';
@@ -195,6 +196,7 @@ import OrderBasic from '@/ajaxProxy/OrderBasic';
 import DepartmentSelectProxy from '@/packages/DepartSelectProxy';
 import GroupSelectProxy from '@/packages/GroupSelectProxy';
 import EmployeeSelectProxy from '@/packages/EmployeeSelectProxy';
+
 import mix from '../mix';
 import { mapGetters  } from 'vuex';
 
@@ -203,7 +205,8 @@ export default {
     pageTitle:"订单详情",
     mixins: [mix,deleteMix],
     components:{
-        addDialog
+        addDialog,
+        advance
     },
     data () {
         return {
@@ -213,6 +216,7 @@ export default {
             mainparam:"",
             daterange:'',
             searchForm:{
+                phone:'',
                 start:'',
                 goods_name:'',
                 consignee:'',
@@ -223,13 +227,13 @@ export default {
                 value7:"",
 
                 // hyf 添加
-                status:"", //订单状态 
-                product_status:"", //货物状态
-                after_sale_status:"",//售后状态,
+                //status:"", //订单状态 
+                //product_status:"", //货物状态
+                //after_sale_status:"",//售后状态,
                 appends:['status_text','product_status_text','after_sale_status_text'],
-                group_id:'',
-                department_id:'',
-                deal_id:'',
+               // group_id:'',
+               // department_id:'',
+               // deal_id:'',
 
             },
             // tableData: '',
@@ -251,26 +255,17 @@ export default {
           ])
     },
     methods:{
-
-
-
-
-
         getAjaxProxy(){
             return  this.ajaxProxy;
         },
         showRowData(row){
             console.log(this.$modal.show('rowInfo',{rowData:row}));
         },
-        
- 
         /** 点击订单列表展示用户信息 */
         showRow(row){
             this.dbRow = row;
         },
-         
-        refund(id)
-        {
+        refund(id){
             let refundProxy = new SelectProxy(OrderlistAjaxProxy.getUrl(), this.loadtest, this);
             refundProxy.setExtraParam({refund_id:id}).load();
 
@@ -287,18 +282,14 @@ export default {
                 var sdate = v.split(' - ');
                 this.searchForm.start = sdate[0] + " 00:00:00";
                 this.searchForm.end = sdate[1] + " 23:59:59";
-            } 
+            } else {
+                this.searchForm.start = "";
+                this.searchForm.end = "";
+            }
         },
         onSearchChange(param){
-            if (param.value7.length != 2) {
-                param.start = "";
-                param.end   = "";
-            }
-            // param.deal_id = this.user_id;
             this.mainparam = JSON.stringify(param);
         },
-
-        
         getDepartment(data){
             this.department = data;
         },

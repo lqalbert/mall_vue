@@ -223,6 +223,7 @@
                     CategoryChildrenList:[],
                     difference_money:0,
                     rowInfoForm: {
+                        cus_id:"",
                         order_id: "",
                         goods: [],
                         refund:0.00,
@@ -378,6 +379,7 @@
                     this.rowInfoForm.user_name = this.getUser.realname;
                     this.rowInfoForm.group_id = this.getUser.group_id;
                     this.rowInfoForm.department_id = this.getUser.department_id;
+                    this.rowInfoForm.cus_id = this.model.cus_id;
                 },
                 onBeforeClose(){
                     this.multipleSelection = [];

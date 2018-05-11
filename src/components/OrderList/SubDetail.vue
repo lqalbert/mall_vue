@@ -62,8 +62,8 @@
                     <!-- 订单操作记录  -->
                     <el-tab-pane label="订单操作记录" name="Fourth">
                         <el-table :data="manageData" empty-text="暂无数据" border style="width: 100%">
-                            <el-table-column prop="order_id" label="订单id" align="center">
-                            </el-table-column>
+                            <!-- <el-table-column prop="order_id" label="订单id" align="center">
+                            </el-table-column> -->
                             <el-table-column prop="order_action" label="操作动作" align="center">
                             </el-table-column>
                             <el-table-column prop="manager" label="操作员" align="center">

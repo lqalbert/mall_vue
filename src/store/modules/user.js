@@ -41,7 +41,7 @@ const user = {
     //可以把他看作在获取数据之前进行的一种再编辑 相当于computed属性
     getters:{
         isLogin(state){
-            return state.login;
+            return (state.login && state.user);
         },
         getUser(state){
             return state.user;

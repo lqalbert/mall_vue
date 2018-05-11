@@ -26,21 +26,19 @@
                             <el-button type="primary" size="small"  @click="searchToolChange('searchForm')">查询</el-button>
                             <el-button type="primary" size="small"  @click="searchToolReset('searchForm')">重置</el-button>
                         </el-form-item>
+                        <el-form-item class="un-width">
+                                <el-button size="small" type="info" @click="showDialog('advance')">高级查询</el-button>
+                                <el-button size="small" type="info" @click="setBusiness('tracked')">跟踪</el-button>
+                                <el-button size="small" type="info" @click="setBusiness('untracked')">未跟踪</el-button>
+                                <el-button size="small" type="info" @click="setBusiness('plan')">计划</el-button>
+                                <el-button size="small" type="info" @click="setSourceType('out')">转让</el-button>
+                                <el-button size="small" type="info" @click="setSourceType('in')">转入</el-button>
+                                <el-button size="small" type="info" @click="setType('V')">服务</el-button>
+                                
+                                <el-button size="small" @click="setBusiness('conflict')">冲突</el-button>
+                                <el-button size="small" @click="preCheck">客户预查</el-button>
+                            </el-form-item>
                     </el-form>
-                </el-col>
-            </el-row>
-            
-            <el-row>
-                <el-col :span="24">
-                        <el-button size="small" type="info" @click="setBusiness('tracked')">跟踪</el-button>
-                        <el-button size="small" type="info" @click="setBusiness('untracked')">未跟踪</el-button>
-                        <el-button size="small" type="info" @click="setBusiness('plan')">计划</el-button>
-                        <el-button size="small" type="info" @click="setSourceType('out')">转让</el-button>
-                        <el-button size="small" type="info" @click="setSourceType('in')">转入</el-button>
-                        <el-button size="small" type="info" @click="setType('V')">服务</el-button>
-                        
-                        <el-button size="small" @click="setBusiness('conflict')">冲突</el-button>
-                        <el-button size="small" @click="preCheck">客户预查</el-button>
                 </el-col>
             </el-row>
             <br>
@@ -165,6 +163,8 @@
             <preCheck name="preCheck"
                   width="60%">
             </preCheck>
+
+            <Advance name="advance" :cus-type="cusData.type" :department-id="user_department_id"></Advance>
     
         </div>
     
@@ -173,6 +173,7 @@
     <script>
         // import advancedQuery from "./advancedQuery";
         import localmix from '../mix';
+        import Advance from './Advance';
 
         import OrderBasic from '@/ajaxProxy/OrderBasic';
     
@@ -188,7 +189,9 @@
             name: 'Customer',
             pageTitle: "客户资料",
             mixins: [localmix],
-            
+            components:{
+                Advance
+            },
             data() {
                 return {
                     departments:[],
@@ -200,7 +203,7 @@
                         user_id:"",
                         name:'',
                         phone:'',
-                        with:['contacts', 'midRelative'],
+                        // with:['contacts', 'midRelative'],
 
                         user_business:'',
                         type:'',

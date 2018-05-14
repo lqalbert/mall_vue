@@ -85,7 +85,9 @@
         props:{
             cusType:{
                 type:Object,
-                default:{}
+                default:function(){
+                    return {};
+                }
             },
             userId:{
                 

@@ -213,6 +213,10 @@
                     // user_business:'',
                     type:'',
                     source:"",
+
+                    // with[]: contacts
+                    // with[]: midRelative
+                    // appends[]: type_text
                 },
                 cusData:{},
 
@@ -288,12 +292,16 @@
             this.employeeSelect = new EmployeeSelect(null, this.loadUsers, this);
 
             this.onSearchReset();
-            this.mainparam = JSON.stringify(this.searchForm);
+            this.onSearchChange(this.searchForm);
+            // this.mainparam = JSON.stringify(this.searchForm);
+            
             // this.$emit('search-tool-change', this.searchForm);
 
         },
         mounted(){
             this.$refs['searchForm'].$on('reset', this.onSearchReset);
+
+            
         }
     }
 </script>

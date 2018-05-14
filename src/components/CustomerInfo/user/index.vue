@@ -212,7 +212,7 @@
 
             this.onSearchReset();
             this.searchForm.user_id = this.user_user_id;            
-            this.mainparam = JSON.stringify(this.searchForm);
+            this.onSearchChange(this.searchForm);
         },
         mounted(){
             this.$refs['searchForm'].$on('reset', this.onSearchReset);

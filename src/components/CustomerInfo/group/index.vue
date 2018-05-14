@@ -248,7 +248,7 @@
             }
 
             
-            this.mainparam = JSON.stringify(this.searchForm);
+            this.onSearchChange(this.searchForm);
         },
         mounted(){
             this.$refs['searchForm'].$on('reset', this.onSearchReset);

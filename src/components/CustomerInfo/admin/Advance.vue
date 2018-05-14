@@ -116,7 +116,9 @@
         props:{
             cusType:{
                 type:Object,
-                default:{}
+                default:function(){
+                    return {};
+                }
             }
         },
         data () {

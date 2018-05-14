@@ -320,6 +320,7 @@
             },
             onOpen(param){
                 this.model = param.params.model;
+                console.log(this.model);
                 this.uploadImg=this.model.head;
                 this.cardImg=this.model.card_img;
                 this.cardFront=this.model.card_front;

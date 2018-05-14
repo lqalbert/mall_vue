@@ -5,6 +5,7 @@ const PageList = {
     'Navgation':Navgation,
 
     'UserSetting': (resolve) => { require(['./UserSetting/Index.vue'],resolve)},
+    'UserInfo': (resolve) => { require(['./UserInfo/Index.vue'],resolve)},
 
     'GoodsDetails': (resolve) => { require(['./GoodsDetails/Index.vue'], resolve)},
     'GoodsSpecs': (resolve) => { require(['./GoodsSpecs/Index.vue'], resolve)},

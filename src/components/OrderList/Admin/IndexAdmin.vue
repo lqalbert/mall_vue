@@ -62,7 +62,7 @@
 
                 <!-- <br> -->
                 <el-form-item prop="type">
-                    <el-button　size="small" type="primary" @click="showDialog('advance')">高级查询</el-button>
+                    <el-button size="small" type="primary"  @click="showDialog('advance')" >高级查询</el-button>
                     <!-- 改成新的 -->
                     <el-badge :value="0"  class="badge-dot" >
                         <el-button size="small" @click="searchToolReset('searchForm')"  type="info" >全部</el-button>
@@ -147,11 +147,11 @@
                     <div slot="buttonbar">
                         <!-- 暂时注释添加 等改完后再加回去 -->
 
-                             <el-button type="primary" size="small" @click="open2()">发起退货</el-button>
-                             <el-button type="primary" size="small" @click="showExchange()">发起换货</el-button>
-                             <el-button type="primary" size="small" @click="checkOrder()">订单审核</el-button>
-                             <el-button type="primary" size="small" @click="cancelOrder()">取消订单</el-button>
-                             <el-button type="primary" size="small" :disabled="reFundCheckShow" @click="RefundCheck()">退换货审核</el-button>
+                        <el-button type="primary" size="small" @click="open2()">发起退货</el-button>
+                        <el-button type="primary" size="small" @click="showExchange()">发起换货</el-button>
+                        <el-button type="primary" size="small" @click="checkOrder()">订单审核</el-button>
+                        <el-button type="primary" size="small" @click="cancelOrder()">取消订单</el-button>
+                        <el-button type="primary" size="small" :disabled="reFundCheckShow" @click="RefundCheck()">退换货审核</el-button>
                     </div>
 
                 </TableProxy>

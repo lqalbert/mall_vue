@@ -19,8 +19,8 @@
 
                 <el-row>
                     <el-col :span="12">
-                        <el-form-item  label="备注"　>
-                            <el-input type="textarea"　:rows="2" v-model="checkForm.check_remark"></el-input>
+                        <el-form-item  label="备注">
+                            <el-input type="textarea" :rows="2" v-model="checkForm.check_remark"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>

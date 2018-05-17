@@ -37,8 +37,8 @@
                         </el-col>
 
                         <el-col :span="12">
-                            <el-form-item label="客户类型" prop="type" clearable>
-                                <el-select v-model="queryForm.type">
+                            <el-form-item label="客户类型" prop="type">
+                                <el-select v-model="queryForm.type" clearable>
                                     <el-option label="" :key="0" value=""></el-option>
                                     <el-option v-for="(value, key) in cusType" :label="value" :key="key" :value="key"></el-option>
                                 </el-select>
@@ -62,13 +62,13 @@
 
                     <el-row>
                         <el-col :span="12">
-                            <el-form-item label="微信"　prop="weixin">
+                            <el-form-item label="微信" prop="weixin">
                                 <el-input class="name-input" v-model="queryForm.weixin" ></el-input>
                             </el-form-item>
                         </el-col>
 
                         <el-col :span="12">
-                            <el-form-item label="身份证号"　prop="id_card">
+                            <el-form-item label="身份证号" prop="id_card">
                                 <el-input class="name-input" v-model="queryForm.id_card" ></el-input>
                             </el-form-item>
                         </el-col>
@@ -76,7 +76,7 @@
 
                     <el-row>
                         <el-col :span="12">
-                            <el-form-item label="住址"　prop="cus_address">
+                            <el-form-item label="住址" prop="cus_address">
                                 <el-input
                                     type="textarea"
                                     :rows="2"
@@ -116,14 +116,16 @@
         props:{
             cusType:{
                 type:Object,
-                default:{}
+                default:function () {
+                    return {};
+                }
             }
         },
         data () {
             return {
                 dialogThis:this,
                 labelPosition:"right",
-                labelWidth:'80px',
+                labelWidth:'100px',
                 state7: this.addOpen,
                 departments:[],
                 groups:[],

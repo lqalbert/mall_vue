@@ -43,7 +43,7 @@
                     </el-tooltip>
                 </el-form-item>
                 <el-form-item prop="type">
-                    <el-button　size="small" type="primary" @click="showDialog('advance')">高级查询</el-button>
+                    <el-button size="small" type="primary"  @click="showDialog('advance')" >高级查询</el-button>
                     <!-- 改成新的 -->
                     <el-badge :value="0"  class="badge-dot" >
                         <el-button size="small" @click="searchToolReset('searchForm')"  type="info" >全部</el-button>

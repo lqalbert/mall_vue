@@ -46,7 +46,7 @@
                             </el-table>
                         </el-col>
                     </el-row>
-                    <el-row　type="flex" justify="end">
+                    <el-row type="flex" justify="end">
                         <el-col :span="7" >
                             <label >
                                 退款金额：
@@ -91,7 +91,7 @@
                     </el-col>
                     <el-col :span="12">
                         <el-button @click="handleClose">取 消</el-button>
-                        <submit-button　v-show="active==1"　 :observer="dialogThis" @click="beforeSubmit">
+                        <submit-button v-show="active==1" :observer="dialogThis" @click="beforeSubmit">
                             保 存
                         </submit-button>
                     </el-col>

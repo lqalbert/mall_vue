@@ -27,7 +27,7 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item prop="phone"　label="收货手机">
+                        <el-form-item prop="phone" label="收货手机">
                             <el-input  v-model="queryForm.phone" class="name-input" placeholder="请输入收货人手机"></el-input>
                         </el-form-item>
                     </el-col>
@@ -76,6 +76,7 @@
             </el-form>
             <div slot="dialog-foot" class="dialog-footer">
                 <el-button @click="handleClose">取 消</el-button>
+                <el-button @click="handleReset">重 置</el-button>
                 <el-button @click="handleSubmit" type="info">查 询</el-button>
             </div>
         </MyDialog>
@@ -128,6 +129,10 @@
             }
         },
         methods:{
+            handleReset(){
+                this.$refs.queryForm.resetFields();
+                this.$parent.$emit('search-tool-change', {});
+            },
             getDepartment(data){
                 this.department = data;
             },

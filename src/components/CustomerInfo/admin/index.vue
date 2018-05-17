@@ -70,7 +70,7 @@
                     <el-table-column prop="age" label="年龄" align="center" width="100"></el-table-column>
                     <el-table-column label="QQ号" prop="qq" align="center" width="160">
                         <template slot-scope="scope">
-                            <!-- 这样写　如果没数据会报错　 -->
+                            <!-- 这样写　如果没数据会报错 底部有解决方法 -->
                             {{ scope.row.contacts[0].qq }}
                         </template>
                     </el-table-column>
@@ -213,10 +213,6 @@
                     // user_business:'',
                     type:'',
                     source:"",
-
-                    // with[]: contacts
-                    // with[]: midRelative
-                    // appends[]: type_text
                 },
                 cusData:{},
 
@@ -292,16 +288,14 @@
             this.employeeSelect = new EmployeeSelect(null, this.loadUsers, this);
 
             this.onSearchReset();
-            this.onSearchChange(this.searchForm);
-            // this.mainparam = JSON.stringify(this.searchForm);
-            
-            // this.$emit('search-tool-change', this.searchForm);
+            //this.mainparam = JSON.stringify(this.searchForm);
+
+            //下面取消注释可解决打开页面报错问题
+            this.$emit('search-tool-change', this.searchForm);
 
         },
         mounted(){
             this.$refs['searchForm'].$on('reset', this.onSearchReset);
-
-            
         }
     }
 </script>

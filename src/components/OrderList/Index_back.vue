@@ -221,7 +221,7 @@
                         </el-tab-pane>
 
                         <el-tab-pane label="订单商品信息">
-                            <el-table :data="goodstableData"  v-loading.body="dataLoad" highlight-current-row border ref="select" empty-text="请点击客户显示跟踪信息" border style="width: 100%">
+                            <el-table :data="goodstableData"  v-loading.body="dataLoad" highlight-current-row border ref="select" empty-text="请点击客户显示跟踪信息" style="width: 100%">
 
                                 <el-table-column prop="goods_name" label="商品名称" align="center">
                                 </el-table-column>
@@ -237,7 +237,7 @@
                         </el-tab-pane>
 
                         <el-tab-pane label="订单收货地址">
-                            <el-table :data="addresstableData"  v-loading.body="dataLoad" highlight-current-row border ref="select" empty-text="请点击客户显示订单收货地址" border style="width: 100%">
+                            <el-table :data="addresstableData"  v-loading.body="dataLoad" highlight-current-row border ref="select" empty-text="请点击客户显示订单收货地址" style="width: 100%">
                                 <el-table-column prop="address" label="收货地址" align="center">
                                 </el-table-column>
                                 <el-table-column prop="name" label="收货人姓名" align="center">

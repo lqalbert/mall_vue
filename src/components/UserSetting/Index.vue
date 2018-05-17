@@ -27,7 +27,7 @@
 					<el-row>
 						<el-form-item style="margin-left:20px;">
 							<el-button type="info" size="small" @click="formSubmit('editForm')">立即修改</el-button>
-							<el-button type="info" size="small" @click="editFormReset()">重置</el-button>
+							<el-button type="info" size="small" @click="editFormReset('editForm')">重置</el-button>
 						</el-form-item>
 					</el-row>
                 </el-form>

@@ -48,7 +48,7 @@
                             </el-form-item>
                         </el-col>
                         <el-col :span="12">
-                            <el-form-item label="QQ" prop="QQ">
+                            <el-form-item label="QQ" prop="qq">
                                 <el-input class="name-input" v-model="queryForm.qq" ></el-input>
                             </el-form-item>
                         </el-col>

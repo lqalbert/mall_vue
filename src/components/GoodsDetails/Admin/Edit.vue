@@ -1,7 +1,7 @@
 <template>
     <div >
         <MyDialog title="编辑商品" :name="name" :width="width" :height="height" @before-open="onOpen">
-            <el-form :model="editForm" :rules="editFormRules" ref="editForm" :label-width="labelWidth"  :label-position="labelPosition">
+            <el-form :model="editForm" :rules="editFormRules" ref="editForm" :label-width="labelWidth"  :label-position="labelPosition" style="height:600px; overflow-y: auto">
                 <el-tabs v-model="activeName" >
                     <el-tab-pane label="基本信息" name="first">
                         <el-row>
@@ -83,6 +83,44 @@
                                 </el-col>
                         </el-row>
                         
+                        <!-- 库存需要 -->
+                        <el-row>
+                                <el-col :span="12">
+                                    <el-form-item label="包装规格"  prop="">
+                                            <el-col :span="4">
+                                                <el-input placeholder="长"></el-input>
+                                            </el-col>
+                                            <el-col class="line" :span="2">-</el-col>
+                                            <el-col :span="4">
+                                                <el-input placeholder="宽"></el-input>
+                                            </el-col>
+                                            <el-col class="line" :span="2">-</el-col>
+                                            <el-col :span="4">
+                                                <el-input placeholder="高"></el-input>
+                                            </el-col>
+                                    </el-form-item>
+                                </el-col>
+                                <el-col :span="12">
+                                    <el-form-item label="条码"  >
+                                        <el-input placeholder="条码"></el-input>
+                                    </el-form-item>
+                                </el-col>
+                            </el-row>
+                           
+                            <el-row>
+                                <el-col :span="12">
+                                    <el-form-item label="重量"  >
+                                        <el-input placeholder="重量单位 g"></el-input>
+                                    </el-form-item>
+                                </el-col>
+                                <el-col :span="12">
+                                    <el-form-item label="气泡垫"  >
+                                        <el-input placeholder="重量单位 g"></el-input>
+                                    </el-form-item>
+                                </el-col>
+                            </el-row>
+                           <!-- / 库存需要 -->
+                           
                           
                         <el-row>
                             <el-col>

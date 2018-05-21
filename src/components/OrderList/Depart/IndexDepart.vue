@@ -137,11 +137,11 @@
                     <div slot="buttonbar">
                         <!-- 暂时注释添加 等改完后再加回去 -->
 
-                        <el-button type="primary" size="small" @click="open2()">发起退货</el-button>
-                        <el-button type="primary" size="small" @click="showExchange()">发起换货</el-button>
+                        <!-- <el-button type="primary" size="small" @click="open2()">发起退货</el-button>
+                        <el-button type="primary" size="small" @click="showExchange()">发起换货</el-button> -->
                         <el-button type="primary" size="small" @click="checkOrder()">订单审核</el-button>
                         <el-button type="primary" size="small" @click="cancelOrder()">取消订单</el-button>
-                        <el-button type="primary" size="small" :disabled="reFundCheckShow" @click="RefundCheck()">退换货审核</el-button>
+                        <!-- <el-button type="primary" size="small" :disabled="reFundCheckShow" @click="RefundCheck()">退换货审核</el-button> -->
 
                     </div>
 

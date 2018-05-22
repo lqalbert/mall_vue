@@ -56,6 +56,7 @@
 
                    <div slot="buttonbar">
                         <el-button type="primary" size="small" @click="showAdd">添加</el-button>
+                        <el-button type="primary" size="small" @click="showVolumeRatio">设置商品与纸箱比例</el-button>
                     </div>
 
                  </TableProxy>
@@ -67,6 +68,11 @@
             :ajax-proxy="ajaxProxy"
              @submit-success="handleReload">
         </Add>
+        <VolumeRatio name='add-volume-ratio'
+            :ajax-proxy="volumeAjaxProxy"
+             @submit-success="handleReload"
+             @onClose="onClose">
+        </VolumeRatio>
 
         <Edit name='edit-carton-company'
             :ajax-proxy="ajaxProxy"
@@ -80,8 +86,12 @@ import SearchTool from '../../mix/SearchTool';
 import DataTable from '../../mix/DataTable';
 import config from '../../mix/Delete';
 import CartonManagementAjaxProxy from '../../ajaxProxy/CartonManagement';
+import VolumeRatioAjaxProxy from '../../ajaxProxy/VolumeRatio';
+import VolumeRatioSelectProxy from '../../packages/VolumeRatioSelectProxy';
+
 import Add from './Add';
 import Edit from './Edit';
+import VolumeRatio from './VolumeRatio';
 export default {
     name: 'CartonManagement',
     pageTitle:"纸箱管理",
@@ -89,12 +99,15 @@ export default {
     components:{
         Add,
         Edit,
+        VolumeRatio,
     },
     data(){
         return {
             mainparam:"",
+            volumeRatio:"",
             mainurl:CartonManagementAjaxProxy.getUrl(),
             ajaxProxy:CartonManagementAjaxProxy,
+            volumeAjaxProxy:VolumeRatioAjaxProxy,
             searchForm:{
                 carton_name:'',
                 carton_model:'',
@@ -108,14 +121,30 @@ export default {
         showAdd(){
             this.$modal.show('add-carton-company');
         },
+        showVolumeRatio(){
+            // this.loadVolumeRatioAjax();
+            this.$modal.show('add-volume-ratio',{model:this.volumeRatio});
+        },
         showEdit(row){
             this.$modal.show('edit-carton-company',{model:row});
         },
         getAjaxProxy(){
             return  this.ajaxProxy;
         },
+        onClose(){
+            this.loadVolumeRatioAjax();
+        },
+        loadVolumeRatio(data){
+            this.volumeRatio = data.items;
+        },
+        loadVolumeRatioAjax(){
+            let volumeRatioProxy = new VolumeRatioSelectProxy(null, this.loadVolumeRatio, this);
+            this.volumeRatioProxy = volumeRatioProxy;
+            this.volumeRatioProxy.load();
+        },
     },
     created(){
+        this.loadVolumeRatioAjax();
         this.$on('search-tool-change', this.onSearchChange);
     },
     mounted(){

@@ -85,7 +85,7 @@ export default {
         return {
             dialogThis:this,
             labelPosition:"right",
-            labelWidth:'110px',
+            labelWidth:'120px',
             addForm:{
                 carton_name:'',
                 carton_model:'',
@@ -97,27 +97,27 @@ export default {
                 remark:'',
             },
             rules:{
-                carton_name:[
-                    { required: true, message: '请输入纸箱类型', trigger: 'blur' }
-                ],
-                carton_model:[
-                    { required: true, message: '请输入纸箱型号', trigger: 'blur' }
-                ],
-                carton_long:[
-                    { required: true, message: '请输入纸箱长度', trigger: 'blur' }
-                ],
-                carton_wide:[
-                    { required: true, message: '请输入纸箱宽度', trigger: 'blur' }
-                ],
-                carton_high:[
-                    { required: true, message: '请输入纸箱高度', trigger: 'blur' }
-                ],
-                carton_weight:[
-                    { required: true, message: '请输入纸箱重量', trigger: 'blur' }
-                ],
-                carton_number:[
-                    { required: true, message: '请输入纸箱数量', trigger: 'blur' }
-                ],
+                // carton_name:[
+                //     { required: true, message: '请输入纸箱类型', trigger: 'blur' }
+                // ],
+                // carton_model:[
+                //     { required: true, message: '请输入纸箱型号', trigger: 'blur' }
+                // ],
+                // carton_long:[
+                //     { required: true, message: '请输入纸箱长度', trigger: 'blur' }
+                // ],
+                // carton_wide:[
+                //     { required: true, message: '请输入纸箱宽度', trigger: 'blur' }
+                // ],
+                // carton_high:[
+                //     { required: true, message: '请输入纸箱高度', trigger: 'blur' }
+                // ],
+                // carton_weight:[
+                //     { required: true, message: '请输入纸箱重量', trigger: 'blur' }
+                // ],
+                // carton_number:[
+                //     { required: true, message: '请输入纸箱数量', trigger: 'blur' }
+                // ],
 
             }
         }
@@ -126,14 +126,8 @@ export default {
         getAjaxPromise(model){
             return this.ajaxProxy.create(model);
         },
-        // formSubmit(){
-        //     console.log(this.addForm)
-        // }
-    },
 
-    created(){
-        this.$on('submit-success', this.clearChidren);
-    }
+    },
 
 }
 </script>

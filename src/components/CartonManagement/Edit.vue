@@ -34,14 +34,14 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="纸箱重量(g)" prop="carton_weight" >
-                            <el-input v-model="editForm.carton_weight" placeholder="请填写纸箱重量(g)"></el-input>
+                            <el-input v-model.number="editForm.carton_weight" placeholder="请填写纸箱重量(g)"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="纸箱数量" prop="carton_number">
-                            <el-input v-model="editForm.carton_number" placeholder="请填写纸箱数量"></el-input>
+                            <el-input v-model.number="editForm.carton_number" placeholder="请填写纸箱数量"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -84,7 +84,7 @@ export default {
         return {
             dialogThis:this,
             labelPosition:"right",
-            labelWidth:'110px',
+            labelWidth:'120px',
             editForm:{
                 id:'',
                 carton_name:'',
@@ -97,27 +97,27 @@ export default {
                 remark:'',
             },
             rules:{
-                carton_name:[
-                    { required: true, message: '请输入纸箱类型', trigger: 'blur' }
-                ],
-                carton_model:[
-                    { required: true, message: '请输入纸箱型号', trigger: 'blur' }
-                ],
-                carton_long:[
-                    { required: true, message: '请输入纸箱长度', trigger: 'blur' }
-                ],
-                carton_wide:[
-                    { required: true, message: '请输入纸箱宽度', trigger: 'blur' }
-                ],
-                carton_high:[
-                    { required: true, message: '请输入纸箱高度', trigger: 'blur' }
-                ],
-                carton_weight:[
-                    { required: true, message: '请输入纸箱重量', trigger: 'blur' }
-                ],
-                carton_number:[
-                    { required: true, message: '请输入纸箱数量', trigger: 'blur' }
-                ],
+                // carton_name:[
+                //     { required: true, message: '请输入纸箱类型', trigger: 'blur' }
+                // ],
+                // carton_model:[
+                //     { required: true, message: '请输入纸箱型号', trigger: 'blur' }
+                // ],
+                // carton_long:[
+                //     { required: true, message: '请输入纸箱长度', trigger: 'blur' }
+                // ],
+                // carton_wide:[
+                //     { required: true, message: '请输入纸箱宽度', trigger: 'blur' }
+                // ],
+                // carton_high:[
+                //     { required: true, message: '请输入纸箱高度', trigger: 'blur' }
+                // ],
+                // carton_weight:[
+                //     { required: true, message: '请输入纸箱重量', trigger: 'blur' }
+                // ],
+                // carton_number:[
+                //     { required: true, message: '请输入纸箱数量', trigger: 'blur' }
+                // ],
 
             },
             model:null,

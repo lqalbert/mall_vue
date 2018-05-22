@@ -99,9 +99,6 @@ export default {
         // }
     },
 
-    created(){
-        this.$on('submit-success', this.clearChidren);
-    }
 
 }
 </script>

@@ -34,6 +34,7 @@
 					<el-table-column prop="buy_goods" label="购买商品" align="center"></el-table-column>
 					<el-table-column prop="buy_num" label="数量" align="center"></el-table-column>
 					<el-table-column prop="trade" label="成交时间" align="center"></el-table-column>
+					<el-table-column prop="dep_group_realname" label="销售人员" align="center"></el-table-column>
 					<el-table-column prop="sale_name" label="销售人员" align="center"></el-table-column>
 				</el-table>
 			</el-tab-pane>
@@ -53,7 +54,7 @@
 					<el-table-column prop="deliver_address" label="收货详细地址" align="center"></el-table-column>
 				</el-table>
 			</el-tab-pane>
-			<el-tab-pane label="沟通联系" name="Fifth">
+			<!-- <el-tab-pane label="沟通联系" name="Fifth">
 				<el-table :data="communicationData" border style="width: 100%">
 					<el-table-column prop="cus_name" label="客户姓名" align="center"></el-table-column>
 					<el-table-column prop="communicate_time" label="沟通时间" align="center">
@@ -75,7 +76,7 @@
 						</template>
 					</el-table-column>
 				</el-table>
-			</el-tab-pane>
+			</el-tab-pane> -->
 			<el-tab-pane label="操作记录" name="Sixth">
 				<el-table :data="operationData" border style="width: 100%">
 					<el-table-column prop="op_time" label="操作时间" align="center"></el-table-column>

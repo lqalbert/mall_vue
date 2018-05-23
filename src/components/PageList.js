@@ -46,6 +46,10 @@ const PageList = {
     'DistributionCenter': (resolve) => { require(['./DistributionCenter/Index.vue'], resolve)},
     'CartonManagement': (resolve) => { require(['./CartonManagement/Index.vue'], resolve)},
 
+    //验货
+    'GoodsInspect': (resolve) => { require(['./GoodsInspect/Index.vue'], resolve)},
+
+
 
 };
 

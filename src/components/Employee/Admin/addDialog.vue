@@ -392,6 +392,8 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+    @import "../style/index.css";
+
     .avatar{
         max-width: 200px; 
         max-height: 200px;

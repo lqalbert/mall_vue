@@ -9,7 +9,7 @@
                         </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item prop="cate_type_id" >
+                <!-- <el-form-item prop="cate_type_id" >
                     <el-select v-model="searchForm.cate_type_id" size="small" placeholder="商品类型" clearable @change="cate_type_change">
                         <el-option v-for="v in CategoryList" :label="v.label"
                                    :value="v.id" :key="v.id">
@@ -28,7 +28,7 @@
                 </el-form-item>
                 <el-form-item prop="sale_name">
                     <el-input v-model="searchForm.sale_name" size="small" placeholder="销售人员"></el-input>
-                </el-form-item>
+                </el-form-item> -->
 
                 <el-form-item prop="times" class="date-item">
                     <el-date-picker
@@ -40,7 +40,7 @@
                     </el-date-picker>
                 </el-form-item>
 
-                <el-form-item prop="deliver_name">
+                <!-- <el-form-item prop="deliver_name">
                     <el-input v-model="searchForm.deliver_name" size="small" placeholder="收货人姓名"></el-input>
                 </el-form-item>
                 <el-form-item prop="deliver_phone">
@@ -48,7 +48,7 @@
                 </el-form-item>
                 <el-form-item prop="express_name">
                     <el-input v-model="searchForm.express_name" size="small" placeholder="快递公司"></el-input>
-                </el-form-item>
+                </el-form-item> -->
                 <el-form-item prop="status">
                     <el-select v-model="searchForm.status" size="small" placeholder="发货状态">
                         <el-option label="待发" value="0"></el-option>
@@ -56,7 +56,7 @@
                         <el-option label="废单" value="2"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item prop="assign_type">
+                <!-- <el-form-item prop="assign_type">
                     <el-select v-model="searchForm.assign_type" size="small" placeholder="发货类型">
                         <el-option label="正常" value="0"></el-option>
                         <el-option label="退货" value="1"></el-option>
@@ -65,7 +65,7 @@
                 </el-form-item>
                 <el-form-item prop="user_name">
                     <el-input v-model="searchForm.user_name" size="small" placeholder="发货人员"></el-input>
-                </el-form-item>
+                </el-form-item> -->
                 <el-form-item>
                     <el-button type="primary" size="small" icon="search" @click="searchToolChange('searchForm')">查询</el-button>
                     <el-button type="primary" size="small" @click="searchToolReset('searchForm')">重置</el-button>
@@ -91,9 +91,9 @@
                         </template>
                     </el-table-column>
 
-                    <el-table-column prop="cus_name" label="客户姓名" align="center" width="200">
-                    </el-table-column>
-
+                    <!-- <el-table-column prop="cus_name" label="客户姓名" align="center" width="200">
+                    </el-table-column> -->
+<!-- 
                     <el-table-column prop="goods_name" label="商品名称" align="center" width="200">
                     </el-table-column>
 
@@ -104,7 +104,7 @@
                     </el-table-column>
 
                     <el-table-column prop="cate_type" label="商品类型" align="center" width="200">
-                    </el-table-column>
+                    </el-table-column> -->
 
                     <el-table-column prop="express_name" label="快递公司" align="center" width="200">
                     </el-table-column>
@@ -133,11 +133,11 @@
                         </template>
                     </el-table-column>
                     
-                    <el-table-column prop="deliver_name" label="收货人姓名" align="center" width="200">
+                    <!-- <el-table-column prop="deliver_name" label="收货人姓名" align="center" width="200">
                     </el-table-column>
 
                     <el-table-column prop="deliver_phone" label="收件人手机" align="center" width="200">
-                    </el-table-column>
+                    </el-table-column> -->
 
                     <el-table-column prop="weight" label="重量" align="center" width="200">
                     </el-table-column>
@@ -163,8 +163,8 @@
                     <el-table-column prop="sign_at" label="签收时间" align="center" width="200">
                     </el-table-column>
 
-                    <el-table-column prop="sale_name" label="销售人员" align="center" width="200">
-                    </el-table-column>
+                    <!-- <el-table-column prop="sale_name" label="销售人员" align="center" width="200">
+                    </el-table-column> -->
 
                     <!-- <el-table-column  label="操作" align="center" width="200">
                         <template slot-scope="scope">

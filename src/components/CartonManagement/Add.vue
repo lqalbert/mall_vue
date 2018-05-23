@@ -15,33 +15,33 @@
                     </el-col>
                 </el-row>
                 <el-row>
-                    <el-col :span="12">
-                        <el-form-item label="纸箱长度(mm)" prop="carton_long">
-                            <el-input v-model="addForm.carton_long" placeholder="请填写纸箱长度(mm)"></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="纸箱宽度(mm)" prop="carton_wide" >
-                            <el-input v-model="addForm.carton_wide" placeholder="请填写纸箱宽度(mm)"></el-input>
+                    <el-col :span="15">
+                        <el-form-item label="纸箱规格"  prop="format">
+                            <el-col :span="5">
+                                <el-input placeholder="长" v-model="addForm.carton_long"></el-input>
+                            </el-col>
+                            <el-col class="line" :span="2">-</el-col>
+                            <el-col :span="5">
+                                <el-input placeholder="宽" v-model="addForm.carton_wide"></el-input>
+                            </el-col>
+                            <el-col class="line" :span="2">-</el-col>
+                            <el-col :span="5">
+                                <el-input placeholder="高" v-model="addForm.carton_high"></el-input>
+                            </el-col>
+                            mm
                         </el-form-item>
                     </el-col>
                 </el-row>
+
                 <el-row>
-                    <el-col :span="12">
-                        <el-form-item label="纸箱高度(mm)" prop="carton_high">
-                            <el-input v-model="addForm.carton_high" placeholder="请填写纸箱高度(mm)"></el-input>
-                        </el-form-item>
-                    </el-col>
                     <el-col :span="12">
                         <el-form-item label="纸箱重量(g)" prop="carton_weight" >
-                            <el-input v-model="addForm.carton_weight" placeholder="请填写纸箱重量(g)"></el-input>
+                            <el-input v-model.number="addForm.carton_weight" placeholder="请填写纸箱重量(g)"></el-input>
                         </el-form-item>
                     </el-col>
-                </el-row>
-                <el-row>
                     <el-col :span="12">
                         <el-form-item label="纸箱数量" prop="carton_number">
-                            <el-input v-model="addForm.carton_number" placeholder="请填写纸箱数量"></el-input>
+                            <el-input v-model.number="addForm.carton_number" placeholder="请填写纸箱数量"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -82,6 +82,13 @@ export default {
 
     },
     data(){
+        var validateFormat = (rule, value, callback) => {
+            if (this.addForm.carton_long === '' || this.addForm.carton_wide === '' || this.addForm.carton_high === '') {
+                callback(new Error('请输入完整规格'));
+            } else {
+                callback();
+            }
+        };
         return {
             dialogThis:this,
             labelPosition:"right",
@@ -96,28 +103,26 @@ export default {
                 carton_number:'',
                 remark:'',
             },
+
             rules:{
-                // carton_name:[
-                //     { required: true, message: '请输入纸箱类型', trigger: 'blur' }
-                // ],
-                // carton_model:[
-                //     { required: true, message: '请输入纸箱型号', trigger: 'blur' }
-                // ],
-                // carton_long:[
-                //     { required: true, message: '请输入纸箱长度', trigger: 'blur' }
-                // ],
-                // carton_wide:[
-                //     { required: true, message: '请输入纸箱宽度', trigger: 'blur' }
-                // ],
-                // carton_high:[
-                //     { required: true, message: '请输入纸箱高度', trigger: 'blur' }
-                // ],
-                // carton_weight:[
-                //     { required: true, message: '请输入纸箱重量', trigger: 'blur' }
-                // ],
-                // carton_number:[
-                //     { required: true, message: '请输入纸箱数量', trigger: 'blur' }
-                // ],
+                carton_name:[
+                    { required: true, message: '请输入纸箱类型', trigger: 'blur' }
+                ],
+                carton_model:[
+                    { required: true, message: '请输入纸箱型号', trigger: 'blur' }
+                ],
+                format: [
+                    {required: true, validator: validateFormat, trigger: 'change' }
+                ],
+
+                carton_weight:[
+                    { required: true, message: '请输入纸箱重量', trigger: 'change',type: 'number'},
+                    { type: 'number', message: '必须为数字值'}
+                ],
+                carton_number:[
+                    { required: true, message: '请输入纸箱数量', trigger: 'change',type: 'number' },
+                    { type: 'number', message: '必须为数字值'}
+                ],
 
             }
         }
@@ -126,6 +131,7 @@ export default {
         getAjaxPromise(model){
             return this.ajaxProxy.create(model);
         },
+
 
     },
 

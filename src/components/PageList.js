@@ -44,6 +44,8 @@ const PageList = {
     'DistributionDelivery': (resolve) => { require(['./DistributionDelivery/Index.vue'], resolve)},
     'ShelvesManagement': (resolve) => { require(['./ShelvesManagement/Index.vue'], resolve)},
     'DistributionCenter': (resolve) => { require(['./DistributionCenter/Index.vue'], resolve)},
+    //验货
+    'GoodsInspect': (resolve) => { require(['./GoodsInspect/Index.vue'], resolve)},
 
 
 };

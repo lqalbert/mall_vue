@@ -85,32 +85,57 @@
 
                     <el-table-column prop="status" label="发货状态" align="center" width="200">
                         <template slot-scope="scope">
-                            <span v-if="scope.row.status==0">待发</span>
+                            <!-- <span v-if="scope.row.status==0">待发</span>
                             <span v-if="scope.row.status==1">已发</span>
-                            <span v-if="scope.row.status==2">废单</span>
+                            <span v-if="scope.row.status==2">废单</span> -->
                         </template>
                     </el-table-column>
 
-                    <!-- <el-table-column prop="cus_name" label="客户姓名" align="center" width="200">
-                    </el-table-column> -->
-<!-- 
-                    <el-table-column prop="goods_name" label="商品名称" align="center" width="200">
+                    <el-table-column prop="set_express" label="指定快递" align="center" width="200">
+                        <template slot-scope="scope">
+                            <span v-if="scope.row.set_express==2">否</span>
+                            <span v-if="scope.row.set_express==1">是</span>
+                        </template>
                     </el-table-column>
 
-                    <el-table-column prop="goods_num" label="数量" align="center" width="200">
+                    <el-table-column label="省份"></el-table-column>
+                    <el-table-column label="城市"></el-table-column>
+                    <el-table-column label="区县"></el-table-column>
+                    <el-table-column label="地址"></el-table-column>
+                    <el-table-column label="收件人"></el-table-column>
+
+
+                    <el-table-column prop="sale_time" label="销售时间" align="center" width="200">
                     </el-table-column>
 
-                    <el-table-column prop="unit_type" label="商品单位" align="center" width="200">
-                    </el-table-column>
+                    <el-table-column prop="created_at" label="导入时间"></el-table-column>
 
-                    <el-table-column prop="cate_type" label="商品类型" align="center" width="200">
-                    </el-table-column> -->
+                    <el-table-column prop="express_sn" label="快递单号"  width="200"></el-table-column>
 
-                    <el-table-column prop="express_name" label="快递公司" align="center" width="200">
-                    </el-table-column>
+                    <el-table-column prop="express_name" label="快递公司" width="200"></el-table-column>
 
-                    <el-table-column prop="express_sn" label="快递单号" align="center" width="200">
+                    <el-table-column prop="corrugated_case" label="包装箱形" ></el-table-column>
+
+                    <el-table-column prop="send_time" label="发货时间" align="center" width="180"></el-table-column>
+
+                    <el-table-column prop="self_express" label="自提" align="center" width="200">
+                        <template slot-scope="scope">
+                            <span v-if="scope.row.self_express==0">否</span>
+                            <span v-if="scope.row.self_express==1">是</span>
+                        </template>
                     </el-table-column>
+                    <el-table-column prop="real_weigth" label="实际重量" align="center" width="100"></el-table-column>
+                    <el-table-column prop="reckon_weigth" label="估计重量" align="center" width="100"></el-table-column>
+                    <el-table-column prop="pass_check" label="审核时间" align="center" width="180"></el-table-column>
+                    
+                    <el-table-column prop="assign_print_status" label="清单打印状态" align="center" width="200">
+                        <template slot-scope="scope">
+                            <span v-if="scope.row.assign_print_status==0">未打印</span>
+                            <span v-if="scope.row.assign_print_status==1">已打印</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="assign_print_at" label="清单打印时间" align="center" width="200"></el-table-column>
+
 
                     <el-table-column prop="express_print_status" label="快递单打印状态" align="center" width="200">
                         <template slot-scope="scope">
@@ -118,34 +143,15 @@
                             <span v-if="scope.row.express_print_status==1">已打印</span>
                         </template>
                     </el-table-column>
-
-                    <el-table-column prop="assign_print_status" label="发货单打印状态" align="center" width="200">
-                        <template slot-scope="scope">
-                            <span v-if="scope.row.assign_print_status==0">未打印</span>
-                            <span v-if="scope.row.assign_print_status==1">已打印</span>
-                        </template>
-                    </el-table-column>
-
-                    <el-table-column prop="set_express" label="是否指定快递" align="center" width="200">
-                        <template slot-scope="scope">
-                            <span v-if="scope.row.set_express==2">否</span>
-                            <span v-if="scope.row.set_express==1">是</span>
-                        </template>
-                    </el-table-column>
-                    
-                    <!-- <el-table-column prop="deliver_name" label="收货人姓名" align="center" width="200">
-                    </el-table-column>
-
-                    <el-table-column prop="deliver_phone" label="收件人手机" align="center" width="200">
-                    </el-table-column> -->
+                    <el-table-column prop="express_print_at" label="快递单打印时间" align="center" width="200"></el-table-column>
 
                     <el-table-column prop="weight" label="重量" align="center" width="200">
                     </el-table-column>
 
-                    <el-table-column prop="assign_fee" label="配送费" align="center" width="200">
-                    </el-table-column>
+                    <!-- <el-table-column prop="assign_fee" label="配送费" align="center" width="200">
+                    </el-table-column> -->
 
-                    <el-table-column prop="express_fee" label="快递费" align="center" width="200">
+                    <el-table-column prop="express_fee" label="实付运费" align="center" width="200">
                     </el-table-column>
 
                     <el-table-column prop="express_print_at" label="快递单打印时间" align="center" width="200">
@@ -154,14 +160,11 @@
                     <el-table-column prop="assign_print_at" label="发货单打印时间" align="center" width="200">
                     </el-table-column>
 
-                    <el-table-column prop="send_time" label="发货时间" align="center" width="200">
-                    </el-table-column>
-
-                    <el-table-column prop="sale_time" label="销售时间" align="center" width="200">
-                    </el-table-column>
-
                     <el-table-column prop="sign_at" label="签收时间" align="center" width="200">
                     </el-table-column>
+
+                    <el-table-column prop="intercept" label="是否拦截" align="center" width="200"></el-table-column>
+                    
 
                     <!-- <el-table-column prop="sale_name" label="销售人员" align="center" width="200">
                     </el-table-column> -->
@@ -283,7 +286,7 @@ export default {
                 status:'',
                 assign_type:'',
                 user_name:'',
-                with:['order'],
+                with:['order','address'],
                 appends:['status_text'],
             },
             distributors:[],

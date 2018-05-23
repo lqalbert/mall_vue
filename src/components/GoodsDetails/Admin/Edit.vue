@@ -226,13 +226,24 @@ export default {
 
     },
     data () {
+        let validateFormats = (rule, value, callback) => {
+            if(this.editForm.length == null || this.editForm.length == ''){
+                callback(new Error('请输入长度'));
+            }else if (this.editForm.width == null || this.editForm.width == '') {
+                callback(new Error('请输入宽度'));
+            }else if (this.editForm.height == null || this.editForm.height == '') {
+                callback(new Error('请输入高度'));
+            }else {
+                callback();
+            }
+        };
         return {
             dialogImageUrl:'',
             dialogVisible: false,
             activeName:'first',
             dialogThis:this,
             labelPosition:"right",
-            labelWidth:'80px',
+            labelWidth:'100px',
             UnitTypes:{},
             editForm:{
                 subtitle:"",
@@ -285,8 +296,20 @@ export default {
                     {required: true,pattern:/^(([1-9]\d{0,9})|0)(\.\d{1,2})?$/,  message: '价格格式为88.88', trigger:'blur'}
                 ],
                 sku_sn:[
-                    { required: true, 　 message: '商品编号必填', trigger:'blur'}
-                ]
+                    { required: true, message: '商品编号必填', trigger:'blur'}
+                ],
+                format:[
+                    {required: true,validator:validateFormats,trigger:'blur'}
+                ],
+                barcode:[
+                    {required: true, message: '请填写条码', trigger:'blur'}
+                ],
+                weight:[
+                    {required: true, message: '请填写重量', trigger:'blur'}
+                ],
+                bubble_bag:[
+                    {required: true, message: '请填写气泡垫重量', trigger:'blur'}
+                ],
             },
         }
     },

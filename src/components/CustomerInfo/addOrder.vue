@@ -229,6 +229,12 @@
                         moneyNotes:  moneyNotes,
                         sku_sn:      item.sku_sn,
                         unit_type:   item.unit_type,
+                        length:      item.length,
+                        width:       item.width,
+                        height:      item.height,
+                        barcode:     item.barcode,
+                        weight:      item.weight,
+                        bubble_bag:  item.bubble_bag,
                     };
                     this.totalMoney += moneyNotes;
                     this.orderData.push(addData);
@@ -274,6 +280,12 @@
                     phone : vmThis.addressListData[address_id].phone,
                     address: vmThis.addressListData[address_id].address,
                     zip_code: vmThis.addressListData[address_id].zip_code,
+                    area_city_id:vmThis.addressListData[address_id].area_city_id,
+                    area_city_name:vmThis.addressListData[address_id].area_city_name,
+                    area_district_id:vmThis.addressListData[address_id].area_district_id,
+                    area_district_name:vmThis.addressListData[address_id].area_district_name,
+                    area_province_id:vmThis.addressListData[address_id].area_province_id,
+                    area_province_name:vmThis.addressListData[address_id].area_province_name,
                     deal_name:vmThis.addOrderForm.deal_name,
                 };
                 this.addressList.push(data);
@@ -373,7 +385,9 @@
                 this.goodsProxy.setParam({
                     cate_id:cate_id,
                     with:['skus'],
-                    fields:['id','goods_name','goods_price','goods_number','sku_sn','unit_type']
+                    fields:['id','goods_name',
+                    'goods_price','goods_number',
+                    'sku_sn','unit_type','length','width','height','barcode','weight','bubble_bag',]
                 }).load();
                 this.data2 = {};
 
@@ -397,13 +411,27 @@
                 //this.usersListData=data.users;
             },
 
-            contactItem(goods_id, price, name, num, sku_id, sku, sku_sn,unit_type){
-                return {goods_id: goods_id, price: price, goods_name: name,  num: num, sku_id:sku_id, sku_name:sku, sku_sn:sku_sn,unit_type:unit_type};
+            contactItem(goods_id, price, name, num, sku_id, sku, sku_sn,unit_type,length,width,height,barcode,weight,bubble_bag){
+                return {goods_id: goods_id,
+                        price: price, 
+                        goods_name: name,  
+                        num: num, 
+                        sku_id:sku_id, 
+                        sku_name:sku, 
+                        sku_sn:sku_sn,
+                        unit_type:unit_type,
+                        length:length,
+                        width:width,
+                        height:height,
+                        barcode:barcode,
+                        weight:weight,
+                        bubble_bag:bubble_bag};
             },
-            contactChildren(children, goods_id, goods_name,unit_type){
+            contactChildren(children, goods_id, goods_name,unit_type,length,width,height,barcode,weight,bubble_bag){
                 for (let i = 0; i < children.length; i++) {
                     const item = children[i];
-                    let vv1 = this.contactItem(goods_id, item.price, goods_name, item.num, item.id, item.name, item.sku_sn,unit_type);
+                    let vv1 = this.contactItem(goods_id, item.price, goods_name,
+                     item.num, item.id, item.name, item.sku_sn,unit_type,length,width,height,barcode,weight,bubble_bag);
                     let kk1 = 'goods_id_'+goods_id+'_sku_id_'+ item.id;
                     this.data2[kk1] = vv1;
                 }
@@ -444,7 +472,6 @@
              *  
              */
             loadGoods(data){
-               
                 var vmThis = this;
                 this.data2 = {};
                 for (let i = 0; i < data.items.length; i++) {
@@ -453,13 +480,24 @@
                     let goods_price1 = data.items[i].goods_price;
                     let goods_number1 = data.items[i].goods_number;
                     let unit_type1 = data.items[i].unit_type;
-                    let vv1 = this.contactItem(gid1, goods_price1, goods_name1, goods_number1, 0, '',  data.items[i].sku_sn,unit_type1);
+                    
+                    let length = data.items[i].length;
+                    let width = data.items[i].width;
+                    let height = data.items[i].height;
+                    let barcode = data.items[i].barcode;
+                    let weight = data.items[i].weight;
+                    let bubble_bag = data.items[i].bubble_bag;
+
+                    let vv1 = this.contactItem(gid1, goods_price1, goods_name1,
+                     goods_number1, 0, '', data.items[i].sku_sn,unit_type1,length,width,height,barcode,weight,bubble_bag);
                     let kk1 = 'goods_id_'+gid1+'_sku_id_0';
                     this.data2[kk1] = vv1;
                     if (data.items[i].skus.length > 0) {
-                        this.contactChildren(data.items[i].skus, gid1, goods_name1,unit_type1);
+                        this.contactChildren(data.items[i].skus, gid1, goods_name1,unit_type1,length,
+                        width,height,barcode,weight,bubble_bag);
                     }
-                }    
+                }
+                // console.log(this.data2);  
             },
 
             resetForms(name){

@@ -85,18 +85,18 @@
                         <el-row>
                             <el-col :span="12">
                                 <el-form-item label="包装规格"  prop="format">
-                                        <el-col :span="4">
-                                            <el-input placeholder="长" v-model="addForm.length"></el-input>
-                                        </el-col>
-                                        <el-col class="line" :span="2">-</el-col>
-                                        <el-col :span="4">
-                                            <el-input placeholder="宽" v-model="addForm.width"></el-input>
-                                        </el-col>
-                                        <el-col class="line" :span="2">-</el-col>
-                                        <el-col :span="4">
-                                            <el-input placeholder="高" v-model="addForm.height"></el-input>
-                                        </el-col>
-                                        mm
+                                    <el-col :span="4">
+                                        <el-input placeholder="长" v-model="addForm.length"></el-input>
+                                    </el-col>
+                                    <el-col class="line" :span="2">-</el-col>
+                                    <el-col :span="4">
+                                        <el-input placeholder="宽" v-model="addForm.width"></el-input>
+                                    </el-col>
+                                    <el-col class="line" :span="2">-</el-col>
+                                    <el-col :span="4">
+                                        <el-input placeholder="高" v-model="addForm.height"></el-input>
+                                    </el-col>
+                                    mm
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
@@ -292,13 +292,24 @@ export default {
 
     },
     data () {
+        let validateFormat = (rule, value, callback) => {
+            if(this.addForm.length == ''){
+                callback(new Error('请输入长度'));
+            }else if (this.addForm.width == '') {
+                callback(new Error('请输入宽度'));
+            }else if (this.addForm.height == '') {
+                callback(new Error('请输入高度'));
+            }else {
+                callback();
+            }
+        };
         return {
             dialogImageUrl:'',
             dialogVisible: false,
             activeName:'first',
             dialogThis:this,
             labelPosition:"right",
-            labelWidth:'80px',
+            labelWidth:'100px',
             UnitTypes:{},
             addForm:{
                 subtitle:"",
@@ -349,6 +360,18 @@ export default {
                 ],
                 sku_sn:[
                     {required: true, message: '请填写商品编号', trigger:'blur'}
+                ],
+                format:[
+                    {required: true,validator:validateFormat,trigger:'blur'}
+                ],
+                barcode:[
+                    {required: true, message: '请填写条码', trigger:'blur'}
+                ],
+                weight:[
+                    {required: true, message: '请填写重量', trigger:'blur'}
+                ],
+                bubble_bag:[
+                    {required: true, message: '请填写气泡垫重量', trigger:'blur'}
                 ],
             },
             skuFormRules:{

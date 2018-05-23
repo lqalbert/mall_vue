@@ -84,36 +84,37 @@
                         <!-- 库存需要 -->
                         <el-row>
                             <el-col :span="12">
-                                <el-form-item label="包装规格"  prop="">
+                                <el-form-item label="包装规格"  prop="format">
                                         <el-col :span="4">
-                                            <el-input placeholder="长"></el-input>
+                                            <el-input placeholder="长" v-model="addForm.length"></el-input>
                                         </el-col>
                                         <el-col class="line" :span="2">-</el-col>
                                         <el-col :span="4">
-                                            <el-input placeholder="宽"></el-input>
+                                            <el-input placeholder="宽" v-model="addForm.width"></el-input>
                                         </el-col>
                                         <el-col class="line" :span="2">-</el-col>
                                         <el-col :span="4">
-                                            <el-input placeholder="高"></el-input>
+                                            <el-input placeholder="高" v-model="addForm.height"></el-input>
                                         </el-col>
+                                        mm
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
-                                <el-form-item label="条码"  >
-                                    <el-input placeholder="条码"></el-input>
+                                <el-form-item label="条码" prop="barcode">
+                                    <el-input placeholder="条码" v-model="addForm.barcode"></el-input>
                                 </el-form-item>
                             </el-col>
                         </el-row>
                        
                         <el-row>
                             <el-col :span="12">
-                                <el-form-item label="重量"  >
-                                    <el-input placeholder="重量单位 g"></el-input>
+                                <el-form-item label="重量(g)" prop="weight">
+                                    <el-input placeholder="重量单位 g" v-model="addForm.weight"></el-input>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
-                                <el-form-item label="气泡垫"  >
-                                    <el-input placeholder="重量单位 g"></el-input>
+                                <el-form-item label="气泡垫(g)" prop="bubble_bag">
+                                    <el-input placeholder="重量单位 g" v-model="addForm.bubble_bag"></el-input>
                                 </el-form-item>
                             </el-col>
                         </el-row>
@@ -314,7 +315,15 @@ export default {
                 del_price:"0.00",
                 comments:"12",
                 sale_count:"244",
-                sale_able_count:"1000"
+                sale_able_count:"1000",
+
+                length:'',
+                width:'',
+                height:'',
+                barcode:'',
+                weight:'',
+                bubble_bag:10,
+
             },
             attrForm:[],
             editContent:'',

@@ -100,7 +100,7 @@ export default {
     },
 
     created(){
-        this.$on('submit-success', this.clearChidren);
+        // this.$on('submit-success', this.clearChidren);
     }
 
 }

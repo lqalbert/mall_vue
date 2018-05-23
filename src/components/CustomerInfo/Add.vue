@@ -86,7 +86,7 @@
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
-                                <el-form-item  label="市/县" prop="area_city">
+                                <el-form-item  label="市" prop="area_city">
                                     <el-select v-model="addForm.area_city" placeholder="请选择城市" >
                                         <el-option v-for="city in cities" :label="city.name"
                                          :value="city.id" :key="city.id"></el-option>

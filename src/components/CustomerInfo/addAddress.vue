@@ -5,12 +5,15 @@
              :data="addressData"
              border
              style="width: 100%">
-                <el-table-column label="序号" type="index" width="80 px"></el-table-column>
-                <el-table-column prop="name" label="收货人姓名"></el-table-column>
-                <el-table-column prop="phone" label="收货人手机号"></el-table-column>
-                <el-table-column prop="zip_code" label="收货邮编"></el-table-column>
-                <el-table-column prop="address" label="收货地址"></el-table-column>
-                <el-table-column  label="操作" align="center">
+                <el-table-column label="序号" type="index" width="65"></el-table-column>
+                <el-table-column prop="name" label="收货人" width="100"></el-table-column>
+                <el-table-column prop="phone" label="手机号" width="130"></el-table-column>
+                <el-table-column prop="zip_code" label="地址邮编" width="110"></el-table-column>
+                <el-table-column prop="area_province_name" label="省" width="80"></el-table-column>
+                <el-table-column prop="area_city_name" label="城市" width="80"></el-table-column>
+                <el-table-column prop="area_district_name" label="区/县" width="80"></el-table-column>
+                <el-table-column prop="address" label="详细地址" width="180"></el-table-column>
+                <el-table-column  label="操作" header-align="center" width="150" fixed="right">
                     <template slot-scope="scope">
                         <el-button size="small" type="primary" @click="handleCurrentChange(scope.row)">编 辑</el-button>
                         <el-button size="small" type="danger" @click="deleteAddress(scope.row)">删 除</el-button>
@@ -37,17 +40,50 @@
                             <el-input class="name-input" v-model.number="addDeliveryAddressForm.zip_code" size="small" placeholder="收货邮编" ></el-input>
                         </el-form-item>
                     </el-col>
+
+                    <el-col :span="12">
+                        <el-form-item prop="area_province_id" label="省份">
+                            <el-select v-model="addDeliveryAddressForm.area_province_id"
+                                    @change="provinceChange" placeholder="请选择省份" size="small" clearable filterable>
+                                <el-option v-for="province in provinces" :label="province.name" 
+                                    :value="province.id" :key="province.id">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item prop="area_city_id" label="市">
+                            <el-select v-model="addDeliveryAddressForm.area_city_id"
+                                @change="cityChange" placeholder="请选择城市" size="small" clearable filterable>
+                                <el-option v-for="city in cities" :label="city.name"
+                                    :value="city.id" :key="city.id">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item prop="area_district_id" label="区/县">
+                            <el-select v-model="addDeliveryAddressForm.area_district_id"
+                                @change="districtChange" placeholder="区/县" size="small" clearable filterable>
+                                <el-option v-for="district in districts" :label="district.name"
+                                    :value="district.id" :key="district.id">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+
+                    <el-col :span="12">
+                        <el-form-item prop="address" label="详细地址">
+                            <el-input type="textarea" class="name-input" v-model="addDeliveryAddressForm.address"  placeholder="详细收货地址" ></el-input>
+                        </el-form-item>
+                    </el-col>
+
                     <el-col :span="12">
                         <el-form-item prop="default_address" label="是否为默认地址">
                             <el-radio-group v-model="addDeliveryAddressForm.default_address">
                                 <el-radio :label="1">是</el-radio>
                                 <el-radio :label="0">否</el-radio>
                             </el-radio-group>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item prop="address" label="收货地址">
-                            <el-input type="textarea" class="name-input"  v-model="addDeliveryAddressForm.address"  placeholder="收货地址" ></el-input>
                         </el-form-item>
                     </el-col>
 
@@ -69,6 +105,7 @@
  import DialogForm from '../../mix/DialogForm';
 import DataProxy from '../../packages/DataProxy';
 import SelectProxy from  '../../packages/SelectProxy';
+import AreaSelect from '../../packages/AreaSelectProxy';
 import { PHONE_REG } from '@/config/index';
 
 const maxLengthContacts = 20;
@@ -95,6 +132,13 @@ export default {
                 default_address:1,
                 zip_code:'',
                 cus_id:'',
+                area_province_name:'',
+                area_city_name:'',
+                area_district_name:'',
+                id:'',
+                area_province_id:'',
+                area_city_id:'',
+                area_district_id:'',
             },
             addressData:[],
             model:'',
@@ -116,9 +160,22 @@ export default {
                     {min:1, max: 99999999, message: '长度不能超过7个字符', type: 'number',trigger: 'blur'  }
 
                 ],
+                area_province_id:[
+                    { required: true, message:'请选择省份', trigger:'blur'},
+                ],
+                area_city_id:[
+                    { required: true, message:'请选择城市', trigger:'blur'},
+                ],
+                area_district_id:[
+                    { required: true, message:'请选择区/县', trigger:'blur'},
+                ],
 
             },
-            dev:[]
+            dev:[],
+            provinces:[],
+            cities:[],
+            districts:[],
+
         }
     },
     computed:{
@@ -183,15 +240,16 @@ export default {
             });
         },
         onOpen(param){
+            this.provinces = param.params.extra.provinces;
             this.cus_id = param.params.model.contacts[0].cus_id;
             this.id = param.params.model.id;
             this.getAddress(this.cus_id);
         },
-        handleCurrentChange(row){
+        handleCurrentChange(row){   
+            row.zip_code = parseInt(row.zip_code);
             this.showForm();
             this.formstate = FORMSTATE_EDIT;
-            this.addDeliveryAddressForm = row;
-            this.initObject(row, this.addDeliveryAddressForm);
+            this.addDeliveryAddressForm = Object.assign({},row);
         },
         showForm(){
             this.contactFormvisible = true;
@@ -250,8 +308,38 @@ export default {
             selectProxy.load();
         },
         getAddressData(data){
-            this.addressData=data.items;
+            data.items.zip_code = parseInt(data.items.zip_code);
+            this.addressData = data.items.concat();
         },
+        getAreaCities(data){
+            this.cities = data;
+        },
+        provinceChange(id){
+            this.getAreaName(this.provinces,'area_province_name',id);
+            // this.addDeliveryAddressForm.area_city_id = '';
+            // this.addDeliveryAddressForm.area_district_id = '';
+            let areaSelect = new AreaSelect({pid:id,business:'city'},this.getAreaCities,this);
+            areaSelect.load();
+        },
+        getAreaDistricts(data){
+            this.districts = data;
+        },
+        cityChange(id){
+            this.getAreaName(this.cities,'area_city_name',id);
+            // this.addDeliveryAddressForm.area_district_id = '';
+            let areaSelect = new AreaSelect({pid:id,business:'district'},this.getAreaDistricts,this);
+            areaSelect.load();
+        },
+        districtChange(id){
+            this.getAreaName(this.districts,'area_district_name',id);
+        },
+        getAreaName(arr,field,id){
+            for (let i = 0; i < arr.length; i++) {
+                if (arr[i]['id'] == id) {
+                    this.addDeliveryAddressForm[field] = arr[i]['name'];
+                }
+            }
+        }
 
     },
 

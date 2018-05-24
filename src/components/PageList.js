@@ -45,6 +45,8 @@ const PageList = {
     'ShelvesManagement': (resolve) => { require(['./ShelvesManagement/Index.vue'], resolve)},
     'DistributionCenter': (resolve) => { require(['./DistributionCenter/Index.vue'], resolve)},
 
+    'StockCheck': (resolve) => { require(['./StockCheck/Index.vue'], resolve)},
+
 
 };
 

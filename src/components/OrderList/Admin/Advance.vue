@@ -135,7 +135,8 @@
         },
         methods:{
             handleReset(){
-                this.$refs.queryForm.resetFields();
+                // this.$refs.queryForm.resetFields();
+                this.initObject(this._queryForm, this.queryForm);
                 this.$parent.$emit('search-tool-change', {});
             },
             getDepartment(data){
@@ -184,6 +185,9 @@
 
             this.GroupProxy = new GroupSelectProxy({fields:["*"]},this.getGroup,this);
             this.EmployeeProxy = new EmployeeSelectProxy({ fields:["*"]},this.getUsers,this);
+            
+            this._queryForm = {};
+            this.initObject(this.queryForm, this._queryForm);
         }
     }
 </script>

@@ -87,7 +87,17 @@
                         <template slot-scope="scope">
                             <!-- <span v-if="scope.row.status==0">待发</span>
                             <span v-if="scope.row.status==1">已发</span>
-                            <span v-if="scope.row.status==2">废单</span> -->
+                            <span v-if="scope.row.status==2">废单</span> 
+                                已导入
+                                已审核
+                                半打印
+                                已发货
+                                已拦截
+                                半打印清单
+                                半打印快递单
+                                已打印已验货
+                                已发货
+                        -->
                         </template>
                     </el-table-column>
 
@@ -177,11 +187,12 @@
                     </el-table-column> -->
 
                     <div slot="buttonbar">
-                        <el-button type="primary" size="small" @click="addDelivery">发 货</el-button>
+                        <!-- <el-button type="primary" size="small" @click="addDelivery">发 货</el-button>
                         <el-button type="primary" size="small" @click="handleEdit">修 改</el-button>
                         <el-button type="primary" size="small" @click="setDropOrder">废 单</el-button>     
                         <el-button type="primary" size="small" @click="handleReceive">签 收</el-button>     
-                        <el-button type="primary" size="small" @click="addContact">沟 通</el-button>     
+                        <el-button type="primary" size="small" @click="addContact">沟 通</el-button>      -->
+                        <el-button type="primary" size="small">审核</el-button>
                         <el-button type="primary" size="small" @click="editAddress">修改地址</el-button>     
 
                         <el-button type="primary" size="small"   @click="showExpress">快递单打印</el-button>

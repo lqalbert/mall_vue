@@ -11,25 +11,23 @@
                     <el-table-column prop="goods_number" label="商品发货数量" align="center"></el-table-column>
                     <el-table-column prop="unit" label="商品发货单位" align="center"></el-table-column>
                     <el-table-column prop="make_date" label="产品日期" align="center"></el-table-column>
-                    <el-table-column prop="carton_type" label="纸箱型号" align="center"></el-table-column>
-                    <el-table-column prop="each_carton_number" label="每箱数量" align="center"></el-table-column>
-                    <el-table-column prop="carton_weight" label="每箱重量" align="center"></el-table-column>
-                    <el-table-column prop="carton_number" label="纸箱个数" align="center"></el-table-column>
+
                     <!--<el-table-column  label="操作" align="center">-->
                         <!--<template slot-scope="scope">-->
                             <!--<el-button size="small" type="danger" @click="deleteAddress(scope.row)">删 除</el-button>-->
                         <!--</template>-->
                     <!--</el-table-column>-->
                 </el-table>
+                <br>
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="快递单号" prop="company_name" >
-                            <el-input v-model="addForm.company_name" placeholder="系统生成"></el-input>
+                            <el-input class="name-input" v-model="addForm.company_name" placeholder="系统生成"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="快递公司" prop="eng" >
-                            <el-input v-model="addForm.eng" placeholder="请填写采购单位"></el-input>
+                            <el-input class="name-input" v-model="addForm.eng" placeholder="请填写采购单位"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -37,12 +35,37 @@
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="快递费用" prop="contact_name">
-                            <el-input v-model="addForm.contact_name" placeholder="请填写发货单位"></el-input>
+                            <el-input class="name-input" v-model="addForm.contact_name" placeholder="请填写发货单位"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="总箱数" prop="contact_tel" >
-                            <el-input v-model="addForm.contact_tel" placeholder="请填写发货单位"></el-input>
+                            <el-input class="name-input" v-model="addForm.contact_tel" placeholder="请填写发货单位"></el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+
+                <el-row>
+                    <el-col :span="12">
+                        <el-form-item label="纸箱型号" prop="contact_name">
+                            <el-input class="name-input"  v-model="addForm.contact_name" placeholder="请填写发货单位"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="每箱数量" prop="contact_tel" >
+                            <el-input class="name-input"  v-model="addForm.contact_tel" placeholder="请填写发货单位"></el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="12">
+                        <el-form-item label="每箱重量" prop="contact_name">
+                            <el-input  class="name-input" v-model="addForm.contact_name" placeholder="请填写发货单位"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="纸箱个数" prop="contact_tel" >
+                            <el-input  class="name-input" v-model="addForm.contact_tel" placeholder="请填写发货单位"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -50,7 +73,7 @@
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="确认人" prop="contact_tel" >
-                            <el-input v-model="addForm.contact_name" placeholder="请填写采购人"></el-input>
+                            <el-input  class="name-input" v-model="addForm.contact_name" placeholder="请填写采购人"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -67,7 +90,7 @@
                 <el-row>
                     <el-col :span="14">
                         <el-form-item label="备注" prop="remark">
-                            <el-input type="textarea" v-model="addForm.remark" placeholder="请填写备注"></el-input>
+                            <el-input  type="textarea" v-model="addForm.remark" placeholder="请填写备注"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -131,5 +154,7 @@ export default {
 }
 </script>
 <style scoped>
-
+    .name-input{
+        max-width: 217px;
+    }
 </style>

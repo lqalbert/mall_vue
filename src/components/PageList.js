@@ -48,6 +48,11 @@ const PageList = {
 
     //验货
     'GoodsInspect': (resolve) => { require(['./GoodsInspect/Index.vue'], resolve)},
+//    同步发货
+    'DeliverGoods': (resolve) => { require(['./DeliverGoods/Index.vue'], resolve)},
+    //入库流程
+    'WarehousingProcess': (resolve) => { require(['./WarehousingProcess/Index.vue'], resolve)},
+
 
 
 

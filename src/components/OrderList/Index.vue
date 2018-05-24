@@ -52,7 +52,8 @@
         methods: {
             setPageAdmin(){
                 if (this.$store.getters.hasRole('administrator') || 
-                    this.$store.getters.hasRole('super-manager')) {
+                    this.$store.getters.hasRole('super-manager') ||
+                    this.$store.getters.hasRole('assign-service') ) {
                     this.page_admin = true;
 
                     this.page_depart=false;

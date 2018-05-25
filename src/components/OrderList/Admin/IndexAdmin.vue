@@ -259,7 +259,8 @@ export default {
             return  this.ajaxProxy;
         },
         showRowData(row){
-            console.log(this.$modal.show('rowInfo',{rowData:row}));
+            console.log(row);
+            this.$modal.show('rowInfo',{rowData:row})
         },
         /** 点击订单列表展示用户信息 */
         showRow(row){

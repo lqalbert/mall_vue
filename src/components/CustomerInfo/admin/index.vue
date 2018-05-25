@@ -137,7 +137,7 @@
 
         <addAddress name='add-Address'
                     width="60%"
-                    :ajax-proxy="addressAjaxProxy" @submit-success="handleReload">
+                    :ajax-proxy="addressAjaxProxy" >
         </addAddress>
 
         <other-contact name='other-contact'

@@ -102,7 +102,11 @@
 </template>
 
 <script>
- import DialogForm from '../../mix/DialogForm';
+//  import DialogForm from '../../mix/DialogForm';
+
+import FormMix from '@/mix/Form';
+import Dialog from '@/mix/Dialog';
+
 import DataProxy from '../../packages/DataProxy';
 import SelectProxy from  '../../packages/SelectProxy';
 import AreaSelect from '../../packages/AreaSelectProxy';
@@ -112,13 +116,18 @@ const maxLengthContacts = 20;
 const FORMSTATE_ADD = '确 定';
 const FORMSTATE_EDIT = '编 辑';
 export default {
-     name: 'addAddress',
-     mixins:[DialogForm],
-     props:{
+    name: 'addAddress',
+    mixins:[FormMix,Dialog],
+    props:{
+        ajaxProxy:{
+            // required:true,
+            type: Object,
+            default: null
+        }
     },
     data(){
         return {
-            dialogThis:this,
+            dialogThis:null,
             labelPosition:"right",
             labelWidth:'120px',
             formstate:'',
@@ -201,27 +210,6 @@ export default {
             }else if(this.formstate == FORMSTATE_ADD){
                 return this.ajaxProxy.create(model);
             }
-        },
-        realSubmit(model, name){
-            let ajaxPromise =  this.getAjaxPromise(model);
-            let vmthis = this;
-            ajaxPromise.then(function(response){
-                vmthis.$message.success('操作成功');
-                vmthis.$refs[name].resetFields();
-                vmthis.getAddress(vmthis.cus_id);
-                vmthis.hideForm();
-            }).catch(function(error){
-                if(error.response){
-                    console.log(error.response.data);
-                    console.log(error.response.status);
-                    console.log(error.response.headers);
-                }else{
-                    console.log('Error',error.message);
-                }
-                vmthis.$message.error('出错了');
-            }).then(function(){
-                vmthis.$emit('submit-final', name);
-            });
         },
         onOpen(param){
             this.provinces = param.params.extra.provinces;
@@ -323,9 +311,18 @@ export default {
                     this.addDeliveryAddressForm[field] = arr[i]['name'];
                 }
             }
+        },
+        submitSuccess(name){
+            this.getAddress(this.cus_id);
+            this.hideForm();
         }
 
     },
+    created(){
+        this.dialogThis = this;
+
+        this.$on('submit-success', this.submitSuccess);
+    }
 
 }
 </script>

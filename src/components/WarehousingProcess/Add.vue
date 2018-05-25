@@ -3,12 +3,78 @@
         <MyDialog title="添加申请" :name="name" :width="width" :height="height" @before-open="onOpen">
             <br>
             <el-steps :space="300" :active="active" process-status="finish" finish-status="success" center align-center>
-                <el-step title="添加商品"></el-step>
                 <el-step title="添加详细信息"></el-step>
+                <el-step title="添加商品"></el-step>
                 <el-step title="确认订单"></el-step>
             </el-steps>
             <el-form ref="addOrderForm" :model="addOrderForm" :label-width="labelWidth" :label-position="labelPosition">
                 <div v-show="active==0">
+                    <el-row>
+                        <el-col :span="12">
+                            <el-form-item label="配送中心" prop="danwei" >
+                                <el-select v-model="addOrderForm.danwei" placeholder="请选择配送中心"  @change="userChange">
+                                    <el-option label="成都配送中心" value="1"></el-option>
+                                    <el-option label="天津配送中心" value="2"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                            <el-form-item label="发货单位" prop="contact_name">
+                                <el-input class="name-input" v-model="addOrderForm.contact_name" placeholder="请填写发货单位"></el-input>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+
+                    <el-row>
+                        <el-col :span="12">
+                            <el-form-item prop="deal_id" label="采购人">
+                                <el-select v-model="addOrderForm.deal_id" placeholder="请选择成交员工" disabled @change="userChange">
+                                    <el-option v-for="v in users" :value="v.id" :key="v.id" :label="v.realname"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                            <el-form-item label="采购时间" prop="contact_name">
+                                <el-date-picker
+                                        v-model="addOrderForm.contact_name"
+                                        type="datetime"
+                                        placeholder="选择日期时间">
+                                </el-date-picker>
+                            </el-form-item>
+                        </el-col>
+
+                    </el-row>
+
+                    <el-row>
+
+                        <el-col :span="12">
+                            <el-form-item label="采购状态" prop="contact_tel" >
+                                <el-select v-model="addOrderForm.contact_tel" placeholder="请选择">
+                                    <el-option label="申请" value="1"></el-option>
+                                    <el-option label="审核通过" value="2"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <!--<el-row>-->
+                    <!--<el-col :span="12">-->
+                    <!--<el-form-item prop="address_id" label="收货地址" >-->
+                    <!--<el-radio-group v-for="v in fullAddressData" :key="v.id" v-model="addOrderForm.address_id" @change="addressChange">-->
+                    <!--<template slot-scope="scope">-->
+                    <!--<el-radio  :label="v.id" >{{v.fullAddress}}</el-radio>-->
+                    <!--</template>-->
+                    <!--</el-radio-group>-->
+
+                    <!--&lt;!&ndash;<el-select v-model="addressID" placeholder="请选择收货地址" @change="addressChange">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<el-option v-for="v in address" :value="v.id" :key="v.id" :label="v.name" ></el-option>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</el-select>&ndash;&gt;-->
+                    <!--</el-form-item>-->
+                    <!--</el-col>-->
+
+                    <!--</el-row>-->
+
+                </div>
+                <div v-show="active==1">
                     <el-table
                             border
                             :data="orderData"
@@ -65,72 +131,7 @@
                     </div>
                 </div>
                 <br>
-                <div v-show="active==1">
-                    <el-row>
-                        <el-col :span="12">
-                            <el-form-item label="配送中心" prop="danwei" >
-                                <el-select v-model="addOrderForm.danwei" placeholder="请选择配送中心"  @change="userChange">
-                                    <el-option label="成都配送中心" value="1"></el-option>
-                                    <el-option label="天津配送中心" value="2"></el-option>
-                                </el-select>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="12">
-                            <el-form-item label="发货单位" prop="contact_name">
-                                <el-input v-model="addOrderForm.contact_name" placeholder="请填写发货单位"></el-input>
-                            </el-form-item>
-                        </el-col>
-                    </el-row>
 
-                    <el-row>
-                        <el-col :span="12">
-                            <el-form-item prop="deal_id" label="采购人">
-                                <el-select v-model="addOrderForm.deal_id" placeholder="请选择成交员工" disabled @change="userChange">
-                                    <el-option v-for="v in users" :value="v.id" :key="v.id" :label="v.realname"></el-option>
-                                </el-select>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="12">
-                            <el-form-item label="采购时间" prop="contact_name">
-                                <el-date-picker
-                                        v-model="addOrderForm.contact_name"
-                                        type="datetime"
-                                        placeholder="选择日期时间">
-                                </el-date-picker>
-                            </el-form-item>
-                        </el-col>
-
-                    </el-row>
-
-                    <el-row>
-
-                        <el-col :span="12">
-                            <el-form-item label="采购状态" prop="contact_tel" >
-                                <el-select v-model="addOrderForm.contact_tel" placeholder="请选择">
-                                    <el-option label="申请" value="1"></el-option>
-                                    <el-option label="审核通过" value="2"></el-option>
-                                </el-select>
-                            </el-form-item>
-                        </el-col>
-                    </el-row>
-                    <!--<el-row>-->
-                        <!--<el-col :span="12">-->
-                            <!--<el-form-item prop="address_id" label="收货地址" >-->
-                                <!--<el-radio-group v-for="v in fullAddressData" :key="v.id" v-model="addOrderForm.address_id" @change="addressChange">-->
-                                    <!--<template slot-scope="scope">-->
-                                        <!--<el-radio  :label="v.id" >{{v.fullAddress}}</el-radio>-->
-                                    <!--</template>-->
-                                <!--</el-radio-group>-->
-
-                                <!--&lt;!&ndash;<el-select v-model="addressID" placeholder="请选择收货地址" @change="addressChange">&ndash;&gt;-->
-                                <!--&lt;!&ndash;<el-option v-for="v in address" :value="v.id" :key="v.id" :label="v.name" ></el-option>&ndash;&gt;-->
-                                <!--&lt;!&ndash;</el-select>&ndash;&gt;-->
-                            <!--</el-form-item>-->
-                        <!--</el-col>-->
-
-                    <!--</el-row>-->
-
-                </div>
                 <br>
                 <div v-show="active==2">
                     <el-table
@@ -252,5 +253,7 @@ export default {
 }
 </script>
 <style scoped>
-
+    .name-input{
+        max-width: 217px;
+    }
 </style>

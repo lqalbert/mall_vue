@@ -52,6 +52,7 @@ const PageList = {
     'DeliverGoods': (resolve) => { require(['./DeliverGoods/Index.vue'], resolve)},
     //入库流程
     'WarehousingProcess': (resolve) => { require(['./WarehousingProcess/Index.vue'], resolve)},
+    'ExpressCompensation': (resolve) => { require(['./ExpressCompensation/Index.vue'], resolve)},
 
 
 

@@ -32,13 +32,14 @@
                     
                     <el-table-column prop="resp_money" label="责任金额(比实际少)" width="180" align="center"></el-table-column>
 
-                    <el-table-column prop="created_at" label="录入时间" width="180" align="center"></el-table-column>
+                    <el-table-column prop="created_at" label="录入时间" align="center" width="180"></el-table-column>
 
-                    <el-table-column label="操作" fixed="right" align="center" width="110">
+                    <el-table-column label="操作" fixed="right" align="center">
                         <template slot-scope="scope">
                             <el-button type="info" size="small" @click="showEdit(scope.row)">修改盘点</el-button>
                         </template>
                     </el-table-column>
+
                     <div slot="buttonbar">
                         <el-button size="small" type="info" @click="showAdd" >录入盘点</el-button>
                     </div> 

@@ -136,10 +136,10 @@
         methods:{
             handleReset(){
                 // this.$refs.queryForm.resetFields();
-                this.initObject(this._queryForm, this.queryForm);
+                Object.assign(this.queryForm,this._queryForm);
                 this.$parent.$emit('search-tool-change', this.queryForm);
             },
-            getDepartment(data){
+            getDepartment(data){ 
                 this.department = data;
             },
             getGroup(data){
@@ -187,7 +187,7 @@
             this.EmployeeProxy = new EmployeeSelectProxy({ fields:["*"]},this.getUsers,this);
             
             this._queryForm = {};
-            this.initObject(this.queryForm, this._queryForm);
+            Object.assign(this._queryForm,this.queryForm);
         }
     }
 </script>

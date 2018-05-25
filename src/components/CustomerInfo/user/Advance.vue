@@ -117,8 +117,9 @@
     
         methods:{
             handleReset(){
-                this.$refs.queryForm.resetFields();
-                this.$parent.$emit('search-tool-change', {});
+                // this.$refs.queryForm.resetFields();
+                Object.assign(this.queryForm,this._queryForm);
+                this.$parent.$emit('search-tool-change', this.queryForm);
             },
             handleSubmit(){
                 this.$parent.$emit('search-tool-change', this.queryForm);
@@ -126,7 +127,10 @@
             },
         },
         created(){
-            this.searchForm.user_id = this.userId;      
+            this.searchForm.user_id = this.userId;
+
+            this._queryForm = {};
+            Object.assign(this._queryForm,this.queryForm);
         }
     
     }

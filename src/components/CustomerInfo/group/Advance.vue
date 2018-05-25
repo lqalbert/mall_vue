@@ -134,8 +134,9 @@
     
         methods:{
             handleReset(){
-                this.$refs.queryForm.resetFields();
-                this.$parent.$emit('search-tool-change', {});
+                // this.$refs.queryForm.resetFields();
+                Object.assign(this.queryForm,this._queryForm);
+                this.$parent.$emit('search-tool-change', this.queryForm);
             },
             handleSubmit(){
                 this.$parent.$emit('search-tool-change', this.queryForm);
@@ -160,7 +161,7 @@
              onDepartChange(v){
                 this.queryForm.group_id = '';
                 this.queryForm.user_id = '';
-                if (v.toString().length > 0) {
+                if (v) {
                     this.groupSelect.setParam({department_id:v,fields:['id','name']});
                     this.groupSelect.load();
                 }    
@@ -170,7 +171,7 @@
              */
             onGroupChange(v){
                 this.queryForm.user_id = '';
-                if (v.toString().length > 0) {
+                if (v) {
                     this.employeeSelect.setParam({group_id:v,fields:['id', 'realname']});
                     this.employeeSelect.load();
                 }  
@@ -190,6 +191,8 @@
                 this.queryForm.group_id = 0;
             }
 
+            this._queryForm = {};
+            Object.assign(this._queryForm,this.queryForm);
               
         }
     

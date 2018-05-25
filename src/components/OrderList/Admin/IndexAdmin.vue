@@ -61,7 +61,7 @@
                 </el-form-item>
 
                 <!-- <br> -->
-                <el-form-item prop="type">
+                <el-form-item>
                     <el-button size="small" type="primary"  @click="showDialog('advance')" >高级查询</el-button>
                     <!-- 改成新的 -->
                     <el-badge :value="0"  class="badge-dot" >

@@ -76,7 +76,7 @@ const mix = {
             this.$modal.show('edit-customerinformation', {model:row,extra:this.cusData,});
         },
         openAddDeliveryAddress(row){
-            this.$modal.show('add-Address', {model:row});
+            this.$modal.show('add-Address', { model: row, extra: this.cusData});
         },
         addTrackLog(){
             if (this.selectRowCheck()) {

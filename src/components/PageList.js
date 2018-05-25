@@ -55,6 +55,8 @@ const PageList = {
 
 
 
+    'StockCheck': (resolve) => { require(['./StockCheck/Index.vue'], resolve)},
+
 
 };
 

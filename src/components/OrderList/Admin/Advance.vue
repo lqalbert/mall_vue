@@ -4,7 +4,7 @@
                 <el-row>
                     <el-col :span="12">
                         <el-form-item prop="department_id" label="部门">
-                            <el-select v-model="queryForm.department_id" placeholder="请选择部门"   @change="depChange">
+                            <el-select v-model="queryForm.department_id" placeholder="请选择部门" @change="depChange">
                                 <el-option v-for="item in department" :key="item.id" :label="item.name" :value="item.id">
                                 </el-option>
                             </el-select>
@@ -62,7 +62,7 @@
                 </el-row>
                 <el-row>
                     <el-col :span="12">
-                        <el-form-item prop="status" label="货物状态">
+                        <el-form-item prop="product_status" label="货物状态">
                             <el-select v-model="queryForm.product_status">
                                 <el-option
                                     v-for="shipping_status in shipping_statuslist"
@@ -137,13 +137,13 @@
             handleReset(){
                 // this.$refs.queryForm.resetFields();
                 this.initObject(this._queryForm, this.queryForm);
-                this.$parent.$emit('search-tool-change', {});
+                this.$parent.$emit('search-tool-change', this.queryForm);
             },
             getDepartment(data){
                 this.department = data;
             },
             getGroup(data){
-                this.group = data.items;
+                this.groups = data.items;
             },
             getUsers(data){
                 this.users = data.items;
@@ -157,7 +157,7 @@
             },
             groupChange(group_id){
                 let vmThis = this;
-                vmThis.searchForm.deal_id = '';
+                vmThis.queryForm.deal_id = '';
                 this.EmployeeProxy.setParam({
                     department_id:vmThis.queryForm.department_id,
                     group_id:group_id,

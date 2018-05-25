@@ -109,6 +109,7 @@
         },
         methods:{
             handleReset(){
+                this.range = "";
                 this.$refs.queryForm.resetFields();
                 this.$parent.$emit('search-tool-change', {});
             },
@@ -116,7 +117,7 @@
                 this.department = data;
             },
             getGroup(data){
-                this.group = data.items;
+                this.groups = data.items;
             },
             getUsers(data){
                 this.users = data.items;
@@ -130,7 +131,7 @@
             },
             groupChange(group_id){
                 let vmThis = this;
-                vmThis.searchForm.deal_id = '';
+                vmThis.queryForm.deal_id = '';
                 this.EmployeeProxy.setParam({
                     department_id:vmThis.queryForm.department_id,
                     group_id:group_id,

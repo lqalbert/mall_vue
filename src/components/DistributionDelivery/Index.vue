@@ -70,6 +70,10 @@
                     <el-button type="primary" size="small" icon="search" @click="searchToolChange('searchForm')">查询</el-button>
                     <el-button type="primary" size="small" @click="searchToolReset('searchForm')">重置</el-button>
                 </el-form-item>
+
+                <el-form-item>
+                    <el-button type="primary" size="small" @click="showDialog('advance')">高级查询</el-button>
+                </el-form-item>
             </el-form>
         </el-row>
         <!-- table -->
@@ -193,10 +197,13 @@
                         <el-button type="primary" size="small" @click="handleReceive">签 收</el-button>     
                         <el-button type="primary" size="small" @click="addContact">沟 通</el-button>      -->
                         <el-button type="primary" size="small">审核</el-button>
+                        <el-button type="primary" size="small">返单</el-button>
+                        <el-button type="primary" size="small">拦截/取消</el-button>
                         <el-button type="primary" size="small" @click="editAddress">修改地址</el-button>     
 
                         <el-button type="primary" size="small"   @click="showExpress">快递单打印</el-button>
                         <el-button type="primary" size="small"   @click="showAssign">发货单打印</el-button>
+
                     </div>
                 </TableProxy>
             </el-col>
@@ -240,22 +247,27 @@
 
         <Express name="express"></Express>
         <Assign name="assign"></Assign>
+
+        <Advance name="advance"></Advance>
     </div>
 </template>
 <script>
-import PageMix from '../../mix/Page';
-import SearchTool from '../../mix/SearchTool';
-import DataTable from '../../mix/DataTable';
+import PageMix from '@/mix/Page';
+import SearchTool from '@/mix/SearchTool';
+import DataTable from '@/mix/DataTable';
 
-import AddDelivery from './AddDelivery';
-import HandleEdit from './HandleEdit';
-import SetDropOrder from './SetDropOrder';
-import HandleReceive from './HandleReceive';
-import AddContact from './AddContact';
+// import AddDelivery from './AddDelivery';
+// import HandleEdit from './HandleEdit';
+// import SetDropOrder from './SetDropOrder';
+// import HandleReceive from './HandleReceive';
+// import AddContact from './AddContact';
 import EditAddress from './EditAddress';
 import SubDetail from './SubDetail';
 import Express from './Express';
 import Assign from './Assign';
+
+import Advance from './Advance';
+
 
 import GoodsSelectProxy from '../../packages/GoodsSelectProxy';
 import DistributionCenterProxy from '../../packages/DistributionCenterSelectProxy';
@@ -268,15 +280,16 @@ export default {
     mixins:[PageMix,SearchTool,DataTable],
 
     components:{
-        AddDelivery,
-        HandleEdit,
-        SetDropOrder,
-        HandleReceive,
-        AddContact,
+        // AddDelivery,
+        // HandleEdit,
+        // SetDropOrder,
+        // HandleReceive,
+        // AddContact,
         EditAddress,
         SubDetail,
         Express,
-        Assign
+        Assign,
+        Advance
     },
     data(){
         return {
@@ -349,31 +362,31 @@ export default {
             this.searchForm.start = v.split(' - ')[0];
             this.searchForm.end = v.split(' - ')[1];
         },
-        addDelivery(){
-            if (this.openDialogCheck()) {
-                this.$modal.show('add-delivery', this.currentRow);
-            }
-        },
-        handleEdit(){
-            if (this.openDialogCheck()) {
-                this.$modal.show('handle-edit', this.currentRow);
-            }
-        },
-        setDropOrder(){
-            if (this.openDialogCheck()) {
-                this.$modal.show('set-drop-order', this.currentRow);
-            }
-        },
-        handleReceive(){
-            if (this.openDialogCheck()) {
-                this.$modal.show('handle-receive',this.currentRow);
-            }
-        },
-        addContact(){
-            if (this.openDialogCheck()) {
-                this.$modal.show('add-contact',this.currentRow);
-            }
-        },
+        // addDelivery(){
+        //     if (this.openDialogCheck()) {
+        //         this.$modal.show('add-delivery', this.currentRow);
+        //     }
+        // },
+        // handleEdit(){
+        //     if (this.openDialogCheck()) {
+        //         this.$modal.show('handle-edit', this.currentRow);
+        //     }
+        // },
+        // setDropOrder(){
+        //     if (this.openDialogCheck()) {
+        //         this.$modal.show('set-drop-order', this.currentRow);
+        //     }
+        // },
+        // handleReceive(){
+        //     if (this.openDialogCheck()) {
+        //         this.$modal.show('handle-receive',this.currentRow);
+        //     }
+        // },
+        // addContact(){
+        //     if (this.openDialogCheck()) {
+        //         this.$modal.show('add-contact',this.currentRow);
+        //     }
+        // },
         editAddress(){
             if (this.openDialogCheck()) {
                 this.$modal.show('edit-address',this.currentRow);
@@ -450,6 +463,7 @@ export default {
                     this.$modal.show('assign', param);
             }
         }
+        
     },
     created(){
         //获取配送中心数据

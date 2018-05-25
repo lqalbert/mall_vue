@@ -43,7 +43,7 @@
 
                     <el-col :span="12">
                         <el-form-item prop="area_province_id" label="省份">
-                            <el-select v-model="addDeliveryAddressForm.area_province_id"
+                            <el-select v-model.number="addDeliveryAddressForm.area_province_id"
                                     @change="provinceChange" placeholder="请选择省份" size="small" clearable filterable>
                                 <el-option v-for="province in provinces" :label="province.name" 
                                     :value="province.id" :key="province.id">
@@ -161,7 +161,7 @@ export default {
 
                 ],
                 area_province_id:[
-                    { required: true, message:'请选择省份', trigger:'blur'},
+                    { required: true, message:'请选择省份', type:'number', trigger:'blur'},
                 ],
                 area_city_id:[
                     { required: true, message:'请选择城市', trigger:'blur'},

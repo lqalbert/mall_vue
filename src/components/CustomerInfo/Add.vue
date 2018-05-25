@@ -77,7 +77,7 @@
                         <el-row>
                             <el-col :span="12">
                                 <el-form-item label="省份" prop="area_province">
-                                    <el-select v-model="addForm.area_province" :filterable="true"
+                                    <el-select v-model.number="addForm.area_province" :filterable="true"
                                          @change="provinceChange" placeholder="请选择省份" >
                                         <el-option v-for="province in provinces" :label="province.name" 
                                             :value="province.id" :key="province.id">
@@ -87,7 +87,7 @@
                             </el-col>
                             <el-col :span="12">
                                 <el-form-item  label="市" prop="area_city">
-                                    <el-select v-model="addForm.area_city" placeholder="请选择城市" >
+                                    <el-select v-model.number="addForm.area_city" placeholder="请选择城市" >
                                         <el-option v-for="city in cities" :label="city.name"
                                          :value="city.id" :key="city.id"></el-option>
                                     </el-select>

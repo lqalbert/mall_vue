@@ -110,8 +110,9 @@
         methods:{
             handleReset(){
                 this.range = "";
-                this.$refs.queryForm.resetFields();
-                this.$parent.$emit('search-tool-change', {});
+                // this.$refs.queryForm.resetFields();
+                Object.assign(this.queryForm,this._queryForm);
+                this.$parent.$emit('search-tool-change', this.queryForm);
             },
             getDepartment(data){
                 this.department = data;
@@ -155,6 +156,8 @@
             
         },
         created(){
+            this._queryForm = {};
+            Object.assign(this._queryForm,this.queryForm);
         }
     }
 </script>

@@ -43,7 +43,7 @@
 
                     <el-col :span="12">
                         <el-form-item prop="area_province_id" label="省份">
-                            <el-select v-model="addDeliveryAddressForm.area_province_id"
+                            <el-select v-model.number="addDeliveryAddressForm.area_province_id"
                                     @change="provinceChange" placeholder="请选择省份" size="small" clearable filterable>
                                 <el-option v-for="province in provinces" :label="province.name" 
                                     :value="province.id" :key="province.id">
@@ -53,7 +53,7 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item prop="area_city_id" label="市">
-                            <el-select v-model="addDeliveryAddressForm.area_city_id"
+                            <el-select v-model.number="addDeliveryAddressForm.area_city_id"
                                 @change="cityChange" placeholder="请选择城市" size="small" clearable filterable>
                                 <el-option v-for="city in cities" :label="city.name"
                                     :value="city.id" :key="city.id">
@@ -63,7 +63,7 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item prop="area_district_id" label="区/县">
-                            <el-select v-model="addDeliveryAddressForm.area_district_id"
+                            <el-select v-model.number="addDeliveryAddressForm.area_district_id"
                                 @change="districtChange" placeholder="区/县" size="small" clearable filterable>
                                 <el-option v-for="district in districts" :label="district.name"
                                     :value="district.id" :key="district.id">
@@ -156,18 +156,18 @@ export default {
 
                 ],
                 zip_code:[
-                    { required: true,message:'请输入邮编号', type: 'number', trigger:'blur'},
+                    { required: true,message:'请输入邮编且须数字', type: 'number', trigger:'blur'},
                     {min:1, max: 99999999, message: '长度不能超过7个字符', type: 'number',trigger: 'blur'  }
 
                 ],
                 area_province_id:[
-                    { required: true, message:'请选择省份', trigger:'blur'},
+                    { required: true, message:'请选择省份',type:'number', trigger:'blur'},
                 ],
                 area_city_id:[
-                    { required: true, message:'请选择城市', trigger:'blur'},
+                    { required: true, message:'请选择城市', type: 'number', trigger:'blur'},
                 ],
                 area_district_id:[
-                    { required: true, message:'请选择区/县', trigger:'blur'},
+                    { required: true, message:'请选择区/县', type: 'number', trigger:'blur'},
                 ],
 
             },
@@ -194,22 +194,6 @@ export default {
         },
         getAjaxProxy(){
             return  this.ajaxProxy;
-        },
-        formSubmit(name){
-            let model = this[name];
-            if (this.$refs[name].rules) {
-                this.$refs[name].validate((valid)=>{
-                    if (valid) {
-                        this.realSubmit(model, name);
-                    } else {
-                        console.log('error submit!!', name);
-                        this.$emit('valid-error', name);
-                        return false;
-                    }
-                })
-            } else {
-                this.realSubmit(model, name);
-            }
         },
         getAjaxPromise(model){
             if(this.formstate == FORMSTATE_EDIT){

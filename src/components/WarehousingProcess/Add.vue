@@ -2,14 +2,20 @@
     <div>
         <MyDialog title="添加申请" :name="name" :width="width" :height="height" @before-open="onOpen">
             <br>
-            <el-steps :space="300" :active="active" process-status="finish" finish-status="success" center align-center>
-                <el-step title="添加详细信息"></el-step>
+            <el-steps :space="400" :active="active" process-status="finish" finish-status="success" center align-center>
+                <el-step title="采购明细"></el-step>
                 <el-step title="添加商品"></el-step>
-                <el-step title="确认订单"></el-step>
+                <!--<el-step title="确认订单"></el-step>-->
             </el-steps>
             <el-form ref="addOrderForm" :model="addOrderForm" :label-width="labelWidth" :label-position="labelPosition">
                 <div v-show="active==0">
                     <el-row>
+                        <el-col :span="12">
+                            <el-form-item label="采购单号" prop="purchase_number" >
+                                <el-input v-model="addOrderForm.purchase_number" class="name-input" disabled placeholder="系统自动生成"  >
+                                </el-input>
+                            </el-form-item>
+                        </el-col>
                         <el-col :span="12">
                             <el-form-item label="配送中心" prop="danwei" >
                                 <el-select v-model="addOrderForm.danwei" placeholder="请选择配送中心"  @change="userChange">
@@ -18,13 +24,22 @@
                                 </el-select>
                             </el-form-item>
                         </el-col>
+                    </el-row>
+                    <el-row>
                         <el-col :span="12">
                             <el-form-item label="发货单位" prop="contact_name">
                                 <el-input class="name-input" v-model="addOrderForm.contact_name" placeholder="请填写发货单位"></el-input>
                             </el-form-item>
                         </el-col>
+                        <el-col :span="12">
+                            <el-form-item label="采购状态" prop="contact_tel" >
+                                <el-select v-model="addOrderForm.contact_tel" placeholder="请选择">
+                                    <el-option label="申请" value="1"></el-option>
+                                    <el-option label="审核通过" value="2"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
                     </el-row>
-
                     <el-row>
                         <el-col :span="12">
                             <el-form-item prop="deal_id" label="采购人">
@@ -45,17 +60,7 @@
 
                     </el-row>
 
-                    <el-row>
 
-                        <el-col :span="12">
-                            <el-form-item label="采购状态" prop="contact_tel" >
-                                <el-select v-model="addOrderForm.contact_tel" placeholder="请选择">
-                                    <el-option label="申请" value="1"></el-option>
-                                    <el-option label="审核通过" value="2"></el-option>
-                                </el-select>
-                            </el-form-item>
-                        </el-col>
-                    </el-row>
                     <!--<el-row>-->
                     <!--<el-col :span="12">-->
                     <!--<el-form-item prop="address_id" label="收货地址" >-->
@@ -81,10 +86,10 @@
                             style="width: 100%">
                         <el-table-column label="序号" type="index" width="80 px"></el-table-column>
                         <el-table-column prop="goods_name" label="商品名称"></el-table-column>
-                        <el-table-column prop="price" label="商品单价"></el-table-column>
-                        <el-table-column prop="goods_number" label="商品数量">
-                        </el-table-column>
-                        <el-table-column prop="moneyNotes" label="小 记"></el-table-column>
+                        <el-table-column prop="price" label="采购单价"></el-table-column>
+                        <el-table-column prop="goods_number" label="采购数量"></el-table-column>
+                        <el-table-column prop="moneyNotes" label="采购单位"></el-table-column>
+                        <el-table-column prop="moneyNotes" label="总金额"></el-table-column>
                         <el-table-column prop="remark" label="备注"></el-table-column>
                         <el-table-column  label="操作" align="center">
                             <template slot-scope="scope">
@@ -101,25 +106,45 @@
                                         :options="CategoryList"
                                         @change="categoryChange"
                                 ></el-cascader>
+                                <!--<el-input size="small" class="name-input"  v-model="addOrderForm.dev" ></el-input>-->
+
                             </el-form-item>
                         </el-col>
                         <el-col :span="12">
                             <el-form-item prop="goods_id" label="商品名称">
+                                <!--<el-select v-model="addOrderForm.goods_id" @change="getGoodsInfo">-->
+                                    <!--<el-option v-for="(value, item) in data2" :value="item" :key="item" :label="value.goods_name+'-'+value.sku_name+'-'+value.price">-->
+                                        <!--<span>{{value.goods_name}}{{ (value.sku_name && value.sku_name.length > 0) ? '-'+value.sku_name: ''  }}-{{value.price}}</span>-->
+                                        <!--&lt;!&ndash; <span style="float: right; color: #8492a6; font-size: 13px">{{value}}</span> &ndash;&gt;-->
+                                    <!--</el-option>-->
+                                <!--</el-select>-->
+                                    <el-input size="small" class="name-input"  v-model="addOrderForm.goods_id" ></el-input>
+
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                            <el-form-item prop="goods_id" label="采购单位">
                                 <el-select v-model="addOrderForm.goods_id" @change="getGoodsInfo">
-                                    <el-option v-for="(value, item) in data2" :value="item" :key="item" :label="value.goods_name+'-'+value.sku_name+'-'+value.price">
-                                        <span>{{value.goods_name}}{{ (value.sku_name && value.sku_name.length > 0) ? '-'+value.sku_name: ''  }}-{{value.price}}</span>
-                                        <!-- <span style="float: right; color: #8492a6; font-size: 13px">{{value}}</span> -->
-                                    </el-option>
+                                    <el-option value="1" laber="瓶">瓶</el-option>
+                                    <el-option value="2" laber="只">只</el-option>
+                                    <el-option value="3" laber="片">片</el-option>
                                 </el-select>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                            <el-form-item prop="goods_id" label="采购单价">
+                                <el-input size="small" class="name-input" v-model="addOrderForm.goods_id" >
+                                </el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="12">
                             <el-form-item prop="goods_number" label="商品数量">
                                 <el-input-number size="small" :min="1" :max="gdsInpurNum" v-model="addOrderForm.goods_number" >
                                 </el-input-number>
-                                <span style="color:red;">当前库存：{{alertNum}}</span>
                             </el-form-item>
                         </el-col>
+
+
                         <el-col :span="12">
                             <el-form-item prop="remark" label="备注">
                                 <el-input type="textarea" class="name-input"  v-model="addOrderForm.remark"  placeholder="备注" ></el-input>
@@ -129,39 +154,47 @@
                     <div style="float: left;margin-left: 50%;">
                         <el-button @click="addOrder" type="primary" class="right">添 加</el-button>
                     </div>
-                </div>
-                <br>
-
-                <br>
-                <div v-show="active==2">
-                    <el-table
-                            border
-                            :data="orderData"
-                            style="width: 100%">
-                        <el-table-column label="序号" type="index" width="80 px"></el-table-column>
-                        <el-table-column prop="goods_name" label="商品名称"></el-table-column>
-                        <el-table-column prop="price" label="商品单价"></el-table-column>
-                        <el-table-column prop="goods_number" label="商品数量"></el-table-column>
-                        <el-table-column prop="moneyNotes" label="小 记"></el-table-column>
-                        <el-table-column prop="remark" label="备注"></el-table-column>
-                    </el-table>
                     <br>
-                    <h3> <span>商品总金额:{{ totalMoney }}</span></h3>
-                    <!--<h3> <span>当前保证金:{{ depositMoney }}</span></h3>-->
                     <br>
                     <div slot="dialog-foot" class="right">
-                        <el-button @click="handleClose">取 消</el-button>
-                        <submit-button
-                                @click="handleSubmit"
-                                :observer="dialogThis">
-                            保 存
-                        </submit-button>
+                    <el-button @click="handleClose">取 消</el-button>
+                    <submit-button
+                    @click="handleSubmit"
+                    :observer="dialogThis">
+                    保 存
+                    </submit-button>
                     </div>
                 </div>
+                <!--<div v-show="active==2">-->
+                    <!--<el-table-->
+                            <!--border-->
+                            <!--:data="orderData"-->
+                            <!--style="width: 100%">-->
+                        <!--<el-table-column label="序号" type="index" width="80 px"></el-table-column>-->
+                        <!--<el-table-column prop="goods_name" label="商品名称"></el-table-column>-->
+                        <!--<el-table-column prop="price" label="商品单价"></el-table-column>-->
+                        <!--<el-table-column prop="goods_number" label="商品数量"></el-table-column>-->
+                        <!--<el-table-column prop="moneyNotes" label="小 记"></el-table-column>-->
+                        <!--<el-table-column prop="remark" label="备注"></el-table-column>-->
+                    <!--</el-table>-->
+                    <!--<br>-->
+                    <!--<h3> <span>商品总金额:{{ totalMoney }}</span></h3>-->
+                    <!--&lt;!&ndash;<h3> <span>当前保证金:{{ depositMoney }}</span></h3>&ndash;&gt;-->
+                    <!--<br>-->
+                    <!--<div slot="dialog-foot" class="right">-->
+                        <!--<el-button @click="handleClose">取 消</el-button>-->
+                        <!--<submit-button-->
+                                <!--@click="handleSubmit"-->
+                                <!--:observer="dialogThis">-->
+                            <!--保 存-->
+                        <!--</submit-button>-->
+                    <!--</div>-->
+                <!--</div>-->
+
             </el-form>
             <br>
             <el-button  style="margin-top: 12px;" v-show="active>0" @click="last">上一步</el-button>
-            <el-button  style="margin-top: 12px;" v-show="active<2" @click="next">下一步</el-button>
+            <el-button  style="margin-top: 12px;" v-show="active<1" @click="next">下一步</el-button>
         </MyDialog>
     </div>
 </template>
@@ -185,7 +218,7 @@ export default {
         return {
             dialogThis:this,
             labelPosition:"right",
-            labelWidth:'80px',
+            labelWidth:'120px',
             totalMoney:0,
             active:0,
             cus_id:'',
@@ -219,6 +252,7 @@ export default {
                 group_id:'',
                 department_id:'',
                 danwei:'',
+                purchase_number:'',
                 contact_name:'',
                 contact_tel:'',
 

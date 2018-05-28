@@ -139,7 +139,8 @@
                     contact_name:'',
                     contact_tel:'',
                 },
-                reFundCheckShow:false
+                reFundCheckShow:false,
+                row_model:''
             }
         },
         methods:{

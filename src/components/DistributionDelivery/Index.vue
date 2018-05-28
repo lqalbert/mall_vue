@@ -51,9 +51,13 @@
                 </el-form-item> -->
                 <el-form-item prop="status">
                     <el-select v-model="searchForm.status" size="small" placeholder="发货状态">
-                        <el-option label="待发" value="0"></el-option>
-                        <el-option label="已发" value="1"></el-option>
-                        <el-option label="废单" value="2"></el-option>
+                        <el-option label="未审核" value="0"></el-option>
+                        <el-option label="已审核" value="1"></el-option>
+                        <el-option label="审核未通过" value="2"></el-option>
+                        <el-option label="已拦截" value="2"></el-option>
+                        <el-option label="已发货" value="2"></el-option>
+                        <el-option label="已打印" value="2"></el-option>
+                        <el-option label="已验货" value="2"></el-option>
                     </el-select>
                 </el-form-item>
                 <!-- <el-form-item prop="assign_type">
@@ -87,23 +91,7 @@
                     <el-table-column prop="assign_sn" label="发货单号" align="center" width="200">
                     </el-table-column>
 
-                    <el-table-column prop="status" label="发货状态" align="center" width="200">
-                        <template slot-scope="scope">
-                            <!-- <span v-if="scope.row.status==0">待发</span>
-                            <span v-if="scope.row.status==1">已发</span>
-                            <span v-if="scope.row.status==2">废单</span> 
-                                已导入
-                                已审核
-                                半打印
-                                已发货
-                                已拦截
-                                半打印清单
-                                半打印快递单
-                                已打印已验货
-                                已发货
-                        -->
-                        </template>
-                    </el-table-column>
+                    <el-table-column prop="status_text" label="发货状态" align="center" width="200"></el-table-column>
 
                     <el-table-column prop="set_express" label="指定快递" align="center" width="200">
                         <template slot-scope="scope">
@@ -112,23 +100,23 @@
                         </template>
                     </el-table-column>
 
-                    <el-table-column label="省份"></el-table-column>
-                    <el-table-column label="城市"></el-table-column>
-                    <el-table-column label="区县"></el-table-column>
-                    <el-table-column label="地址"></el-table-column>
-                    <el-table-column label="收件人"></el-table-column>
+                    <el-table-column prop="address.area_province_name" label="省份"></el-table-column>
+                    <el-table-column prop="address.area_city_name" label="城市"></el-table-column>
+                    <el-table-column prop="address.area_district_name" label="区县"></el-table-column>
+                    <el-table-column prop="address.address" label="地址"></el-table-column>
+                    <el-table-column prop="address.name" label="收件人"></el-table-column>
 
 
-                    <el-table-column prop="sale_time" label="销售时间" align="center" width="200">
+                    <el-table-column prop="order.created_at" label="销售时间" align="center" width="200">
                     </el-table-column>
 
-                    <el-table-column prop="created_at" label="导入时间"></el-table-column>
+                    <el-table-column prop="created_at" label="导入时间" align="center" width="200"></el-table-column>
 
                     <el-table-column prop="express_sn" label="快递单号"  width="200"></el-table-column>
 
                     <el-table-column prop="express_name" label="快递公司" width="200"></el-table-column>
 
-                    <el-table-column prop="corrugated_case" label="包装箱形" ></el-table-column>
+                    <el-table-column prop="corrugated_case" label="包装箱形" width="180"></el-table-column>
 
                     <el-table-column prop="send_time" label="发货时间" align="center" width="180"></el-table-column>
 

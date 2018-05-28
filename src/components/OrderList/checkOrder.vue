@@ -56,7 +56,7 @@
                 
                 c_status:[
                     {id:'1', status:'通过'},
-                    {id:'6', status:'未通过'}
+                    {id:'8', status:'未通过'}
                 ],
 
             }

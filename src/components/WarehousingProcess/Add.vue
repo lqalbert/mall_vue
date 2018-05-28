@@ -46,7 +46,6 @@
                     </el-row>
 
                     <el-row>
-
                         <el-col :span="12">
                             <el-form-item label="采购状态" prop="contact_tel" >
                                 <el-select v-model="addOrderForm.contact_tel" placeholder="请选择">

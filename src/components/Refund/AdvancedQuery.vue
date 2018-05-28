@@ -1,21 +1,21 @@
 <template>
     <div >
-        <MyDialog title="添加配送中心" :name="name" :width="width" :height="height" @before-open="onOpen">
-            <el-form :model="editForm"  :label-width="labelWidth" :rules="rules" ref="editForm" :label-position="labelPosition">
+        <MyDialog title="添加赔偿" :name="name" :width="width" :height="height" >
+            <el-form :model="addForm"  :label-width="labelWidth" :rules="rules" ref="addForm" :label-position="labelPosition">
                 <el-row>
                     <el-col :span="12">
-                        <el-form-item prop="entrepot_id"  label="配送中心">
-                            <el-select v-model="editForm.entrepot_id" placeholder="请选择配送中心" @change="entrepotChange">
-                                <el-option v-for="v in distributors" :label="v.name"
-                                           :value="v.id" :key="v.id">
-                                </el-option>
-                            </el-select>
-                        </el-form-item>
+                            <el-form-item prop="entrepot_id"  label="配送中心">
+                                <el-select v-model="addForm.entrepot_id" placeholder="请选择配送中心" @change="entrepotChange">
+                                    <el-option v-for="v in distributors" :label="v.name"
+                                               :value="v.id" :key="v.id">
+                                    </el-option>
+                                </el-select>
+                            </el-form-item>
                     </el-col>
 
                     <el-col :span="12">
                         <el-form-item prop="express_id" label="物流公司">
-                            <el-select v-model="editForm.express_id"  placeholder="请选择物流公司" @change="expressChange">
+                            <el-select v-model="addForm.express_id"  placeholder="请选择物流公司" @change="expressChange">
                                 <el-option v-for="v in companys" :value="v.id" :key="v.id" :label="v.company_name">
                                 </el-option>
                             </el-select>
@@ -26,7 +26,7 @@
                     <el-col :span="12">
                         <el-form-item label="发货日期" prop="deliver_time" >
                             <el-date-picker
-                                    v-model="editForm.deliver_time"
+                                    v-model="addForm.deliver_time"
                                     type="datetime"
                                     @change="timeChange"
                                     placeholder="选择发货日期">
@@ -35,31 +35,31 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="定单号" prop="order_number" >
-                            <el-input class="name-input" v-model="editForm.order_number"  auto-complete="off"  placeholder="请填写定单号"></el-input>
+                            <el-input class="name-input" v-model="addForm.order_number"  auto-complete="off"  placeholder="请填写定单号"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="快递单号" prop="express_number" >
-                            <el-input class="name-input" v-model="editForm.express_number"  auto-complete="off"  placeholder="请填写快递单号"></el-input>
+                            <el-input class="name-input" v-model="addForm.express_number"  auto-complete="off"  placeholder="请填写快递单号"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="赔偿类型" prop="compensation_type" >
-                            <el-input class="name-input" v-model="editForm.compensation_type"  auto-complete="off"  placeholder="请填写赔偿类型"></el-input>
+                            <el-input class="name-input" v-model="addForm.compensation_type"  auto-complete="off"  placeholder="请填写赔偿类型"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="赔偿金额" prop="compensation_money" >
-                            <el-input class="name-input" v-model="editForm.compensation_money"  auto-complete="off"  placeholder="请填写赔偿金额"></el-input>
+                            <el-input class="name-input" v-model="addForm.compensation_money"  auto-complete="off"  placeholder="请填写赔偿金额"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="处理进度" prop="processing_progress" >
-                            <el-select v-model="editForm.processing_progress"  placeholder="请选择处理进度" @change="processingProgressChange">
+                            <el-select v-model="addForm.processing_progress"  placeholder="请选择处理进度" @change="processingProgressChange">
                                 <el-option v-for="v in processingProgress" :value="v.id" :key="v.id" :label="v.name">
                                 </el-option>
                             </el-select>
@@ -70,7 +70,7 @@
                 <el-row>
                     <el-col :span="24">
                         <el-form-item label="备注"  prop="remark">
-                            <el-input type="textarea"  auto-complete="off" v-model="editForm.remark" placeholder="请填写备注(200字以内)"></el-input>
+                            <el-input type="textarea"  auto-complete="off" v-model="addForm.remark" placeholder="请填写备注(200字以内)"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -79,7 +79,7 @@
                 <el-button @click="handleClose">取 消</el-button>
                 <submit-button
                     :observer="dialogThis"
-                    @click="formSubmit('editForm')" >
+                    @click="beforeSubmit" >
                     保 存
                 </submit-button>
             </div>
@@ -96,7 +96,7 @@
     import { PHONE_REG } from "@/config/index";
     // import Dialog from '../common/Dialog';
     export default {
-        name: 'editDialog',
+        name: 'addDialog',
         mixins:[DialogForm],
         props:{
             distributors:{
@@ -118,8 +118,7 @@
                 labelPosition:"right",
                 labelWidth:'80px',
                 computedusers:[],
-                editForm:{
-                    id:'',
+                addForm:{
                     entrepot_id: "",
                     entrepot_name: "",
                     express_id: '',
@@ -145,33 +144,38 @@
                         { type:'string', pattern:/^[a-zA-Z]+$/, required: true, message:'请输入英文简称', trigger: 'blur', },
                         {  min: 1, max: 2, message: '长度不能超过2个字符', trigger: 'blur'  }
                     ],
-                },
-                model:''
+                }
             }
         },
         methods:{
             getAjaxPromise(model){
-                return this.ajaxProxy.update(model.id, model);
+                return this.ajaxProxy.create(model);
             },
-            onOpen(param){
-                this.model = param.params.model;
+            loadUsers(data){
+                this.computedusers = data.items;
+            },
+            timeChange(v){
+                this.addForm.deliver_time = v;
+            },
+
+            onDepartChange(v){
+                this.employeeSelect.setParam({department_id:v, role:'group-captain', group_candidate:1})
+                this.employeeSelect.load();
+                this.addForm.manager_id = "";
             },
             expressChange(v){
                 let i =''
                 for (i in this.companys){
                     if(this.companys[i]['id'] == v){
-                        this.editForm.express_name =this.companys[i]['company_name']
+                        this.addForm.express_name =this.companys[i]['company_name']
                     }
                 }
-            },
-            timeChange(v){
-                this.addForm.deliver_time = v;
             },
             entrepotChange(v){
                 let i =''
                 for (i in this.distributors){
                     if(this.distributors[i]['id'] == v){
-                        this.editForm.entrepot_name =this.distributors[i]['name']
+                        this.addForm.entrepot_name =this.distributors[i]['name']
                     }
                 }
             },
@@ -179,23 +183,17 @@
                 let i =''
                 for (i in this.processingProgress){
                     if(this.processingProgress[i]['id'] == v){
-                        this.editForm.processing_progress =this.processingProgress[i]['name']
+                        this.addForm.processing_progress =this.processingProgress[i]['name']
                     }
                 }
             },
-        },
-        watch:{
-            model:function(val, oldVal){
-                for (const key in this.editForm) {
-                    if (this.editForm.hasOwnProperty(key)) {
-                        this.editForm[key] = val[key]
-                    }
-                }
-
+            beforeSubmit(){
+                console.log(this.addForm);
+                 this.formSubmit('addForm');
             }
         },
         created(){
-
+            this.employeeSelect = new EmployeeSelectProxy({}, this.loadUsers, this);
 
         }
         

@@ -121,6 +121,44 @@
                         <el-table-column prop="zip_code" label="收货邮编"></el-table-column>
                         <el-table-column prop="deal_name" label="成交员工"></el-table-column>
                     </el-table>
+                    <br>
+                        <div>
+                            <el-row>
+                                <el-col :span="12">
+                                    <el-form-item prop="remark" label="指定快递">
+                                        <el-radio-group v-model="addOrderForm.express_delivery">
+                                            <el-radio label="1">是</el-radio>
+                                            <el-radio label="0">否</el-radio>
+                                        </el-radio-group>
+                                    </el-form-item>
+                                </el-col>
+                                <el-col :span="12">
+                                    <el-form-item prop="express_id" label="快递公司" >
+                                        <el-select v-model="addOrderForm.express_id"  placeholder="请选择快递公司" size="small" @change="expressChange">
+                                            <el-option v-for="v in companys" :value="v.id" :key="v.id" :label="v.company_name">
+                                            </el-option>
+                                        </el-select>
+                                    </el-form-item>
+                                </el-col>
+                            </el-row>
+                            <el-row>
+                                <el-col :span="24">
+                                    <el-form-item prop="order_remark" label="订单收单备注">
+                                    <el-input v-model="addOrderForm.order_remark" type="textarea" placeholder="订单收单备注"></el-input>
+                                    </el-form-item>
+                                </el-col>
+                            </el-row>
+                            <el-row>
+                                <el-col :span="24">
+                                    <el-form-item prop="express_remark" label="配送发货备注">
+                                        <el-input v-model="addOrderForm.express_remark" type="textarea" placeholder="配送发货备注"></el-input>
+                                    </el-form-item>
+                                </el-col>
+                            </el-row>
+
+                    </div>
+
+
                     <!--<h3> <span>当前保证金:{{ depositMoney }}</span></h3>-->
                     <br>
                     <div slot="dialog-foot" class="right">
@@ -146,6 +184,7 @@
     import SelectProxy from  '../../packages/SelectProxy';
     import GoodsSelectProxy from '../../packages/GoodsSelectProxy';
     import EntrepotProductAjaxProxy from '@/ajaxProxy/EntrepotProduct';
+    import ExpressCompanySelectProxy from '../../packages/ExpressCompanySelectProxy';
 
     import APP_CONST from '../../config';
     import { mapGetters, mapMutations } from 'vuex';
@@ -157,9 +196,10 @@
         },
         data(){
             return {
+                companys:[],
                 dialogThis:this,
                 labelPosition:"right",
-                labelWidth:'80px',
+                labelWidth:'120px',
                 totalMoney:0,
                 active:0,
                 cus_id:'',
@@ -192,7 +232,12 @@
                     cus_name:'',
                     group_id:'',
                     department_id:'',
-                    
+                    express_delivery:'',
+                    express_id:'',
+                    order_remark:'',
+                    express_remark:'',
+                    express_name:'',
+
                 },
                 orderData:[],
                 orderAddressData:[],
@@ -212,6 +257,14 @@
             ])
         },
         methods:{
+            expressChange(v){
+                let i ='';
+                for (i in this.companys){
+                    if(this.companys[i]['id'] == v){
+                        this.addOrderForm.express_name =this.companys[i]['company_name']
+                    }
+                }
+            },
             addOrder(){
                 // if(this.alertNum != 0 ){
                     //console.log(this.data2);
@@ -516,14 +569,19 @@
                 this.totalMoney=0;
                 this.active=0;
                 this.depositMoney = 0;
-            }
-
+            },
+            getExpressCompanySelect(data){
+                this.companys = data.items;
+            },
 
         },
         created(){
             // let userDataProxy = new DataProxy('/employees',this.pageSize,this.getUsersData, this);
             // userDataProxy.load();
 
+            //获取快递公司数据
+            let ExpressCompanySelect = new ExpressCompanySelectProxy({}, this.getExpressCompanySelect, this);
+            ExpressCompanySelect.load();
 
             this.goodsProxy = new GoodsSelectProxy({}, this.loadGoods, this);
 

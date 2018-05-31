@@ -24,10 +24,10 @@
                 </el-row> -->
                 <el-row>
                     <el-col :span="12">
-                        <el-form-item label="备注"　required>
+                        <el-form-item label="备注" required prop="repeat_mark">
                             <el-input
                                 type="textarea"
-                                :rows="2"
+                                :rows="2" v-model="repeatForm.repeat_mark"
                                 placeholder="请输入内容">
                             </el-input>
                         </el-form-item>
@@ -59,6 +59,7 @@
                 repeatForm:{
                     id:"",
                     is_repeat:"",
+                    repeat_mark:'',
                     
                 },
                 repeat_status:[
@@ -71,7 +72,7 @@
         methods:{
             
             onBeforeOpen(param){
-                
+                this.repeatForm.id = param.params.row.id;
             },
             
            

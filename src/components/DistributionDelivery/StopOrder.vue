@@ -5,10 +5,10 @@
                 <!-- 这是一个 toggle 类型的操作 点一下拦截　再点一下取消拦截 -->
                 <el-row>
                     <el-col :span="12">
-                        <el-form-item label="备注"　required　prop="stop_mark">
+                        <el-form-item label="备注" required　prop="stop_mark">
                             <el-input
                                 type="textarea"
-                                :rows="2"
+                                :rows="2" v-model="stopForm.stop_mark"
                                 placeholder="请输入内容">
                             </el-input>
                         </el-form-item>
@@ -39,6 +39,7 @@
                 labelWidth:'100px',
                 stopForm:{
                     id:"",
+                    is_stop:0,
                     stop_mark:"",
                     
                 },
@@ -48,7 +49,8 @@
         methods:{
             
             onBeforeOpen(param){
-                
+                this.stopForm.id = param.params.row.id;
+                this.stopForm.is_stop = param.params.row.is_stop;
             },
             
             

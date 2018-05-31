@@ -165,7 +165,12 @@
                     <el-table-column prop="sign_at" label="签收时间" align="center" width="200">
                     </el-table-column>
 
-                    <el-table-column prop="intercept" label="是否拦截" align="center" width="200"></el-table-column>
+                    <el-table-column prop="is_stop" label="是否拦截" align="center" width="200">
+                        <template slot-scope="scope">
+                            <div v-if="scope.is_stop == 0">否</div>
+                            <div v-else>是</div>
+                        </template>
+                    </el-table-column>
                     
 
                     <!-- <el-table-column prop="sale_name" label="销售人员" align="center" width="200">

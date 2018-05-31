@@ -1,9 +1,6 @@
 import RestfulProxy from './RestfulProxy';
 
-const URL = '/categorys';
+const URL = '/area';
 const proxy = new RestfulProxy(URL);
-proxy.getAll = function(){
-    return this.getAxios().get("/tree");
-}
 
 export default proxy;

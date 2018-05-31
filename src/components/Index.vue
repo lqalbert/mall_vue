@@ -250,6 +250,10 @@
                 else return temp;
             }
         },
+        created(){
+            this.$store.dispatch("initProvince");
+            this.$store.dispatch("initAllCates");
+        },
         mounted:function(){
             let vThis = this;
 

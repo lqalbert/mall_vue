@@ -31,6 +31,7 @@
                         <el-col :span="12">
                             <el-form-item label="商品分类" prop="dev">
                                 <el-cascader
+                                        size="small"
                                         v-model="addOrderForm.dev"
                                         :options="CategoryList"
                                         @change="categoryChange"
@@ -39,7 +40,7 @@
                         </el-col>
                         <el-col :span="12">
                             <el-form-item prop="goods_id" label="商品名称">
-                                <el-select v-model="addOrderForm.goods_id" @change="getGoodsInfo">
+                                <el-select v-model="addOrderForm.goods_id" size="small" @change="getGoodsInfo">
                                     <el-option v-for="(value, item) in data2" :value="item" :key="item" :label="value.goods_name+'-'+value.sku_name+'-'+value.price">
                                         <span>{{value.goods_name}}{{ (value.sku_name && value.sku_name.length > 0) ? '-'+value.sku_name: ''  }}-{{value.price}}</span>
                                         <!-- <span style="float: right; color: #8492a6; font-size: 13px">{{value}}</span> -->
@@ -56,7 +57,7 @@
                         </el-col>
                         <el-col :span="12">
                             <el-form-item prop="remark" label="备注">
-                                <el-input type="textarea" class="name-input"  v-model="addOrderForm.remark"  placeholder="备注" ></el-input>
+                                <el-input type="textarea" class="name-input" size="small" v-model="addOrderForm.remark"  placeholder="备注" ></el-input>
                             </el-form-item>
                         </el-col>
                     </el-row>
@@ -83,18 +84,10 @@
                                             <el-radio  :label="v.id" >{{v.fullAddress}}</el-radio>
                                         </template>
                                     </el-radio-group>
-
-                                <!--<el-select v-model="addressID" placeholder="请选择收货地址" @change="addressChange">-->
-                                    <!--<el-option v-for="v in address" :value="v.id" :key="v.id" :label="v.name" ></el-option>-->
-                                <!--</el-select>-->
                             </el-form-item>
                         </el-col>
-
-
                     </el-row>
-
                 </div>
-                <br>
                 <div v-show="active==2">
                     <el-table
                             border
@@ -126,7 +119,7 @@
                             <el-row>
                                 <el-col :span="12">
                                     <el-form-item prop="remark" label="指定快递">
-                                        <el-radio-group v-model="addOrderForm.express_delivery">
+                                        <el-radio-group v-model="addOrderForm.express_delivery" @change="setExpressChange">
                                             <el-radio label="1">是</el-radio>
                                             <el-radio label="0">否</el-radio>
                                         </el-radio-group>
@@ -134,7 +127,7 @@
                                 </el-col>
                                 <el-col :span="12">
                                     <el-form-item prop="express_id" label="快递公司" >
-                                        <el-select v-model="addOrderForm.express_id"  placeholder="请选择快递公司" size="small" @change="expressChange">
+                                        <el-select v-model="addOrderForm.express_id" :disabled="addOrderForm.express_delivery==0" placeholder="请选择快递公司" size="small" @change="expressChange">
                                             <el-option v-for="v in companys" :value="v.id" :key="v.id" :label="v.company_name">
                                             </el-option>
                                         </el-select>
@@ -143,8 +136,8 @@
                             </el-row>
                             <el-row>
                                 <el-col :span="24">
-                                    <el-form-item prop="order_remark" label="订单收单备注">
-                                    <el-input v-model="addOrderForm.order_remark" type="textarea" placeholder="订单收单备注"></el-input>
+                                    <el-form-item prop="order_remark" label="订单备注">
+                                    <el-input v-model="addOrderForm.order_remark" type="textarea" placeholder="订单备注"></el-input>
                                     </el-form-item>
                                 </el-col>
                             </el-row>
@@ -157,23 +150,25 @@
                             </el-row>
 
                     </div>
-
-
-                    <!--<h3> <span>当前保证金:{{ depositMoney }}</span></h3>-->
-                    <br>
-                    <div slot="dialog-foot" class="right">
+                </div>
+            </el-form>
+            <div slot="dialog-foot" >
+                <el-row type="flex" justify="space-between">
+                    <el-col :span="6" class="text-left">
+                        <el-button   v-if="active>0" @click="last">上一步</el-button>
+                        <el-button   v-show="active<2" @click="next">下一步</el-button>
+                    </el-col>
+                    
+                    <el-col :span="6" v-show="active==2">
                         <el-button @click="handleClose">取 消</el-button>
                         <submit-button
                                 @click="handleSubmit"
                                 :observer="dialogThis">
                             保 存
                         </submit-button>
-                    </div>
-                </div>
-            </el-form>
-            <br>
-            <el-button  style="margin-top: 12px;" v-show="active>0" @click="last">上一步</el-button>
-            <el-button  style="margin-top: 12px;" v-show="active<2" @click="next">下一步</el-button>
+                    </el-col>
+                </el-row>
+            </div>
         </MyDialog>
     </div>
 </template>
@@ -232,7 +227,7 @@
                     cus_name:'',
                     group_id:'',
                     department_id:'',
-                    express_delivery:'',
+                    express_delivery:'0',
                     express_id:'',
                     order_remark:'',
                     express_remark:'',
@@ -573,6 +568,12 @@
             getExpressCompanySelect(data){
                 this.companys = data.items;
             },
+            setExpressChange(v){
+                if (v == 0) {
+                    this.addOrderForm.express_id = "";
+                    this.addOrderForm.express_name = "";
+                }
+            }
 
         },
         created(){

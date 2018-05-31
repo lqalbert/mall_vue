@@ -95,7 +95,7 @@ import VolumeRatio from './VolumeRatio';
 export default {
     name: 'CartonManagement',
     pageTitle:"纸箱管理",
-    mixins:[PageMix,SearchTool,DataTable,config,CartonManagementAjaxProxy],
+    mixins:[PageMix,SearchTool,DataTable,config],
     components:{
         Add,
         Edit,

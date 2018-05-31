@@ -1,6 +1,7 @@
 <template>
     <div>
         <MyDialog title="确认发货" :name="name" :width="width" :height="height">
+            要改
             <el-form :model="addForm" ref="addForm" :label-width="labelWidth"  :label-position="labelPosition">
                 <el-table
                         border

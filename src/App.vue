@@ -32,6 +32,7 @@
         window.onclose  = function(){
           vmThis.logout();
         }
+        
       }
   }
 </script>
@@ -74,6 +75,12 @@
 
   .text-align-center{
     text-align: center;
+  }
+  .text-left {
+    text-align: left;
+  }
+  .inline-block{
+    display: inline-block;
   }
 
   .el-table__body tr.current-row>td {

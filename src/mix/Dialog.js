@@ -21,6 +21,12 @@ const config = {
         }
     },
 
+    beforeDestroy(){
+        if (this.dialogThis) {
+            this.dialogThis = null;
+        }
+    }
+
 
     
 };

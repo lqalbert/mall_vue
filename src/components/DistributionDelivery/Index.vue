@@ -84,7 +84,7 @@
         <el-row>
             <el-col>
                 <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" :page-size="20" :bubble="bubble" @dbclick="dbClick">
-                <!-- <el-table :data="mainData" border highlight-current-row style="width: 100%"> -->
+                    <!-- <el-table-column type="selection" width="55"></el-table-column> -->
                     <el-table-column label="序号" align="center"  type="index" width="65">
                     </el-table-column>
 
@@ -95,8 +95,8 @@
 
                     <el-table-column prop="set_express" label="指定快递" align="center" width="200">
                         <template slot-scope="scope">
-                            <span v-if="scope.row.set_express==2">否</span>
                             <span v-if="scope.row.set_express==1">是</span>
+                            <span v-else >否</span>
                         </template>
                     </el-table-column>
 
@@ -184,7 +184,8 @@
                         <el-button type="primary" size="small" @click="setDropOrder">废 单</el-button>     
                         <el-button type="primary" size="small" @click="handleReceive">签 收</el-button>     
                         <el-button type="primary" size="small" @click="addContact">沟 通</el-button>      -->
-                        <el-button type="primary" size="small">审核</el-button>
+
+                        <el-button type="primary" size="small" @click="openCheck">审核</el-button>
                         <el-button type="primary" size="small">返单</el-button>
                         <el-button type="primary" size="small">拦截/取消</el-button>
                         <el-button type="primary" size="small" @click="editAddress">修改地址</el-button>     
@@ -203,7 +204,7 @@
         <SubDetail :row="model">
         </SubDetail>
         <!-- 写弹窗组件 -->
-        <add-delivery name='add-delivery'
+        <!-- <add-delivery name='add-delivery'
             :ajax-proxy="ajaxProxy"
             @submit-success="handleReload">
         </add-delivery>
@@ -226,17 +227,18 @@
         <add-contact name='add-contact'
             :ajax-proxy="ajaxProxy"
              @submit-success="handleReload">
-        </add-contact>
+        </add-contact> -->
 
         <edit-address name='edit-address'
             :ajax-proxy="ajaxProxy"
             @submit-success="handleReload">
         </edit-address>
 
-        <Express name="express"></Express>
-        <Assign name="assign"></Assign>
+        <!-- <Express name="express"></Express>
+        <Assign name="assign"></Assign> -->
 
         <Advance name="advance"></Advance>
+        <Check name="check" :ajax-proxy="ajaxProxy" @submit-success="handleReload"></Check>
     </div>
 </template>
 <script>
@@ -251,10 +253,11 @@ import DataTable from '@/mix/DataTable';
 // import AddContact from './AddContact';
 import EditAddress from './EditAddress';
 import SubDetail from './SubDetail';
-import Express from './Express';
-import Assign from './Assign';
+// import Express from './Express';
+// import Assign from './Assign';
 
 import Advance from './Advance';
+import Check from './Check';
 
 
 import GoodsSelectProxy from '../../packages/GoodsSelectProxy';
@@ -275,9 +278,10 @@ export default {
         // AddContact,
         EditAddress,
         SubDetail,
-        Express,
-        Assign,
-        Advance
+        // Express,
+        // Assign,
+        Advance,
+        Check
     },
     data(){
         return {
@@ -316,7 +320,6 @@ export default {
     methods:{
         dbClick(row){
             this.model=row;
-
         },
         searchToolReset(name){
             this.$refs[name].resetFields();
@@ -377,7 +380,7 @@ export default {
         // },
         editAddress(){
             if (this.openDialogCheck()) {
-                this.$modal.show('edit-address',this.currentRow);
+                this.$modal.show('edit-address',this.currentRow.address);
             }
         },  
         handleClick(tab, event){
@@ -409,46 +412,70 @@ export default {
                 return true;
             }
         },
+        openCheck(){
+            if (this.openDialogCheck()) {
+                if (this.currentRow.check_status ==0) {
+                    this.$modal.show('check', { row : this.currentRow });
+                } else {
+                    this.$message.error("已审核过");
+                }
+            }
+        },
         showExpress(){
             if (this.openDialogCheck()) {
-                if (this.currentRow.status != 1) {
-                    this.$message.error('该快递单未发货,不能打印');
+                if (this.currentRow.express_sn == "") {
+                    this.$message.error('还未分配快递单号,不能打印');
                     return ;
                 }
-                let param = {
-                    express_sn: this.currentRow.express_sn,
-                    express_name: this.currentRow.express_name,
-                    express_id: this.currentRow.express_id,
-                    user_name: this.currentRow.user_name,
-                    express_at: this.currentRow.send_time,
-                    deliver_name: this.currentRow.deliver_name,
-                    deliver_phone: this.currentRow.deliver_phone,
-                    deliver_address: this.currentRow.deliver_address,
-                    goods: this.currentRow.goods_name + " " + this.currentRow.goods_num+" " + this.currentRow.unit_type
+                let pr = true;
+                if (this.currentRow.express_print_status == 1) {
+                    pr = false;
+                    this.$confirm('已打印过快递单, 是否继续?', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                        }).then(() => {
+                            pr = true;
+                        }).catch(() => {
+                                
+                        });
                 }
+                // todo 
+                // this.$modal.show('express', param);
+                //与打印机通讯 要面单什么的
+                if (pr) {
+                    //更新记录的打印时间　打印状态
+                    AssignAjaxProxy.update(this.currentRow.id, {express_print_status:1, express_print_at: Date.now() });
 
-                this.$modal.show('express', param);
+
+                }
             }
         },
         showAssign(){
             if (this.openDialogCheck()) {
-                if (this.currentRow.status != 1) {
-                    this.$message.error('该快递单未发货,不能打印');
-                    return ;
+                
+                let pr = true;
+                if (this.currentRow.assign_print_status == 1) {
+                    pr = false;
+                    this.$confirm('已打印过清单单, 是否继续?', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                        }).then(() => {
+                            pr = true;
+                        }).catch(() => {
+                                
+                        });
                 }
-                let param = {
-                        assign_sn: this.currentRow.assign_sn,
-                        entrepot_id: this.currentRow.entrepot_id,
-                        user_name: this.currentRow.user_name,
-                        assign_at: this.currentRow.send_time,
-                        deliver_name: this.currentRow.deliver_name,
-                        deliver_phone: this.currentRow.deliver_phone,
-                        deliver_address: this.currentRow.deliver_address,
-                        goods: this.currentRow.goods_name + " " + this.currentRow.goods_num+" " + this.currentRow.unit_type
-                    }
+                // todo 
+                // this.$modal.show('express', param);
+                //与打印机通讯 要面单什么的
+                if (pr) {
+                    //更新记录的打印时间　打印状态
+                    AssignAjaxProxy.update(this.currentRow.id, {assign_print_status:1, assign_print_at: Date.now() });
 
 
-                    this.$modal.show('assign', param);
+                }
             }
         }
         

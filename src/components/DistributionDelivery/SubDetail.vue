@@ -2,7 +2,7 @@
 	<el-row>
 		<el-tabs v-model="activeName" type="border-card">
 			<el-tab-pane label="发货明细" name="First">
-				<el-table :data="deliveryDetailsData" border style="width: 100%">
+				<el-table :data="deliveryDetailsData" v-loading="goodsLoading" border style="width: 100%">
 					<el-table-column prop="goods_name" label="商品名" align="center"></el-table-column>
 					<el-table-column prop="cate_type" label="大类型" align="center"></el-table-column>
 					<el-table-column prop="cate_kind" label="小类型" align="center"></el-table-column>
@@ -13,12 +13,7 @@
 							<div v-else>{{ scope.row.assign_fee }}</div>
 						</template>
 					</el-table-column>
-					<el-table-column prop="express_fee" label="快递费" align="center">
-						<template slot-scope="scope">
-							<div v-if="scope.row.express_fee == null">还未发货</div>
-							<div v-else>{{ scope.row.express_fee }}</div>
-						</template>
-					</el-table-column>
+					
 					<el-table-column prop="weight" label="重量" align="center">
 						<template slot-scope="scope">
 							<div v-if="scope.row.weight == null">还未发货</div>
@@ -27,15 +22,12 @@
 					</el-table-column>
 				</el-table>
 			</el-tab-pane>
-			<el-tab-pane label="订单明细" name="Second">
+			<el-tab-pane label="订单信息" name="Second">
 				<el-table :data="tableData2" border style="width: 100%">
-					<el-table-column prop="order_num" label="订单编号" align="center"></el-table-column>
+					<el-table-column prop="order_sn" label="订单编号" align="center"></el-table-column>
 					<el-table-column prop="cus_name" label="客户姓名" align="center"></el-table-column>
-					<el-table-column prop="buy_goods" label="购买商品" align="center"></el-table-column>
-					<el-table-column prop="buy_num" label="数量" align="center"></el-table-column>
-					<el-table-column prop="trade" label="成交时间" align="center"></el-table-column>
-					<el-table-column prop="dep_group_realname" label="销售人员" align="center"></el-table-column>
-					<el-table-column prop="sale_name" label="销售人员" align="center"></el-table-column>
+					<el-table-column prop="created_at" label="下单时间" align="center"></el-table-column>
+					<el-table-column prop="deal_name" label="销售人员" align="center"></el-table-column>
 				</el-table>
 			</el-tab-pane>
 			<el-tab-pane label="历史快递" name="Third">
@@ -49,9 +41,12 @@
 			</el-tab-pane>
 			<el-tab-pane label="收货地址" name="Fourth">
 				<el-table :data="deliveryAddressesData" border style="width: 100%">
-					<el-table-column prop="deliver_name" label="收件人姓名" align="center"></el-table-column>
-					<el-table-column prop="deliver_phone" label="收件人手机号" align="center"></el-table-column>
-					<el-table-column prop="deliver_address" label="收货详细地址" align="center"></el-table-column>
+					<el-table-column prop="name" label="收件人姓名" align="center"></el-table-column>
+					<el-table-column prop="phone" label="收件人手机号" align="center"></el-table-column>
+					<el-table-column prop="area_province_name" label="省份"></el-table-column>
+                    <el-table-column prop="area_city_name" label="城市"></el-table-column>
+                    <el-table-column prop="area_district_name" label="区县"></el-table-column>
+					<el-table-column prop="address" label="收货详细地址" align="center"></el-table-column>
 				</el-table>
 			</el-tab-pane>
 			<!-- <el-tab-pane label="沟通联系" name="Fifth">
@@ -81,14 +76,17 @@
 				<el-table :data="operationData" border style="width: 100%">
 					<el-table-column prop="op_time" label="操作时间" align="center"></el-table-column>
 					<el-table-column prop="user_name" label="操作人" align="center"></el-table-column>
-					<el-table-column prop="type_name" label="内容明细" align="center"></el-table-column>
+					<el-table-column prop="type_name" label="操作类型" align="center"></el-table-column>
+					<el-table-column prop="type_name" label="备注" align="center"></el-table-column>
 				</el-table>
 			</el-tab-pane>
 		</el-tabs>
 	</el-row>
 </template>
 <script>
-import DistributionDeliveryProxy from '@/packages/DistributionDeliveryProxy';
+// import DistributionDeliveryProxy from '@/packages/DistributionDeliveryProxy';
+import OrderGoodsAjaxProxy from "@/packages/OrderGoodsAjaxProxy";
+
 import CommunicateProxy from '@/packages/CommunicateProxy';
 export default {
 	name: 'SubDetail',
@@ -114,20 +112,20 @@ export default {
 			tabFourth:false,
 			tabFifth:false,
 			tabSixth:false,
+
+			goodsLoading:false,
 		}
 	},
 	methods:{
 		handleFirst(row){
-			let distributionDeliveryProxy = new DistributionDeliveryProxy(null, this.getDeliveryDetail, this);
-			distributionDeliveryProxy.setParam({
-				id:row.id,
-				fields:['id','goods_name','cate_type','cate_kind','goods_num','assign_fee','express_fee','weight'],
-				business:'deliveryDetail'
-			}).load()
+			this.goodsLoading = true;
+			this.OrderGoodsProxy.setParam({
+				order_id:row.id,
+			}).load();
 			this.tabFirst = true;
 		},
 		handleSecond(row){
-
+			this.tableData2 = [row.order];
 			this.tabSecond = true;
 		},
 		handleThird(row){
@@ -135,16 +133,16 @@ export default {
 			this.tabThird = true;
 		},
 		handleFourth(row){
-			let deliveryAddressProxy = new DistributionDeliveryProxy(null, this.getDeliveryAddress, this);
-			deliveryAddressProxy.setParam({
-				id:row.id,
-				fields:['id','deliver_name','deliver_phone','deliver_address'],
-				business:'deliveryAddress'
-			}).load()
+			// let deliveryAddressProxy = new DistributionDeliveryProxy(null, this.getDeliveryAddress, this);
+			// deliveryAddressProxy.setParam({
+			// 	id:row.id,
+			// 	fields:['id','deliver_name','deliver_phone','deliver_address'],
+			// 	business:'deliveryAddress'
+			// }).load()
+			this.deliveryAddressesData = [row.address];
 			this.tabFourth = true;
 		},
 		handleFifth(row){
-		    console.log(row)
 			let CommunicateDataProxy = new CommunicateProxy(null, this.getCommunication, this);
             CommunicateDataProxy.setParam({
                 assign_id:row.id,
@@ -160,7 +158,8 @@ export default {
 			this.tabSixth = true;
 		},
 		getDeliveryDetail(data){
-			this.deliveryDetailsData = data;
+			this.goodsLoading = false;
+			this.deliveryDetailsData = data.items;
 		},
 		getDeliveryAddress(data){
 			this.deliveryAddressesData = data;
@@ -231,7 +230,7 @@ export default {
 
 	},
 	created(){
-
+		this.OrderGoodsProxy = new OrderGoodsAjaxProxy({fields:["*"]},    this.getDeliveryDetail,this);
 	}
 }
 </script>

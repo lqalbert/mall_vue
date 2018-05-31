@@ -5,6 +5,9 @@ import app from './modules/app';
 import user from './modules/user';
 import strategy from './modules/strategy';
 import role from './modules/role';
+import goodsCates from './modules/goodsCates';
+import area from './modules/area';
+import carton from './modules/carton';
 
 Vue.use(Vuex);
 
@@ -22,7 +25,10 @@ const store = new Vuex.Store({
         app,
         user,
         strategy,
-        role
+        role,
+        goodsCates,
+        area,
+        carton
     },
     strict: process.env.NODE_ENV !== 'production'
 });

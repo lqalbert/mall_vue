@@ -21,6 +21,11 @@ const DataProxy = function( url,  callback ,scope ){
 
     this._scope = scope;
     this._callback = callback;
+    // if (scope) {
+    //     this._callback = callback.bind(scope);
+    // } else {
+    // }
+    
 
 }
 

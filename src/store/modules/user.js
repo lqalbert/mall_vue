@@ -54,8 +54,7 @@ const user = {
                 return state.user.department[0].name;
             } else {
                 return '未分配';
-            }
-            
+            }    
         },
         department_id(state){
             return state.user.department_id;
@@ -87,6 +86,13 @@ const user = {
             }
             return false;
         },
+        userEntrepotId(state){
+            if(state.user.department){
+                return state.user.department[0].entrepot_id;
+            } else {
+                return 0;
+            }
+        }
     },
     //异步操作
     actions:{

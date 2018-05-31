@@ -58,13 +58,13 @@
 <script>
 import DialogForm from '../../mix/DialogForm';
 import FormMix from '../../mix/Form';
-import APP_CONST from '../../config';
 import DialogMix from '../../mix/Dialog';
+import APP_CONST from '../../config';
 import { mapGetters } from 'vuex';
 
 export default {
     name: 'add-dialog',
-    mixins:[DialogForm,FormMix],
+    mixins:[DialogForm,FormMix,DialogMix],
     components: {
         
     },
@@ -95,7 +95,7 @@ export default {
             this.model = param.params.model;
         },
         getAjaxPromise(model){
-            // return this.ajaxProxy.update(model.id, model);
+            // return this.ajaxProxy.create(model);
         },
         formSubmit(){
             console.log(this.editForm);

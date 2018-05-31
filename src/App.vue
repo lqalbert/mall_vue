@@ -95,5 +95,9 @@
       opacity: 0;
       transform: translateY(-20px);
   } */
+
+  .el-table .erro-row {
+      background: #ff4949;
+  }
 </style>
 

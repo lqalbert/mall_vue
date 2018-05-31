@@ -48,7 +48,7 @@
     import DialogForm from '@/mix/DialogForm';
 
     import ExpressCompanySelectProxy from '@/packages/ExpressCompanySelectProxy';
-    import CartonSelectProxy from '@/packages/CartonSelectProxy';
+    
     import OrderGoodsAjaxProxy from "@/packages/OrderGoodsAjaxProxy";
 
     export default {
@@ -72,52 +72,30 @@
                 //需要计算　估计重量
 
                 company:[],
-                cartons:[],
+                // cartons:[],
 
                 total_vol:0
+            }
+        },
+        computed:{
+            cartons(){
+                return this.$store.getters.getCartonsByEntrepot(this.$store.getters.userEntrepotId);
             }
         },
         methods:{
             loadCompany(data){
                 this.company = data.items;
             },
-            loadCarton(data){
-                if (process.env.NODE_ENV == 'production') {
-                    this.cartons = data.items;
-                } else {
-                    this.cartons = [
-                        {carton_high:100,carton_wide:100, carton_long:50, id:1, carton_name:'aaa', carton_weight:100},
-                        {carton_high:200,carton_wide:200, carton_long:100, id:2, carton_name:'aaab', carton_weight:130},
-                        {carton_high:300,carton_wide:300, carton_long:150, id:3, carton_name:'aaabc', carton_weight:140},
-                        {carton_high:400,carton_wide:400, carton_long:200, id:4, carton_name:'aaabdc', carton_weight:150},
-                    ];
-                }
-                this.cartons.forEach(element => {
-                    element.vol = element.carton_long * element.carton_wide * element.carton_high;
-                });
-
-                function volsort(a,b){
-                    if(a.vol > b.vol){
-                        return 1;
-                    }
-                    if(a.vol < b.vol){
-                        return -1;
-                    }
-                    return 0;
-                }
-                this.cartons.sort(volsort);
-            },
+            
             onBeforeOpen(param){
-                console.log(param.params);
+                // console.log(param.params);
                 this.checkForm.id = param.params.row.id;
                 this.expressCompany.setParam({
                     entrepot_id:param.params.row.entrepot_id,
                     fields:['id','name']
                 }).load();
 
-                this.carton.setParam({
-                    entrepot_id:param.params.row.entrepot_id
-                }).load();
+               
 
                 this.goodsProxy.setParam({
                     order_id:param.params.row.id,
@@ -170,8 +148,10 @@
         created(){
             this.dialogThis = this;
             this.expressCompany =  new ExpressCompanySelectProxy(null, this.loadCompany, this);
-            this.carton = new CartonSelectProxy(null, this.loadCarton, this);
+            // this.carton = new CartonSelectProxy(null, this.loadCarton, this);
             this.goodsProxy =  new OrderGoodsAjaxProxy(null, this.loadGoods, this);
+
+            this.$store.dispatch('initCartons', this.$store.getters.userEntrepotId);
             
         },
 

@@ -83,7 +83,7 @@
         <!-- table -->
         <el-row>
             <el-col>
-                <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" :page-size="20" :bubble="bubble" @dbclick="dbClick">
+                <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" :page-size="20" :bubble="bubble" :row-class-name="tableRowClassName" @dbclick="dbClick">
                     <!-- <el-table-column type="selection" width="55"></el-table-column> -->
                     <el-table-column label="序号" align="center"  type="index" width="65">
                     </el-table-column>
@@ -186,8 +186,8 @@
                         <el-button type="primary" size="small" @click="addContact">沟 通</el-button>      -->
 
                         <el-button type="primary" size="small" @click="openCheck">审核</el-button>
-                        <el-button type="primary" size="small">返单</el-button>
-                        <el-button type="primary" size="small">拦截/取消</el-button>
+                        <el-button type="primary" size="small" @click="openRepeat">返单</el-button>
+                        <el-button type="primary" size="small" @click="openStop">拦截/取消</el-button>
                         <el-button type="primary" size="small" @click="editAddress">修改地址</el-button>     
 
                         <el-button type="primary" size="small"   @click="showExpress">快递单打印</el-button>
@@ -239,6 +239,8 @@
 
         <Advance name="advance"></Advance>
         <Check name="check" :ajax-proxy="ajaxProxy" @submit-success="handleReload"></Check>
+        <RepeatOrder name="repeat-order" :ajax-proxy="ajaxProxy" @submit-success="handleReload"></RepeatOrder>
+        <StopOrder name="stop-order" :ajax-proxy="ajaxProxy"  @submit-success="handleReload"></StopOrder>
     </div>
 </template>
 <script>
@@ -258,12 +260,13 @@ import SubDetail from './SubDetail';
 
 import Advance from './Advance';
 import Check from './Check';
+import RepeatOrder from './RepeatOrder';
+import StopOrder from './StopOrder';
 
-
-import GoodsSelectProxy from '../../packages/GoodsSelectProxy';
-import DistributionCenterProxy from '../../packages/DistributionCenterSelectProxy';
+// import GoodsSelectProxy from '../../packages/GoodsSelectProxy';
+import DistributionCenterProxy from '@/packages/DistributionCenterSelectProxy';
 import AssignAjaxProxy from '@/ajaxProxy/Assign';
-import SelectProxy from  '../../packages/SelectProxy';
+import SelectProxy from  '@/packages/SelectProxy';
 
 export default {
     name: 'DistributionDelivery',
@@ -281,7 +284,9 @@ export default {
         // Express,
         // Assign,
         Advance,
-        Check
+        Check,
+        RepeatOrder,
+        StopOrder
     },
     data(){
         return {
@@ -294,16 +299,15 @@ export default {
                 cate_kind_id:'',
                 goods_name:'',
                 sale_name:'',
-                start:'',
-                end:'',
+                range:"",
                 deliver_name:'',
                 deliver_phone:'',
                 express_name:'',
                 status:'',
                 assign_type:'',
                 user_name:'',
-                with:['order','address'],
-                appends:['status_text'],
+                // with:['order','address'],
+                // appends:['status_text'],
             },
             distributors:[],
             CategoryList:[],
@@ -336,22 +340,32 @@ export default {
             this.communication_data = data.communication_data;
             this.operation_data = data.operation_data[0];
         },
-        getCategoryList(data){
-            this.CategoryList=data.items;
-        },
-        getCategoryChildrenList(data){
-            this.CategoryChildrenList=data;
-        },
-        cate_type_change(v){
-            this.searchForm.cate_kind_id = '';
-            if(v){
-                let selectProxy = new SelectProxy('/getCategorys/'+ v, this.getCategoryChildrenList, this);
-                selectProxy.load();
+        // getCategoryList(data){
+        //     this.CategoryList=data.items;
+        // },
+        // getCategoryChildrenList(data){
+        //     this.CategoryChildrenList=data;
+        // },
+        // cate_type_change(v){
+        //     this.searchForm.cate_kind_id = '';
+        //     if(v){
+        //         let selectProxy = new SelectProxy('/getCategorys/'+ v, this.getCategoryChildrenList, this);
+        //         selectProxy.load();
+        //     }
+        // },
+        tableRowClassName(row, index){
+            if (row.is_stop) {
+                return 'erro-row'
+            } else {
+                return '';
             }
         },
         timeChange(v){
-            this.searchForm.start = v.split(' - ')[0];
-            this.searchForm.end = v.split(' - ')[1];
+            if (v!="") {
+                this.searchForm.range = v.split(' - ');
+            } else {
+                this.searchForm.range = "";
+            }
         },
         // addDelivery(){
         //     if (this.openDialogCheck()) {
@@ -387,6 +401,8 @@ export default {
             // console.log(tab, event);
         },
         onSearchChange(param){
+            param['with'] = ['order','address'];
+            param['appends'] = ['status_text'];
             this.mainparam = JSON.stringify(param);
         },
         onCurrentChange(currentRow) {
@@ -419,6 +435,16 @@ export default {
                 } else {
                     this.$message.error("已审核过");
                 }
+            }
+        },
+        openRepeat(){
+            if (this.openDialogCheck()) {
+                this.$modal.show('repeat-order', { row : this.currentRow });
+            }
+        },
+        openStop(){
+            if (this.openDialogCheck()) {
+                this.$modal.show('stop-order', { row : this.currentRow });
             }
         },
         showExpress(){
@@ -485,23 +511,23 @@ export default {
         let DistributionCenterSelect = new DistributionCenterProxy({}, this.getDistributionCenter, this);
         DistributionCenterSelect.load();
         //获取商品类型
-        let selectProxy = new SelectProxy('/tree', this.getCategoryList, this);
-        selectProxy.load();
+        // let selectProxy = new SelectProxy('/tree', this.getCategoryList, this);
+        // selectProxy.load();
 
-        this.mainparam = JSON.stringify(this.searchForm);
+        
 
         this.$on('search-tool-change', this.onSearchChange);
+        this.onSearchChange(this.searchForm);
         
         let o = {};
         o['current-change'] = this.onCurrentChange;
         this.bubble = o;
-    },
-    mounted(){
-
-    },
+    }
+    
     
 }
 </script>
+
 <style scoped>
     .search-bar .el-form-item {
         width: 140px;
@@ -509,5 +535,7 @@ export default {
     .date-item{
         width: 220px !important;
     }
+
+    
 </style>
 

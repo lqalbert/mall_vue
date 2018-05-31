@@ -32,7 +32,8 @@
             @sort-change="sortChange"
             @cell-dblclick="dbclick"
             @cell-click="cellclick"
-	        element-loading-text="拼命加载中">
+            element-loading-text="拼命加载中"
+            :row-class-name="rowClassName">
             <slot></slot>
         </el-table>
         <br>
@@ -87,7 +88,9 @@
             height:{
                 type:[String, Number],
                 default:''
-            }
+            },
+            rowClassName:[String, Function]
+
       },
       data () {
           return {

@@ -99,17 +99,17 @@
                     </el-table>
                     <br>
                     <el-row>
-                        <el-col :span="12">
-                            <el-form-item label="商品分类" prop="dev">
-                                <el-cascader
-                                        v-model="addOrderForm.dev"
-                                        :options="CategoryList"
-                                        @change="categoryChange"
-                                ></el-cascader>
-                                <!--<el-input size="small" class="name-input"  v-model="addOrderForm.dev" ></el-input>-->
+                        <!--<el-col :span="12">-->
+                            <!--<el-form-item label="商品分类" prop="dev">-->
+                                <!--<el-cascader-->
+                                        <!--v-model="addOrderForm.dev"-->
+                                        <!--:options="CategoryList"-->
+                                        <!--@change="categoryChange"-->
+                                <!--&gt;</el-cascader>-->
+                                <!--&lt;!&ndash;<el-input size="small" class="name-input"  v-model="addOrderForm.dev" ></el-input>&ndash;&gt;-->
 
-                            </el-form-item>
-                        </el-col>
+                            <!--</el-form-item>-->
+                        <!--</el-col>-->
                         <el-col :span="12">
                             <el-form-item prop="goods_id" label="商品名称">
                                 <!--<el-select v-model="addOrderForm.goods_id" @change="getGoodsInfo">-->

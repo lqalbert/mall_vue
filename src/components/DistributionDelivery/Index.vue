@@ -191,6 +191,7 @@
                         <el-button type="primary" size="small" @click="addContact">沟 通</el-button>      -->
 
                         <el-button type="primary" size="small" @click="openCheck">审核</el-button>
+                        <!-- 面单还可以取消和回收 -->
                         <el-button type="primary" size="small" @click="openRepeat">返单</el-button>
                         <el-button type="primary" size="small" @click="openStop">拦截/取消</el-button>
                         <el-button type="primary" size="small" @click="editAddress">修改地址</el-button>     

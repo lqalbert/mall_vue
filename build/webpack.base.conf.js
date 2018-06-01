@@ -19,6 +19,19 @@ const createLintingRule = () => ({
   }
 })
 
+function getAssetsPublicPath(env) {
+  switch(env){
+    case "production":
+      return config.build.assetsPublicPath;
+    case "test":
+      return config.test.assetsPublicPath;
+    default :
+      return config.dev.assetsPublicPath
+  }
+  return 
+}
+
+
 module.exports = {
   context: path.resolve(__dirname, '../'),
   entry: {
@@ -27,9 +40,7 @@ module.exports = {
   output: {
     path: config.build.assetsRoot,
     filename: '[name].js',
-    publicPath: process.env.NODE_ENV === 'production'
-      ? config.build.assetsPublicPath
-      : config.dev.assetsPublicPath
+    publicPath: getAssetsPublicPath(process.env.NODE_ENV)
   },
   resolve: {
     extensions: ['.js', '.vue', '.json'],

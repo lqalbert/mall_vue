@@ -4,25 +4,36 @@
             <el-form :model="addForm" ref="addForm" :label-width="labelWidth" :rules="rules" :label-position="labelPosition">
                 <el-row>
                     <el-col :span="12">
-                        <el-form-item label="物流名称" prop="company_name" >
-                            <el-input v-model="addForm.company_name" placeholder="请填写物流名称"></el-input>
+                        <el-form-item prop="entrepot_id"  label="配送中心">
+                            <el-select v-model="addForm.entrepot_id" placeholder="请选择配送中心" @change="entrepotChange">
+                                <el-option v-for="v in distributors" :label="v.name"
+                                           :value="v.id" :key="v.id">
+                                </el-option>
+                            </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="编号前缀" prop="eng" >
-                            <el-input v-model="addForm.eng" placeholder=""></el-input>
+                        <el-form-item label="物流名称" prop="company_name" >
+                            <el-input class="name-input" v-model="addForm.company_name" placeholder="请填写物流名称"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row>
                     <el-col :span="12">
-                        <el-form-item label="联系人" prop="contact_name">
-                            <el-input v-model="addForm.contact_name" placeholder="请填写联系人"></el-input>
+                        <el-form-item label="编号前缀" prop="eng" >
+                            <el-input class="name-input" v-model="addForm.eng" placeholder=""></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
+                        <el-form-item label="联系人" prop="contact_name">
+                            <el-input class="name-input" v-model="addForm.contact_name" placeholder="请填写联系人"></el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="12">
                         <el-form-item label="联系方式" prop="contact_tel" >
-                            <el-input v-model="addForm.contact_tel" placeholder="请填写联系电话"></el-input>
+                            <el-input class="name-input" v-model="addForm.contact_tel" placeholder="请填写联系电话"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -60,7 +71,12 @@ export default {
         
     },
     props:{
-
+        distributors:{
+            type: Array,
+            default:function(){
+                return [];
+            }
+        },
     },
     data(){
         return {
@@ -68,9 +84,12 @@ export default {
             labelPosition:"right",
             labelWidth:'80px',
             addForm:{
+                entrepot_id:'',
+                entrepot_name:'',
                 company_name:'',
                 contact_name:'',
                 contact_tel:'',
+                eng:'',
                 remark:'',
             },
             rules:{
@@ -94,6 +113,14 @@ export default {
         getAjaxPromise(model){
             return this.ajaxProxy.create(model);
         },
+        entrepotChange(v){
+            let i =''
+            for (i in this.distributors){
+                if(this.distributors[i]['id'] == v){
+                    this.addForm.entrepot_name =this.distributors[i]['name']
+                }
+            }
+        },
         // formSubmit(){
         //     console.log(this.addForm)
         // }
@@ -106,5 +133,7 @@ export default {
 }
 </script>
 <style scoped>
-
+    .name-input{
+        max-width: 217px;
+    }
 </style>

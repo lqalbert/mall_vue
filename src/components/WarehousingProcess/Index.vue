@@ -91,6 +91,7 @@
         <!-- 写弹窗组件 -->
         <Add name='add-express-company'
              :ajax-proxy="ajaxProxy"
+             :distributors="distributors"
              @submit-success="handleReload">
         </Add>
         <CheckOrder name='add-check-order'
@@ -115,6 +116,8 @@
     import DataTable from '../../mix/DataTable';
     import config from '../../mix/Delete';
     import ExpressCompanyAjaxProxy from '../../ajaxProxy/ExpressCompany';
+    import DistributionCenterProxy from '../../packages/DistributionCenterSelectProxy';
+
     import Add from './Add';
     import Edit from './Edit';
     import CheckOrder from './CheckOrder';
@@ -139,6 +142,7 @@
                     contact_name:'',
                     contact_tel:'',
                 },
+                distributors:[],
                 reFundCheckShow:false,
                 row_model:''
             }
@@ -194,9 +198,16 @@
                     this.reFundCheckShow = false;
                 }
             },
+            getDistributionCenter(data){
+                this.distributors = data.items;
+            },
         },
         created(){
             this.$on('search-tool-change', this.onSearchChange);
+
+            //获取配送中心数据
+            let DistributionCenterSelect = new DistributionCenterProxy({}, this.getDistributionCenter, this);
+            DistributionCenterSelect.load();
         },
         mounted(){
 

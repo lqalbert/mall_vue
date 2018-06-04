@@ -84,7 +84,8 @@
   }
 
   .el-table__body tr.current-row>td {
-    background: #c9e5f5;
+    /* background: #c9e5f5; */
+    background: rgba(70, 163, 216, 0.61)
   }
 
   /* .slide-fade-enter-active, .slide-fade-leave-active {

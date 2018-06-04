@@ -210,43 +210,20 @@
         <SubDetail :row="model">
         </SubDetail>
         <!-- 写弹窗组件 -->
-        <!-- <add-delivery name='add-delivery'
-            :ajax-proxy="ajaxProxy"
-            @submit-success="handleReload">
-        </add-delivery>
-
-        <handle-edit name='handle-edit'
-            :ajax-proxy="ajaxProxy"
-            @submit-success="handleReload">
-        </handle-edit>
-
-        <set-drop-order name='set-drop-order'
-            :ajax-proxy="ajaxProxy"
-            @submit-success="handleReload">
-        </set-drop-order>
-
-        <handle-receive name='handle-receive'
-             @submit-success="handleReload"
-            :ajax-proxy="ajaxProxy">
-        </handle-receive>
-
-        <add-contact name='add-contact'
-            :ajax-proxy="ajaxProxy"
-             @submit-success="handleReload">
-        </add-contact> -->
-
         <edit-address name='edit-address'
             :ajax-proxy="ajaxProxy"
             @submit-success="handleReload">
         </edit-address>
 
-        <!-- <Express name="express"></Express>
-        <Assign name="assign"></Assign> -->
-
         <Advance name="advance"></Advance>
         <Check name="check" :ajax-proxy="ajaxProxy" @submit-success="handleReload"></Check>
         <RepeatOrder name="repeat-order" :ajax-proxy="ajaxProxy" @submit-success="handleReload"></RepeatOrder>
         <StopOrder name="stop-order" :ajax-proxy="ajaxProxy"  @submit-success="handleReload"></StopOrder>
+
+        <el-button @click="printList">获取打印机列表</el-button>
+        <el-button @click="configprint">弹窗式配置打印机</el-button>
+        <el-button　@click="getPrinterConfig">Fax打印机的配置</el-button>
+        <el-button　@click="previewPrint">打印预览PDF</el-button>
     </div>
 </template>
 <script>
@@ -254,41 +231,30 @@ import PageMix from '@/mix/Page';
 import SearchTool from '@/mix/SearchTool';
 import DataTable from '@/mix/DataTable';
 
-// import AddDelivery from './AddDelivery';
-// import HandleEdit from './HandleEdit';
-// import SetDropOrder from './SetDropOrder';
-// import HandleReceive from './HandleReceive';
-// import AddContact from './AddContact';
 import EditAddress from './EditAddress';
 import SubDetail from './SubDetail';
-// import Express from './Express';
-// import Assign from './Assign';
 
 import Advance from './Advance';
 import Check from './Check';
 import RepeatOrder from './RepeatOrder';
 import StopOrder from './StopOrder';
 
-// import GoodsSelectProxy from '../../packages/GoodsSelectProxy';
+
 import DistributionCenterProxy from '@/packages/DistributionCenterSelectProxy';
 import AssignAjaxProxy from '@/ajaxProxy/Assign';
 import SelectProxy from  '@/packages/SelectProxy';
+
+//打印
+import ws from '@/packages/Print';
+
 
 export default {
     name: 'DistributionDelivery',
     pageTitle:"配送发货",
     mixins:[PageMix,SearchTool,DataTable],
-
-    components:{
-        // AddDelivery,
-        // HandleEdit,
-        // SetDropOrder,
-        // HandleReceive,
-        // AddContact,
+    components:{       
         EditAddress,
         SubDetail,
-        // Express,
-        // Assign,
         Advance,
         Check,
         RepeatOrder,
@@ -346,19 +312,6 @@ export default {
             this.communication_data = data.communication_data;
             this.operation_data = data.operation_data[0];
         },
-        // getCategoryList(data){
-        //     this.CategoryList=data.items;
-        // },
-        // getCategoryChildrenList(data){
-        //     this.CategoryChildrenList=data;
-        // },
-        // cate_type_change(v){
-        //     this.searchForm.cate_kind_id = '';
-        //     if(v){
-        //         let selectProxy = new SelectProxy('/getCategorys/'+ v, this.getCategoryChildrenList, this);
-        //         selectProxy.load();
-        //     }
-        // },
         tableRowClassName(row, index){
             if (row.is_stop) {
                 return 'erro-row'
@@ -373,31 +326,6 @@ export default {
                 this.searchForm.range = "";
             }
         },
-        // addDelivery(){
-        //     if (this.openDialogCheck()) {
-        //         this.$modal.show('add-delivery', this.currentRow);
-        //     }
-        // },
-        // handleEdit(){
-        //     if (this.openDialogCheck()) {
-        //         this.$modal.show('handle-edit', this.currentRow);
-        //     }
-        // },
-        // setDropOrder(){
-        //     if (this.openDialogCheck()) {
-        //         this.$modal.show('set-drop-order', this.currentRow);
-        //     }
-        // },
-        // handleReceive(){
-        //     if (this.openDialogCheck()) {
-        //         this.$modal.show('handle-receive',this.currentRow);
-        //     }
-        // },
-        // addContact(){
-        //     if (this.openDialogCheck()) {
-        //         this.$modal.show('add-contact',this.currentRow);
-        //     }
-        // },
         editAddress(){
             if (this.openDialogCheck()) {
                 this.$modal.show('edit-address',this.currentRow.address);
@@ -478,8 +406,6 @@ export default {
                 if (pr) {
                     //更新记录的打印时间　打印状态
                     AssignAjaxProxy.update(this.currentRow.id, {express_print_status:1, express_print_at: Date.now() });
-
-
                 }
             }
         },
@@ -505,22 +431,113 @@ export default {
                 if (pr) {
                     //更新记录的打印时间　打印状态
                     AssignAjaxProxy.update(this.currentRow.id, {assign_print_status:1, assign_print_at: Date.now() });
-
-
                 }
             }
+        },
+        printList(){
+            ws.getPrinterList();
+        },
+        configprint(){
+            ws.dialogConfig();
+        },
+        getPrinterConfig(){
+            ws.getPrinterConfig("Fax");
+        },
+        previewPrint(){
+            var b = {
+    "cmd": "print",
+    "requestID": "123458976",
+    "version": "1.0",
+    "task": {
+        "taskID": "7293666",
+        "preview": true,
+        "printer": "",
+        "previewType": "pdf",
+        "firstDocumentNumber": 10,
+        "totalDocumentCount": 100,
+        "documents": [{
+            "documentID": "0123456789",
+            "contents": [{
+                "data": {
+                    "recipient": {
+                        "address": {
+                            "city": "杭州市",
+                            "detail": "良睦路999号乐佳国际大厦2号楼小邮局",
+                            "district": "余杭区",
+                            "province": "浙江省",
+                            "town": ""
+                        },
+                        "mobile": "13012345678",
+                        "name": "菜鸟网络",
+                        "phone": "057112345678"
+                    },
+                    "routingInfo": {
+                        "consolidation": {
+                            "name": "杭州",
+                            "code": "hangzhou"
+                        },
+                        "origin": {
+                            "name": "杭州",
+                            "code": "POSTB"
+                        },
+                        "sortation": {
+                            "name": "杭州"
+                        },
+                        "routeCode": "123A-456-789"
+                    },
+                    "sender": {
+                        "address": {
+                            "city": "杭州市",
+                            "detail": "文一西路1001号阿里巴巴淘宝城5号小邮局",
+                            "district": "余杭区",
+                            "province": "浙江省",
+                            "town": ""
+                        },
+                        "mobile": "13012345678",
+                        "name": "阿里巴巴",
+                        "phone": "057112345678"
+                    },
+                    "shippingOption": {
+                        "code": "COD",
+                        "services": {
+                            "SVC-COD": {
+                                "value": "200"
+                            },
+                            "TIMED-DELIVERY": {
+                                "value": "SEVERAL-DAYS"
+                            },
+                            "PAYMENT-TYPE": {
+                                "value": "ON-DELIVERY"
+                            },
+                            "SVC-INSURE": {
+                                "value": "1000000"
+                            },
+                            "SVC-PROMISE-DELIVERY": {
+                                "promise-type": "SAMEDAY_DELIVERY"
+                            }
+                        },
+                        "title": "代收货款"
+                    },
+                    "waybillCode": "0123456789"
+                },
+                "signature": "19d6f7759487e556ddcdd3d499af087080403277b7deed1a951cc3d9a93c42a7e22ccba94ff609976c5d3ceb069b641f541bc9906098438d362cae002dfd823a8654b2b4f655e96317d7f60eef1372bb983a4e3174cc8d321668c49068071eaea873071ed683dd24810e51afc0bc925b7a2445fdbc2034cdffb12cb4719ca6b7",
+                "templateURL": "http://cloudprint.cainiao.com/cloudprint/template/getStandardTemplate.json?template_id=101&version=4"
+            },
+            {
+                "data": {
+                    "value": "测试字段值需要配合自定义区变量名"
+                },
+                "templateURL": "http://cloudprint.cainiao.com/template/customArea/440439"
+            }]
+        }]
+    }
+};
+            ws.testView(b);
         }
-        
     },
     created(){
-        //获取配送中心数据
         let DistributionCenterSelect = new DistributionCenterProxy({}, this.getDistributionCenter, this);
         DistributionCenterSelect.load();
-        //获取商品类型
-        // let selectProxy = new SelectProxy('/tree', this.getCategoryList, this);
-        // selectProxy.load();
-
-        
 
         this.$on('search-tool-change', this.onSearchChange);
         this.onSearchChange(this.searchForm);
@@ -528,9 +545,10 @@ export default {
         let o = {};
         o['current-change'] = this.onCurrentChange;
         this.bubble = o;
-    }
-    
-    
+    },
+    beforeDestroy(){
+        ws.close();
+    }   
 }
 </script>
 

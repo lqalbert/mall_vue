@@ -8,6 +8,7 @@ import role from './modules/role';
 import goodsCates from './modules/goodsCates';
 import area from './modules/area';
 import carton from './modules/carton';
+import express from './modules/express';
 
 Vue.use(Vuex);
 
@@ -28,7 +29,8 @@ const store = new Vuex.Store({
         role,
         goodsCates,
         area,
-        carton
+        carton,
+        express
     },
     strict: process.env.NODE_ENV !== 'production'
 });

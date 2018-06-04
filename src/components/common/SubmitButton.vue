@@ -1,15 +1,6 @@
-<template>
-    <span>
-        <el-button v-if="!loading" @click="formSubmit" type="primary">
-            <slot>
-                确 定
-            </slot>
-        </el-button>
-        <el-button v-else type="primary" :loading="true">提交中</el-button>
-    </span>
-</template>
-  
 <script>
+    //通过 extends 扩展 StateButton 从而实现继承
+    import StateButton from './StateButton';
     export default {
         name: 'SubmitButton',
         props:{
@@ -18,34 +9,11 @@
                 type: Object
             }
         },
-        data () {
-            return {
-                loading: false
-            }
-        },
-        methods:{
-            formSubmit(){
-                // this.$emit('update:state', true);
-                this.loading = true;
-                this.$emit('click');
-            },
-            setSubmited(){
-                this.loading = false;
-            },
-            setSubmiting(){
-                this.loading = true;
-            }
-        },
-        watch:{
-            state:function(val, OldVal){
-                this.loading = val;
-            }
-        },
-
+        extends:StateButton,
         created(){
-            this.observer.$on('valid-error', this.setSubmited);
-            this.observer.$on('submit-final', this.setSubmited);
-            this.$on('submit-ing', this.setSubmiting);
+            this.observer.$on('valid-error', this.setLoaded);
+            this.observer.$on('submit-final', this.setLoaded);
+            this.$on('submit-ing', this.setLoading);
         }
     }
 </script>

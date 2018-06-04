@@ -5,7 +5,7 @@
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="快递公司" prop="express_id">
-                            <el-select v-model="checkForm.express_id" clearable @change="expressChange">
+                            <el-select v-model="checkForm.express_id" clearable>
                                 <el-option v-for="item in company" :label="item.company_name" :value="item.id" :key="item.id"></el-option>
                             </el-select>
                         </el-form-item>
@@ -14,7 +14,12 @@
                         <el-form-item label="快递号" prop="express_sn">
                             <el-col :span="14"><el-input v-model="checkForm.express_sn"></el-input></el-col>
                             <el-col :span="2">&nbsp;</el-col>
-                            <el-col :span="4"><el-button>获取</el-button></el-col>
+                            <el-col :span="4">
+                                <state-button @click="getWaybill" ref="getWayBillState">
+                                    获取
+                                    <template slot="ing">获取中</template>
+                                </state-button>
+                            </el-col>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -46,14 +51,16 @@
 
 <script>
     import DialogForm from '@/mix/DialogForm';
-
-    import ExpressCompanySelectProxy from '@/packages/ExpressCompanySelectProxy';
-    
+    import StateButton from '@/components/common/StateButton';
     import OrderGoodsAjaxProxy from "@/packages/OrderGoodsAjaxProxy";
+    
 
     export default {
         name: 'Check',
         mixins:[DialogForm],
+        components:{
+            StateButton
+        },
         data () {
             return {
                 dialogThis:null,
@@ -62,45 +69,40 @@
                 checkForm:{
                     id:"",
                     express_id:"",
-                    express_name:"",
                     express_sn:"暂时没有",
                     corrugated_id:"",
                     corrugated_case:"",
                     corrugated_weight:"",
                     reckon_weigth:""
                 },
+                
                 //需要计算　估计重量
 
-                company:[],
+                // company:[],
                 // cartons:[],
-
-                total_vol:0
+                total_vol:0,
+                order_id:0,
             }
         },
         computed:{
             cartons(){
                 return this.$store.getters.getCartonsByEntrepot(this.$store.getters.userEntrepotId);
+            },
+            company(){
+                return this.$store.getters.getExpressByEntrepot(this.$store.getters.userEntrepotId);
             }
         },
         methods:{
-            loadCompany(data){
-                this.company = data.items;
-            },
-            
             onBeforeOpen(param){
-                // console.log(param.params);
                 this.checkForm.id = param.params.row.id;
-                this.expressCompany.setParam({
-                    entrepot_id:param.params.row.entrepot_id,
-                    fields:['id','name']
-                }).load();
-
-               
-
+                this.order_id = param.params.row.order_id;
                 this.goodsProxy.setParam({
-                    order_id:param.params.row.id,
+                    order_id: this.order_id,
                     fields:['width','height','len']
                 }).load();
+                if (param.params.row.express_id != 0) {
+                    this.checkForm.express_id = param.params.row.express_id;
+                }
             },
             loadGoods(data){
                 if (process.env.NODE_ENV == 'production') {
@@ -138,26 +140,41 @@
             getAjaxPromise(model){
                 return this.ajaxProxy.check(model.id, model);
             },
-            expressChange(v){
-                let index = this.company.findIndex((element)=>{
-                    return element.id == v
-                });
-                this.checkForm.express_name = this.company[index].company_name;
+            getWaybill(){
+                //需要设置一下　不能返复点击
+                if (this.checkForm.express_id.length==0) {
+                    this.$message.error('先选择快递公司');
+                    this.$refs.getWayBillState.$emit('reset');
+                    return;
+                }
+                let requestParam = {
+                    assign_id: this.checkForm.id,
+                    order_id: this.order_id,
+                    express_id : this.checkForm.express_id
+                }
+
+
+                
+
             }
+            
         },
         created(){
             this.dialogThis = this;
-            this.expressCompany =  new ExpressCompanySelectProxy(null, this.loadCompany, this);
-            // this.carton = new CartonSelectProxy(null, this.loadCarton, this);
+            //这个暂时还不能改成用　vuex　统一管理，因为由于更新的问题比如更换了某个商品．
+            //vuex 暂时用来处理不会频繁更新的数据
+            //后期可以考虑加入　
+            //功能实现的基本设想　用HTTP缓存的 Last-Modified 来设置更新时间
+            //服务器上用 updated_at created_at 来判断是不是　大于 Last-Modified 如果是就　返回新的数据并设置新的Last-Modified
+            //如查不是就　返回 HTTP 304　
             this.goodsProxy =  new OrderGoodsAjaxProxy(null, this.loadGoods, this);
 
             this.$store.dispatch('initCartons', this.$store.getters.userEntrepotId);
+            this.$store.dispatch('initExpress', this.$store.getters.userEntrepotId);
             
         },
 
         beforeDestroy(){
-            this.expressCompany = null;
-            this.carton = null;
             this.goodsProxy = null;
         }
     }

@@ -1,4 +1,34 @@
 import { S_IRWXG } from "constants";
+import printStore from './IndexDb';
+
+
+let lastRequestId = null;
+let cmdMapHandle = {
+    "getPrinters":"",
+    "getPrinterConfig":"",
+    "setPrinterConfig":"",
+    "print":function(backObj){
+                if (backObj.previewURL) {
+                    var d = window.open(backObj.previewURL);
+                    console.log(d);
+                } else if(backObj.previewImage) {
+                    for (let index = 0; index < backObj.previewImage.length; index++) {
+                        const element = backObj.previewImage[index];
+                        window.open(element);
+                    }
+                }
+    
+    
+            },
+    "notifyPrintResult":"",
+    "getTaskStatus":"",
+    "getGlobalConfig":"",
+    "setGlobalConfig":"",
+    "getAgentInfo":"",
+
+}
+
+
 
 function WebSocketTest()
 {
@@ -14,20 +44,44 @@ function WebSocketTest()
             // Web Socket 已连接上，使用 send() 方法发送数据
            // ws.send("发送数据");
            alert("打印机连接成功");
+           printStore.init();
         };
         
         ws.onmessage = function (evt) 
         { 
-            console.log(JSON.parse(evt.data));
+            var obj = JSON.parse(evt.data);
+            if (obj.requestID) {
+                lastRequestId = obj.requestID;
+            } else {
+                obj['requestID'] = lastRequestId;
+            }
+            printStore.addBack(obj.requestID, obj);
            // var received_msg = evt.data;
            // alert("数据已接收...");
+           //根据CMD分发不同的处理程序
+
+           if (cmdMapHandle[obj.cmd]) {
+            cmdMapHandle[obj.cmd](obj);
+           }
         };
         
         ws.onclose = function()
         { 
             // 关闭 websocket
-            alert("连接已关闭..."); 
+            // alert("连接已关闭..."); 
+            console.log("ws:close");
+            printStore.close();
         };
+
+        ws._send = ws.send;
+        ws.send = function(param){
+            //保存代码
+            printStore.add(param);
+            ws._send(JSON.stringify(param));
+        }
+
+
+
         return ws;
     } else　{
         // 浏览器不支持 WebSocket
@@ -110,7 +164,7 @@ function getWaybillJson(waybillNO) {
 
 function getPrinterList(){
     var request  = getRequestObject("getPrinters");
-    wsok.send(JSON.stringify(request));
+    wsok.send(request);
 }
 /**
  * 获取打印机配置
@@ -119,7 +173,7 @@ function getPrinterList(){
 function getPrinterConfig(name){
     var request  = getRequestObject("getPrinterConfig");
     request.printer = name;
-    wsok.send(JSON.stringify(request));
+    wsok.send(request);
 }
 
 /**
@@ -128,7 +182,7 @@ function getPrinterConfig(name){
 
 function dialogConfig(){
     var request  = getRequestObject("printerConfig");
-    wsok.send(JSON.stringify(request));
+    wsok.send(request);
 }
 
 
@@ -156,12 +210,12 @@ function doPrint(printer ,waybillArray)
          doc.content = content;
          documents.push(doc);
     }
-    wsok.send(JSON.stringify(request));
+    wsok.send(request);
 }
 
 function testView(obj){
     obj.requestID = getUUID(8, 16);
-    wsok.send(JSON.stringify(obj));
+    wsok.send(obj);
 }
 
 

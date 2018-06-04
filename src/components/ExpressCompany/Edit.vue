@@ -1,30 +1,41 @@
 <template>
     <div>
         <MyDialog title="修改编辑" :name="name" :width="width" :height="height" @before-open="onOpen">
-            <el-form :model="editForm" ref="editForm" :rules="rules" :label-width="labelWidth"  :label-position="labelPosition">
+            <el-form :model="editForm" ref="editForm" :label-width="labelWidth" :rules="rules" :label-position="labelPosition">
                 <el-row>
                     <el-col :span="12">
+                        <el-form-item prop="entrepot_id"  label="配送中心">
+                            <el-select v-model="editForm.entrepot_id" placeholder="请选择配送中心" @change="entrepotChange">
+                                <el-option v-for="v in distributors" :label="v.name"
+                                           :value="v.id" :key="v.id">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
                         <el-form-item label="物流名称" prop="company_name" >
-                            <el-input v-model="editForm.company_name" placeholder="请填写物流名称"></el-input>
+                            <el-input class="name-input" v-model="editForm.company_name" placeholder="请填写物流名称"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row>
                     <el-col :span="12">
-                        <el-form-item label="联系人" prop="contact_name">
-                            <el-input v-model="editForm.contact_name" placeholder="请填写联系人"></el-input>
+                        <el-form-item label="编号前缀" prop="eng" >
+                            <el-input class="name-input" v-model="editForm.eng" placeholder=""></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="联系方式" prop="contact_tel" >
-                            <el-input v-model="editForm.contact_tel" placeholder="请填写联系电话"></el-input>
+                        <el-form-item label="联系人" prop="contact_name">
+                            <el-input class="name-input" v-model="editForm.contact_name" placeholder="请填写联系人"></el-input>
                         </el-form-item>
                     </el-col>
-                    <!-- <el-col :span="12">
-                        <el-form-item label="编号前缀" prop="eng" >
-                            <el-input v-model="editForm.eng" placeholder=""></el-input>
+                </el-row>
+                <el-row>
+                    <el-col :span="12">
+                        <el-form-item label="联系方式" prop="contact_tel" >
+                            <el-input class="name-input" v-model="editForm.contact_tel" placeholder="请填写联系电话"></el-input>
                         </el-form-item>
-                    </el-col> -->
+                    </el-col>
                 </el-row>
                 <el-row>
                     <el-col :span="14">
@@ -59,7 +70,12 @@ export default {
         
     },
     props:{
-
+        distributors:{
+            type: Array,
+            default:function(){
+                return [];
+            }
+        },
     },
     data(){
         return {
@@ -68,9 +84,12 @@ export default {
             labelWidth:'80px',
             editForm:{
                 id:'',
+                entrepot_id:'',
+                entrepot_name:'',
                 company_name:'',
                 contact_name:'',
                 contact_tel:'',
+                eng:'',
                 remark:'',
             },
             rules:{
@@ -95,6 +114,14 @@ export default {
         onOpen(param){
 			this.model = param.params.model;
         },
+        entrepotChange(v){
+            let i =''
+            for (i in this.distributors){
+                if(this.distributors[i]['id'] == v){
+                    this.editForm.entrepot_name =this.distributors[i]['name']
+                }
+            }
+        },
     },
     mounted(){
 
@@ -115,5 +142,7 @@ export default {
 }
 </script>
 <style scoped>
-
+    .name-input{
+        max-width: 217px;
+    }
 </style>

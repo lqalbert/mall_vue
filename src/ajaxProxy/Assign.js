@@ -16,4 +16,17 @@ proxy.stop = function(id, model){
     return this.getAxios().put(this.url + "-stop/" + id, model);
 };
 
+
+proxy.waybillPrint = function(id){
+    return this.getAxios().post('/assign-waybill-print/'+id);
+}
+
+proxy.goodsPrint = function(id){
+    return this.getAxios().post('/assign-goods-print/'+id);
+}
+
+proxy.getByExpressSn = function(express_sn, param){
+    return this.getAxios().get('/assign-expresssn/'+express_sn, {params:param});
+}
+
 export default proxy;

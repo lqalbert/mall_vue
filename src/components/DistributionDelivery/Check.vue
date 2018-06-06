@@ -81,7 +81,6 @@
                 // company:[],
                 // cartons:[],
                 total_vol:0,
-                order_id:0,
             }
         },
         computed:{
@@ -95,7 +94,6 @@
         methods:{
             onBeforeOpen(param){
                 this.checkForm.id = param.params.row.id;
-                this.order_id = param.params.row.order_id;
                 this.goodsProxy.setParam({
                     order_id: this.order_id,
                     fields:['width','height','len']
@@ -149,7 +147,6 @@
                 }
                 let requestParam = {
                     assign_id: this.checkForm.id,
-                    order_id: this.order_id,
                     express_id : this.checkForm.express_id
                 }
 

@@ -1,47 +1,92 @@
 <template>
     <div>
-        <MyDialog title="编辑/修改" :name="name" :width="width" :height="height" @before-open="onOpen">
+        <MyDialog title="修改盘点" :name="name" :width="width" :height="height" @before-open="onOpen">
             <el-form :model="editForm" ref="editForm" :label-width="labelWidth" :rules="rules" :label-position="labelPosition">
                 <el-row>
                     <el-col :span="12">
-                        <el-form-item label="盘点单号" prop="check_num" >
-                            <el-input class="name-input" v-model="editForm.check_num" placeholder="请填写盘点单号"></el-input>
+                        <el-form-item prop="check_num" label="盘点单号:">
+                            {{editForm.check_num}}
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="商品名称" prop="goods_name" >
-                            <el-input class="name-input" v-model="editForm.goods_name" placeholder="商品名称"></el-input>
+                        <el-form-item prop="sku_sn" label="商品编号:">
+                            {{editForm.sku_sn}}
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row>
                     <el-col :span="12">
-                        <el-form-item label="商品类型" prop="cate_type_id">
-                            <el-select class="name-input" v-model="editForm.cate_type_id" placeholder="商品类型">
-                                <el-option label="国产神油" value="1"></el-option>
-                                <el-option label="印度神油" value="2"></el-option>
-                                <el-option label="美国神油" value="3"></el-option>
-                            </el-select>
+                        <el-form-item prop="entrepot_name" label="配送中心:">
+                            {{editForm.entrepot_name}}
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="商品数量" prop="entrepot_count">
-                            <el-input-number v-model="editForm.entrepot_count" :min="0"></el-input-number>
+                        <el-form-item prop="goods_name" label="商品名称:">
+                            {{editForm.goods_name}}
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row>
                     <el-col :span="12">
-                        <el-form-item label="释放金额" prop="release_money">
-                            <el-input class="name-input" v-model="editForm.release_money" placeholder="释放金额(比实际多)"></el-input>
+                        <el-form-item prop="cate_type" label="商品类型:">
+                            {{editForm.cate_type}}
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="责任金额" prop="resp_money" >
-                            <el-input class="name-input" v-model="editForm.resp_money" placeholder="责任金额(比实际少)"></el-input>
+                        <el-form-item prop="goods_price" label="商品单价:">
+                            <el-input class="name-input" size="small" 
+                                v-model="editForm.goods_price" @change="handlePrice" placeholder="必须输入单价">
+                            </el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
+                <el-row>
+                    <el-col :span="12">
+                        <el-form-item prop="entrepot_count" label="库存数量:">
+                            {{editForm.entrepot_count}}
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item prop="check_count" label="盘点数量:">
+                            <el-input class="name-input" size="small" 
+                                v-model.number="editForm.check_count" @change="handleChange" placeholder="输入盘点数量">
+                            </el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="12">
+                        <el-form-item prop="profit_count" label="盘盈数量:">
+                            {{editForm.profit_count}}
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item prop="profit_money" label="盘盈金额:">
+                            {{editForm.profit_money}}
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="12">
+                        <el-form-item prop="loss_count" label="盘亏数量:">
+                            {{editForm.loss_count}}
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item prop="loss_money" label="盘亏金额:">
+                            {{editForm.loss_money}}
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+
+                <el-row>
+                    <el-col :span="16">
+                        <el-form-item prop="remark" label="备注:">
+                            <el-input type="textarea" size="small" v-model="editForm.remark" placeholder="备注"></el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+
             </el-form>
 
             <div slot="dialog-foot" class="dialog-footer">
@@ -77,28 +122,83 @@ export default {
             labelPosition:"right",
             labelWidth:'100px',
             editForm:{
-                check_num:'',
-                goods_name:'',
+                cate_kind:'',
+                cate_kind_id:'',
+                cate_type:'',
                 cate_type_id:'',
-                entrepot_count:0,
-                release_money:'',
-                resp_money:'',
+                check_count:'',
+                check_id:'',
+                check_name:'',
+                check_num:'',
+                check_user_id:'',
+                entrepot_count:'',
+                entrepot_id:'',
+                entrepot_name:'',
+                goods_name:'',
+                goods_price:'',
+                id:'',
+                inventory_id:'',
+                loss_count:'',
+                loss_money:'',
+                profit_count:'',
+                profit_money:'',
+                remark:'',
+                sku_sn:'',
             },
             model:null,
             rules:{
-
+                goods_price:[
+                    {required: true,pattern:/^(([1-9]\d{0,9})|0)(\.\d{1,2})?$/,message: '价格格式为00.00', trigger:'blur'}
+                ],
+                check_count:[
+                    {required: true,type:'number',message: '填写数量纯数字', trigger:'blur'}
+                ]
             }
         }
     },
+    computed:{
+        ...mapGetters([
+            'getUser'
+        ])
+    },
     methods:{
         onOpen(param){
+            console.log(param.params.model);
+            // console.log(this.getUser);
             this.model = param.params.model;
         },
         getAjaxPromise(model){
             // return this.ajaxProxy.create(model);
+            return this.ajaxProxy.update(model.id, model);
         },
-        formSubmit(){
-            console.log(this.editForm);
+        handlePrice(v){
+            this.handleChange(this.editForm.check_count);
+        },
+        handleChange(v){
+            let check_count = v;
+            let entrepot_count = this.editForm.entrepot_count;
+            let goods_price = this.editForm.goods_price;
+            let $num = check_count-entrepot_count;
+            if(goods_price == '' || goods_price == undefined){
+                this.$message.error('请输入价格才能计算盘盈/盘亏');
+                return;
+            }
+            if($num>0){
+                this.editForm.profit_count = $num;
+                this.editForm.profit_money = $num*goods_price;
+                this.editForm.loss_count = 0;
+                this.editForm.loss_money = 0;
+            }else if($num<0){
+                this.editForm.profit_count = 0;
+                this.editForm.profit_money = 0;
+                this.editForm.loss_count = Math.abs($num);
+                this.editForm.loss_money = Math.abs($num*goods_price);
+            }else{
+                this.editForm.profit_count = 0;
+                this.editForm.profit_money = 0;
+                this.editForm.loss_count = 0;
+                this.editForm.loss_money = 0;
+            }
         }
     },
 
@@ -111,6 +211,7 @@ export default {
                 if (this.editForm.hasOwnProperty(key)) {
                     this.editForm[key] = val[key];
                 }
+
             }
         }
     }
@@ -119,6 +220,6 @@ export default {
 </script>
 <style scoped>
     .name-input{
-        max-width: 217px;
+        max-width: 170px;
     }
 </style>

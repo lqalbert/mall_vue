@@ -33,8 +33,8 @@
                                 <el-cascader
                                         v-model="addOrderForm.dev"
                                         :options="CategoryList"
-                                        @change="categoryChange"
-                                ></el-cascader>
+                                        @change="categoryChange">
+                                </el-cascader>
                             </el-form-item>
                         </el-col>
                         <el-col :span="12">

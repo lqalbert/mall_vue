@@ -29,4 +29,12 @@ proxy.getByExpressSn = function(express_sn, param){
     return this.getAxios().get('/assign-expresssn/'+express_sn, {params:param});
 }
 
+proxy.checkedGoods = function(id){
+    return this.getAxios().put('/assign-checkgoods/'+id);
+}
+//称重发货
+proxy.weightGoods = function(id, model){
+    return this.getAxios().put('/assign-weight/'+id, model);
+}
+
 export default proxy;

@@ -24,15 +24,23 @@
                     <el-table-column type="index" width="80" label="序号"></el-table-column>
                     <!-- <el-table-column label="ID" align="center" prop="id"></el-table-column> -->
 
-                    <el-table-column prop="name" label="名称" align="center"></el-table-column>
+                    <el-table-column prop="name" label="名称" align="center" width="140px"></el-table-column>
 
                     <el-table-column prop="eng_name" label="英文简称" align="center"></el-table-column>
 
                     <el-table-column prop="contact" label="联系人" align="center"></el-table-column>
 
-                    <el-table-column prop="contact_phone" label="联系方式" align="center"></el-table-column>
+                    <el-table-column prop="contact_phone" label="联系电话" align="center" width="140px"></el-table-column>
 
-                    <el-table-column prop="address" label="地址" align="center" :show-overflow-tooltip="true"></el-table-column>
+                    <el-table-column prop="fixed_telephone" label="固定电话" align="center" width="140px"></el-table-column>
+
+                    <!--<el-table-column prop="area_province_name" label="省" align="center"></el-table-column>-->
+
+                    <!--<el-table-column prop="area_city_name" label="市" align="center"></el-table-column>-->
+
+                    <!--<el-table-column prop="area_district_name" label="区/县" align="center"></el-table-column>-->
+
+                    <!--<el-table-column prop="address" label="地址" align="center" :show-overflow-tooltip="true"></el-table-column>-->
 
                     <el-table-column prop="comment" label="备注" align="center" :show-overflow-tooltip="true"></el-table-column>
 
@@ -54,11 +62,13 @@
         <add-dialog
                 name="add"
                 :ajax-proxy="ajaxProxy"
+                :distributors="distributors"
                 @submit-success="handleReload">
         </add-dialog>
         <edit-dialog
                 name="edit"
                 :ajax-proxy="ajaxProxy"
+                :distributors="distributors"
                 @submit-success="handleReload">
         </edit-dialog>
 
@@ -74,6 +84,8 @@ import DataTable from '../../mix/DataTable';
 import { mapGetters } from 'vuex';
 // import Dialog from '../common/Dialog';
 import DistributionCenterAjaxProxy from '../../ajaxProxy/DistributionCenter';
+import AreaSelect from '@/packages/AreaSelectProxy';
+
 export default {
     name: 'DistributionCenter',
     pageTitle:"配送中心",
@@ -92,14 +104,17 @@ export default {
                 contact:'',
                 contact_phone:'',
             },
+            distributors:[],
+            provinces:[],
+
         }
     },
     methods:{
         add(){
-            this.$modal.show('add');
+            this.$modal.show('add', {model:this.model,provinces: this.provinces});
         },
         showEdit(row){
-            this.$modal.show('edit',{model:row});
+            this.$modal.show('edit',{model:row,provinces: this.provinces});
         },
         getAjaxProxy(){
             return  this.ajaxProxy;
@@ -107,10 +122,18 @@ export default {
         onSearchChange(param){
             this.mainparam = JSON.stringify(param);
         },
-
+        getAreaProvinces(data){
+            this.provinces = data;
+        },
+        setAreaProvinces(){
+            let areaSelect = new AreaSelect({pid:1},this.getAreaProvinces,this);
+            areaSelect.load();
+        },
     },
     created(){
         this.$on('search-tool-change', this.onSearchChange);
+        //    获取省份
+        this.setAreaProvinces();
     },
     mounted(){
 

@@ -8,6 +8,7 @@
                 <el-table-column label="序号" type="index" width="65"></el-table-column>
                 <el-table-column prop="name" label="收货人" width="100"></el-table-column>
                 <el-table-column prop="phone" label="手机号" width="130"></el-table-column>
+                <el-table-column prop="fixed_telephone" label="固定电话" width="130"></el-table-column>
                 <el-table-column prop="zip_code" label="地址邮编" width="110"></el-table-column>
                 <el-table-column prop="area_province_name" label="省" width="80"></el-table-column>
                 <el-table-column prop="area_city_name" label="城市" width="80"></el-table-column>
@@ -33,6 +34,11 @@
                     <el-col :span="12">
                         <el-form-item prop="phone" label="收货人手机号">
                             <el-input class="name-input" v-model.number="addDeliveryAddressForm.phone" size="small" placeholder="收货人手机号" ></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item prop="fixed_telephone" label="固定电话">
+                            <el-input class="name-input" v-model="addDeliveryAddressForm.fixed_telephone" size="small" placeholder="固定电话" ></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -128,6 +134,7 @@ export default {
             addDeliveryAddressForm:{
                 name:'',
                 phone:'',
+                fixed_telephone:"",
                 address:'',
                 default_address:1,
                 zip_code:'',
@@ -147,8 +154,11 @@ export default {
                     { required: true, message: '请输入姓名', trigger: 'blur' },
                     { min:1,   max: 10, message: '长度不能超过10个字符', trigger: 'blur'  }
                 ],
-                phone:[
-                    { required: true, message:'请输入正确的手机号', pattern:PHONE_REG, trigger:'blur'},
+                // phone:[
+                //     { required: true, message:'请输入正确的手机号', pattern:PHONE_REG, trigger:'blur'},
+                // ],
+                fixed_telephone:[
+                    { required: true, message:'请输入固定电话', trigger:'blur'},
                 ],
                 address:[
                     { required: true,message:'请输入收货地址',  trigger:'blur'},

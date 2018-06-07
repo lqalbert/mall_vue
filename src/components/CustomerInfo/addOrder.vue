@@ -116,7 +116,7 @@
                             style="width: 100%">
                         <el-table-column label="序号" type="index" width="80 px"></el-table-column>
                         <el-table-column prop="name" label="收货人姓名"></el-table-column>
-                        <el-table-column prop="phone" label="收货人手机号"></el-table-column>
+                        <el-table-column prop="fixed_telephone" label="固定电话"></el-table-column>
                         <el-table-column prop="address" label="收货地址"></el-table-column>
                         <el-table-column prop="zip_code" label="收货邮编"></el-table-column>
                         <el-table-column prop="deal_name" label="成交员工"></el-table-column>
@@ -331,6 +331,7 @@
                 let data={
                     name : vmThis.addressListData[address_id].name,
                     phone : vmThis.addressListData[address_id].phone,
+                    fixed_telephone : vmThis.addressListData[address_id].fixed_telephone,
                     address: vmThis.addressListData[address_id].address,
                     zip_code: vmThis.addressListData[address_id].zip_code,
                     area_city_id:vmThis.addressListData[address_id].area_city_id,

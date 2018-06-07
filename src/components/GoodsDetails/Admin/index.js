@@ -13,7 +13,7 @@ import URL_CONST from '../../../config';
 export default {
     name: 'AdminIndex',
     pageTitle: "商品详情",
-    mixins: [SearchTool,DataTable,GoodsDetailsAjaxProxy],
+    mixins: [SearchTool,DataTable],
     components:{
         Add,
         Edit,

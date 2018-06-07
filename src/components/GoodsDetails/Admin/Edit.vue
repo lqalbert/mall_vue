@@ -318,7 +318,7 @@ export default {
             this.fileList = [];
             let id = param.params.id;
             this.UnitTypes = param.params.extra;
-            this.ajaxProxy.find(id).then((data)=>{
+            this.ajaxProxy.find(id, { with:['category', 'imgs'] }).then((data)=>{
                 let row = data.data;
                 row.del_imgs = [];
                 row.cate_id = [];

@@ -404,8 +404,10 @@ export default {
                 // this.$modal.show('express', param);
                 //与打印机通讯 要面单什么的
                 if (pr) {
-                    //更新记录的打印时间　打印状态
-                    AssignAjaxProxy.update(this.currentRow.id, {express_print_status:1, express_print_at: Date.now() });
+                    //更新记录的打印时间　打印状态 返回打印的数据？　估计还要设置一下格式
+                    AssignAjaxProxy.waybillPrint(this.currentRow.id).then((response)=>{
+                        //获取打印的数据　估计还要设置一下格式
+                    });
                 }
             }
         },
@@ -429,8 +431,12 @@ export default {
                 // this.$modal.show('express', param);
                 //与打印机通讯 要面单什么的
                 if (pr) {
+                    window.open("/admin/print/assign/"+this.currentRow.id);
                     //更新记录的打印时间　打印状态
-                    AssignAjaxProxy.update(this.currentRow.id, {assign_print_status:1, assign_print_at: Date.now() });
+                    // AssignAjaxProxy.goodsPrint(this.currentRow.id).then((response)=>{
+                    //     //获取打印的数据　估计还要设置一下格式
+                    //      window.open("/print/assign/"+this.currentRow.id);
+                    // });
                 }
             }
         },
@@ -450,7 +456,7 @@ export default {
     "version": "1.0",
     "task": {
         "taskID": "7293666",
-        "preview": true,
+        "preview": false,
         "printer": "",
         "previewType": "pdf",
         "firstDocumentNumber": 10,

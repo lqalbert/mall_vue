@@ -12,7 +12,8 @@ import VueQuillEditor from 'vue-quill-editor'
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
-import Mock from './mock/mock';
+// import Mock from './mock/mock';
+// import focus from './directive/focus';
 
 Vue.use(VModal);
 // Vue.use($);

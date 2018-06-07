@@ -87,6 +87,9 @@
     /* background: #c9e5f5; */
     background: rgba(70, 163, 216, 0.61)
   }
+  .el-table--enable-row-hover .el-table__body tr:hover>td {
+    background-color: rgba(70, 163, 216, 0.9);  
+  }
 
   /* .slide-fade-enter-active, .slide-fade-leave-active {
       transition: all 0.4s;

@@ -41,16 +41,14 @@
                                 <submit-button
                                     :observer="dialogThis"
                                     @click="formSubmit('checkForm')" >
+                                    <!-- 要检查一下商品(名称＼数量) -->
                                     提 交
                                 </submit-button>
                             </el-col>
                         </el-row>
                         <el-row>
                             <el-col :span="24">
-
                                 <img v-show="imgurl.length!=0" :src="imgurl" alt="">
-                                
-
                             </el-col>
                         </el-row>
                     </el-form>
@@ -134,6 +132,9 @@
                                 <el-row v-for="item in checkGoods">
                                     <el-col :span="16">{{ item.goods_name }}</el-col>
                                     <el-col :span="4">{{ item.goods_number }}</el-col>
+                                    <el-col :span="4">
+                                        <el-button type="primary" size="mini" icon="minus" @click="subNumber(index)"></el-button>
+                                    </el-col>
                                 </el-row>
                             </el-col>
                         </el-row>
@@ -175,6 +176,7 @@ export default {
             checkGoods:[],
 
             assignRequest:null,
+            barcodec:null,
             load:false,
 
             imgurl:""
@@ -230,28 +232,46 @@ export default {
             const item = this.goods.find((element, i)=>{
                 return  i == index ;
             });
+
+            const n = this.checkGoods.find((element)=>{
+                return item.goods_id == element.goods_id;
+            });
+
+            if (typeof n == 'undefined') {
+                item.goods_number = 1;
+                this.checkGoods.splice(index, 0, item);
+            } else {
+                this.checkedGoods.forEach(element => {
+                    if (element.goods_id == item.goods_id) {
+                        element.goods_number++;
+                    }
+                });
+            }
             
             GoodsAjax.find(item.goods_id, {fields:['id','cover_url']}).then((response)=>{
                 this.imgurl = response.data.cover_url;
             }).catch((response)=>{
 
-            })
-
-            if (item) {
-                this.checkGoods.splice(index, 0, item);
-            }
-
-            
+            })    
         },
         barcodeChange(v){
-            const index = this.goods.findIndex((element)=>{
-                return v == element.barcode;
-            })
-            if (index !=-1) {
-                this.checkIndex(index);
-            } else {
-                this.$message.error('未找到对应的商品');
+            let vmthis = this;
+            if (this.barcodec) {
+                clearTimeout(this.barcodec);
             }
+            if (v.length == 0) {
+                return ;
+            }
+            this.barcodec = setTimeout(function(){
+                const index = vmthis.goods.findIndex((element)=>{
+                    return v == element.barcode;
+                })
+                if (index !=-1) {
+                    vmthis.checkIndex(index);
+                } else {
+                    vmthis.$message.error('未找到对应的商品');
+                }
+            },700);   
         },
         //---------提交请求
         getAjaxPromise(model){
@@ -268,6 +288,42 @@ export default {
         onSuccess(){
             this.$message.success("提交成功");
             this.rest();
+        },
+        subNumber(index){
+            const n = this.checkGoods.find((element)=>{
+                return item.goods_number--;
+            });
+        },
+        beforeSubmit(){
+            //检查数量是否正确？
+            //总数
+            if (this.goodsTotal != this.checkTotal) {
+                this.$message.error('商品总数量不正确');
+                return ;
+            }
+            
+            
+            let result = 0;
+
+            this.goods.forEach((element)=>{
+                let index = this.checkGoods.findIndex((element2)=>{
+                    if (element.goods_id == element2.goods_id  &&  element.goods_number == element2.goods_number ) {
+                        return true
+                    }
+                    return false;
+                })
+                if (index != -1) {
+                    result++;
+                }
+            }, this);
+
+            if (result != this.goods.length) {
+                this.$message.error('商品数量不正确');
+                return ;
+            }
+
+            
+
         }
     },
     created(){

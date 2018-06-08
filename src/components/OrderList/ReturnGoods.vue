@@ -1,7 +1,7 @@
 <template>
     <div>
         <MyDialog title="发起退货" :name="name" :width="width" :height="height" @before-open="onOpen" @before-close="onBeforeClose">
-            <el-form ref="rowInfoForm" :model="rowInfoForm" :label-width="labelWidth" :label-position="labelPosition">
+            <el-form ref="rowInfoForm" size="small" :model="rowInfoForm" :label-width="labelWidth" :label-position="labelPosition">
                 <el-steps :space="250" :active="active" finish-status="success" :center="true" :align-center="true">
                     <el-step title="订单信息"></el-step>
                     <el-step title="订单商品处理"></el-step>

@@ -120,7 +120,7 @@ export default {
 		handleFirst(row){
 			this.goodsLoading = true;
 			this.OrderGoodsProxy.setParam({
-				order_id:row.id,
+				assign_id:row.id,
 			}).load();
 			this.tabFirst = true;
 		},

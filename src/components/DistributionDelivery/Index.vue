@@ -50,14 +50,14 @@
                     <el-input v-model="searchForm.express_name" size="small" placeholder="快递公司"></el-input>
                 </el-form-item> -->
                 <el-form-item prop="status">
-                    <el-select v-model="searchForm.status" size="small" placeholder="发货状态">
+                    <el-select v-model="searchForm.pstatus" size="small" placeholder="发货状态" >
                         <el-option label="未审核" value="0"></el-option>
                         <el-option label="已审核" value="1"></el-option>
                         <el-option label="审核未通过" value="2"></el-option>
-                        <el-option label="已拦截" value="2"></el-option>
-                        <el-option label="已发货" value="2"></el-option>
-                        <el-option label="已打印" value="2"></el-option>
-                        <el-option label="已验货" value="2"></el-option>
+                        <el-option label="已拦截" value="3"></el-option>
+                        <el-option label="已发货" value="4"></el-option>
+                        <el-option label="已打印" value="5"></el-option>
+                        <el-option label="已验货" value="6"></el-option>
                     </el-select>
                 </el-form-item>
                 <!-- <el-form-item prop="assign_type">
@@ -167,7 +167,7 @@
 
                     <el-table-column prop="is_stop" label="是否拦截" align="center" width="200">
                         <template slot-scope="scope">
-                            <div v-if="scope.is_stop == 0">否</div>
+                            <div v-if="scope.row.is_stop == 0">否</div>
                             <div v-else>是</div>
                         </template>
                     </el-table-column>
@@ -275,9 +275,10 @@ export default {
                 deliver_name:'',
                 deliver_phone:'',
                 express_name:'',
-                status:'',
+                pstatus:'',
                 assign_type:'',
                 user_name:'',
+                is_stop:"",
                 // with:['order','address'],
                 // appends:['status_text'],
             },
@@ -293,7 +294,31 @@ export default {
             model:null,
         }
     },
+
     methods:{
+        pstatusChange(param){
+            switch(param.pstatus){
+                case 0:
+                case 1:
+                case 2:
+                    param.status = param.pstatus;
+                    break;
+                case 3:
+                    param.is_stop = 1;
+                    break;
+                case 4:
+                    param.status = 3;
+                    break;
+                case 5:
+                    param.assign_print_status = 1;
+                    param.express_print_status  = 1;
+                    break;
+                case 6:
+                    param.status = 4;
+                    break;
+                default :
+            }
+        },
         dbClick(row){
             this.model=row;
         },
@@ -337,6 +362,7 @@ export default {
         onSearchChange(param){
             param['with'] = ['order','address'];
             param['appends'] = ['status_text'];
+            this.pstatusChange(param);
             this.mainparam = JSON.stringify(param);
         },
         onCurrentChange(currentRow) {

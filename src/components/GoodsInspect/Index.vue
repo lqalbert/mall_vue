@@ -7,7 +7,7 @@
                         <el-row>
                             <el-col :span="14">
                                 <el-form-item label="快递单号" prop="express_sn" >
-                                    <el-input v-model="checkForm.express_sn"　@change="expressSnChange" autofocus></el-input>
+                                    <el-input v-model="checkForm.express_sn" ref="express"　@change="expressSnChange" autofocus></el-input>
                                 </el-form-item>
                             </el-col>
                         </el-row>
@@ -24,6 +24,7 @@
                                 <el-form-item label="" prop="carton_number" >
                                     <el-checkbox-group v-model="checkForm.carton_number">
                                         <!-- <el-checkbox label="快速验货"></el-checkbox> -->
+
                                         <el-checkbox label="完成自动提交" v-model="autoSubmit"></el-checkbox>
                                     </el-checkbox-group>
                                 </el-form-item>
@@ -38,6 +39,8 @@
                         </el-row>
                         <el-row>
                             <el-col :span="14" :offset="6">
+                                <!--   这个订单提交之后 光标会自动跳回 快递单号输入框 -->
+                                <!-- 验货成功和发货成功 有语音提示-->
                                 <submit-button
                                     :observer="dialogThis"
                                     @click="formSubmit('checkForm')" >
@@ -143,6 +146,9 @@
                 </div>
             </el-col>
         </el-row>
+        <audio src="/public/audio/9675.mp3" preload="auto" id="audiotip">
+            你的浏览器无法播放音乐
+        </audio>
     </div>
 </template>
 
@@ -219,11 +225,14 @@ export default {
                     if (!(response.data.data instanceof Array )) {
                         vmthis.model = response.data.data;
                         vmthis.address = vmthis.model.address;
-                        vmthis.goods = vmthis.model.goods;  
+                        vmthis.goods = vmthis.model.goods;     
+                    } else {
+                        vmthis.$message.error('找不到对应快递单');
                     }
                 }).catch((response)=>{
                     vmthis.load = false;
-                    vmthis.$message.error('加载订单出错');
+                    vmthis.$message.error('加载快递单出错');
+                    
                 });
             }, 800);
             
@@ -288,6 +297,9 @@ export default {
         onSuccess(){
             this.$message.success("提交成功");
             this.rest();
+            this.$refs.express.$refs.input.focus();
+            this.currentTime=0;
+            this.audio.play();
         },
         subNumber(index){
             const n = this.checkGoods.find((element)=>{
@@ -329,6 +341,10 @@ export default {
     created(){
         this.dialogThis = this;
         this.$emit('submit-success', this.onSuccess);
+    },
+    mounted(){
+        this.audio = document.getElementById("audiotip");
+        // this.audio.loop = true;
     }
 }
 </script>

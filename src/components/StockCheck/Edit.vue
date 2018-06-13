@@ -1,6 +1,6 @@
 <template>
     <div>
-        <MyDialog title="修改盘点" :name="name" :width="width" :height="height" @before-open="onOpen">
+        <MyDialog title="盘点录入" :name="name" :width="width" :height="height" @before-open="onOpen">
             <el-form :model="editForm" ref="editForm" :label-width="labelWidth" :rules="rules" :label-position="labelPosition">
                 <el-row>
                     <el-col :span="12">
@@ -27,12 +27,12 @@
                     </el-col>
                 </el-row>
                 <el-row>
-                    <el-col :span="12">
+                    <!-- <el-col :span="12">
                         <el-form-item prop="cate_type" label="商品类型:">
                             {{editForm.cate_type}}
                         </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
+                    </el-col> -->
+                    <el-col :span="12" :offset="12">
                         <el-form-item prop="goods_price" label="商品单价:">
                             <el-input class="name-input" size="small" 
                                 v-model="editForm.goods_price" @change="handlePrice" placeholder="必须输入单价">
@@ -61,7 +61,7 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item prop="profit_money" label="盘盈金额:">
+                        <el-form-item prop="profit_money" label="释放金额:">
                             {{editForm.profit_money}}
                         </el-form-item>
                     </el-col>
@@ -73,7 +73,7 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item prop="loss_money" label="盘亏金额:">
+                        <el-form-item prop="loss_money" label="责任金额:">
                             {{editForm.loss_money}}
                         </el-form-item>
                     </el-col>
@@ -101,7 +101,7 @@
     </div>
 </template>
 <script>
-import DialogForm from '../../mix/DialogForm';
+// import DialogForm from '../../mix/DialogForm';
 import FormMix from '../../mix/Form';
 import DialogMix from '../../mix/Dialog';
 import APP_CONST from '../../config';
@@ -109,12 +109,16 @@ import { mapGetters } from 'vuex';
 
 export default {
     name: 'add-dialog',
-    mixins:[DialogForm,FormMix,DialogMix],
+    mixins:[FormMix,DialogMix],//DialogForm,
     components: {
         
     },
     props:{
-
+        ajaxProxy:{
+            // required:true,
+            type: Object,
+            default: null
+        }
     },
     data(){
         return {
@@ -163,9 +167,11 @@ export default {
     },
     methods:{
         onOpen(param){
-            console.log(param.params.model);
+            // console.log(param.params.model);
             // console.log(this.getUser);
             this.model = param.params.model;
+            this.editForm.check_name = this.getUser.realname;
+            this.editForm.check_user_id = this.getUser.id;
         },
         getAjaxPromise(model){
             // return this.ajaxProxy.create(model);
@@ -199,11 +205,14 @@ export default {
                 this.editForm.loss_count = 0;
                 this.editForm.loss_money = 0;
             }
+        },
+        handleClose(){
+            this.$emit('check-success',this.model);
         }
     },
 
     created(){
-        
+        this.$on('submit-success', this.handleClose);
     },
     watch:{
         model:function(val, oldVal){

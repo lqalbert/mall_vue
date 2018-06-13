@@ -1,18 +1,18 @@
 import SelectProxy from './SelectProxy';
 
-const InventoryGoodsSelectProxy = function (param, callback, scope) {
+const GetCheckGoodsSelectProxy = function (param, callback, scope) {
     this.extraParm = param || null;
-    this.partProxy = new SelectProxy('/stock-check-goods', callback, scope);
+    this.partProxy = new SelectProxy('/get-check-goods', callback, scope);
 
     if (this.extraParm) {
         this.setParam(this.extraParm);
     }
 }
 
-InventoryGoodsSelectProxy.prototype.setParam = function (param) {
+GetCheckGoodsSelectProxy.prototype.setParam = function (param) {
     // this.extraParm = param;
     if (!param.fields) {
-        param.fields = ['id', 'name'];
+        param.fields = ['*'];
     }
 
     // if (!param.business) {
@@ -22,8 +22,8 @@ InventoryGoodsSelectProxy.prototype.setParam = function (param) {
     return this;
 }
 
-InventoryGoodsSelectProxy.prototype.load = function () {
+GetCheckGoodsSelectProxy.prototype.load = function () {
     this.partProxy.load();
 }
 
-export default InventoryGoodsSelectProxy;
+export default GetCheckGoodsSelectProxy;

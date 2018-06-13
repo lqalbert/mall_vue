@@ -53,8 +53,9 @@ const PageList = {
     //入库流程
     'WarehousingProcess': (resolve) => { require(['./WarehousingProcess/Index.vue'], resolve)},
     'ExpressCompensation': (resolve) => { require(['./ExpressCompensation/Index.vue'], resolve)},
-
-
+    
+    //盘点开单
+    'StockCheckGoods': (resolve) => {require(['./StockCheckGoods/Index.vue'], resolve)},
 
     'StockCheck': (resolve) => { require(['./StockCheck/Index.vue'], resolve)},
 

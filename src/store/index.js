@@ -9,6 +9,7 @@ import goodsCates from './modules/goodsCates';
 import area from './modules/area';
 import carton from './modules/carton';
 import express from './modules/express';
+import entrepots from './modules/entrepot';
 
 Vue.use(Vuex);
 
@@ -30,7 +31,8 @@ const store = new Vuex.Store({
         goodsCates,
         area,
         carton,
-        express
+        express,
+        entrepots
     },
     strict: process.env.NODE_ENV !== 'production'
 });

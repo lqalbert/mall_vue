@@ -55,17 +55,17 @@
                     <el-table-column prop="order.order_all_money" label="销售单号" align="center" width="100"></el-table-column>
                     <el-table-column prop="order.order_pay_money" label="状态" align="center" width="100"></el-table-column>
                     <el-table-column prop="order.cus_name" label="退款单位" align="center" width="80"></el-table-column>
-                    <el-table-column prop="user_name" label="补换单位" align="center" width="80"></el-table-column>
+                    <!-- <el-table-column prop="user_name" label="补换单位" align="center" width="80"></el-table-column> -->
                     <el-table-column prop="type_text" label="特殊处理"　width="100"></el-table-column>
                     <el-table-column prop="check_status_text" label="退款状态"></el-table-column>
                     <el-table-column prop="type_text" label="退货单录入日期" :show-overflow-tooltip="true"></el-table-column>
                     <el-table-column prop="type_text" label="原成交员工" align="center"></el-table-column>
 
-                    <el-table-column prop="type_text" label="原成交单位" align="center"></el-table-column>
+                    <!-- <el-table-column prop="type_text" label="原成交单位" align="center"></el-table-column>
                     <el-table-column prop="type_text" label="订单录入日期" align="center"></el-table-column>
                     <el-table-column prop="type_text" label="原初成员工" align="center"></el-table-column>
                     <el-table-column prop="type_text" label="原初成单位" align="center"></el-table-column>
-                    <el-table-column prop="type_text" label="原发货单位" align="center"></el-table-column>
+                    <el-table-column prop="type_text" label="原发货单位" align="center"></el-table-column> -->
 
                     <el-table-column prop="type_text" label="客户ID" align="center"></el-table-column>
                     <el-table-column prop="type_text" label="退款比例" align="center"></el-table-column>
@@ -77,8 +77,8 @@
                     <el-table-column prop="type_text" label="退货快递公司" align="center"></el-table-column>
                     <el-table-column prop="type_text" label="退货快递单号" align="center"></el-table-column>
                     <el-table-column prop="type_text" label="退货收货单位" align="center"></el-table-column>
-                    <el-table-column prop="type_text" label="重发单位" align="center"></el-table-column>
-                    <el-table-column prop="type_text" label="原发货快递" align="center"></el-table-column>
+                    <!-- <el-table-column prop="type_text" label="重发单位" align="center"></el-table-column>
+                    <el-table-column prop="type_text" label="原发货快递" align="center"></el-table-column> -->
                     <el-table-column prop="type_text" label="提交日期" align="center"></el-table-column>
                     <el-table-column prop="type_text" label="重发运费" align="center"></el-table-column>
                     <el-table-column prop="type_text" label="重发服务费" align="center"></el-table-column>
@@ -88,14 +88,12 @@
                     <el-table-column v-if="showOperator" label="操作" align="center" width="200">
                         <template slot-scope="scope">
                             <el-button type="warning" size="small" @click="handleCheck(scope.row)">审核</el-button>
-                            <!-- <el-button type="warning" size="small" @click="exchangeC(scope.row)">审核</el-button> -->
-                            <!--<el-button type="danger" @click="handleDelete(scope.row.id)" size="small">删除</el-button>-->
                         </template>
                     </el-table-column>
                     <div slot="buttonbar">
-                        <el-button type="primary" size="small" @click="showAdvancedQuery">高级查询</el-button>
+                        <!-- <el-button type="primary" size="small" @click="showAdvancedQuery">高级查询</el-button>
                         <el-button type="primary" size="small" @click="showAdvancedQuery">退货修改</el-button>
-                        <el-button type="primary" size="small" @click="showAdvancedQuery">退货提交</el-button>
+                        <el-button type="primary" size="small" @click="showAdvancedQuery">退货提交</el-button> -->
                         <el-button type="primary" size="small" @click="showAdvancedQuery">退货确认</el-button>
                         <el-button type="primary" size="small" @click="showAdvancedQuery">退货审核</el-button>
                     </div>
@@ -300,8 +298,7 @@
                     type:'',
                     deliver:'',
 
-                    load:['order'],
-                    appends:['type_text','check_status_text']
+                    
 
                 },
                 tabindex:'0',
@@ -369,17 +366,15 @@
             },
 
 
-            onSearchChange(param){
+            onSearchChange(param){ 
+                param['load'] = ['order'];  
                 this.mainparam = JSON.stringify(param);
             },
             searchReset:function(){
                 this.$refs['searchForm'].resetFields();
                 this.typeName = '请选择排名方式';
                 this.toggleTableLoad();
-            },
-            
-            
-
+            }
         },
         created(){
 

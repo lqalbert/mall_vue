@@ -57,6 +57,7 @@
                 </TableProxy>
             </el-col>
         </el-row>
+        <br>
         <el-row>
             <el-form :model="editForm" ref="editForm" :rules="rules">
                 <el-table :data="tableData" style="width: 100%" border empty-text="请选择单子点击盘点">
@@ -309,11 +310,9 @@
 <style scoped>
     .form-item-unique{
         width: 170px !important;
-        margin-bottom: 2px !important;
     }
     .form-item-unique-one{
         margin-left: 50px;
-        margin-bottom: 2px !important;
     }
     .demo-table-expand {
         font-size: 0;

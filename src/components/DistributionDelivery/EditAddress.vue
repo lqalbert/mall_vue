@@ -33,7 +33,7 @@
                 </el-row>
                 <el-row>
                     <el-col :span="12">
-                        <el-form-item label="区县"　prop="area_district_id">
+                        <el-form-item label="区县" prop="area_district_id">
                             <el-select v-model="editForm.area_district_id" placeholder="请选择" @change="disChange" clearable>
                                     <el-option v-for="item in dis" :label="item.name" :value="item.id" :key="item.id"></el-option>
                             </el-select>

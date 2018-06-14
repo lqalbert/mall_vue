@@ -7,7 +7,7 @@
                         <el-row>
                             <el-col :span="14">
                                 <el-form-item label="快递单号" prop="express_sn" >
-                                    <el-input v-model="checkForm.express_sn" ref="express"　@change="expressSnChange" autofocus></el-input>
+                                    <el-input v-model="checkForm.express_sn" ref="express" @change="expressSnChange" autofocus></el-input>
                                 </el-form-item>
                             </el-col>
                         </el-row>
@@ -132,7 +132,7 @@
                                 </el-row>
                             </el-col>
                             <el-col :span="12">
-                                <el-row v-for="item in checkGoods">
+                                <el-row v-for="item in checkGoods" :Key="item.id">
                                     <el-col :span="16">{{ item.goods_name }}</el-col>
                                     <el-col :span="4">{{ item.goods_number }}</el-col>
                                     <el-col :span="4">

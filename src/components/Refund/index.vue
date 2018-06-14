@@ -46,7 +46,7 @@
                     <el-table-column prop="order_sn" label="销售单号"  width="180"  align="center" ></el-table-column>
                     <el-table-column prop="status" label="状态" align="center" width="100"></el-table-column>
                     <el-table-column prop="return_unit" label="退款单位" align="center" width="120" :show-overflow-tooltip="true"></el-table-column>
-                    <el-table-column prop="is_special" label="特殊处理"　width="100"></el-table-column>
+                    <el-table-column prop="is_special" label="特殊处理" width="100"></el-table-column>
                     <el-table-column prop="refund_status" label="退款状态" width="100"></el-table-column>
                     <el-table-column prop="created_at" label="退货单录入日期" width="180"></el-table-column>
                     <el-table-column prop="order.deal_name" label="原成交员工" width="160" align="center" :show-overflow-tooltip="true"></el-table-column>

@@ -42,7 +42,7 @@
                             <el-row>
                                 <el-col :span="14">
                                     <el-form-item label="称重误差(g)" prop="range">
-                                        <el-slider v-model="checkForm.range"　:max="2000"></el-slider>
+                                        <el-slider v-model="checkForm.range" :max="2000"></el-slider>
                                     </el-form-item>
                                 </el-col>
                             </el-row>
@@ -112,7 +112,7 @@
                             <el-col :span="4">数量</el-col>
                         </el-row>
                         
-                        <el-row v-for="(item,index) in goods" :key="item.id">
+                        <el-row v-for="(item,index) in goods" :key="index">
                             <el-col :span="16">{{ item.goods_name }}</el-col>
                             <el-col :span="4">{{ item.goods_number }}</el-col>
                         </el-row>

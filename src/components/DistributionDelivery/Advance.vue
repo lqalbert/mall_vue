@@ -4,7 +4,7 @@
                 <el-row>
                     <el-col :span="12">
                         <el-form-item prop="assign_sn" label="发货单编号">
-                            <el-input size="small"　v-model="queryForm.assign_sn"></el-input>
+                            <el-input size="small" v-model="queryForm.assign_sn"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -16,7 +16,7 @@
                 <el-row>
                     <el-col :span="12">
                         <el-form-item prop="pstatus" label="发货单状态">
-                            <el-select size="small" v-model="queryForm.pstatus"　clearable>
+                            <el-select size="small" v-model="queryForm.pstatus" clearable>
                                 <el-option v-for="(item,index) in assign_status" :label="item" :value="index" :key="index"></el-option>
                             </el-select>
                         </el-form-item>
@@ -63,18 +63,18 @@
                     <el-col :span="12">
                         <el-form-item prop="price_range" label="订单金额">
                             <el-select size="small" v-model="queryForm.price_range" clearable>
-                                　<el-option label="1w以上"　value="0"></el-option>
-                                　<el-option label="2w以上"　value="1"></el-option>
-                                　<el-option label="3w以上"　value="2"></el-option>
-                                　<el-option label="4w以上"　value="3"></el-option>
+                                　<el-option label="1w以上" value="0"></el-option>
+                                　<el-option label="2w以上" value="1"></el-option>
+                                　<el-option label="3w以上" value="2"></el-option>
+                                　<el-option label="4w以上" value="3"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                             <el-form-item prop="express_remark" label="订单备注">
                                 <el-select size="small" v-model="queryForm.express_remark" clearable>
-                                    　<el-option label="无"　value="0"></el-option>
-                                    　<el-option label="有"　value="1"></el-option>
+                                    　<el-option label="无" value="0"></el-option>
+                                    　<el-option label="有" value="1"></el-option>
                                 </el-select>
                             </el-form-item> 
                         </el-col>

@@ -222,8 +222,8 @@
 
         <el-button @click="printList">获取打印机列表</el-button>
         <el-button @click="configprint">弹窗式配置打印机</el-button>
-        <el-button　@click="getPrinterConfig">Fax打印机的配置</el-button>
-        <el-button　@click="previewPrint">打印预览PDF</el-button>
+        <el-button @click="getPrinterConfig">Fax打印机的配置</el-button>
+        <el-button @click="previewPrint">打印预览PDF</el-button>
     </div>
 </template>
 <script>

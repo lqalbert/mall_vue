@@ -146,7 +146,7 @@
                                 
                                 <el-table-column label="退(换)货原因" prop="reason" align="center" width="240">
                                     <template slot-scope="scope">
-                                        <el-select v-model="scope.row.reason"　size="small">
+                                        <el-select v-model="scope.row.reason" size="small">
                                             <el-option v-for="v in return_cause" :value="v.name" :key="v.id" :label="v.name"></el-option>
                                         </el-select>
                                     </template>

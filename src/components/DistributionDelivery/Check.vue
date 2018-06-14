@@ -10,7 +10,7 @@
                             </el-select>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <!-- <el-col :span="12">
                         <el-form-item label="快递号" prop="express_sn">
                             <el-col :span="14"><el-input v-model="checkForm.express_sn"></el-input></el-col>
                             <el-col :span="2">&nbsp;</el-col>
@@ -21,9 +21,9 @@
                                 </state-button>
                             </el-col>
                         </el-form-item>
-                    </el-col>
+                    </el-col> -->
                 </el-row>
-                <el-row>
+                <!-- <el-row>
                     <el-col :span="12">
                         <el-form-item label="纸箱型号"　prop="corrugated_id">
                             <el-col :span="14">
@@ -35,7 +35,7 @@
                             <el-col :span="4"><el-button @click="siCarton">匹配</el-button></el-col>
                         </el-form-item>
                     </el-col>
-                </el-row>
+                </el-row> -->
             </el-form>
             <div slot="dialog-foot" class="dialog-footer">
                 <el-button @click="handleClose">取 消</el-button>

@@ -7,7 +7,7 @@ import attr_config from './Attr';
 
 let domain;
 if (process.env.NODE_ENV == 'production') {
-    domain = "/admin";
+    domain = "/";
 } else {
     domain = "/admin"
 }

@@ -8,7 +8,7 @@
                                 <!-- 自动跳到下一格 -->
                                 <el-col :span="14">
                                     <el-form-item label="快递单号" prop="express_sn" >
-                                        <el-input v-model="checkForm.express_sn" placeholder="请填写快递单号" @change="expressSnChange"></el-input>
+                                        <el-input v-model="checkForm.express_sn" ref="express" placeholder="请填写快递单号" @change="expressSnChange"></el-input>
                                     </el-form-item>
                                 </el-col>
                             </el-row>
@@ -19,7 +19,7 @@
                                             快递费用 = 首价 +（重量-首重)/续重*续价
                                             如果小于等于首重　则费用就是首价
                                         -->
-                                        <el-input v-model="checkForm.real_weigth" placeholder="请填写商品重量" ref="real_weigth" ></el-input>
+                                        <el-input v-model="checkForm.real_weigth" placeholder="请填写商品重量" ref="weight" ></el-input>
                                     </el-form-item>
                                 </el-col>
                             </el-row>
@@ -50,6 +50,8 @@
                                 <el-col :span="14" :offset="6">
                                     <!-- 如果超过这个称重误差会弹出一个框 请核实重量是否确认发货 -->
                                     <!-- <el-button type="primary">确定发货</el-button> -->
+                                    <!--   这个订单提交之后 光标会自动跳回 快递单号输入框 -->
+                                    <!-- 验货成功和发货成功 有语音提示-->
                                     <submit-button
                                         :observer="dialogThis"
                                         @click="beforeSubmit" >
@@ -118,6 +120,9 @@
                 </div>
             </el-col>
         </el-row>
+        <audio src="/public/audio/9675.mp3" preload="auto" id="audiotips">
+            你的浏览器无法播放音乐
+        </audio>
     </div>
 </template>
 
@@ -175,9 +180,10 @@ export default {
                         vmthis.model = response.data.data;
                         vmthis.address = vmthis.model.address;
                         vmthis.goods = vmthis.model.goods;
-                    }  
+                    }
                 }).catch((response)=>{
                     vmthis.load = false;
+                    
                 });
             }, 500);
             
@@ -202,9 +208,30 @@ export default {
         getAjaxPromise(model){
             return AssignAjax.weightGoods(this.model.id, this.checkForm);
         },
+        onSuccess(){
+            this.$message.success("提交成功");
+            this.rest();
+            this.$refs.express.$refs.input.focus();
+        },
+        rest(){
+            this.model = {}
+            this.address={};
+            this.goods=[];
+            this.checkGoods=[];
+
+            this.assignRequest = null;
+
+            this.currentTime=0;
+            this.audio.play();
+        }
     },
     created(){
         this.dialogThis = this;
+        this.$emit('submit-success', this.onSuccess);
+    },
+    mounted(){
+        this.audio = document.getElementById("audiotips");
+        // this.audio.loop = true;
     }
 }
 </script>

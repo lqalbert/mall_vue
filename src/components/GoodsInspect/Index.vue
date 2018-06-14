@@ -7,7 +7,7 @@
                         <el-row>
                             <el-col :span="14">
                                 <el-form-item label="快递单号" prop="express_sn" >
-                                    <el-input v-model="checkForm.express_sn"　@change="expressSnChange" autofocus></el-input>
+                                    <el-input v-model="checkForm.express_sn" ref="express"　@change="expressSnChange" autofocus></el-input>
                                 </el-form-item>
                             </el-col>
                         </el-row>
@@ -24,6 +24,7 @@
                                 <el-form-item label="" prop="carton_number" >
                                     <el-checkbox-group v-model="checkForm.carton_number">
                                         <!-- <el-checkbox label="快速验货"></el-checkbox> -->
+
                                         <el-checkbox label="完成自动提交" v-model="autoSubmit"></el-checkbox>
                                     </el-checkbox-group>
                                 </el-form-item>
@@ -38,19 +39,19 @@
                         </el-row>
                         <el-row>
                             <el-col :span="14" :offset="6">
+                                <!--   这个订单提交之后 光标会自动跳回 快递单号输入框 -->
+                                <!-- 验货成功和发货成功 有语音提示-->
                                 <submit-button
                                     :observer="dialogThis"
                                     @click="formSubmit('checkForm')" >
+                                    <!-- 要检查一下商品(名称＼数量) -->
                                     提 交
                                 </submit-button>
                             </el-col>
                         </el-row>
                         <el-row>
                             <el-col :span="24">
-
                                 <img v-show="imgurl.length!=0" :src="imgurl" alt="">
-                                
-
                             </el-col>
                         </el-row>
                     </el-form>
@@ -134,6 +135,9 @@
                                 <el-row v-for="item in checkGoods">
                                     <el-col :span="16">{{ item.goods_name }}</el-col>
                                     <el-col :span="4">{{ item.goods_number }}</el-col>
+                                    <el-col :span="4">
+                                        <el-button type="primary" size="mini" icon="minus" @click="subNumber(index)"></el-button>
+                                    </el-col>
                                 </el-row>
                             </el-col>
                         </el-row>
@@ -142,6 +146,9 @@
                 </div>
             </el-col>
         </el-row>
+        <audio src="/public/audio/9675.mp3" preload="auto" id="audiotip">
+            你的浏览器无法播放音乐
+        </audio>
     </div>
 </template>
 
@@ -175,6 +182,7 @@ export default {
             checkGoods:[],
 
             assignRequest:null,
+            barcodec:null,
             load:false,
 
             imgurl:""
@@ -217,11 +225,14 @@ export default {
                     if (!(response.data.data instanceof Array )) {
                         vmthis.model = response.data.data;
                         vmthis.address = vmthis.model.address;
-                        vmthis.goods = vmthis.model.goods;  
+                        vmthis.goods = vmthis.model.goods;     
+                    } else {
+                        vmthis.$message.error('找不到对应快递单');
                     }
                 }).catch((response)=>{
                     vmthis.load = false;
-                    vmthis.$message.error('加载订单出错');
+                    vmthis.$message.error('加载快递单出错');
+                    
                 });
             }, 800);
             
@@ -230,28 +241,46 @@ export default {
             const item = this.goods.find((element, i)=>{
                 return  i == index ;
             });
+
+            const n = this.checkGoods.find((element)=>{
+                return item.goods_id == element.goods_id;
+            });
+
+            if (typeof n == 'undefined') {
+                item.goods_number = 1;
+                this.checkGoods.splice(index, 0, item);
+            } else {
+                this.checkedGoods.forEach(element => {
+                    if (element.goods_id == item.goods_id) {
+                        element.goods_number++;
+                    }
+                });
+            }
             
             GoodsAjax.find(item.goods_id, {fields:['id','cover_url']}).then((response)=>{
                 this.imgurl = response.data.cover_url;
             }).catch((response)=>{
 
-            })
-
-            if (item) {
-                this.checkGoods.splice(index, 0, item);
-            }
-
-            
+            })    
         },
         barcodeChange(v){
-            const index = this.goods.findIndex((element)=>{
-                return v == element.barcode;
-            })
-            if (index !=-1) {
-                this.checkIndex(index);
-            } else {
-                this.$message.error('未找到对应的商品');
+            let vmthis = this;
+            if (this.barcodec) {
+                clearTimeout(this.barcodec);
             }
+            if (v.length == 0) {
+                return ;
+            }
+            this.barcodec = setTimeout(function(){
+                const index = vmthis.goods.findIndex((element)=>{
+                    return v == element.barcode;
+                })
+                if (index !=-1) {
+                    vmthis.checkIndex(index);
+                } else {
+                    vmthis.$message.error('未找到对应的商品');
+                }
+            },700);   
         },
         //---------提交请求
         getAjaxPromise(model){
@@ -268,11 +297,54 @@ export default {
         onSuccess(){
             this.$message.success("提交成功");
             this.rest();
+            this.$refs.express.$refs.input.focus();
+            this.currentTime=0;
+            this.audio.play();
+        },
+        subNumber(index){
+            const n = this.checkGoods.find((element)=>{
+                return item.goods_number--;
+            });
+        },
+        beforeSubmit(){
+            //检查数量是否正确？
+            //总数
+            if (this.goodsTotal != this.checkTotal) {
+                this.$message.error('商品总数量不正确');
+                return ;
+            }
+            
+            
+            let result = 0;
+
+            this.goods.forEach((element)=>{
+                let index = this.checkGoods.findIndex((element2)=>{
+                    if (element.goods_id == element2.goods_id  &&  element.goods_number == element2.goods_number ) {
+                        return true
+                    }
+                    return false;
+                })
+                if (index != -1) {
+                    result++;
+                }
+            }, this);
+
+            if (result != this.goods.length) {
+                this.$message.error('商品数量不正确');
+                return ;
+            }
+
+            
+
         }
     },
     created(){
         this.dialogThis = this;
         this.$emit('submit-success', this.onSuccess);
+    },
+    mounted(){
+        this.audio = document.getElementById("audiotip");
+        // this.audio.loop = true;
     }
 }
 </script>

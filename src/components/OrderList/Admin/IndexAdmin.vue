@@ -126,10 +126,10 @@
                     <el-table-column prop="status_text" label="订单状态" align="center">
                     </el-table-column>
 
-                    <el-table-column prop="product_status_text" label="货物状态" align="center">
+                    <el-table-column prop="product_status_text" label="货物状态(未处理)" align="center">
                     </el-table-column>
 
-                    <el-table-column prop="after_sale_status_text" label="售后状态" align="center">
+                    <el-table-column prop="after_sale_status_text" label="售后状态(未处理)" align="center">
                     </el-table-column>
 
                     <el-table-column prop="created_at" label="下单时间" align="center" width="180">
@@ -148,7 +148,7 @@
                         <!-- 暂时注释添加 等改完后再加回去 -->
 
                         <el-button type="primary" size="small" @click="open2()">发起退货</el-button>
-                        <el-button type="primary" size="small" @click="showExchange()">发起换货</el-button>
+                        <!-- <el-button type="primary" size="small" @click="showExchange()">发起换货</el-button> -->
                         <el-button type="primary" size="small" @click="checkOrder()">订单审核</el-button>
                         <el-button type="primary" size="small" @click="cancelOrder()">取消订单</el-button>
                         <!-- <el-button type="primary" size="small" :disabled="reFundCheckShow" @click="RefundCheck()">退换货审核</el-button> -->

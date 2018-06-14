@@ -518,9 +518,6 @@
 
         },
         created() {
-            console.log(11);
-            console.log(this);
-            console.log(22);
             let o = {};
             o['row-dblclick'] = this.onCurrentChange;
             this.bubble = o;

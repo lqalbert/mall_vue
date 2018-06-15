@@ -155,7 +155,7 @@
 <script>
 import DialogForm from '../../mix/DialogForm';
 import FormMix from '../../mix/Form';
-import APP_CONST from '../../config';
+import APP_CONST from '../../../config/index';
 import DialogMix from '../../mix/Dialog';
 import { mapGetters } from 'vuex';
 import { PHONE_REG } from "@/config/index";

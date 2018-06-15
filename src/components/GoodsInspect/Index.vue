@@ -132,7 +132,7 @@
                                 </el-row>
                             </el-col>
                             <el-col :span="12">
-                                <el-row v-for="item in checkGoods" :Key="item.id">
+                                <el-row v-for="item in checkGoods" :key="item.id">
                                     <el-col :span="16">{{ item.goods_name }}</el-col>
                                     <el-col :span="4">{{ item.goods_number }}</el-col>
                                     <el-col :span="4">

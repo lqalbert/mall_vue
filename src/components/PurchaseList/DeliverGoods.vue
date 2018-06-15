@@ -8,42 +8,41 @@
             </el-steps>
             <el-form :model="deliverForm" ref="deliverForm" :label-width="labelWidth"  :label-position="labelPosition">
                 <div v-show="active==0">
-                <el-table :data="goodsList" border>
-                    <el-table-column label="ID" align="center"  prop="id" width="65"></el-table-column>
-                    <!--<el-table-column label="SKU编号" align="center"  prop="sku_sn" ></el-table-column>-->
-                    <el-table-column label="商品名称" align="center"  prop="goods_name" width="150px"></el-table-column>
-                    <el-table-column label="商品规格" align="center"  prop="specifications" width="150px"></el-table-column>
-                    <el-table-column label="采购数量" align="center"  prop="goods_purchase_num" width="120px"></el-table-column>
-                    <el-table-column label="实发数量" align="center"  prop="actual_goods_num" width="120px">
-                        <template slot-scope="scope">
-                            <el-input v-model="scope.row.actual_goods_num"></el-input>
-                        </template>
-                    </el-table-column>
-                    <el-table-column label="每箱数量" align="center"  prop="every_case_goods_num" width="120px">
-                        <template slot-scope="scope">
-                            <el-input v-model="scope.row.every_case_goods_num"></el-input>
-                        </template>
-                    </el-table-column>
-                    <el-table-column label="纸箱个数" align="center"  prop="case_num" width="120px">
-                        <template slot-scope="scope">
-                            <el-input v-model="scope.row.goods_case_num"></el-input>
-                        </template>
-                    </el-table-column>
-                    <el-table-column label="生产日期" align="center"  prop="goods_manufacture_time" width="150px">
-                        <template slot-scope="scope">
-                            <el-input v-model="scope.row.goods_manufacture_time"></el-input>
-                        </template>
-                    </el-table-column>
-                    <el-table-column label="该类商品重量" align="center"  prop="case_weight" width="150px">
-                        <template slot-scope="scope">
-                            <el-input v-model="scope.row.goods_case_weight"></el-input>
-                        </template>
-                    </el-table-column>
-                </el-table>
+                    <el-table :data="goodsList" border>
+                        <el-table-column label="ID" align="center"  prop="id" width="65"></el-table-column>
+                        <!--<el-table-column label="SKU编号" align="center"  prop="sku_sn" ></el-table-column>-->
+                        <el-table-column label="商品名称" align="center"  prop="goods_name" width="150px"></el-table-column>
+                        <el-table-column label="商品规格" align="center"  prop="specifications" width="150px"></el-table-column>
+                        <el-table-column label="采购数量" align="center"  prop="goods_purchase_num" width="120px"></el-table-column>
+                        <el-table-column label="实发数量" align="center"  prop="actual_goods_num" width="120px">
+                            <template slot-scope="scope">
+                                <el-input v-model="scope.row.actual_goods_num"></el-input>
+                            </template>
+                        </el-table-column>
+                        <el-table-column label="每箱数量" align="center"  prop="every_case_goods_num" width="120px">
+                            <template slot-scope="scope">
+                                <el-input v-model="scope.row.every_case_goods_num"></el-input>
+                            </template>
+                        </el-table-column>
+                        <el-table-column label="纸箱个数" align="center"  prop="case_num" width="120px">
+                            <template slot-scope="scope">
+                                <el-input v-model="scope.row.goods_case_num"></el-input>
+                            </template>
+                        </el-table-column>
+                        <el-table-column label="生产日期" align="center"  prop="goods_manufacture_time" width="150px">
+                            <template slot-scope="scope">
+                                <el-input v-model="scope.row.goods_manufacture_time"></el-input>
+                            </template>
+                        </el-table-column>
+                        <el-table-column label="该类商品重量" align="center"  prop="case_weight" width="150px">
+                            <template slot-scope="scope">
+                                <el-input v-model="scope.row.goods_case_weight"></el-input>
+                            </template>
+                        </el-table-column>
+                    </el-table>
                 </div>
                 <br>
                 <div v-show="active==1">
-                    <div>
                         <el-row>
                             <el-col :span="12">
                                 <el-form-item label="快递单号" prop="express_num" >
@@ -88,31 +87,25 @@
                                 </el-form-item>
                             </el-col>
                         </el-row>
-                    </div>
-                    <br>
-                    <div slot="dialog-foot" >
-                        <el-row type="flex" justify="space-between">
-                            <el-col :span="6" class="text-left">
-                                <el-button   v-if="active>0" @click="last">上一步</el-button>
-                                <el-button   v-show="active<1" @click="next">下一步</el-button>
-                            </el-col>
-
-                            <el-col :span="6" v-show="active==1">
-                                <el-button @click="handleClose">取 消</el-button>
-                                <submit-button
-                                        @click="submit('deliverForm')"
-                                        :observer="dialogThis">
-                                    保 存
-                                </submit-button>
-                            </el-col>
-                        </el-row>
-                    </div>
-
                 </div>
-
             </el-form>
-            <br>
-            <el-button  style="margin-top: 12px;" v-show="active<1" @click="next">下一步</el-button>
+            <div slot="dialog-foot" >
+                <el-row type="flex" justify="space-between">
+                    <el-col :span="10" class="text-left">
+                        <el-button   v-if="active > 0"   @click="last">上一步</el-button>
+                        <el-button   v-show="active == 0" @click="next">下一步</el-button>
+                    </el-col>
+
+                    <el-col :span="10" v-show="active==1">
+                        <el-button @click="handleClose">取 消</el-button>
+                        <submit-button
+                                @click="submit('deliverForm')"
+                                :observer="dialogThis">
+                            保 存
+                        </submit-button>
+                    </el-col>
+                </el-row>
+            </div>
         </MyDialog>
     </div>
 </template>

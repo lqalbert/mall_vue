@@ -121,7 +121,13 @@
                                 </el-col>
                             </el-row>
                            <!-- / 库存需要 -->
-                           
+                        <el-row>
+                            <el-col :span="12">
+                                <el-form-item label="商品规格" prop="specifications" >
+                                    <el-input class="name-input" v-model="editForm.specifications"  auto-complete="off" placeholder="请填写商品规格"></el-input>
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
                           
                         <el-row>
                             <el-col>
@@ -272,6 +278,7 @@ export default {
                 barcode:'',
                 weight:'',
                 bubble_bag:'',
+                specifications:'',
             },
             attrForm:{
                 value:"",

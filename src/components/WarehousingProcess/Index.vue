@@ -1,99 +1,104 @@
 <template>
     <div class="hello">
         <el-row>
-            <el-form :inline="true" :model="searchForm" ref="searchForm" class="demo-form-inline" size="small">
-                <el-form-item prop="company_name">
-                    <el-input v-model="searchForm.company_name" size="small" placeholder="物流公司名称"></el-input>
-                </el-form-item>
-                <el-form-item prop="contact_name">
-                    <el-input v-model="searchForm.contact_name" size="small" placeholder="联系人名称"></el-input>
-                </el-form-item>
-                <el-form-item prop="contact_tel">
-                    <el-input v-model="searchForm.contact_tel" size="small" placeholder="联系人号码"></el-input>
-                </el-form-item>
-                <el-form-item>
-                    <el-button type="primary" size="small" icon="search" @click="searchToolChange('searchForm')">查询</el-button>
-                    <el-button type="primary" size="small" @click="searchToolReset('searchForm')">重置</el-button>
-                    <!-- <el-button type="primary" size="small" @click="refreshTable">刷新</el-button> -->
-                </el-form-item>
+            <el-form :inline="true" :model="addForm" ref="addForm" label-position="right" class="demo-form-inline" size="small">
+                <el-row>
+                    <el-form-item prop="shipper" label="发货单位">
+                        <el-input v-model="addForm.shipper" size="small" placeholder="发货单位" style="width:180px"></el-input>
+                    </el-form-item>
+                    <el-form-item prop="entrepot_id"  label="采购单位">
+                        <el-select v-model="addForm.entrepot_id" placeholder="请选择采购单位" size="small" style="width:180px" @change="entrepotChange">
+                            <el-option v-for="v in distributors" :label="v.name"
+                                       :value="v.id" :key="v.id">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="到货时间" prop="contact_time">
+                        <el-date-picker
+                                v-model="addForm.contact_time"
+                                type="date"
+                                size="small"
+                                @change="timeChange"
+                                placeholder="选择日期时间" style="width:180px">
+                        </el-date-picker>
+                    </el-form-item>
+
+                </el-row>
+
+                <el-row>
+                    <el-form-item prop="contact_name" label="采购人名">
+                        <el-input v-model="addForm.contact_name" size="small" placeholder="采购人" style="width:180px"></el-input>
+                    </el-form-item>
+                    <el-form-item prop="contact_phone" label="联系电话">
+                        <el-input v-model="addForm.contact_phone" size="small" placeholder="采购人电话" style="width:180px"></el-input>
+                    </el-form-item>
+                    <el-form-item prop="remark" label="其他备注">
+                        <el-input   v-model="addForm.remark" size="small"  placeholder="备注" style="width:180px"></el-input>
+                    </el-form-item>
+                </el-row>
+                <el-row>
+                    <el-col :span="12">
+                        <el-form-item>
+                            <el-button type="primary" size="small" @click="showAddGoods">添加商品</el-button>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+
+                <el-row>
+                    <el-col>
+                        <el-table :data="goodsList" border>
+
+                            <el-table-column label="sku编码" align="center"  prop="sku_sn" >
+                            </el-table-column>
+
+                            <el-table-column prop="goods_name" label="商品名称" align="center"></el-table-column>
+
+                            <el-table-column prop="specifications" label="规格" align="center"></el-table-column>
+
+                            <el-table-column prop="goods_purchase_num" label="采购数量" align="center">
+                                <template slot-scope="scope">
+                                    <el-input v-model="scope.row.goods_purchase_num"></el-input>
+                                </template>
+                            </el-table-column>
+
+                            <el-table-column prop="goods_purchase_price" label="采购价" align="center">
+                                <template slot-scope="scope">
+                                    <el-input v-model="scope.row.goods_purchase_price"></el-input>
+                                </template>
+                            </el-table-column>
+
+                            <el-table-column  label="操作" align="center" width="200">
+                                <template slot-scope="scope">
+                                    <el-button type="danger" size="small" @click="rowDelete(scope.row)">删除</el-button>
+                                </template>
+                            </el-table-column>
+
+                        </el-table>
+                    </el-col>
+                </el-row>
+
+
             </el-form>
         </el-row>
+        <br>
         <el-row>
-            <el-col>
-                <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" @cellclick="rowCellClick" :page-size="15">
 
-                    <el-table-column label="ID" align="center"  prop="id" width="65">
-                    </el-table-column>
-
-                    <el-table-column prop="company_name" label="采购单号" align="center">
-                    </el-table-column>
-
-                    <el-table-column prop="contact_name" label="采购单位" align="center">
-                    </el-table-column>
-
-                    <el-table-column prop="contact_tel" label="发货单位" align="center">
-                    </el-table-column>
-
-                    <el-table-column prop="eng" label="采购状态" align="center">
-                    </el-table-column>
-
-                    <el-table-column prop="eng" label="采购人" align="center">
-                    </el-table-column>
-
-                    <el-table-column prop="eng" label="采购时间" align="center">
-                    </el-table-column>
-
-                    <el-table-column prop="eng" label="商品类型" align="center">
-                    </el-table-column>
-
-                    <el-table-column prop="eng" label="商品名称" align="center">
-                    </el-table-column>
-
-                    <el-table-column prop="eng" label="采购数量" align="center">
-                    </el-table-column>
-
-                    <el-table-column prop="eng" label="商品规格" align="center">
-                    </el-table-column>
-
-                    <el-table-column prop="eng" label="采购单价" align="center">
-                    </el-table-column>
-
-                    <el-table-column prop="eng" label="总金额" align="center">
-                    </el-table-column>
-
-                    <el-table-column prop="eng" label="采购单位" align="center">
-                    </el-table-column>
-
-
-
-
-
-                    <el-table-column prop="remark" label="备注" align="center" :show-overflow-tooltip="true">
-                    </el-table-column>
-
-                    <el-table-column  label="操作" align="center" width="200">
-                        <template slot-scope="scope">
-                            <el-button type="info" size="small" @click="showEdit(scope.row)">编辑</el-button>
-                            <el-button type="danger" size="small" @click="handleDelete(scope.row.id)">删除</el-button>
-                        </template>
-                    </el-table-column>
-
-                    <div slot="buttonbar">
-                        <el-button type="primary" size="small" @click="showAdd">添加申请</el-button>
-                        <el-button type="primary" size="small" @click="checkOrder">订单审核</el-button>
-                        <el-button type="primary" size="small" @click="showDeliverGoods">确认发货</el-button>
-                    </div>
-
-                </TableProxy>
+            <el-col :span="12">
+                <el-button type="primary" size="small" @click="submit('addForm')">提交审核</el-button>
             </el-col>
         </el-row>
-
         <!-- 写弹窗组件 -->
         <Add name='add-express-company'
              :ajax-proxy="ajaxProxy"
              :distributors="distributors"
              @submit-success="handleReload">
         </Add>
+        <AddGoods name='add-goods'
+             :ajax-proxy="ajaxProxy"
+             :distributors="distributors"
+             @addGoods="addGoods"
+             @submit-success="handleReload">
+        </AddGoods>
         <CheckOrder name='add-check-order'
              :ajax-proxy="ajaxProxy"
              @submit-success="handleReload">
@@ -115,34 +120,45 @@
     import SearchTool from '../../mix/SearchTool';
     import DataTable from '../../mix/DataTable';
     import config from '../../mix/Delete';
-    import ExpressCompanyAjaxProxy from '../../ajaxProxy/ExpressCompany';
+    import WarehousingProcessAjaxProxy from '../../ajaxProxy/WarehousingProcess';
     import DistributionCenterProxy from '../../packages/DistributionCenterSelectProxy';
 
     import Add from './Add';
+    import AddGoods from './AddGoods';
     import Edit from './Edit';
     import CheckOrder from './CheckOrder';
     import DeliverGoods from './DeliverGoods';
     export default {
         name: 'WarehousingProcess',
-        pageTitle:"采购管理",
-        mixins:[PageMix,SearchTool,DataTable,config,ExpressCompanyAjaxProxy],
+        pageTitle:"采购开单",
+        mixins:[PageMix,SearchTool,DataTable,config,WarehousingProcessAjaxProxy],
         components:{
             Add,
             Edit,
             CheckOrder,
+            AddGoods,
             DeliverGoods
         },
         data(){
             return {
                 mainparam:"",
-                mainurl:ExpressCompanyAjaxProxy.getUrl(),
-                ajaxProxy:ExpressCompanyAjaxProxy,
-                searchForm:{
-                    company_name:'',
+                mainurl:WarehousingProcessAjaxProxy.getUrl(),
+                ajaxProxy:WarehousingProcessAjaxProxy,
+                addForm:{
+                    shipper:'',
+                    entrepot_id:'',
+                    entrepot_name:'',
+                    contact_time:'',
                     contact_name:'',
-                    contact_tel:'',
+                    contact_phone:'',
+                    remark:'',
+                    sku_type:0,
+                    goods_total:0,
+                    goods_money_total:0,
+                    purchase_goods:[],
                 },
                 distributors:[],
+                goodsList:[],
                 reFundCheckShow:false,
                 row_model:''
             }
@@ -151,8 +167,80 @@
             onSearchChange(param){
                 this.mainparam = JSON.stringify(param);
             },
+            entrepotChange(v){
+                let i =''
+                for (i in this.distributors){
+                    if(this.distributors[i]['id'] == v){
+                        this.addForm.entrepot_name =this.distributors[i]['name']
+                    }
+                }
+            },
+            timeChange(v) {
+                this.addForm.contact_time=v;
+            },
+            rowDelete(row) {
+                let index = this.goodsList.indexOf(row);
+                this.goodsList.splice(index, 1);
+            },
+            addGoods(v) {
+                this.goodsList=this.goodsList.concat(v);
+            },
+            submit(name) {
+                this.addForm.purchase_goods=this.goodsList;
+                this.addForm.sku_type=this.goodsList.length;
+                this.goodsList.forEach(value => {
+                    this.addForm.goods_total += parseInt(value.goods_purchase_num);
+                    this.addForm.goods_money_total += parseInt(value.goods_purchase_num) * parseInt(value.goods_purchase_price);
+                });
+                this.formSubmit(name);
+            },
+
+            formSubmit(name){
+                let model = this[name];
+                if (this.$refs[name].rules) {
+                    this.$refs[name].validate((valid)=>{
+                        if (valid) {
+                            this.realSubmit(model, name);
+                        } else {
+                            console.log('error submit!!', name);
+                            this.$emit('valid-error', name);
+                            return false;
+                        }
+                    })
+                } else {
+                    this.realSubmit(model, name);
+                }
+            },
+            realSubmit(model, name){
+                let ajaxPromise =  this.getAjaxPromise(model);
+                let vmthis = this;
+                ajaxPromise.then(function(response){
+                    vmthis.$message.success('操作成功');
+                    vmthis.$refs[name].resetFields();
+                    vmthis.goodsList=[];
+                    vmthis.$emit('submit-success', name);
+                }).catch(function(error){
+                    if(error.response){
+                        console.log(error.response.data);
+                        console.log(error.response.status);
+                        console.log(error.response.headers);
+                    }else{
+                        console.log('Error',error.message);
+                    }
+                    vmthis.$message.error('出错了');
+                }).then(function(){
+                    vmthis.$emit('submit-final', name);
+                });
+            },
+
+            getAjaxPromise(model){
+                return this.ajaxProxy.create(model);
+            },
             showAdd(){
                 this.$modal.show('add-express-company');
+            },
+            showAddGoods(){
+                this.$modal.show('add-goods');
             },
 
             showEdit(row){

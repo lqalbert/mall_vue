@@ -3,8 +3,8 @@
         <el-row>
             <el-col :span="24">
                 <el-form :inline="true"  ref="searchForm" :model="searchForm" >
-                    <el-form-item prop="check_num" class="form-item-unique">
-                        <el-input v-model="searchForm.check_num" size="small" placeholder="盘点单号"></el-input>
+                    <el-form-item prop="check_sn" class="form-item-unique">
+                        <el-input v-model="searchForm.check_sn" size="small" placeholder="盘点单号"></el-input>
                     </el-form-item>
 
                     <el-form-item prop="date_range" class="form-item-unique">
@@ -25,7 +25,7 @@
         <el-row>
             <el-col>
                 <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" :page-size="6">
-                    <el-table-column prop="check_num" label="盘点单号" header-align="center">
+                    <el-table-column prop="check_sn" label="盘点单号" header-align="center">
                     </el-table-column>
 
                     <el-table-column prop="check_name" label="开单人员" header-align="center">
@@ -161,7 +161,7 @@
                 mainurl:StockCheckAjaxProxy.getUrl(),
                 ajaxProxy:StockCheckAjaxProxy,
                 searchForm: {
-                    check_num:'',
+                    check_sn:'',
                     start:'',
                     end:'',
                     date_range:"",
@@ -214,12 +214,12 @@
             getCheckGoods(row,field){
                 if(field == 'get'){
                     this.GetCheckGoodsProxy.setParam({
-                        check_num:row.check_num,
+                        check_sn:row.check_sn,
                         check_id:row.id,
                     });
                 }else if(field == 'check'){
                     this.GetCheckGoodsProxy.setParam({
-                        check_num:row.check_num,
+                        check_sn:row.check_sn,
                         check_id:row.check_id,
                     });
                 }
@@ -246,7 +246,7 @@
                     }
                 }).catch(function(error){
                     vmThis.$message.error('出错了');
-                });;
+                });
             },
             handlePrice(row){
                 let priceFormat = /^(([1-9]\d{0,9})|0)(\.\d{1,2})?$/;

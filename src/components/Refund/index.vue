@@ -39,17 +39,26 @@
 
         <el-row>
             <el-col>
-                <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" :bubble="bubble"  :page-size="20">
+                <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" :bubble="bubble" @dbclick="showRow" :page-size="20">
                     <!-- <el-table-column type="selection" align="center" width="50"></el-table-column> -->
                     <el-table-column label="序号" align="center" type="index" width="65"></el-table-column>
                     <el-table-column prop="return_sn" label="退货编码" width="180" align="center"></el-table-column>
                     <el-table-column prop="order_sn" label="销售单号"  width="180"  align="center" ></el-table-column>
-                    <el-table-column prop="status" label="状态" align="center" width="100"></el-table-column>
-                    <el-table-column prop="return_unit" label="退款单位" align="center" width="120" :show-overflow-tooltip="true"></el-table-column>
-                    <el-table-column prop="is_special" label="特殊处理" width="100"></el-table-column>
+                    <el-table-column prop="status" label="状态" align="center" width="100">
+                        <template slot-scope="scope">
+                            {{setFieldText(scope.row.status,'statusText')}}
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="return_unit" label="退款单位" align="center" width="120"></el-table-column>
+                    <el-table-column prop="is_special" label="特殊处理" width="100">
+                        <template slot-scope="scope">
+                            {{setFieldText(scope.row.is_special,'isSpecialText')}}
+                        </template>
+                    </el-table-column>
                     <el-table-column prop="refund_status" label="退款状态" width="100"></el-table-column>
                     <el-table-column prop="created_at" label="退货单录入日期" width="180"></el-table-column>
-                    <el-table-column prop="order.deal_name" label="原成交员工" width="160" align="center" :show-overflow-tooltip="true"></el-table-column>
+                    <el-table-column prop="order.deal_name" label="原成交员工" width="160" align="center">
+                    </el-table-column>
 
                     <!-- <el-table-column prop="type_text" label="原成交单位" align="center"></el-table-column>
                     <el-table-column prop="type_text" label="订单录入日期" align="center"></el-table-column>
@@ -58,7 +67,11 @@
                     <el-table-column prop="type_text" label="原发货单位" align="center"></el-table-column> -->
 
                     <el-table-column prop="cus_id" label="客户ID" align="center" width="100"></el-table-column>
-                    <el-table-column prop="type_text" label="退款比例" align="center" width="100"></el-table-column>
+                    <el-table-column prop="refund_percent" label="退款比例" align="center" width="100">
+                        <template slot-scope="scope">
+                            {{setRefundPercent(scope.row)}}
+                        </template>
+                    </el-table-column>
                     <el-table-column prop="fee" label="应退金额" align="center" width="100"></el-table-column>
                     <el-table-column prop="return_fee" label="退货运费" align="center" width="100"></el-table-column>
                     <el-table-column prop="service_fee" label="退货服务费" align="center" width="120"></el-table-column>
@@ -84,18 +97,24 @@
                         <!-- <el-button type="primary" size="small" @click="showAdvancedQuery">高级查询</el-button>
                         <el-button type="primary" size="small" @click="showAdvancedQuery">退货修改</el-button>
                         <el-button type="primary" size="small" @click="showAdvancedQuery">退货提交</el-button> -->
-                        <el-button type="primary" size="small" @click="showAdvancedQuery">换货确认</el-button>
-                        <el-button type="primary" size="small" @click="showAdvancedQuery">退货审核</el-button>
+                        <el-button type="primary" size="small" @click="handleRefundSure">退货确认</el-button>
+                        <el-button type="primary" size="small" @click="showRefundCheck">审核</el-button>
                         <el-button type="primary" size="small" @click="showEdit">编辑</el-button>
                     </div>
                 </TableProxy>
             </el-col>
         </el-row>
         <br>
-        <SubDetail></SubDetail>
-        <Edit name="refund-edit" :ajax-proxy="ajaxProxy" ></Edit>
 
-        <!-- <checkDialog name="check" :ajax-proxy="orderBasicAjaxProxy"/> -->
+        <SubDetail :row="dbRow"></SubDetail>
+
+        <Edit name="refund-edit" :ajax-proxy="ajaxProxy"
+            @submit-success="handleReload">
+        </Edit>
+
+        <refund-check name="refund-check" :ajax-proxy="ajaxProxy"
+            @submit-success="handleReload">
+        </refund-check>
 
         <!-- <AdvancedQuery name="show-advanced-query" :ajax-proxy="orderBasicAjaxProxy"/> -->
     </div>
@@ -106,27 +125,25 @@
     import DataTable from '@/mix/DataTable';
     import PageMix from '@/mix/Page';
     import config from '@/mix/Delete';
-    import AfterSaleAjaxProxy from '@/ajaxProxy/AfterSale';
-    import DeliveryAddressAjaxProxy from '@/ajaxProxy/DeliveryAddress';
+    import AfterSaleAjaxProxy from '../../ajaxProxy/AfterSale';
     import SearchTool from "@/mix/SearchTool";
-    import checkDialog from "./check";
+    import refundCheck from "./check";
     import SubDetail from './SubDetail';
     import Edit from './Edit';
-
-
 
     export default {
         name: 'Refund',
         pageTitle:"新退货单",
         mixins: [PageMix,SearchTool,DataTable,config],
         components:{
-            checkDialog,
+            refundCheck,
             SubDetail,
             Edit
         },
         data () {
             return {
                 bubble:null,
+                dbRow:null,
                 ajaxProxy:AfterSaleAjaxProxy,
                 mainurl:AfterSaleAjaxProxy,
                 mainparam:"",
@@ -136,7 +153,6 @@
                     order_sn:"",
                     return_sn:""
                 },
-               
                 pickerOptions2: {
                     shortcuts: [{
                         text: '最近一周',
@@ -164,30 +180,45 @@
                         }
                     }]
                 },
-                currentRow:null
+                currentRow:null,
+                statusText:['未处理','已审核','已确认','审核未通过'],
+                isSpecialText:['否','是'],
             }
         },
         computed:{
             
         },
         methods:{
+            setFieldText(field,TextArr){
+                if(field == null){
+                    return field;
+                }else{
+                    return this[TextArr][field];
+                }
+            },
+            setRefundPercent(row){
+                let fee = row.fee;
+                let total = row.order.order_all_money;
+                if (isNaN(fee) || isNaN(total)) { 
+                    return "-";
+                }else{
+                    row['refund_percent'] = total <= 0 ? "0%" : (Math.round(fee / total * 10000) / 100.00 + "%");
+                    return row['refund_percent'];
+                }
+                    
+            },
             handleCheck(row){
                 this.$modal.show('check',{row:row});
             },
-
             showAdvancedQuery(v){
                 this.$modal.show('show-advanced-query');
             },
-
             startDateChange(v){
 
             },
-            
             getAjaxProxy(){
                 return  this.ajaxProxy;
             },
-
-
             onSearchChange(param){ 
                 param['load'] = ['order'];  
                 this.mainparam = JSON.stringify(param);
@@ -206,7 +237,40 @@
                 }
                 this.$modal.show('refund-edit', this.currentRow);
                 
-            }
+            },
+            showRefundCheck(){
+                if (!this.currentRow) {
+                    this.$message.error('请选择一行');
+                    return ;
+                }
+                this.$modal.show('refund-check', this.currentRow);
+            },
+            handleRefundSure(){
+                let vmThis = this;
+                if (!this.currentRow) {
+                    this.$message.error('请选择一行');
+                    return ;
+                }
+                if(this.currentRow.status == 2){
+                    this.$message.error('已确认过不能再确认');
+                    return ;
+                }
+                this.ajaxProxy.sure(this.currentRow.id, {status:2}).then(function(response){
+                    if (response.data.status　==　0) {
+                        vmThis.$message.error(response.data.msg ? response.data.msg : "操作失败" );
+                    } else {
+                        vmThis.$message.success('操作成功');
+                        vmThis.handleReload();
+                    }
+                }).catch(function(error){
+                    vmThis.$message.error('出错了');
+                });;
+            },
+            /** 点击订单列表展示用户信息 */
+            showRow(row){
+                this.dbRow = row;
+            },
+
         },
         created(){
             this.mainparam = JSON.stringify(this.searchForm);
@@ -214,6 +278,7 @@
 
             let o = {};
             o['current-change'] = this.onCurrentChange;
+            o['row-dblclick'] = this.showRow;
             this.bubble = o;
 
 

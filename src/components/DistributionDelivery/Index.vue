@@ -473,7 +473,7 @@ export default {
             ws.dialogConfig();
         },
         getPrinterConfig(){
-            ws.getPrinterConfig("Fax");
+            ws.getPrinterConfig("KM-118");
         },
         previewPrint(){
             var b = {
@@ -483,7 +483,7 @@ export default {
     "task": {
         "taskID": "7293666",
         "preview": false,
-        "printer": "",
+        "printer": "KM-118",
         "previewType": "pdf",
         "firstDocumentNumber": 10,
         "totalDocumentCount": 100,

@@ -65,7 +65,7 @@
                     </el-table-column>
                     <!-- <el-table-column label="商品类型" prop="cate_type" header-align="center" width="140">
                     </el-table-column> -->
-                    <el-table-column label="配送中心" prop="entrepot_name" header-align="center" width="140">
+                    <el-table-column label="配送中心" prop="check.entrepot_name" header-align="center" width="140">
                     </el-table-column>
                     <el-table-column label="商品编号" prop="sku_sn" header-align="center" width="140">
                     </el-table-column>

@@ -4,8 +4,8 @@
             <el-form :model="editForm" ref="editForm" :label-width="labelWidth" :rules="rules" :label-position="labelPosition">
                 <el-row>
                     <el-col :span="12">
-                        <el-form-item prop="check_num" label="盘点单号:">
-                            {{editForm.check_num}}
+                        <el-form-item prop="check_sn" label="盘点单号:">
+                            {{editForm.check_sn}}
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -133,7 +133,7 @@ export default {
                 check_count:'',
                 check_id:'',
                 check_name:'',
-                check_num:'',
+                check_sn:'',
                 check_user_id:'',
                 entrepot_count:'',
                 entrepot_id:'',

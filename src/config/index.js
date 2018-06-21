@@ -6,13 +6,13 @@ import attr_config from './Attr';
  */
 
 let domain;
-if (process.env.NODE_ENV == 'production') {
-    domain = "/";
-} else {
-    domain = "/admin"
-}
+// if (process.env.NODE_ENV == 'production') {
+//     domain = "";
+// } else {
+//     domain = "/admin"
+// }
 
-let upload_url = domain + "/upload";
+let upload_url = domain + "/upload-file";
 
 
 

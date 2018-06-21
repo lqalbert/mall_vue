@@ -78,6 +78,7 @@
                                     <el-upload
                                             class="avatar-uploader"
                                             name="avatar"
+                                            :with-credentials="true"
                                             :data="uplaodParam"
                                             :action="url"
                                             :show-file-list="false"

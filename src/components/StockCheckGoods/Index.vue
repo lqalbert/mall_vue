@@ -2,11 +2,10 @@
     <div>
         <el-row>
             <el-col :span="24">
-                <el-form :inline="true"  ref="searchForm" :model="searchForm" >
+                <el-form :inline="true" :rules="searchRules" ref="searchForm" :model="searchForm">
                     <!-- <span>基本信息</span> -->
                     <el-form-item label="配送中心:" prop="entrepot_id">
                         <el-select
-                                clearable
                                 v-model="searchForm.entrepot_id"
                                 size="small"
                                 placeholder="配送中心" class="name-input">
@@ -128,14 +127,21 @@
                 dataForm:{
                     check_name:'',
                     remark:'',
-                    check_num:'',
-                    check_goods_data:[]
+                    check_sn:'',
+                    check_goods_data:[],
+                    entrepot_id:'',
+                    entrepot_name:'',
                 },
                 distributors:[],
                 types:[],
                 cate_kinds:[],
                 AddTableData:[],
                 flag:false,
+                searchRules:{
+                    entrepot_id:[
+                        {required: true,type:'number',message: '请选择配送中心', trigger:'blur'}
+                    ]
+                }
 
             }
         },
@@ -160,8 +166,9 @@
             },
             setFieldEntrepot(row){
                 row['entrepot_name'] = row.entrepot != null ?row.entrepot.name:'';
+                this.dataForm.entrepot_name = row['entrepot_name'];
                 row['inventory_id'] = row.id;
-                return row['entrepot_name'];  
+                return row['entrepot_name'];
             },
             onSearchChange(param){
                 // if(this.flag == false){
@@ -180,8 +187,16 @@
             batchImportGoods(){
                 // if(this.flag == false){
                     // this.$refs['searchForm'].resetFields();
-                    this.AddTableData = [];
-                    this.onSearchChange(this.searchForm);
+                    this.$refs['searchForm'].validate((valid) => {
+                        if (valid) {
+                            this.AddTableData = [];
+                            this.onSearchChange(this.searchForm);
+                        } else {
+                            console.log('error submit!!');
+                            return false;
+                        }
+                    });
+                    
                     // this.flag = true;
                 // }
             },
@@ -213,6 +228,7 @@
                 let vmThis= this;
                 if(this.AddTableData.length>0){
                     this.dataForm.check_goods_data = this.AddTableData;
+                    this.dataForm.entrepot_id = this.searchForm.entrepot_id;
                     // console.log(this.dataForm);
                     // this.$modal.show('add-data-dialog', {model:dataForm});
                     this.ajaxProxy.create(this.dataForm).then(function(response){
@@ -232,7 +248,15 @@
             },
             showSelectDialog(){
                 let vmThis = this;
-                this.$modal.show('select-add-dialog',{model:vmThis.searchForm.entrepot_id});
+                this.$refs['searchForm'].validate((valid) => {
+                    if (valid) {
+                        this.$modal.show('select-add-dialog',{model:vmThis.searchForm.entrepot_id});
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
+                
             },
 
         },

@@ -1,7 +1,7 @@
 <template>
     <div>
         <MyDialog title="发起退货" :name="name" :width="width" :height="height" @before-open="onOpen" @before-close="onBeforeClose">
-            <el-form ref="rowInfoForm" size="small" :model="rowInfoForm" :label-width="labelWidth" :label-position="labelPosition">
+            <el-form ref="rowInfoForm" size="small" :rules="rules" :model="rowInfoForm" :label-width="labelWidth" :label-position="labelPosition">
                 <el-steps :space="250" :active="active" finish-status="success" :center="true" :align-center="true">
                     <el-step title="订单信息"></el-step>
                     <el-step title="订单商品处理"></el-step>
@@ -75,25 +75,38 @@
                         <el-col :span="12">
                             <el-form-item label="退货到付" prop="pay_at_return">
                                 <el-select v-model="rowInfoForm.pay_at_return">
-                                    <el-option value="0" label="否" ></el-option>
-                                    <el-option value="1" label="是" ></el-option>
+                                    <el-option :value="0" label="否" ></el-option>
+                                    <el-option :value="1" label="是" ></el-option>
                                 </el-select>
                             </el-form-item>
                         </el-col>
                     </el-row>
+                    
                     <el-row>
-
                         <el-col :span="12">
                             <el-form-item label="是否特殊处理" prop="is_special">
                                 <el-select v-model="rowInfoForm.is_special">
-                                    <el-option value="0" label="否" ></el-option>
-                                    <el-option value="1" label="是" ></el-option>
+                                    <el-option :value="0" label="否" ></el-option>
+                                    <el-option :value="1" label="是" ></el-option>
                                 </el-select>
                             </el-form-item>
                         </el-col>
                         <el-col :span="12">
                             <el-form-item label="退款金额" prop="fee">
                                 <el-input  class="name-input"  v-model="rowInfoForm.fee"  placeholder="退款金额" ></el-input>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+
+                    <el-row>
+                        <el-col :span="12">
+                            <el-form-item label="重发运费" prop="resend_fee">
+                                <el-input  class="name-input"  v-model="rowInfoForm.resend_fee"  placeholder="重发运费" ></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                            <el-form-item label="重发服务费" prop="reservice_fee">
+                                <el-input  class="name-input"  v-model="rowInfoForm.reservice_fee"  placeholder="重发服务费" ></el-input>
                             </el-form-item>
                         </el-col>
                     </el-row>
@@ -162,8 +175,8 @@
                                 <el-table-column label="入/出库" prop="inventory" align="center" width="130">
                                     <template slot-scope="scope">
                                         <el-select v-model="scope.row.inventory" style="width:110px" size="small">
-                                            <el-option value="0"  label="入库"></el-option>
-                                            <el-option value="1" label="出库"></el-option>
+                                            <el-option :value="0"  label="入库"></el-option>
+                                            <el-option :value="1" label="出库"></el-option>
                                         </el-select>
                                     </template>
                                 </el-table-column>
@@ -200,9 +213,10 @@
                     </el-col>
                     <el-col :span="12" v-if="active==1">
                         <el-button @click="handleClose">取 消</el-button>
-                        <submit-button  :observer="dialogThis" @click="beforeSubmit">
+                        <el-button type="primary" @click="beforeSubmit">保 存</el-button>
+                        <!-- <submit-button  :observer="dialogThis" @click="beforeSubmit">
                             保 存
-                        </submit-button>
+                        </submit-button> -->
                     </el-col>
                 </el-row>   
             </div>
@@ -214,6 +228,7 @@
     import DialogForm from '../../mix/DialogForm';
     import OrderGoodsAjaxProxy from '@/ajaxProxy/Ordergoods';
     import AfterSaleAjaxProxy from '@/ajaxProxy/AfterSale';
+    import {PRICE_REG} from '../../config/index';
 
     import { mapGetters } from 'vuex';
     export default {
@@ -230,7 +245,7 @@
             return {
                 dialogThis: this,
                 labelPosition: "right",
-                labelWidth: '150px',
+                labelWidth: '120px',
                 rowInfoForm: {
                     cus_id:"",
                     order_id: "",
@@ -246,11 +261,13 @@
                     express:'',
                     express_sn:'',
                     service_fee:'',
-                    pay_at_return:'',
-                    is_special:'',
+                    pay_at_return:0,
+                    is_special:0,
                     fee:'',
                     user_name:'',
-                    remark:''
+                    remark:'',
+                    resend_fee:'',
+                    reservice_fee:''
                 },
                 goods:[],
                 return_cause:[
@@ -268,6 +285,23 @@
                 model: {},
                 multipleSelection:[],
                 active:0,
+                rules:{
+                    return_fee:[
+                        {pattern:PRICE_REG,message: '格式为xx.xx', trigger:'blur'}
+                    ],
+                    service_fee:[
+                        {pattern:PRICE_REG,message: '格式为xx.xx', trigger:'blur'}
+                    ],
+                    fee:[
+                        {required:true,pattern:PRICE_REG,message: '格式为xx.xx', trigger:'blur'}
+                    ],
+                    resend_fee:[
+                        {pattern:PRICE_REG,message: '格式为xx.xx', trigger:'blur'}
+                    ],
+                    reservice_fee:[
+                        {pattern:PRICE_REG,message: '格式为xx.xx', trigger:'blur'}
+                    ],
+                },
             }
         },
         computed:{
@@ -324,6 +358,24 @@
                     this.$message.error('不能没有商品');
                     return ;
                 }
+                
+                for (let i = 0; i < this.rowInfoForm.goods.length; i++) {
+                    let element = this.rowInfoForm.goods[i];
+                    if(element.reason== null|| element.reason== ''){
+                        this.$message.error('请选择退换货原因');
+                        return ;
+                    }
+                    if(element.status == 0){
+                        this.$message.error('请选择退/换货');
+                        return ;
+                    }
+                    if(element.inventory == null){
+                        console.log(element);
+                        this.$message.error('请选择入/出货');
+                        return ;
+                    }
+                }
+                console.log(this.goods);
                 this.formSubmit('rowInfoForm');
             },
             deletes(index){

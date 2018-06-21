@@ -4,8 +4,6 @@
                 <el-form :model="queryForm" ref="queryForm"  :label-width="labelWidth" 　  :label-position="labelPosition">
                         　     
                     <el-row>
-                       
-
                         <el-col :span="12">
                             <el-form-item label="小组" prop="group_id">
                                 <el-select   v-model="queryForm.group_id" placeholder="小组" @change="onGroupChange" clearable>

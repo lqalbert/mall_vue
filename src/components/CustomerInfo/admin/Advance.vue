@@ -19,7 +19,8 @@
                                 </el-select>
                             </el-form-item>
                         </el-col>
-
+                    </el-row>
+                    <el-row>
                         <el-col :span="12">
                             <el-form-item label="销售员工" prop="user_id">
                                 <el-select v-model="queryForm.user_id" placeholder="员工" clearable>

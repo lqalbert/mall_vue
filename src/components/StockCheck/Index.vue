@@ -60,7 +60,7 @@
         <br>
         <el-row>
             <el-form :model="editForm" ref="editForm" :rules="rules">
-                <el-table :data="tableData" style="width: 100%" border empty-text="请选择单子点击盘点">
+                <el-table :data="tableData" style="width: 100%" border empty-text="请单击查看">
                     <el-table-column label="商品名称" prop="goods_name" header-align="center" width="140">
                     </el-table-column>
                     <!-- <el-table-column label="商品类型" prop="cate_type" header-align="center" width="140">
@@ -258,7 +258,7 @@
                 }
             },
             handleChange(row){
-                console.log(row);
+                // console.log(row);
                 let number = /^[0-9]+$/;
                 if(!number.test(row.check_count)){
                     this.$message.error('数量为纯数字');

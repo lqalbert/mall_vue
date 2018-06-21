@@ -436,7 +436,7 @@
                     with:['skus'],
                     fields:['id','goods_name',
                     'goods_price','goods_number',
-                    'sku_sn','unit_type','length','width','height','barcode','weight','bubble_bag',]
+                    'sku_sn','unit_type','len','width','height','barcode','weight','bubble_bag',]
                 }).load();
                 this.data2 = {};
 

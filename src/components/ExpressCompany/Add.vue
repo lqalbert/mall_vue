@@ -20,7 +20,7 @@
                 </el-row>
                 <el-row>
                     <el-col :span="12">
-                        <el-form-item label="编号前缀" prop="eng" >
+                        <el-form-item label="cpcode" prop="eng" >
                             <el-input class="name-input" v-model="addForm.eng" placeholder=""></el-input>
                         </el-form-item>
                     </el-col>

@@ -19,7 +19,7 @@ const app = {
     },
     actions:{
         initEntrepots(context){
-            if (context.state.entrepots.length ==0 ) {
+            if (context.state.entrepots.length == 0 ) {
                 context.dispatch('setEntrepots');
             }
         },

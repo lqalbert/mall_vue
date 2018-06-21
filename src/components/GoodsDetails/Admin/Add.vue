@@ -47,7 +47,6 @@
                                 <el-form-item label="原价"  prop="del_price">
                                     <el-input class="name-input" v-model="addForm.del_price"  auto-complete="off" placeholder="0.00"></el-input>
                                 </el-form-item>
-                                
                             </el-col>
                         </el-row>
                         <el-row>
@@ -122,17 +121,14 @@
                        
                         <el-row>
                             <el-col>
-                                    <quill-editor v-model="editContent"
-                                       
-                                        ref="myQuillEditor"
-                                        :options="editorOption"
-                                        @blur="onEditorBlur($event)"
-                                        @focus="onEditorFocus($event)"
-                                        @ready="onEditorReady($event)"
-                                        @change="onEditorChange($event)">
-                                    </quill-editor>
-                                
-                                
+                                <quill-editor v-model="editContent"
+                                    ref="myQuillEditor"
+                                    :options="editorOption"
+                                    @blur="onEditorBlur($event)"
+                                    @focus="onEditorFocus($event)"
+                                    @ready="onEditorReady($event)"
+                                    @change="onEditorChange($event)">
+                                </quill-editor>
                             </el-col>
                         </el-row>
                     </el-tab-pane>
@@ -203,7 +199,6 @@
                     </el-tab-pane>
 
                     <el-tab-pane label="商品图片" name="third">
-
                         <el-upload
                             ref="upload"
                             name="avatar"
@@ -221,7 +216,7 @@
                             <img width="100%" :src="dialogImageUrl" alt="">
                         </el-dialog>
                         <div class="el-upload__tip">默认第一张图片为封面图片</div>
-                    </el-tab-pane>  
+                    </el-tab-pane>
                     <el-tab-pane label="前台显示" name="four">
                         <el-row>
                             <el-col :span="12">
@@ -449,7 +444,9 @@ export default {
             this[name].description = this.editContent;
             this.addForm.img_path = [];
             if(this.$refs.upload.uploadFiles.length == 0){
-                this.formSubmit(name);
+                // this.formSubmit(name);
+                this.$message.error('必须添加商品图片');
+                return;
             }else{
                 this.$refs['addForm'].validate((valid) => {
                     if (valid) {
@@ -459,7 +456,6 @@ export default {
                         return false;
                     }
                 });
-                
             }
             
         },

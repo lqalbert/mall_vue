@@ -114,7 +114,7 @@
                             </el-col>
                             <el-col :span="12">
                                 <el-form-item label="气泡垫(g)" prop="bubble_bag">
-                                    <el-input placeholder="重量单位 g" v-model="addForm.bubble_bag"></el-input>
+                                    <el-input placeholder="重量单位 g" v-model.number="addForm.bubble_bag"></el-input>
                                 </el-form-item>
                             </el-col>
                         </el-row>
@@ -293,11 +293,15 @@ export default {
     },
     data () {
         let validateFormat = (rule, value, callback) => {
-            if(this.addForm.length == ''){
+            let num = /^[0-9]+$/;
+            let length = this.addForm.length;
+            let width = this.addForm.width;
+            let height = this.addForm.height;
+            if(length == '' || !num.test(length)){
                 callback(new Error('请输入长度'));
-            }else if (this.addForm.width == '') {
+            }else if (width == '' || !num.test(width)) {
                 callback(new Error('请输入宽度'));
-            }else if (this.addForm.height == '') {
+            }else if (height == '' || !num.test(height)) {
                 callback(new Error('请输入高度'));
             }else {
                 callback();
@@ -368,10 +372,16 @@ export default {
                     {required: true, message: '请填写条码', trigger:'blur'}
                 ],
                 weight:[
-                    {required: true, message: '请填写重量', trigger:'blur'}
+                    {required: true,pattern:/^[0-9]+$/,message: '请填写重量', trigger:'blur'}
                 ],
                 bubble_bag:[
-                    {required: true, message: '请填写气泡垫重量', trigger:'blur'}
+                    {required: true,pattern:/^[0-9]+$/,message: '请填写气泡垫重量', trigger:'blur'}
+                ],
+                subtitle:[
+                    {max:90,message:"最多可输入90字符", trigger:'blur'}
+                ],
+                brief:[
+                    {max:250,message:"最多可输入250字符", trigger:'blur'}
                 ],
             },
             skuFormRules:{
@@ -441,7 +451,15 @@ export default {
             if(this.$refs.upload.uploadFiles.length == 0){
                 this.formSubmit(name);
             }else{
-                this.submitUpload();
+                this.$refs['addForm'].validate((valid) => {
+                    if (valid) {
+                        this.submitUpload();
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
+                
             }
             
         },

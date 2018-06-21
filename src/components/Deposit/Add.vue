@@ -5,10 +5,10 @@
                     <el-row>
                         <el-col :span="12">
                             <el-form-item label="部门" prop="department_id">
-                                <el-select clearable  placeholder="请选择部门名"  v-model="departmentInput" @change="onDepartChange">
+                                <el-select clearable  placeholder="请选择部门名"  v-model="addForm.department_id" @change="onDepartChange">
                                     <el-option v-for="(v,index) in departments"
                                         :label="v.name" 
-                                        :value="index"
+                                        :value="v.id"
                                         :key="v.id">
                                     </el-option>
                                 </el-select>
@@ -77,7 +77,7 @@
                     <el-row>
                         <el-col :span="12">
                             <el-form-item label="备注" prop="remark" >
-                                <el-input type="textarea" :rows="2" v-model="addForm.remark"></el-input>
+                                <el-input type="textarea" :rows="2" v-model="addForm.remark" placeholder="请输入200个字以内"></el-input>
                             </el-form-item>
                         </el-col>
                     </el-row>
@@ -145,6 +145,9 @@
                     money:[
                         { required: true, message:'金额未输入或输入的格式不正确', pattern:/^(([1-9]\d{0,9})|0)(\.\d{1,2})?$/ , trigger:'blur',min:0 }
                     ],
+                    department_id:[
+                        {required: true, message:'请选择部门', type: 'number', trigger:'blur'}
+                    ] ,
                     remark:[
                         { message:'输入内容最大长度为200', type: 'string', trigger:'blur', max:200}
                     ]
@@ -170,17 +173,19 @@
             timeChange(v){
                 this.addForm.charge_time=v;
             },
+            // formSubmit(v){
+            //     console.log(this.addForm);
+            // },
             loadDepartment(data){
-                this.departments = data.items;
+                this.departments = data.res;
             },
-            onDepartChange(index){
+            onDepartChange(id){
                 this.groups=[];
                 this.users=[];
-                this.addForm.department_id=this.departments[index].id;
-                this.addForm.department_name=this.departments[index].name;
+                this.addForm.department_name=this.departments[id].name;
                 this.addForm.group_id='';
                 this.addForm.user_id='';
-                this.getGroupsAjax(this.departments[index].id);
+                this.getGroupsAjax(id);
 
             },
             onGroupChange(index){

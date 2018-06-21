@@ -116,6 +116,10 @@
                     entrepot_id:''
                 },
                 rules:{
+                    name:[
+                        { required: true, message: '请输入部门名称', trigger: 'blur' },
+                        { min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur' }
+                    ],
                     remarks:[
                         { message:'输入内容最大长度为200', type: 'string', trigger:'blur', max:200}
                     ]

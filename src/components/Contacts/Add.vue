@@ -86,6 +86,17 @@ export default {
                 name:[
                     { required: true, message: '请输入姓名', trigger: 'blur'},
                 ],
+                phone:[
+                    { required: true, message: '请输入正确的手机号',pattern:/^1[34578]\d{9}$/, trigger: 'blur'},
+                ],
+                qq:[
+                    { message: '请输入QQ号', trigger: 'blur'},
+                    { min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur' }
+                ],
+                weixin:[
+                    { message: '请输入微信号', trigger: 'blur'},
+                    { min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur' }
+                ],
             },
             startPickerOptions: {
                 disabledDate(time) {

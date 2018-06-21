@@ -304,16 +304,38 @@
                 },
                 rules:{
                     account:[
-                        { required: true, message:"账号必填", type:'string'}
+                        { required: true, message:"账号必填", type:'string'},
+                        { min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur' }
+                    ],
+                    realname:[
+                        { required: true, message:"请填写姓名", type:'string'},
+                        { min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur' }
                     ],
                     address:[
                         { message:'输入内容最大长度为200', type: 'string', trigger:'blur', max:200}
                     ],
                     mobilephone:[
                         { required: true, message:'请输入正确的手机号', pattern: PHONE_REG, trigger:'blur'},
+                        { min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur' }
                     ],
                     qq:[
                         { required: true, message:'请输入正确格式的QQ号',  pattern: QQ_REG, trigger:'blur'},
+                        { min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur' }
+                    ],
+                    qq_nickname:[
+                        { min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur' }
+                    ],
+                    weixin:[
+                        { min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur' }
+                    ],
+                    weixin_nickname:[
+                        { min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur' }
+                    ],
+                    telephone:[
+                        { min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur' }
+                    ],
+                    id_card:[
+                        { min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur' }
                     ],
                 }
 

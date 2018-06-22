@@ -71,12 +71,12 @@
                     <el-table-column label="到货时间" align="center"  prop="contact_time" width="150"></el-table-column>
                     <el-table-column label="备注" align="center"  prop="remark" width="150"></el-table-column>
 
-                    <el-table-column  label="操作" align="center" width="200">
-                        <template slot-scope="scope">
-                            <el-button type="info" size="small" @click="showEdit(scope.row)">编辑</el-button>
-                            <el-button type="danger" size="small" @click="handleDelete(scope.row.id)">删除</el-button>
-                        </template>
-                    </el-table-column>
+                    <!--<el-table-column  label="操作" align="center" width="200">-->
+                        <!--<template slot-scope="scope">-->
+                            <!--<el-button type="info" size="small" @click="showEdit(scope.row)">编辑</el-button>-->
+                            <!--<el-button type="danger" size="small" @click="handleDelete(scope.row.id)">删除</el-button>-->
+                        <!--</template>-->
+                    <!--</el-table-column>-->
 
                     <div slot="buttonbar">
                         <el-button type="primary" size="small" @click="checkOrder">采购单审核</el-button>

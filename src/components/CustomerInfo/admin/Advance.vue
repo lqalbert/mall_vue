@@ -19,15 +19,18 @@
                                 </el-select>
                             </el-form-item>
                         </el-col>
-
-                        <el-col :span="12">
-                            <el-form-item label="销售员工" prop="user_id">
-                                <el-select v-model="queryForm.user_id" placeholder="员工" clearable>
-                                    <el-option v-for="user in users" :value="user.id" :label="user.realname" :key="user.id"></el-option>
-                                </el-select>
-                            </el-form-item>
-                        </el-col>
                     </el-row>
+                        <el-row>
+                            <el-col :span="12">
+                                <el-form-item label="销售员工" prop="user_id">
+                                    <el-select v-model="queryForm.user_id" placeholder="员工" clearable>
+                                        <el-option v-for="user in users" :value="user.id" :label="user.realname" :key="user.id"></el-option>
+                                    </el-select>
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+
+
 
                     <el-row>
                         <el-col :span="12">
@@ -39,7 +42,7 @@
                         <el-col :span="12">
                             <el-form-item label="客户类型" prop="type">
                                 <el-select v-model="queryForm.type" clearable>
-                                    <el-option label="" :key="0" value=""></el-option>
+                                    <el-option label="" :key="0" value="0" hidden></el-option>
                                     <el-option v-for="(value, key) in cusType" :label="value" :key="key" :value="key"></el-option>
                                 </el-select>
                             </el-form-item>

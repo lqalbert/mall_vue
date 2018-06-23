@@ -108,7 +108,7 @@
 
                     <el-table-column label="操作" fixed="right" header-align="center" width="140">
                         <template slot-scope="scope">
-                            <el-button type="info" size="small" @click="checkGoodsOne(scope.row)">盘点</el-button>
+                            <el-button type="info" size="small" @click="checkGoodsOne(scope.row)">保存</el-button>
                             <el-button type="warning" size="small">维护</el-button>
                         </template>
                     </el-table-column>

@@ -186,7 +186,7 @@
                 groups:[],
                 users:[],
                 searchForm: {
-                    group_id:"",
+                    group_id:-1,
                     user_id:"",
                     name:'',
                     phone:'',
@@ -222,7 +222,7 @@
                 if (this.user_group_id != 0) {
                     this.searchForm.group_id = this.user_group_id;
                 }  else {
-                    this.searchForm.group_id = 0;
+                    this.searchForm.group_id = -1;
                 }
 
                 this.resetB();
@@ -245,7 +245,10 @@
                 // console.log('asdf');
                 this.employeeSelect.setParam({group_id:this.user_group_id,fields:['id','name']});
                 this.employeeSelect.load();
-            }
+                this.searchForm.group_id = this.user_group_id;
+            } else [
+                this.searchForm.group_id = -1;
+            ]
 
             
             this.onSearchChange(this.searchForm);

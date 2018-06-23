@@ -246,9 +246,9 @@
                 this.employeeSelect.setParam({group_id:this.user_group_id,fields:['id','name']});
                 this.employeeSelect.load();
                 this.searchForm.group_id = this.user_group_id;
-            } else [
-                this.searchForm.group_id = -1;
-            ]
+            } else {
+                this.searchForm.group_id = -1 ;
+            }
 
             
             this.onSearchChange(this.searchForm);

@@ -5,7 +5,7 @@
                 <el-row>
                     <el-col :span="12">
                         <el-form-item prop="entrepot_id"  label="配送中心">
-                            <el-select v-model="editForm.entrepot_id" placeholder="请选择配送中心" @change="entrepotChange">
+                            <el-select v-model="editForm.entrepot_id" placeholder="请选择配送中心" :disabled="true">
                                 <el-option v-for="v in distributors" :label="v.name"
                                            :value="v.id" :key="v.id">
                                 </el-option>
@@ -31,6 +31,11 @@
                     </el-col>
                 </el-row>
                 <el-row>
+                    <el-col :span="12">
+                        <el-form-item label="打印机名称" prop="printer" >
+                            <el-input class="name-input" v-model="addForm.printer" placeholder=""></el-input>
+                        </el-form-item>
+                    </el-col>
                     <el-col :span="12">
                         <el-form-item label="联系方式" prop="contact_tel" >
                             <el-input class="name-input" v-model="editForm.contact_tel" placeholder="请填写联系电话"></el-input>
@@ -91,6 +96,7 @@ export default {
                 contact_tel:'',
                 eng:'',
                 remark:'',
+                printer:"",
             },
             rules:{
                 company_name:[
@@ -102,6 +108,9 @@ export default {
                 // contact_tel:[
                 //     { required: true,message:'请输入联系人电话', pattern:PHONE_REG, trigger:'blur'}
                 // ],
+                eng:[
+                    { required: true, message:'必填,两个英文字母', pattern:/^[a-zA-Z]{2}$/, trigger:'blur'},
+                ]
 
             },
             model:null,

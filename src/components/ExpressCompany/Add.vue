@@ -26,13 +26,19 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="联系人" prop="contact_name">
-                            <el-input class="name-input" v-model="addForm.contact_name" placeholder="请填写联系人"></el-input>
+                            <el-input class="name-input" v-model="addForm.contact_name" placeholder="请填写物流联系人"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row>
                     <el-col :span="12">
-                        <el-form-item label="联系方式" prop="contact_tel" >
+                        <el-form-item label="打印机名称" prop="printer" >
+                            <el-input class="name-input" v-model="addForm.printer" placeholder=""></el-input>
+                        </el-form-item>
+                    </el-col>
+                        
+                    <el-col :span="12">
+                        <el-form-item label="物流电话" prop="contact_tel" >
                             <el-input class="name-input" v-model="addForm.contact_tel" placeholder="请填写联系电话"></el-input>
                         </el-form-item>
                     </el-col>
@@ -91,6 +97,7 @@ export default {
                 contact_tel:'',
                 eng:'',
                 remark:'',
+                printer:""
             },
             rules:{
                 company_name:[

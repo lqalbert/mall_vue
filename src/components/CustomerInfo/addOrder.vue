@@ -116,7 +116,7 @@
                     </el-table>
                     <br>
                         <div>
-                            <el-row>
+                            <!-- <el-row>
                                 <el-col :span="12">
                                     <el-form-item prop="remark" label="指定快递">
                                         <el-radio-group v-model="addOrderForm.express_delivery" @change="setExpressChange">
@@ -133,7 +133,7 @@
                                         </el-select>
                                     </el-form-item>
                                 </el-col>
-                            </el-row>
+                            </el-row> -->
                             <el-row>
                                 <el-col :span="24">
                                     <el-form-item prop="order_remark" label="订单备注">
@@ -261,7 +261,7 @@
                 }
             },
             addOrder(){
-                // if(this.alertNum != 0 ){
+                if(this.alertNum != 0 ){
                     //console.log(this.data2);
                     var vmthis = this;
                     let moneyNotes =parseInt(this.data2[this.addOrderForm.goods_id].price) * parseInt(this.addOrderForm.goods_number);
@@ -289,7 +289,7 @@
                     this.goodsIds.push(addData.goods_id);
                     this.$refs.addOrderForm.resetFields();
                     this.alertNum = 0;
-                // }
+                }
             },
             getGoodsInfo(goods_id){
                 if(this.data2[goods_id]){

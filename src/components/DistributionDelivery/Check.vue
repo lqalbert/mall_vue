@@ -67,16 +67,16 @@
                 labelPosition:"right",
                 labelWidth:'100px',
                 checkForm:{
-                    id:"",
+                    ids:[],
                     express_id:"",
-                    express_sn:"暂时没有",
-                    corrugated_id:"",
-                    corrugated_case:"",
-                    corrugated_weight:"",
-                    reckon_weigth:""
+                    // express_sn:"暂时没有",
+                    // corrugated_id:"",
+                    // corrugated_case:"",
+                    // corrugated_weight:"",
+                    // reckon_weigth:""
                 },
                 
-                //需要计算　估计重量
+                //需要计算　估计重量 服务器上处理吧
 
                 // company:[],
                 // cartons:[],
@@ -93,14 +93,18 @@
         },
         methods:{
             onBeforeOpen(param){
-                this.checkForm.id = param.params.row.id;
-                this.goodsProxy.setParam({
-                    order_id: this.order_id,
-                    fields:['width','height','len']
-                }).load();
-                if (param.params.row.express_id != 0) {
-                    this.checkForm.express_id = param.params.row.express_id;
-                }
+                // this.checkForm.id = param.params.rows;
+                // this.goodsProxy.setParam({
+                //     order_id: this.order_id,
+                //     fields:['width','height','len']
+                // }).load();
+                // if (param.params.row.express_id != 0) {
+                //     this.checkForm.express_id = param.params.row.express_id;
+                // }
+                    
+                param.params.rows.forEach((element) => {
+                    this.checkForm.ids.push(element.id)
+                }, this);
             },
             loadGoods(data){
                 if (process.env.NODE_ENV == 'production') {
@@ -136,7 +140,7 @@
                 }
             },
             getAjaxPromise(model){
-                return this.ajaxProxy.check(model.id, model);
+                return this.ajaxProxy.check(model);
             },
             getWaybill(){
                 //需要设置一下　不能返复点击
@@ -149,12 +153,7 @@
                     assign_id: this.checkForm.id,
                     express_id : this.checkForm.express_id
                 }
-
-
-                
-
             }
-            
         },
         created(){
             this.dialogThis = this;
@@ -164,15 +163,15 @@
             //功能实现的基本设想　用HTTP缓存的 Last-Modified 来设置更新时间
             //服务器上用 updated_at created_at 来判断是不是　大于 Last-Modified 如果是就　返回新的数据并设置新的Last-Modified
             //如查不是就　返回 HTTP 304　
-            this.goodsProxy =  new OrderGoodsAjaxProxy(null, this.loadGoods, this);
+            // this.goodsProxy =  new OrderGoodsAjaxProxy(null, this.loadGoods, this);
 
-            this.$store.dispatch('initCartons', this.$store.getters.userEntrepotId);
+            // this.$store.dispatch('initCartons', this.$store.getters.userEntrepotId);
             this.$store.dispatch('initExpress', this.$store.getters.userEntrepotId);
             
         },
 
         beforeDestroy(){
-            this.goodsProxy = null;
+            // this.goodsProxy = null;
         }
     }
 </script>

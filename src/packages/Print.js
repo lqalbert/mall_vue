@@ -17,7 +17,14 @@ let cmdMapHandle = {
                         window.open(element);
                     }
                 }
-    
+                
+                if (backObj.printStatus) {
+                    backObj.printStatus.forEach(element => {
+                        if(element.status != "success" ) {
+                            alert(element.documentID + " " + element.detail);
+                        }
+                    });
+                }
     
             },
     "notifyPrintResult":"",
@@ -202,11 +209,11 @@ function doPrint(printer ,waybillArray)
     var documents = new Array();
     for(i=0;i<waybillArray.length;i++) {
          var doc = new Object();
-         doc.documentID = waybillArray[i];
+         doc.documentID = waybillArray[i].waybillCode;
          var content = new Array();
-         var waybillJson = getWaybillJson(waybillArray[i]);
-         var customAreaData = getCustomAreaData(waybillArray[i]);
-         content.push(waybillJson,customAreaData);
+         var waybillJson = waybillArray[i];
+        //  var customAreaData = getCustomAreaData(waybillArray[i]);
+         content.push(waybillJson);
          doc.content = content;
          documents.push(doc);
     }

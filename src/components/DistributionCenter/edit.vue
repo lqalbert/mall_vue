@@ -153,6 +153,9 @@
                     fixed_telephone:[
                         { required: true,message:'请输入固定电话', type: 'string', trigger:'blur'}
                     ],
+                    contact:[
+                        { required: true,message:'请输入联系人', type: 'string', trigger:'blur'}
+                    ],
 
                 }
             }

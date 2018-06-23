@@ -118,11 +118,11 @@
                     <el-table-column prop="status_text" label="订单状态" align="center">
                     </el-table-column>
 
-                    <el-table-column prop="product_status_text" label="货物状态" align="center">
+                    <!-- <el-table-column prop="product_status_text" label="货物状态" align="center">
                     </el-table-column>
 
                     <el-table-column prop="after_sale_status_text" label="售后状态" align="center">
-                    </el-table-column>
+                    </el-table-column> -->
 
                     <el-table-column prop="created_at" label="下单时间" align="center" width="180">
                     </el-table-column>

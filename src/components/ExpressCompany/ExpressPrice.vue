@@ -46,7 +46,7 @@
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="首重" prop="first_weight" >
-                            <el-input class="name-input" v-model="addForm.first_weight" placeholder="请填首重（kg）"></el-input>
+                            <el-input class="name-input" v-model="addForm.first_weight" placeholder="请填首重（g）"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -59,7 +59,7 @@
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="续重" prop="continued_weight" >
-                            <el-input class="name-input" v-model="addForm.continued_weight" placeholder="请填续重（kg）"></el-input>
+                            <el-input class="name-input" v-model="addForm.continued_weight" placeholder="请填续重（g）"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">

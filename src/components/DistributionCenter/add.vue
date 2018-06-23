@@ -151,15 +151,15 @@
                         { required: true, message: '请输入配送中心名称', trigger: 'blur' }
                     ],
                     eng_name:[
-                        { type:'string', pattern:/^[a-zA-Z]+$/, required: true, message:'请输入英文简称', trigger: 'blur', },
-                        {  min: 1, max: 2, message: '长度不能超过2个字符', trigger: 'blur'  }
+                        {  required:true, type:'string', pattern:/^[a-zA-Z]{2}$/, required: true, message:'请输入英文简称', trigger: 'blur', },
+                        
                     ],
                     fixed_telephone:[
                         { required: true,message:'请输入固定电话', type: 'string', trigger:'blur'}
                     ],
-                    // contact:[
-                    //     { required: true,message:'请输入联系人', type: 'string', trigger:'blur'}
-                    // ],
+                    contact:[
+                        { required: true,message:'请输入联系人', type: 'string', trigger:'blur'}
+                    ],
                     // contact_phone:[
                     //     { required: true,message:'请输入联系人电话', pattern:PHONE_REG, trigger:'blur'}
                     // ],

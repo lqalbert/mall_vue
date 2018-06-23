@@ -43,7 +43,7 @@
                                 <!-- 验货成功和发货成功 有语音提示-->
                                 <submit-button
                                     :observer="dialogThis"
-                                    @click="formSubmit('checkForm')" >
+                                    @click="beforeSubmit" >
                                     <!-- 要检查一下商品(名称＼数量) -->
                                     提 交
                                 </submit-button>
@@ -333,7 +333,8 @@ export default {
                 this.$message.error('商品数量不正确');
                 return ;
             }
-
+            
+            this.formSubmit('checkForm');
             
 
         }

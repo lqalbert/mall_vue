@@ -220,10 +220,10 @@
         <RepeatOrder name="repeat-order" :ajax-proxy="ajaxProxy" @submit-success="handleReload"></RepeatOrder>
         <StopOrder name="stop-order" :ajax-proxy="ajaxProxy"  @submit-success="handleReload"></StopOrder>
 
-        <el-button @click="printList">获取打印机列表</el-button>
+        <!-- <el-button @click="printList">获取打印机列表</el-button>
         <el-button @click="configprint">弹窗式配置打印机</el-button>
         <el-button @click="getPrinterConfig">Fax打印机的配置</el-button>
-        <el-button @click="previewPrint">打印预览PDF</el-button>
+        <el-button @click="previewPrint">打印预览PDF</el-button> -->
     </div>
 </template>
 <script>
@@ -247,6 +247,7 @@ import SelectProxy from  '@/packages/SelectProxy';
 //打印
 import ws from '@/packages/Print';
 
+const MAX_DAN_LENGTH = 10;
 
 export default {
     name: 'DistributionDelivery',
@@ -292,6 +293,8 @@ export default {
             bubble:null,
             currentRow: null,
             model:null,
+
+            multipleSelection:[]
         }
     },
 
@@ -368,6 +371,9 @@ export default {
         onCurrentChange(currentRow) {
             this.currentRow = currentRow;
         },
+        handleSelectionChange(val){
+            this.multipleSelection = val;
+        },
         hasCurrentRow(){
             if (this.currentRow) {
                 return true;
@@ -375,11 +381,9 @@ export default {
                 return false;
             }
         },
-
         openDialogCheck(){
             if (!this.hasCurrentRow()) {
                 // this.$message.error('请选择一行');
-
                 this.$alert('请选择一行', '警告', {
                     confirmButtonText: '确定',
                 })
@@ -389,13 +393,33 @@ export default {
             }
         },
         openCheck(){
-            if (this.openDialogCheck()) {
-                if (this.currentRow.check_status ==0) {
-                    this.$modal.show('check', { row : this.currentRow });
-                } else {
-                    this.$message.error("已审核过");
+            let ar = this.multipleSelection.concat([]);
+            let checked = [];
+            ar.forEach(element => {
+                if (element.check_status !=0) {
+                    checked.push(element.assign_sn);
                 }
+            });
+
+            if (ar.length == 0) {
+                this.$message.error('请勾选');
+                return ;
             }
+            //调试暂时注释
+            // if (checked.length != 0) {
+            //     this.$message.error(checked.join() +" 已审核");
+            //     return ;
+            // }
+
+            if (ar.length > MAX_DAN_LENGTH) {
+                this.$message.error('最多'+MAX_DAN_LENGTH+'个');
+                return ;
+            }
+
+
+            this.$modal.show('check', { rows : ar });
+
+
         },
         openRepeat(){
             if (this.openDialogCheck()) {
@@ -433,6 +457,24 @@ export default {
                     //更新记录的打印时间　打印状态 返回打印的数据？　估计还要设置一下格式
                     AssignAjaxProxy.waybillPrint(this.currentRow.id).then((response)=>{
                         //获取打印的数据　估计还要设置一下格式
+                        let data = response.data;
+                        if (data.state!=1) {
+                            this.$message.error('打印数据出错');
+                            return ;
+                        }
+
+                        if (data.data.printer.length == 0) {
+                            this.$message.error('没设置打印机');
+                            return ; 
+                        }
+
+                        if(data.data.express_sn.length==0){
+                            this.$message.error('没有面单号');
+                            return ;
+                        }
+
+                        ws.doPrint(data.data.printer, [data.data.print_data]);
+
                     });
                 }
             }
@@ -457,12 +499,17 @@ export default {
                 // this.$modal.show('express', param);
                 //与打印机通讯 要面单什么的
                 if (pr) {
-                    window.open("/admin/print/assign/"+this.currentRow.id);
-                    //更新记录的打印时间　打印状态
-                    // AssignAjaxProxy.goodsPrint(this.currentRow.id).then((response)=>{
-                    //     //获取打印的数据　估计还要设置一下格式
-                    //      window.open("/print/assign/"+this.currentRow.id);
-                    // });
+                    if (process.env.NODE_ENV == 'production') {
+                        //更新记录的打印时间　打印状态
+                        AssignAjaxProxy.goodsPrint(this.currentRow.id).then((response)=>{
+                            //获取打印的数据　估计还要设置一下格式
+                            window.open("/print/assign/"+this.currentRow.id);
+                        });
+                    } else {
+                        window.open("/admin/print/assign/"+this.currentRow.id);
+                    }
+                    // 
+                    
                 }
             }
         },
@@ -576,6 +623,7 @@ export default {
         
         let o = {};
         o['current-change'] = this.onCurrentChange;
+        o['selection-change'] = this.handleSelectionChange;
         this.bubble = o;
     },
     beforeDestroy(){

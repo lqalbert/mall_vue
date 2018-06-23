@@ -34,6 +34,8 @@
 
                     <el-table-column prop="company_name" label="快递公司" align="center">
                     </el-table-column>
+                    <el-table-column prop="eng" label="cpcode" align="center">
+                    </el-table-column>
 
                     <el-table-column prop="entrepot_name" label="配送中心" align="center">
                     </el-table-column>
@@ -44,16 +46,14 @@
                     <el-table-column prop="contact_tel" label="联系方式" align="center">
                     </el-table-column>
 
-                    <el-table-column prop="eng" label="编号前缀" align="center">
-                    </el-table-column>
+                    
 
                     <el-table-column prop="remark" label="备注" align="center" :show-overflow-tooltip="true">
                     </el-table-column>
 
-                    <el-table-column  label="操作" align="center" width="200">
+                    <el-table-column  label="操作" align="center" width="240">
                         <template slot-scope="scope">
-                            <el-button type="info" size="small" @click="showEdit(scope.row)">编辑</el-button>
-                            <el-button type="danger" size="small" @click="handleDelete(scope.row.id)">删除</el-button>
+                            <el-button size="small" @click.stop="setAddress(scope.row)">发货地址</el-button><el-button type="info" size="small" @click.stop="showEdit(scope.row)">编辑</el-button><el-button type="danger" size="small" @click.stop="handleDelete(scope.row.id)">删除</el-button>
                         </template>
                     </el-table-column>
 
@@ -128,8 +128,7 @@
             :ajax-proxy="expresspriceajaxproxy"
             :distributors="distributors"
              @submit-success="handleReload"
-             @onBeforeClose="beforeclose"
-        >
+             @onBeforeClose="beforeclose">
         </ExpressPrice>
 
         <Edit name='edit-express-company'
@@ -137,30 +136,39 @@
             :distributors="distributors"
             @submit-success="handleReload">
         </Edit>
+
+        <Address name="send-address" :ajax-proxy="ajaxProxy"></Address>
+
+
+
     </div>
 </template>
 <script>
-import PageMix from '../../mix/Page';
-import SearchTool from '../../mix/SearchTool';
-import DataTable from '../../mix/DataTable';
-import config from '../../mix/Delete';
-import ExpressCompanyAjaxProxy from '../../ajaxProxy/ExpressCompany';
-import ExpressPriceAjaxProxy from '../../ajaxProxy/ExpressPrice';
-import DistributionCenterProxy from '../../packages/DistributionCenterSelectProxy';
+import PageMix from '@/mix/Page';
+import SearchTool from '@/mix/SearchTool';
+import DataTable from '@/mix/DataTable';
+import config from '@/mix/Delete';
+import ExpressCompanyAjaxProxy from '@/ajaxProxy/ExpressCompany';
+import ExpressPriceAjaxProxy from '@/ajaxProxy/ExpressPrice';
+import DistributionCenterProxy from '@/packages/DistributionCenterSelectProxy';
 import AreaSelect from '@/packages/AreaSelectProxy';
 import ExpressPriceSelect from '@/packages/ExpressPriceProxy';
 
 import Add from './Add';
 import Edit from './Edit';
 import ExpressPrice from './ExpressPrice';
+import Address from './Address';
+
+
 export default {
     name: 'ExpressCompany',
     pageTitle:"快递公司",
-    mixins:[PageMix,SearchTool,DataTable,config,ExpressCompanyAjaxProxy,ExpressPriceAjaxProxy],
+    mixins:[PageMix,SearchTool,DataTable,config],
     components:{
         Add,
         Edit,
         ExpressPrice,
+        Address
     },
     data(){
         return {
@@ -243,6 +251,11 @@ export default {
             let expresspriceselect = new ExpressPriceSelect({express_id:express_id,pageSize:15},this.getExpressPrice,this);
             expresspriceselect.load();
         },
+        setAddress(row){
+            // this.$message.error('发货地址');
+           this.$modal.show('send-address', {id:row.id});
+
+        }
     },
     created(){
         this.$on('search-tool-change', this.onSearchChange);

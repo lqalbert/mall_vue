@@ -4,8 +4,8 @@ const URL = '/order-assign';
 const proxy = new RestfulProxy(URL);
 
 
-proxy.check = function(id, model){
-    return this.getAxios().put(this.url + "-check/" + id, model);
+proxy.check = function(model){
+    return this.getAxios().put(this.url + "-check", model);
 };
 
 proxy.repeat = function(id, model){

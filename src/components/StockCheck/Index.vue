@@ -83,6 +83,7 @@
                             <el-input size="small" v-model="scope.row.goods_price" 
                                 placeholder="必填" @change="handlePrice(scope.row)">
                             </el-input>
+
                         </template>
                     </el-table-column>
 
@@ -106,7 +107,7 @@
                         </template>
                     </el-table-column> -->
 
-                    <el-table-column label="操作" fixed="right" header-align="center" width="140">
+                    <el-table-column label="操作" fixed="right" header-align="center">
                         <template slot-scope="scope">
                             <el-button type="info" size="small" @click="checkGoodsOne(scope.row)">盘点</el-button>
                             <el-button type="warning" size="small">维护</el-button>
@@ -187,7 +188,7 @@
         computed:{
             ...mapGetters([
                 'getUser'
-            ])
+            ]),
         },
         methods:{
             handleReload(model){
@@ -227,6 +228,15 @@
             },
             checkGoodsData(data){
                 this.tableData = data.items;
+                for (let i = 0; i < this.tableData.length; i++) {
+                    const element = this.tableData[i];
+                    if(element.goods_price == null){
+                        if(element.purchase_price !== null){
+                            element.goods_price = element.purchase_price.goods_purchase_price;
+                        }
+                    }
+                }
+                // console.log(this.tableData);
             },
             checkGoods(row){
                 this.$modal.show('check-goods-dialog',{model:row});
@@ -244,8 +254,9 @@
                         vmThis.$message.success('操作成功');
                         vmThis.handleReload(row);
                     }
-                }).catch(function(error){
-                    vmThis.$message.error('出错了');
+                }).catch(function(){
+                    console.log(error);
+                    vmthis.$message.error('出错了');
                 });
             },
             handlePrice(row){
@@ -256,6 +267,9 @@
                     // this.editForm.goods_price = row.goods_price;
                     this.handleChange(row);
                 }
+            },
+            handleSelect(row,item){
+                
             },
             handleChange(row){
                 // console.log(row);

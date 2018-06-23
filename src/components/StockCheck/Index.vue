@@ -44,10 +44,10 @@
                     <el-table-column prop="created_at" label="开单日期" align="center">
                     </el-table-column>
 
-                    <el-table-column label="操作" fixed="right" align="center" width="140">
+                    <el-table-column label="操作" fixed="right" align="center" width="200">
                         <template slot-scope="scope">
-                            <el-button type="info" size="small" @click="getCheckGoods(scope.row,'get')">查看</el-button>
-                            <!-- <el-button type="warning" size="small">维护</el-button> -->
+                            <el-button type="info" size="small"    @click="getCheckGoods(scope.row,'get')">查看</el-button>
+                            <el-button type="warning" size="small" @click="setDone(scope.row.id)">设为已盘点</el-button>
                         </template>
                     </el-table-column>
 
@@ -109,7 +109,7 @@
                     <el-table-column label="操作" fixed="right" header-align="center" width="140">
                         <template slot-scope="scope">
                             <el-button type="info" size="small" @click="checkGoodsOne(scope.row)">保存</el-button>
-                            <el-button type="warning" size="small">维护</el-button>
+                            <el-button type="warning" size="small" @click="fixEntrepot(scope.row)">维护</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -131,11 +131,9 @@
     import SearchTool from '../../mix/SearchTool';
     import DataTable from '../../mix/DataTable';
     import StockCheckAjaxProxy from '../../ajaxProxy/StockCheck';
-    // import DistributionCenterProxy from '../../packages/DistributionCenterSelectProxy';
-    // import CategorySelectProxy from '../../packages/CategorySelectProxy';
+    import StockCheckGoodsAjaxProxy from '../../ajaxProxy/StockCheckGoods';
     import GetCheckGoodsSelectProxy from '../../packages/GetCheckGoodsSelectProxy';
     import edit from "./Edit";
-    // import add from "./Add";
     import { mapGetters } from 'vuex';
 
     export default {
@@ -237,12 +235,12 @@
                     this.$message.error('价格或者数量不能为空');
                     return;
                 }
-                this.ajaxProxy.update(row.id, row).then(function(response){
+                StockCheckGoodsAjaxProxy.update(row.id, row).then(function(response){
                     if (response.data.status　==　0) {
                         vmThis.$message.error(response.data.msg ? response.data.msg : "操作失败" );
                     } else {
                         vmThis.$message.success('操作成功');
-                        vmThis.handleReload(row);
+                        // vmThis.handleReload(row);
                     }
                 }).catch(function(error){
                     vmThis.$message.error('出错了');
@@ -292,16 +290,32 @@
                 return row;
             },
 
+            fixEntrepot(row){
+                StockCheckGoodsAjaxProxy.updateEntrepot(row.id).then((response)=>{
+                    if (response.data.status==0) {
+                        this.$message.error(response.data.msg);
+                    } else {
+                        this.$message.success(response.data.msg);
+                    }
+
+                }).catch((response)=>{
+                    this.$message.error('出错了');
+                })
+            },
+            setDone(id){
+                this.ajaxProxy.update(id, {check_status:2}).then((response)=>{
+                    if (response.data.status==0) {
+                        this.$message.error(response.data.msg);
+                    } else {
+                        this.$message.success(response.data.msg);
+                    }
+                })
+            }
+
         },
         created(){
             this.$on('search-tool-change', this.onSearchChange);
             this.GetCheckGoodsProxy = new GetCheckGoodsSelectProxy({},this.checkGoodsData,this);
-            //获取配送中心数据
-            // let DistributionCenterSelect = new DistributionCenterProxy({}, this.getDistributionCenter, this);
-            // DistributionCenterSelect.load();
-            // //获取商品类型数据
-            // let CategorySelect = new CategorySelectProxy({}, this.getTypes, this);
-            // CategorySelect.load();
 
         }
     }

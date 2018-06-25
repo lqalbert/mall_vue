@@ -13,14 +13,14 @@
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="名称" prop="describe" >
-                            <el-input class="name-input" size="small" placeholder="网站名称" v-model.number="addForm.describe"></el-input>
+                            <el-input class="name-input" size="small" placeholder="请不要超过20个字符" v-model.number="addForm.describe"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row>
                     <el-col :span="16">
                         <el-form-item label="备注" prop="remark" >
-                            <el-input type="textarea" size="small" placeholder="备注" v-model.number="addForm.remark"></el-input>
+                            <el-input type="textarea" size="small" placeholder="请不要超过200个字符" v-model.number="addForm.remark"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -56,13 +56,6 @@ export default {
             dialogThis:this,
             labelPosition:"right",
             labelWidth:'80px',
-            relationshipList :[
-                {id:'1',name:'父子(女)'},
-                {id:'2',name:'母子(女)'},
-                {id:'3',name:'兄弟(姐妹)'},
-                {id:'4',name:'朋友'},
-                {id:'5',name:'其他'},
-            ],
             addForm:{
                 webUrl:"",
                 describe:"",
@@ -72,6 +65,12 @@ export default {
                 webUrl:[
                     { required: true, message: '请输入网址', trigger: 'blur'},
                 ],
+                describe:[
+                    { min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur' }
+                    ],
+                remark:[
+                    { min: 1, max: 200, message: '长度在 1 到 200 个字符', trigger: 'blur' }
+                    ],
             },
         }
     },

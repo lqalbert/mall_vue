@@ -35,7 +35,6 @@
                     <el-form-item class="un-width">
                         <el-button size="small" type="info" @click="showDialog('advance')">高级查询</el-button>
                         <el-button size="small" type="info" @click="setBusiness('tracked')">跟踪</el-button>
-                        <el-button size="small" type="info" @click="setBusiness('tracked')">跟踪</el-button>
                         <el-button size="small" type="info" @click="setBusiness('untracked')">未跟踪</el-button>
                         <el-button size="small" type="info" @click="setBusiness('plan')">计划</el-button>
                         <el-button size="small" type="info" @click="setSourceType('out')">转让</el-button>

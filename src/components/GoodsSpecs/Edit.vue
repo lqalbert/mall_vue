@@ -1,7 +1,7 @@
 <template>
     <div >
         <MyDialog title="编辑" :name="name" :width="width" :height="height" @before-open="onOpen">
-            <el-form :model="editForm" ref="editForm"  :label-width="labelWidth"   :label-position="labelPosition">
+            <el-form :model="editForm" ref="editForm"  :label-width="labelWidth" :rules="rules"  :label-position="labelPosition">
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="规格名称" prop="name" >
@@ -62,6 +62,13 @@ export default {
                 add_value:[]
             },
             model:null,
+            rules:{
+                name:[
+                    { required: true, message: '请输入规格名称', trigger: 'blur'},
+                    { min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur' }
+                ],
+
+            },
             showTypes:{},
         }
     },

@@ -110,7 +110,8 @@ export default {
             },
             rules:{
                 name:[
-                    { required: true, message: '请输入部门名称', trigger: 'blur' }
+                    { required: true, message: '请输入部门名称', trigger: 'blur' },
+                    { min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur' }
                 ],
                 type:[
                     { required: true, message:'请选择类型', type: 'number', trigger:'change'}

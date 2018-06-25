@@ -175,7 +175,7 @@
              onDepartChange(v){
                 this.queryForm.group_id = '';
                 this.queryForm.user_id = '';
-                if (v) {
+                if (v.toString().length > 0) {
                     this.groupSelect.setParam({department_id:v,fields:['id','name']});
                     this.groupSelect.load();
                 }    
@@ -185,7 +185,7 @@
              */
             onGroupChange(v){
                 this.queryForm.user_id = '';
-                if (v) {
+                if (v.toString().length > 0) {
                     this.employeeSelect.setParam({group_id:v,fields:['id', 'realname']});
                     this.employeeSelect.load();
                 }  

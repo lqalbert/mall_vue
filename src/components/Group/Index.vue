@@ -207,7 +207,8 @@
         },
         computed:{
             ...mapGetters({
-                'user_department_id':'department_id'
+                'user_department_id':'department_id',
+                'this_user':'getUser',
             }),
             strategySearchDepartShow(){
                 console.log(this.strategies)
@@ -299,11 +300,12 @@
             let departProxy = new DepartSelectProxy(null, this.loadDepartment, this);
             this.departProxy = departProxy;
             this.departProxy.load();
+            if(this.this_user.roles[0].id !=1){
+                this.searchForm.department_id = this.user_department_id !=0 ? this.user_department_id :'';
+                this.mainparam = JSON.stringify({department_id: this.searchForm.department_id});
+            }
 
-            this.searchForm.department_id = this.user_department_id !=0 ? this.user_department_id :'';
-            this.mainparam = JSON.stringify({department_id: this.searchForm.department_id});
             this.$on('search-tool-change', this.onSearchChange);
-
             this.strategies = this.$store.getters.getStrategy( this.$options.name );
 
             this.emSelect = new EmployeeSelectProxy({}, this.loadSubTable, this);

@@ -6,7 +6,7 @@
                 <el-step title="商品信息"></el-step>
                 <el-step title="发货信息"></el-step>
             </el-steps>
-            <el-form :model="deliverForm" ref="deliverForm" :label-width="labelWidth"  :label-position="labelPosition">
+            <el-form :model="deliverForm" ref="deliverForm" :label-width="labelWidth" :rules="rules" :label-position="labelPosition">
                 <div v-show="active==0">
                     <el-table :data="goodsList" border>
                         <el-table-column label="ID" align="center"  prop="id" width="65"></el-table-column>
@@ -43,50 +43,50 @@
                 </div>
                 <br>
                 <div v-show="active==1">
-                        <el-row>
-                            <el-col :span="12">
-                                <el-form-item label="快递单号" prop="express_num" >
-                                    <el-input class="name-input" v-model="deliverForm.express_num" placeholder="快递单号"></el-input>
-                                </el-form-item>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-form-item label="快递公司" prop="express_company" >
-                                    <el-input class="name-input" v-model="deliverForm.express_company" placeholder="快递公司"></el-input>
-                                </el-form-item>
-                            </el-col>
-                        </el-row>
+                    <el-row>
+                        <el-col :span="12">
+                            <el-form-item label="快递单号" prop="express_num" >
+                                <el-input class="name-input" v-model="deliverForm.express_num" placeholder="快递单号"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                            <el-form-item label="快递公司" prop="express_company" >
+                                <el-input class="name-input" v-model="deliverForm.express_company" placeholder="快递公司"></el-input>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
 
-                        <el-row>
-                            <el-col :span="12">
-                                <el-form-item label="快递费用" prop="postage">
-                                    <el-input class="name-input" v-model="deliverForm.postage" placeholder="快递费用"></el-input>
-                                </el-form-item>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-form-item label="确认人" prop="confirm_user" >
-                                    <el-input  class="name-input" v-model="deliverForm.confirm_user" placeholder="确认人"></el-input>
-                                </el-form-item>
-                            </el-col>
-                        </el-row>
-                        <el-row>
-                            <el-col :span="12">
-                                <el-form-item label="发货日期" prop="deliver_goods_time">
-                                    <el-date-picker
-                                            v-model="deliverForm.deliver_goods_time"
-                                            type="datetime"
-                                            @change="dateChange"
-                                            placeholder="选择发货日期">
-                                    </el-date-picker>
-                                </el-form-item>
-                            </el-col>
-                        </el-row>
-                        <el-row>
-                            <el-col :span="14">
-                                <el-form-item label="备注" prop="remarks">
-                                    <el-input  type="textarea" v-model="deliverForm.remarks" placeholder="请填写备注"></el-input>
-                                </el-form-item>
-                            </el-col>
-                        </el-row>
+                    <el-row>
+                        <el-col :span="12">
+                            <el-form-item label="快递费用" prop="postage">
+                                <el-input class="name-input" v-model="deliverForm.postage" placeholder="快递费用"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                            <el-form-item label="确认人" prop="confirm_user" >
+                                <el-input  class="name-input" v-model="deliverForm.confirm_user" placeholder="确认人"></el-input>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="12">
+                            <el-form-item label="发货日期" prop="deliver_goods_time">
+                                <el-date-picker
+                                        v-model="deliverForm.deliver_goods_time"
+                                        type="datetime"
+                                        @change="dateChange"
+                                        placeholder="选择发货日期">
+                                </el-date-picker>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="14">
+                            <el-form-item label="备注" prop="remarks">
+                                <el-input  type="textarea" v-model="deliverForm.remarks" placeholder="请填写备注"></el-input>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
                 </div>
             </el-form>
             <div slot="dialog-foot" >
@@ -143,6 +143,30 @@ export default {
                 remarks:'',
                 deliverGoodsList:[],
             },
+            rules:{
+                express_num:[
+                    { required: true, message: '请填写快递单号', trigger: 'blur' },
+                    { min:1,   max: 20, message: '长度不能超过20个字符', trigger: 'blur'  }
+                ],
+                express_company:[
+                    { required: true, message: '请填写快递公司', trigger: 'blur' },
+                    { min:1,   max: 20, message: '长度不能超过20个字符', trigger: 'blur'  }
+                ],
+                postage:[
+                    { required: true, message: '请填写快递费用', trigger: 'blur' },
+                    { min:1,   max: 20, message: '长度不能超过20个字符', trigger: 'blur'  }
+                ],
+                confirm_user:[
+                    { required: true, message: '请填写确认人', trigger: 'blur' },
+                    { min:1,   max: 10, message: '长度不能超过10个字符', trigger: 'blur'  }
+                ],
+                deliver_goods_time:[
+                    { required: true, message: '请选择发货时间', trigger: 'blur' },
+                ],
+                remarks:[
+                    { min:1,   max: 100, message: '长度不能超过100个字符', trigger: 'blur'  }
+                ],
+            },
             model:null,
             goodsList:[],
 
@@ -176,8 +200,30 @@ export default {
             if (this.active++ > 1) this.active = 1;
         },
         submit(name){
+            this.goodsList.forEach(value => {
+                if(value.actual_goods_num == ''){
+                    this.$message.error('请填写实发数量');
+                    return;
+                }
+                if(value.every_case_goods_num == ''){
+                    this.$message.error('请填写每箱数量');
+                    return;
+                }
+                if(value.goods_case_num == ''){
+                    this.$message.error('请填写纸箱个数');
+                    return;
+                }
+                if(value.goods_manufacture_time == ''){
+                    this.$message.error('请填写生产日期');
+                    return;
+                }
+                if(value.goods_case_weight == ''){
+                    this.$message.error('请填写商品重量');
+                    return;
+                }
+            });
             this.deliverForm.deliverGoodsList = this.goodsList;
-            this.deliverForm.purchase_status =3;
+           // this.deliverForm.purchase_status =3;
             console.log(this.deliverForm);
             this.formSubmit(name);
             // this.$emit('submit-ok');

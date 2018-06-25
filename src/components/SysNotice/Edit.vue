@@ -6,7 +6,7 @@
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="公告标题" prop="title" >
-                            <el-input class="name-input" size="small" placeholder="公告标题" v-model.number="editForm.title"></el-input>
+                            <el-input class="name-input" size="small" placeholder="公告标题" v-model="editForm.title"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -20,7 +20,7 @@
                 <el-row>
                     <el-col :span="24">
                         <el-form-item label="公告内容" prop="content" >
-                            <el-input type="textarea" auto-complete="off" v-model="editForm.content"></el-input>
+                            <el-input type="textarea" auto-complete="off" v-model="editForm.content" placeholder="请输入255字以内"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -96,13 +96,16 @@
                 },
                 rules:{
                     title:[
-                        { required: true, message: '请输入公告标题', trigger: 'change'},
+                        { required: true, message: '请输入公告标题', trigger: 'blur'},
+                        { min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur' }
                     ],
                     type_id:[
-                        { required: true, message: '请选择公告类型', trigger: 'blur',type: 'number',},
+                        { required: true, message: '请选择公告类型', trigger: 'blur'},
                     ],
                     content:[
                         {required: true, message: '请输入公告内容', trigger: 'blur'},
+                        { min: 1, max: 255, message: '长度在 1 到 255 个字符', trigger: 'blur' }
+
                     ],
                 },
                 startPickerOptions: {

@@ -1,7 +1,7 @@
 <template>
     <div class="hello">
         <el-row>
-            <el-form :inline="true" :model="addForm" ref="addForm" label-position="right" class="demo-form-inline" size="small">
+            <el-form :inline="true" :model="addForm" ref="addForm" :rules="rules" label-position="right" class="demo-form-inline" size="small">
                 <el-row>
                     <el-form-item prop="shipper" label="发货单位">
                         <el-input v-model="addForm.shipper" size="small" placeholder="发货单位" style="width:180px"></el-input>
@@ -32,7 +32,7 @@
                     <el-form-item prop="contact_phone" label="联系电话">
                         <el-input v-model="addForm.contact_phone" size="small" placeholder="采购人电话" style="width:180px"></el-input>
                     </el-form-item>
-                    <el-form-item prop="remark" label="其他备注">
+                    <el-form-item prop="remark" label="采购单备注">
                         <el-input   v-model="addForm.remark" size="small"  placeholder="备注" style="width:180px"></el-input>
                     </el-form-item>
                 </el-row>
@@ -57,7 +57,7 @@
 
                             <el-table-column prop="goods_purchase_num" label="采购数量" align="center">
                                 <template slot-scope="scope">
-                                    <el-input v-model="scope.row.goods_purchase_num"></el-input>
+                                        <el-input v-model="scope.row.goods_purchase_num" ></el-input>
                                 </template>
                             </el-table-column>
 
@@ -157,6 +157,29 @@
                     goods_money_total:0,
                     purchase_goods:[],
                 },
+                rules:{
+                    shipper:[
+                        { required: true, message: '请填写发货单位', trigger: 'blur' },
+                        { min:1,   max: 20, message: '长度不能超过20个字符', trigger: 'blur'  }
+                    ],
+                    entrepot_id:[
+                        { required: true, message: '请选择采购单位', trigger: 'blur' },
+                    ],
+                    contact_time:[
+                        { required: true, message: '请选择到货时间', trigger: 'blur' },
+                    ],
+                    contact_name:[
+                        { required: true, message: '请填写采购人姓名', trigger: 'blur' },
+                        { min:1,   max: 20, message: '长度不能超过20个字符', trigger: 'blur'  }
+                    ],
+                    contact_phone:[
+                        { required: true, message: '请填写采购人电话',pattern: /^1[34578]\d{9}$/, trigger: 'blur' },
+                    ],
+                    remark:[
+                        { min:1,   max: 100, message: '长度不能超过100个字符', trigger: 'blur'}
+                    ],
+
+                },
                 distributors:[],
                 goodsList:[],
                 reFundCheckShow:false,
@@ -186,12 +209,16 @@
                 this.goodsList=this.goodsList.concat(v);
             },
             submit(name) {
-                this.addForm.purchase_goods=this.goodsList;
-                this.addForm.sku_type=this.goodsList.length;
                 this.goodsList.forEach(value => {
+                    if(value.goods_purchase_num == undefined || value.goods_purchase_price == undefined || value.goods_purchase_num == 0 ||value.goods_purchase_price == 0){
+                        this.$message.error('请填写采购数量和价格');
+                        return;
+                    }
                     this.addForm.goods_total += parseInt(value.goods_purchase_num);
                     this.addForm.goods_money_total += parseInt(value.goods_purchase_num) * parseInt(value.goods_purchase_price);
                 });
+                this.addForm.purchase_goods=this.goodsList;
+                this.addForm.sku_type=this.goodsList.length;
                 this.formSubmit(name);
             },
 

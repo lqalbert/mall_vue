@@ -135,7 +135,8 @@ export default {
     },
     created(){
         this.$on('search-tool-change', this.onSearchChange);
-        this.onSearchChange({id:this.getUser.id});
+        this.searchForm.user_id = this.getUser.id;
+        this.onSearchChange({user_id:this.getUser.id});
     }
 }
 </script>

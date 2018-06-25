@@ -4,7 +4,7 @@
             <el-col :span="12">
                 <el-form :inline="true"  ref="searchForm" :model="searchForm" class="search-bar">
                     <el-form-item prop="title" style="width: 140px">
-                        <el-input type="text" size="small" v-model="searchForm.title" placeholder="请输入标题关键字"></el-input>
+                        <el-input type="text" size="small" v-model="searchForm.title" placeholder="请输入标题"></el-input>
                     </el-form-item>
 
                     <el-form-item>

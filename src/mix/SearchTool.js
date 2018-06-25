@@ -7,7 +7,9 @@ const SearchTool = {
         searchToolReset(name){
             this.$refs[name].resetFields();
             this.$refs[name].$emit('reset');
-            this.$emit('search-tool-change', this[name]);
+            let pa = Object.assign({}, this[name]);
+            pa.timestamp = Date.now().valueOf();
+            this.$emit('search-tool-change', pa);
         }
     }
 };

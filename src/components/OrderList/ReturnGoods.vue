@@ -375,7 +375,7 @@
                         return ;
                     }
                 }
-                console.log(this.goods);
+                // console.log(this.goods);
                 this.formSubmit('rowInfoForm');
             },
             deletes(index){

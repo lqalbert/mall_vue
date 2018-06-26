@@ -33,7 +33,7 @@
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="打印机名称" prop="printer" >
-                            <el-input class="name-input" v-model="addForm.printer" placeholder=""></el-input>
+                            <el-input class="name-input" v-model="editForm.printer" placeholder=""></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">

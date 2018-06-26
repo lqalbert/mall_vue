@@ -132,7 +132,7 @@
                                 </el-row>
                             </el-col>
                             <el-col :span="12">
-                                <el-row v-for="item in checkGoods" :key="item.id">
+                                <el-row v-for="(item,index) in checkGoods" :key="item.id">
                                     <el-col :span="16">{{ item.goods_name }}</el-col>
                                     <el-col :span="4">{{ item.goods_number }}</el-col>
                                     <el-col :span="4">
@@ -236,6 +236,7 @@ export default {
             
         },
         checkIndex(index){
+            //返回的是一个引用
             const item = this.goods.find((element, i)=>{
                 return  i == index ;
             });
@@ -245,10 +246,11 @@ export default {
             });
 
             if (typeof n == 'undefined') {
-                item.goods_number = 1;
-                this.checkGoods.splice(index, 0, item);
+                let tmp = Object.assign({}, item);
+                tmp.goods_number = 1;
+                this.checkGoods.splice(index, 0, tmp);
             } else {
-                this.checkedGoods.forEach(element => {
+                this.checkGoods.forEach(element => {
                     if (element.goods_id == item.goods_id) {
                         element.goods_number++;
                     }
@@ -300,8 +302,9 @@ export default {
             this.audio.play();
         },
         subNumber(index){
-            const n = this.checkGoods.find((element)=>{
-                return item.goods_number--;
+            const n = this.checkGoods.find((element, i)=>{
+                if (i == index && element.goods_number>0)
+                return element.goods_number--;
             });
         },
         beforeSubmit(){

@@ -67,9 +67,9 @@
                     <el-table-column prop="entrepot_name" label="配送中心" width="180" align="center"></el-table-column>
                     <el-table-column prop="goods_name" label="商品名称" width="180" ></el-table-column>
                     <el-table-column prop="sku_sn" label="商品编号" width="180" align="center"></el-table-column>
-                    <el-table-column prop="entrepot_in" label="生产入库" align="center"></el-table-column>
-                    <el-table-column prop="return_num" label="生产出库" align="center"></el-table-column>
-                    <el-table-column prop="order_lock" label="销售锁定" align="center"></el-table-column>
+                    <el-table-column prop="produce_in" label="生产入库" align="center"></el-table-column>
+                    <el-table-column prop="produce_out" label="生产出库" align="center"></el-table-column>
+                    <el-table-column prop="sale_lock" label="销售锁定" align="center"></el-table-column>
                     <el-table-column prop="assign_lock" label="发货锁定" align="center"></el-table-column>
                     <el-table-column prop="exchange_lock" label="换货锁定" align="center"></el-table-column>
                     <!-- <el-table-column prop="entry_at" label="最后生产入库时间" align="center"></el-table-column> -->

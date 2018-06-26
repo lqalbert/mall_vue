@@ -243,7 +243,7 @@
            
             if (this.user_group_id && this.user_group_id != 0 ) {
                 // console.log('asdf');
-                this.employeeSelect.setParam({group_id:this.user_group_id,fields:['id','name']});
+                this.employeeSelect.setParam({group_id:this.user_group_id,fields:['id','realname']});
                 this.employeeSelect.load();
                 this.searchForm.group_id = this.user_group_id;
             } else {

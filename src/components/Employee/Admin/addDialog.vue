@@ -51,7 +51,7 @@
                             <el-col :span="12">
                                 <el-form-item label="所属团队" prop="group_id" >
                                     <el-select v-model="addForm.group_id" placeholder="团队小组">
-                                        <!-- <el-option label="请选择" :value="0"></el-option> -->
+                                        <el-option label="请选择" :value="0"></el-option>
                                         <el-option
                                                 v-for="group in groups"
                                                 :label="group.name"
@@ -281,7 +281,7 @@
                     account:"",
                     password:"123456",
                     role_ids:[],
-                    group_id:'',
+                    group_id:0,
                     department_id:'',
                     sex:1,
                     telephone:"",
@@ -345,7 +345,7 @@
         methods:{
             departmentChange(v){
                 this.groups=[];
-                this.addForm.group_id='';
+                this.addForm.group_id=0;
                 this.getGroupsAjax(v);
             },
             getAjaxPromise(model){

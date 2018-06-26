@@ -79,9 +79,10 @@
                         <el-row>
                         <el-col :span="12">
                             <el-form-item prop="address_id" label="收货地址" >
-                                    <el-radio-group   v-model="addOrderForm.address">
-                                        <el-radio v-for="v in address" :label="v" :key="v.id" >{{v.area_province_name}}-{{v.area_city_name}}-{{area_district_name}}-{{name}}-{{fixed_telephone}}</el-radio>
-                                    </el-radio-group>
+                                <el-radio-group v-model="addOrderForm.address">
+                                    <el-radio v-for="v in address" :label="v" :key="v.id" >{{v.id}}-{{v.area_province_name}}-
+                                        {{v.area_city_name}}-{{v.area_district_name}}-{{v.name}}-{{v.fixed_telephone}}</el-radio>
+                                </el-radio-group>
                             </el-form-item>
                         </el-col>
                     </el-row>
@@ -276,7 +277,7 @@
                     var vmthis = this;
                     let moneyNotes =parseInt(this.data2[this.addOrderForm.goods_id].price) * parseInt(this.addOrderForm.goods_number);
                     let item = vmthis.data2[vmthis.addOrderForm.goods_id];
-                    // console.log(item);
+                    console.log(item);
                     let addData ={
                         goods_id:    item.goods_id,
                         sku_id:      item.sku_id,
@@ -288,7 +289,7 @@
                         moneyNotes:  moneyNotes,
                         sku_sn:      item.sku_sn,
                         unit_type:   item.unit_type,
-                        length:      item.length,
+                        len:         item.len,
                         width:       item.width,
                         height:      item.height,
                         barcode:     item.barcode,
@@ -449,7 +450,7 @@
                 //this.usersListData=data.users;
             },
 
-            contactItem(goods_id, price, name, num, sku_id, sku, sku_sn,unit_type,length,width,height,barcode,weight,bubble_bag,specifications){
+            contactItem(goods_id, price, name, num, sku_id, sku, sku_sn,unit_type,len,width,height,barcode,weight,bubble_bag,specifications){
                 return {goods_id: goods_id,
                         price: price, 
                         goods_name: name,  
@@ -458,7 +459,7 @@
                         sku_name:sku, 
                         sku_sn:sku_sn,
                         unit_type:unit_type,
-                        length:length,
+                        len:len,
                         width:width,
                         height:height,
                         barcode:barcode,
@@ -466,11 +467,11 @@
                         bubble_bag:bubble_bag,
                         specifications:specifications};
             },
-            contactChildren(children, goods_id, goods_name,unit_type,length,width,height,barcode,weight,bubble_bag,specifications){
+            contactChildren(children, goods_id, goods_name,unit_type,len,width,height,barcode,weight,bubble_bag,specifications){
                 for (let i = 0; i < children.length; i++) {
                     const item = children[i];
                     let vv1 = this.contactItem(goods_id, item.price, goods_name,
-                     item.num, item.id, item.name, item.sku_sn,unit_type,length,width,height,barcode,weight,bubble_bag,specifications);
+                     item.num, item.id, item.name, item.sku_sn,unit_type,len,width,height,barcode,weight,bubble_bag,specifications);
                     let kk1 = 'goods_id_'+goods_id+'_sku_id_'+ item.id;
                     this.data2[kk1] = vv1;
                 }
@@ -520,7 +521,7 @@
                     let goods_number1 = data.items[i].goods_number;
                     let unit_type1 = data.items[i].unit_type;
                     
-                    let length = data.items[i].length;
+                    let len = data.items[i].len;
                     let width = data.items[i].width;
                     let height = data.items[i].height;
                     let barcode = data.items[i].barcode;
@@ -529,12 +530,12 @@
                     let specifications = data.items[i].specifications;
 
                     let vv1 = this.contactItem(gid1, goods_price1, goods_name1,
-                     goods_number1, 0, '', data.items[i].sku_sn,unit_type1,length,width,height,barcode,weight,
+                     goods_number1, 0, '', data.items[i].sku_sn,unit_type1,len,width,height,barcode,weight,
                      bubble_bag,specifications);
                     let kk1 = 'goods_id_'+gid1+'_sku_id_0';
                     this.data2[kk1] = vv1;
                     if (data.items[i].skus.length > 0) {
-                        this.contactChildren(data.items[i].skus, gid1, goods_name1,unit_type1,length,
+                        this.contactChildren(data.items[i].skus, gid1, goods_name1,unit_type1,len,
                         width,height,barcode,weight,bubble_bag,specifications);
                     }
                 }

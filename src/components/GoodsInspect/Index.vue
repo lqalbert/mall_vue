@@ -155,9 +155,8 @@
 <script>
 import PageMix from '@/mix/Page';
 import FormMix from '@/mix/Form';
-import AssignAjax from '@/ajaxProxy/Assign';
-import GoodsAjax from '@/ajaxProxy/GoodsDetails';
-
+import AssignAjax from '../../ajaxProxy/Assign';
+import GoodsAjax from '../../ajaxProxy/GoodsDetails';
 
 
 export default {
@@ -232,7 +231,6 @@ export default {
                 }).catch((response)=>{
                     vmthis.load = false;
                     vmthis.$message.error('加载快递单出错');
-                    
                 });
             }, 800);
             
@@ -314,9 +312,7 @@ export default {
                 return ;
             }
             
-            
             let result = 0;
-
             this.goods.forEach((element)=>{
                 let index = this.checkGoods.findIndex((element2)=>{
                     if (element.goods_id == element2.goods_id  &&  element.goods_number == element2.goods_number ) {

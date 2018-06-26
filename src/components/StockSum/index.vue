@@ -74,6 +74,9 @@
                     <el-table-column prop="sale_count" label="累计销售" align="center"></el-table-column>
                     <el-table-column prop="produce_in" label="累记生产入库数量" align="center"></el-table-column>
                     <el-table-column prop="destroy_count" label="损坏数量" align="center"></el-table-column>
+                    <el-table-column prop="sale_lock" label="销售锁定" align="center"></el-table-column>
+                    <el-table-column prop="assign_lock" label="发货锁定" align="center"></el-table-column>
+
                     <!-- <el-table-column prop="summary_time" label="汇总时间" align="center"></el-table-column> -->
                 </TableProxy>
             </el-col>

@@ -135,14 +135,25 @@
                                 </el-col>
                             </el-row> -->
                             <el-row>
-                                <el-col :span="24">
-                                    <el-form-item prop="order_remark" label="订单备注">
-                                    <el-input v-model="addOrderForm.order_remark" type="textarea" placeholder="订单备注"></el-input>
+                                <el-col :span="12">
+                                    <el-form-item prop="type" label="订单类型">
+                                        <el-select v-model="addOrderForm.type">
+                                            <el-option value="0" label="销售订单"></el-option>
+                                            <el-option value="1" label="内部订单"></el-option>
+                                            <el-option value="2" label="商城订单"></el-option>
+                                        </el-select>
                                     </el-form-item>
                                 </el-col>
                             </el-row>
                             <el-row>
-                                <el-col :span="24">
+                                <el-col :span="16">
+                                    <el-form-item prop="order_remark" label="订单备注">
+                                        <el-input v-model="addOrderForm.order_remark" type="textarea" placeholder="订单备注"></el-input>
+                                    </el-form-item>
+                                </el-col>
+                            </el-row>
+                            <el-row>
+                                <el-col :span="16">
                                     <el-form-item prop="express_remark" label="配送发货备注">
                                         <el-input v-model="addOrderForm.express_remark" type="textarea" placeholder="配送发货备注"></el-input>
                                     </el-form-item>
@@ -232,7 +243,7 @@
                     order_remark:'',
                     express_remark:'',
                     express_name:'',
-
+                    type:'',
                 },
                 orderData:[],
                 orderAddressData:[],
@@ -266,6 +277,7 @@
                     var vmthis = this;
                     let moneyNotes =parseInt(this.data2[this.addOrderForm.goods_id].price) * parseInt(this.addOrderForm.goods_number);
                     let item = vmthis.data2[vmthis.addOrderForm.goods_id];
+                    // console.log(item);
                     let addData ={
                         goods_id:    item.goods_id,
                         sku_id:      item.sku_id,
@@ -283,6 +295,7 @@
                         barcode:     item.barcode,
                         weight:      item.weight,
                         bubble_bag:  item.bubble_bag,
+                        specifications: item.specifications,
                     };
                     this.totalMoney += moneyNotes;
                     this.orderData.push(addData);
@@ -436,7 +449,8 @@
                     with:['skus'],
                     fields:['id','goods_name',
                     'goods_price','goods_number',
-                    'sku_sn','unit_type','len','width','height','barcode','weight','bubble_bag',]
+                    'sku_sn','unit_type','len','width','height','barcode','weight',
+                    'bubble_bag','specifications']
                 }).load();
                 this.data2 = {};
 
@@ -460,7 +474,7 @@
                 //this.usersListData=data.users;
             },
 
-            contactItem(goods_id, price, name, num, sku_id, sku, sku_sn,unit_type,length,width,height,barcode,weight,bubble_bag){
+            contactItem(goods_id, price, name, num, sku_id, sku, sku_sn,unit_type,length,width,height,barcode,weight,bubble_bag,specifications){
                 return {goods_id: goods_id,
                         price: price, 
                         goods_name: name,  
@@ -474,13 +488,14 @@
                         height:height,
                         barcode:barcode,
                         weight:weight,
-                        bubble_bag:bubble_bag};
+                        bubble_bag:bubble_bag,
+                        specifications:specifications};
             },
-            contactChildren(children, goods_id, goods_name,unit_type,length,width,height,barcode,weight,bubble_bag){
+            contactChildren(children, goods_id, goods_name,unit_type,length,width,height,barcode,weight,bubble_bag,specifications){
                 for (let i = 0; i < children.length; i++) {
                     const item = children[i];
                     let vv1 = this.contactItem(goods_id, item.price, goods_name,
-                     item.num, item.id, item.name, item.sku_sn,unit_type,length,width,height,barcode,weight,bubble_bag);
+                     item.num, item.id, item.name, item.sku_sn,unit_type,length,width,height,barcode,weight,bubble_bag,specifications);
                     let kk1 = 'goods_id_'+goods_id+'_sku_id_'+ item.id;
                     this.data2[kk1] = vv1;
                 }
@@ -536,14 +551,16 @@
                     let barcode = data.items[i].barcode;
                     let weight = data.items[i].weight;
                     let bubble_bag = data.items[i].bubble_bag;
+                    let specifications = data.items[i].specifications;
 
                     let vv1 = this.contactItem(gid1, goods_price1, goods_name1,
-                     goods_number1, 0, '', data.items[i].sku_sn,unit_type1,length,width,height,barcode,weight,bubble_bag);
+                     goods_number1, 0, '', data.items[i].sku_sn,unit_type1,length,width,height,barcode,weight,
+                     bubble_bag,specifications);
                     let kk1 = 'goods_id_'+gid1+'_sku_id_0';
                     this.data2[kk1] = vv1;
                     if (data.items[i].skus.length > 0) {
                         this.contactChildren(data.items[i].skus, gid1, goods_name1,unit_type1,length,
-                        width,height,barcode,weight,bubble_bag);
+                        width,height,barcode,weight,bubble_bag,specifications);
                     }
                 }
                 // console.log(this.data2);  

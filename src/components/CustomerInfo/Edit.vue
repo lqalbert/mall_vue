@@ -197,11 +197,11 @@ export default {
                     { required: true, message:'请输入正确格式的年龄', trigger: 'blur', type: 'number'},
                     {min:1,  max: 120, message: '请输入合理的年龄', trigger: 'blur' ,type: 'number' }
                 ],
-                qq:[
-                    { required: true,message:'请输入正确格式的QQ号', type: 'number', trigger:'blur'},
-                    {min:1, max: 999999999999999, message: '请输入合理的QQ',type: 'number', trigger: 'blur'  }
+                // qq:[
+                //     { required: true,message:'请输入正确格式的QQ号', type: 'number', trigger:'blur'},
+                //     {min:1, max: 999999999999999, message: '请输入合理的QQ',type: 'number', trigger: 'blur'  }
 
-                ],
+                // ],
                 qq_nickname:[
                     { required: true,message:'请输入QQ昵称', type: 'string', trigger:'blur'},
                     {min:1, max: 20, message: '长度不能超过20个字符', trigger: 'blur'  }

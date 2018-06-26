@@ -79,10 +79,8 @@
                         <el-row>
                         <el-col :span="12">
                             <el-form-item prop="address_id" label="收货地址" >
-                                    <el-radio-group v-for="v in fullAddressData" :key="v.id" v-model="addOrderForm.address_id" @change="addressChange">
-                                        <template slot-scope="scope">
-                                            <el-radio  :label="v.id" >{{v.fullAddress}}</el-radio>
-                                        </template>
+                                    <el-radio-group   v-model="addOrderForm.address">
+                                        <el-radio v-for="v in address" :label="v" :key="v.id" >{{v.area_province_name}}-{{v.area_city_name}}-{{area_district_name}}-{{name}}-{{fixed_telephone}}</el-radio>
                                     </el-radio-group>
                             </el-form-item>
                         </el-col>
@@ -215,7 +213,8 @@
                     deal_id:'',
                     deal_name:'',
                     goods_id:"",
-                    address_id:"",
+                    // address_id:"",
+                    address:null,
                     order_all_money:0,
                     order_pay_money:0,
                     order_goods:[],
@@ -261,7 +260,7 @@
                 }
             },
             addOrder(){
-                if(this.alertNum != 0 ){
+                //if(this.alertNum != 0 ){
                     //console.log(this.data2);
                     var vmthis = this;
                     let moneyNotes =parseInt(this.data2[this.addOrderForm.goods_id].price) * parseInt(this.addOrderForm.goods_number);
@@ -289,7 +288,7 @@
                     this.goodsIds.push(addData.goods_id);
                     this.$refs.addOrderForm.resetFields();
                     this.alertNum = 0;
-                }
+                //}
             },
             getGoodsInfo(goods_id){
                 if(this.data2[goods_id]){
@@ -315,30 +314,6 @@
                         this.addOrderForm.dep_group_realname = this.setDepGroupRealname(deal_id);
                     }  
                 }
-                
-            },
-            addressChange(address_id){
-                this.address_id=address_id;
-                this.addOrderForm.address_id = address_id;
-                var vmThis = this;
-                this.addressList=[];
-                this.orderAddressData = [];
-                let data={
-                    name : vmThis.addressListData[address_id].name,
-                    phone : vmThis.addressListData[address_id].phone,
-                    fixed_telephone : vmThis.addressListData[address_id].fixed_telephone,
-                    address: vmThis.addressListData[address_id].address,
-                    zip_code: vmThis.addressListData[address_id].zip_code,
-                    area_city_id:vmThis.addressListData[address_id].area_city_id,
-                    area_city_name:vmThis.addressListData[address_id].area_city_name,
-                    area_district_id:vmThis.addressListData[address_id].area_district_id,
-                    area_district_name:vmThis.addressListData[address_id].area_district_name,
-                    area_province_id:vmThis.addressListData[address_id].area_province_id,
-                    area_province_name:vmThis.addressListData[address_id].area_province_name,
-                    deal_name:vmThis.addOrderForm.deal_name,
-                };
-                this.addressList.push(data);
-                this.orderAddressData.push(this.addressListData[address_id]);
                 
             },
             handleSubmit(){
@@ -452,8 +427,8 @@
             },
             getAddressData(data){
                 this.address=data.items;
-                this.addressListData=data.address;
-                this.fullAddressData=data.fullAddress;
+                // this.addressListData=data.address;
+                // this.fullAddressData=data.fullAddress;
             },
             getUsersData(data){
                 this.users=data.items;
@@ -601,6 +576,11 @@
     }
     .right  {
         float:right
+    }
+
+    .el-radio+.el-radio {
+        margin-left: 0px; 
+        margin-right: 15px;
     }
 </style>
       

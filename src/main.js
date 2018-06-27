@@ -3,7 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import store from './store'
-
+import 'es6-promise/auto'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
 

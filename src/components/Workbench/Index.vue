@@ -28,7 +28,7 @@
                             系统公告
                         </div>
                         <div>
-                            <el-table :data="sysNoticeDataList" height="200" @current-change="sysChange"  border   style="width: 100%">
+                            <el-table :data="sysNoticeDataList" height="200" @row-click="sysChange"  border   style="width: 100%">
                                 <el-table-column label="公告类型"  prop="type_text" align="center">
                                 </el-table-column>
                                 <el-table-column prop="title" label="公告标题" align="center"></el-table-column>
@@ -185,7 +185,7 @@
             onSearchChange(param) {
                 this.mainparam = JSON.stringify(param);
             },
-            sysChange(currentRow, oldCurrentRow){
+            sysChange(currentRow){
                 this.syscontent = currentRow.content;
                 this.dialogVisible = true;
             }

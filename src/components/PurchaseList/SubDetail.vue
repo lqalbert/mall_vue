@@ -25,6 +25,12 @@
             <el-tab-pane label="发货信息" name="Third">
                 <el-table :data="actualDeliveryGoodsData" border style="width: 100%">
                     <el-table-column prop="express_num" label="快递单号" align="center"></el-table-column>
+                    <el-table-column prop="sign_status" label="签收状态" align="center">
+                        <template slot-scope="scope">
+                            <span v-if="scope.row.sign_status==0">未签收</span>
+                            <span v-if="scope.row.sign_status==1">已签收</span>
+                        </template>
+                    </el-table-column>
                     <el-table-column prop="sku_sn" label="SKU编号" align="center"></el-table-column>
                     <el-table-column label="商品规格" align="center"  prop="specifications" ></el-table-column>
                     <el-table-column label="商品名称" align="center"  prop="goods_name" ></el-table-column>

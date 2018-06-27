@@ -117,8 +117,8 @@ export default {
                 goods_money_total:0,
             },
             c_status:[
-                {id:1, status:'未通过审核'},
-                {id:2, status:'通过审核'}
+                {id:2, status:'未通过审核'},
+                {id:3, status:'通过审核'}
             ],
             model:null,
             goodsList:[],

@@ -111,7 +111,7 @@
     <!--</TableProxy>-->
 
 </el-table>
-
+        <br>
         <el-row type="flex" justify="end">
             <el-col :span="12">
                 <div >
@@ -155,7 +155,7 @@
                 <div class="pull-right">
                     <el-pagination
                             :current-page="currentPage"
-                            :page-size="page_size"
+                            :page-size="pageSize"
                             layout="total, prev, pager, next, jumper"
                             :total="ExpressPriceDataTotal"
                             @current-change="currentChange">
@@ -163,43 +163,6 @@
                 </div>
             </el-col>
         </el-row>
-
-
-        <!--<div slot="buttonbar">-->
-            <!--<el-form :inline="true" :model="searchExpressPriceForm" ref="searchExpressPriceForm" class="demo-form-inline" size="small">-->
-                <!--<el-form-item prop="area_province_id" label="">-->
-                    <!--<el-select v-model.number="searchExpressPriceForm.area_province_id"-->
-                               <!--@change="provinceChange" placeholder="请选择省份" size="small" clearable filterable>-->
-                        <!--<el-option v-for="province in provinces" :label="province.name"-->
-                                   <!--:value="province.id" :key="province.id">-->
-                        <!--</el-option>-->
-                    <!--</el-select>-->
-                <!--</el-form-item>-->
-
-                <!--<el-form-item prop="area_city_id" label="">-->
-                    <!--<el-select v-model.number="searchExpressPriceForm.area_city_id"-->
-                               <!--@change="cityChange" placeholder="请选择城市" size="small" clearable filterable>-->
-                        <!--<el-option v-for="city in cities" :label="city.name"-->
-                                   <!--:value="city.id" :key="city.id">-->
-                        <!--</el-option>-->
-                    <!--</el-select>-->
-                <!--</el-form-item>-->
-
-                <!--<el-form-item prop="area_district_id" label="">-->
-                    <!--<el-select v-model.number="searchExpressPriceForm.area_district_id"-->
-                               <!--@change="districtChange" placeholder="区/县" size="small" clearable filterable>-->
-                        <!--<el-option v-for="district in districts" :label="district.name"-->
-                                   <!--:value="district.id" :key="district.id">-->
-                        <!--</el-option>-->
-                    <!--</el-select>-->
-                <!--</el-form-item>-->
-
-                <!--<el-form-item>-->
-                    <!--<el-button type="primary" size="small" icon="search" @click="searchExpressPrice('searchExpressPriceForm')">查询</el-button>-->
-                    <!--<el-button type="primary" size="small" @click="searchExpressPriceReset('searchExpressPriceForm')">重置</el-button>-->
-                <!--</el-form-item>-->
-            <!--</el-form>-->
-        <!--</div>-->
 
 
         <!-- 写弹窗组件 -->
@@ -288,7 +251,7 @@ export default {
                 area_province_id:'',
                 area_city_id:'',
                 area_district_id:'',
-                page_size:15,
+                express_name:'',
             },
             distributors:[],
             provinces:[],
@@ -326,13 +289,12 @@ export default {
             this.districts = data;
         },
         searchExpressPrice(name){
-            console.log(this[name]);
             this.expresspriceselect.setParam(this[name]);
             this.expresspriceselect.load();
         },
         searchExpressPriceReset(name){
             this.$refs[name].resetFields();
-            this.expresspriceselect.setParam({page_size:this.page_size});
+            this.expresspriceselect.setParam(this[name]);
             this.expresspriceselect.load();
         },
         handleDelete(id){
@@ -392,7 +354,9 @@ export default {
         },
         rowCellClick(row){
             this.model=row;
+            this.searchExpressPriceForm.express_name = this.model.company_name;
             this.express_id=row.id;
+            this.searchExpressPrice('searchExpressPriceForm');
             // this.setExpressPrice();
         },
         beforeclose(){

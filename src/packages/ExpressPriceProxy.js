@@ -4,7 +4,6 @@ import ExpressPrice from '../ajaxProxy/ExpressPrice';
 const ExpressPriceProxy = function (param, callback, scope) {
     this.extraParm = param || null;
     this.partProxy = new SelectProxy(ExpressPrice.getUrl(), callback, scope);
-console.log(this.partProxy);
     if (this.extraParm) {
         this.setParam(this.extraParm);
     }

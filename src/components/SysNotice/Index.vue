@@ -149,7 +149,7 @@ export default {
     },
     created(){
         this.$on('search-tool-change', this.onSearchChange);
-        this.mainparam = JSON.stringify(this.searchForm);
+        this.onSearchChange(this.searchForm);
     }
 }
 </script>

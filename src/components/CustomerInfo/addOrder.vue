@@ -104,14 +104,14 @@
                     <br>
                     <el-table
                             border
-                            :data="addressList"
+                            :data="[addOrderForm.address]"
                             style="width: 100%">
                         <el-table-column label="序号" type="index" width="80 px"></el-table-column>
                         <el-table-column prop="name" label="收货人姓名"></el-table-column>
                         <el-table-column prop="fixed_telephone" label="固定电话"></el-table-column>
                         <el-table-column prop="address" label="收货地址"></el-table-column>
                         <el-table-column prop="zip_code" label="收货邮编"></el-table-column>
-                        <el-table-column prop="deal_name" label="成交员工"></el-table-column>
+                        <!-- <el-table-column prop="deal_name" label="成交员工"></el-table-column> -->
                     </el-table>
                     <br>
                         <div>
@@ -272,12 +272,12 @@
                 }
             },
             addOrder(){
-                //if(this.alertNum != 0 ){
+                if(this.alertNum != 0 ){
                     //console.log(this.data2);
                     var vmthis = this;
                     let moneyNotes =parseInt(this.data2[this.addOrderForm.goods_id].price) * parseInt(this.addOrderForm.goods_number);
                     let item = vmthis.data2[vmthis.addOrderForm.goods_id];
-                    console.log(item);
+                    // console.log(item);
                     let addData ={
                         goods_id:    item.goods_id,
                         sku_id:      item.sku_id,
@@ -302,7 +302,7 @@
                     this.goodsIds.push(addData.goods_id);
                     this.$refs.addOrderForm.resetFields();
                     this.alertNum = 0;
-                //}
+                }
             },
             getGoodsInfo(goods_id){
                 if(this.data2[goods_id]){

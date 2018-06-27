@@ -12,7 +12,7 @@
                     <el-col :span="12">
                         <el-form-item label="公告类型" prop="type_id" >
                             <el-select v-model="addForm.type_id" placeholder="请选择总结类型">
-                                <el-option v-for="v in NoticeType" :label="v.name" :value="v.id" :key="v.id"></el-option>
+                                <el-option v-for="v in types" :label="v.name" :value="v.id" :key="v.id"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
@@ -20,7 +20,12 @@
                 <el-row>
                     <el-col :span="24">
                         <el-form-item label="公告内容" prop="content" >
-                            <el-input type="textarea" auto-complete="off" v-model="addForm.content" placeholder="请输入255字以内"></el-input>
+                            <!-- <el-input type="textarea" auto-complete="off" v-model="addForm.content" placeholder="请输入255字以内"></el-input> -->
+                            <quill-editor v-model="editContent"
+                                ref="myQuillEditor"
+                                :options="editorOption"
+                                @change="onEditorChange($event)">
+                            </quill-editor>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -66,32 +71,34 @@
 </template>
 
 <script>
-import DialogForm from '../../mix/DialogForm';
-import DataProxy from '../../packages/DataProxy';
+import DialogForm from '@/mix/DialogForm';
+import DataProxy from '@/packages/DataProxy';
 import { mapGetters, mapMutations } from 'vuex';
+import APP_CONST from '@/config';
+import { quillRedefine } from 'vue-quill-editor-upload';
 
 export default {
     name: 'Add',
     mixins:[DialogForm],
+    props:{
+        types:{
+            type:Array
+        }
+    },
     computed:{
         ...mapGetters([
             'getUser'
         ])
+    },
+    components:{
+        quillRedefine
     },
     data () {
         return {
             dialogThis:this,
             labelPosition:"right",
             labelWidth:'80px',
-            NoticeType :[
-                {id:'1',name:'功能升级'},
-                {id:'2',name:'新功能上线'},
-                {id:'3',name:'功能测试'},
-                {id:'4',name:'系统更新'},
-                {id:'5',name:'系统BUG'},
-                {id:'6',name:'系统维护'},
-                {id:'7',name:'其它公告'},
-            ],
+            
             addForm:{
                 title:'',
                 type_id:"",
@@ -105,13 +112,11 @@ export default {
                     { min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur' }
                 ],
                 type_id:[
-                    { required: true, message: '请选择公告类型', trigger: 'blur'},
+                    { required: true, type:"number",  message: '请选择公告类型', trigger: 'blur'},
                 ],
-                content:[
-                    {required: true, message: '请输入公告内容', trigger: 'blur'},
-                    { min: 1, max: 255, message: '长度在 1 到 255 个字符', trigger: 'blur' }
-
-                ],
+                // content:[
+                //     {required: true, message: '请输入公告内容', trigger: 'blur'},
+                // ],
             },
             startPickerOptions: {
                 disabledDate(time) {
@@ -123,7 +128,8 @@ export default {
                     return time.getTime() < Date.now() ;
                 }
             },
-
+            editContent:"",
+            editorOption:null,
         }
     },
     methods:{
@@ -137,17 +143,24 @@ export default {
             model['user_id'] = this.getUser.id;
             return this.ajaxProxy.create(model);
         },
+        onEditorChange(event){
+           this.addForm.content =  event.html;
+        }
     },
     created(){
-
+        this.editorOption = quillRedefine(APP_CONST.editor_option);
     }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
     .name-input{
         max-width: 217px;
+    }
+    .ql-toolbar.ql-snow {
+        line-height: normal;
+    }
+    .ql-container.ql-snow {
+        height: 300px !important;
     }
 </style>
       

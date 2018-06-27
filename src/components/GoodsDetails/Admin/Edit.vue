@@ -426,12 +426,13 @@ export default {
             for (const key in this.editForm) {
                 if (this.editForm.hasOwnProperty(key)) {
                     this.editForm[key] = val[key];
-                    this.editContent = this.editForm.description;
+                    
                     if(key == 'unit_type'){
                          this.editForm[key] = this.editForm[key].toString();
                     }
                 }
             }
+            this.editContent = this.editForm.description;
         }
     },
     created(){

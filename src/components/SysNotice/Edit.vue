@@ -11,8 +11,8 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="公告类型" prop="type_id" >
-                            <el-select v-model="editForm.type_id" placeholder="请选择总结类型">
-                                <el-option v-for="v in NoticeType" :label="v.name" :value="v.id" :key="v.id"></el-option>
+                            <el-select v-model.number="editForm.type_id" placeholder="请选择总结类型">
+                                <el-option v-for="v in types" :label="v.name" :value="v.id" :key="v.id"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
@@ -20,7 +20,12 @@
                 <el-row>
                     <el-col :span="24">
                         <el-form-item label="公告内容" prop="content" >
-                            <el-input type="textarea" auto-complete="off" v-model="editForm.content" placeholder="请输入255字以内"></el-input>
+                            <!-- <el-input type="textarea" auto-complete="off" v-model="editForm.content" placeholder="请输入255字以内"></el-input> -->
+                                <quill-editor v-model="editContent"
+                                    ref="myQuillEditor"
+                                    :options="editorOption"
+                                    @change="onEditorChange($event)">
+                                </quill-editor>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -66,25 +71,30 @@
 </template>
 
 <script>
-    import DialogForm from '../../mix/DialogForm';
-    import DataProxy from '../../packages/DataProxy';
+    import DialogForm from '@/mix/DialogForm';
+    import DataProxy from '@/packages/DataProxy';
+    import { quillRedefine } from 'vue-quill-editor-upload';
+    import APP_CONST from '@/config';
+
+
+
     export default {
         name: 'edit',
         mixins:[DialogForm],
+        props:{
+            types:{
+                type:Array
+            }
+        },
+        components:{
+            quillRedefine
+        },
         data () {
             return {
                 dialogThis:this,
                 labelPosition:"right",
                 labelWidth:'80px',
-                NoticeType :[
-                    {id:1,name:'功能升级'},
-                    {id:2,name:'新功能上线'},
-                    {id:3,name:'功能测试'},
-                    {id:4,name:'系统更新'},
-                    {id:5,name:'系统BUG'},
-                    {id:6,name:'系统维护'},
-                    {id:7,name:'其它公告'},
-                ],
+                
                 editForm:{
                     id:'',
                     user_id:'',
@@ -100,13 +110,11 @@
                         { min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur' }
                     ],
                     type_id:[
-                        { required: true, message: '请选择公告类型', trigger: 'blur'},
+                        { required: true, type:"number",  message: '请选择公告类型', trigger: 'blur'},
                     ],
-                    content:[
-                        {required: true, message: '请输入公告内容', trigger: 'blur'},
-                        { min: 1, max: 255, message: '长度在 1 到 255 个字符', trigger: 'blur' }
-
-                    ],
+                    // content:[
+                    //     {required: true, message: '请输入公告内容', trigger: 'blur'},
+                    // ],
                 },
                 startPickerOptions: {
                     disabledDate(time) {
@@ -118,7 +126,9 @@
                         return time.getTime() < Date.now() ;
                     }
                 },
-                model:''
+                model:'',
+                editContent:"",
+                editorOption:null
             }
         },
         methods:{
@@ -134,7 +144,10 @@
             getAjaxPromise(model){
                 return this.ajaxProxy.update(model.id, model);
             },
-
+            onEditorChange({ quill, html, text }) {
+                // this.editContent = html;
+                this.editForm.content= html;
+            },
         },
         watch:{
 
@@ -144,11 +157,12 @@
                         this.editForm[key] = val[key]
                     }
                 }
+                this.editContent = this.editForm.content;
             }
         },
 
         created(){
-
+            this.editorOption = quillRedefine(APP_CONST.editor_option);
         }
     }
 </script>
@@ -157,6 +171,13 @@
 <style scoped>
     .name-input{
         max-width: 217px;
+    }
+
+    .ql-toolbar.ql-snow {
+        line-height: normal;
+    }
+    .ql-container.ql-snow {
+        height: 300px !important;
     }
 </style>
       

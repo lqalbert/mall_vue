@@ -25,27 +25,18 @@
                         :page-size="15">
                     <el-table-column label="序号" align="center"  type="index" width="65"></el-table-column>
 
-                    <el-table-column label="公告类型"  prop="type_id" align="center">
-                        <template slot-scope="scope">
-                            <span v-if="scope.row.type_id==1">功能升级</span>
-                            <span v-if="scope.row.type_id==2">新功能上线</span>
-                            <span v-if="scope.row.type_id==3">功能测试</span>
-                            <span v-if="scope.row.type_id==4">系统更新</span>
-                            <span v-if="scope.row.type_id==5">系统BUG</span>
-                            <span v-if="scope.row.type_id==6">系统维护</span>
-                            <span v-if="scope.row.type_id==7">其它公告</span>
-                        </template>
+                    <el-table-column label="公告类型"  prop="type_text" align="center">
                     </el-table-column>
 
                     <el-table-column prop="title" label="公告标题" align="center"></el-table-column>
 
-                    <el-table-column prop="content" label="公告内容" align="center" :show-overflow-tooltip="true"></el-table-column>
+                    <el-table-column prop="short_content" label="公告内容" align="center" :show-overflow-tooltip="true"></el-table-column>
 
                     <el-table-column prop="start_time" label="开始日期"  align="center"></el-table-column>
                     
                     <el-table-column prop="end_time" label="截止日期"  align="center"></el-table-column>
 
-                    <el-table-column prop="account" label="发布人" align="center"></el-table-column>
+                    <el-table-column prop="user.realname" label="发布人" align="center"></el-table-column>
 
                     <el-table-column   align="center" width="180" fixed="right"  label="操作"  >
                         <template slot-scope="scope">
@@ -70,11 +61,13 @@
 
         <Add name='add-sysnotice'
              :ajax-proxy="ajaxProxy"
+             :types="NoticeType"
              @submit-success="handleReload"/>
 
 
         <Edit name='edit-sysnotice'
               :ajax-proxy="ajaxProxy"
+              :types="NoticeType"
               @submit-success="handleReload"/>
 
     </div>
@@ -118,6 +111,14 @@ export default {
                 title:"",
             },
 
+            NoticeType :[
+                {id:1,name:'新功能上线'},
+                {id:2,name:'系统维护'},
+                {id:3,name:'系统公告'},
+                {id:4,name:'内部通知'},
+                {id:5,name:'其它公告'}
+            ],
+
         }
     },
     methods:{
@@ -135,6 +136,7 @@ export default {
         },
 
         onSearchChange(param){
+            param['appends'] = ['type_text','short_content'];
             this.mainparam = JSON.stringify(param);
         },
 
@@ -143,16 +145,11 @@ export default {
         } ,
         openEdit(row){
             this.$modal.show('edit-sysnotice', {model:row});
-        } ,
-
-
+        },
     },
     created(){
         this.$on('search-tool-change', this.onSearchChange);
-
-
-
-
+        this.mainparam = JSON.stringify(this.searchForm);
     }
 }
 </script>

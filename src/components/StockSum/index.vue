@@ -131,6 +131,7 @@
         created(){
             this.$on('search-tool-change', this.onSearchChange);
             this.$store.dispatch('initEntrepots');
+            this.onSearchChange(this.searchForm);
         }
         
     }

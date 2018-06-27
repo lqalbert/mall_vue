@@ -28,22 +28,11 @@
                             系统公告
                         </div>
                         <div>
-                            <el-table :data="sysNoticeDataList" height="200"  border   style="width: 100%">
-                                <el-table-column label="公告类型"  prop="type_id" align="center">
-                                    <template slot-scope="scope">
-                                        <span v-if="scope.row.type_id==1">功能升级</span>
-                                        <span v-if="scope.row.type_id==2">新功能上线</span>
-                                        <span v-if="scope.row.type_id==3">功能测试</span>
-                                        <span v-if="scope.row.type_id==4">系统更新</span>
-                                        <span v-if="scope.row.type_id==5">系统BUG</span>
-                                        <span v-if="scope.row.type_id==6">系统维护</span>
-                                        <span v-if="scope.row.type_id==7">其它公告</span>
-                                    </template>
+                            <el-table :data="sysNoticeDataList" height="200" @current-change="sysChange"  border   style="width: 100%">
+                                <el-table-column label="公告类型"  prop="type_text" align="center">
                                 </el-table-column>
-
                                 <el-table-column prop="title" label="公告标题" align="center"></el-table-column>
-
-                                <el-table-column prop="content" label="公告内容" align="center" :show-overflow-tooltip="true"></el-table-column>
+                                <el-table-column prop="short_content" label="公告内容" align="center" :show-overflow-tooltip="true"></el-table-column>
                             </el-table>
                         </div>
                     </el-card>
@@ -101,7 +90,14 @@
             </el-row>
         </div>
 
-
+        <el-dialog
+            title="系统公告"
+            :visible.sync="dialogVisible">
+            <div v-html="syscontent"></div>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="dialogVisible = false">关 闭</el-button>
+            </span>
+        </el-dialog>
 
     </div>
 
@@ -141,7 +137,9 @@
                 selectedCard:'first',
                 contactsDataList: [],
                 WebsiteDataList: [],
-                sysNoticeDataList: []
+                sysNoticeDataList: [],
+                dialogVisible:false,
+                syscontent:""
             }
         },
         methods: {
@@ -159,6 +157,7 @@
             },
             getSysNoticeData(){
                 let selectProxy = new SelectProxy(this.sysNoticeUrl, this.sysNoticeData, this);
+                selectProxy.setExtraParam({appends:['type_text','short_content']})
                 selectProxy.load();
             },
             sysNoticeData(data){
@@ -186,6 +185,10 @@
             onSearchChange(param) {
                 this.mainparam = JSON.stringify(param);
             },
+            sysChange(currentRow, oldCurrentRow){
+                this.syscontent = currentRow.content;
+                this.dialogVisible = true;
+            }
         },
         created() {
             this.$on('search-tool-change', this.onSearchChange);

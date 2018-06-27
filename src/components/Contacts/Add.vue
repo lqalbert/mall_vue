@@ -6,7 +6,7 @@
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="姓名" prop="name" >
-                            <el-input class="name-input" size="small" placeholder="联系人姓名" v-model.number="addForm.name"></el-input>
+                            <el-input class="name-input" size="small" placeholder="联系人姓名" v-model="addForm.name"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -20,12 +20,12 @@
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="QQ" prop="qq" >
-                            <el-input class="name-input" size="small" placeholder="联系人QQ" v-model.number="addForm.qq"></el-input>
+                            <el-input class="name-input" size="small" placeholder="联系人QQ" v-model="addForm.qq"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="微信号" prop="weixin" >
-                            <el-input class="name-input" size="small" placeholder="联系人微信" v-model.number="addForm.weixin"></el-input>
+                            <el-input class="name-input" size="small" placeholder="联系人微信" v-model="addForm.weixin"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>

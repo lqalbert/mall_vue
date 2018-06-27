@@ -97,8 +97,8 @@
                     <el-col :span="12">
                         <el-form-item label="是否启用" prop="is_use" >
                             <el-radio-group v-model="addForm.is_use">
-                                <el-radio :label="1">是</el-radio>
-                                <el-radio :label="0">否</el-radio>
+                                <el-radio label="1">是</el-radio>
+                                <el-radio label="0">否</el-radio>
                             </el-radio-group>
                         </el-form-item>
                     </el-col>
@@ -116,7 +116,7 @@
                 <el-button @click="handleClose">取 消</el-button>
                 <submit-button
                         :observer="dialogThis"
-                        @click="formSubmit('addForm')">
+                        @click="submit('addForm')">
                     保 存
                 </submit-button>
             </div>
@@ -239,9 +239,10 @@ export default {
             }
         },
 
-        // formSubmit(){
-        //     console.log(this.addForm)
-        // }
+        submit(name){
+            this.formSubmit(name);
+            // this.$emit('resetData');
+        }
     },
 
     created(){

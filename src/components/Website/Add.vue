@@ -6,21 +6,21 @@
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="网站" prop="webUrl" >
-                            <el-input class="name-input" size="small" placeholder="具体网址" v-model.number="addForm.webUrl"></el-input>
+                            <el-input class="name-input" size="small" placeholder="具体网址" v-model="addForm.webUrl"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="名称" prop="describe" >
-                            <el-input class="name-input" size="small" placeholder="请不要超过20个字符" v-model.number="addForm.describe"></el-input>
+                            <el-input class="name-input" size="small" placeholder="请不要超过20个字符" v-model="addForm.describe"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row>
                     <el-col :span="16">
                         <el-form-item label="备注" prop="remark" >
-                            <el-input type="textarea" size="small" placeholder="请不要超过200个字符" v-model.number="addForm.remark"></el-input>
+                            <el-input type="textarea" size="small" placeholder="请不要超过200个字符" v-model="addForm.remark"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>

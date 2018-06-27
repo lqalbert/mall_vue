@@ -48,15 +48,15 @@
                     <el-table-column label="采购状态" align="center"  prop="purchase_status" width="150">
                         <template slot-scope="scope">
                             <span v-if="scope.row.purchase_status==1">待审核</span>
-                            <span v-if="scope.row.purchase_status==2">已审核</span>
-                            <span v-if="scope.row.purchase_status==3">已发货</span>
-                            <span v-if="scope.row.purchase_status==4">已完结</span>
+                            <span v-if="scope.row.purchase_status==2">未通过审核</span>
+                            <span v-if="scope.row.purchase_status==3">通过审核</span>
                         </template>
                     </el-table-column>
                     <el-table-column label="入库状态" align="center"  prop="warehousing_status" width="150">
                         <template slot-scope="scope">
                             <span v-if="scope.row.warehousing_status==1">未入库</span>
-                            <span v-if="scope.row.warehousing_status==2">已入库</span>
+                            <span v-if="scope.row.warehousing_status==2">部分入库</span>
+                            <span v-if="scope.row.warehousing_status==3">完全入库</span>
                         </template>
                     </el-table-column>
                     <el-table-column label="结算状态" align="center"  prop="settlement_status" width="150">
@@ -166,13 +166,13 @@
                 goodsList:[],
                 purchaseStatus:[
                     {id:1,name:'待审核'},
-                    {id:2,name:'已审核'},
-                    {id:3,name:'已发货'},
-                    {id:4,name:'已完结'},
+                    {id:2,name:'未通过审核'},
+                    {id:3,name:'通过审核'},
                 ],
                 warehousingStatus:[
                     {id:1,name:'未入库'},
-                    {id:2,name:'已入库'},
+                    {id:2,name:'部分入库'},
+                    {id:3,name:'完全入库'},
                 ],
                 settlementStatus:[
                     {id:1,name:'未结算'},
@@ -225,12 +225,17 @@
                 }
             },
             deliverDialogCheck(){
-                if (this.row_model.purchase_status==1) {
-                    this.$alert('该订单还未通过审核，请先审核！', '警告', {
+                if (this.row_model.purchase_status ==1) {
+                    this.$alert('该订单还未审核，请先审核！', '警告', {
                         confirmButtonText: '确定',
                     })
                     return false;
-                } else {
+                }else if(this.row_model.purchase_status ==2){
+                    this.$alert('该订单未通过审核，请先修改！', '警告', {
+                        confirmButtonText: '确定',
+                    })
+                    return false;
+                }else{
                     return true;
                 }
             },

@@ -43,6 +43,7 @@ import APP_CONST from '../../../config/index';
 import DialogMix from '../../mix/Dialog';
 import { mapGetters } from 'vuex';
 import { PHONE_REG } from "@/config/index";
+import ActualDeliveryGoods from '@/packages/ActualDeliveryGoodsSelectProxy';
 export default {
     name: 'Add',
     mixins:[DialogForm,FormMix],
@@ -61,8 +62,10 @@ export default {
             signForm:{
                 sign:true,
                 signGoodsList:[],
+                purchase_order_id:null,
             },
             model:null,
+            purchase_order_id:null,
             signGoodsList:[],
             selectionGoods:[],
 
@@ -76,14 +79,19 @@ export default {
             this.selectionGoods = val;
         },
         onOpen(param){
-            this.signGoodsList = [];
-            this.model = param.params.row;
-            this.signGoodsList=this.signGoodsList.concat(this.model.actual_delivery_goods);
+            // 查询未签收的发货单
+            this.purchase_order_id = param.params.row.id;
+            this.actualDeliveryGoods.setParam({
+                sign_status:0,
+                purchase_order_id:this.purchase_order_id,
+            }).load();
+        },
+        getActualDeliveryGoods(data){
+            this.signGoodsList = data.items;
         },
         submit(name){
             this.signForm.signGoodsList = this.selectionGoods;
-            this.signForm.sign = true;
-            console.log(this.signForm);
+            this.signForm.purchase_order_id = this.purchase_order_id;
             this.formSubmit(name);
         }
     },
@@ -96,6 +104,10 @@ export default {
             }
         }
     },
+    created(){
+        this.actualDeliveryGoods = new ActualDeliveryGoods(null, this.getActualDeliveryGoods, this);
+
+    }
 
 }
 </script>

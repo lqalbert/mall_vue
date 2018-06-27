@@ -15,7 +15,6 @@ const orderMap =  {
 const DataProxy = function( url,  callback ,scope ){
     this.url = url;
     this.pageSize = 1000;
-
     this.page = 1;
     this.extraParm = null;
 
@@ -28,7 +27,10 @@ const DataProxy = function( url,  callback ,scope ){
     
 
 }
-
+DataProxy.prototype.setPage = function(page){
+    this.page = page;
+    return this;
+}
 
 DataProxy.prototype.setPageSize = function(pageSize){
     this.pageSize = pageSize;

@@ -7,7 +7,7 @@
                         <el-input v-model="addForm.shipper" size="small" placeholder="发货单位" style="width:180px"></el-input>
                     </el-form-item>
                     <el-form-item prop="entrepot_id"  label="采购单位">
-                        <el-select v-model="addForm.entrepot_id" placeholder="请选择采购单位" size="small" style="width:180px" @change="entrepotChange">
+                        <el-select v-model.number="addForm.entrepot_id" placeholder="请选择采购单位" size="small" style="width:180px" @change="entrepotChange">
                             <el-option v-for="v in distributors" :label="v.name"
                                        :value="v.id" :key="v.id">
                             </el-option>
@@ -163,7 +163,7 @@
                         { min:1,   max: 20, message: '长度不能超过20个字符', trigger: 'blur'  }
                     ],
                     entrepot_id:[
-                        { required: true, message: '请选择采购单位', trigger: 'blur' },
+                        { required: true, message: '请选择采购单位', trigger: 'blur',type:'number' },
                     ],
                     contact_time:[
                         { required: true, message: '请选择到货时间', trigger: 'blur' },

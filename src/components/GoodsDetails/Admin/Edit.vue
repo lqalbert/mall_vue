@@ -88,7 +88,7 @@
                                 <el-col :span="12">
                                     <el-form-item label="包装规格"  prop="format">
                                         <el-col :span="4">
-                                            <el-input placeholder="长" v-model="editForm.length"></el-input>
+                                            <el-input placeholder="长" v-model="editForm.len"></el-input>
                                         </el-col>
                                         <el-col class="line" :span="2">-</el-col>
                                         <el-col :span="4">
@@ -233,7 +233,7 @@ export default {
     },
     data () {
         let validateFormats = (rule, value, callback) => {
-            if(this.editForm.length == null || this.editForm.length == ''){
+            if(this.editForm.len == null || this.editForm.len == ''){
                 callback(new Error('请输入长度'));
             }else if (this.editForm.width == null || this.editForm.width == '') {
                 callback(new Error('请输入宽度'));
@@ -272,7 +272,7 @@ export default {
                 sale_count:"",
                 sale_able_count:"",
 
-                length:'',
+                len:'',
                 width:'',
                 height:'',
                 barcode:'',

@@ -48,7 +48,7 @@ Object.defineProperty(APP_CONST, 'ATTR',{
 });
 
 
-export const PHONE_REG = /^1[34578]\d{9}$/;
+export const PHONE_REG = /^\d+$/;
 export const QQ_REG = /^[0-9]+$/;
 export const PRICE_REG = /^(([1-9]\d{0,9})|0)(\.\d{1,2})?$/;
 

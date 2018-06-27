@@ -90,7 +90,7 @@
                 }
             },
             userId:{
-                
+                type: [Number, String]
             }
         },
         data () {
@@ -118,7 +118,8 @@
         methods:{
             handleReset(){
                 // this.$refs.queryForm.resetFields();
-                Object.assign(this.queryForm,this._queryForm);
+                Object.assign(this.queryForm, this._queryForm);
+                
                 this.$parent.$emit('search-tool-change', this.queryForm);
             },
             handleSubmit(){
@@ -127,7 +128,8 @@
             },
         },
         created(){
-            this.searchForm.user_id = this.userId;
+            
+            this.queryForm.user_id = this.userId;
 
             this._queryForm = {};
             Object.assign(this._queryForm,this.queryForm);

@@ -70,9 +70,10 @@
                     <el-row>
                         <el-col :span="12">
                             <el-form-item prop="deal_id" label="成交员工">
-                                <el-select v-model="addOrderForm.deal_id" placeholder="请选择成交员工" disabled @change="userChange">
+                                {{ addOrderForm.deal_name }}
+                                <!-- <el-select v-model.number="addOrderForm.deal_id" placeholder="请选择成交员工"  @change="userChange">
                                     <el-option v-for="v in users" :value="v.id" :key="v.id" :label="v.realname"></el-option>
-                                </el-select>
+                                </el-select> -->
                             </el-form-item>
                         </el-col>
                      </el-row>
@@ -226,7 +227,7 @@
                     deal_name:'',
                     goods_id:"",
                     // address_id:"",
-                    address:null,
+                    address:{},
                     order_all_money:0,
                     order_pay_money:0,
                     order_goods:[],
@@ -335,7 +336,19 @@
                 this.addOrderForm.order_all_money = this.totalMoney;
                 this.addOrderForm.order_pay_money = this.totalMoney;
                 this.addOrderForm.order_goods = this.orderData;
-                this.addOrderForm.order_address = this.orderAddressData;
+                // this.addOrderForm.order_address = this.orderAddressData;
+
+                if (this.order_goods.length == 0) {
+                    this.$message.error('商品数量不能为0');
+                    return ;
+                }
+
+                if ( Object.entries(this.address).length==0 ) {
+                    this.$message.error('请选地址');
+                    return ;
+                }
+
+
                 this.formSubmit('addOrderForm');
             },
             handleClose(){
@@ -446,6 +459,7 @@
                 // this.fullAddressData=data.fullAddress;
             },
             getUsersData(data){
+                console.log(data);
                 this.users=data.items;
                 //this.usersListData=data.users;
             },
@@ -575,12 +589,15 @@
             // userDataProxy.load();
 
             //获取快递公司数据
-            let ExpressCompanySelect = new ExpressCompanySelectProxy({}, this.getExpressCompanySelect, this);
-            ExpressCompanySelect.load();
+            // let ExpressCompanySelect = new ExpressCompanySelectProxy({}, this.getExpressCompanySelect, this);
+            // ExpressCompanySelect.load();
 
             this.goodsProxy = new GoodsSelectProxy({}, this.loadGoods, this);
 
             this.$on('submit-error', this.resetForms)
+            let user = this.getUser;
+            this.addOrderForm.deal_id =  user.id;
+            this.addOrderForm.deal_name = user.realname;
 
         }
 

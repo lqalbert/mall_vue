@@ -228,14 +228,15 @@
                 setCustomerTypeLabel(type){
                     return this.cusData['type'][type];
                 },
-                onSearchChange(param){
-                    this.mainparam = JSON.stringify(param);
-                },
+                // onSearchChange(param){
+                //     this.mainparam = JSON.stringify(param);
+                // },
                 onSearchReset(){
                     if (this.user_department_id != 0) {
                         this.searchForm.department_id = this.user_department_id;
                         // this.onDepartChange(this.searchForm.department_id);
                     } else {
+                        this.searchForm.department_id = -1;
                         return ;
                     }
 
@@ -243,7 +244,7 @@
                         this.searchForm.group_id = this.user_group_id;
                         this.onGroupChange(this.searchForm.group_id);
                     } else {
-                        this.searchForm.department_id = 0;
+                        this.searchForm.group_id = 0;
                     }
 
                     this.resetB();
@@ -281,7 +282,7 @@
                 this.onSearchReset();
                 
                 if (this.user_department_id && this.user_department_id != 0 ) {
-                    this.searchForm.department_id = this.user_department_id;
+                    // this.searchForm.department_id = this.user_department_id; 在 onSearchReset 里面
                     this.groupSelect.setParam({department_id:this.user_department_id,fields:['id','name']});
                     this.groupSelect.load();
                 } else {

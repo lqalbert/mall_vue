@@ -338,7 +338,7 @@
                 this.addOrderForm.order_goods = this.orderData;
                 // this.addOrderForm.order_address = this.orderAddressData;
 
-                if (this.order_goods.length == 0) {
+                if (this.addOrderForm.order_goods.length == 0) {
                     this.$message.error('商品数量不能为0');
                     return ;
                 }

@@ -161,6 +161,7 @@ export default {
     }
     .ql-container.ql-snow {
         height: 300px !important;
+        max-height: 400px;
     }
 </style>
       

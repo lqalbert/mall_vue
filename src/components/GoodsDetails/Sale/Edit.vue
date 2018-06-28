@@ -178,6 +178,7 @@
         },
         methods:{
             onOpen(param){
+                // console.log(param.params);return;
                 this.fileList = [];
                 
                 let id = param.params.id;
@@ -186,7 +187,7 @@
                 // this.fileList = param.params.fileList;
                 // this.urlDomain = param.params.urlDomain;
     
-                this.ajaxProxy.find(id).then((data)=>{
+                this.ajaxProxy.find(id, { with:['category', 'imgs'] }).then((data)=>{
                     let row = data.data;
                     row.del_imgs = [];
                     row.img_path = [];

@@ -152,7 +152,7 @@ export default {
         this.$on('search-tool-change', this.onSearchChange);
         this.getCateCascader();
         this.getUnitTypes();
-
+console.log(URL_CONST.UPLOAD_URL);
         this.mainparam = JSON.stringify({with:['category'], orderField:'id',orderWay:'desc'});
         
     },

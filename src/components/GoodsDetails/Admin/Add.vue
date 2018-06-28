@@ -85,7 +85,7 @@
                             <el-col :span="12">
                                 <el-form-item label="包装规格"  prop="format">
                                     <el-col :span="4">
-                                        <el-input placeholder="长" v-model="addForm.length"></el-input>
+                                        <el-input placeholder="长" v-model="addForm.len"></el-input>
                                     </el-col>
                                     <el-col class="line" :span="2">-</el-col>
                                     <el-col :span="4">
@@ -104,7 +104,7 @@
                                 </el-form-item>
                             </el-col>
                         </el-row>
-                       
+
                         <el-row>
                             <el-col :span="12">
                                 <el-form-item label="重量(g)" prop="weight">
@@ -185,13 +185,13 @@
                                     <el-input v-model="skuForm.sku_sn" placeholder="请输入商品编号"></el-input>
                                 </el-col>
                             </el-form-item>
-                        
+
                             <el-form-item label="价格"  prop="price">
                                 <el-col :span="10">
                                     <el-input v-model="skuForm.price" placeholder="0.00"></el-input>
                                 </el-col>
                             </el-form-item>
-                        
+
                             <!-- <el-form-item label="数量" prop="num" style="display:none">
                                 <el-col :span="10">
                                     <el-input  v-model="skuForm.num" placeholder="请输入内容"></el-input>
@@ -247,10 +247,10 @@
                     </el-tab-pane>
                 </el-tabs>
             </el-form>
-    
+
             <div slot="dialog-foot" class="dialog-footer">
                 <el-button @click="handleClose">取 消</el-button>
-                <submit-button 
+                <submit-button
                     @click="beforeFormSubmit('addForm')"
                     :observer="dialogThis">
                     保 存
@@ -295,10 +295,10 @@ export default {
     data () {
         let validateFormat = (rule, value, callback) => {
             let num = /^[0-9]+$/;
-            let length = this.addForm.length;
+            let len = this.addForm.len;
             let width = this.addForm.width;
             let height = this.addForm.height;
-            if(length == '' || !num.test(length)){
+            if(len == '' || !num.test(len)){
                 callback(new Error('请输入长度'));
             }else if (width == '' || !num.test(width)) {
                 callback(new Error('请输入宽度'));
@@ -333,7 +333,7 @@ export default {
                 sale_count:"244",
                 sale_able_count:"1000",
 
-                length:'',
+                len:'',
                 width:'',
                 height:'',
                 barcode:'',
@@ -416,11 +416,11 @@ export default {
             } else {
                 re = v;
             }
-            
+
             if (this.cateMap[re]) {
                 this.goodsTypeProxy.setParam({id:this.cateMap[re]}).find();
-            } 
-            
+            }
+
         },
         handleRemove(file, fileList) {
             //console.log(file, fileList);
@@ -464,7 +464,7 @@ export default {
                     }
                 });
             }
-            
+
         },
 
         //---------提交请求

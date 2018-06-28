@@ -88,7 +88,7 @@
                                 <el-col :span="12">
                                     <el-form-item label="包装规格"  prop="format">
                                         <el-col :span="4">
-                                            <el-input placeholder="长" v-model="editForm.length"></el-input>
+                                            <el-input placeholder="长" v-model="editForm.len"></el-input>
                                         </el-col>
                                         <el-col class="line" :span="2">-</el-col>
                                         <el-col :span="4">
@@ -107,7 +107,7 @@
                                     </el-form-item>
                                 </el-col>
                             </el-row>
-                           
+
                             <el-row>
                                 <el-col :span="12">
                                     <el-form-item label="重量(g)" prop="weight">
@@ -128,7 +128,7 @@
                                 </el-form-item>
                             </el-col>
                         </el-row>
-                          
+
                         <el-row>
                             <el-col>
                                 <quill-editor v-model="editContent"
@@ -143,7 +143,7 @@
                         </el-row>
                     </el-tab-pane>
 
-                    
+
 
                     <el-tab-pane label="商品图片" name="third">
 
@@ -190,10 +190,10 @@
                     </el-tab-pane>
                 </el-tabs>
             </el-form>
-    
+
             <div slot="dialog-foot" class="dialog-footer">
                 <el-button @click="handleClose">取 消</el-button>
-                <submit-button 
+                <submit-button
                     ref="submit-button"
                     @click="beforeFormSubmit('editForm')"
                     :observer="dialogThis">
@@ -233,7 +233,7 @@ export default {
     },
     data () {
         let validateFormats = (rule, value, callback) => {
-            if(this.editForm.length == null || this.editForm.length == ''){
+            if(this.editForm.len == null || this.editForm.len == ''){
                 callback(new Error('请输入长度'));
             }else if (this.editForm.width == null || this.editForm.width == '') {
                 callback(new Error('请输入宽度'));
@@ -272,7 +272,7 @@ export default {
                 sale_count:"",
                 sale_able_count:"",
 
-                length:'',
+                len:'',
                 width:'',
                 height:'',
                 barcode:'',
@@ -333,14 +333,14 @@ export default {
                     row.cate_id.push(row.category[index].id);
                 }
                 for (let index = 0; index < row.imgs.length; index++) {
-                    this.fileList.push({name:row.imgs[index].url, url:row.imgs[index].url, full_url:row.imgs[index].full_url, id:row.imgs[index].id});  
+                    this.fileList.push({name:row.imgs[index].url, url:row.imgs[index].url, full_url:row.imgs[index].full_url, id:row.imgs[index].id});
                 }
                 this.model = row;
             })
         },
-        
+
         handleCateChange(v){
-            this.editForm.cate_id = v; 
+            this.editForm.cate_id = v;
         },
         handleRemove(file, fileList) {
             if(this.fileList.length !=0){

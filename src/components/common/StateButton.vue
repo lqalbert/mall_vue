@@ -12,6 +12,14 @@
     <script>
         export default {
             name: 'StateButton',
+            props:{
+                is_load:{
+                    type:Boolean,
+                    default:true,
+                },
+
+            },
+
             data () {
                 return {
                     loading: false
@@ -19,7 +27,7 @@
             },
             methods:{
                 triggerClick(){
-                    this.loading = true;
+                    this.loading = this.is_load;
                     this.$emit('click');
                 },
                 setLoaded(){

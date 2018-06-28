@@ -252,7 +252,8 @@
                 <el-button @click="handleClose">取 消</el-button>
                 <submit-button
                     @click="beforeFormSubmit('addForm')"
-                    :observer="dialogThis">
+                    :observer="dialogThis"
+                    :is_load="false">
                     保 存
                 </submit-button>
             </div>

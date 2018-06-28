@@ -198,7 +198,7 @@
             },
             //订单审核
             checkOrder(){
-                if (this.openDialogCheck()) {
+                if (this.openDialogCheck() && this.checkOrderPass()) {
                     this.$modal.show('add-check-order',{row:this.row_model});
                 }
             },
@@ -232,6 +232,21 @@
                     return false;
                 }else if(this.row_model.purchase_status ==2){
                     this.$alert('该订单未通过审核，请先修改！', '警告', {
+                        confirmButtonText: '确定',
+                    })
+                    return false;
+                }else if(this.row_model.warehousing_status ==3){
+                    this.$alert('该订单已完全入库，请选择其他订单！', '警告', {
+                        confirmButtonText: '确定',
+                    })
+                    return false;
+                }else{
+                    return true;
+                }
+            },
+            checkOrderPass(){
+                if (this.row_model.purchase_status ==3) {
+                    this.$alert('该订单已通过审核，请审核其他订单！', '警告', {
                         confirmButtonText: '确定',
                     })
                     return false;

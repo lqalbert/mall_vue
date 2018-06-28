@@ -1,6 +1,6 @@
 <template>
     <div >
-        <MyDialog title="编辑商品" :name="name" :width="width" :height="height" @before-open="onOpen">
+        <MyDialog title="编辑商品" :name="name" :width="width" :height="height" @before-open="onOpen" @before-close="onBeforeClose">
             <el-form :model="editForm" :rules="editFormRules" ref="editForm" :label-width="labelWidth"  :label-position="labelPosition" style="height:600px; overflow-y: auto">
                 <el-tabs v-model="activeName" >
                     <el-tab-pane label="基本信息" name="first">
@@ -150,6 +150,7 @@
                         <el-upload
                             ref="upload"
                             name="avatar"
+                            :multiple="true"
                             :auto-upload="false"
                             :action="uploadUrl"
                             list-type="picture-card"
@@ -318,6 +319,8 @@ export default {
                     {required: true, message: '请填写气泡垫重量', trigger:'blur'}
                 ],
             },
+
+            submit_state:0
         }
     },
     methods:{
@@ -354,35 +357,50 @@ export default {
             this.dialogVisible = true;
         },
         submitUpload() {
+            this.submit_state = 1;
             this.$refs.upload.submit();
         },
         uploadSuccess(response, file, fileList){
             // console.log(fileList);
             if(this.fileList.every(function(element){
-                return element.status  != 'success' ;
+                return element.status  == 'success' ;
             })){
+                
                 this.setMergeImg(fileList);
-                this.formSubmit('editForm');
-            }
+            }    
         },
         uploadError(err, file, fileList){
             this.$message.error('上传出错：' + err.msg);
+            this.submit_state = -1;
+            this.$refs['submit-button'].$emit('reset');
+        },
+
+        reals(name){
+            let vmthis = this;
+
+            if (vmthis.d ) {
+                clearTimeout(vmthis.d);
+            }
+            if(vmthis.submit_state == -1 ||  vmthis.submit_state == 0) {
+                return ;
+            }
+
+            vmthis.d = setTimeout(function(){
+                if (vmthis.submit_state == 2) {
+                    vmthis.formSubmit(name);
+                } else {
+                    vmthis.reals(name);
+                }
+            },2000);
         },
 
         // //重写formSubmit 因为要先提交图片
         beforeFormSubmit(name){
             this[name].description = this.editContent;
             this.$refs['submit-button'].$emit('submit-ing');
-            if(this.fileList.every(function(element){
-                return element.status  != 'success' ;
-            })){
-                this.submitUpload();
-            }else{
-                this.setMergeImg(this.fileList);
-                this.formSubmit(name);
-            }
+            this.submitUpload();
+            this.reals(name);
         },
-
         //---------提交请求
         getAjaxPromise(model){
             return this.ajaxProxy.update(model.id, model);
@@ -412,6 +430,11 @@ export default {
                     this.push(element.url);
                 }
             }, this.editForm.merge_img);
+
+            this.submit_state = 2;
+        },
+        onBeforeClose(){
+            this.submit_state = 0;
         }
 
     },

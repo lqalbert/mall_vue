@@ -107,7 +107,7 @@
                                     </el-form-item>
                                 </el-col>
                             </el-row>
-                           
+
                             <el-row>
                                 <el-col :span="12">
                                     <el-form-item label="重量(g)" prop="weight">
@@ -128,7 +128,7 @@
                                 </el-form-item>
                             </el-col>
                         </el-row>
-                          
+
                         <el-row>
                             <el-col>
                                 <quill-editor v-model="editContent"
@@ -143,7 +143,7 @@
                         </el-row>
                     </el-tab-pane>
 
-                    
+
 
                     <el-tab-pane label="商品图片" name="third">
 
@@ -190,10 +190,10 @@
                     </el-tab-pane>
                 </el-tabs>
             </el-form>
-    
+
             <div slot="dialog-foot" class="dialog-footer">
                 <el-button @click="handleClose">取 消</el-button>
-                <submit-button 
+                <submit-button
                     ref="submit-button"
                     @click="beforeFormSubmit('editForm')"
                     :observer="dialogThis">
@@ -333,14 +333,14 @@ export default {
                     row.cate_id.push(row.category[index].id);
                 }
                 for (let index = 0; index < row.imgs.length; index++) {
-                    this.fileList.push({name:row.imgs[index].url, url:row.imgs[index].url, full_url:row.imgs[index].full_url, id:row.imgs[index].id});  
+                    this.fileList.push({name:row.imgs[index].url, url:row.imgs[index].url, full_url:row.imgs[index].full_url, id:row.imgs[index].id});
                 }
                 this.model = row;
             })
         },
-        
+
         handleCateChange(v){
-            this.editForm.cate_id = v; 
+            this.editForm.cate_id = v;
         },
         handleRemove(file, fileList) {
             if(this.fileList.length !=0){

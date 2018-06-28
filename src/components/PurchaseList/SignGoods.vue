@@ -80,6 +80,7 @@ export default {
         },
         onOpen(param){
             // 查询未签收的发货单
+            this.selectionGoods=[];
             this.purchase_order_id = param.params.row.id;
             this.actualDeliveryGoods.setParam({
                 sign_status:0,
@@ -90,9 +91,15 @@ export default {
             this.signGoodsList = data.items;
         },
         submit(name){
-            this.signForm.signGoodsList = this.selectionGoods;
-            this.signForm.purchase_order_id = this.purchase_order_id;
-            this.formSubmit(name);
+            if(this.selectionGoods.length > 0){
+                this.signForm.signGoodsList = this.selectionGoods;
+                this.signForm.purchase_order_id = this.purchase_order_id;
+                this.formSubmit(name);
+            }else{
+                this.$message.error('签收单不能为空');
+                return;
+            }
+
         }
     },
     watch:{

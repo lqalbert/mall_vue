@@ -104,16 +104,16 @@ export default {
             cusContactData:[],
             model:'',
             rules:{
-                qq:[
-                    { required: true, message:'请输入正确格式的QQ号',  pattern: QQ_REG, trigger:'blur'},
-                ],
+                // qq:[
+                //     { required: true, message:'请输入正确格式的QQ号',  pattern: QQ_REG, trigger:'blur'},
+                // ],
                 qq_nickname:[
                     // { required: true,message:'请输入QQ昵称', type: 'string', trigger:'blur'},
                     {min:1, max: 20, message: '长度不能超过20个字符', trigger: 'blur'  }
 
                 ],
                 weixin:[
-                    // { required: true, message:'请输入微信号', type: 'string', trigger:'blur'},
+                    { required: true, message:'请输入微信号', type: 'string', trigger:'blur'},
                     {   max: 20, message: '长度不能超过20个字符', trigger: 'blur'  }
                 ],
                 weixin_nickname:[

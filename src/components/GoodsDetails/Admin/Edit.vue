@@ -159,7 +159,8 @@
                             :on-preview="handlePictureCardPreview"
                             :on-remove="handleRemove"
                             :on-success="uploadSuccess"
-                            :on-error="uploadError">
+                            :on-error="uploadError"
+                            :on-change="changeFiLelist">
                             <i class="el-icon-plus"></i>
                         </el-upload>
                         <el-dialog v-model="dialogVisible" size="tiny">
@@ -290,6 +291,7 @@ export default {
             ctrlNum:0,
             urlDomain:'',
             fileList:[],
+            changeFileLists:[],
             cover_url:'',
             model:null,
             editFormRules:{
@@ -357,12 +359,25 @@ export default {
             this.dialogVisible = true;
         },
         submitUpload() {
-            this.submit_state = 1;
-            this.$refs.upload.submit();
+            if (this.changeFileLists.length !=0 ) {
+                if(this.changeFileLists.every(function(element){
+                    return element.status  != 'success' ;
+                })){
+                    this.submit_state = 1;
+                    this.$refs.upload.submit();
+
+                    return ;
+                }  
+                 
+            }
+            
+            this.submit_state = 2; 
+            return ;
+            
         },
         uploadSuccess(response, file, fileList){
             // console.log(fileList);
-            if(this.fileList.every(function(element){
+            if(fileList.every(function(element){
                 return element.status  == 'success' ;
             })){
                 
@@ -435,6 +450,11 @@ export default {
         },
         onBeforeClose(){
             this.submit_state = 0;
+        },
+        changeFiLelist(file, fileList){
+            console.log(file);
+            console.log(fileList);
+            this.changeFileLists = fileList;
         }
 
     },

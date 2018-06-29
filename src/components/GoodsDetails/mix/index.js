@@ -1,3 +1,5 @@
+import { uploadFileSize } from '@/utils/size';
+
 const mix = {
     methods:{
         displayAttr(attr){
@@ -22,10 +24,19 @@ const mix = {
                 item.fullurl = "";
                 item.addon_value = "";
             })
-            console.log(this._attrForm);
+            // console.log(this._attrForm);
             this.attrForm = [];
             this.copy(this._attrForm, this.attrForm);
         },
+        beforeAvatarUpload(file){
+            let re = uploadFileSize(file);
+            if (re.state == 0) {
+                this.$emit('upload-error');
+                this.$message.error(re.msg);
+                return false;
+            }
+            return true;
+        }
     }
 };
 

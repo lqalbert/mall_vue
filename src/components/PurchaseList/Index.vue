@@ -40,7 +40,7 @@
         <el-row>
             <el-col>
                     <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" @cellclick="rowCellClick" :page-size="15">
-                    <el-table-column label="ID" align="center"  prop="id" width="65"></el-table-column>
+                    <el-table-column label="序号" align="center"  type="index" width="65"></el-table-column>
                     <el-table-column label="采购单编号" align="center"  prop="order_sn" width="180"></el-table-column>
                     <el-table-column label="采购人" align="center"  prop="contact_name" width="150"></el-table-column>
                     <el-table-column label="发货单位" align="center"  prop="shipper" width="150"></el-table-column>

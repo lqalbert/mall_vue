@@ -140,6 +140,10 @@
             },
             getGoodsSelect(res){
                 this.goods=res.items;
+                this.goods.forEach(value => {
+                    value.goods_purchase_num='';
+                    value.goods_purchase_price='';
+                })
             },
             getGoods() {
                 //获取商品信息

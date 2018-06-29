@@ -215,7 +215,8 @@
                             :on-preview="handlePictureCardPreview"
                             :on-remove="handleRemove"
                             :on-success="uploadSuccess"
-                            :on-error="uploadError">
+                            :on-error="uploadError"
+                            :before-upload="beforeAvatarUpload">
                             <i class="el-icon-plus"></i>
                         </el-upload>
                         <el-dialog v-model="dialogVisible" size="tiny">
@@ -510,6 +511,11 @@ export default {
             this.addForm.skus.splice(index,1);
         },
 
+        upimgErr(){
+            
+            this.$refs['submit-button'].$emit('reset');
+        }
+
     },
     computed: {
         editor() {
@@ -521,6 +527,11 @@ export default {
         this.$on('submit-success', this.resetEditContent);
 
         this.goodsTypeProxy  = new GoodsTypeSelectProxy({}, this.loadGoodsAttr, this);
+
+        this.$on('upload-error', this.upimgErr);
+    },
+    beforeDestroy(){
+        this.goodsTypeProxy = null;
     }
 }
 </script>

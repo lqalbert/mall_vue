@@ -15,10 +15,7 @@
                             <el-row>
                                 <el-col :span="14">
                                     <el-form-item label="商品重量(g)" prop="real_weigth" >
-                                        <!-- 计算快递费 
-                                            快递费用 = 首价 +（重量-首重)/续重*续价
-                                            如果小于等于首重　则费用就是首价
-                                        -->
+                                        
                                         <el-input v-model="checkForm.real_weigth" placeholder="请填写商品重量" ref="weight" ></el-input>
                                     </el-form-item>
                                 </el-col>
@@ -54,7 +51,7 @@
                                     <!-- 验货成功和发货成功 有语音提示-->
                                     <submit-button
                                         :observer="dialogThis"
-                                        @click="beforeSubmit" >
+                                        @click="beforeSubmit" :button-state="buttonState">
                                         提 交
                                     </submit-button>
                                 </el-col>
@@ -142,17 +139,19 @@ export default {
             labelWidth:'120px',
             checkForm:{
                 real_weigth:'',
-                express_fee:"",
+                express_fee:0,
                 range:0
             },
             load:false,
 
             model:{},
             address:{},
+            express_price:{},
             goods:[],
             checkGoods:[],
 
-            autoSubmit:false
+            autoSubmit:false,
+            buttonState:true,
         }
     },
     watch:{
@@ -174,35 +173,80 @@ export default {
             this.assignRequest = setTimeout(function(){
                 vmthis.load = true;
                 vmthis.$refs.weight.$refs.input.focus();//focus();
-                AssignAjax.getByExpressSn(v, {with:['address', 'goods']}).then((response)=>{
+                AssignAjax.getByExpressSn(v, {with:['address', 'goods'],field:'express_price'}).then((response)=>{
                     vmthis.load = false;
                     if (!(response.data.data instanceof Array )) {
                         vmthis.model = response.data.data;
                         vmthis.address = vmthis.model.address;
                         vmthis.goods = vmthis.model.goods;
+                        vmthis.express_price = vmthis.model.express_price;
                     }
                 }).catch((response)=>{
                     vmthis.load = false;
+                    vmthis.$message.error('加载快递单出错');
                     
                 });
             }, 500);
             
         },
         beforeSubmit(){
-            let re_weigth = parseInt(this.model.reckon_weigth);
-            let range = parseInt(this.checkForm.range);
-            let real_weigth = parseInt(this.checkForm.real_weigth);
+            let vmThis = this;
+            let re_weigth = parseInt(this.model.reckon_weigth);//估
+            let range = parseInt(this.checkForm.range);//单位
+            let real_weigth = parseInt(this.checkForm.real_weigth);//真
+
             if ( Math.abs(real_weigth-re_weigth) >  range) {
                 this.$confirm('请核实重量是否确认发货?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    this.formSubmit('checkForm')
+                    // this.formSubmit('checkForm');
+                    vmThis.checkexpressPrice(real_weigth);
                 }).catch(() => {
-                            
+                    vmThis.$refs['checkForm'].resetFields();
+                    vmThis.buttonState = false;
                 });
+            }else{
+                this.checkexpressPrice(real_weigth);
             }
+        },
+        checkexpressPrice(real_weigth){
+            // 快递费用 = 首价 +（重量-首重)/续重*续价
+            // 如果小于等于首重　则费用就是首价
+            let vmThis = this;
+            if(this.express_price){
+                let first_weight = this.express_price.first_weight;
+                let first_price = this.express_price.first_price;
+                let continued_weight = this.express_price.continued_weight;
+                let continued_price = this.express_price.continued_price;
+                
+                if(real_weigth <= first_weight){
+                    this.checkForm.express_fee = first_price;
+                }else{
+                    this.checkForm.express_fee = first_price+(real_weigth-first_weight)/continued_weight*continued_price;
+                }
+            }else{
+                this.checkForm.express_fee = 0;
+            }
+
+            if (this.express_price == null && this.checkForm.express_fee == 0) {
+                this.$confirm('没有匹配到对应区域快递,无法计算运费,确认是否继续提交', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    vmThis.formSubmit('checkForm');
+                }).catch(() => {
+                    vmThis.$refs['checkForm'].resetFields();
+                    vmThis.buttonState = false;
+                });
+            }else{
+                this.formSubmit('checkForm');
+            }
+
+
+
         },
         //---------提交请求
         getAjaxPromise(model){

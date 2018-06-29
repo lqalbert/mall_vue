@@ -44,7 +44,7 @@ const config = {
                     vmthis.$emit('submit-error', name);
                     
                 } else {
-                    vmthis.$message.success('操作成功');
+                    vmthis.$message.success(response.data.msg);
                     vmthis.$refs[name].resetFields();
                     vmthis.$emit('submit-success', name);
                 }

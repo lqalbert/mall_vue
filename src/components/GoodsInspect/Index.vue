@@ -51,7 +51,7 @@
                         </el-row>
                         <el-row>
                             <el-col :span="24">
-                                <img v-show="imgurl.length!=0" :src="imgurl" alt="">
+                                <img v-show="imgurl.length!=0" :src="imgurl" alt="" style="max-width:300px;max-height:300px">
                             </el-col>
                         </el-row>
                     </el-form>
@@ -158,7 +158,6 @@ import FormMix from '@/mix/Form';
 import AssignAjax from '../../ajaxProxy/Assign';
 import GoodsAjax from '../../ajaxProxy/GoodsDetails';
 
-
 export default {
     name: 'GoodsInspect',
     pageTitle:"验货",
@@ -251,7 +250,7 @@ export default {
                 this.checkGoods.splice(index, 0, tmp);
             } else {
                 this.checkGoods.forEach(element => {
-                    if (element.goods_id == item.goods_id) {
+                    if (element.goods_id == item.goods_id && item.goods_number != element.goods_number) {
                         element.goods_number++;
                     }
                 });

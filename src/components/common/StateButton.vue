@@ -40,6 +40,9 @@
             watch:{
                 state:function(val, OldVal){
                     this.loading = val;
+                },
+                buttonState:function(val, OldVal){
+                    this.loading = val;
                 }
             },
             created(){

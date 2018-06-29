@@ -7,6 +7,10 @@
             observer:{
                 required: true,
                 type: Object
+            },
+            buttonState:{
+                type: Boolean,
+                default:true
             }
         },
         extends:StateButton,

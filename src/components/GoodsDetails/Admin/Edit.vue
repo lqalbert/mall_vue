@@ -146,7 +146,7 @@
 
 
                     <el-tab-pane label="商品图片" name="third">
-
+                        
                         <el-upload
                             ref="upload"
                             name="avatar"
@@ -160,7 +160,8 @@
                             :on-remove="handleRemove"
                             :on-success="uploadSuccess"
                             :on-error="uploadError"
-                            :on-change="changeFiLelist">
+                            :on-change="changeFiLelist"
+                            :before-upload="beforeAvatarUpload">
                             <i class="el-icon-plus"></i>
                         </el-upload>
                         <el-dialog v-model="dialogVisible" size="tiny">
@@ -360,20 +361,16 @@ export default {
         },
         submitUpload() {
             if (this.changeFileLists.length !=0 ) {
-                if(this.changeFileLists.every(function(element){
-                    return element.status  != 'success' ;
+                if(!this.changeFileLists.every(function(element){
+                    return element.status  == 'success' ;
                 })){
                     this.submit_state = 1;
                     this.$refs.upload.submit();
-
                     return ;
                 }  
-                 
             }
-            
             this.submit_state = 2; 
             return ;
-            
         },
         uploadSuccess(response, file, fileList){
             // console.log(fileList);
@@ -452,9 +449,11 @@ export default {
             this.submit_state = 0;
         },
         changeFiLelist(file, fileList){
-            console.log(file);
-            console.log(fileList);
             this.changeFileLists = fileList;
+        },
+        upimgErr(){
+            this.submit_state = 0;
+            this.$refs['submit-button'].$emit('reset');
         }
 
     },
@@ -480,6 +479,8 @@ export default {
     },
     created(){
         this.editorOption = quillRedefine(APP_CONST.editor_option);
+        this.$on('upload-error', this.upimgErr);
+        
     }
 }
 </script>

@@ -147,8 +147,8 @@
                     </el-table-column>
                     <el-table-column prop="express_print_at" label="快递单打印时间" align="center" width="200"></el-table-column>
 
-                    <el-table-column prop="weight" label="重量" align="center" width="200">
-                    </el-table-column>
+                    <!-- <el-table-column prop="weight" label="重量" align="center" width="200">
+                    </el-table-column> -->
 
                     <!-- <el-table-column prop="assign_fee" label="配送费" align="center" width="200">
                     </el-table-column> -->

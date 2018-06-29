@@ -29,7 +29,8 @@
                 <el-button @click="handleClose">取 消</el-button>
                 <submit-button
                         :observer="dialogThis"
-                        @click="submit('signForm')">
+                        @click="submit('signForm')"
+                        :is_load="false">
                     统一签收
                 </submit-button>
             </div>

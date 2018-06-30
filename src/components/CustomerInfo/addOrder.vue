@@ -227,7 +227,7 @@
                     deal_name:'',
                     goods_id:"",
                     // address_id:"",
-                    address:{},
+                    address:null,
                     order_all_money:0,
                     order_pay_money:0,
                     order_goods:[],
@@ -428,6 +428,19 @@
                 if (this.active-- < 1) this.active = 0;
             },
             next() {
+
+                if(this.active == 0 && this.orderData.length == 0){
+                    this.$message.error('添加商品');
+                    return
+                }
+
+
+                if (this.active == 1 && this.addOrderForm.address == null) {
+                    //检查地址？
+                    this.$message.error('选择地址');
+                    return ;
+                    
+                }
                 if (this.active++ > 1) this.active = 2;
             },
             categoryChange(cate_id){

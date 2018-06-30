@@ -11,7 +11,7 @@
                         <el-col :span="12">
                             <el-form-item prop="send_address"  label="地址">
                                 <el-radio-group v-model="editForm.send_address">
-                                    <el-radio v-for="item in addresslist" :label="item.address">{{ item.name }} - {{item.address.province}} - {{item.address.town}} - {{item.address.city}} - {{item.address.district}} - {{item.address.detail}} </el-radio>
+                                    <el-radio v-for="item in addresslist" :label="item.address" :key="item.id">{{ item.name }} - {{item.address.province}} - {{item.address.town}} - {{item.address.city}} - {{item.address.district}} - {{item.address.detail}} </el-radio>
                                 </el-radio-group>
                             </el-form-item>
                         </el-col>

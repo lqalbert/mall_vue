@@ -127,53 +127,53 @@
                         </el-row>
                     </el-tab-pane>
                     <el-tab-pane label="商品明细" name="Third">
+                        <el-table
+                            v-loading.body="loading"
+                            :data="goodstableData"
+                            style="width: 100%">
+                            <el-table-column prop="goods_name"  label="商品名称" :show-overflow-tooltip="true" width="100"></el-table-column>
+                            <el-table-column prop="specifications" label="商品规格"  width="100"></el-table-column>
+                            <el-table-column prop="goods_number" label="数量" width="140">
+                                <template slot-scope="scope">
+                                    <span v-show="!scope.row.editState" >{{scope.row.goods_number}}</span>
+                                    <el-input-number v-show="scope.row.editState" size="small" v-model="scope.row.goods_number"></el-input-number> 
+                                </template>
+                            </el-table-column>
+                            <el-table-column prop="unit_type" label="单位" align="center" width="70"> </el-table-column>
+                            <el-table-column prop="price" label="价格" width="90"> </el-table-column>
+                            <el-table-column prop="sku_sn" label="编号"> </el-table-column>
+                            <el-table-column prop="remark" label="备注" :show-overflow-tooltip="true" width="180">
+                                    <template slot-scope="scope">
+                                        <span v-show="!scope.row.editState" >{{scope.row.remark}}</span>
+                                        <el-input
+                                            v-show="scope.row.editState"
+                                            size="small"
+                                            type="textarea"
+                                            autosize
+                                            v-model="scope.row.remark">
+                                        </el-input>
+                                    </template>
+                            </el-table-column>
+                            <el-table-column  label="操作" width="140" >
+                                <template slot-scope="scope">
+                                    <el-button-group>
+                                        <el-button size="mini" v-if="!scope.row.editState" type="primary" @click="setEdit(scope.row)">编辑</el-button>
+                                        <el-button size="mini" v-if="scope.row.editState" @click="saveGoods(scope.row)">保存</el-button>
+                                        <el-button size="mini" type="danger" @click="ifDelete(scope.row.id)">删除</el-button>
+                                        
+                                    </el-button-group>
+                                </template>
+                            </el-table-column>
+                        </el-table>
                         <el-row>
-                            <el-col :span='12'>
-                                <el-form-item label="商品名称:"  prop="goods_name">
-                                    {{ goodstableData.goods_name }}
-                                </el-form-item>
-                            </el-col>
-                            <el-col :span='12'>
-                                <el-form-item label="商品数量:"  prop="goods_number">
-                                    {{ goodstableData.goods_number }}
-                                </el-form-item>
-                            </el-col>
-                        </el-row>
-                        <el-row>
-                            <el-col :span='12'>
-                                <el-form-item label="商品价格:"  prop="price">
-                                    {{ goodstableData.price }}
-                                </el-form-item>
-                            </el-col>
-                            <el-col :span='12'>
-                                <el-form-item label="编号:"  prop="sku_sn">
-                                    {{ goodstableData.sku_sn }}
-                                </el-form-item>
-                            </el-col>
-                        </el-row>
-                        <el-row>
-                            <el-col :span='12'>
-                                <el-form-item label="商品单位:"  prop="unit_type">
-                                    {{ goodstableData.unit_type }}
-                                </el-form-item>
-                            </el-col>
-                            <el-col :span='12'>
-                                <el-form-item label="商品重量:"  prop="weight">
-                                    {{ goodstableData.weight }}g
-                                </el-form-item>
-                            </el-col>
-                        </el-row>
-                        <el-row>
-                            <el-col :span='20'>
-                                <el-form-item label="备注:"  prop="remark">
-                                    {{ goodstableData.remark }}
-                                </el-form-item>
+                            <el-col :span="24">
+                                <br>
+                                <AddGoods :category-list="cates" @add-goods="addGoods"></AddGoods>
                             </el-col>
                         </el-row>
                     </el-tab-pane>
                 </el-tabs>   
             </el-form>
-
             <div slot="dialog-foot" class="dialog-footer">
                 <el-button @click="handleClose">取 消</el-button>
                 <submit-button
@@ -190,10 +190,18 @@
     import DialogForm from '../../mix/DialogForm';
     import OrderGoodsAjaxProxy from "@/packages/OrderGoodsAjaxProxy";
     import OrderAddressAjaxProxy from "@/packages/OrderAddressAjaxProxy";
+    import OrederGoodsAjax2 from '@/ajaxProxy/Ordergoods';
     import status from './status';
+
+    import AddGoods from '@/components/CustomerInfo/AddGoods';
+
+
     export default {
         name: 'addDialog',
         mixins:[DialogForm,status],
+        components:{
+            AddGoods
+        },
         props:{
 
         },
@@ -204,6 +212,7 @@
         },
         data () {
             return {
+                loading:false,
                 check_status:[
                     {id:'0', status:'通过'},
                     {id:'1', status:'未通过'},
@@ -228,17 +237,21 @@
                 row:null,
                 activeName:'First',
                 addresstableData:{},
-                goodstableData:{},
+                goodstableData:[],
 
                 tabFirst:false,
                 tabSecond:false,
                 tabThird:false,
+                visible2:false
                 
             }
         },
-
+        computed:{
+            cates(){
+                return this.$store.getters.getCates;
+            }
+        },
         methods:{
-
             onOpen(event){
             //   this.rowInfoForm = event.params.rowData;
                 this.model = event.params.rowData;
@@ -256,8 +269,14 @@
                 this.addresstableData = data.items[0];
             },
             getOrderGoods(data){
-                console.log(data);
-                this.goodstableData = data.items[0];
+                // console.log(data);
+                data.items.forEach(element => {
+                    element.editState = false;
+                });
+
+                this.loading = false;
+                this.goodstableData = data.items;
+                
             },
             handleSecond(row){
                 // console.log(row);
@@ -270,17 +289,55 @@
             handleThird(row){
                 // console.log(row);
                 // console.log('third');
+                this.loading =true;
                 this.OrderGoodsProxy.setParam({
                     order_id:row.id,
                 }).load();
                 this.tabThird = true;
             },
+            setEdit(row){
+                row.editState = true;
+                // console.log(row);
+            },
+            saveGoods(row){
+                
+                // console.log(row);
+                OrederGoodsAjax2.update(row.id, {goods_number:row.goods_number, remark:row.remark}).then((response)=>{
+                    row.editState = false;
+                    this.$message.success(response.data.msg);
+                }).catch(response=>{
+                    row.editState = true;
+                    this.$message.error(response.data.msg);
+                });
+            },
+            ifDelete(id){
+                let vmthis = this;
+                this.$confirm('确定删除?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+
+                    OrederGoodsAjax2.delete(id).then((response)=>{
+                        let index = vmthis.goodstableData.findIndex((element)=>{
+                            return element.id == id;
+                        });
+
+                        if (index !=-1) {
+                            vmthis.goodstableData.splice(index,1);
+                        }
+                    })
+                })
+            },
+            addGoods(goods){
+                this.goodstableData.push(goods);
+            }
         },
         watch:{
             model:function(val, oldVal){
                 for (const key in this.rowInfoForm) {
                     if (this.rowInfoForm.hasOwnProperty(key)) {
-                        console.log(key);
+                        // console.log(key);
                         this.rowInfoForm[key] = val[key]
                     }
                 }
@@ -302,8 +359,11 @@
         created(){
             this.OrderAddressProxy = new OrderAddressAjaxProxy({fields:["*"]},    this.getOrderAddress,this);
             this.OrderGoodsProxy = new OrderGoodsAjaxProxy({fields:["*"]},    this.getOrderGoods,this);
+        },
+        beforeDestroy(){
+            this.OrderAddressProxy = null;
+            this.OrderGoodsProxy = null;
         }
-
     }
 </script>
 
@@ -312,6 +372,9 @@
     .name-input{
         /* max-width: 217px; */
         max-width: 140px;
+    }
+    .el-input-number {
+        width: 100px;
     }
 </style>
 

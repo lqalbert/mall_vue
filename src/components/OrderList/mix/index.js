@@ -109,28 +109,39 @@ const mix = {
             // console.log(row.status);
 
             if (this.openDialogCheck()){
-                if (this.row_model.status >= ORDER_ASSIGN) {
-                    this.$alert('不能取消', '警告', {
-                        confirmButtonText: '关闭',
-                    });
-                } else {
-                    this.$confirm('确定取消, 是否继续?', '提示', {
-                        confirmButtonText: '确定',
-                        cancelButtonText: '取消',
-                        type: 'warning'
-                    }).then(() => {
-                        this.getAjaxProxy().cancel(this.row_model.id).then(() => {
+                // if (this.row_model.status >= ORDER_ASSIGN) {
+                //     this.$alert('不能取消', '警告', {
+                //         confirmButtonText: '关闭',
+                //     });
+                // } else {
+                    
+                // }
+
+                this.$confirm('确定取消, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.getAjaxProxy().cancel(this.row_model.id).then((response) => {
+                        if (response.data.status==0) {
+                            this.$message.error(response.data.msg);
+                        } else {
                             this.$message.info('取消成功');
                             this.handleReload();
-                        })
+                        }
+                        
+                    }).catch((response)=>{
+                        this.$message.error('出错了');
+                        
+                    })
 
-                    });
-                }
+                });
             }
         },
         //订单审核
         checkOrder(){
             if (this.openDialogCheck()) {
+                
                 this.$modal.show('checkOrder', {row: this.row_model});
             }
         },

@@ -96,6 +96,8 @@
             this.setPageGroup();
             this.setPageDepart();
             this.setPageAdmin();
+
+            this.$store.dispatch('initAllCates');
         }
     }
 </script>

@@ -1,6 +1,6 @@
 import Add from "../Add";
 import Edit from "../Edit";
-import Chat from "../Chat";
+// import Chat from "../Chat";
 import Plan from "../Plan";
 import addOrder from "../addOrder";
 import addAddress from "../addAddress";

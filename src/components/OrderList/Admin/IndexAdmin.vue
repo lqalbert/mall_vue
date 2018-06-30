@@ -162,6 +162,7 @@
         <SubDetail :row="dbRow"/>
 
         <rowInfo name="rowInfo"
+                 :width="900"
                  :ajax-proxy="ajaxProxy"
                  @submit-success="handleReload"/>
         

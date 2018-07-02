@@ -244,7 +244,7 @@
                     order_remark:'',
                     express_remark:'',
                     express_name:'',
-                    type:'',
+                    type:'0',
                 },
                 orderData:[],
                 orderAddressData:[],

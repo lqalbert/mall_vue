@@ -165,12 +165,12 @@
                                 </template>
                             </el-table-column>
                         </el-table>
-                        <el-row>
+                        <!-- <el-row>
                             <el-col :span="24">
                                 <br>
                                 <AddGoods :category-list="cates" @add-goods="addGoods"></AddGoods>
                             </el-col>
-                        </el-row>
+                        </el-row> -->
                     </el-tab-pane>
                 </el-tabs>   
             </el-form>

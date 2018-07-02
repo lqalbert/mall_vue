@@ -185,10 +185,10 @@
             
             if (this.groupId && this.groupId != 0 ) {
                 this.queryForm.group_id = this.groupId;
-                this.employeeSelect.setParam({group_id:this.groupId,fields:['id','name']});
+                this.employeeSelect.setParam({group_id:this.groupId,fields:['id','realname']});
                 this.employeeSelect.load();
             } else {
-                this.queryForm.group_id = 0;
+                this.queryForm.group_id = -1;
             }
 
             this._queryForm = {};

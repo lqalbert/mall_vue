@@ -227,20 +227,20 @@
                         <el-row>
                             <el-col :span="12">
                                 <el-form-item label="累计评价"  prop="comments">
-                                    <el-input class="name-input" v-model="addForm.comments"  auto-complete="off" placeholder="1890"></el-input>
+                                    <el-input class="name-input" v-model.number="addForm.comments"  auto-complete="off" placeholder=""></el-input>
                                 </el-form-item>
                             </el-col>
                         </el-row>
                         <el-row>
                             <el-col :span="12">
                                 <el-form-item label="累积销售"  prop="sale_count">
-                                    <el-input class="name-input" v-model="addForm.sale_count"  auto-complete="off" placeholder="500"></el-input>
+                                    <el-input class="name-input" v-model.number="addForm.sale_count"  auto-complete="off" placeholder=""></el-input>
                                 </el-form-item>
                             </el-col>
 
                             <el-col :span="12">
                                 <el-form-item label="显示库存"  prop="sale_able_count">
-                                    <el-input class="name-input" v-model="addForm.sale_able_count"  auto-complete="off" placeholder="1890"></el-input>
+                                    <el-input class="name-input" v-model.number="addForm.sale_able_count"  auto-complete="off" placeholder=""></el-input>
                                 </el-form-item>
                             </el-col>
                         </el-row>
@@ -294,6 +294,17 @@ export default {
 
     },
     data () {
+        let is_integer = (rule,value,callback)=>{
+                if (!Number.isInteger(value)) {
+                    callback(new Error('请输入整数数字值'));
+                }else{
+                    if (value < 0) {
+                        return callback(new Error('不能为负数'))
+                    }else{
+                        callback();
+                    }
+                }
+            } ;
         let validateFormat = (rule, value, callback) => {
             let num = /^[0-9]+$/;
             let len = this.addForm.len;
@@ -330,9 +341,9 @@ export default {
                 img_path:[],
                 skus:[],
                 del_price:"0.00",
-                comments:"12",
-                sale_count:"244",
-                sale_able_count:"1000",
+                comments:"",
+                sale_count:"",
+                sale_able_count:"",
 
                 len:'',
                 width:'',
@@ -383,10 +394,20 @@ export default {
                 subtitle:[
                     {max:90,message:"最多可输入90字符", trigger:'blur'}
                 ],
+                comments:[
+                    {trigger:'blur', validator: is_integer,}
+                ],
+                sale_count:[
+                    {trigger:'blur', validator: is_integer,}
+                    ],
+                sale_able_count:[
+                    {trigger:'blur', validator: is_integer,}
+                    ],
                 brief:[
                     {max:250,message:"最多可输入250字符", trigger:'blur'}
                 ],
             },
+
             skuFormRules:{
                 price:[
                     {required: true,pattern:/^(([1-9]\d{0,9})|0)(\.\d{1,2})?$/,  message: '价格格式为00.00', trigger:'blur'}

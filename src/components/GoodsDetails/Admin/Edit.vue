@@ -232,6 +232,17 @@ export default {
 
     },
     data () {
+        let is_integer = (rule,value,callback)=>{
+            if (!Number.isInteger(value)) {
+                callback(new Error('请输入整数数字值'));
+            }else{
+                if (value < 0) {
+                    return callback(new Error('不能为负数'))
+                }else{
+                    callback();
+                }
+            }
+        } ;
         let validateFormats = (rule, value, callback) => {
             if(this.editForm.len == null || this.editForm.len == ''){
                 callback(new Error('请输入长度'));
@@ -316,6 +327,15 @@ export default {
                 ],
                 bubble_bag:[
                     {required: true, message: '请填写气泡垫重量', trigger:'blur'}
+                ],
+                comments:[
+                    {trigger:'blur', validator: is_integer,}
+                ],
+                sale_count:[
+                    {trigger:'blur', validator: is_integer,}
+                ],
+                sale_able_count:[
+                    {trigger:'blur', validator: is_integer,}
                 ],
             },
         }

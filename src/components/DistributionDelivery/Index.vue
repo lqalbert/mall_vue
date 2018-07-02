@@ -83,7 +83,7 @@
         <!-- table -->
         <el-row>
             <el-col>
-                <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" :page-size="20" :bubble="bubble" :row-class-name="tableRowClassName" @dbclick="dbClick">
+                <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" :height="300" :page-size="20" :bubble="bubble" :row-class-name="tableRowClassName" @dbclick="dbClick">
                     <el-table-column type="selection" width="55"></el-table-column>
                     <el-table-column label="序号" align="center"  type="index" width="65">
                     </el-table-column>
@@ -103,8 +103,8 @@
                     <el-table-column prop="address.area_province_name" label="省份"></el-table-column>
                     <el-table-column prop="address.area_city_name" label="城市"></el-table-column>
                     <el-table-column prop="address.area_district_name" label="区县"></el-table-column>
-                    <el-table-column prop="address.address" label="地址"></el-table-column>
-                    <el-table-column prop="address.name" label="收件人"></el-table-column>
+                    <el-table-column prop="address.address" label="地址" width="200" show-overflow-tooltip></el-table-column>
+                    <el-table-column prop="address.name" label="收件人" width="90"></el-table-column>
 
 
                     <el-table-column prop="order.created_at" label="销售时间" align="center" width="200">
@@ -300,7 +300,7 @@ export default {
 
     methods:{
         pstatusChange(param){
-            switch(param.pstatus){
+            switch(parseInt(param.pstatus)){
                 case 0:
                 case 1:
                 case 2:

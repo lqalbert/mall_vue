@@ -244,7 +244,7 @@
                         this.searchForm.group_id = this.user_group_id;
                         this.onGroupChange(this.searchForm.group_id);
                     } else {
-                        this.searchForm.group_id = 0;
+                        this.searchForm.group_id = -1;
                     }
 
                     this.resetB();

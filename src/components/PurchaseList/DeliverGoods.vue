@@ -8,7 +8,9 @@
             </el-steps>
             <el-form :model="deliverForm" ref="deliverForm" :label-width="labelWidth" :rules="rules" :label-position="labelPosition">
                 <div v-show="active==0">
-                    <el-table :data="goodsList" border>
+                    <el-table :data="goodsList" border @selection-change="handleSelectionChange">
+                        <el-table-column type="selection" width="55"></el-table-column>
+
                         <el-table-column label="ID" align="center"  prop="id" width="65"></el-table-column>
                         <!--<el-table-column label="SKU编号" align="center"  prop="sku_sn" ></el-table-column>-->
                         <el-table-column label="商品名称" align="center"  prop="goods_name" width="150px"></el-table-column>
@@ -100,7 +102,8 @@
                         <el-button @click="handleClose">取 消</el-button>
                         <submit-button
                                 @click="submit('deliverForm')"
-                                :observer="dialogThis">
+                                :observer="dialogThis"
+                                :is_load="false">
                             保 存
                         </submit-button>
                     </el-col>
@@ -169,6 +172,8 @@ export default {
             },
             model:null,
             goodsList:[],
+            selectionGoodsList:[],
+            is_submit:null,
 
         }
     },
@@ -199,34 +204,49 @@ export default {
         next() {
             if (this.active++ > 1) this.active = 1;
         },
+        handleSelectionChange(val) {
+            this.selectionGoodsList = val;
+        },
         submit(name){
-            this.goodsList.forEach(value => {
+            this.is_submit = true ;
+            if(this.selectionGoodsList.length == 0){
+                this.is_submit = false ;
+                this.$message.error('请选择发货商品');
+                return;
+            }
+            this.selectionGoodsList.forEach(value => {
                 if(value.actual_goods_num == ''){
+                    this.is_submit = false ;
                     this.$message.error('请填写实发数量');
                     return;
                 }
                 if(value.every_case_goods_num == ''){
+                    this.is_submit = false ;
                     this.$message.error('请填写每箱数量');
                     return;
                 }
                 if(value.goods_case_num == ''){
+                    this.is_submit = false ;
                     this.$message.error('请填写纸箱个数');
                     return;
                 }
                 if(value.goods_manufacture_time == ''){
+                    this.is_submit = false ;
                     this.$message.error('请填写生产日期');
                     return;
                 }
                 if(value.goods_case_weight == ''){
+                    this.is_submit = false ;
                     this.$message.error('请填写商品重量');
                     return;
                 }
             });
-            this.deliverForm.deliverGoodsList = this.goodsList;
-           // this.deliverForm.purchase_status =3;
-            console.log(this.deliverForm);
-            this.formSubmit(name);
-            // this.$emit('submit-ok');
+            if(this.is_submit){
+                this.deliverForm.deliverGoodsList = this.selectionGoodsList;
+                console.log(this.deliverForm);
+                this.formSubmit(name);
+            }
+
         }
     },
     watch:{

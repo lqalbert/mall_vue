@@ -297,6 +297,7 @@ export default {
             this.cities = data;
         },
         provinceChange(id){
+            this.addDeliveryAddressForm.area_city_id = '';
             this.getAreaName(this.provinces,'area_province_name',id);
             // this.addDeliveryAddressForm.area_city_id = '';
             // this.addDeliveryAddressForm.area_district_id = '';
@@ -307,6 +308,7 @@ export default {
             this.districts = data;
         },
         cityChange(id){
+            this.addDeliveryAddressForm.area_district_id = '';
             this.getAreaName(this.cities,'area_city_name',id);
             // this.addDeliveryAddressForm.area_district_id = '';
             let areaSelect = new AreaSelect({pid:id,business:'district'},this.getAreaDistricts,this);

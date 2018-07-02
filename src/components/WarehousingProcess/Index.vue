@@ -183,7 +183,8 @@
                 distributors:[],
                 goodsList:[],
                 reFundCheckShow:false,
-                row_model:''
+                row_model:'',
+                is_submit:true,
             }
         },
         methods:{
@@ -209,17 +210,23 @@
                 this.goodsList=this.goodsList.concat(v);
             },
             submit(name) {
-                this.goodsList.forEach(value => {
-                    if(value.goods_purchase_num == undefined || value.goods_purchase_price == undefined || value.goods_purchase_num == 0 ||value.goods_purchase_price == 0){
+                this.is_submit = true;
+                for(let i=0;i<this.goodsList.length;i++) {
+                    if (this.goodsList[i].goods_purchase_num == undefined || this.goodsList[i].goods_purchase_price == undefined || this.goodsList[i].goods_purchase_num == 0 || this.goodsList[i].goods_purchase_price == 0) {
+                        this.is_submit = false;
                         this.$message.error('请填写采购数量和价格');
                         return;
                     }
-                    this.addForm.goods_total += parseInt(value.goods_purchase_num);
-                    this.addForm.goods_money_total += parseInt(value.goods_purchase_num) * parseInt(value.goods_purchase_price);
-                });
-                this.addForm.purchase_goods=this.goodsList;
-                this.addForm.sku_type=this.goodsList.length;
-                this.formSubmit(name);
+                        this.addForm.goods_total += parseInt(this.goodsList[i].goods_purchase_num);
+                        this.addForm.goods_money_total += parseInt(this.goodsList[i].goods_purchase_num) * parseInt(this.goodsList[i].goods_purchase_price);
+                }
+                if(this.is_submit){
+                    this.addForm.purchase_goods=this.goodsList;
+                    this.addForm.sku_type=this.goodsList.length;
+                    this.formSubmit(name);
+                }
+
+
             },
 
             formSubmit(name){

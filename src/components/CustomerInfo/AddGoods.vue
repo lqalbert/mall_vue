@@ -18,24 +18,26 @@
                 </el-form-item>
             </el-col>
             <el-col :span="12">
-                <el-form-item prop="goods" label="商品名称">
-                    <el-select v-model="goodsForm.goods" size="small" @change="getGoodsInfo">
-                        <el-option v-for="(value,index) in goodsList" :value="index" :key="value.id" :label="value.goods_name">
-
+                <el-form-item prop="goods_id" label="商品名称">
+                    <el-select v-model="goodsForm.goods_id" size="small" @change="getGoodsInfo">
+                        <el-option v-for="(value, item) in data2" :value="item" :key="item" :label="value.goods_name+'-'+value.sku_name+'-'+value.price">
+                            <span>{{value.goods_name}}{{ (value.sku_name && value.sku_name.length > 0) ? '-'+value.sku_name: ''  }}-{{value.price}}</span>
+                            <!-- <span style="float: right; color: #8492a6; font-size: 13px">{{value}}</span> -->
                         </el-option>
                     </el-select>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
                 <el-form-item prop="goods_number" label="商品数量">
-                    <el-input-number size="small" :min="1" :max="entrepot_sum" v-model="goodsForm.goods_number" >
+                    <el-input-number size="small" :min="1" :max="entrepot_sum" v-model="goodsForm.goods_number">
                     </el-input-number>
                     <span style="color:red;">当前库存：{{entrepot_sum}}</span>
                 </el-form-item>
             </el-col>
-            <el-col :span="12">
+            <el-col :span="10">
                 <el-form-item prop="remark" label="备注">
-                    <el-input type="textarea" class="name-input" size="small" v-model="goodsForm.remark"  placeholder="备注" ></el-input>
+                    <el-input type="textarea" class="name-input" size="small" v-model="goodsForm.remark" placeholder="备注">
+                    </el-input>
                 </el-form-item>
             </el-col>
         </el-row>
@@ -50,7 +52,6 @@
 
 <script>
     import OrderGoodsAjax from '@/ajaxProxy/Ordergoods';
-
     import GoodsSelectProxy from '@/packages/GoodsSelectProxy';
     import EntrepotProductAjax from '@/ajaxProxy/EntrepotProduct';
 
@@ -62,17 +63,22 @@
         data () {
             return {
                 goodsForm:{
-                    goods:null,
+                    // goods:null,
+                    goods_id:"",
                     goods_number:0,
                     remark:""
                 },
                 entrepot_sum:0,
-                goodsList:[]
+                goodsList:[],
+                data2:{},
+                order_goods:[],
             }
         },
         methods:{
             categoryChange(val){
                 // console.log(val);
+                this.goodsForm.goods_id = '';
+                this.entrepot_sum = 0;
                 this.goodsProxy.setParam({
                     cate_id:val,
                     with:['skus'],
@@ -81,30 +87,102 @@
                     'sku_sn','unit_type','len','width','height','barcode','weight',
                     'bubble_bag','specifications']
                 }).load();
+                this.data2 = {};
             },
             addGoods(){
                 if (this.entrepot_sum > 0) {
-
-                    //处理数据
-                    //然后上传
-                    //保存成功后 触发事件 
-
-
-                    this.$emit('add-goods', this.currentGoods);
+                    let vmThis = this;
+                    let item = this.data2[vmThis.goodsForm.goods_id];
+                    let moneyNotes =parseInt(item.price) * parseInt(this.goodsForm.goods_number);
+                    let addData ={
+                        moneyNotes:     moneyNotes,
+                        goods_id:       item.goods_id,
+                        sku_id:         item.sku_id,
+                        sku_name:       item.sku_name,
+                        goods_name:     item.goods_name,
+                        price:          item.price,
+                        goods_number:   vmThis.goodsForm.goods_number,
+                        remark:         vmThis.goodsForm.remark,
+                        sku_sn:         item.sku_sn,
+                        unit_type:      item.unit_type,
+                        len:            item.len,
+                        width:          item.width,
+                        height:         item.height,
+                        barcode:        item.barcode,
+                        weight:         item.weight,
+                        bubble_bag:     item.bubble_bag,
+                        specifications: item.specifications,
+                    };
+                    this.$emit('add-goods', addData);
+                    this.$refs.goodsForm.resetFields();
                 }
             },
-            getGoodsInfo(index){
-                let goods = this.goodsList[index];
-                EntrepotProductAjax.getEntrepotCount(goods.sku_sn).then((response)=>{
-                    // console.log(response.data.num);
-                    this.entrepot_sum = response.data.num
-                });
-                this.currentGoods = goods;
+            getGoodsInfo(goods_id){
+                let goods = this.data2[goods_id];
+                if(goods){
+                    EntrepotProductAjax.getEntrepotCount(goods.sku_sn).then((response)=>{
+                        this.entrepot_sum = response.data.num;
+                    })  
+                }
 
             },
             loadGoods(data){
-                this.goodsList = data.items;
-            }
+                let vmThis = this;
+                this.data2 = {};
+                for (let i = 0; i < data.items.length; i++) {
+                    let gid1 = data.items[i].id;
+                    let goods_name1 = data.items[i].goods_name;
+                    let goods_price1 = data.items[i].goods_price;
+                    let goods_number1 = data.items[i].goods_number;
+                    let unit_type1 = data.items[i].unit_type;
+
+                    let len = data.items[i].len;
+                    let width = data.items[i].width;
+                    let height = data.items[i].height;
+                    let barcode = data.items[i].barcode;
+                    let weight = data.items[i].weight;
+                    let bubble_bag = data.items[i].bubble_bag;
+                    let specifications = data.items[i].specifications;
+
+                    let vv1 = this.contactItem(gid1, goods_price1, goods_name1,
+                     goods_number1, 0, '', data.items[i].sku_sn,unit_type1,len,width,height,barcode,weight,
+                     bubble_bag,specifications);
+                    let kk1 = 'goods_id_'+gid1+'_sku_id_0';
+                    this.data2[kk1] = vv1;
+                    if (data.items[i].skus.length > 0) {
+                        this.contactChildren(data.items[i].skus, gid1, goods_name1,unit_type1,len,
+                        width,height,barcode,weight,bubble_bag,specifications);
+                    }
+                }
+            },
+            contactItem(goods_id, price, name, num, sku_id, sku, sku_sn,unit_type,len,width,
+                height,barcode,weight,bubble_bag,specifications){
+                return {goods_id: goods_id,
+                        price: price, 
+                        goods_name: name,  
+                        num: num, 
+                        sku_id:sku_id, 
+                        sku_name:sku, 
+                        sku_sn:sku_sn,
+                        unit_type:unit_type,
+                        len:len,
+                        width:width,
+                        height:height,
+                        barcode:barcode,
+                        weight:weight,
+                        bubble_bag:bubble_bag,
+                        specifications:specifications};
+            },
+            contactChildren(children, goods_id, goods_name,unit_type,len,width,height,barcode,
+                weight,bubble_bag,specifications){
+                for (let i = 0; i < children.length; i++) {
+                    const item = children[i];
+                    let vv1 = this.contactItem(goods_id, item.price, goods_name,
+                     item.num, item.id, item.name, item.sku_sn,unit_type,len,width,height,barcode,weight,bubble_bag,specifications);
+                    let kk1 = 'goods_id_'+goods_id+'_sku_id_'+ item.id;
+                    this.data2[kk1] = vv1;
+                }
+            },
         },
         created(){
             this.goodsProxy = new GoodsSelectProxy({}, this.loadGoods, this);

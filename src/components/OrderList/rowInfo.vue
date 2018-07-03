@@ -143,16 +143,16 @@
                             <el-table-column prop="price" label="价格" width="90"> </el-table-column>
                             <el-table-column prop="sku_sn" label="编号"> </el-table-column>
                             <el-table-column prop="remark" label="备注" :show-overflow-tooltip="true" width="180">
-                                    <template slot-scope="scope">
-                                        <span v-show="!scope.row.editState" >{{scope.row.remark}}</span>
-                                        <el-input
-                                            v-show="scope.row.editState"
-                                            size="small"
-                                            type="textarea"
-                                            autosize
-                                            v-model="scope.row.remark">
-                                        </el-input>
-                                    </template>
+                                <template slot-scope="scope">
+                                    <span v-show="!scope.row.editState" >{{scope.row.remark}}</span>
+                                    <el-input
+                                        v-show="scope.row.editState"
+                                        size="small"
+                                        type="textarea"
+                                        autosize
+                                        v-model="scope.row.remark">
+                                    </el-input>
+                                </template>
                             </el-table-column>
                             <el-table-column  label="操作" width="140" >
                                 <template slot-scope="scope">
@@ -160,17 +160,16 @@
                                         <el-button size="mini" v-if="!scope.row.editState" type="primary" @click="setEdit(scope.row)">编辑</el-button>
                                         <el-button size="mini" v-if="scope.row.editState" @click="saveGoods(scope.row)">保存</el-button>
                                         <el-button size="mini" type="danger" @click="ifDelete(scope.row.id)">删除</el-button>
-                                        
                                     </el-button-group>
                                 </template>
                             </el-table-column>
                         </el-table>
-                        <!-- <el-row>
+                        <el-row>
                             <el-col :span="24">
                                 <br>
                                 <AddGoods :category-list="cates" @add-goods="addGoods"></AddGoods>
                             </el-col>
-                        </el-row> -->
+                        </el-row>
                     </el-tab-pane>
                 </el-tabs>   
             </el-form>
@@ -300,11 +299,19 @@
                 // console.log(row);
             },
             saveGoods(row){
-                
                 // console.log(row);
-                OrederGoodsAjax2.update(row.id, {goods_number:row.goods_number, remark:row.remark}).then((response)=>{
-                    row.editState = false;
-                    this.$message.success(response.data.msg);
+                let data = {
+                    order_id:row.order_id,
+                    goods_number:row.goods_number, 
+                    remark:row.remark
+                };
+                OrederGoodsAjax2.update(row.id, data).then((response)=>{
+                    if (response.data.status==0) {
+                        this.$message.error(response.data.msg);
+                    } else {
+                        row.editState = false;
+                        this.$message.success(response.data.msg);
+                    }
                 }).catch(response=>{
                     row.editState = true;
                     this.$message.error(response.data.msg);
@@ -317,20 +324,45 @@
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-
                     OrederGoodsAjax2.delete(id).then((response)=>{
-                        let index = vmthis.goodstableData.findIndex((element)=>{
-                            return element.id == id;
-                        });
+                        if (response.data.status==0) {
+                            this.$message.error(response.data.msg);
+                        } else {
+                            row.editState = false;
+                            this.$message.success(response.data.msg);
+                            let index = vmthis.goodstableData.findIndex((element)=>{
+                                return element.id == id;
+                            });
 
-                        if (index !=-1) {
-                            vmthis.goodstableData.splice(index,1);
+                            if (index !=-1) {
+                                vmthis.goodstableData.splice(index,1);
+                            }
                         }
-                    })
+                    }).catch(response=>{
+                        row.editState = true;
+                        this.$message.error(response.data.msg);
+                    });
                 })
             },
             addGoods(goods){
-                this.goodstableData.push(goods);
+                goods.order_id = this.row.id;
+                if(this.goodstableData.length >0){
+                    goods.assign_id = this.goodstableData[0].assign_id;
+                }else{
+                    goods.assign_id = '';
+                }
+                console.log(goods);
+                OrederGoodsAjax2.create(goods).then((response)=>{
+                    if (response.data.status==0) {
+                        this.$message.error(response.data.msg);
+                    } else {
+                        this.$message.success(response.data.msg);
+                        this.goodstableData.push(goods);
+                    }
+                }).catch((response)=>{
+                    this.$message.error('出错了');
+                })
+                
             }
         },
         watch:{

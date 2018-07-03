@@ -109,7 +109,7 @@ export default {
                 //     { required: true,message:'请输入联系人电话', pattern:PHONE_REG, trigger:'blur'}
                 // ],
                 eng:[
-                    { required: true, message:'必填,两个英文字母', pattern:/^[a-zA-Z]{2}$/, trigger:'blur'},
+                    { required: true, message:'必填', pattern:/^[a-zA-Z0-9]+$/, trigger:'blur'},
                 ]
 
             },

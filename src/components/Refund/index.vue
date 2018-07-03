@@ -97,7 +97,7 @@
                         <!-- <el-button type="primary" size="small" @click="showAdvancedQuery">高级查询</el-button>
                         <el-button type="primary" size="small" @click="showAdvancedQuery">退货修改</el-button>
                         <el-button type="primary" size="small" @click="showAdvancedQuery">退货提交</el-button> -->
-                        <el-button type="primary" size="small" @click="handleRefundSure">退货确认</el-button>
+                        <el-button type="primary" size="small" v-if="hasSure" @click="handleRefundSure">退换货确认</el-button>
                         <el-button type="primary" size="small" @click="showRefundCheck">审核</el-button>
                         <el-button type="primary" size="small" @click="showEdit">编辑</el-button>
                     </div>
@@ -125,7 +125,7 @@
     import DataTable from '@/mix/DataTable';
     import PageMix from '@/mix/Page';
     import config from '@/mix/Delete';
-    import AfterSaleAjaxProxy from '../../ajaxProxy/AfterSale';
+    import AfterSaleAjaxProxy from '@/ajaxProxy/AfterSale';
     import SearchTool from "@/mix/SearchTool";
     import refundCheck from "./check";
     import SubDetail from './SubDetail';
@@ -186,7 +186,9 @@
             }
         },
         computed:{
-            
+            hasSure(){
+                return this.$store.getters.hasRefundSure;
+            }
         },
         methods:{
             setFieldText(field,TextArr){

@@ -79,7 +79,7 @@
                     <!--</el-table-column>-->
 
                     <div slot="buttonbar">
-                        <el-button type="primary" size="small" @click="checkOrder">采购单审核</el-button>
+                        <el-button type="primary" size="small" v-if="hasChecked" @click="checkOrder">采购单审核</el-button>
                         <el-button type="primary" size="small" @click="showDeliverGoods">确认发货</el-button>
                         <el-button type="primary" size="small" @click="showSignGoods">签收入库</el-button>
                     </div>
@@ -180,6 +180,11 @@
                 ],
                 reFundCheckShow:false,
                 row_model:null,
+            }
+        },
+        computed:{
+            hasChecked(){
+                return this.$store.getters.hasPurchaseCheck;
             }
         },
         methods:{

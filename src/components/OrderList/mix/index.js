@@ -141,7 +141,10 @@ const mix = {
         //订单审核
         checkOrder(){
             if (this.openDialogCheck()) {
-                
+                if (this.row_model.status >=1) {
+                    this.$message.error('已'+this.row_model.status_text+"，不能审核");
+                    return ;
+                }
                 this.$modal.show('checkOrder', {row: this.row_model});
             }
         },

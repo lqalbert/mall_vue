@@ -92,6 +92,12 @@ const user = {
             } else {
                 return 0;
             }
+        },
+        hasPurchaseCheck(state, getters){
+            return getters.hasRole('assign-buyer-manager');
+        },
+        hasRefundSure(state, getters){
+            return getters.hasRole('sale-manager') || getters.hasRole('sale-captain') || getters.hasRole('sale-staff');
         }
     },
     //异步操作

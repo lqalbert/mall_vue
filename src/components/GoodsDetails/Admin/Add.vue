@@ -216,7 +216,8 @@
                             :on-remove="handleRemove"
                             :on-success="uploadSuccess"
                             :on-error="uploadError"
-                            :before-upload="beforeAvatarUpload">
+                            :before-upload="beforeAvatarUpload"
+                            :on-change="changefileList">
                             <i class="el-icon-plus"></i>
                         </el-upload>
                         <el-dialog v-model="dialogVisible" size="tiny">
@@ -252,6 +253,7 @@
             <div slot="dialog-foot" class="dialog-footer">
                 <el-button @click="handleClose">取 消</el-button>
                 <submit-button
+                    ref="submit-button"
                     @click="beforeFormSubmit('addForm')"
                     :observer="dialogThis"
                     :is_load="false">
@@ -420,6 +422,7 @@ export default {
                     {required: true, message: '请填写商品编号', trigger:'blur'}
                 ],
             },
+            fileList:[],
 
         }
     },
@@ -473,7 +476,8 @@ export default {
             //console.log(this.$refs.upload);
             this[name].description = this.editContent;
             this.addForm.img_path = [];
-            if(this.$refs.upload.uploadFiles.length == 0){
+            if(this.fileList.length == 0){
+            // if(this.$refs.upload.uploadFiles.length == 0){
                 // this.formSubmit(name);
                 this.$message.error('必须添加商品图片');
                 return;
@@ -536,6 +540,9 @@ export default {
         upimgErr(){
             
             this.$refs['submit-button'].$emit('reset');
+        },
+        changefileList(file, fileList){
+            this.fileList = fileList;
         }
 
     },

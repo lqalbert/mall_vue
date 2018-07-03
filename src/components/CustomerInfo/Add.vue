@@ -36,7 +36,7 @@
                         <el-row>
                             <el-col :span="12">
                                 <el-form-item label="QQ号"  prop="qq">
-                                    <el-input class="name-input" v-model.number="addForm.qq"  auto-complete="off" placeholder="请填写QQ"></el-input>
+                                    <el-input class="name-input" v-model="addForm.qq"  auto-complete="off" placeholder="请填写QQ"></el-input>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
@@ -198,14 +198,14 @@ export default {
                     { required: true, message:'请输入正确格式的年龄', trigger: 'blur', type: 'number'},
                     {min:1,  max: 120, message: '请输入合理的年龄', trigger: 'blur' ,type: 'number' }
                 ],
-                // qq:[
-                //     { required: true,message:'请输入正确格式的QQ号',pattern: QQ_REG, trigger:'blur'},
-                //     // {min:1, max: 999999999999999, message: '请输入合理的QQ',type: 'number', trigger: 'blur'  }
+                qq:[
+                    // { required: true,message:'请输入正确格式的QQ号',pattern: QQ_REG, trigger:'blur'},
+                    { max: 20, message: '长度不能超过20个字符', trigger: 'blur'  }
 
-                // ],
+                ],
                 qq_nickname:[
                     // { required: true,message:'请输入QQ昵称', type: 'string', trigger:'blur'},
-                    {min:1, max: 20, message: '长度不能超过20个字符', trigger: 'blur'  }
+                    {max: 20, message: '长度不能超过20个字符', trigger: 'blur'  }
 
                 ],
                 weixin:[
@@ -219,6 +219,26 @@ export default {
                 phone:[
                     {required: true, message:'请输入正确的手机号',pattern: PHONE_REG,trigger:'blur'},
                 ],
+                id_card:[
+                    {   max: 20, message: '长度不能超过20个字符', trigger: 'blur'  }
+                ],
+                cus_address:[
+                    {   max: 60, message: '长度不能超过60个字符', trigger: 'blur'  }
+                ],
+                hobby:[
+                    {   max: 60, message: '长度不能超过60个字符', trigger: 'blur'  }
+                ],
+                commonly_production:[
+                    {   max: 60, message: '长度不能超过60个字符', trigger: 'blur'  }
+                ],
+                remark:[
+                    {   max: 60, message: '长度不能超过60个字符', trigger: 'blur'  }
+                ],
+
+
+
+
+
             }
 
         }

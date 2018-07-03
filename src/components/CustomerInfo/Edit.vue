@@ -218,6 +218,22 @@ export default {
                 phone:[
                     { required: true,max: 99999999999, message:'请输入正确的手机号', type: 'number', trigger:'blur'},
                 ],
+                id_card:[
+                    {   max: 20, message: '长度不能超过20个字符', trigger: 'blur'  }
+                ],
+                cus_address:[
+                    {   max: 60, message: '长度不能超过60个字符', trigger: 'blur'  }
+                ],
+                hobby:[
+                    {   max: 60, message: '长度不能超过60个字符', trigger: 'blur'  }
+                ],
+                commonly_production:[
+                    {   max: 60, message: '长度不能超过60个字符', trigger: 'blur'  }
+                ],
+                remark:[
+                    {   max: 60, message: '长度不能超过60个字符', trigger: 'blur'  }
+                ],
+
             },
             model:''
         }

@@ -20,9 +20,10 @@
             <el-col :span="12">
                 <el-form-item prop="goods_id" label="商品名称">
                     <el-select v-model="goodsForm.goods_id" size="small" @change="getGoodsInfo">
-                        <el-option v-for="(value, item) in data2" :value="item" :key="item" :label="value.goods_name+'-'+value.sku_name+'-'+value.price">
-                            <span>{{value.goods_name}}{{ (value.sku_name && value.sku_name.length > 0) ? '-'+value.sku_name: ''  }}-{{value.price}}</span>
-                            <!-- <span style="float: right; color: #8492a6; font-size: 13px">{{value}}</span> -->
+                        <el-option v-for="(value, item) in data2" :value="item" :key="item" :label="value.goods_name+'-'+value.sku_name">
+                                                                                                                <!-- +'-'+value.price -->
+                            <span>{{value.goods_name}}{{ (value.sku_name && value.sku_name.length > 0) ? '-'+value.sku_name: ''  }}</span>
+                            <!-- <span style="float: right; color: #8492a6; font-size: 13px">{{value}}</span>    -{{value.price}}-->
                         </el-option>
                     </el-select>
                 </el-form-item>
@@ -31,7 +32,7 @@
                 <el-form-item prop="goods_number" label="商品数量">
                     <el-input-number size="small" :min="1" :max="entrepot_sum" v-model="goodsForm.goods_number">
                     </el-input-number>
-                    <span style="color:red;">当前库存：{{entrepot_sum}}</span>
+                    <span style="color:red;">当前库存：{{entrepot_sum>0 ? '充足' : '缺货'}}</span>
                 </el-form-item>
             </el-col>
             <el-col :span="10">

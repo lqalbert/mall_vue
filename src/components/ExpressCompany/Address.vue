@@ -3,7 +3,7 @@
             <MyDialog title="选择地址" :name="name" :width="width" :height="height" @before-open="onOpen">
                 <el-form :model="editForm" ref="editForm" :label-width="labelWidth"   :label-position="labelPosition">
                     <el-alert
-                        title="请选择正确的地址 测试数据"
+                        title="请选择正确的地址 "
                         type="warning"
                         show-icon>
                       </el-alert>
@@ -57,18 +57,18 @@
                 return this.ajaxProxy.updateAddress(model.id, model);
             },
             onOpen(param){
-                this.editForm.id = param.params.id;
+                this.editForm.id = param.params.id;    
                 this.ajaxProxy.getAddress(param.params.id).then((Response)=>{
+                    
                     if (Response.data.state ==1) {
-                        //waybillApplySubscriptionCols
                         this.parseAddress(Response.data.data['waybillApplySubscriptionCols']);
                     } else {
                         this.$message.error(Response.data.msg);
                     }
+                    
                 }).catch((Response)=>{
                     this.$message.error(Response.data.msg);
                 });
-
             },
 
             parseAddress(ar){
@@ -80,7 +80,7 @@
                 }
 
                 for (let index = 0; index < ar.length; index++) {
-                    const element = array[index];
+                    const element = ar[index];
                     var d = {};
                     if (element.branchAccountCols.length) {
                         d.address = element.branchAccountCols[0].shippAddressCols[0];
@@ -96,16 +96,16 @@
             
         },
         created(){
-            this.addresslist = [{
-                    address:{
-                        "province":"浙江省",
-                        "town":"仓前街道",
-                        "city":"杭州市",
-                        "district":"余杭区",
-                        "detail":"文一西路"
-                    },
-                    name:'杭州网点'
-                }];
+            // this.addresslist = [{
+            //         address:{
+            //             "province":"浙江省",
+            //             "town":"仓前街道",
+            //             "city":"杭州市",
+            //             "district":"余杭区",
+            //             "detail":"文一西路"
+            //         },
+            //         name:'杭州网点'
+            //     }];
         },
         
     

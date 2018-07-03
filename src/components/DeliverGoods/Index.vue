@@ -244,9 +244,6 @@ export default {
             }else{
                 this.formSubmit('checkForm');
             }
-
-
-
         },
         //---------提交请求
         getAjaxPromise(model){

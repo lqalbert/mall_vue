@@ -297,17 +297,17 @@ export default {
 
     },
     data () {
-        let is_integer = (rule,value,callback)=>{
-                if (!Number.isInteger(value)) {
-                    callback(new Error('请输入整数数字值'));
-                }else{
-                    if (value < 0) {
-                        return callback(new Error('不能为负数'))
-                    }else{
-                        callback();
-                    }
-                }
-            } ;
+        // let is_integer = (rule,value,callback)=>{
+        //         if (!Number.isInteger(value)) {
+        //             callback(new Error('请输入整数数字值'));
+        //         }else{
+        //             if (value < 0) {
+        //                 return callback(new Error('不能为负数'))
+        //             }else{
+        //                 callback();
+        //             }
+        //         }
+        //     } ;
         let validateFormat = (rule, value, callback) => {
             let num = /^[0-9]+$/;
             let len = this.addForm.len;
@@ -344,9 +344,9 @@ export default {
                 img_path:[],
                 skus:[],
                 del_price:"0.00",
-                comments:"",
-                sale_count:"",
-                sale_able_count:"",
+                comments:"0",
+                sale_count:"0",
+                sale_able_count:"0",
 
                 len:'',
                 width:'',
@@ -398,14 +398,15 @@ export default {
                     {max:90,message:"最多可输入90字符", trigger:'blur'}
                 ],
                 comments:[
-                    {trigger:'blur', validator: is_integer,}
+                    {pattern:/^[0-9]+$/,  trigger:'blur'}
+                    
                 ],
                 sale_count:[
-                    {trigger:'blur', validator: is_integer,}
-                    ],
+                    {pattern:/^[0-9]+$/,  trigger:'blur'}
+                ],
                 sale_able_count:[
-                    {trigger:'blur', validator: is_integer,}
-                    ],
+                    {pattern:/^[0-9]+$/,  trigger:'blur'}
+                ],
                 brief:[
                     {max:250,message:"最多可输入250字符", trigger:'blur'}
                 ],

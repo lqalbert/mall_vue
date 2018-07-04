@@ -3,7 +3,7 @@
         <el-form ref="goodsForm" :model="goodsForm" label-width="80px">
 
             <el-alert
-                title="当库存为0时不能添加"
+                title="当库存为缺货时不能添加"
                 type="warning">
               </el-alert>
             <el-row>

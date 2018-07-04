@@ -58,7 +58,9 @@ const PageList = {
     //盘点开单
     'StockCheckGoods': (resolve) => {require(['./StockCheckGoods/Index.vue'], resolve)},
     'StockCheck': (resolve) => { require(['./StockCheck/Index.vue'], resolve)},
-
+    //统计报表 by hj
+    'SalesPerformance': (resolve) => {require(['./SalesPerformance/Index.vue'], resolve)},
+    'SalesQuantization': (resolve) => {require(['./SalesQuantization/Index.vue'], resolve)},
 
 };
 

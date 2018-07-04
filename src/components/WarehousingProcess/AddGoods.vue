@@ -21,7 +21,7 @@
 
         <el-row>
             <el-col>
-                <el-table :data="goods" border  @selection-change="handleSelectionChange">
+                <el-table :data="goods" border height="300" @selection-change="handleSelectionChange">
                     <el-table-column type="selection" width="55"></el-table-column>
                     <el-table-column prop="sku_sn" label="sku编码" align="center"></el-table-column>
                     <!--<el-table-column prop="goods_category" label="分类" align="center"></el-table-column>-->

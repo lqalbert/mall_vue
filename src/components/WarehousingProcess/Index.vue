@@ -211,6 +211,10 @@
             },
             submit(name) {
                 this.is_submit = true;
+                if(this.goodsList.length == 0){
+                    this.$message.error('请选择采购商品');
+                    return;
+                }
                 for(let i=0;i<this.goodsList.length;i++) {
                     if (this.goodsList[i].goods_purchase_num == undefined || this.goodsList[i].goods_purchase_price == undefined || this.goodsList[i].goods_purchase_num == 0 || this.goodsList[i].goods_purchase_price == 0) {
                         this.is_submit = false;

@@ -71,12 +71,12 @@
                     <el-table-column label="到货时间" align="center"  prop="contact_time" width="150"></el-table-column>
                     <el-table-column label="备注" align="center"  prop="remark" width="150"></el-table-column>
 
-                    <!--<el-table-column  label="操作" align="center" width="200">-->
-                        <!--<template slot-scope="scope">-->
-                            <!--<el-button type="info" size="small" @click="showEdit(scope.row)">编辑</el-button>-->
-                            <!--<el-button type="danger" size="small" @click="handleDelete(scope.row.id)">删除</el-button>-->
-                        <!--</template>-->
-                    <!--</el-table-column>-->
+                    <el-table-column  label="操作" align="center" width="180">
+                        <template slot-scope="scope">
+                            <el-button type="info" size="small" @click="showEdit(scope.row)">编辑</el-button>
+                            <el-button type="danger" size="small" @click="deleteRowData(scope.row)">删除</el-button>
+                        </template>
+                    </el-table-column>
 
                     <div slot="buttonbar">
                         <el-button type="primary" size="small" @click="checkOrder">采购单审核</el-button>
@@ -113,7 +113,8 @@
         </SignGoods>
 
         <Edit name='edit-express-company'
-              :ajax-proxy="ajaxProxy"
+              :ajax-proxy="purchaseOrderGoodsAjaxProxy"
+              :purchaseOrderGoodsAjaxProxy="purchaseOrderGoodsAjaxProxy"
               @submit-success="handleReload">
         </Edit>
     </div>
@@ -125,6 +126,7 @@
     import config from '../../mix/Delete';
     import WarehousingProcessAjaxProxy from '../../ajaxProxy/WarehousingProcess';
     import ActualDeliveryExpressAjaxProxy from '../../ajaxProxy/ActualDeliveryExpress';
+    import PurchaseOrderGoodsAjaxProxy from '../../ajaxProxy/PurchaseOrderGoods';
 
     import DistributionCenterProxy from '../../packages/DistributionCenterSelectProxy';
     import PurchaseOrderGoods from '../../packages/PurchaseOrderGoodsSelectProxy';
@@ -153,6 +155,7 @@
                 mainurl:WarehousingProcessAjaxProxy.getUrl(),
                 ajaxProxy:WarehousingProcessAjaxProxy,
                 actualDeliveryExpressAjaxProxy:ActualDeliveryExpressAjaxProxy,
+                purchaseOrderGoodsAjaxProxy:PurchaseOrderGoodsAjaxProxy,
                 searchForm:{
                 order_sn:'',
                 complainType:{},
@@ -189,9 +192,27 @@
             showAdd(){
                 this.$modal.show('add-express-company');
             },
+            deleteRowData(row){
+                if(row.purchase_status ==3){
+                    this.$alert('已通过审核的订单不能删除', '警告', {
+                        confirmButtonText: '确定',
+                        type: 'warning'
+                    })
+                }else{
+                    this.handleDelete(row.id);
+                }
+
+            },
 
             showEdit(row){
-                this.$modal.show('edit-express-company',{model:row});
+                if(row.purchase_status ==3){
+                    this.$alert('已通过审核的订单不能编辑', '警告', {
+                        confirmButtonText: '确定',
+                        type: 'warning'
+                    })
+                }else{
+                    this.$modal.show('edit-express-company',{model:row});
+                }
             },
             getAjaxProxy(){
                 return  this.ajaxProxy;

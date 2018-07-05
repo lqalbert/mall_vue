@@ -205,24 +205,144 @@ function doPrint(printer ,waybillArray)
     request.task = new Object();
     request.task.taskID = getUUID(8,10);
     request.task.preview = false;
-    request.task.printer = printer;
+    // request.task.previewType = 'image';
+    request.task.printer = printer;//printer;
+    // request.task.notifyType = ["render","print"];
     var documents = new Array();
-    for(i=0;i<waybillArray.length;i++) {
-         var doc = new Object();
-         doc.documentID = waybillArray[i].waybillCode;
-         var content = new Array();
-         var waybillJson = waybillArray[i];
-        //  var customAreaData = getCustomAreaData(waybillArray[i]);
-         content.push(waybillJson);
-         doc.content = content;
-         documents.push(doc);
-    }
+    request.task.documents = documents;
+
+    documents.push({documentID: waybillArray.data.waybillCode, 'contents':[waybillArray]});
+    //下面这么写要出错 不知道为什么 console 输出数据是一模一样的
+    // for(let i=0;i<waybillArray.length;i++) {
+    //      var doc = {};
+    //      doc.documentID = waybillArray[i].data.waybillCode; //documentID
+    //      var content = [];
+    //      content.push(waybillArray);
+    //      doc.contents = content;
+    //      documents.push(doc);
+    // }
+    //用下面的对象比较一下看看
+    // function compare(origin, target) {
+    //     if (typeof target === 'object')    {
+    //         if (typeof origin !== 'object') return false
+    //         for (let key of Object.keys(target))
+    //             if (!compare(origin[key], target[key])) return false
+    //         return true
+    //     } else return origin === target
+    // }
+    console.log(request.task.documents);
     wsok.send(request);
+
+    // let dd = {
+    //     "cmd": "print",
+    //     "requestID": getUUID(8, 16),
+    //     "version": "1.0",
+    //     "task": {
+    //         "taskID": getUUID(8,10),
+    //         "preview": true,
+    //         "printer": "",
+    //         "previewType" : 'image',
+           
+    //         "documents": [{
+    //             "documentID": waybillArray[0].data.waybillCode,
+    //             "contents": waybillArray
+    //         }]
+    //     }
+    // };
+    // wsok.send(dd);
+
 }
 
 function testView(obj){
     obj.requestID = getUUID(8, 16);
     wsok.send(obj);
+}
+
+function staticPrint()
+{
+    let data = {
+        "cmd": "print",
+        "requestID": "123458976",
+        "version": "1.0",
+        "task": {
+            "taskID": "7293666",
+            "preview": true,
+            "printer": "",
+            "previewType" : 'image',
+           
+            "documents": [{
+                "documentID": "0123456789",
+                "contents": [{
+                    "data": {
+                        "recipient": {
+                            "address": {
+                                "city": "杭州市",
+                                "detail": "良睦路999号乐佳国际大厦2号楼小邮局",
+                                "district": "余杭区",
+                                "province": "浙江省",
+                                "town": ""
+                            },
+                            "mobile": "13012345678",
+                            "name": "菜鸟网络",
+                            "phone": "057112345678"
+                        },
+                        "routingInfo": {
+                            "consolidation": {
+                                "name": "杭州",
+                                "code": "hangzhou"
+                            },
+                            "origin": {
+                                "name": "杭州",
+                                "code": "POSTB"
+                            },
+                            "sortation": {
+                                "name": "杭州"
+                            },
+                            "routeCode": "123A-456-789"
+                        },
+                        "sender": {
+                            "address": {
+                                "city": "杭州市",
+                                "detail": "文一西路1001号阿里巴巴淘宝城5号小邮局",
+                                "district": "余杭区",
+                                "province": "浙江省",
+                                "town": ""
+                            },
+                            "mobile": "13012345678",
+                            "name": "阿里巴巴",
+                            "phone": "057112345678"
+                        },
+                        "shippingOption": {
+                            "code": "COD",
+                            "services": {
+                                "SVC-COD": {
+                                    "value": "200"
+                                },
+                                "TIMED-DELIVERY": {
+                                    "value": "SEVERAL-DAYS"
+                                },
+                                "PAYMENT-TYPE": {
+                                    "value": "ON-DELIVERY"
+                                },
+                                "SVC-INSURE": {
+                                    "value": "1000000"
+                                },
+                                "SVC-PROMISE-DELIVERY": {
+                                    "promise-type": "SAMEDAY_DELIVERY"
+                                }
+                            },
+                            "title": "代收货款"
+                        },
+                        "waybillCode": "0123456789"
+                    },
+                    "signature": "19d6f7759487e556ddcdd3d499af087080403277b7deed1a951cc3d9a93c42a7e22ccba94ff609976c5d3ceb069b641f541bc9906098438d362cae002dfd823a8654b2b4f655e96317d7f60eef1372bb983a4e3174cc8d321668c49068071eaea873071ed683dd24810e51afc0bc925b7a2445fdbc2034cdffb12cb4719ca6b7",
+				    "templateURL": "http://cloudprint.cainiao.com/cloudprint/template/getStandardTemplate.json?template_id=101&version=4"
+                }]
+            }]
+        }
+    };
+    console.log(data.task.documents);
+    wsok.send(data);
 }
 
 
@@ -247,4 +367,5 @@ ws.dialogConfig = dialogConfig;
 ws.close = wsok.close;
 ws.getPrinterConfig=getPrinterConfig;
 ws.testView = testView;
+ws.staticPrint = staticPrint;
 export default ws;

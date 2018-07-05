@@ -220,10 +220,11 @@
         <RepeatOrder name="repeat-order" :ajax-proxy="ajaxProxy" @submit-success="handleReload"></RepeatOrder>
         <StopOrder name="stop-order" :ajax-proxy="ajaxProxy"  @submit-success="handleReload"></StopOrder>
 
-        <!-- <el-button @click="printList">获取打印机列表</el-button>
+        <el-button @click="printList">获取打印机列表</el-button>
         <el-button @click="configprint">弹窗式配置打印机</el-button>
         <el-button @click="getPrinterConfig">Fax打印机的配置</el-button>
-        <el-button @click="previewPrint">打印预览PDF</el-button> -->
+        <el-button @click="previewPrint">打印预览PDF</el-button>
+        <el-button @click="staticPrint">打印静态数据</el-button>
     </div>
 </template>
 <script>
@@ -438,18 +439,19 @@ export default {
                     return ;
                 }
                 let pr = true;
-                if (this.currentRow.express_print_status == 1) {
-                    pr = false;
-                    this.$confirm('已打印过快递单, 是否继续?', '提示', {
-                        confirmButtonText: '确定',
-                        cancelButtonText: '取消',
-                        type: 'warning'
-                        }).then(() => {
-                            pr = true;
-                        }).catch(() => {
+                // if (this.currentRow.express_print_status == 1) {
+                //     pr = false;
+                //     this.$confirm('已打印过快递单, 是否继续?', '提示', {
+                //         confirmButtonText: '确定',
+                //         cancelButtonText: '取消',
+                //         type: 'warning'
+                //         }).then(() => {
+                //             pr = true;
+
+                //         }).catch(() => {
                                 
-                        });
-                }
+                //         });
+                // }
                 // todo 
                 // this.$modal.show('express', param);
                 //与打印机通讯 要面单什么的
@@ -458,22 +460,23 @@ export default {
                     AssignAjaxProxy.waybillPrint(this.currentRow.id).then((response)=>{
                         //获取打印的数据　估计还要设置一下格式
                         let data = response.data;
-                        if (data.state!=1) {
+                        if (data.status !=1 ) {
                             this.$message.error('打印数据出错');
                             return ;
                         }
 
-                        if (data.data.printer.length == 0) {
-                            this.$message.error('没设置打印机');
-                            return ; 
-                        }
+                        // if (data.data.printer.toString().length == 0) {
+                        //     this.$message.error('没设置打印机');
+                        //     return ; 
+                        //` }
 
-                        if(data.data.express_sn.length==0){
+                        if(data.data.express_sn.toString().length==0){
                             this.$message.error('没有面单号');
                             return ;
                         }
-
-                        ws.doPrint(data.data.printer, [data.data.print_data]);
+                        delete data.data.print_data.encryptedData;
+                        delete data.data.print_data.ver;
+                        ws.doPrint(data.data.printer, data.data.print_data);
 
                     });
                 }
@@ -523,95 +526,11 @@ export default {
             ws.getPrinterConfig("KM-118");
         },
         previewPrint(){
-            var b = {
-    "cmd": "print",
-    "requestID": "123458976",
-    "version": "1.0",
-    "task": {
-        "taskID": "7293666",
-        "preview": false,
-        "printer": "KM-118",
-        "previewType": "pdf",
-        "firstDocumentNumber": 10,
-        "totalDocumentCount": 100,
-        "documents": [{
-            "documentID": "0123456789",
-            "contents": [{
-                "data": {
-                    "recipient": {
-                        "address": {
-                            "city": "杭州市",
-                            "detail": "良睦路999号乐佳国际大厦2号楼小邮局",
-                            "district": "余杭区",
-                            "province": "浙江省",
-                            "town": ""
-                        },
-                        "mobile": "13012345678",
-                        "name": "菜鸟网络",
-                        "phone": "057112345678"
-                    },
-                    "routingInfo": {
-                        "consolidation": {
-                            "name": "杭州",
-                            "code": "hangzhou"
-                        },
-                        "origin": {
-                            "name": "杭州",
-                            "code": "POSTB"
-                        },
-                        "sortation": {
-                            "name": "杭州"
-                        },
-                        "routeCode": "123A-456-789"
-                    },
-                    "sender": {
-                        "address": {
-                            "city": "杭州市",
-                            "detail": "文一西路1001号阿里巴巴淘宝城5号小邮局",
-                            "district": "余杭区",
-                            "province": "浙江省",
-                            "town": ""
-                        },
-                        "mobile": "13012345678",
-                        "name": "阿里巴巴",
-                        "phone": "057112345678"
-                    },
-                    "shippingOption": {
-                        "code": "COD",
-                        "services": {
-                            "SVC-COD": {
-                                "value": "200"
-                            },
-                            "TIMED-DELIVERY": {
-                                "value": "SEVERAL-DAYS"
-                            },
-                            "PAYMENT-TYPE": {
-                                "value": "ON-DELIVERY"
-                            },
-                            "SVC-INSURE": {
-                                "value": "1000000"
-                            },
-                            "SVC-PROMISE-DELIVERY": {
-                                "promise-type": "SAMEDAY_DELIVERY"
-                            }
-                        },
-                        "title": "代收货款"
-                    },
-                    "waybillCode": "0123456789"
-                },
-                "signature": "19d6f7759487e556ddcdd3d499af087080403277b7deed1a951cc3d9a93c42a7e22ccba94ff609976c5d3ceb069b641f541bc9906098438d362cae002dfd823a8654b2b4f655e96317d7f60eef1372bb983a4e3174cc8d321668c49068071eaea873071ed683dd24810e51afc0bc925b7a2445fdbc2034cdffb12cb4719ca6b7",
-                "templateURL": "http://cloudprint.cainiao.com/cloudprint/template/getStandardTemplate.json?template_id=101&version=4"
-            },
-            {
-                "data": {
-                    "value": "测试字段值需要配合自定义区变量名"
-                },
-                "templateURL": "http://cloudprint.cainiao.com/template/customArea/440439"
-            }]
-        }]
-    }
-};
-            ws.testView(b);
+           alert('取消了');
+            // ws.testView(b);
+        },
+        staticPrint(){
+            ws.staticPrint();
         }
     },
     created(){

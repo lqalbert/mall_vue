@@ -4,9 +4,12 @@
 			<el-tab-pane label="发货明细" name="First">
 				<el-table :data="deliveryDetailsData" v-loading="goodsLoading" border style="width: 100%">
 					<el-table-column prop="goods_name" label="商品名" align="center"></el-table-column>
-					<el-table-column prop="cate_type" label="大类型" align="center"></el-table-column>
-					<el-table-column prop="cate_kind" label="小类型" align="center"></el-table-column>
-					<el-table-column prop="goods_num" label="数量" align="center"></el-table-column>
+					<el-table-column prop="cate_type" label="商品类型" header-align="center">
+						<template slot-scope="scope">
+							{{ displayCategory(scope.row.category) }}
+						</template>
+					</el-table-column>
+					<el-table-column prop="goods_number" label="数量" align="center"></el-table-column>
 					<el-table-column prop="assign_fee" label="配送费" align="center">
 						<template slot-scope="scope">
 							<div v-if="scope.row.assign_fee == null">还未发货</div>
@@ -121,6 +124,7 @@ export default {
 			this.goodsLoading = true;
 			this.OrderGoodsProxy.setParam({
 				assign_id:row.id,
+				with:['category']
 			}).load();
 			this.tabFirst = true;
 		},
@@ -211,6 +215,13 @@ export default {
 			}
 			
 		},
+		displayCategory(category){
+            let cate = [];
+            for (let index = 0; index < category.length; index++) {
+                cate.push(category[index].label);
+            }
+            return cate.join(" / ");
+        },
 	},
 	watch:{
 		row:function(val, oldVal){

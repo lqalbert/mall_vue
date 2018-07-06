@@ -83,9 +83,17 @@ export default {
     },
     data(){
         var validateFormat = (rule, value, callback) => {
-            if (this.addForm.carton_long === '' || this.addForm.carton_wide === '' || this.addForm.carton_high === '') {
-                callback(new Error('请输入完整规格'));
-            } else {
+            let num = /^[0-9]+$/;
+            let long = this.addForm.carton_long;
+            let wide = this.addForm.carton_wide;
+            let high = this.addForm.carton_high;
+            if(long == '' || !num.test(long)){
+                callback(new Error('请输入长度'));
+            }else if (wide == '' || !num.test(wide)) {
+                callback(new Error('请输入宽度'));
+            }else if (high == '' || !num.test(high)) {
+                callback(new Error('请输入高度'));
+            }else {
                 callback();
             }
         };

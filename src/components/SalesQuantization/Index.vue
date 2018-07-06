@@ -6,14 +6,14 @@
                     <el-form-item>
                         <el-date-picker size="small" v-model="searchForm.start" 
                         placeholder="请选择起日期" :picker-options="setPicker"
-                        @change="startDateChange" :clearable="false">
+                        @change="startDateChange" :clearable="false" class="form-item-unique">
                         </el-date-picker>
                     </el-form-item>
                     <el-form-item>
                         <el-date-picker size="small" 
                         v-model="searchForm.end" 
                         placeholder="请选择止日期" :picker-options="setPicker"
-                        @change="endDateChange" :clearable="false">
+                        @change="endDateChange" :clearable="false" class="form-item-unique">
                         </el-date-picker>
                     </el-form-item>
                     <el-form-item>
@@ -55,43 +55,50 @@
         
         <el-row>
             <el-col>
-                <!-- <el-table :data="AddTableData" border highlight-current-row
-                    element-loading-text="请添加商品" style="width: 100%">
+                <el-table :data="AddTableData" border highlight-current-row
+                    element-loading-text="请添加商品" style="width: 100%" show-summary>
 
-                    <el-table-column prop="sku_sn" label="商品编号" header-align="center">
+                    <el-table-column label="序号" align="center" width="65" type="index">
                     </el-table-column>
 
-                    <el-table-column prop="entrepot_name" label="配送中心" header-align="center">
-                        <template slot-scope="scope">
-                            {{setFieldEntrepot(scope.row)}}
-                        </template>
+                    <el-table-column prop="name" label="部门/小组/员工" width="180">
                     </el-table-column>
 
-                    <el-table-column prop="goods_name" label="商品名称" header-align="center">
+                    <el-table-column prop="lock_cus" label="录入客户">
                     </el-table-column>
 
-                    <el-table-column prop="cate_type" label="商品类型" align="center">
-                        <template slot-scope="scope">
-                            {{setFieldType(scope.row)}}
-                        </template>
+                    <el-table-column prop="trade" label="成交客户数">
                     </el-table-column>
 
-                    <el-table-column prop="cate_kind" label="商品分类" align="center">
-                        <template slot-scope="scope">
-                            {{setFieldKind(scope.row)}}
-                        </template>
+                    <el-table-column prop="trade_order" label="成交单数">
                     </el-table-column>
 
-                    <el-table-column prop="entrepot_count" label="库存数量" header-align="center">
+                    <el-table-column prop="c_cus" label="一般客户数量">
                     </el-table-column>
 
-                    <el-table-column label="操作" fixed="right" header-align="center" width="100">
-                        <template slot-scope="scope">
-                            <el-button type="danger" size="small" @click="deleteAddress(scope.row)">
-                                删除</el-button>
-                        </template>
+                    <el-table-column prop="b_cus" label="意向客户数量">
                     </el-table-column>
-                </el-table> -->
+
+                    <el-table-column prop="track" label="跟踪数">
+                    </el-table-column>
+
+                    <el-table-column prop="switch" label="转入客户数">
+                    </el-table-column>
+
+                </el-table>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="12" :offset="12">
+                <div class="pull-right">
+                    <el-pagination
+                        :current-page="currentPage"
+                        :page-size="pageSize"
+                        layout="total, prev, pager, next, jumper"
+                        :total="total"
+                        @current-change="currentChange">
+                    </el-pagination>   
+                </div>
             </el-col>
         </el-row>
 
@@ -101,6 +108,7 @@
 <script>
     import PageMix from '../../mix/Page';
     import SearchTool from '../../mix/SearchTool';
+    import Caculate from '../../config/caculate';
     import { mapGetters } from 'vuex';
 
     export default {
@@ -114,33 +122,37 @@
             return {
                 ajaxProxy:{},
 
+                currentPage:1,
+                pageSize:20,
+                total:100,
+
                 pickerOptions: {
                     shortcuts: [{
                             text: '上一周',
                             onClick:function(picker) {
-                                var start = showLastWeekFirstDay();
-                                var end = showLastWeekLastDay();
+                                var start = Caculate.showLastWeekFirstDay();
+                                var end = Caculate.showLastWeekLastDay();
                                 picker.$emit('pick', [start, end]);
                             }
                         }, {
                             text: '上个月',
                             onClick:function(picker) {
-                                var start = showLastMonthFirstDay();
-                                var end = showLastMonthLastDay();
+                                var start = Caculate.showLastMonthFirstDay();
+                                var end = Caculate.showLastMonthLastDay();
                                 picker.$emit('pick', [start, end]);
                             }
                         }, {
                             text: '本周',
                             onClick:function(picker) {
-                                var start = showWeekFirstDay();
-                                var end = showWeekLastDay();
+                                var start = Caculate.showWeekFirstDay();
+                                var end = Caculate.showWeekLastDay();
                                 picker.$emit('pick', [start, end]);
                             }
                         }, {
                             text: '本月',
                             onClick:function(picker) {
-                                var start = showMonthFirstDay();
-                                var end = showMonthLastDay();
+                                var start = Caculate.showMonthFirstDay();
+                                var end = Caculate.showMonthLastDay();
                                 picker.$emit('pick', [start, end]);
                             }
                         }
@@ -155,8 +167,8 @@
                     }
                 },
                 searchForm: {
-                    start:showLastWeekFirstDay(),
-                    end:showLastWeekLastDay(),
+                    start:Caculate.showLastWeekFirstDay(),
+                    end:Caculate.showLastWeekLastDay(),
                     type:'',
                     dep_id:'',
                     group_id:''
@@ -180,7 +192,15 @@
                 depClearable:true,
                 groupClearable:true,
 
-
+                AddTableData:[
+                    {name:'东北销售一部',lock_cus:888,trade:88,trade_order:88,c_cus:888,b_cus:111,track:666,switch:222},
+                    {name:'东北销售一部',lock_cus:888,trade:88,trade_order:88,c_cus:888,b_cus:111,track:666,switch:222},
+                    {name:'东北销售一部',lock_cus:888,trade:88,trade_order:88,c_cus:888,b_cus:111,track:666,switch:222},
+                    {name:'东北销售一部',lock_cus:888,trade:88,trade_order:88,c_cus:888,b_cus:111,track:666,switch:222},
+                    {name:'东北销售一部',lock_cus:888,trade:88,trade_order:88,c_cus:888,b_cus:111,track:666,switch:222},
+                    {name:'东北销售一部',lock_cus:888,trade:88,trade_order:88,c_cus:888,b_cus:111,track:666,switch:222},
+                    {name:'东北销售一部',lock_cus:888,trade:88,trade_order:88,c_cus:888,b_cus:111,track:666,switch:222},
+                ],
             }
         },
         computed:{
@@ -199,22 +219,23 @@
                 this.searchForm.end = v;
             },
             setField(v){
+                // console.log(Caculate.showWeekFirstDay());
                 switch (v) {
                     case 'week':
-                        this.searchForm.start = showWeekFirstDay();
-                        this.searchForm.end   = showWeekLastDay();
+                        this.searchForm.start = Caculate.showWeekFirstDay();
+                        this.searchForm.end   = Caculate.showWeekLastDay();
                         break;
                     case 'month':
-                        this.searchForm.start = showMonthFirstDay();
-                        this.searchForm.end   = showMonthLastDay();
+                        this.searchForm.start = Caculate.showMonthFirstDay();
+                        this.searchForm.end   = Caculate.showMonthLastDay();
                         break;
                     case 'lastMonth':
-                        this.searchForm.start = showLastMonthFirstDay();
-                        this.searchForm.end   = showLastMonthLastDay(); 
+                        this.searchForm.start = Caculate.showLastMonthFirstDay();
+                        this.searchForm.end   = Caculate.showLastMonthLastDay(); 
                         break;
                     case 'lastWeek':
-                        this.searchForm.start = showLastWeekFirstDay();
-                        this.searchForm.end   = showLastWeekLastDay(); 
+                        this.searchForm.start = Caculate.showLastWeekFirstDay();
+                        this.searchForm.end   = Caculate.showLastWeekLastDay(); 
                         break;
                     default:
                         break;
@@ -224,10 +245,13 @@
                 this.saleCtrlSelect = v=="department" ? true : false;
             },
             saleDepChange(v){
-
+                console.log(v);
             },
             saleGroupChange(v){
-
+                console.log(v);
+            },
+            currentChange(v){
+                console.log(v);
             },
 
         },
@@ -246,5 +270,8 @@
     }
     .name-input-area{
         max-width: 220px;
+    }
+    .pull-right {
+        float: right;
     }
 </style>

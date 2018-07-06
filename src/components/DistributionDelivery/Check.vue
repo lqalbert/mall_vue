@@ -1,6 +1,6 @@
 <template>
     <div>
-        <MyDialog title="审核" :name="name" :width="width" :height="height"  @before-open="onBeforeOpen">
+        <MyDialog title="审核" :name="name" :width="width" :height="height"  @before-open="onBeforeOpen" @before-close="onBeforeClose">
             <el-form :model="checkForm" ref="checkForm" :label-width="labelWidth"  :label-position="labelPosition">
                 <el-row>
                     <el-col :span="12">
@@ -101,7 +101,8 @@
                 // if (param.params.row.express_id != 0) {
                 //     this.checkForm.express_id = param.params.row.express_id;
                 // }
-                    
+                
+                console.log(param);
                 param.params.rows.forEach((element) => {
                     this.checkForm.ids.push(element.id)
                 }, this);
@@ -153,6 +154,9 @@
                     assign_id: this.checkForm.id,
                     express_id : this.checkForm.express_id
                 }
+            },
+            onBeforeClose(){
+                this.checkForm.ids = [];
             }
         },
         created(){

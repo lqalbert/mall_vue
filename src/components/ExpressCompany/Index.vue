@@ -53,7 +53,7 @@
 
                     <el-table-column  label="操作" align="center" width="240">
                         <template slot-scope="scope">
-                            <el-button size="small" @click.stop="setAddress(scope.row)">发货地址</el-button><el-button type="info" size="small" @click.stop="showEdit(scope.row)">编辑</el-button><el-button type="danger" size="small" @click.stop="handleDelete(scope.row.id)">删除</el-button>
+                            <el-button size="small" @click.stop="setAddress(scope.row)">查询订购</el-button><el-button type="info" size="small" @click.stop="showEdit(scope.row)">编辑</el-button><el-button type="danger" size="small" @click.stop="handleDelete(scope.row.id)">删除</el-button>
                         </template>
                     </el-table-column>
 

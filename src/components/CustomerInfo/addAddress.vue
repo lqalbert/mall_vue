@@ -182,12 +182,12 @@ export default {
                 area_province_id:[
                     { required: true, message:'请选择省份',type:'number', trigger:'blur'},
                 ],
-                area_city_id:[
-                    { required: true, message:'请选择城市', type: 'number', trigger:'blur'},
-                ],
-                area_district_id:[
-                    { required: true, message:'请选择区/县', type: 'number', trigger:'blur'},
-                ],
+                // area_city_id:[
+                //     { required: true, message:'请选择城市', type: 'number', trigger:'blur'},
+                // ],
+                // area_district_id:[
+                //     { required: true, message:'请选择区/县', type: 'number', trigger:'blur'},
+                // ],
 
             },
             dev:[],

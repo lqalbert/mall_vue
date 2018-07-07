@@ -44,29 +44,22 @@
                  <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" :page-size="15" :bubble="buble">
                     <el-table-column label="序号" align="center"  type="index" width="65">
                     </el-table-column>
-
                     <el-table-column prop="express_name" label="物流名称" align="center">
                     </el-table-column>
-
                     <el-table-column prop="assign_sn" label="发货单号" align="center">
                     </el-table-column>
-
                     <el-table-column prop="express_sn" label="快递单号" align="center">
                     </el-table-column>
-
                     <el-table-column prop="check_user_name" label="核对人" align="center">
                     </el-table-column>
-
                      <el-table-column prop="assign_check_time" label="发货核对时间" align="center">
                      </el-table-column>
-
                    <el-table-column  label="操作" align="center" width="200">
                         <template slot-scope="scope">
                             <el-button type="info" size="small" @click="showEdit(scope.row)">编辑</el-button>
                             <!--<el-button type="danger" size="small" @click="handleDelete(scope.row.id)">删除</el-button>-->
                         </template>
                     </el-table-column>
-
                      <div slot="buttonbar">
                         <el-button type="primary" size="small" @click="showAdd">添加</el-button>
                     </div>

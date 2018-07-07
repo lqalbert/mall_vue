@@ -185,6 +185,7 @@
                 addressListData:[],
                 addOrderForm:{
                     cus_id:'',
+                    user_id:"",
                     deal_id:'',
                     deal_name:'',
                     goods_id:"",
@@ -229,14 +230,17 @@
         },
         methods:{
             onOpen(param){
+                // console.log(param.params.model);
                 this.addOrderForm.cus_name = param.params.model.name;
-                this.addOrderForm.group_id = this.getUser.group_id;
-                this.addOrderForm.department_id = this.getUser.department_id;
+                this.addOrderForm.user_id = param.params.model.mid_relative.user_id;
+                // this.addOrderForm.user_id = param.params.model.
+                // this.addOrderForm.group_id = this.getUser.group_id;
+                // this.addOrderForm.department_id = this.getUser.department_id;
                 this.addOrderForm.deal_id=this.user_id;
                 this.addOrderForm.deal_name=this.getUser.realname;
                 this.cus_id = param.params.model.id;
                 this.addOrderForm.cus_id = this.cus_id;
-                this.addOrderForm.dep_group_realname = this.setDepGroupRealname(this.user_id);
+                // this.addOrderForm.dep_group_realname = this.setDepGroupRealname(this.user_id);
                 this.getAddress(this.cus_id);
             },
             expressChange(v){

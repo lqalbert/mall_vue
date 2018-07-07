@@ -2,27 +2,28 @@
     <div>
         <el-row>
             <el-col :span="24">
-                    <el-tabs type="border-card">
-                        <el-tab-pane label="客户信息">
-                            <el-table :data="tableData" border >
-                                <el-table-column  prop="deliver_name"  label="收件人姓名"  width="180"></el-table-column>
-                                <el-table-column  prop="deliver_phone"  label="收件人手机"  width="180"></el-table-column>
-                                <el-table-column  prop="deliver_address"  label="地址"> </el-table-column>
+                    <el-tabs v-model="activeName" type="border-card">
+                        <el-tab-pane label="客户信息" name="Customer">
+                            <el-table :data="customer_address" border >
+                                <el-table-column  prop="name"  label="收件人姓名"  width="180"></el-table-column>
+                                <el-table-column  prop="fixed_telephone"  label="收件人固话"  width="180"></el-table-column>
+                                <el-table-column  prop="phone"  label="收件人手机"  width="180"></el-table-column>
+                                <el-table-column  prop="address"  label="地址"> </el-table-column>
                             </el-table>
                         </el-tab-pane>
-                        <el-tab-pane label="商品信息">
-                            <el-table :data="tableData" border >
+                        <el-tab-pane label="商品信息" name="Products">
+                            <el-table :data="assign_product" border >
                                 <el-table-column  prop="goods_name"  label="名称"  width="180"></el-table-column>
                                 <el-table-column  prop="sku_sn"  label="编号"  width="180"></el-table-column>
-                                <el-table-column  prop="goods_num"  label="数量"> </el-table-column>
+                                <el-table-column  prop="goods_number"  label="数量"> </el-table-column>
                             </el-table>
                         </el-tab-pane>
-                        <el-tab-pane label="销售信息">
+                        <el-tab-pane label="销售信息" name="Order">
                             <el-table :data="orderRow" border >
-                                <el-table-column  prop="dep_group_realname"  label="部门-小组-员工"  width="180"></el-table-column>  
+                                <!-- <el-table-column  prop="dep_group_realname"  label="部门-小组-员工"  width="180"></el-table-column>   -->
                             </el-table>
                         </el-tab-pane>
-                        <el-tab-pane label="发货物流">
+                        <el-tab-pane label="发货物流" name="Assign">
                             <el-table :data="tableData" border >
                                 <el-table-column  prop="user_name"  label="发货人"  width="180"></el-table-column>
                                 <el-table-column  prop="out_entrepot_at"  label="发货时间"  width="180"></el-table-column>
@@ -40,6 +41,8 @@
 
 import AssignSelectProxy from "@/packages/AssignSelectProxy";
 import OrderListSelectProxy from "@/packages/OrderSelectProxy";
+import OrderAddressSelectProxy from "@/packages/OrderAddressAjaxProxy";
+import OrderGoodsSelectProxy from "@/packages/OrderGoodsSelectProxy";
 
 export default {
     name: 'SubDetail',
@@ -51,44 +54,96 @@ export default {
     },
     data () {
         return {
-        
+            activeName:"Customer",
+            
+            tabCustomer:false,
+            tabProducts:false,
+            tabOrder:false,
+            tabAssign:false,
+
             tableData:[],
+            customer_address:[],
+            assign_product:[],
             express_sn:"",
             order_id:"",
-            orderRow:[]
+            assign_id:"",
+            orderRow:[],
         }
     },
     methods:{
         setAssign(express_sn){
-            this.assignProxy.setParam({'express_sn': express_sn}).load()
+            this.assignProxy.setParam({'express_sn': express_sn, 'fields':['order_id','id','address_id']}).load()
         },
         setOrder(order_id){
             this.OrderListProxy.setParam({id:order_id, fields:['dep_group_realname','group_id','department_id']}).load();
         },
         loadAssign(data){
             this.tableData = data.items;
+            this.tabAssign = true;
             this.order_id = this.tableData[0].order_id;
+            this.assign_id = this.tableData[0].id;
+            console.log(this.order_id);
         },
         loadOrder(data){
             this.orderRow = data.items;
+        },
+        loadAddress(data){
+            this.customer_address = data.items;
+        },
+        loadProducts(data){
+            this.assign_product = data.items;
+        },
+        handleCustomer(){
+            //请求加载客户信息
+            this.tabcustomer = true;
+            this.OrderAddressProxy.setParam({order_id: this.order_id}).load(); 
+        },
+        handleProducts(){
+            //请求加载商品
+            this.tabProducts = true;
+            this.OrderGoodsSelectProxy.setParam({assign_id: this.assign_id}).load();
+        },
+        handleOrder(){
+            //请求加载订单
+        },
+        handleAssign(){
+            //估计不用请求
         }
     },
     watch:{
         row(val, oldVal){
             console.log(val);
             this.express_sn = val.express_sn; 
+
+            // this['handle'+ this.activeName].call(this, this.row);
+            this.tabCustomer = false;
+            this.tabProducts = false;
+            this.tabOrder = false;
+            this.tabAssign = false;
         },
         express_sn(val, oldVal){
             this.setAssign(val);
         },
-        order_id(val, oldVal){
-       
+        order_id(val, oldVal){       
             this.setOrder(val);
-        }
+        },
+        activeName(val,oldVal){
+            if (!this['tab'+ val] && this.order_id != "") {
+                this['handle'+ val].call(this, this.row);
+            }
+        },
     },
     created(){
         this.assignProxy = new AssignSelectProxy({}, this.loadAssign, this);
         this.OrderListProxy = new OrderListSelectProxy({}, this.loadOrder, this);
+        this.OrderAddressProxy = new OrderAddressSelectProxy({}, this.loadAddress, this);
+        this.OrderGoodsSelectProxy = new OrderGoodsSelectProxy({}, this.loadProducts, this);
+    },
+    beforeDestroy(){
+        this.assignProxy = null;
+        this.OrderListProxy = null;
+        this.OrderAddressProxy = null;
+        this.OrderGoodsSelectProxy = null;
     }
 }
 </script>

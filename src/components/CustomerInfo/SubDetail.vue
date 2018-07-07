@@ -164,6 +164,12 @@
             this.orderGoodsProxy = new OrderGoodsProxy(null, this.getOrderGoods, this);
             this.afterGoodsProxy = new AfterGoodsProxy(null, this.getAfterGoods, this);
             
+        },
+        beforeDestroy(){
+            this.customerTrackLogProxy = null;
+            this.customerComplainProxy = null;
+            this.orderGoodsProxy = null;
+            this.afterGoodsProxy = null;
         }
     }
 </script>

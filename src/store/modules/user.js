@@ -94,10 +94,13 @@ const user = {
             }
         },
         hasPurchaseCheck(state, getters){
-            return getters.hasRole('assign-buyer-manager');
+            return getters.hasRole('assign-buyer-manager') || getters.hasRole('super-manager') || getters.hasRole('administrator');
         },
         hasRefundSure(state, getters){
             return getters.hasRole('sale-manager') || getters.hasRole('sale-captain') || getters.hasRole('sale-staff');
+        },
+        hasOrderCheckPermission(state, getters){
+            return getters.hasRole('sale-manager') ;
         }
     },
     //异步操作

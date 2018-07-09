@@ -9,6 +9,7 @@
                         </el-option>
                     </el-select>
                 </el-form-item>
+             
                 <el-form-item prop="times" class="date-item">
                     <el-date-picker
                             v-model="times"
@@ -29,6 +30,7 @@
                         <el-option label="已验货" value="6"></el-option>
                     </el-select>
                 </el-form-item>
+              
                 <el-form-item>
                     <el-button type="primary" size="small" icon="search" @click="searchToolChange('searchForm')">查询</el-button>
                     <el-button type="primary" size="small" @click="searchToolReset('searchForm')">重置</el-button>
@@ -46,27 +48,39 @@
                     <el-table-column type="selection" width="55"></el-table-column>
                     <el-table-column label="序号" align="center"  type="index" width="65">
                     </el-table-column>
+
                     <el-table-column prop="assign_sn" label="发货单号" align="center" width="200">
                     </el-table-column>
+
                     <el-table-column prop="status_text" label="发货状态" align="center" width="200"></el-table-column>
+
                     <el-table-column prop="set_express" label="指定快递" align="center" width="200">
                         <template slot-scope="scope">
                             <span v-if="scope.row.set_express==1">是</span>
                             <span v-else >否</span>
                         </template>
                     </el-table-column>
+
                     <el-table-column prop="address.area_province_name" label="省份"></el-table-column>
                     <el-table-column prop="address.area_city_name" label="城市"></el-table-column>
                     <el-table-column prop="address.area_district_name" label="区县"></el-table-column>
                     <el-table-column prop="address.address" label="地址" width="200" show-overflow-tooltip></el-table-column>
                     <el-table-column prop="address.name" label="收件人" width="90"></el-table-column>
+
+
                     <el-table-column prop="order.created_at" label="销售时间" align="center" width="200">
                     </el-table-column>
+
                     <el-table-column prop="created_at" label="导入时间" align="center" width="200"></el-table-column>
+
                     <el-table-column prop="express_sn" label="快递单号"  width="200"></el-table-column>
+
                     <el-table-column prop="express_name" label="快递公司" width="200"></el-table-column>
+
                     <el-table-column prop="corrugated_case" label="包装箱形" width="180"></el-table-column>
+
                     <el-table-column prop="send_time" label="发货时间" align="center" width="180"></el-table-column>
+
                     <el-table-column prop="self_express" label="自提" align="center" width="200">
                         <template slot-scope="scope">
                             <span v-if="scope.row.self_express==0">否</span>
@@ -76,6 +90,7 @@
                     <el-table-column prop="real_weigth" label="实际重量" align="center" width="100"></el-table-column>
                     <el-table-column prop="reckon_weigth" label="估计重量" align="center" width="100"></el-table-column>
                     <el-table-column prop="pass_check" label="审核时间" align="center" width="180"></el-table-column>
+                    
                     <el-table-column prop="assign_print_status" label="清单打印状态" align="center" width="200">
                         <template slot-scope="scope">
                             <span v-if="scope.row.assign_print_status==0">未打印</span>
@@ -83,6 +98,8 @@
                         </template>
                     </el-table-column>
                     <el-table-column prop="assign_print_at" label="清单打印时间" align="center" width="200"></el-table-column>
+
+
                     <el-table-column prop="express_print_status" label="快递单打印状态" align="center" width="200">
                         <template slot-scope="scope">
                             <span v-if="scope.row.express_print_status==0">未打印</span>
@@ -90,23 +107,34 @@
                         </template>
                     </el-table-column>
                     <el-table-column prop="express_print_at" label="快递单打印时间" align="center" width="200"></el-table-column>
+
                     <el-table-column prop="weight" label="重量" align="center" width="200">
                     </el-table-column>
+
+                    <!-- <el-table-column prop="assign_fee" label="配送费" align="center" width="200">
+                    </el-table-column> -->
+
                     <el-table-column prop="express_fee" label="实付运费" align="center" width="200">
                     </el-table-column>
+
                     <el-table-column prop="express_print_at" label="快递单打印时间" align="center" width="200">
                     </el-table-column>
+
                     <el-table-column prop="assign_print_at" label="发货单打印时间" align="center" width="200">
                     </el-table-column>
+
                     <el-table-column prop="sign_at" label="签收时间" align="center" width="200">
                     </el-table-column>
+
                     <el-table-column prop="is_stop" label="是否拦截" align="center" width="200">
                         <template slot-scope="scope">
                             <div v-if="scope.row.is_stop == 0">否</div>
                             <div v-else>是</div>
                         </template>
                     </el-table-column>
+                   
                     
+
                     <div slot="buttonbar">
                         <el-button type="primary" size="small" @click="openCheck">审核</el-button>
                         <!-- 面单还可以取消和回收 -->
@@ -116,12 +144,14 @@
 
                         <el-button type="primary" size="small"   @click="showExpress">快递单打印</el-button>
                         <el-button type="primary" size="small"   @click="showAssign">发货单打印</el-button>
+
                     </div>
                 </TableProxy>
             </el-col>
         </el-row>
         <!-- /table -->
         <br>
+
         <!-- 下部展示组件 -->
         <SubDetail :row="model">
         </SubDetail>
@@ -136,11 +166,10 @@
         <RepeatOrder name="repeat-order" :ajax-proxy="ajaxProxy" @submit-success="handleReload"></RepeatOrder>
         <StopOrder name="stop-order" :ajax-proxy="ajaxProxy"  @submit-success="handleReload"></StopOrder>
 
-        <el-button @click="printList">获取打印机列表</el-button>
+        <!-- <el-button @click="printList">获取打印机列表</el-button>
         <el-button @click="configprint">弹窗式配置打印机</el-button>
         <el-button @click="getPrinterConfig">Fax打印机的配置</el-button>
-        <el-button @click="previewPrint">打印预览PDF</el-button>
-        <el-button @click="staticPrint">打印静态数据</el-button>
+        <el-button @click="previewPrint">打印预览PDF</el-button> -->
     </div>
 </template>
 <script>
@@ -359,8 +388,8 @@ export default {
 
                 //         }).catch(() => {
                                 
-                //         });
-                // }
+                        });
+                }
                 // todo 
                 // this.$modal.show('express', param);
                 //与打印机通讯 要面单什么的
@@ -461,6 +490,8 @@ export default {
     }
     .date-item{
         width: 220px !important;
-    } 
+    }
+
+    
 </style>
 

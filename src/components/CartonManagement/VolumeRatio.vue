@@ -14,7 +14,6 @@
                         </el-form-item>
                     </el-col>
                 </el-row>
-
             </el-form>
 
             <div slot="dialog-foot" class="dialog-footer">

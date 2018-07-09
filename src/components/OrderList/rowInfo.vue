@@ -253,8 +253,14 @@
         methods:{
             onOpen(event){
             //   this.rowInfoForm = event.params.rowData;
+                if (event.params.rowData.status >=1) {
+                    this.$message.error('已通过审核环节，不能编辑');
+                    this.handleClose();
+                    return ;
+                }
                 this.model = event.params.rowData;
                 this.row = event.params.rowData;
+
             },
             getAjaxPromise(model){
                 delete model.cus_name;

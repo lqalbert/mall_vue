@@ -6,7 +6,7 @@
 					<el-table-column prop="goods_name" label="商品名" align="center"></el-table-column>
 					<el-table-column prop="cate_type" label="大类型" align="center"></el-table-column>
 					<el-table-column prop="cate_kind" label="小类型" align="center"></el-table-column>
-					<el-table-column prop="goods_num" label="数量" align="center"></el-table-column>
+					<el-table-column prop="goods_number" label="数量" align="center"></el-table-column>
 					<el-table-column prop="assign_fee" label="配送费" align="center">
 						<template slot-scope="scope">
 							<div v-if="scope.row.assign_fee == null">还未发货</div>

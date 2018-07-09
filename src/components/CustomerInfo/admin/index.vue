@@ -146,8 +146,7 @@
         <!-- <Chat name='chat'></Chat>-->
         <addOrder name='add-orderBasic'
                   width="60%"
-                  :ajax-proxy="orderBasicAjaxProxy"
-                  :CategoryList="CategoryList" @submit-success="handleReload">
+                  :ajax-proxy="orderBasicAjaxProxy" @submit-success="handleReload">
         </addOrder>
         
          <add-track name='add-track'

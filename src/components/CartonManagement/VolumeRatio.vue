@@ -5,12 +5,12 @@
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="长宽高比例" prop="frame_ratio" >
-                            <el-input v-model="editForm.frame_ratio" placeholder="请填写长宽高比例"></el-input>
+                            <el-input v-model.number="editForm.frame_ratio" placeholder="长宽高比例1-100"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="体积比例" prop="volume_ratio" >
-                            <el-input v-model="editForm.volume_ratio" placeholder="请填写体积比例"></el-input>
+                            <el-input v-model.number="editForm.volume_ratio" placeholder="体积比例1-100"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -56,12 +56,12 @@ export default {
 
             },
             rules:{
-                // frame_ratio:[
-                //     { required: true, message: '请输入纸箱类型', trigger: 'blur' }
-                // ],
-                // volume_ratio:[
-                //     { required: true, message: '请输入纸箱型号', trigger: 'blur' }
-                // ],
+                frame_ratio:[
+                    { required: true, type:'number',min :1,max:100,message: '格式1-100之间', trigger: 'blur' },
+                ],
+                volume_ratio:[
+                    { required: true, type:'number',min :1,max:100,message: '格式1-100之间', trigger: 'blur' }
+                ],
             },
             model:''
         }

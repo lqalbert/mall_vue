@@ -92,6 +92,8 @@
                     <el-table-column prop="express_print_at" label="快递单打印时间" align="center" width="200"></el-table-column>
                     <el-table-column prop="weight" label="重量" align="center" width="200">
                     </el-table-column>
+                    <el-table-column prop="assign_fee" label="配送费" align="center" width="200">
+                    </el-table-column>
                     <el-table-column prop="express_fee" label="实付运费" align="center" width="200">
                     </el-table-column>
                     <el-table-column prop="express_print_at" label="快递单打印时间" align="center" width="200">
@@ -323,7 +325,7 @@ export default {
             //     this.$message.error(checked.join() +" 已审核");
             //     return ;
             // }
-            
+
             if (ar.length > MAX_DAN_LENGTH) {
                 this.$message.error('最多'+MAX_DAN_LENGTH+'个');
                 return ;
@@ -461,5 +463,7 @@ export default {
     .date-item{
         width: 220px !important;
     }
+
+    
 </style>
 

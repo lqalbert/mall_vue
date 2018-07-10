@@ -230,7 +230,7 @@ function doPrint(printer ,waybillArray)
     //         return true
     //     } else return origin === target
     // }
-    console.log(request.task.documents);
+    // console.log(request.task.documents);
     wsok.send(request);
 
     // let dd = {
@@ -251,6 +251,20 @@ function doPrint(printer ,waybillArray)
     // };
     // wsok.send(dd);
 
+}
+
+function goodsList(contents){
+    var request = getRequestObject("print");    
+    request.task = new Object();
+    request.task.taskID = getUUID(8,10);
+    request.task.preview = true;
+    request.task.previewType = 'PDF';
+    // request.task.printer = '针式打印机';//printer;
+    // request.task.notifyType = ["render","print"];
+    var documents = new Array();
+    request.task.documents = documents;
+    documents.push({documentID: getUUID(8,10), 'contents':[contents]});
+    wsok.send(request);
 }
 
 function testView(obj){
@@ -368,4 +382,5 @@ ws.close = wsok.close;
 ws.getPrinterConfig=getPrinterConfig;
 ws.testView = testView;
 ws.staticPrint = staticPrint;
+ws.goodsList = goodsList;
 export default ws;

@@ -426,27 +426,88 @@ export default {
                         cancelButtonText: '取消',
                         type: 'warning'
                         }).then(() => {
-                            pr = true;
+                            AssignAjaxProxy.goodsPrint(this.currentRow.id).then((response)=>{
+                                //获取打印的数据　估计还要设置一下格式
+                                // window.open("/print/assign/"+this.currentRow.id);
+                                //组合数据
+                                let data = this.getPrintGoodsListData(response.data.data, this.currentRow);
+                                ws.goodsList(data);
+                            });
                         }).catch(() => {
                                 
                         });
                 }
-                // todo 
-                // this.$modal.show('express', param);
-                //与打印机通讯 要面单什么的
+                
                 if (pr) {
-                    if (process.env.NODE_ENV == 'production') {
-                        //更新记录的打印时间　打印状态
-                        AssignAjaxProxy.goodsPrint(this.currentRow.id).then((response)=>{
-                            //获取打印的数据　估计还要设置一下格式
-                            window.open("/print/assign/"+this.currentRow.id);
-                        });
-                    } else {
-                        window.open("/admin/print/assign/"+this.currentRow.id);
-                    }
-                    // 
+                    AssignAjaxProxy.goodsPrint(this.currentRow.id).then((response)=>{
+                        //获取打印的数据　估计还要设置一下格式
+                        // window.open("/print/assign/"+this.currentRow.id);
+                        //组合数据
+                        let data = this.getPrintGoodsListData(response.data.data, this.currentRow);
+                        ws.goodsList(data);
+                    });
                     
                 }
+            }
+        },
+        /**
+     * 
+     *  {
+            "data": {
+                "tabletest": [
+                    {
+                        "name": "测试商品",
+                        "goods_number": "1"
+                    },
+                    {
+                        "name": "测试商品",
+                        "goods_number": "1"
+                    },
+                    {
+                        "name": "测试商品",
+                        "count": "1"
+                    }
+                ],
+                "address": {
+                    "name": "zzz",
+                    "phone": "bbb"
+                },
+                "assign_sn": "bbbbaaaaa",
+                "total": "12",
+                entrepot:""
+            },
+            "signature": "19d6f7759487e556ddcdd3d499af087080403277b7deed1a951cc3d9a93c42a7e22ccba94ff609976c5d3ceb069b641f541bc9906098438d362cae002dfd823a8654b2b4f655e96317d7f60eef1372bb983a4e3174cc8d321668c49068071eaea873071ed683dd24810e51afc0bc925b7a2445fdbc2034cdffb12cb4719ca6b7",
+            "templateURL": "http://cloudprint.cainiao.com/print/resource/getResource.json?resourceId=3139575&status=0"
+        }
+     * 
+     * 
+     * 
+     */
+        getPrintGoodsListData(goodsList, row){
+            let tabletest = [];
+            let total = 0;
+            for (let index = 0; index < goodsList.length; index++) {
+                const element = goodsList[index];
+                let tmp = {
+                    name:"["+ element.goods_number +"]" + " "+ element.sku_sn +" " + element.goods_name + " " + element.specifications ,
+                    goods_number: element.goods_number 
+                };
+                tabletest.push(tmp);
+                total += parseInt(element.goods_number);
+            }
+
+            let entrepot = this.distributors.find(function(value){
+                return value.id = row.entrepot_id;
+            })
+            return {
+                data:{
+                    tabletest:tabletest,
+                    address:row.address,
+                    assign_sn:row.assign_sn,
+                    total:total,
+                    entrepot:entrepot.name
+                },
+                templateURL:"http://cloudprint.cainiao.com/template/standard/251026"
             }
         },
         printList(){

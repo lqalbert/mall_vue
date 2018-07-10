@@ -88,7 +88,7 @@ export default {
         return {
             dialogThis:this,
             labelPosition:"right",
-            labelWidth:'80px',
+            labelWidth:'90px',
             addForm:{
                 entrepot_id:'',
                 entrepot_name:'',
@@ -101,17 +101,25 @@ export default {
             },
             rules:{
                 company_name:[
-                    { required: true, message: '请输入物流公司名称', trigger: 'blur' }
+                    { required: true, message: '请输入物流公司名称', trigger: 'blur' },
+                    { min: 1, max: 20, message: '长度不能超过20个字符', trigger: 'blur'  }
                 ],
-                // contact_name:[
-                //     { required: true, message:'请输入物流公司联系人', trigger: 'blur', },
-                // ],
-                // contact_tel:[
-                //     { required: true,message:'请输入联系人电话', pattern:PHONE_REG, trigger:'blur'}
-                // ],
+                contact_name:[
+                    // { required: true, message:'请输入物流公司联系人', trigger: 'blur', },
+                    {  min: 1, max: 20, message: '长度不能超过20个字符', trigger: 'blur'  }
+                ],
+                contact_tel:[
+                    { required: true,message:'请输入联系人电话', pattern:PHONE_REG, trigger:'blur'}
+                ],
                 eng:[
                     { required: true, message:'必填', pattern:/^[a-zA-Z0-9]+$/, trigger:'blur'},
-                ]
+                ],
+                remark:[
+                    {  min: 1, max: 200, message: '长度不能超过200个字符', trigger: 'blur'  }
+                ],
+                printer:[
+                    {  min: 1, max: 20, message: '长度不能超过20个字符', trigger: 'blur'  }
+                ],
 
             }
         }

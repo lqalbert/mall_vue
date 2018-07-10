@@ -195,7 +195,8 @@
             @submit-success="handleReload">
         </Edit>
 
-        <Address name="send-address" :ajax-proxy="ajaxProxy"></Address>
+        <Address name="send-address" :ajax-proxy="ajaxProxy">
+        </Address>
 
 
 

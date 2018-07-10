@@ -8,7 +8,7 @@
                         type="warning"
                         show-icon>
                     </el-alert> -->
-                    <div v-for="bill in waybill">
+                    <div v-for="bill in waybill" :key="bill.index">
                         <el-row>
                             <el-col :span="24">
                                 cpCode: {{ cpCode }} 

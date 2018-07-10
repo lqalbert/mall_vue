@@ -55,7 +55,7 @@
         
         <el-row>
             <el-col>
-                <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload"   :page-size="20">
+                <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" :page-size="15">
                     <el-table-column label="序号" align="center" width="65" type="index"></el-table-column>
                     <el-table-column prop="department_name" label="部门" width="180" ></el-table-column>
                     <el-table-column prop="group_name" label="小组" width="180" v-if="searchForm.type=='user_id' || searchForm.type=='group_id'"></el-table-column>
@@ -77,7 +77,7 @@
     import PageMix from '@/mix/Page';
     import SearchTool from '@/mix/SearchTool';
     import DataTable from '../../mix/DataTable';
-    import Caculate from '@/config/caculate';
+    import Caculate from '../../config/caculate';
     import { mapGetters } from 'vuex';
     import SalQuantionAjax from '@/ajaxProxy/SaleQuation';
 
@@ -172,7 +172,6 @@
                 this.searchForm.end = v;
             },
             setField(v){
-               
                 switch (v) {
                     case 'week':
                         this.searchForm.start = Caculate.showWeekFirstDay();
@@ -193,9 +192,11 @@
                     default:
                         break;
                 }
+                this.onSearchChange(this.searchForm);
             },
             saleQueryType(v){
-                this.saleCtrlSelect = v=="department" ? true : false;
+                this.saleCtrlSelect = v=="department_id" ? true : false;
+                this.searchForm.group_id= "";
             },
             saleDepChange(v){
                 this.$store.dispatch('initGroups', {department_id:v});

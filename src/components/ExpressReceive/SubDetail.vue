@@ -75,6 +75,7 @@ export default {
     },
     watch:{
         row(val, oldVal){
+            console.log(val);
             this.express_sn = val.express_sn; 
         },
         express_sn(val, oldVal){

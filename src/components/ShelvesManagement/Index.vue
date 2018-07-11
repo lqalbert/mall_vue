@@ -110,7 +110,7 @@
         </edit-goods-shelves>
         <goods-shelves-status
                 name="goodsShelvesStatus"
-                :ajax-proxy="shelvesPickAjaxProxy"
+                :ajax-proxy="ajaxProxy"
                 @add-submit="ShelvesPickData"
                 @submit-success="handleReload">
         </goods-shelves-status>

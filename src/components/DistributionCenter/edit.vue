@@ -11,7 +11,7 @@
 
                     <el-col :span="12">
                         <el-form-item label="英文简称" prop="eng_name" >
-                            <el-input class="name-input" v-model="editForm.eng_name"  auto-complete="off"  placeholder="请填写英文简称"></el-input>
+                            <el-input class="name-input" v-model="editForm.eng_name"  auto-complete="off" disabled placeholder="请填写英文简称"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>

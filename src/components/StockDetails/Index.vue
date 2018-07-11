@@ -137,6 +137,8 @@
             },
             timeChange(v){
                 let re = DateRange2timestampRange(v);
+                // re[0] = re[0] + " 00:00:00";
+                // re[1] = re[1] + " 23:59:59";
                 this.searchForm.start = re[0];
                 this.searchForm.end = re[1];
             }

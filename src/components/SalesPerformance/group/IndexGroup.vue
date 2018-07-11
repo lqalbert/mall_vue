@@ -75,8 +75,8 @@
 </template>
 
 <script>
-    import Caculate from '../../config/caculate';
-    import SalesPerformanceAjaxProxy from '../../ajaxProxy/SalesPerformance';
+    import Caculate from '@/config/caculate';
+    import SalesPerformanceAjaxProxy from '@/ajaxProxy/SalesPerformance';
     import { mapGetters } from 'vuex';
     import LocalMix from '../mix/index';
     

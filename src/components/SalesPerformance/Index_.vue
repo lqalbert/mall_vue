@@ -106,23 +106,65 @@
 </template>
 
 <script>
-    import Caculate from '@/config/caculate';
-    import SalesPerformanceAjaxProxy from '@/ajaxProxy/SalesPerformance';
+    import PageMix from '../../mix/Page';
+    import config from '../../mix/Delete';
+    import DataTable from '../../mix/DataTable';
+    import SearchTool from '../../mix/SearchTool';
+    import Caculate from '../../config/caculate';
+    import SalesPerformanceAjaxProxy from '../../ajaxProxy/SalesPerformance';
+
     import { mapGetters } from 'vuex';
-    import LocalMix from '../mix/index';
-    
+    import SubDetail from './SubDetail';
     
     export default {
         name:'SalesPerformance',
         pageTitle:"销售业绩",
-        mixins: [LocalMix],
-        
+        mixins: [PageMix,SearchTool,config,DataTable,SalesPerformanceAjaxProxy],
+        components:{
+            SubDetail
+        },
         data(){
             return {
                 mainparam:"",
                 mainurl:SalesPerformanceAjaxProxy.getUrl(),
                 ajaxProxy:SalesPerformanceAjaxProxy,
 
+
+                pickerOptions: {
+                    shortcuts: [{
+                            text: '上一周',
+                            onClick:function(picker) {
+                                var start = Caculate.showLastWeekFirstDay();
+                                var end = Caculate.showLastWeekLastDay();
+                                picker.$emit('pick', [start, end]);
+                            }
+                        }, {
+                            text: '上个月',
+                            onClick:function(picker) {
+                                var start = Caculate.showLastMonthFirstDay();
+                                var end = Caculate.showLastMonthLastDay();
+                                picker.$emit('pick', [start, end]);
+                            }
+                        }, {
+                            text: '本周',
+                            onClick:function(picker) {
+                                var start = Caculate.showWeekFirstDay();
+                                var end = Caculate.showWeekLastDay();
+                                picker.$emit('pick', [start, end]);
+                            }
+                        }, {
+                            text: '本月',
+                            onClick:function(picker) {
+                                var start = Caculate.showMonthFirstDay();
+                                var end = Caculate.showMonthLastDay();
+                                picker.$emit('pick', [start, end]);
+                            }
+                        }
+                    ],
+                    disabledDate:function(time) {
+                        return time.getTime() > Date.now();// - 8.64e7
+                    }
+                },
                 setPicker:{
                     disabledDate:function(time) {
                         return time.getTime() > Date.now();// - 8.64e7
@@ -203,7 +245,9 @@
             saleGroupChange(v){
                 console.log(v);
             },
-            
+            currentChange(v){
+                console.log(v);
+            },
             dbclick(row){
                 this.param = Object.assign(this.param,this.searchForm);
                 this.param.department_id = row.department_id;

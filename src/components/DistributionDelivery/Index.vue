@@ -30,7 +30,6 @@
                     <el-input v-model="searchForm.express_name" size="small" placeholder="快递公司"></el-input>
                 </el-form-item> -->
                 <el-form-item prop="pstatus">
-
                     <el-select v-model="searchForm.pstatus" size="small" placeholder="发货状态" >
                         <el-option label="未审核" value="0"></el-option>
                         <el-option label="已审核" value="1"></el-option>

@@ -56,7 +56,7 @@
         <!-- table -->
         <el-row>
             <el-col>
-                <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" :height="300" :page-size="20" :bubble="bubble" :row-class-name="tableRowClassName" @dbclick="dbClick">
+                <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" :height="400" :page-size="20" :bubble="bubble" :row-class-name="tableRowClassName" @dbclick="dbClick">
                     <el-table-column type="selection" width="55"></el-table-column>
                     <el-table-column label="序号" align="center"  type="index" width="65">
                     </el-table-column>

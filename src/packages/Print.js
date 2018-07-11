@@ -257,9 +257,9 @@ function goodsList(contents){
     var request = getRequestObject("print");    
     request.task = new Object();
     request.task.taskID = getUUID(8,10);
-    request.task.preview = true;
-    request.task.previewType = 'PDF';
-    // request.task.printer = '针式打印机';//printer;
+    request.task.preview = false;
+    // request.task.previewType = 'PDF';
+    request.task.printer = '针式打印机';//printer;
     // request.task.notifyType = ["render","print"];
     var documents = new Array();
     request.task.documents = documents;

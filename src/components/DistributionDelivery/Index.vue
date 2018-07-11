@@ -529,7 +529,7 @@ export default {
             ws.dialogConfig();
         },
         getPrinterConfig(){
-            ws.getPrinterConfig("KM-118");
+            ws.getPrinterConfig("针式打印机");
         },
         previewPrint(){
            alert('取消了');

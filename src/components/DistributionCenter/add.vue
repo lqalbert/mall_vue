@@ -178,7 +178,7 @@
                 this.computedusers = data.items;
             },
             onOpen(param){
-                this.provinces = param.params.provinces;
+                // this.provinces = param.params.provinces;
             },
             onDepartChange(v){
                 this.employeeSelect.setParam({department_id:v, role:'group-captain', group_candidate:1})

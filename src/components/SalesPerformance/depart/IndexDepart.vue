@@ -173,12 +173,7 @@
                 console.log(v);
             },
             
-            dbclick(row){
-                this.param = Object.assign(this.param,this.searchForm);
-                this.param.department_id = row.department_id;
-                this.param.group_id = row.group_id;
-                this.loadOrderData(this.param);
-            },
+            
             loadOrderData(param){
                 let vmthis =this;
                 SalesPerformanceAjaxProxy.selectOrder({params:param}).then((response)=>{

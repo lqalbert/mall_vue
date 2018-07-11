@@ -52,7 +52,14 @@ let mix = {
     methods:{
         onSearchChange(param){
             this.mainparam = JSON.stringify(param);
-        }
+        },
+        dbclick(row){
+            this.param = Object.assign(this.param,this.searchForm);
+            this.param.department_id = row.department_id;
+            this.param.group_id = row.group_id;
+            this.param.user_id = row.user_id;
+            this.loadOrderData(this.param);
+        },
     }
 };
 

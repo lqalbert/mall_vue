@@ -20,9 +20,11 @@
             <el-col :span="12">
                 <el-form-item prop="goods_id" label="商品名称">
                     <el-select v-model="goodsForm.goods_id" size="small" @change="getGoodsInfo">
-                        <el-option v-for="(value, item) in data2" :value="item" :key="item" :label="value.goods_name+'-'+value.sku_name">
+                        <!--<el-option v-for="(value, item) in data2" :value="item" :key="item" :label="value.goods_name+'-'+value.sku_name">-->
+                        <el-option v-for="(value, item) in data2" :value="item" :key="item" :label="value.goods_name">
                                                                                                                 <!-- +'-'+value.price -->
-                            <span>{{value.goods_name}}{{ (value.sku_name && value.sku_name.length > 0) ? '-'+value.sku_name: ''  }}</span>
+                            <!--<span>{{value.goods_name}}{{ (value.sku_name && value.sku_name.length > 0) ? '-'+value.sku_name: ''  }}</span>-->
+                            <span>{{value.goods_name}}</span>
                             <!-- <span style="float: right; color: #8492a6; font-size: 13px">{{value}}</span>    -{{value.price}}-->
                         </el-option>
                     </el-select>

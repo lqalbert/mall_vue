@@ -14,8 +14,8 @@
     import { mapActions,mapGetters } from 'vuex';
 
     export default {
-        name: 'Customer',
-        pageTitle: "客户资料",
+        name: 'SalePerf',
+        pageTitle:"销售量化",
         mixins: [PageMix],
         components: {
             IndexAdmin,

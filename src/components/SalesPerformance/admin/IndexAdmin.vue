@@ -56,52 +56,30 @@
         <el-row>
             <el-col>
                 <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" :page-size="15" @dbclick="dbclick">
-                <!--<el-table :data="AddTableData" border highlight-current-row @cell-dblclick="dbclick"-->
-                    <!--element-loading-text="请添加商品" style="width: 100%" show-summary>-->
+                    
+                    
 
-                    <el-table-column label="序号" align="center" width="65" type="index" >
-                    </el-table-column>
-
+                    <el-table-column label="序号" align="center" width="65" type="index"></el-table-column>
                     <el-table-column prop="department_name" label="部门" width="180" align="center"></el-table-column>
-                    <el-table-column prop="group_name" label="小组" width="180" v-if="searchForm.type=='user_id' || searchForm.type=='group_id'" align="center"></el-table-column>
-                    <el-table-column prop="user_name"  label="员工" width="180" v-if="searchForm.type=='user_id'" align="center"></el-table-column>
-
-                    <el-table-column prop="cus_count" label="成交客户数" align="center">
+                    <el-table-column prop="group_name" label="小组" width="180" align="center" v-if="searchForm.type=='user_id' || searchForm.type=='group_id'"></el-table-column>
+                    <el-table-column prop="user_name"  label="员工" width="180" align="center" v-if="searchForm.type=='user_id'"></el-table-column>
+                    <el-table-column prop="cus_count" label="成交客户数" align="center"></el-table-column>
+                    <el-table-column prop="c_cus_count" label="成交单数" align="center"></el-table-column>
+                    <el-table-column prop="all_pay" label="成交金额" align="center"></el-table-column>
+                    <el-table-column prop="refund" label="退款金额" align="center"></el-table-column>
+                    <el-table-column prop="deposit"  label="部门充值剩余" >
+                        <template slot-scope="scope">
+                            <span v-if="searchForm.type!='department_id'">
+                                 {{ scope.row.deposit }}
+                            </span>
+                        </template>
                     </el-table-column>
-
-                    <el-table-column prop="c_cus_count" label="成交单数" align="center">
-                    </el-table-column>
-
-                    <el-table-column prop="all_pay" label="成交金额" align="center">
-                    </el-table-column>
-
-                    <el-table-column prop="refund" label="退款金额" align="center">
-                    </el-table-column>
-
-                    <el-table-column prop="deposit"  label="部门充值剩余" align="center" v-if="searchForm.type!='department_id'">
-                    </el-table-column>
-                    <!-- 只有按部门方式才有值 -->
-                <!--</el-table>-->
+                   
                 </TableProxy>
             </el-col>
         </el-row>
-        <!--<el-row>-->
-            <!--<el-col :span="12" :offset="12">-->
-                <!--<div class="pull-right">-->
-                    <!--<el-pagination-->
-                        <!--:current-page="currentPage"-->
-                        <!--:page-size="pageSize"-->
-                        <!--layout="total, prev, pager, next, jumper"-->
-                        <!--:total="total"-->
-                        <!--@current-change="currentChange">-->
-                    <!--</el-pagination>   -->
-                <!--</div>-->
-            <!--</el-col>-->
-        <!--</el-row>-->
-
         <sub-detail :row="model" :orderDetail="orderDetail">
         </sub-detail>
-
     </div>
 </template>
 
@@ -114,7 +92,7 @@
     
     export default {
         name:'SalesPerformance',
-        pageTitle:"销售业绩",
+        
         mixins: [LocalMix],
         
         data(){
@@ -170,7 +148,6 @@
                 this.searchForm.end = v;
             },
             setField(v){
-                // console.log(Caculate.showWeekFirstDay());
                 switch (v) {
                     case 'week':
                         this.searchForm.start = Caculate.showWeekFirstDay();

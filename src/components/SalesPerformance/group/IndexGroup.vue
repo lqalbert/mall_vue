@@ -60,9 +60,6 @@
 
                     <el-table-column prop="refund" label="退款金额" align="center">
                     </el-table-column>
-
-                    <el-table-column prop="deposit"  label="部门充值剩余" align="center" v-if="searchForm.type!='department_id'">
-                    </el-table-column>
                    
                 </TableProxy>
             </el-col>

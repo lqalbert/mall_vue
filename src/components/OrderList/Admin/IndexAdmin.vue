@@ -149,8 +149,8 @@
 
                         <el-button type="primary" size="small" @click="open2()">发起退换货</el-button>
                         <!-- <el-button type="primary" size="small" @click="showExchange()">发起换货</el-button> -->
-                        <!-- <el-button type="primary" size="small" @click="checkOrder()">订单审核</el-button>
-                        <el-button type="primary" size="small" @click="cancelOrder()">取消订单</el-button> -->
+                        <!-- <el-button type="primary" size="small" @click="checkOrder()">订单审核</el-button>-->
+                        <el-button type="primary" size="small" @click="cancelOrder()">取消订单</el-button> 
                         <!-- <el-button type="primary" size="small" :disabled="reFundCheckShow" @click="RefundCheck()">退换货审核</el-button> -->
                     </div>
 

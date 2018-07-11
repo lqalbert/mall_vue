@@ -109,13 +109,12 @@ const mix = {
             // console.log(row.status);
 
             if (this.openDialogCheck()){
-                // if (this.row_model.status >= ORDER_ASSIGN) {
-                //     this.$alert('不能取消', '警告', {
-                //         confirmButtonText: '关闭',
-                //     });
-                // } else {
-                    
-                // }
+                if (this.row_model.status >= ORDER_ASSIGN) {
+                    this.$alert('不能取消', '警告', {
+                        confirmButtonText: '关闭',
+                    });
+                    return ;
+                } 
 
                 this.$confirm('确定取消, 是否继续?', '提示', {
                     confirmButtonText: '确定',

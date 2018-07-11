@@ -19,7 +19,21 @@
                             @change="timeChange">
                     </el-date-picker>
                 </el-form-item>
+<<<<<<< HEAD
                 <el-form-item prop="status">
+=======
+
+                <!-- <el-form-item prop="deliver_name">
+                    <el-input v-model="searchForm.deliver_name" size="small" placeholder="收货人姓名"></el-input>
+                </el-form-item>
+                <el-form-item prop="deliver_phone">
+                    <el-input v-model="searchForm.deliver_phone" size="small" placeholder="收货人电话"></el-input>
+                </el-form-item>
+                <el-form-item prop="express_name">
+                    <el-input v-model="searchForm.express_name" size="small" placeholder="快递公司"></el-input>
+                </el-form-item> -->
+                <el-form-item prop="pstatus">
+>>>>>>> 20180709改
                     <el-select v-model="searchForm.pstatus" size="small" placeholder="发货状态" >
                         <el-option label="未审核" value="0"></el-option>
                         <el-option label="已审核" value="1"></el-option>
@@ -417,7 +431,7 @@ export default {
         },
         showAssign(){
             if (this.openDialogCheck()) {
-                
+
                 let pr = true;
                 if (this.currentRow.assign_print_status == 1) {
                     pr = false;

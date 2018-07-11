@@ -14,7 +14,7 @@
     import { mapActions,mapGetters } from 'vuex';
 
     export default {
-        name: 'SaleQuan',
+        name: 'SalesQuantization',
         pageTitle:"销售业绩",
         mixins: [PageMix],
         components: {

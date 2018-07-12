@@ -8,7 +8,7 @@
                         type="warning"
                         show-icon>
                     </el-alert> -->
-                    <div v-for="bill in waybill">
+                    <div v-for="bill in waybill" :key="bill.index">
                         <el-row>
                             <el-col :span="24">
                                 cpCode: {{ cpCode }} 
@@ -139,11 +139,10 @@ export default {
             this.cpCode = "";
         }
     }
-}
-</script>
-<style scoped>
-    .name-input{
-        max-width: 217px;
-    }
-</style>
+    </script>
+    <style scoped>
+        .name-input{
+            max-width: 217px;
+        }
+    </style>
     

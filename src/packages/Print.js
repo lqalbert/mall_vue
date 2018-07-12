@@ -205,9 +205,7 @@ function doPrint(printer ,waybillArray)
     request.task = new Object();
     request.task.taskID = getUUID(8,10);
     request.task.preview = false;
-    // request.task.previewType = 'image';
-    request.task.printer = printer;//printer;
-    // request.task.notifyType = ["render","print"];
+    request.task.printer = printer;
     var documents = new Array();
     request.task.documents = documents;
 
@@ -382,5 +380,4 @@ ws.close = wsok.close;
 ws.getPrinterConfig=getPrinterConfig;
 ws.testView = testView;
 ws.staticPrint = staticPrint;
-ws.goodsList = goodsList;
 export default ws;

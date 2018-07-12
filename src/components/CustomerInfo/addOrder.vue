@@ -30,9 +30,9 @@
                     <el-row>
                         <AddGoods :category-list="cates" @add-goods="addGoods"></AddGoods>
                     </el-row>
-                    <!-- <div style="float: left;margin-left: 50%;">
+                    <div style="float: left;margin-left: 50%;">
                         <el-button @click="addOrder" type="primary" class="right">添 加</el-button>
-                    </div> -->
+                    </div>
                 </div>
                 <br>
                 <div v-show="active==1">
@@ -58,7 +58,10 @@
                     </el-row>
                 </div>
                 <div v-show="active==2">
-                    <el-table border :data="orderData" style="width: 100%">
+                    <el-table
+                            border
+                            :data="orderData"
+                            style="width: 100%">
                         <el-table-column label="序号" type="index" width="80 px"></el-table-column>
                         <el-table-column prop="goods_name" label="商品名称"></el-table-column>
                         <el-table-column prop="price" label="商品单价"></el-table-column>
@@ -69,7 +72,10 @@
                     <br>
                     <h3> <span>商品总金额:{{ totalMoney }}</span></h3>
                     <br>
-                    <el-table border :data="addressListData"  style="width: 100%">
+                    <el-table
+                            border
+                            :data="[addOrderForm.address]"
+                            style="width: 100%">
                         <el-table-column label="序号" type="index" width="80 px"></el-table-column>
                         <el-table-column prop="name" label="收货人姓名"></el-table-column>
                         <el-table-column prop="fixed_telephone" label="固定电话"></el-table-column>
@@ -179,6 +185,7 @@
                 id:'',
                 types:[],
                 goodsInfo:{},
+                
                 users:[],
                 address:[],
                 addressList:[],
@@ -217,6 +224,7 @@
                 model:'',
                 deal_name:'',
                 depositMoney:0,
+                
             }
         },
         computed:{
@@ -230,7 +238,7 @@
         },
         methods:{
             onOpen(param){
-                // console.log(param.params.model);
+                // console.log(param.params);
                 this.addOrderForm.cus_name = param.params.model.name;
                 this.addOrderForm.user_id = param.params.model.mid_relative.user_id;
                 // this.addOrderForm.user_id = param.params.model.
@@ -242,6 +250,7 @@
                 this.addOrderForm.cus_id = this.cus_id;
                 // this.addOrderForm.dep_group_realname = this.setDepGroupRealname(this.user_id);
                 this.getAddress(this.cus_id);
+                
             },
             expressChange(v){
                 let i ='';
@@ -315,6 +324,7 @@
             getAjaxPromise(model){
                 return this.ajaxProxy.create(model);
             },
+            
             setDepGroupRealname(id){
                 let dep_group_realname = '';
                 for (let i = 0; i < this.users.length; i++) {
@@ -369,8 +379,7 @@
                     
                 }
                 if (this.active++ > 1) this.active = 2;
-            },
-
+            },   
             getAddress(cus_id){
                 let selectProxy = new SelectProxy('/deliveryaddress?cus_id='+cus_id, this.getAddressData, this);
                 selectProxy.load();

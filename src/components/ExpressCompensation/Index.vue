@@ -19,7 +19,7 @@
                     <el-input v-model="searchForm.order_number" size="small" placeholder="订单编号"></el-input>
                 </el-form-item>
                 <el-form-item prop="express_number">
-                    <el-input v-model="searchForm.express_number" size="small" placeholder="订单编号"></el-input>
+                    <el-input v-model="searchForm.express_number" size="small" placeholder="快递编号"></el-input>
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" size="small" icon="search" @click="searchToolChange('searchForm')">查询</el-button>

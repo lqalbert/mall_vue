@@ -129,6 +129,7 @@
                 this.cate_kinds = [];
             },
             showEdit(row){
+                console.log(row);
                 this.entrepotSelect.load();
                 this.CategorySelect.load(); 
                 row.cate_type_id = row.goods.cate_type_id;

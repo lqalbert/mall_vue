@@ -34,8 +34,8 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="定单号" prop="order_number" >
-                            <el-input class="name-input" v-model="editForm.order_number"  auto-complete="off"  placeholder="请填写定单号"></el-input>
+                        <el-form-item label="订单号" prop="order_number" >
+                            <el-input class="name-input" v-model="editForm.order_number"  auto-complete="off"  placeholder="请填写订单号"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -138,12 +138,36 @@
                     {id:3,name:'已申请'},
                 ],
                 rules:{
-                    name:[
-                        { required: true, message: '请输入配送中心名称', trigger: 'blur' }
+                    entrepot_id:[
+                        {required: true, message: '选择配送中心', trigger: 'blur' },
                     ],
-                    eng_name:[
-                        { type:'string', pattern:/^[a-zA-Z]+$/, required: true, message:'请输入英文简称', trigger: 'blur', },
-                        {  min: 1, max: 2, message: '长度不能超过2个字符', trigger: 'blur'  }
+                    express_id:[
+                        {required: true, message: '选择物流公司', trigger: 'blur' },
+                    ],
+                    deliver_time:[
+                        {required: true, message: '选择发货时间', trigger: 'blur' },
+                    ],
+                    order_number:[
+                        { required: true, message: '请输入订单号', trigger: 'blur' },
+                        {  min: 1, max: 20, message: '长度不能超过20个字符', trigger: 'blur'  }
+                    ],
+                    express_number:[
+                        { required: true, message: '请输入快递单号', trigger: 'blur' },
+                        {  min: 1, max: 20, message: '长度不能超过20个字符', trigger: 'blur'  }
+                    ],
+                    compensation_type:[
+                        { required: true, message: '选输入偿类型', trigger: 'blur' },
+                        {  min: 1, max: 20, message: '长度不能超过20个字符', trigger: 'blur'  }
+                    ],
+                    processing_progress:[
+                        {required: true, message: '选择处理进度', trigger: 'blur' },
+                    ],
+                    compensation_money:[
+                        { required: true, message: '请输入赔偿金额', trigger: 'blur' },
+                        {pattern:/^(([1-9]\d{0,9})|0)(\.\d{1,2})?$/,  message: '价格格式为00.00', trigger:'blur'}
+                    ],
+                    remark:[
+                        {  min: 1, max: 200, message: '长度不能超过200个字符', trigger: 'blur'  }
                     ],
                 },
                 model:''

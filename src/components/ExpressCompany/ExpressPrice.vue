@@ -37,7 +37,7 @@
 
                     <el-col :span="12">
                         <el-form-item label="时效" prop="time_limit">
-                            <el-input class="name-input" v-model="addForm.time_limit" placeholder="请填时效（天）"></el-input>
+                            <el-input class="name-input" v-model.number="addForm.time_limit" placeholder="请填时效（天）"></el-input>
                         </el-form-item>
                     </el-col>
 
@@ -46,7 +46,7 @@
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="首重" prop="first_weight" >
-                            <el-input class="name-input" v-model="addForm.first_weight" placeholder="请填首重（g）"></el-input>
+                            <el-input class="name-input" v-model.number="addForm.first_weight" placeholder="请填首重（g）"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -59,7 +59,7 @@
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="续重" prop="continued_weight" >
-                            <el-input class="name-input" v-model="addForm.continued_weight" placeholder="请填续重（g）"></el-input>
+                            <el-input class="name-input" v-model.number="addForm.continued_weight" placeholder="请填续重（g）"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -175,12 +175,44 @@ export default {
             cities:[],
             districts:[],
             rules:{
-                // company_name:[
-                //     { required: true, message: '请输入物流公司名称', trigger: 'blur' }
-                // ],
-                // eng:[
-                //     { required: true, message:'必填,两个英文字母', pattern:/^[a-zA-Z]{2}$/, trigger:'blur'},
-                // ]
+                area_province_id:[
+                    { required: true, message: '选择省份', trigger: 'blur' },
+                ],
+                area_city_id:[
+                    { required: true, message: '选择市', trigger: 'blur' },
+                ],
+                area_district_id:[
+                    { required: true, message: '选择区/县', trigger: 'blur' },
+                ],
+                time_limit:[
+                    { required: true,type:'number',min:1, message: '格式为正数', trigger: 'blur' },
+                ],
+                first_weight:[
+                    { required: true, type:'number',min:1,message: '格式为正数', trigger: 'blur' },
+                ],
+                first_price:[
+                    { required: true, message: '请填写首价', trigger: 'blur' },
+                    {pattern:/^(([1-9]\d{0,9})|0)(\.\d{1,2})?$/,  message: '价格格式为00.00', trigger:'blur'}
+                ],
+                continued_weight:[
+                    { required: true,type:'number',min:1, message: '格式为正数', trigger: 'blur' },
+                ],
+                continued_price:[
+                    { required: true, message: '请填写续价', trigger: 'blur' },
+                    {pattern:/^(([1-9]\d{0,9})|0)(\.\d{1,2})?$/,  message: '价格格式为00.00', trigger:'blur'}
+                ],
+                start_time:[
+                    { required: true, message: '选择起始日期', trigger: 'blur' },
+                ],
+                end_time:[
+                    { required: true, message: '选择结束日期', trigger: 'blur' },
+                ],
+                is_use:[
+                    { required: true, message: '选择是否启用', trigger: 'blur' },
+                ],
+                remark:[
+                    {  min: 1, max: 200, message: '长度不能超过200个字符', trigger: 'blur'  }
+                ],
 
             }
         }

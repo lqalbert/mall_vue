@@ -119,6 +119,7 @@
                 }
             },
             getGoodsInfo(goods_id){
+                console.log(this.data2);
                 let goods = this.data2[goods_id];
                 if(goods){
                     EntrepotProductAjax.getEntrepotCount(goods.sku_sn).then((response)=>{

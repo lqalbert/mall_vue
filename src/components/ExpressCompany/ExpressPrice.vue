@@ -185,12 +185,10 @@ export default {
                     { required: true, message: '选择区/县', trigger: 'blur' },
                 ],
                 time_limit:[
-                    { required: true, message: '请填写时效', trigger: 'blur' },
-                    {type:'number',message:'请输入数字',trigger: 'blur'}
+                    { required: true,type:'number',min:1, message: '格式为正数', trigger: 'blur' },
                 ],
                 first_weight:[
-                    { required: true, message: '请填写首重', trigger: 'blur' },
-                    {type:'number',message:'请输入数字',trigger: 'blur'}
+                    { required: true, type:'number',min:1,message: '格式为正数', trigger: 'blur' },
                 ],
                 first_price:[
                     { required: true, message: '请填写首价', trigger: 'blur' },

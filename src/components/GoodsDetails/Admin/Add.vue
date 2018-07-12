@@ -365,7 +365,7 @@ export default {
             skuForm:{
                 name:"",
                 price:"",
-                // num:0,
+                num:1,
                 sku_sn:""
             },
             addFormRules:{

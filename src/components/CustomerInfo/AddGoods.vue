@@ -20,9 +20,8 @@
             <el-col :span="12">
                 <el-form-item prop="goods_id" label="商品名称">
                     <el-select v-model="goodsForm.goods_id" size="small" @change="getGoodsInfo">
-                        <!--<el-option v-for="(value, item) in data2" :value="item" :key="item" :label="value.goods_name+'-'+value.sku_name">-->
-                        <el-option v-for="(value, item) in data2" :value="item" :key="item" :label="value.goods_name">
-                                                                                                                <!-- +'-'+value.price -->
+                        <el-option v-for="(value, item) in data2" :value="item" :key="item" :label="value.goods_name+
+                        (value.sku_name != '' ?'-'+value.sku_name:'')"><!-- +'-'+value.price -->
                             <!--<span>{{value.goods_name}}{{ (value.sku_name && value.sku_name.length > 0) ? '-'+value.sku_name: ''  }}</span>-->
                             <span>{{value.goods_name}}</span>
                             <!-- <span style="float: right; color: #8492a6; font-size: 13px">{{value}}</span>    -{{value.price}}-->
@@ -138,7 +137,6 @@
                     let goods_price1 = data.items[i].goods_price;
                     let goods_number1 = data.items[i].goods_number;
                     let unit_type1 = data.items[i].unit_type;
-
                     let len = data.items[i].len;
                     let width = data.items[i].width;
                     let height = data.items[i].height;
@@ -147,14 +145,15 @@
                     let bubble_bag = data.items[i].bubble_bag;
                     let specifications = data.items[i].specifications;
 
-                    let vv1 = this.contactItem(gid1, goods_price1, goods_name1,
-                     goods_number1, 0, '', data.items[i].sku_sn,unit_type1,len,width,height,barcode,weight,
-                     bubble_bag,specifications);
-                    let kk1 = 'goods_id_'+gid1+'_sku_id_0';
-                    this.data2[kk1] = vv1;
                     if (data.items[i].skus.length > 0) {
                         this.contactChildren(data.items[i].skus, gid1, goods_name1,unit_type1,len,
                         width,height,barcode,weight,bubble_bag,specifications);
+                    }else{
+                        let vv1 = this.contactItem(gid1, goods_price1, goods_name1,
+                        goods_number1, 0, '', data.items[i].sku_sn,unit_type1,len,width,height,barcode,weight,
+                        bubble_bag,specifications);
+                        let kk1 = 'goods_id_'+gid1+'_sku_id_0';
+                        this.data2[kk1] = vv1;
                     }
                 }
             },

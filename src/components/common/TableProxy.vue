@@ -33,7 +33,8 @@
             @cell-dblclick="dbclick"
             @cell-click="cellclick"
             element-loading-text="拼命加载中"
-            :row-class-name="rowClassName">
+            :row-class-name="rowClassName"
+            :default-sort="defaultSort">
             <slot></slot>
         </el-table>
         <br>
@@ -89,7 +90,8 @@
                 type:[String, Number],
                 default:''
             },
-            rowClassName:[String, Function]
+            rowClassName:[String, Function],
+            defaultSort: Object
 
       },
       data () {
@@ -119,6 +121,7 @@
           },
 
           sortChange(prop){
+              this.dataLoad = true;
               this.mainProxy.setOrder(prop.prop, prop.order).load();
           },
 

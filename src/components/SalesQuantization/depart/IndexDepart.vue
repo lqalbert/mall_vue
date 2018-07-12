@@ -47,17 +47,17 @@
         
         <el-row>
             <el-col>
-                <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" :page-size="15">
+                <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" :page-size="15" :default-sort="{prop: 'cus_count', order: 'descending'}">
                     <el-table-column label="序号" align="center" width="65" type="index"></el-table-column>
                     <el-table-column prop="department_name" label="部门" width="180" ></el-table-column>
                     <el-table-column prop="group_name" label="小组" width="180" v-if="searchForm.type=='user_id' || searchForm.type=='group_id'"></el-table-column>
                     <el-table-column prop="user_name"  label="员工" width="180" v-if="searchForm.type=='user_id'"></el-table-column>
-                    <el-table-column prop="cus_count" label="录入客户"></el-table-column>
-                    <el-table-column prop="obcus_count" label="成交客户数"></el-table-column>
-                    <el-table-column prop="ob_count" label="成交单数"></el-table-column>
-                    <el-table-column prop="c_cus_count" label="一般客户数量"></el-table-column>
-                    <el-table-column prop="b_cus_count" label="意向客户数量"></el-table-column>
-                    <el-table-column prop="track_count" label="跟踪数"></el-table-column>
+                    <el-table-column prop="cus_count" sortable='custom' label="录入客户"></el-table-column>
+                    <el-table-column prop="obcus_count" sortable='custom' label="成交客户数"></el-table-column>
+                    <el-table-column prop="ob_count" sortable='custom' label="成交单数"></el-table-column>
+                    <el-table-column prop="c_cus_count" sortable='custom' label="一般客户数量"></el-table-column>
+                    <el-table-column prop="b_cus_count"  sortable='custom' label="意向客户数量"></el-table-column>
+                    <el-table-column prop="track_count" sortable='custom' label="跟踪数"></el-table-column>
                     <el-table-column label="转入/出客户数">
                         <template slot-scope="scope">
                             +{{ scope.row.trans_in }} / -{{ scope.row.trans_out }}

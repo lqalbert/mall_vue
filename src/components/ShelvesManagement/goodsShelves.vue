@@ -189,14 +189,16 @@
                 // console.log(this.addForm);
                 // return false;
 
-                this.formSubmit(name)
+                this.formSubmit(name);
                 this.full_num='';
                 this.deposit_num='';
                 let data ={shelves_id:this.model.id};
                 let that = this;
                 this.ajaxProxy.get(data).then(function(response){
-                    that.$emit('add-submit',response.data)
-                })
+                    that.$emit('add-submit',response.data);
+                    that.handleClose(name);
+                });
+
             },
             cate_type_change(v){
                 this.addForm.cate_kind_id = '';

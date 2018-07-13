@@ -94,7 +94,7 @@ const user = {
             }
         },
         hasPurchaseCheck(state, getters){
-            return getters.hasRole('assign-buyer-manager') || getters.hasRole('super-manager') || getters.hasRole('administrator');
+            return getters.hasRole('assign-buyer-manager') || getters.hasRole('super-manager') || getters.hasRole('administrator') || getters.hasRole('finance');
         },
         hasRefundSure(state, getters){
             return getters.hasRole('sale-manager') || getters.hasRole('sale-captain') || getters.hasRole('sale-staff');
@@ -106,7 +106,7 @@ const user = {
     //异步操作
     actions:{
         logout(context){
-            console.log('before logout'); 
+            // console.log('before logout'); 
             loginAjaxProxy.out().then(function(response){
                 context.commit('logout');
             }).catch(function(){ 

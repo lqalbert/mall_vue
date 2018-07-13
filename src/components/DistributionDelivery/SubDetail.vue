@@ -4,7 +4,6 @@
 			<el-tab-pane label="发货明细" name="First">
 				<el-table :data="deliveryDetailsData" v-loading="goodsLoading" border style="width: 100%">
 					<el-table-column prop="goods_name" label="商品名" align="center"></el-table-column>
-
 					<el-table-column prop="cate_type" label="商品类型" header-align="center">
 						<template slot-scope="scope">
 							{{ displayCategory(scope.row.category) }}

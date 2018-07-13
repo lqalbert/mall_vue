@@ -295,11 +295,14 @@ export default {
         },
         onSuccess(){
             this.$message.success("提交成功");
+            this.ResetAll();
+            this.audio.play();
+        },
+        ResetAll(){
             this.rest();
             this.$refs.express.$refs.input.focus();
             this.currentTime=0;
             this.audio.play();
-            this.checkGoods = [];
         },
         subNumber(index){
             const n = this.checkGoods.find((element, i)=>{
@@ -341,6 +344,7 @@ export default {
     created(){
         this.dialogThis = this;
         this.$emit('submit-success', this.onSuccess);
+        this.$emit('submit-final', this.ResetAll);
     },
     mounted(){
         this.audio = document.getElementById("audiotip");

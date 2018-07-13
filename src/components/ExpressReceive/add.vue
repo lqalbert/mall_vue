@@ -14,21 +14,21 @@
 
                     <el-col :span="12">
                         <el-form-item label="发货单号" prop="assign_sn" >
-                            <el-input class="name-input" v-model="addForm.assign_sn"  auto-complete="off"  placeholder="请填写发货单号"></el-input>
+                            <el-input class="name-input" size="small" v-model="addForm.assign_sn"  auto-complete="off"  placeholder="配货单号"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="快递单号" prop="express_sn" >
-                            <el-input class="name-input" v-model="addForm.express_sn"  auto-complete="off"  placeholder="请填写快递单号"></el-input>
+                            <el-input class="name-input" size="small" v-model="addForm.express_sn"  auto-complete="off"  placeholder="快递单号"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="发货核对时间" prop="assign_check_time" >
                             <el-date-picker
                                     v-model="addForm.assign_check_time"
-                                    type="datetime"
+                                    type="datetime" size="small"
                                     placeholder="选择日期时间"
                                     @change="checkTime">
                             </el-date-picker>
@@ -38,7 +38,7 @@
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="核对人"  prop="check_user_name">
-                            <el-input class="name-input"  auto-complete="off" v-model="addForm.check_user_name" placeholder="请填写核对人"></el-input>
+                            <el-input class="name-input" size="small" auto-complete="off" v-model="addForm.check_user_name" placeholder="请填写核对人"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>

@@ -124,7 +124,8 @@
         <!-- /table -->
         <br>
         <!-- 下部展示组件 -->
-        <SubDetail :row="model"></SubDetail>
+        <SubDetail :row="model">
+        </SubDetail>
         <!-- 写弹窗组件 -->
         <edit-address name='edit-address'
             :ajax-proxy="ajaxProxy"
@@ -136,11 +137,11 @@
         <RepeatOrder name="repeat-order" :ajax-proxy="ajaxProxy" @submit-success="handleReload"></RepeatOrder>
         <StopOrder name="stop-order" :ajax-proxy="ajaxProxy"  @submit-success="handleReload"></StopOrder>
 
-        <el-button @click="printList">获取打印机列表</el-button>
+        <!-- <el-button @click="printList">获取打印机列表</el-button>
         <el-button @click="configprint">弹窗式配置打印机</el-button>
         <el-button @click="getPrinterConfig">Fax打印机的配置</el-button>
         <el-button @click="previewPrint">打印预览PDF</el-button>
-        <el-button @click="staticPrint">打印静态数据</el-button>
+        <el-button @click="staticPrint">打印静态数据</el-button> -->
     </div>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
 </template>
 <script>
@@ -365,7 +366,7 @@ export default {
 
                 //         }).catch(() => {
                                 
-                //         });
+                        // });
                 // }
                 // todo 
                 // this.$modal.show('express', param);

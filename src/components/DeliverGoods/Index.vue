@@ -216,15 +216,15 @@ export default {
             // 如果小于等于首重　则费用就是首价
             let vmThis = this;
             if(this.express_price){
-                let first_weight = this.express_price.first_weight;
-                let first_price = this.express_price.first_price;
-                let continued_weight = this.express_price.continued_weight;
-                let continued_price = this.express_price.continued_price;
+                let first_weight = parseInt(this.express_price.first_weight);
+                let first_price = parseInt(this.express_price.first_price);
+                let continued_weight = parseInt(this.express_price.continued_weight);
+                let continued_price = parseInt(this.express_price.continued_price);
                 
                 if(real_weigth <= first_weight){
                     this.checkForm.express_fee = first_price;
                 }else{
-                    this.checkForm.express_fee = first_price+(real_weigth-first_weight)/continued_weight*continued_price;
+                    this.checkForm.express_fee = first_price+((real_weigth-first_weight)/continued_weight)*continued_price;
                 }
             }else{
                 this.checkForm.express_fee = 0;

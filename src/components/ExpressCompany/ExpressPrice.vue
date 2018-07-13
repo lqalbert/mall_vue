@@ -176,14 +176,14 @@ export default {
             districts:[],
             rules:{
                 area_province_id:[
-                    { required: true, message: '选择省份', trigger: 'blur' },
+                    { required: true, type:'number',message: '选择省份', trigger: 'blur' },
                 ],
                 area_city_id:[
-                    { required: true, message: '选择市', trigger: 'blur' },
+                    { required: true, type:'number',message: '选择市', trigger: 'blur' },
                 ],
-                area_district_id:[
-                    { required: true, message: '选择区/县', trigger: 'blur' },
-                ],
+                // area_district_id:[
+                //     { type:'number', message: '选择区/县', trigger: 'blur' },
+                // ],
                 time_limit:[
                     { required: true,type:'number',min:1, message: '格式为正数', trigger: 'blur' },
                 ],

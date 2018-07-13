@@ -71,7 +71,7 @@
                     <br>
                     <el-table
                             border
-                            :data="[addOrderForm.address]"
+                            :data="addressListData"
                             style="width: 100%">
                         <el-table-column label="序号" type="index" width="80 px"></el-table-column>
                         <el-table-column prop="name" label="收货人姓名"></el-table-column>

@@ -30,9 +30,9 @@
                     <el-row>
                         <AddGoods :category-list="cates" @add-goods="addGoods"></AddGoods>
                     </el-row>
-                    <div style="float: left;margin-left: 50%;">
+                    <!-- <div style="float: left;margin-left: 50%;">
                         <el-button @click="addOrder" type="primary" class="right">添 加</el-button>
-                    </div>
+                    </div> -->
                 </div>
                 <br>
                 <div v-show="active==1">
@@ -74,7 +74,7 @@
                     <br>
                     <el-table
                             border
-                            :data="[addOrderForm.address]"
+                            :data="addressListData"
                             style="width: 100%">
                         <el-table-column label="序号" type="index" width="80 px"></el-table-column>
                         <el-table-column prop="name" label="收货人姓名"></el-table-column>

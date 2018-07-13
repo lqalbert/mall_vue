@@ -139,10 +139,11 @@ export default {
             this.cpCode = "";
         }
     }
-    </script>
-    <style scoped>
-        .name-input{
-            max-width: 217px;
-        }
-    </style>
+}
+</script>
+<style scoped>
+    .name-input{
+        max-width: 217px;
+    }
+</style>
     

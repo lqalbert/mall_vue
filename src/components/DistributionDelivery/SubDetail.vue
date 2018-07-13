@@ -4,16 +4,11 @@
 			<el-tab-pane label="发货明细" name="First">
 				<el-table :data="deliveryDetailsData" v-loading="goodsLoading" border style="width: 100%">
 					<el-table-column prop="goods_name" label="商品名" align="center"></el-table-column>
-<<<<<<< HEAD
 					<el-table-column prop="cate_type" label="商品类型" header-align="center">
 						<template slot-scope="scope">
 							{{ displayCategory(scope.row.category) }}
 						</template>
 					</el-table-column>
-=======
-					<el-table-column prop="cate_type" label="大类型" align="center"></el-table-column>
-					<el-table-column prop="cate_kind" label="小类型" align="center"></el-table-column>
->>>>>>> 20180709改
 					<el-table-column prop="goods_number" label="数量" align="center"></el-table-column>
 					<el-table-column prop="assign_fee" label="配送费" align="center">
 						<template slot-scope="scope">

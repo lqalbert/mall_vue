@@ -3,7 +3,7 @@
         <el-row>
             <el-col :span="24">
                     <el-tabs v-model="activeName" type="border-card">
-                        <el-tab-pane label="客户信息" name="Customer">
+                        <el-tab-pane label="收件人信息" name="Customer">
                             <el-table :data="customer_address" border >
                                 <el-table-column  prop="name"  label="收件人姓名"  width="180"></el-table-column>
                                 <el-table-column  prop="fixed_telephone"  label="收件人固话"  width="180"></el-table-column>
@@ -20,7 +20,9 @@
                         </el-tab-pane>
                         <el-tab-pane label="销售信息" name="Order">
                             <el-table :data="orderRow" border >
-                                <!-- <el-table-column  prop="dep_group_realname"  label="部门-小组-员工"  width="180"></el-table-column>   -->
+                                <el-table-column  prop="user_name" label="部门"  width="180"></el-table-column>
+                                <el-table-column  prop="group_name" label="小组"  width="180"></el-table-column>
+                                <el-table-column  prop="department_name" label="员工"  width="180"></el-table-column>
                             </el-table>
                         </el-tab-pane>
                         <el-tab-pane label="发货物流" name="Assign">
@@ -72,22 +74,30 @@ export default {
     },
     methods:{
         setAssign(express_sn){
-            this.assignProxy.setParam({'express_sn': express_sn, 'fields':['order_id','id','address_id']}).load()
+            this.assignProxy.setParam({'express_sn': express_sn, 'fields':['*']}).load();
+            this.tabAssign = true;
         },
         setOrder(order_id){
-            this.OrderListProxy.setParam({id:order_id, fields:['dep_group_realname','group_id','department_id']}).load();
+            this.OrderListProxy.setParam({id:order_id, fields:[
+                'user_id',
+                'user_name',
+                'group_name',
+                'department_name',
+            ]}).load();
+            this.tabOrder = true;
         },
         loadAssign(data){
             this.tableData = data.items;
-            this.tabAssign = true;
             this.order_id = this.tableData[0].order_id;
             this.assign_id = this.tableData[0].id;
-            console.log(this.order_id);
+            this.handleCustomer();
+            // console.log(this.order_id);
         },
         loadOrder(data){
             this.orderRow = data.items;
         },
         loadAddress(data){
+            console.log(data);
             this.customer_address = data.items;
         },
         loadProducts(data){
@@ -95,13 +105,13 @@ export default {
         },
         handleCustomer(){
             //请求加载客户信息
-            this.tabcustomer = true;
             this.OrderAddressProxy.setParam({order_id: this.order_id}).load(); 
+            this.tabCustomer = true;
         },
         handleProducts(){
             //请求加载商品
-            this.tabProducts = true;
             this.OrderGoodsSelectProxy.setParam({assign_id: this.assign_id}).load();
+            this.tabProducts = true;
         },
         handleOrder(){
             //请求加载订单
@@ -112,9 +122,7 @@ export default {
     },
     watch:{
         row(val, oldVal){
-            console.log(val);
             this.express_sn = val.express_sn; 
-
             // this['handle'+ this.activeName].call(this, this.row);
             this.tabCustomer = false;
             this.tabProducts = false;

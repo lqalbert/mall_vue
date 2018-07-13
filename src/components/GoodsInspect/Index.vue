@@ -299,6 +299,7 @@ export default {
             this.$refs.express.$refs.input.focus();
             this.currentTime=0;
             this.audio.play();
+            this.checkGoods = [];
         },
         subNumber(index){
             const n = this.checkGoods.find((element, i)=>{

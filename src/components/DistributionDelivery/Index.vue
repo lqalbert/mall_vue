@@ -372,8 +372,8 @@ export default {
 
                 //         }).catch(() => {
                                 
-                        });
-                }
+                        // });
+                // }
                 // todo 
                 // this.$modal.show('express', param);
                 //与打印机通讯 要面单什么的

@@ -35,7 +35,7 @@
             element-loading-text="拼命加载中"
             :row-class-name="rowClassName"
             :default-sort="defaultSort"
-            show-summary>
+            :show-summary="showSummary">
             <slot></slot>
         </el-table>
         <br>
@@ -93,7 +93,10 @@
             },
             rowClassName:[String, Function],
             defaultSort: Object,
-            showSummary: Boolean
+            showSummary: {
+                type :Boolean,
+                default:false
+            }
 
       },
       data () {

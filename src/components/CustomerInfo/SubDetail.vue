@@ -27,19 +27,10 @@
                        
                     <el-table :data="BuyData" border style="width: 100%">
                         <el-table-column prop="created_at" label="购买时间" align="center"></el-table-column>
-                        <el-table-column prop="goods_name" label="商品名称" align="center"></el-table-column>
-                        <el-table-column prop="order.status_text" label="状态" align="center">  </el-table-column>
-                        <el-table-column prop="order.auditor_time" label="审核时间" align="center"></el-table-column>
-                        <el-table-column prop="created_at" label="发货时间" align="center">
-                            <template slot-scope="scope">
-                                {{ scope.row.assign ? scope.row.assign.out_entrepot_at : '未发货'}}
-                            </template>
-                        </el-table-column>
-                        <el-table-column prop="created_at" label="签收时间" align="center">
-                            <template slot-scope="scope">
-                                {{ scope.row.assign ? scope.row.assign.sign_at : '未'}}
-                            </template>
-                        </el-table-column>
+                        <el-table-column prop="order_sn" label="订单号" align="center"></el-table-column>
+                        <el-table-column prop="status_text" label="状态" align="center">  </el-table-column>
+                        <el-table-column prop="order_all_money" label="金额" align="center"></el-table-column>
+                        <el-table-column prop="type_text" label="类型 " align="center"></el-table-column>
                     </el-table>
             </el-tab-pane>
 
@@ -65,6 +56,7 @@
     import CustomerTrackLogProxy from '@/packages/CustomerTrackLogProxy';
     import CustomerComplainProxy from '@/packages/CustomerComplainProxy';
     import OrderGoodsProxy from '@/packages/OrderGoodsSelectProxy';
+    import OrderProxy from '@/packages/OrderSelectProxy';
     import AfterGoodsProxy from '@/packages/AfterGoodsSelectProxy';
 
     export default {
@@ -112,9 +104,10 @@
                 this.tabSecond = true;
             },
             handleThird(row){
-                this.orderGoodsProxy.setParam({
+                this.orderProxy.setParam({
                     cus_id:row.id,
-                    load:['order', 'assign']
+                    fields:['order_sn','created_at','order_all_money'],
+                    appends:['status_text','type_text'],
                 }).load();
                 this.tabThird = true;
             },
@@ -161,7 +154,7 @@
         created(){
             this.customerTrackLogProxy = new CustomerTrackLogProxy(null,this.getTrackLog,this);
             this.customerComplainProxy = new CustomerComplainProxy(null,this.getComplainLog,this);
-            this.orderGoodsProxy = new OrderGoodsProxy(null, this.getOrderGoods, this);
+            this.orderProxy = new OrderProxy(null, this.getOrderGoods, this);
             this.afterGoodsProxy = new AfterGoodsProxy(null, this.getAfterGoods, this);
             
         },

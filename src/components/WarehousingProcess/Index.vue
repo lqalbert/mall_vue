@@ -215,6 +215,8 @@
                     this.$message.error('请选择采购商品');
                     return;
                 }
+                this.addForm.goods_total = 0;
+                this.addForm.goods_money_total = 0;
                 for(let i=0;i<this.goodsList.length;i++) {
                     if (this.goodsList[i].goods_purchase_num == undefined || this.goodsList[i].goods_purchase_price == undefined || this.goodsList[i].goods_purchase_num == 0 || this.goodsList[i].goods_purchase_price == 0) {
                         this.is_submit = false;

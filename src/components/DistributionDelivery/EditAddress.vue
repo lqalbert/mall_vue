@@ -1,7 +1,7 @@
 <template>
     <div>
         <MyDialog title="修改地址" :name="name" :width="width" :height="height" @before-open="onBeforeOpen">
-            <el-form :model="editForm" ref="editForm" :label-width="labelWidth"  :label-position="labelPosition">
+            <el-form :model="editForm" ref="editForm" :label-width="labelWidth" :rules="rules" :label-position="labelPosition">
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="收件人姓名" prop="name" >
@@ -42,7 +42,7 @@
                 </el-row>
                 <el-row>
                     <el-col :span="18">
-                        <el-form-item label="地址" prop="address">
+                        <el-form-item label="详细地址" prop="address">
                             <el-input v-model="editForm.address" type="textarea"></el-input>
                         </el-form-item>
                     </el-col>
@@ -85,7 +85,29 @@ export default {
                 area_city_name:"",
                 area_district_name:""
             },
-
+            rules:{
+                name:[
+                    {required:true,message:'请填写收件人姓名', trigger: 'blur'},
+                    { max: 10, message: '长度在10个字符以内', trigger: 'blur' }
+                ],
+                phone:[
+                    {required:true,message:'请填写收件人手机号', trigger: 'blur'},
+                    { max: 11, message: '长度在11个字符以内', trigger: 'blur' }
+                ],
+                area_province_id:[
+                    {required:true,message:'请选择省份', trigger: 'blur'},
+                ],
+                area_city_id:[
+                    {required:true,message:'请选择城市', trigger: 'blur'},
+                ],
+                area_district_id:[
+                    {required:true,message:'请选择区县', trigger: 'blur'},
+                ],
+                address:[
+                    { required: true,message:'请输入收货地址',  trigger:'blur'},
+                    { max: 100, message: '长度在100个字符以内', trigger: 'blur' }
+                ],
+            },
             provices:[],
             city:[],
             dis:[]
@@ -101,6 +123,7 @@ export default {
             this.editForm.id = model.params.id;
             this.editForm.name = model.params.name;
             this.editForm.phone = model.params.phone;
+            this.editForm.address = model.params.address;
             this.editForm.area_province_id = model.params.area_province_id;
             this.editForm.area_city_id = model.params.area_city_id;
             this.editForm.area_district_id = model.params.area_district_id;
@@ -110,11 +133,13 @@ export default {
             this.districProxy.setParam({pid:this.editForm.area_city_id}).load();
         },
         proviceChange(v){
+            // this.city = [];
+            // this.area_city_id = '0';
             if (v != "" ) {
                 this.cityProxy.setParam({pid:v}).load();
                 let index = this.provices.findIndex((element)=>{
                     return element.id == v;
-                })
+                });
                 this.editForm.area_province_name = this.provices[index].name;
             } else {
                 this.editForm.area_city_id = "";
@@ -123,6 +148,7 @@ export default {
             }
         },
         cityChange(v){
+            this.area_district_id = '';
             if (v!="") {
                 this.districProxy.setParam({pid:v}).load();
                 let index = this.city.findIndex((element)=>{

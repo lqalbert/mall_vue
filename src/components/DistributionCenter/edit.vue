@@ -147,16 +147,21 @@
                         { required: true, message: '请输入配送中心名称', trigger: 'blur' }
                     ],
                     eng_name:[
-                        { required: true, message:'请输入英文简称', trigger: 'blur', },
-                        {  min: 1, max: 2, message: '长度不能超过3个字符', trigger: 'blur'  }
+                        {  required:true, type:'string', pattern:/^[a-zA-Z]{2}$/, required: true, message:'请输入英文简称', trigger: 'blur', },
+
                     ],
                     fixed_telephone:[
-                        { required: true,message:'请输入固定电话', type: 'string', trigger:'blur'}
+                        { required: true,message:'请输入正确的电话',pattern: /^1[34578]\d{9}$/, trigger:'blur'}
                     ],
                     contact:[
                         { required: true,message:'请输入联系人', type: 'string', trigger:'blur'}
                     ],
-
+                    contact_phone:[
+                        {message:'请输入正确的电话',pattern: /^1[34578]\d{9}$/, trigger:'blur'}
+                    ],
+                    comment:[
+                        {max: 100, message: '长度不能超过100个字符', trigger: 'blur'  }
+                    ],
                 }
             }
         },

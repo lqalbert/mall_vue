@@ -163,11 +163,11 @@ export default {
                     { required: true, message: '请输入姓名', trigger: 'blur' },
                     { min:1,   max: 10, message: '长度不能超过10个字符', trigger: 'blur'  }
                 ],
-                // phone:[
-                //     { required: true, message:'请输入正确的手机号', pattern:PHONE_REG, trigger:'blur'},
-                // ],
+                phone:[
+                    {  message:'请输入正确的手机号', pattern: /^1[34578]\d{9}$/, trigger:'blur'},
+                ],
                 fixed_telephone:[
-                    { required: true, message:'请输入固定电话', trigger:'blur'},
+                    { required: true, message:'请输入正确的手机号', pattern: /^1[34578]\d{9}$/,trigger:'blur'},
                 ],
                 address:[
                     { required: true,message:'请输入收货地址',  trigger:'blur'},
@@ -176,7 +176,7 @@ export default {
                 ],
                 zip_code:[
                     { required: true,message:'请输入邮编且须数字', type: 'number', trigger:'blur'},
-                    {min:1, max: 99999999, message: '长度不能超过7个字符', type: 'number',trigger: 'blur'  }
+                    {min:1, max: 999999, message: '长度不能超过6个字符', type: 'number',trigger: 'blur'  }
 
                 ],
                 area_province_id:[

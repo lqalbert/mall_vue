@@ -48,28 +48,21 @@
         
         <el-row>
             <el-col>
-                <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" :page-size="15" @dbclick="dbclick">
+                <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" :page-size="15" @dbclick="dbclick" :default-sort="{prop: 'cus_count', order: 'descending'}">
                     <el-table-column label="序号" align="center" width="65" type="index" >
                     </el-table-column>
-
                     <el-table-column prop="group_name" label="小组" width="180" v-if="searchForm.type=='user_id' || searchForm.type=='group_id'" align="center"></el-table-column>
                     <el-table-column prop="user_name"  label="员工" width="180" v-if="searchForm.type=='user_id'" align="center"></el-table-column>
-
-                    <el-table-column prop="cus_count" label="成交客户数" align="center">
+                    <el-table-column prop="cus_count" sortable="custom" label="成交客户数" align="center">
                     </el-table-column>
-
-                    <el-table-column prop="c_cus_count" label="成交单数" align="center">
+                    <el-table-column prop="c_cus_count" sortable="custom" label="成交单数" align="center">
                     </el-table-column>
-
-                    <el-table-column prop="all_pay" label="成交金额" align="center">
+                    <el-table-column prop="all_pay" sortable="custom" label="成交金额" align="center">
                     </el-table-column>
-
-                    <el-table-column prop="refund" label="退款金额" align="center">
+                    <el-table-column prop="refund" sortable="custom" label="退款金额" align="center">
                     </el-table-column>
-
-                    <el-table-column prop="deposit"  label="部门充值剩余" align="center" v-if="searchForm.type!='department_id'">
+                    <el-table-column prop="deposit"   label="部门充值剩余" align="center" v-if="searchForm.type!='department_id'">
                     </el-table-column>
-                   
                 </TableProxy>
             </el-col>
         </el-row>

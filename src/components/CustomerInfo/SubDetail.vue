@@ -3,7 +3,7 @@
     <el-row>
         <el-tabs v-model="activeName" type="border-card">
             <el-tab-pane label="跟踪记录" name="First">
-                <el-table :data="TrackLogData" border style="width: 100%">
+                <el-table :data="TrackLogData" border style="width: 100%" max-height="400">
                     <el-table-column prop="cus_name" label="客户姓名" align="center"></el-table-column>
                     <el-table-column prop="user_name" label="录入人姓名" align="center"></el-table-column>
                     <el-table-column prop="content" label="跟踪内容" align="center"></el-table-column>
@@ -11,7 +11,7 @@
                 </el-table>
             </el-tab-pane>
             <el-tab-pane label="投诉记录" name="Second">
-                <el-table :data="ComplainData" border style="width: 100%">
+                <el-table :data="ComplainData" border style="width: 100%" max-height="400">
                     <el-table-column prop="cus_name" label="客户姓名" align="center"></el-table-column>
                     <el-table-column prop="user_name" label="投诉人姓名" align="center"></el-table-column>
                     <el-table-column prop="type" label="投诉类型" align="center">
@@ -24,8 +24,7 @@
                 </el-table>
             </el-tab-pane>
             <el-tab-pane label="购买记录" name="Third">
-                       
-                    <el-table :data="BuyData" border style="width: 100%">
+                    <el-table :data="BuyData" border style="width: 100%" max-height="400">
                         <el-table-column prop="created_at" label="购买时间" align="center"></el-table-column>
                         <el-table-column prop="order_sn" label="订单号" align="center"></el-table-column>
                         <el-table-column prop="status_text" label="状态" align="center">  </el-table-column>
@@ -35,7 +34,7 @@
             </el-tab-pane>
 
             <el-tab-pane label="退/换货记录" name="Fourth">
-               <el-table :data="AfterData" border style="width: 100%">
+               <el-table :data="AfterData" border style="width: 100%" max-height="400">
                    <el-table-column prop="created_at" label="换货时间" align="center"></el-table-column>
                    <el-table-column prop="goods_name" label="商品名称" align="center"></el-table-column>
                    <el-table-column prop="type_text" label="状态" align="center"></el-table-column>

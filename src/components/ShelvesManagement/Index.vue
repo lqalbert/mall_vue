@@ -64,7 +64,7 @@
                  <div slot="buttonbar">
                         <el-button type="primary" size="small" @click="showAdd">添加货架</el-button>
                      <el-button size="small"  type="primary" @click="addGoodsDialog" >货架上货</el-button>
-                     <el-button size="small" type="primary" @click="editGoodsShelves">修改货架</el-button>
+                     <!--<el-button size="small" type="primary" @click="editGoodsShelves">修改货架</el-button>-->
                      <el-button size="small" type="primary" @click="goodsShelvesStatus">货架状态</el-button>
 
                     </div>
@@ -111,6 +111,7 @@
         <goods-shelves-status
                 name="goodsShelvesStatus"
                 :ajax-proxy="ajaxProxy"
+                :shelvesPickAjaxProxy="shelvesPickAjaxProxy"
                 @add-submit="ShelvesPickData"
                 @submit-success="handleReload">
         </goods-shelves-status>

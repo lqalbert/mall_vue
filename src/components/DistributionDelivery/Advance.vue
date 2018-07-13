@@ -15,8 +15,8 @@
                 </el-row>
                 <el-row>
                     <el-col :span="12">
-                        <el-form-item prop="pstatus" label="发货单状态">
-                            <el-select size="small" v-model="queryForm.pstatus" clearable>
+                        <el-form-item prop="status" label="发货单状态">
+                            <el-select size="small" v-model="queryForm.status" clearable>
                                 <el-option v-for="(item,index) in assign_status" :label="item" :value="index" :key="index"></el-option>
                             </el-select>
                         </el-form-item>
@@ -121,7 +121,7 @@
                                 <el-date-picker
                                     v-model="range"
                                     size="small"
-                                    type="datetimerange"
+                                    type="daterange"
                                     @change="rangeChange">
                                   </el-date-picker>
                             </el-form-item>
@@ -162,7 +162,7 @@
                     name:"",
                     assign_sn:"",
                     order_sn:"",
-                    pstatus:"",
+                    status:"",
                     area_province_id:"",
                     area_city_id:"",
                     phone:"",
@@ -254,4 +254,3 @@
             max-width: 217px;
         }
     </style>
-    

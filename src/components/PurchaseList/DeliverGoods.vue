@@ -77,6 +77,7 @@
                                         v-model="deliverForm.deliver_goods_time"
                                         type="datetime"
                                         @change="dateChange"
+                                        :picker-options="pickerOptions"
                                         placeholder="选择发货日期">
                                 </el-date-picker>
                             </el-form-item>
@@ -130,6 +131,11 @@ export default {
     },
     data(){
         return {
+            pickerOptions: {
+                disabledDate(time) {
+                    return time.getTime() >= Date.now();
+                }
+            },
             dialogThis:this,
             labelPosition:"right",
             labelWidth:'150px',

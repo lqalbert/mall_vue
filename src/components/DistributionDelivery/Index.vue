@@ -11,7 +11,7 @@
                 </el-form-item>
                 <el-form-item prop="times" class="date-item">
                     <el-date-picker
-                            v-model="times"
+                            v-model="searchForm.times"
                             type="daterange"
                             size="small"
                             placeholder="选择日期范围"
@@ -29,8 +29,8 @@
                 <el-form-item prop="express_name">
                     <el-input v-model="searchForm.express_name" size="small" placeholder="快递公司"></el-input>
                 </el-form-item> -->
-                <el-form-item prop="pstatus">
-                    <el-select v-model="searchForm.pstatus" size="small" placeholder="发货状态" >
+                <el-form-item prop="status">
+                    <el-select v-model="searchForm.status" size="small" placeholder="发货状态" >
                         <el-option label="未审核" value="0"></el-option>
                         <el-option label="已审核" value="1"></el-option>
                         <el-option label="审核未通过" value="2"></el-option>
@@ -42,7 +42,7 @@
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" size="small" icon="search" @click="searchToolChange('searchForm')">查询</el-button>
-                    <el-button type="primary" size="small" @click="searchToolReset('searchForm')">重置</el-button>
+                    <el-button type="primary" size="small" @click="dataReset('searchForm')">重置</el-button>
                 </el-form-item>
 
                 <el-form-item>
@@ -179,7 +179,7 @@ const MAX_DAN_LENGTH = 10;
 
 export default {
     name: 'DistributionDelivery',
-    pageTitle:"配送发货",
+    pageTitle:"发货单",
     mixins:[PageMix,SearchTool,DataTable],
     components:{       
         EditAddress,
@@ -204,10 +204,11 @@ export default {
                 deliver_name:'',
                 deliver_phone:'',
                 express_name:'',
-                pstatus:'',
+                status:'',
                 assign_type:'',
                 user_name:'',
                 is_stop:"",
+                times:'',
                 // with:['order','address'],
                 // appends:['status_text'],
             },
@@ -254,6 +255,10 @@ export default {
         dbClick(row){
             this.model=row;
         },
+        dataReset(name){
+            this.searchForm.range = '';
+            this.searchToolReset(name);
+        },
         // searchToolReset(name){
         //     this.times='';
         // },
@@ -274,6 +279,10 @@ export default {
             }
         },
         timeChange(v){
+            // this.searchForm.range = '';
+            // if(v){
+            //     this.searchForm.range = v.split(' - ');
+            // }
             if (v!="") {
                 this.searchForm.range = v.split(' - ');
             } else {

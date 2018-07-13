@@ -155,18 +155,17 @@
                         
                     ],
                     fixed_telephone:[
-                        { required: true,message:'请输入固定电话', type: 'string', trigger:'blur'}
+                        { required: true,message:'请输入正确的电话',pattern: /^1[34578]\d{9}$/, trigger:'blur'}
                     ],
                     contact:[
                         { required: true,message:'请输入联系人', type: 'string', trigger:'blur'}
                     ],
-                    // contact_phone:[
-                    //     { required: true,message:'请输入联系人电话', pattern:PHONE_REG, trigger:'blur'}
-                    // ],
-                    // address:[
-                    //     { required: true, message:'请输入地址', type: 'string', trigger:'blur'},
-                    //     {   max: 100, message: '长度不能超过100个字符', trigger: 'blur'  }
-                    // ],
+                    contact_phone:[
+                        {message:'请输入正确的电话',pattern: /^1[34578]\d{9}$/, trigger:'blur'}
+                    ],
+                    comment:[
+                        {max: 100, message: '长度不能超过100个字符', trigger: 'blur'  }
+                    ],
                 }
             }
         },

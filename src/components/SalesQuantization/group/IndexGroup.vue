@@ -43,11 +43,8 @@
                     <el-table-column prop="c_cus_count" sortable='custom' label="一般客户数量"></el-table-column>
                     <el-table-column prop="b_cus_count" sortable='custom' label="意向客户数量"></el-table-column>
                     <el-table-column prop="track_count" sortable='custom' label="跟踪数"></el-table-column>
-                    <el-table-column label="转入/出客户数">
-                        <template slot-scope="scope">
-                            +{{ scope.row.trans_in }} / -{{ scope.row.trans_out }}
-                        </template>
-                    </el-table-column>
+                    <el-table-column prop="in_count"  sortable='custom' label="转入"></el-table-column>
+                    <el-table-column prop="out_count" sortable='custom' label="转出"></el-table-column>
                 </TableProxy>
             </el-col>
         </el-row>

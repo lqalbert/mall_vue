@@ -3,7 +3,7 @@
         <el-row>
             <el-col :span="24">
                 <el-form :inline="true"  ref="searchForm" :model="searchForm" >
-                    <el-form-item prop="cate_type_id">
+                    <!-- <el-form-item prop="cate_type_id">
                         <el-select
                                 v-model="searchForm.cate_type_id"
                                 size="small"
@@ -24,7 +24,7 @@
                                        :value="v.id" :key="v.id">
                             </el-option>
                         </el-select>
-                    </el-form-item>
+                    </el-form-item> -->
 
                     <el-form-item prop="entrepot_id">
                         <el-select
@@ -58,9 +58,9 @@
 
                     <el-table-column prop="goods_name" label="商品名称" width="180" align="center"></el-table-column>
 
-                    <el-table-column prop="goods.cate_type" label="商品类型" width="180" align="center"></el-table-column>
+                    <!-- <el-table-column prop="goods.cate_type" label="商品类型" width="180" align="center"></el-table-column>
 
-                    <el-table-column prop="goods.cate_kind" label="商品种类" width="180" align="center"></el-table-column>
+                    <el-table-column prop="goods.cate_kind" label="商品种类" width="180" align="center"></el-table-column> -->
 
                     <el-table-column prop="entrepot_count" label="商品剩余数量" width="180" align="center"></el-table-column>
 

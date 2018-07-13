@@ -257,9 +257,10 @@
              *  local 
              */
             onDepartChange(v){
+                
                 this.searchForm.group_id = '';
                 this.searchForm.user_id = '';
-                if (v.toString().length > 0) {
+                if (v!= null && v.toString().length > 0) {
                     this.groupSelect.setParam({department_id:v,fields:['id','name']});
                     this.groupSelect.load();
                 }    
@@ -268,8 +269,9 @@
              *  local
              */
             onGroupChange(v){
+                
                 this.searchForm.user_id = '';
-                if (v.toString().length > 0) {
+                if (v!=null && v.toString().length > 0) {
                     this.employeeSelect.setParam({group_id:v,fields:['id', 'realname']});
                     this.employeeSelect.load();
                 }  

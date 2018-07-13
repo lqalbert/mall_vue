@@ -265,7 +265,7 @@
                 
                 onGroupChange(v){
                     this.searchForm.user_id = '';
-                    if (v.toString().length > 0) {
+                    if (v!=null && v.toString().length > 0) {
                         this.employeeSelect.setParam({group_id:v,fields:['id', 'realname']});
                         this.employeeSelect.load();
                     }  

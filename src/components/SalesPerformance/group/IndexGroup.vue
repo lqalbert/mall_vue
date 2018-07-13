@@ -43,7 +43,7 @@
         
         <el-row>
             <el-col>
-                <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" :page-size="15" @dbclick="dbclick" :default-sort="{prop: 'cus_count', order: 'descending'}">
+                <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" show-summary :page-size="15" @dbclick="dbclick" :default-sort="{prop: 'cus_count', order: 'descending'}">
                     <el-table-column label="序号" align="center" width="65" type="index" ></el-table-column>
                     <el-table-column prop="user_name"  label="员工" width="180"  align="center"></el-table-column>
                     <el-table-column prop="cus_count" sortable="custom" label="成交客户数" align="center"></el-table-column>

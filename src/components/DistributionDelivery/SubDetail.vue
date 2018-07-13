@@ -124,7 +124,7 @@ export default {
 			this.goodsLoading = true;
 			this.OrderGoodsProxy.setParam({
 				assign_id:row.id,
-				with:['category']
+				appends:['category']
 			}).load();
 			this.tabFirst = true;
 		},

@@ -34,7 +34,8 @@
             @cell-click="cellclick"
             element-loading-text="拼命加载中"
             :row-class-name="rowClassName"
-            :default-sort="defaultSort">
+            :default-sort="defaultSort"
+            show-summary>
             <slot></slot>
         </el-table>
         <br>
@@ -91,7 +92,8 @@
                 default:''
             },
             rowClassName:[String, Function],
-            defaultSort: Object
+            defaultSort: Object,
+            showSummary: Boolean
 
       },
       data () {

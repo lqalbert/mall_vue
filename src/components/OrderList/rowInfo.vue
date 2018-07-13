@@ -1,6 +1,6 @@
 <template>
     <div >
-        <MyDialog title="查看" :name="name" :width="width" :height="height" @before-open="onOpen">
+        <MyDialog title="查看" :name="name" :width="width" :height="height" @before-open="onOpen" @opened="checkEditable">
             <el-form ref="rowInfoForm" :model="rowInfoForm" :label-width="labelWidth" :label-position="labelPosition">
                 
                 <el-tabs v-model="activeName">
@@ -251,15 +251,18 @@
             }
         },
         methods:{
-            onOpen(param){
-            //   this.rowInfoForm = event.params.rowData;
-                if (param.params.rowData.status >=1) {
+            checkEditable(){
+                if (this.model.status >=1) {
                     this.$message.error('已通过审核环节，不能编辑');
-                    // this.handleClose();
+                    this.handleClose();
                     return false;
                 }
-                this.model = event.params.rowData;
-                this.row = event.params.rowData;
+            },
+            onOpen(param){
+            //   this.rowInfoForm = event.params.rowData;
+                
+                this.model = param.params.rowData;
+                this.row = param.params.rowData;
 
             },
             getAjaxPromise(model){

@@ -15,7 +15,7 @@
 
     export default {
         name: 'SalesPerformance',
-        pageTitle:"销售量化",
+        pageTitle:"销售业绩",
         mixins: [PageMix],
         components: {
             IndexAdmin,

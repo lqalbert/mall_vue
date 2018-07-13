@@ -251,12 +251,12 @@
             }
         },
         methods:{
-            onOpen(event){
+            onOpen(param){
             //   this.rowInfoForm = event.params.rowData;
-                if (event.params.rowData.status >=1) {
+                if (param.params.rowData.status >=1) {
                     this.$message.error('已通过审核环节，不能编辑');
-                    this.handleClose();
-                    return ;
+                    // this.handleClose();
+                    return false;
                 }
                 this.model = event.params.rowData;
                 this.row = event.params.rowData;

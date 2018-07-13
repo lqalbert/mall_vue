@@ -99,7 +99,7 @@
 
         <el-row>
             <el-col>
-                <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" @cellclick="rowCellClick"  @dbclick="showRow" :page-size="20" >
+                <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" @cellclick="rowCellClick"  @dbclick="showRow" :page-size="15" :height="500" >
                     <el-table-column prop="order_sn" label="订单号" align="center" width="180">
                     </el-table-column>
 

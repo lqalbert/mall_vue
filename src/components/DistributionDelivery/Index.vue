@@ -11,7 +11,7 @@
                 </el-form-item>
                 <el-form-item prop="times" class="date-item">
                     <el-date-picker
-                            v-model="times"
+                            v-model="searchForm.times"
                             type="daterange"
                             size="small"
                             placeholder="选择日期范围"
@@ -31,7 +31,7 @@
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" size="small" icon="search" @click="searchToolChange('searchForm')">查询</el-button>
-                    <el-button type="primary" size="small" @click="searchToolReset('searchForm')">重置</el-button>
+                    <el-button type="primary" size="small" @click="dataReset('searchForm')">重置</el-button>
                 </el-form-item>
 
                 <el-form-item>

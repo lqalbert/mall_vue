@@ -1,7 +1,7 @@
 <template>
     <div >
         <MyDialog title="货架状态" :name="name" :width="width" :height="height" @before-open="onBeforeOpen">
-            <el-form :model="addForm"  :label-width="labelWidth"  ref="addForm" :label-position="labelPosition">
+            <el-form :model="addForm"  :label-width="labelWidth"  ref="addForm" :rules="rules" :label-position="labelPosition">
                 <el-row>
                     <el-col :span="12">
                         <el-form-item prop="shelves_status"  label="货架状态">
@@ -26,7 +26,7 @@
                     <el-col :span="12">
                         <el-form-item label="修改时间" prop="change_time" >
                             <el-date-picker
-                                    v-model="change_time"
+                                    v-model="addForm.change_time"
                                     type="datetime"
                                     size="small"
                                     @change='timeChange'
@@ -60,9 +60,11 @@
     export default {
         name: 'addDialog',
         mixins:[DialogForm],
-        // props:{
-        //
-        // },
+        props:{
+            shelvesPickAjaxProxy:{
+                type:Object,
+            }
+        },
         // components:{
         //     Dialog
         // },
@@ -87,14 +89,15 @@
                 model:'',
                 change_time:'',
                 rules:{
-                    name:[
-                        { required: true, message: '请输入小组名称', trigger: 'blur' }
-                    ],  
-                    department_id:[
-                        { required: true, message:'请选择所属部门', trigger: 'blur', type: 'number'}
+                    change_user:[
+                        { required: true, message: '请输入修改人名字', trigger: 'blur' },
+                        { message:'输入内容最大长度为20个字符', type: 'string', trigger:'blur', max:20}
                     ],
-                    remarks:[
-                        { message:'输入内容最大长度为200', type: 'string', trigger:'blur', max:200}
+                    change_time:[
+                        { required: true, message: '请选择修改时间', trigger: 'blur' },
+                    ],
+                    change_remark:[
+                        { message:'输入内容最大长度为100', type: 'string', trigger:'blur', max:100}
               ]
                 }
             }
@@ -116,7 +119,7 @@
                 this.formSubmit(name);
                 let data ={shelves_id:this.model.id};
                 let that = this;
-                this.ajaxProxy.get(data).then(function(response){
+                this.shelvesPickAjaxProxy.get(data).then(function(response){
                     that.$emit('add-submit',response.data)
                 })
             },
@@ -124,6 +127,8 @@
         watch:{
             model:function(val, oldVal){
                 this.initObject(val, this.addForm);
+                this.addForm.change_time='';
+
             }
         },
         created(){

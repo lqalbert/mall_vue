@@ -454,6 +454,7 @@ export default {
                     total:total,
                     entrepot:entrepot.name
                 },
+                //http://cloudprint.cainiao.com/template/standard/251026
                 templateURL:"http://cloudprint.cainiao.com/template/standard/251026"
             }
         },

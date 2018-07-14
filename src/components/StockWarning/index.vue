@@ -3,29 +3,6 @@
         <el-row>
             <el-col :span="24">
                 <el-form :inline="true"  ref="searchForm" :model="searchForm" >
-                    <!-- <el-form-item prop="cate_type_id">
-                        <el-select
-                                v-model="searchForm.cate_type_id"
-                                size="small"
-                                placeholder="商品类型"
-                                @change="typeChange">
-                            <el-option v-for="v in types" :label="v.label"
-                                       :value="v.id" :key="v.id">
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
-                    
-                    <el-form-item prop="cate_kind_id">
-                        <el-select
-                                v-model="searchForm.cate_kind_id"
-                                size="small"
-                                placeholder="商品品类">
-                            <el-option v-for="v in cate_kinds" :label="v.label"
-                                       :value="v.id" :key="v.id">
-                            </el-option>
-                        </el-select>
-                    </el-form-item> -->
-
                     <el-form-item prop="entrepot_id">
                         <el-select
                                 v-model="searchForm.entrepot_id"
@@ -53,25 +30,20 @@
             <el-col>
                 <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" :page-size="15">
                     <el-table-column label="序号" align="center" type="index" width="65"></el-table-column>
-
                     <el-table-column prop="entrepot.name" label="配送中心" width="180" align="center"></el-table-column>
-
                     <el-table-column prop="goods_name" label="商品名称" width="180" align="center"></el-table-column>
-
-                    <!-- <el-table-column prop="goods.cate_type" label="商品类型" width="180" align="center"></el-table-column>
-
-                    <el-table-column prop="goods.cate_kind" label="商品种类" width="180" align="center"></el-table-column> -->
-
+                    <el-table-column  label="商品类型" width="180" align="center">
+                        <template slot-scope="scope">
+							{{ displayCategory(scope.row.category) }}
+						</template>
+                    </el-table-column>
                     <el-table-column prop="entrepot_count" label="商品剩余数量" width="180" align="center"></el-table-column>
-
                     <el-table-column prop="produce_in" label="累记库存总量" align="center"></el-table-column>
-
                     <el-table-column prop="warehouse_status" label="库存状态" align="center">
                         <template slot-scope="scope">
                             {{ setWarehouseStatus(scope.row) }}
                         </template>
                     </el-table-column>
-
                     <el-table-column label="操作" fixed="right" align="center">
                         <template slot-scope="scope">
                             <el-button type="info" size="small" @click="showEdit(scope.row)">编辑</el-button>
@@ -97,6 +69,7 @@
     import DistributionCenterSelectProxy from '@/packages/DistributionCenterSelectProxy';
     import CategorySelectProxy from '@/packages/CategorySelectProxy';
     import StockWarningAjaxProxy from '@/ajaxProxy/StockWarning';
+    import { displayCategory } from '@/utils/category';
 
     import edit from "./edit";
 
@@ -129,14 +102,15 @@
                 this.cate_kinds = [];
             },
             showEdit(row){
-                console.log(row);
+                // console.log(row);
                 this.entrepotSelect.load();
-                this.CategorySelect.load(); 
-                row.cate_type_id = row.goods.cate_type_id;
-                row.cate_kind_id = row.goods.cate_kind_id;
+                //this.CategorySelect.load(); 
+                //row.cate_type_id = row.goods.cate_type_id;
+                //row.cate_kind_id = row.goods.cate_kind_id;
                 this.$modal.show('edit-dialog',{model:row});
             },
             onSearchChange(param){
+                param['appends'] =['category'];
                 this.mainparam = JSON.stringify(param);
             },
             loadEntrepot(data){
@@ -163,7 +137,8 @@
                 }else if(row.entrepot_count <= row.inventory_max  && row.entrepot_count >= row.inventory_min){
                     return "货物充足";
                 }
-            }
+            },
+            displayCategory:displayCategory
         },
         created(){
             this.$on('search-tool-change', this.onSearchChange);

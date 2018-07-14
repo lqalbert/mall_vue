@@ -21,7 +21,7 @@
                         </el-form-item>
                     </el-col>
                 </el-row>
-                <el-row>
+                <!-- <el-row>
                     <el-col :span="12">
                         <el-form-item label="商品类型"  prop="cate_type_id">
                             <el-select
@@ -47,7 +47,7 @@
                             </el-select>
                         </el-form-item>
                     </el-col>
-                </el-row>
+                </el-row> -->
                 <!-- <el-row>
                     <el-col :span="12">
                         <el-form-item label="商品剩余数量"  prop="rest_goods_number">
@@ -160,12 +160,12 @@ export default {
     },
     methods:{
         onOpen(param){
-            console.log(param);
+            // console.log(param);
             this.model = param.params.model;
-            this.typeChange(this.model.cate_type_id);
+            // this.typeChange(this.model.cate_type_id);
         },
         getAjaxPromise(model){
-            console.log(model);
+            // console.log(model);
             return this.ajaxProxy.update(model.id, model);
         },
         typeChange(v){

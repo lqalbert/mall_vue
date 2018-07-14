@@ -430,6 +430,33 @@ export default {
                 }
             }
         },
+        getPrintGoodsListData(goodsList, row){
+            let tabletest = [];
+            let total = 0;
+            for (let index = 0; index < goodsList.length; index++) {
+                const element = goodsList[index];
+                let tmp = {
+                    name:"["+ element.goods_number +"]" + "个  "+ element.sku_sn + "  " + element.goods_name + "  " + element.specifications ,
+                    goods_number: element.goods_number 
+                };
+                tabletest.push(tmp);
+                total += parseInt(element.goods_number);
+            }
+
+            let entrepot = this.distributors.find(function(value){
+                return value.id = row.entrepot_id;
+            })
+            return {
+                data:{
+                    tabletest:tabletest,
+                    address:row.address,
+                    assign_sn:row.assign_sn,
+                    total:total,
+                    entrepot:entrepot.name
+                },
+                templateURL:"http://cloudprint.cainiao.com/template/standard/251026"
+            }
+        },
         printList(){
             ws.getPrinterList();
         },

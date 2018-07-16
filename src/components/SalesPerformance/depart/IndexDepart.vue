@@ -61,8 +61,8 @@
                     </el-table-column>
                     <el-table-column prop="refund" sortable="custom" label="退款金额" align="center">
                     </el-table-column>
-                    <el-table-column prop="deposit"   label="部门充值剩余" align="center" v-if="searchForm.type!='department_id'">
-                    </el-table-column>
+                    <!-- 加两列 客户邮费、公司邮费 -->
+                    
                 </TableProxy>
             </el-col>
         </el-row>

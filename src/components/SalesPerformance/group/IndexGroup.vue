@@ -50,6 +50,7 @@
                     <el-table-column prop="c_cus_count" sortable="custom" label="成交单数" align="center"></el-table-column>
                     <el-table-column prop="all_pay" sortable="custom" label="成交金额" align="center"></el-table-column>
                     <el-table-column prop="refund" sortable="custom" label="退款金额" align="center"></el-table-column>
+                    <!-- 加两列 客户邮费、公司邮费 -->
                 </TableProxy>
             </el-col>
         </el-row>

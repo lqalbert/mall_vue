@@ -85,12 +85,33 @@
 					<el-table-column prop="type_name" label="备注" align="center"></el-table-column>
 				</el-table>
 			</el-tab-pane>
+			<el-tab-pane label="其他联系信息" name="Seventh">
+				<el-table :data="otherContactData" border style="width: 100%">
+					<el-table-column prop="account" label="员工账号"></el-table-column>
+					<el-table-column prop="department_name" label="单位">
+						<template slot-scope="scope">
+							{{scope.row.department.name}}
+						</template>
+					</el-table-column>
+					<el-table-column prop="mobilephone" label="手机"></el-table-column>
+					<el-table-column prop="qq" label="QQ号码"></el-table-column>
+					<el-table-column prop="m_account" label="员工账号(管理员)"></el-table-column>
+					<el-table-column prop="department_name" label="单位(管理员)">
+						<template slot-scope="scope">
+							{{scope.row.department.name}}
+						</template>
+					</el-table-column>
+					<el-table-column prop="m_mobilephone" label="手机(管理员)"></el-table-column>
+					<el-table-column prop="m_qq" label="QQ号码(管理员)"></el-table-column>
+				</el-table>
+			</el-tab-pane>
 		</el-tabs>
 	</el-row>
 </template>
 <script>
 // import DistributionDeliveryProxy from '@/packages/DistributionDeliveryProxy';
 import OrderGoodsAjaxProxy from "@/packages/OrderGoodsAjaxProxy";
+import EmployeeSelectProxy from "../../packages/EmployeeSelectProxy";
 
 import CommunicateProxy from '@/packages/CommunicateProxy';
 export default {
@@ -110,6 +131,7 @@ export default {
 			deliveryAddressesData:[],
 			communicationData:[],
 			operationData:[],
+			otherContactData:[],
 			
 			tabFirst:false,
 			tabSecond:false,
@@ -117,6 +139,7 @@ export default {
 			tabFourth:false,
 			tabFifth:false,
 			tabSixth:false,
+			tabSeventh:false,
 
 			goodsLoading:false,
 		}
@@ -162,6 +185,15 @@ export default {
 				business:'operation'
 			}).load()
 			this.tabSixth = true;
+		},
+		handleSeventh(row){
+			let user_id = row.order.user_id;
+			this.EmployeeProxy.setParam({
+				fields:['id','account','qq','mobilephone','department_id'],
+				business:'user-department',
+				id:user_id
+			}).load();
+			this.tabSeventh = true;
 		},
 		getDeliveryDetail(data){
 			this.goodsLoading = false;
@@ -223,7 +255,11 @@ export default {
                 cate.push(category[index].label);
             }
             return cate.join(" / ");
-        },
+		},
+		getOtherContac(data){
+			console.log(data);
+			this.otherContactData = data;
+		}
 	},
 	watch:{
 		row:function(val, oldVal){
@@ -234,6 +270,7 @@ export default {
 			this.tabFourth = false;
 			this.tabFifth = false;
 			this.tabSixth = false;
+			this.tabSeventh = false;
 		},
 		activeName:function(val, oldVal){
 			if (!this['tab'+ val] && this.row !== null) {
@@ -243,7 +280,8 @@ export default {
 
 	},
 	created(){
-		this.OrderGoodsProxy = new OrderGoodsAjaxProxy({fields:["*"]},    this.getDeliveryDetail,this);
+		this.OrderGoodsProxy = new OrderGoodsAjaxProxy({fields:["*"]},this.getDeliveryDetail,this);
+		this.EmployeeProxy = new EmployeeSelectProxy({},this.getOtherContac,this);
 	}
 }
 </script>

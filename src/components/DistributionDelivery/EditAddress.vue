@@ -18,14 +18,14 @@
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="省份" prop="area_province_id" >
-                            <el-select v-model="editForm.area_province_id" placeholder="请选择" @change="proviceChange" clearable>
+                            <el-select v-model.unumber="editForm.area_province_id" placeholder="请选择" @change="proviceChange" clearable>
                                 <el-option v-for="item in provices" :label="item.name" :value="item.id" :key="item.id"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="城市" prop="area_city_id" >
-                            <el-select v-model="editForm.area_city_id" placeholder="请选择" @change="cityChange" clearable>
+                            <el-select v-model.number="editForm.area_city_id" placeholder="请选择" @change="cityChange" clearable>
                                 <el-option v-for="item in city" :label="item.name" :value="item.id" :key="item.id"></el-option>
                             </el-select>
                         </el-form-item>
@@ -34,7 +34,7 @@
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="区县" prop="area_district_id">
-                            <el-select v-model="editForm.area_district_id" placeholder="请选择" @change="disChange" clearable>
+                            <el-select v-model.number="editForm.area_district_id" placeholder="请选择" @change="disChange" clearable>
                                     <el-option v-for="item in dis" :label="item.name" :value="item.id" :key="item.id"></el-option>
                             </el-select>
                         </el-form-item>
@@ -87,7 +87,7 @@ export default {
             },
             rules:{
                 name:[
-                    {required:true,message:'请填写收件人姓名', trigger: 'blur'},
+                    {required:true,message:'请填写收件人姓名', trigger: 'blur',},
                     { max: 10, message: '长度在10个字符以内', trigger: 'blur' }
                 ],
                 phone:[
@@ -95,13 +95,13 @@ export default {
                     { max: 11, message: '长度在11个字符以内', trigger: 'blur' }
                 ],
                 area_province_id:[
-                    {required:true,message:'请选择省份', trigger: 'blur'},
+                    {required:true,message:'请选择省份', trigger: 'blur',type:'number'},
                 ],
                 area_city_id:[
-                    {required:true,message:'请选择城市', trigger: 'blur'},
+                    {required:true,message:'请选择城市', trigger: 'blur',type:'number'},
                 ],
                 area_district_id:[
-                    {required:true,message:'请选择区县', trigger: 'blur'},
+                    {required:true,message:'请选择区县', trigger: 'blur',type:'number'},
                 ],
                 address:[
                     { required: true,message:'请输入收货地址',  trigger:'blur'},

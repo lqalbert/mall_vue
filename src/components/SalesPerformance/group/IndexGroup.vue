@@ -54,7 +54,12 @@
             </el-col>
         </el-row>
 
-        <sub-detail :row="model" :orderDetail="orderDetail">
+        <sub-detail :row="model"
+                    :ajax-proxy="ajaxProxy"
+                    :page_size="page_size"
+                    :SalesPerformanceOrderInfoData="SalesPerformanceOrderInfoData"
+                    :SalesPerformanceOrderInfoTotal="SalesPerformanceOrderInfoTotal"
+                    @getOrderData="getData">
         </sub-detail>
 
     </div>

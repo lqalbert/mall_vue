@@ -18,8 +18,8 @@
                             @change="timeChange">
                     </el-date-picker>
                 </el-form-item>
-                <el-form-item prop="pstatus">
-                    <el-select v-model="searchForm.pstatus" size="small" placeholder="发货状态" >
+                <el-form-item prop="status">
+                    <el-select v-model="searchForm.status" size="small" placeholder="发货状态" >
                         <el-option label="未审核" value="0"></el-option>
                         <el-option label="已审核" value="1"></el-option>
                         <el-option label="审核未通过" value="2"></el-option>
@@ -30,6 +30,8 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item>
+                    <a href="https://m.kuaidi100.com/" target="_blank">快递查询</a>
+                    <a href="http://www.kuaidi100.com//" target="_blank">快递查询222</a>
                     <el-button type="primary" size="small" icon="search" @click="searchToolChange('searchForm')">查询</el-button>
                     <el-button type="primary" size="small" @click="dataReset('searchForm')">重置</el-button>
                 </el-form-item>
@@ -194,7 +196,7 @@ export default {
                 deliver_name:'',
                 deliver_phone:'',
                 express_name:'',
-                pstatus:'',
+                status:'',
                 assign_type:'',
                 user_name:'',
                 is_stop:"",

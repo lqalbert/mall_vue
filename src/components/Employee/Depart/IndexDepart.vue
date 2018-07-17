@@ -101,8 +101,8 @@
                         <template slot-scope="scope">
                             <el-switch
                                     v-model="scope.row.status"
-                                    :on-value="'1'"
-                                    :off-value="'-1'"
+                                    :on-value="1"
+                                    :off-value="-1"
                                     on-color="#13ce66"
                                     off-color="#ff4949"
                                     @change="setStatusChange(scope.row)">

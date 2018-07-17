@@ -167,7 +167,7 @@ export default {
                     {  message:'请输入正确的手机号', pattern: /^1[34578]\d{9}$/, trigger:'blur'},
                 ],
                 fixed_telephone:[
-                    { required: true, message:'请输入正确的手机号', pattern: /^1[34578]\d{9}$/,trigger:'blur'},
+                    { required: true, message:'请输入正确的座机号', pattern: /^0\d{2,3}-\d{7,8}$/,trigger:'blur'},
                 ],
                 address:[
                     { required: true,message:'请输入收货地址',  trigger:'blur'},

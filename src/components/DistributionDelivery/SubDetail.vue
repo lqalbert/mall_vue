@@ -187,6 +187,7 @@ export default {
 			this.tabSixth = true;
 		},
 		handleSeventh(row){
+			console.log(row);
 			let user_id = row.order.user_id;
 			this.EmployeeProxy.setParam({
 				fields:['id','account','qq','mobilephone','department_id'],

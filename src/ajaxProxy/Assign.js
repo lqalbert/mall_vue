@@ -37,4 +37,9 @@ proxy.weightGoods = function(id, model){
     return this.getAxios().put('/assign-weight/'+id, model);
 }
 
+//assign-update-waybill 更新面单信息
+proxy.updateWaybill = function(id){
+    return this.getAxios().put('/assign-update-waybill/' +id);
+}
+
 export default proxy;

@@ -110,6 +110,7 @@
                     </el-table-column>
                     <div slot="buttonbar">
                         <el-button type="primary" size="small" @click="openCheck">审核</el-button>
+                        <el-button type="primary" size="small" @click="updateWaybill">更新面单</el-button>
                         <!-- 面单还可以取消和回收 -->
                         <el-button type="primary" size="small" @click="openRepeat">返单</el-button>
                         <el-button type="primary" size="small" @click="openStop">拦截/取消</el-button>
@@ -239,6 +240,10 @@ export default {
                     param.status = 4;
                     break;
                 default :
+                    param.status = '';
+                    param.is_stop = '';
+                    param.assign_print_status = '';
+                    param.express_print_status = '';
                     break;
             }
         },
@@ -327,10 +332,10 @@ export default {
                 return ;
             }
             //调试暂时注释
-            // if (checked.length != 0) {
-            //     this.$message.error(checked.join() +" 已审核");
-            //     return ;
-            // }
+            if (checked.length != 0) {
+                this.$message.error(checked.join() +" 已审核");
+                return ;
+            }
 
             if (ar.length > MAX_DAN_LENGTH) {
                 this.$message.error('最多'+MAX_DAN_LENGTH+'个');
@@ -473,6 +478,30 @@ export default {
         },
         staticPrint(){
             ws.staticPrint();
+        },
+        updateWaybill(){
+            if (!this.hasCurrentRow()) {
+                return ;
+            }
+            let row = this.currentRow;
+            this.$confirm('更新'+row.assign_sn+"面单信息", '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                //请求更新面单
+                AssignAjaxProxy.updateWaybill(row.id).then((response)=>{
+                    if (response.data.status == 1) {
+                        this.$message.success('操作成功');
+                    } else {
+                        this.$message.error(response.data.msg);
+                    }
+                    
+                }).catch((response)=>{
+                    this.$message.error('出错了');
+                })
+            })
+            console.log('yes');
         }
     },
     created(){

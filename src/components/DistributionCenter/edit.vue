@@ -1,6 +1,6 @@
 <template>
     <div >
-        <MyDialog title="添加配送中心" :name="name" :width="width" :height="height" @before-open="onOpen">
+        <MyDialog title="编辑配送中心" :name="name" :width="width" :height="height" @before-open="onOpen">
             <el-form :model="editForm"  :label-width="labelWidth" :rules="rules" ref="editForm" :label-position="labelPosition">
                 <el-row>
                     <el-col :span="12">

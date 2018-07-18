@@ -30,8 +30,7 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item>
-                    <a href="https://m.kuaidi100.com/" target="_blank">快递查询</a>
-                    <a href="http://www.kuaidi100.com//" target="_blank">快递查询222</a>
+                   
                     <el-button type="primary" size="small" icon="search" @click="searchToolChange('searchForm')">查询</el-button>
                     <el-button type="primary" size="small" @click="dataReset('searchForm')">重置</el-button>
                 </el-form-item>

@@ -69,7 +69,7 @@
                     <el-table-column label="总数量" align="center"  prop="goods_total" width="150"></el-table-column>
                     <el-table-column label="商品金额" align="center"  prop="goods_money_total" width="150"></el-table-column>
                     <el-table-column label="到货时间" align="center"  prop="contact_time" width="150"></el-table-column>
-                    <el-table-column label="备注" align="center"  prop="remark" width="150"></el-table-column>
+                    <el-table-column label="备注" align="center"  prop="remark" width="150" :show-overflow-tooltip="true"></el-table-column>
 
                     <el-table-column  label="操作" align="center" width="180">
                         <template slot-scope="scope">

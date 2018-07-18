@@ -3,13 +3,13 @@
         <el-row>
             <el-col :span="24">
                 <el-form :inline="true" ref="searchForm" :model="searchForm">
-                    <el-form-item>
+                    <el-form-item  prop="start">
                         <el-date-picker size="small" v-model="searchForm.start" 
                         placeholder="请选择起日期" :picker-options="setPicker"
                         @change="startDateChange" :clearable="false" class="form-item-unique">
                         </el-date-picker>
                     </el-form-item>
-                    <el-form-item>
+                    <el-form-item  prop="end">
                         <el-date-picker size="small" 
                         v-model="searchForm.end" 
                         placeholder="请选择止日期" :picker-options="setPicker"
@@ -76,7 +76,12 @@
                 </TableProxy>
             </el-col>
         </el-row>
-        <sub-detail :row="model" :orderDetail="orderDetail">
+        <sub-detail :row="model"
+                    :ajax-proxy="ajaxProxy"
+                    :page_size="page_size"
+                    :SalesPerformanceOrderInfoData="SalesPerformanceOrderInfoData"
+                    :SalesPerformanceOrderInfoTotal="SalesPerformanceOrderInfoTotal"
+                    @getOrderData="getData">
         </sub-detail>
     </div>
 </template>
@@ -84,6 +89,7 @@
 <script>
     import Caculate from '@/config/caculate';
     import SalesPerformanceAjaxProxy from '@/ajaxProxy/SalesPerformance';
+
     import { mapGetters } from 'vuex';
     import LocalMix from '../mix/index';
     
@@ -98,7 +104,6 @@
                 mainparam:"",
                 mainurl:SalesPerformanceAjaxProxy.getUrl(),
                 ajaxProxy:SalesPerformanceAjaxProxy,
-
                 setPicker:{
                     disabledDate:function(time) {
                         return time.getTime() > Date.now();// - 8.64e7
@@ -122,6 +127,7 @@
                 orderDetail:[],
                 param:{},
                 model:null,
+                dataTotal:null,
             }
         },
         computed:{
@@ -178,16 +184,7 @@
             saleGroupChange(v){
                 console.log(v);
             },
-            
-            
-            loadOrderData(param){
-                let vmthis =this;
-                SalesPerformanceAjaxProxy.selectOrder({params:param}).then((response)=>{
-                    vmthis.orderDetail=response.data.items;
-                }).catch((response)=>{
-                    vmthis.$message.error('加载数据出错');
-                });
-            },
+
             onSearchChange(param){
                 this.mainparam = JSON.stringify(param);
             }

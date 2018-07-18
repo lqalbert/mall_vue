@@ -1,6 +1,8 @@
 import PageMix from '@/mix/Page';
 import DataTable from '@/mix/DataTable';
 import SearchTool from '@/mix/SearchTool';
+import  SalesPerformanceOrderInfo from '@/packages/SalesPerformanceOrderInfoProxy';
+import SalesPerformanceOrderInfoAjaxProxy from '@/ajaxProxy/SalesPerformanceOrderInfo';
 
 import SubDetail from '../SubDetail';
 
@@ -12,6 +14,11 @@ let mix = {
     },
     data(){
         return {
+            SalesPerformanceOrderInfoAjaxProxy:SalesPerformanceOrderInfoAjaxProxy,
+            SalesPerformanceOrderInfoData:[],
+            SalesPerformanceOrderInfoTotal:0,
+            salesPerformanceOrderInfo:null,
+            page_size:15,
             pickerOptions: {
                 shortcuts: [{
                         text: '上一周',
@@ -58,8 +65,25 @@ let mix = {
             this.param.department_id = row.department_id;
             this.param.group_id = row.group_id;
             this.param.user_id = row.user_id;
-            this.loadOrderData(this.param);
+            this.setSalesPerformanceOrderInfo(this.param);
         },
+        getSalesPerformanceOrderInfo(data){
+            this.SalesPerformanceOrderInfoData = data.items;
+            this.SalesPerformanceOrderInfoTotal = data.total;
+        },
+        setSalesPerformanceOrderInfo(param){//获取快递价格信息
+            let salesPerformanceOrderInfo = new SalesPerformanceOrderInfo(param,this.getSalesPerformanceOrderInfo,this);
+            this.salesPerformanceOrderInfo = salesPerformanceOrderInfo;
+            this.salesPerformanceOrderInfo.setPageSize(this.page_size);
+            this.salesPerformanceOrderInfo.load();
+        },
+        getData(v){
+            this.salesPerformanceOrderInfo.setPage(v).load();
+        }
+    },
+    created(){
+        this.$on('getOrderData',this.getData);
+
     }
 };
 

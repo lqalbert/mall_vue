@@ -1,7 +1,7 @@
 <template>
     <div >
         <MyDialog title="货架上货" :name="name" :width="width" :height="height" @before-open="onBeforeOpen">
-            <el-form :model="addForm"  :label-width="labelWidth"  ref="addForm" :label-position="labelPosition">
+            <el-form :model="addForm"  :label-width="labelWidth"  ref="addForm" :rules="rules" :label-position="labelPosition">
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="货架编号" prop="shelves_num" >
@@ -118,26 +118,6 @@
                 labelWidth:'80px',
                 computedusers:[],
                 CategoryChildrenList:[],
-                types: [
-                    {id:1,name:'面膜'},
-                    {id:2,name:'爽肤水'},
-                ],
-                productNames: [
-                    {id:1,name:'面膜 6张'},
-                    {id:2,name:'爽肤水 200ml'},
-                ],
-                storageUsers: [
-                    {id:1,name:'张三'},
-                    {id:2,name:'李四'},
-                ],
-                departments:[
-                    {id:1,name:'面膜'},
-                    {id:2,name:'爽肤水'},
-                ],
-                distributors: [
-                    {id:1,name:'顺丰'},
-                    {id:2,name:'圆通'},
-                ],
                 addForm:{
                     shelves_id: "",
                     cate_type_id: "",
@@ -151,15 +131,23 @@
                     shelvesData:{}
                 },
                 rules:{
-                    name:[
-                        { required: true, message: '请输入小组名称', trigger: 'blur' }
-                    ],  
-                    department_id:[
-                        { required: true, message:'请选择所属部门', trigger: 'blur', type: 'number'}
+                    cate_type_id:[
+                        { required: true, message: '请选择商品类型', trigger: 'blur' }
+                    ],
+                    cate_kind_id:[
+                        { required: true, message:'请选择商品种类', trigger: 'blur', }
                     ],
                     remarks:[
-                        { message:'输入内容最大长度为200', type: 'string', trigger:'blur', max:200}
-              ]
+                        { message:'输入内容最大长度为100个字符', type: 'string', trigger:'blur', max:100}
+                    ],
+                    goods_name:[
+                        { required: true, message:'请输入商品名称', trigger: 'blur', },
+                        { message:'输入内容最大长度为20个字符', type: 'string', trigger:'blur', max:20}
+                    ],
+                    sku_sn:[
+                        { required: true, message:'请输入商品编号', trigger: 'blur', },
+                        { message:'输入内容最大长度为20个字符', type: 'string', trigger:'blur', max:20}
+                    ],
                 },
                 model:"",
                 full_num:'',
@@ -189,14 +177,16 @@
                 // console.log(this.addForm);
                 // return false;
 
-                this.formSubmit(name)
+                this.formSubmit(name);
                 this.full_num='';
                 this.deposit_num='';
                 let data ={shelves_id:this.model.id};
                 let that = this;
                 this.ajaxProxy.get(data).then(function(response){
-                    that.$emit('add-submit',response.data)
-                })
+                    that.$emit('add-submit',response.data);
+                    that.handleClose(name);
+                });
+
             },
             cate_type_change(v){
                 this.addForm.cate_kind_id = '';

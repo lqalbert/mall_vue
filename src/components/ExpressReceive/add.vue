@@ -1,11 +1,11 @@
 <template>
     <div >
         <MyDialog title="添加物流揽件" :name="name" :width="width" :height="height" >
-            <el-form :model="addForm"  :label-width="labelWidth"  ref="addForm" :label-position="labelPosition">
+            <el-form :model="addForm"  :label-width="labelWidth" :rules="rules" ref="addForm" :label-position="labelPosition">
                 <el-row>
                     <el-col :span="12">
                         <el-form-item prop="express_id" label="物流公司">
-                            <el-select v-model="addForm.express_id" size="small" placeholder="物流公司" @change="expressChange">
+                            <el-select v-model.number="addForm.express_id" size="small" placeholder="物流公司" @change="expressChange">
                                 <el-option v-for="v in companys" :value="v.id" :key="v.id" :label="v.company_name">
                                 </el-option>
                             </el-select>
@@ -85,22 +85,23 @@
                 },
 
                 rules:{
-                    name:[
-                        { required: true, message: '请输入配送中心名称', trigger: 'blur' }
+                    express_id:[
+                        { required: true, message: '请选择物流公司',type: 'number', trigger: 'blur' }
                     ],
-                    eng_name:[
-                        { required: true, message:'请输入英文简称', trigger: 'blur', },
-                        {  min: 1, max: 3, message: '长度不能超过3个字符', trigger: 'blur'  }
+                    assign_sn:[
+                        { required: true, message:'请输入发货单号', trigger: 'blur', },
+                        {max: 20, message: '长度不能超过20个字符', trigger: 'blur'  }
                     ],
-                    contact:[
-                        { required: true,message:'请输入联系人', type: 'string', trigger:'blur'}
+                    express_sn:[
+                        { required: true, message:'请输入快递单号', trigger: 'blur', },
+                        {max: 20, message: '长度不能超过20个字符', trigger: 'blur'  }
                     ],
-                    contact_phone:[
-                        { required: true,message:'请输入联系人电话', type: 'string', trigger:'blur'}
+                    assign_check_time:[
+                        { required: true,message:'请选择核对时间', type: 'string', trigger:'blur'}
                     ],
-                    address:[
-                        { required: true, message:'请输入地址', type: 'string', trigger:'blur'}
-                    ],
+                    check_user_name:[
+                        { required: true, message: '请输入核对人名字', trigger: 'blur' },
+                        { message:'输入内容最大长度为20个字符', type: 'string', trigger:'blur', max:20}                    ],
                 }
             }
         },

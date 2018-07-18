@@ -1,11 +1,11 @@
 <template>
     <div>
-        <MyDialog title="添加" :name="name" :width="width" :height="height">
+        <MyDialog title="添加" :name="name" :width="width" :height="height" @before-open="onOpen">
             <el-form :model="addForm" ref="addForm" :label-width="labelWidth" :rules="rules" :label-position="labelPosition">
                 <el-row>
                     <el-col :span="12">
                         <el-form-item prop="entrepot_id"  label="配送中心">
-                            <el-select v-model="addForm.entrepot_id" placeholder="请选择配送中心" @change="entrepotChange">
+                            <el-select v-model.number="addForm.entrepot_id" placeholder="请选择配送中心" @change="entrepotChange">
                                 <el-option v-for="v in distributors" :label="v.name"
                                            :value="v.id" :key="v.id">
                                 </el-option>
@@ -100,6 +100,9 @@ export default {
                 printer:""
             },
             rules:{
+                entrepot_id:[
+                    {required: true, message: '选择配送中心', trigger: 'blur' ,type:'number'},
+                ],
                 company_name:[
                     { required: true, message: '请输入物流公司名称', trigger: 'blur' },
                     { min: 1, max: 20, message: '长度不能超过20个字符', trigger: 'blur'  }
@@ -129,16 +132,16 @@ export default {
             return this.ajaxProxy.create(model);
         },
         entrepotChange(v){
-            let i =''
+            let i ='';
             for (i in this.distributors){
                 if(this.distributors[i]['id'] == v){
                     this.addForm.entrepot_name =this.distributors[i]['name']
                 }
             }
         },
-        // formSubmit(){
-        //     console.log(this.addForm)
-        // }
+        onOpen() {
+            this.addForm.entrepot_id = '';
+        }
     },
 
     created(){

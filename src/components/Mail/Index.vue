@@ -1,0 +1,192 @@
+<template>
+    <div class="hello">
+        <el-row>
+            <el-form :inline="true" :model="searchForm" ref="searchForm" class="demo-form-inline" size="small">
+                <el-form-item  prop="start">
+                    <el-date-picker size="small" v-model="searchForm.start"
+                                    placeholder="请选择起日期" :picker-options="setPicker"
+                                    @change="startDateChange" :clearable="false" class="form-item-unique">
+                    </el-date-picker>
+                </el-form-item>
+                <el-form-item  prop="end">
+                    <el-date-picker size="small"
+                                    v-model="searchForm.end"
+                                    placeholder="请选择止日期" :picker-options="setPicker"
+                                    @change="endDateChange" :clearable="false" class="form-item-unique">
+                    </el-date-picker>
+                </el-form-item>
+                <el-form-item prop="type">
+                    <el-select v-model.number="searchForm.type"
+                                placeholder="类型" size="small" >
+                        <el-option v-for="v in types" :label="v.name"
+                                   :value="v.id" :key="v.id">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item prop="contact">
+                    <el-input v-model="searchForm.contact" size="small" placeholder="通用单号"></el-input>
+                </el-form-item>
+
+                <el-form-item>
+                    <el-button type="primary" size="small" icon="search" @click="searchToolChange('searchForm')">查询</el-button>
+                    <el-button type="primary" size="small" @click="searchToolReset('searchForm')">重置</el-button>
+                </el-form-item>
+            </el-form>
+        </el-row>
+        <el-row>
+            <el-col>
+                 <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" :page-size="20">
+                    <el-table-column type="index" width="80" label="序号" align="center"></el-table-column>
+                    <!-- <el-table-column label="ID" align="center" prop="id"></el-table-column> -->
+
+                    <el-table-column prop="name" label="具体地址" align="center" width="140px"></el-table-column>
+
+                    <el-table-column prop="eng_name" label="客户ID" align="center"></el-table-column>
+
+                    <el-table-column prop="contact" label="客户姓名" align="center"></el-table-column>
+
+                    <el-table-column prop="contact_phone" label="联系电话" align="center" width="140px"></el-table-column>
+
+                    <el-table-column prop="fixed_telephone" label="省份" align="center" width="140px"></el-table-column>
+                    <el-table-column prop="fixed_telephone" label="城市" align="center" width="140px"></el-table-column>
+                    <el-table-column prop="fixed_telephone" label="区县" align="center" width="140px"></el-table-column>
+
+                    <!--<el-table-column prop="area_province_name" label="省" align="center"></el-table-column>-->
+
+                    <!--<el-table-column prop="area_city_name" label="市" align="center"></el-table-column>-->
+
+                    <!--<el-table-column prop="area_district_name" label="区/县" align="center"></el-table-column>-->
+
+                    <!--<el-table-column prop="address" label="地址" align="center" :show-overflow-tooltip="true"></el-table-column>-->
+
+                    <el-table-column prop="comment" label="备注" align="center" :show-overflow-tooltip="true"></el-table-column>
+
+                    <el-table-column  label="操作" align="center" width="200">
+                        <template slot-scope="scope">
+                            
+                            <el-button type="info" size="small" @click="showEdit(scope.row)">编辑</el-button>
+                            <el-button type="danger" size="small" @click="handleDelete(scope.row.id)">删除</el-button>
+                        </template>
+                    </el-table-column>
+
+                   <div slot="buttonbar">
+                        <el-button type="primary" size="small" @click="add">自行寄件</el-button>
+                        <el-button type="primary" size="small" @click="addSplit">拆分寄件</el-button>
+                    </div>
+
+                 </TableProxy>
+            </el-col>
+        </el-row>
+
+        <add-dialog
+                name="add"
+                :ajax-proxy="ajaxProxy"
+                :distributors="distributors"
+                @submit-success="handleReload">
+        </add-dialog>
+        <add-split-dialog
+                name="addSplitDialog"
+                :ajax-proxy="ajaxProxy"
+                :distributors="distributors"
+                @submit-success="handleReload">
+        </add-split-dialog>
+        <edit-dialog
+                name="edit"
+                :ajax-proxy="ajaxProxy"
+                :distributors="distributors"
+                @submit-success="handleReload">
+        </edit-dialog>
+
+    </div>
+</template>
+<script>
+import addDialog from './add.vue';
+import editDialog from './edit.vue';
+import addSplitDialog from './addSplit.vue';
+import config from '../../mix/Delete';
+import PageMix from '../../mix/Page';
+import SearchTool from '../../mix/SearchTool';
+import DataTable from '../../mix/DataTable';
+import { mapGetters } from 'vuex';
+// import Dialog from '../common/Dialog';
+import DistributionCenterAjaxProxy from '../../ajaxProxy/DistributionCenter';
+import AreaSelect from '@/packages/AreaSelectProxy';
+
+export default {
+    name: 'Mail',
+    pageTitle:"寄件",
+    mixins:[PageMix,SearchTool,config,DataTable,DistributionCenterAjaxProxy],
+    components:{
+        addDialog,
+        editDialog,
+        addSplitDialog,
+    },
+    data(){
+        return {
+            setPicker:{
+                disabledDate:function(time) {
+                    return time.getTime() > Date.now();// - 8.64e7
+                }
+            },
+            mainparam:"",
+            mainurl:DistributionCenterAjaxProxy.getUrl(),
+            ajaxProxy:DistributionCenterAjaxProxy,
+            searchForm:{
+                start:'',
+                end:'',
+                contact_phone:'',
+            },
+            distributors:[],
+            provinces:[],
+            types:[
+                {id:1,name:'自行寄件'},
+                {id:2,name:'拆分寄件'},
+            ],
+
+        }
+    },
+    methods:{
+        startDateChange(v){
+            this.searchForm.start = v;
+        },
+        endDateChange(v){
+            this.searchForm.end = v;
+        },
+        add(){
+            this.$modal.show('add', {model:this.model,provinces: this.provinces});
+        },
+        addSplit(){
+            this.$modal.show('addSplitDialog', {model:this.model,provinces: this.provinces});
+        },
+        showEdit(row){
+            this.$modal.show('edit',{model:row,provinces: this.provinces});
+        },
+        getAjaxProxy(){
+            return  this.ajaxProxy;
+        },
+        onSearchChange(param){
+            this.mainparam = JSON.stringify(param);
+        },
+        getAreaProvinces(data){
+            this.provinces = data;
+        },
+        setAreaProvinces(){
+            let areaSelect = new AreaSelect({pid:1},this.getAreaProvinces,this);
+            areaSelect.load();
+        },
+    },
+    created(){
+        this.$on('search-tool-change', this.onSearchChange);
+        //    获取省份
+        this.setAreaProvinces();
+    },
+    mounted(){
+
+    },
+    
+}
+</script>
+<style scoped>
+
+</style>
+

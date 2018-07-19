@@ -12,12 +12,12 @@
 					<el-table-column prop="price" label="商品价格" align="center">
 					</el-table-column>
 					<el-table-column prop="goods_number" label="数量" align="center"></el-table-column>
-					<el-table-column prop="assign_fee" label="配送费" align="center">
-						<template slot-scope="scope">
-							<div v-if="scope.row.assign_fee == null">还未发货</div>
-							<div v-else>{{ scope.row.assign_fee }}</div>
-						</template>
-					</el-table-column>
+					<!--<el-table-column prop="assign_fee" label="配送费" align="center">-->
+						<!--<template slot-scope="scope">-->
+							<!--<div v-if="scope.row.assign_fee == null">还未发货</div>-->
+							<!--<div v-else>{{ scope.row.assign_fee }}</div>-->
+						<!--</template>-->
+					<!--</el-table-column>-->
 					
 					<el-table-column prop="weight" label="重量" align="center">
 						<template slot-scope="scope">

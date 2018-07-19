@@ -61,6 +61,7 @@ const PageList = {
     //统计报表 by hj
     'SalesPerformance': (resolve) => {require(['./SalesPerformance/Index.vue'], resolve)},
     'SalesQuantization': (resolve) => {require(['./SalesQuantization/Index.vue'], resolve)},
+    'Mail': (resolve) => {require(['./Mail/Index.vue'], resolve)},
 
 };
 

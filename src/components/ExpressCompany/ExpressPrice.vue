@@ -178,9 +178,9 @@ export default {
                 area_province_id:[
                     { required: true, type:'number',message: '选择省份', trigger: 'blur' },
                 ],
-                area_city_id:[
-                    { required: true, type:'number',message: '选择市', trigger: 'blur' },
-                ],
+                // area_city_id:[
+                //     { required: true, type:'number',message: '选择市', trigger: 'blur' },
+                // ],
                 // area_district_id:[
                 //     { type:'number', message: '选择区/县', trigger: 'blur' },
                 // ],

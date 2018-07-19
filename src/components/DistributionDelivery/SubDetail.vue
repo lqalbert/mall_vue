@@ -3,11 +3,13 @@
 		<el-tabs v-model="activeName" type="border-card">
 			<el-tab-pane label="发货明细" name="First">
 				<el-table :data="deliveryDetailsData" v-loading="goodsLoading" border style="width: 100%">
-					<el-table-column prop="goods_name" label="商品名" align="center"></el-table-column>
-					<el-table-column prop="cate_type" label="商品类型" header-align="center">
+                    <el-table-column prop="goods_id" label="商品ID" align="center"></el-table-column>
+					<el-table-column prop="goods_name" label="商品名" align="center" width="300">
 						<template slot-scope="scope">
-							{{ displayCategory(scope.row.category) }}
-						</template>
+                            {{scope.row.sku_sn }}{{scope.row.goods_name}}
+                        </template>
+					</el-table-column>
+					<el-table-column prop="price" label="商品价格" align="center">
 					</el-table-column>
 					<el-table-column prop="goods_number" label="数量" align="center"></el-table-column>
 					<el-table-column prop="assign_fee" label="配送费" align="center">

@@ -262,7 +262,7 @@ export default {
         },
         onSearchChange(param){
             // param.department_id = this.getUser.department_id;
-            param.group_id = this.getUser.group_id;
+            param.group_id = this.getUser.group_id == 0 ? -1 : this.getUser.group_id;
             this.mainparam = JSON.stringify(param);
         },
         getUsers(data){

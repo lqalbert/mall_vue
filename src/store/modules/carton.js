@@ -9,9 +9,14 @@ const app = {
     },
     getters:{
         getCartonsByEntrepot:(state)=>(eid)=>{
-            return state.cartons.filter((element)=>{
-                return element.entrepot_id == eid;
-            })
+            if (eid) {
+                return state.cartons.filter((element)=>{
+                    return element.entrepot_id == eid;
+                })
+            } else {
+                return state.cartons;
+            }
+            
         }
     },
     mutations:{

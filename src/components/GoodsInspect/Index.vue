@@ -346,25 +346,30 @@ export default {
         beforeSubmit(){
             //检查数量是否正确？
             //总数
-            if (this.goodsTotal != this.checkTotal) {
-                this.$message.error('商品总数量不正确');
-                return ;
-            }
+            // if (this.goodsTotal != this.checkTotal) {
+            //     this.$message.error('商品总数量不正确');
+            //     return ;
+            // }
             
-            let result = 0;
-            this.goods.forEach((element)=>{
-                let index = this.checkGoods.findIndex((element2)=>{
-                    if (element.goods_id == element2.goods_id  &&  element.goods_number == element2.goods_number ) {
-                        return true
-                    }
-                    return false;
-                })
-                if (index != -1) {
-                    result++;
-                }
-            }, this);
+            // let result = 0;
+            // this.goods.forEach((element)=>{
+            //     let index = this.checkGoods.findIndex((element2)=>{
+            //         if (element.goods_id == element2.goods_id  &&  element.goods_number == element2.goods_number ) {
+            //             return true
+            //         }
+            //         return false;
+            //     })
+            //     if (index != -1) {
+            //         result++;
+            //     }
+            // }, this);
 
-            if (result != this.goods.length) {
+            // if (result != this.goods.length) {
+            //     this.$message.error('商品数量不正确');
+            //     return ;
+            // }
+
+            if (this.goods.length != 0) {
                 this.$message.error('商品数量不正确');
                 return ;
             }

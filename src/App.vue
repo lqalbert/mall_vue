@@ -103,5 +103,13 @@
   .el-table .erro-row {
       background: #ff4949;
   }
+
+  .el-table .info-row {
+    background: #50bfff;
+  }
+
+  .el-table .warning-row {
+    background: #f7ba2a;
+  }
 </style>
 

@@ -112,17 +112,6 @@
                                     <el-col :span="16">名称</el-col>
                                     <el-col :span="4">数量</el-col>
                                 </el-row>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-row>
-                                    <el-col :span="16">名称</el-col>
-                                    <el-col :span="4">数量</el-col>
-                                </el-row>
-                            </el-col>
-                        </el-row>
-  
-                        <el-row>
-                            <el-col :span="12">
                                 <el-row v-for="(item,index) in goods" :key="item.id">
                                     <el-col :span="16">{{ item.goods_name }}</el-col>
                                     <el-col :span="4">{{ item.goods_number }}</el-col>
@@ -132,6 +121,10 @@
                                 </el-row>
                             </el-col>
                             <el-col :span="12">
+                                <el-row>
+                                    <el-col :span="16">名称</el-col>
+                                    <el-col :span="4">数量</el-col>
+                                </el-row>
                                 <el-row v-for="(item,index) in checkGoods" :key="item.id">
                                     <el-col :span="16">{{ item.goods_name }}</el-col>
                                     <el-col :span="4">{{ item.goods_number }}</el-col>
@@ -139,6 +132,15 @@
                                         <el-button type="primary" size="mini" icon="minus" @click="subNumber(index)"></el-button>
                                     </el-col>
                                 </el-row>
+                            </el-col>
+                        </el-row>
+  
+                        <el-row>
+                            <el-col :span="12" style="width: 50%">
+                                
+                            </el-col>
+                            <el-col :span="12">
+                                
                             </el-col>
                         </el-row>
                         
@@ -170,7 +172,7 @@ export default {
             labelWidth:'120px',
             checkForm:{
                 express_sn:'', 
-
+                barcode:''
             },
             autoSubmit:false,
 
@@ -224,6 +226,7 @@ export default {
                         vmthis.model = response.data.data;
                         vmthis.address = vmthis.model.address;
                         vmthis.goods = vmthis.model.goods;     
+                        console.log(vmthis.goods);
                     } else {
                         vmthis.$message.error('找不到对应快递单');
                     }
@@ -255,12 +258,17 @@ export default {
                     }
                 });
             }
-            
+
             GoodsAjax.find(item.goods_id, {fields:['id','cover_url']}).then((response)=>{
                 this.imgurl = response.data.cover_url;
             }).catch((response)=>{
 
-            })    
+            })
+            
+            this.goods[index].goods_number-- ;
+            if (this.goods[index].goods_number == 0) {
+                this.goods.splice(index, 1);
+            }
         },
         barcodeChange(v){
             let vmthis = this;
@@ -276,6 +284,7 @@ export default {
                 })
                 if (index !=-1) {
                     vmthis.checkIndex(index);
+                    vmthis.checkForm.barcode = "";
                 } else {
                     vmthis.$message.error('未找到对应的商品');
                 }
@@ -305,10 +314,34 @@ export default {
             this.audio.play();
         },
         subNumber(index){
-            const n = this.checkGoods.find((element, i)=>{
-                if (i == index && element.goods_number>0)
-                return element.goods_number--;
+            // const n = this.checkGoods.find((element, i)=>{
+            //     if (i == index && element.goods_number>0)
+            //     return element.goods_number--;
+            // });
+
+            let item = this.checkGoods[index];
+
+
+            const n = this.goods.find((element)=>{
+                return item.goods_id == element.goods_id;
             });
+
+            if (typeof n == 'undefined') {
+                let tmp = Object.assign({}, item);
+                tmp.goods_number = 1;
+                this.goods.splice(index, 0, tmp);
+            } else {
+                this.goods.forEach(element => {
+                    if (element.goods_id == item.goods_id && item.goods_number != element.goods_number) {
+                        element.goods_number++;
+                    }
+                });
+            }
+
+            this.checkGoods[index].goods_number-- ;
+            if (this.checkGoods[index].goods_number == 0) {
+                this.checkGoods.splice(index, 1);
+            }
         },
         beforeSubmit(){
             //检查数量是否正确？

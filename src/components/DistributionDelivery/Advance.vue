@@ -196,7 +196,7 @@
                 return this.$store.getters.city(this.queryForm.area_province_id);
             },
             cartons(){
-                return this.$store.getters.getCartonsByEntrepot(this.$store.getters.userEntrepotId);
+                return this.$store.getters.getCartonsByEntrepot();
             },
             ...mapGetters({
                 'cates':'getCates',

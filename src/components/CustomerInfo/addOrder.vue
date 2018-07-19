@@ -1,7 +1,6 @@
 <template>
     <div >
         <MyDialog title="添加订单" :name="name" :width="width" :height="height" @before-open="onOpen">
-            <br>
             <el-steps :space="300" :active="active" process-status="finish" finish-status="success" center align-center>
                 <el-step title="添加商品"></el-step>
                 <el-step title="选择收货地址"></el-step>
@@ -34,7 +33,6 @@
                         <el-button @click="addOrder" type="primary" class="right">添 加</el-button>
                     </div> -->
                 </div>
-                <br>
                 <div v-show="active==1">
                     <el-row>
                         <el-col :span="12">
@@ -58,7 +56,7 @@
                     </el-row>
                 </div>
                 <div v-show="active==2">
-                    <el-table border :data="orderData" style="width: 100%">
+                    <el-table border :data="orderData" style="width: 100%" height="200">
                         <el-table-column label="序号" type="index" width="80 px"></el-table-column>
                         <el-table-column prop="goods_name" label="商品名称"></el-table-column>
                         <el-table-column prop="price" label="商品单价"></el-table-column>
@@ -66,9 +64,7 @@
                         <el-table-column prop="moneyNotes" label="小 记"></el-table-column>
                         <el-table-column prop="remark" label="备注"></el-table-column>
                     </el-table>
-                    <br>
                     <h3> <span>商品总金额:{{ totalMoney }}</span></h3>
-                    <br>
                     <el-table
                             border
                             :data="addressListData"
@@ -357,18 +353,15 @@
                 if (this.active-- < 1) this.active = 0;
             },
             next() {
-
                 if(this.active == 0 && this.orderData.length == 0){
                     this.$message.error('添加商品');
                     return
                 }
 
-
                 if (this.active == 1 && this.addOrderForm.address == null) {
                     //检查地址？
                     this.$message.error('选择地址');
                     return ;
-                    
                 }
                 if (this.active++ > 1) this.active = 2;
             },

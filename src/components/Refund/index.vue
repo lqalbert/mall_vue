@@ -223,6 +223,12 @@
             },
             onSearchChange(param){ 
                 param['load'] = ['order'];  
+                
+                //临时写在这里
+                // if (this.$store.user.hasRole('sale-manager')) {
+                    
+                // }
+
                 this.mainparam = JSON.stringify(param);
             },
             searchReset:function(){

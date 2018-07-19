@@ -5,7 +5,7 @@
                 <el-row>
                     <el-col :span="12">
                             <el-form-item prop="entrepot_id"  label="配送中心">
-                                <el-select v-model.number="addForm.entrepot_id" placeholder="请选择配送中心" @change="entrepotChange">
+                                <el-select v-model="addForm.entrepot_id" placeholder="请选择配送中心" @change="entrepotChange">
                                     <el-option v-for="v in distributors" :label="v.name"
                                                :value="v.id" :key="v.id">
                                     </el-option>
@@ -15,7 +15,7 @@
 
                     <el-col :span="12">
                         <el-form-item prop="express_id" label="物流公司">
-                            <el-select v-model.number="addForm.express_id"  placeholder="请选择物流公司" @change="expressChange">
+                            <el-select v-model="addForm.express_id"  placeholder="请选择物流公司" @change="expressChange">
                                 <el-option v-for="v in companys" :value="v.id" :key="v.id" :label="v.company_name">
                                 </el-option>
                             </el-select>
@@ -138,10 +138,10 @@
                 ],
                 rules:{
                     entrepot_id:[
-                        {required: true, message: '选择配送中心', trigger: 'blur' ,type:'number'},
+                        {required: true, message: '选择配送中心', trigger: 'blur'  },
                     ],
                     express_id:[
-                        {required: true, message: '选择物流公司', trigger: 'blur' ,type:'number'},
+                        {required: true, message: '选择物流公司', trigger: 'blur' },
                     ],
                     deliver_time:[
                         {required: true, message: '选择发货时间', trigger: 'blur' },

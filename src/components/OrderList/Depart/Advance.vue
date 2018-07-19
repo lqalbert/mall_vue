@@ -123,7 +123,7 @@
                    
                     appends:['status_text','product_status_text','after_sale_status_text'],
                     group_id:'',
-                    department_id:'',
+                    // department_id:'',
                     deal_id:'',
                 },
             }
@@ -144,13 +144,7 @@
             getUsers(data){
                 this.users = data.items;
             },
-            depChange(department_id){
-                this.queryForm.group_id = '';
-                this.queryForm.deal_id = '';
-                this.GroupProxy.setParam({
-                    department_id:department_id,
-                }).load();
-            },
+            
             groupChange(group_id){
                 let vmThis = this;
                 vmThis.queryForm.deal_id = '';

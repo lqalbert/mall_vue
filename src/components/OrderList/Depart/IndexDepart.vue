@@ -250,18 +250,13 @@ export default {
         showRowData(row){
             this.$modal.show('rowInfo',{rowData:row});
         },
-        
-
         /** 点击订单列表展示用户信息 */
         showRow(row){
             this.dbRow = row;
         },
-        
-        refund(id)
-        {
+        refund(id){
             let refundProxy = new SelectProxy(OrderlistAjaxProxy.getUrl(), this.loadtest, this);
             refundProxy.setExtraParam({refund_id:id}).load();
-
         },
         loadtest(data){
             this.mainData = data.items;
@@ -281,7 +276,7 @@ export default {
             }
         },
         onSearchChange(param){
-            param.department_id = this.getUser.department_id;
+            param.department_id = this.getUser.department_id == 0 ? -1 : this.getUser.department_id;
             this.mainparam = JSON.stringify(param);
         },
         getGroup(data){

@@ -18,8 +18,8 @@
                             @change="timeChange">
                     </el-date-picker>
                 </el-form-item>
-                <el-form-item prop="status">
-                    <el-select v-model="searchForm.status" size="small" placeholder="发货状态" >
+                <el-form-item prop="pstatus">
+                    <el-select v-model="searchForm.pstatus" size="small" placeholder="发货状态" >
                         <el-option label="未审核" value="0"></el-option>
                         <el-option label="已审核" value="1"></el-option>
                         <el-option label="审核未通过" value="2"></el-option>
@@ -30,7 +30,6 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item>
-                   
                     <el-button type="primary" size="small" icon="search" @click="searchToolChange('searchForm')">查询</el-button>
                     <el-button type="primary" size="small" @click="dataReset('searchForm')">重置</el-button>
                 </el-form-item>
@@ -43,14 +42,18 @@
         <!-- table -->
         <el-row>
             <el-col>
-                <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" :height="400" :page-size="20" :bubble="bubble" :row-class-name="tableRowClassName" @dbclick="dbClick">
+                <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" :height="400" :page-size="20" :page-sizes="true" :bubble="bubble" :row-class-name="tableRowClassName" @dbclick="dbClick">
                     <el-table-column type="selection" width="55"></el-table-column>
-                    <el-table-column label="序号" align="center"  type="index" width="65">
+                    <el-table-column label="序号" align="center"  type="index" width="65"></el-table-column>
+                    <el-table-column label="备主" prop="order.express_name" width="200" show-overflow-tooltip></el-table-column>
+                    <el-table-column prop="assign_sn" label="发货单号" align="center" width="230">
+                        <template slot-scope="scope">
+                            {{ scope.row.assign_sn }} <span v-if="scope.row.is_stop==1">(已拦截)</span>
+                        </template>
                     </el-table-column>
-                    <el-table-column prop="assign_sn" label="发货单号" align="center" width="200">
-                    </el-table-column>
-                    <el-table-column prop="status_text" label="发货状态" align="center" width="200"></el-table-column>
-                    <el-table-column prop="set_express" label="指定快递" align="center" width="200">
+                    <el-table-column prop="status_text" label="发货状态" align="center" width="160"></el-table-column>
+                    <el-table-column prop="set_express" label="指定快递" align="center" width="160">
+                        <!-- 如果没有指定就不显示 如果指定了就显示快递公司名 -->
                         <template slot-scope="scope">
                             <span v-if="scope.row.set_express==1">是</span>
                             <span v-else >否</span>
@@ -68,7 +71,7 @@
                     <el-table-column prop="express_name" label="快递公司" width="200"></el-table-column>
                     <el-table-column prop="corrugated_case" label="包装箱形" width="180"></el-table-column>
                     <el-table-column prop="send_time" label="发货时间" align="center" width="180"></el-table-column>
-                    <el-table-column prop="self_express" label="自提" align="center" width="200">
+                    <el-table-column prop="self_express" label="自提" align="center" width="100">
                         <template slot-scope="scope">
                             <span v-if="scope.row.self_express==0">否</span>
                             <span v-if="scope.row.self_express==1">是</span>
@@ -102,12 +105,6 @@
                     <el-table-column prop="assign_print_at" label="发货单打印时间" align="center" width="200">
                     </el-table-column>
                     <el-table-column prop="sign_at" label="签收时间" align="center" width="200">
-                    </el-table-column>
-                    <el-table-column prop="is_stop" label="是否拦截" align="center" width="200">
-                        <template slot-scope="scope">
-                            <div v-if="scope.row.is_stop == 0">否</div>
-                            <div v-else>是</div>
-                        </template>
                     </el-table-column>
                     <div slot="buttonbar">
                         <el-button type="primary" size="small" @click="openCheck">审核</el-button>
@@ -196,7 +193,7 @@ export default {
                 deliver_name:'',
                 deliver_phone:'',
                 express_name:'',
-                status:'',
+                pstatus:'0',
                 assign_type:'',
                 user_name:'',
                 is_stop:"",
@@ -270,8 +267,10 @@ export default {
         tableRowClassName(row, index){
             if (row.is_stop) {
                 return 'erro-row'
-            } else {
-                return '';
+            }else if(row.order && row.order.type && row.order.type== 1) {
+                return 'info-row';
+            } else if(row.order && row.order.express_name && row.order.express_name.length > 0) {
+                return 'warning-row';
             }
         },
         timeChange(v){
@@ -502,7 +501,7 @@ export default {
                     this.$message.error('出错了');
                 })
             })
-            console.log('yes');
+            // console.log('yes');
         }
     },
     created(){

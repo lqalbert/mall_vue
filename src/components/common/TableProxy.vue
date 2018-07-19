@@ -48,9 +48,11 @@
                     <el-pagination
                         :current-page="currentPage"
                         :page-size="pageSize"
-                        layout="total, prev, pager, next, jumper"
+                        :page-sizes="[15, 20, 30, 40, 50, 100, 200]"
+                        :layout="layoutstr"
                         :total="total"
-                        @current-change="currentChange">
+                        @current-change="currentChange"
+                        @size-change="handleSizeChange">
                     </el-pagination>   
                 </div>
             </el-col>
@@ -96,6 +98,10 @@
             showSummary: {
                 type :Boolean,
                 default:false
+            },
+            pageSizes:{
+                type: Boolean,
+                default: false
             }
 
       },
@@ -108,7 +114,14 @@
               realParam:null,
               total:0,
 
-              multipleSelection: []
+              multipleSelection: [],
+              dpagesize :0 ,
+              layout: ["total",  "prev", "pager", "next", "jumper"]
+          }
+      },
+      computed:{
+          layoutstr(){
+              return this.layout.join(',');
           }
       },
       methods:{
@@ -155,6 +168,13 @@
               }
               this.toggleTableLoad();
               this.mainProxy.load();
+          },
+          handleSizeChange(v){
+            this.dpagesize = v;
+
+            this.dataLoad = true;
+            this.mainProxy.setPageSize(this.dpagesize);
+            this.mainProxy.load();
           }
       },
       watch:{
@@ -177,10 +197,17 @@
           if (this.param) {
               this.realParam = JSON.parse(this.param);
           }
+          
+          this.dpagesize = this.pageSize;
 
-          let mainProxy = new DataProxy(this.url, this.pageSize, this.dataLoaded, this, this.onError);
+
+          let mainProxy = new DataProxy(this.url, this.dpagesize, this.dataLoaded, this, this.onError);
           this.mainProxy = mainProxy;
           this.setParamAndLoad();
+
+          if(this.pageSizes) {
+              this.layout.splice(1,0, 'sizes');
+          }
 
           // 这么写不行 如果有多个表 这么写 一次 就触发多次事件处理
           // this.$parent.$on('dataReload', 'xx')

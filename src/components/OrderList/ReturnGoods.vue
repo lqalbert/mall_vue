@@ -315,6 +315,7 @@
         },
         methods: {
             onOpen(param) {
+                console.log(param);
                 this.model = param.params;
                 OrderGoodsAjaxProxy.get({order_id: this.model.id}).then((response)=>{
                     
@@ -330,7 +331,6 @@
                 this.rowInfoForm.user_id = this.getUser.id;
                 this.rowInfoForm.user_name = this.getUser.realname;
                
-                
                 this.rowInfoForm.cus_id  = this.model.cus_id;
             },
             onBeforeClose(){

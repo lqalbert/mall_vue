@@ -64,13 +64,13 @@
                         <el-table :data="manageData" empty-text="暂无数据" border style="width: 100%">
                             <!-- <el-table-column prop="order_id" label="订单id" align="center">
                             </el-table-column> -->
-                            <el-table-column prop="order_action" label="操作动作" align="center">
+                            <el-table-column prop="action_text" label="操作动作" align="center">
                             </el-table-column>
-                            <el-table-column prop="manager" label="操作员" align="center">
+                            <el-table-column prop="operator" label="操作员" align="center">
                             </el-table-column>
                             <el-table-column prop="remark" label="操作备注" align="center">
                             </el-table-column>
-                            <el-table-column prop="time" label="操作时间" align="center">
+                            <el-table-column prop="created_at" label="操作时间" align="center">
                             </el-table-column>
         
                         </el-table>

@@ -270,6 +270,7 @@
                 delete model.buyer;
                 delete model.user_name;
                 delete model.users;
+                model.order_sn = this.model.order_sn;
                 return this.ajaxProxy.update(model.id, model);
             },
             getOrderAddress(data){

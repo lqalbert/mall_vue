@@ -82,24 +82,7 @@
                     
                 </div>
                 <div v-if="active==3">
-                    <!-- <el-row>
-                        <el-col :span="12">
-                            <el-form-item prop="remark" label="指定快递">
-                                <el-radio-group v-model="addOrderForm.express_delivery" @change="setExpressChange">
-                                    <el-radio label="1">是</el-radio>
-                                    <el-radio label="0">否</el-radio>
-                                </el-radio-group>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="12">
-                            <el-form-item prop="express_id" label="快递公司" >
-                                <el-select v-model="addOrderForm.express_id" :disabled="addOrderForm.express_delivery==0" placeholder="请选择快递公司" size="small" @change="expressChange">
-                                    <el-option v-for="v in companys" :value="v.id" :key="v.id" :label="v.company_name">
-                                    </el-option>
-                                </el-select>
-                            </el-form-item>
-                        </el-col>
-                    </el-row> -->
+                    
                     <el-row>
                         <el-col :span="12">
                             <el-form-item prop="type" label="订单类型">
@@ -108,6 +91,47 @@
                                     <el-option value="1" label="内部订单"></el-option>
                                     <el-option value="2" label="商城订单"></el-option>
                                 </el-select>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                            <el-col :span="20" v-if="isNotIncludeFreight">
+                                <el-form-item prop="remark" label="指定快递">
+                                    <el-col :span="11">
+                                        <el-input v-model="addOrderForm.express_delivery" placeholder="不填发默认快递"></el-input>
+                                    </el-col>
+                                    <el-col :span="1">&nbsp;</el-col>
+                                    <el-col :span="12">
+                                        <el-radio-group v-model="set_express" @change="setExpressChange">
+                                            <el-tooltip  effect="dark" content="18元运费" placement="top">
+                                                <el-radio-button label="EMS"></el-radio-button>
+                                            </el-tooltip>
+                                            <el-tooltip  effect="dark" content="+12元运费" placement="top">
+                                                <el-radio-button label="顺丰"></el-radio-button>
+                                            </el-tooltip>
+                                            <el-radio-button label="默认快递"></el-radio-button>
+                                        </el-radio-group>
+                                    </el-col>
+                                    <!-- <el-radio-group v-model="addOrderForm.express_delivery" @change="setExpressChange">
+                                        <el-radio label="1">是</el-radio>
+                                        <el-radio label="0">否</el-radio>
+                                    </el-radio-group> -->
+                                </el-form-item>
+                            </el-col>
+                            <!-- <el-col :span="12">
+                                <el-form-item prop="express_id" label="快递公司" >
+                                    <el-select v-model="addOrderForm.express_id" :disabled="addOrderForm.express_delivery==0" placeholder="请选择快递公司" size="small" @change="expressChange">
+                                        <el-option v-for="v in companys" :value="v.id" :key="v.id" :label="v.company_name">
+                                        </el-option>
+                                    </el-select>
+                                </el-form-item>
+                            </el-col> -->
+                    </el-row>
+                    <el-row>
+                        <el-col :span="12">
+                            <el-form-item   label="运费">
+                                <el-col :span="12" v-show="isNotIncludeFreight"><el-input></el-input></el-col>
+                                <el-col :span="12" v-show="!isNotIncludeFreight">包邮</el-col>
                             </el-form-item>
                         </el-col>
                     </el-row>
@@ -209,12 +233,13 @@
                     cus_name:'',
                     group_id:'',
                     department_id:'',
-                    express_delivery:'0',
+                    express_delivery:'',
                     express_id:'',
                     order_remark:'',
                     express_remark:'',
                     express_name:'',
                     type:'0',
+                    include_freight:0 // 不包邮 包邮
                 },
                 orderData:[],
                 orderAddressData:[],
@@ -224,6 +249,7 @@
                 model:'',
                 deal_name:'',
                 depositMoney:0,
+                set_express:"",
             }
         },
         computed:{
@@ -233,6 +259,9 @@
             ]),
             cates(){
                 return this.$store.getters.getCates;
+            },
+            isNotIncludeFreight(){
+                return !(this.addOrderForm.type != 1 &&  parseInt(this.totalMoney * 100) >= 26800)
             }
         },
         methods:{
@@ -406,9 +435,14 @@
                 this.companys = data.items;
             },
             setExpressChange(v){
-                if (v == 0) {
-                    this.addOrderForm.express_id = "";
-                    this.addOrderForm.express_name = "";
+                // if (v == 0) {
+                //     this.addOrderForm.express_id = "";
+                //     this.addOrderForm.express_name = "";
+                // }
+                if (v == '默认快递') {
+                    this.addOrderForm.express_delivery = "";
+                } else {
+                    this.addOrderForm.express_delivery = v;
                 }
             },
             addressChange(v){

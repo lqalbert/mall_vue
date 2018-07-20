@@ -361,16 +361,16 @@
                 if (this.active-- < 1) this.active = 0;
             },
             next() {
-                // if(this.active == 0 && this.orderData.length == 0){
-                //     this.$message.error('添加商品');
-                //     return
-                // }
+                if(this.active == 0 && this.orderData.length == 0){
+                    this.$message.error('添加商品');
+                    return
+                }
 
-                // if (this.active == 1 && this.addOrderForm.address == null) {
-                //     //检查地址？
-                //     this.$message.error('选择地址');
-                //     return ;
-                // }
+                if (this.active == 1 && this.addOrderForm.address == null) {
+                    //检查地址？
+                    this.$message.error('选择地址');
+                    return ;
+                }
 
                 if (this.active++ > 3) this.active = 3;
             },

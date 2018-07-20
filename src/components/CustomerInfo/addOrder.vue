@@ -1,10 +1,11 @@
 <template>
     <div >
         <MyDialog title="添加订单" :name="name" :width="width" :height="height" @before-open="onOpen">
-            <el-steps :space="300" :active="active" process-status="finish" finish-status="success" center align-center>
+            <el-steps :space="200" :active="active" process-status="finish" finish-status="success" center align-center>
                 <el-step title="添加商品"></el-step>
                 <el-step title="选择收货地址"></el-step>
                 <el-step title="确认订单"></el-step>
+                <el-step title="订单备注"></el-step>
             </el-steps>
             <el-form ref="addOrderForm" :model="addOrderForm" :label-width="labelWidth" :label-position="labelPosition">
                 <div v-show="active==0">
@@ -72,66 +73,67 @@
                         <el-table-column label="序号" type="index" width="80 px"></el-table-column>
                         <el-table-column prop="name" label="收货人姓名"></el-table-column>
                         <el-table-column prop="fixed_telephone" label="固定电话"></el-table-column>
+                        <el-table-column prop="phone" label="手机"></el-table-column>
                         <el-table-column prop="address" label="收货地址"></el-table-column>
                         <el-table-column prop="zip_code" label="收货邮编"></el-table-column>
                         <!-- <el-table-column prop="deal_name" label="成交员工"></el-table-column> -->
                     </el-table>
-                    <br>
-                    <div>
-                        <!-- <el-row>
-                            <el-col :span="12">
-                                <el-form-item prop="remark" label="指定快递">
-                                    <el-radio-group v-model="addOrderForm.express_delivery" @change="setExpressChange">
-                                        <el-radio label="1">是</el-radio>
-                                        <el-radio label="0">否</el-radio>
-                                    </el-radio-group>
-                                </el-form-item>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-form-item prop="express_id" label="快递公司" >
-                                    <el-select v-model="addOrderForm.express_id" :disabled="addOrderForm.express_delivery==0" placeholder="请选择快递公司" size="small" @change="expressChange">
-                                        <el-option v-for="v in companys" :value="v.id" :key="v.id" :label="v.company_name">
-                                        </el-option>
-                                    </el-select>
-                                </el-form-item>
-                            </el-col>
-                        </el-row> -->
-                        <el-row>
-                            <el-col :span="12">
-                                <el-form-item prop="type" label="订单类型">
-                                    <el-select v-model="addOrderForm.type">
-                                        <el-option value="0" label="销售订单"></el-option>
-                                        <el-option value="1" label="内部订单"></el-option>
-                                        <el-option value="2" label="商城订单"></el-option>
-                                    </el-select>
-                                </el-form-item>
-                            </el-col>
-                        </el-row>
-                        <el-row>
-                            <el-col :span="16">
-                                <el-form-item prop="order_remark" label="订单备注">
-                                    <el-input v-model="addOrderForm.order_remark" type="textarea" placeholder="订单备注"></el-input>
-                                </el-form-item>
-                            </el-col>
-                        </el-row>
-                        <el-row>
-                            <el-col :span="16">
-                                <el-form-item prop="express_remark" label="配送发货备注">
-                                    <el-input v-model="addOrderForm.express_remark" type="textarea" placeholder="配送发货备注"></el-input>
-                                </el-form-item>
-                            </el-col>
-                        </el-row>
-                    </div>
+                    
+                </div>
+                <div v-if="active==3">
+                    <!-- <el-row>
+                        <el-col :span="12">
+                            <el-form-item prop="remark" label="指定快递">
+                                <el-radio-group v-model="addOrderForm.express_delivery" @change="setExpressChange">
+                                    <el-radio label="1">是</el-radio>
+                                    <el-radio label="0">否</el-radio>
+                                </el-radio-group>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                            <el-form-item prop="express_id" label="快递公司" >
+                                <el-select v-model="addOrderForm.express_id" :disabled="addOrderForm.express_delivery==0" placeholder="请选择快递公司" size="small" @change="expressChange">
+                                    <el-option v-for="v in companys" :value="v.id" :key="v.id" :label="v.company_name">
+                                    </el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+                    </el-row> -->
+                    <el-row>
+                        <el-col :span="12">
+                            <el-form-item prop="type" label="订单类型">
+                                <el-select v-model="addOrderForm.type">
+                                    <el-option value="0" label="销售订单"></el-option>
+                                    <el-option value="1" label="内部订单"></el-option>
+                                    <el-option value="2" label="商城订单"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="16">
+                            <el-form-item prop="order_remark" label="订单备注">
+                                <el-input v-model="addOrderForm.order_remark" type="textarea" placeholder="订单备注"></el-input>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="16">
+                            <el-form-item prop="express_remark" label="配送发货备注">
+                                <el-input v-model="addOrderForm.express_remark" type="textarea" placeholder="配送发货备注"></el-input>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
                 </div>
             </el-form>
             <div slot="dialog-foot" >
                 <el-row type="flex" justify="space-between">
                     <el-col :span="6" class="text-left">
                         <el-button   v-if="active>0" @click="last">上一步</el-button>
-                        <el-button   v-show="active<2" @click="next">下一步</el-button>
+                        <el-button   v-show="active< 3" @click="next">下一步</el-button>
                     </el-col>
                     
-                    <el-col :span="6" v-show="active==2">
+                    <el-col :span="6" v-show="active== 3 ">
                         <el-button @click="handleClose">取 消</el-button>
                         <submit-button
                                 @click="handleSubmit"
@@ -156,6 +158,11 @@
 
     import APP_CONST from '../../config';
     import { mapGetters, mapMutations } from 'vuex';
+
+    const ACTIVE_LAST = 3
+
+
+
     export default {
         name: 'addOrderBasic',
         mixins:[DialogForm],
@@ -353,17 +360,18 @@
                 if (this.active-- < 1) this.active = 0;
             },
             next() {
-                if(this.active == 0 && this.orderData.length == 0){
-                    this.$message.error('添加商品');
-                    return
-                }
+                // if(this.active == 0 && this.orderData.length == 0){
+                //     this.$message.error('添加商品');
+                //     return
+                // }
 
-                if (this.active == 1 && this.addOrderForm.address == null) {
-                    //检查地址？
-                    this.$message.error('选择地址');
-                    return ;
-                }
-                if (this.active++ > 1) this.active = 2;
+                // if (this.active == 1 && this.addOrderForm.address == null) {
+                //     //检查地址？
+                //     this.$message.error('选择地址');
+                //     return ;
+                // }
+
+                if (this.active++ > 3) this.active = 3;
             },
 
             getAddress(cus_id){

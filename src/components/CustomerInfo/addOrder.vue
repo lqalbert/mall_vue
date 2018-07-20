@@ -11,6 +11,7 @@
                 <div v-show="active==0">
                     <el-table
                             border
+                            height="160"
                             :data="orderData"
                             style="width: 100%">
                         <el-table-column label="序号" type="index" width="80 px"></el-table-column>
@@ -57,7 +58,7 @@
                     </el-row>
                 </div>
                 <div v-show="active==2">
-                    <el-table border :data="orderData" style="width: 100%" height="200">
+                    <el-table border :data="orderData" style="width: 100%" height="160">
                         <el-table-column label="序号" type="index" width="80 px"></el-table-column>
                         <el-table-column prop="goods_name" label="商品名称"></el-table-column>
                         <el-table-column prop="price" label="商品单价"></el-table-column>

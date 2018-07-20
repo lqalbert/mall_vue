@@ -1,5 +1,4 @@
 <template>
-    <!-- 只有销售经理有权 处理这个页面 -->
     <div>
             <el-tabs v-model="activeName" type="border-card">
                 <el-tab-pane label="订单信息" name="First">

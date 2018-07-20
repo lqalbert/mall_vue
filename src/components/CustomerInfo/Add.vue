@@ -172,7 +172,7 @@ export default {
                 qq_nickname:"",
                 weixin:"",
                 weixin_nickname:'',
-                sex:1,
+                sex:2,
                 phone:'',
                 type:'C',
                 source:'6',

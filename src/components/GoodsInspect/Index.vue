@@ -22,11 +22,7 @@
                         <el-row>
                             <el-col :span="14">
                                 <el-form-item label="" prop="carton_number" >
-                                    <el-checkbox-group v-model="checkForm.carton_number">
-                                        <!-- <el-checkbox label="快速验货"></el-checkbox> -->
-
-                                        <el-checkbox label="完成自动提交" v-model="autoSubmit"></el-checkbox>
-                                    </el-checkbox-group>
+                                        <el-checkbox  v-model="autoSubmit" >完成自动提交</el-checkbox>
                                 </el-form-item>
                             </el-col>
                         </el-row>
@@ -133,17 +129,7 @@
                                     </el-col>
                                 </el-row>
                             </el-col>
-                        </el-row>
-  
-                        <el-row>
-                            <el-col :span="12" style="width: 50%">
-                                
-                            </el-col>
-                            <el-col :span="12">
-                                
-                            </el-col>
-                        </el-row>
-                        
+                        </el-row>                      
                     </div>
                 </div>
             </el-col>
@@ -174,7 +160,7 @@ export default {
                 express_sn:'', 
                 barcode:''
             },
-            autoSubmit:false,
+            autoSubmit: true,
 
             model:{},
             address:{},
@@ -206,11 +192,16 @@ export default {
         //     }
         // },
         goods(val, oldVal){
+            // console.log(this.autoSubmit);
             if (this.autoSubmit) {
-                if (this.goods.length == 0 && this.checkGoods.length != 0) {
+                // console.log( "len ",this.goodsTotal == 0 && this.checkTotal != 0);
+                if (this.goodsTotal == 0 && this.checkTotal != 0) {
                     this.formSubmit('checkForm');
                 }
             }
+        },
+        autoSubmit(val, oldVal){
+            console.log(val, oldVal);
         }
     },
     methods:{
@@ -310,7 +301,7 @@ export default {
             this.assignRequest = null;
         },
         onSuccess(){
-            this.$message.success("提交成功");
+            // this.$message.success("提交成功");
             this.ResetAll();
             this.audio.play();
         },
@@ -361,8 +352,8 @@ export default {
     },
     created(){
         this.dialogThis = this;
-        this.$emit('submit-success', this.onSuccess);
-        this.$emit('submit-final', this.ResetAll);
+        this.$on('submit-success', this.onSuccess);
+        // this.$emit('submit-final', this.ResetAll);
     },
     mounted(){
         this.audio = document.getElementById("audiotip");

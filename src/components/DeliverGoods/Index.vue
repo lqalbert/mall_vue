@@ -22,8 +22,8 @@
                             </el-row>
                             <el-row>
                                 <el-col :span="10">
-                                    <el-form-item label="完成后自动提交"  >
-                                        <el-checkbox label="完成自动提交" v-model="autoSubmit"></el-checkbox>
+                                    <el-form-item   >
+                                        <el-checkbox  v-model="autoSubmit">完成自动提交</el-checkbox>
                                     </el-form-item>
                                 </el-col>
                                 <!-- <el-col :span="8">
@@ -273,7 +273,7 @@ export default {
     },
     created(){
         this.dialogThis = this;
-        this.$emit('submit-success', this.onSuccess);
+        this.$on('submit-success', this.onSuccess);
     },
     mounted(){
         this.audio = document.getElementById("audiotips");

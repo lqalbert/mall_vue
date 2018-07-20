@@ -58,11 +58,11 @@
                 :reload="dataTableReload" :page-size="15">
                     <el-table-column label="序号" align="center"  type="index" width="65">
                     </el-table-column>
-                    <el-table-column label="部门" prop="department_name"></el-table-column>
+                    <el-table-column label="部门" prop="department_name" width="170"></el-table-column>
                     <!-- <el-table-column label="小组" prop="group_name"></el-table-column>
                     <el-table-column label="员工" prop="realname"></el-table-column> -->
                     <!-- 充值金额、充值时间、充值操作人、充值部门 -->
-                    <el-table-column label="充值金额" prop="money"></el-table-column>
+                    <el-table-column label="充值金额" prop="money" width="140"></el-table-column>
                     <!-- <el-table-column label="充值方式" prop="charge_type">
                         <template slot-scope="scope">
                             <span v-if="scope.row.charge_type==1">微信</span>
@@ -70,23 +70,30 @@
                             <span v-else-if="scope.row.charge_type==3">银行转账</span>
                         </template>
                     </el-table-column> -->
-                     <el-table-column label="充值时间" prop="charge_time"></el-table-column>
+                    <el-table-column label="撤销状态" prop="revoke_status" width="140">
+                        <template slot-scope="scope">
+                            <div v-if="scope.row.revoke_status == 1">已经撤销</div>
+                        </template>
+                    </el-table-column>
+                    <el-table-column label="充值时间" prop="charge_time" width="140"></el-table-column>
                     <el-table-column label="记录时间" prop="created_at" width="190"></el-table-column>
                     <el-table-column label="修改时间" prop="updated_at" width="190"></el-table-column>
-                    <el-table-column label="操作员工" prop="creator"></el-table-column>
+                    
+                    <el-table-column label="操作员工" prop="creator" width="140"></el-table-column>
                     <!-- <el-table-column label="充值部门" prop="charge_department"></el-table-column> -->
                     <el-table-column label="备注" prop="remark" :show-overflow-tooltip="true"></el-table-column>
 
-                    <el-table-column   align="center" width="180" fixed="right"  label="操作"  >
+                    <el-table-column align="center" width="180" fixed="right" label="操作">
                         <template slot-scope="scope">
-                            <el-button type="success" @click="openEdit(scope.row)"     size="small">编辑</el-button>
+                            <el-button type="danger" @click="revoke(scope.row)" size="small">撤销</el-button>
+                            <el-button type="info" @click="openEdit(scope.row)" size="small">编辑</el-button>
                             <!-- <el-button type="danger"  @click="handleDelete(scope.row.id)"   size="small" >删除</el-button> -->
                         </template>
                     </el-table-column>
 
                     <!-- buttonbar -->
                     <div slot="buttonbar">
-                        <el-button size="small" type="info" @click="showAdd">充值</el-button>
+                        <el-button size="small" type="primary" @click="showAdd">充值</el-button>
                     </div>
                     <!-- / buttonbar -->
                 </TableProxy>
@@ -184,6 +191,34 @@
         },
         openEdit(row){
             this.$modal.show('edit-deposit', {model: row});
+        },
+        revoke(row){
+            console.log(row);
+            let vmThis = this;
+            if(row.revoke_status == 0){
+                this.$confirm('确定撤销, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.ajaxProxy.revoke(row.id,{money:row.money}).then((response) => {
+                        if (response.data.status==0) {
+                            vmThis.$message.error(response.data.msg);
+                        } else {
+                            vmThis.$message.info('撤销成功');
+                            vmThis.handleReload();
+                        }
+                    }).catch((response)=>{
+                        vmThis.$message.error('出错了');
+                    })
+                }).catch(()=>{
+
+                });
+            }else{
+                this.$confirm('已经撤销过，不能再撤销', '提示', {
+                    type: 'warning'
+                })
+            }
         }
     },
     created(){

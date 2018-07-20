@@ -315,7 +315,6 @@
         },
         methods: {
             onOpen(param) {
-                console.log(param);
                 this.model = param.params;
                 OrderGoodsAjaxProxy.get({order_id: this.model.id}).then((response)=>{
                     

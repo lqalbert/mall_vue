@@ -6,7 +6,7 @@
                         <el-col :span="12">
                             <el-form-item label="部门" prop="department_id">
                                 <el-select clearable  placeholder="请选择部门名"  v-model="addForm.department_id" @change="onDepartChange">
-                                    <el-option v-for="(v,index) in departments"
+                                    <el-option v-for="v in departments"
                                         :label="v.name" 
                                         :value="v.id"
                                         :key="v.id">

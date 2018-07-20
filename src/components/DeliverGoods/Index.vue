@@ -16,7 +16,7 @@
                                 <el-col :span="14">
                                     <el-form-item label="商品重量(g)" prop="real_weigth" >
                                         
-                                        <el-input v-model="checkForm.real_weigth" placeholder="请填写商品重量" ref="weight" ></el-input>
+                                        <el-input v-model="checkForm.real_weigth" placeholder="请填写商品重量" ref="weight" @change="checkAuto"></el-input>
                                     </el-form-item>
                                 </el-col>
                             </el-row>
@@ -117,7 +117,7 @@
                 </div>
             </el-col>
         </el-row>
-        <audio src="/public/audio/9675.mp3" preload="auto" id="audiotips">
+        <audio src="/audio/sendsuccess.mp3" preload="auto" id="audiotips">
             你的浏览器无法播放音乐
         </audio>
     </div>
@@ -155,11 +155,11 @@ export default {
         }
     },
     watch:{
-        real_weigth(val, olv){
-            if (this.autoSubmit && val.length!=0) {
-                this.beforeSubmit();
-            }
-        }
+        // real_weigth(val, olv){
+        //     if (this.autoSubmit && val.length!=0) {
+        //         this.beforeSubmit();
+        //     }
+        // }
     },
     methods:{
         expressSnChange(v){
@@ -264,6 +264,11 @@ export default {
 
             this.currentTime=0;
             this.audio.play();
+        },
+        checkAuto(){
+            if (this.autoSubmit) {
+                this.beforeSubmit();
+            }
         }
     },
     created(){

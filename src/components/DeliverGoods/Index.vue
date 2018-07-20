@@ -204,7 +204,7 @@ export default {
                     // this.formSubmit('checkForm');
                     vmThis.checkexpressPrice(real_weigth);
                 }).catch(() => {
-                    vmThis.$refs['checkForm'].resetFields();
+                    // vmThis.$refs['checkForm'].resetFields();
                     vmThis.buttonState = false;
                 });
             }else{
@@ -265,10 +265,21 @@ export default {
             this.currentTime=0;
             this.audio.play();
         },
-        checkAuto(){
-            if (this.autoSubmit) {
-                this.beforeSubmit();
+        checkAuto(v){
+            let vmthis = this;
+            if (this.barcodec) {
+                clearTimeout(this.barcodec);
             }
+            if (v && v.length == 0) {
+                return ;
+            }
+            this.barcodec = setTimeout(function(){
+                if (vmthis.autoSubmit) {
+                    vmthis.beforeSubmit();
+                }
+            },700);  
+
+            
         }
     },
     created(){

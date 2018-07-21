@@ -93,6 +93,7 @@
                             <span v-if="scope.row.express_print_status==1">已打印</span>
                         </template>
                     </el-table-column>
+                    
                     <el-table-column prop="weight" label="重量" align="center" width="200">
                     </el-table-column>
                     <el-table-column prop="assign_fee" label="配送费" align="center" width="200">

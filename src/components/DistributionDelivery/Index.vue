@@ -265,6 +265,7 @@ export default {
             this.operation_data = data.operation_data[0];
         },
         tableRowClassName(row, index){
+            //如果同时有两个颜色呢？
             if (row.is_stop) {
                 return 'erro-row'
             }else if(row.order && row.order.type && row.order.type== 1) {

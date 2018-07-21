@@ -95,7 +95,7 @@
                         </el-col>
                     </el-row>
                     <el-row>
-                            <el-col :span="20" v-if="isNotIncludeFreight">
+                            <el-col :span="20" >
                                 <el-form-item prop="remark" label="指定快递">
                                     <el-col :span="11">
                                         <el-input v-model="addOrderForm.express_delivery" placeholder="不填发默认快递"></el-input>
@@ -261,7 +261,7 @@
                 return this.$store.getters.getCates;
             },
             isNotIncludeFreight(){
-                return !(this.addOrderForm.type != 1 &&  parseInt(this.totalMoney * 100) >= 26800)
+                return !(this.addOrderForm.type != 1 &&  parseInt(this.totalMoney * 100) >= 26800) && this.addOrderForm.express_delivery.length == 0
             }
         },
         methods:{

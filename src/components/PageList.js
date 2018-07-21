@@ -62,6 +62,9 @@ const PageList = {
     'SalesPerformance': (resolve) => {require(['./SalesPerformance/Index.vue'], resolve)},
     'SalesQuantization': (resolve) => {require(['./SalesQuantization/Index.vue'], resolve)},
 
+    //运费模板
+    'FreightTemplate':(resolve) => { require(['./FreightTemplate/Index.vue'], resolve)}
+
 };
 
 export default PageList;

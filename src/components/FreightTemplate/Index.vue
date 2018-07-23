@@ -37,8 +37,8 @@
                     </el-table-column>
                     <el-table-column label="操作" width="180">
                         <template slot-scope="scope">
-                            <el-button type="success" @click="openEdit(scope.row)"     size="small">编辑</el-button>
-                            <el-button type="danger"  @click="handleDelete(scope.row.id)"   size="small" >删除</el-button>
+                            <el-button type="success" @click.stop="openEdit(scope.row)"     size="small">编辑</el-button>
+                            <el-button type="danger"  @click.stop="handleDelete(scope.row.id)"   size="small" >删除</el-button>
                         </template>
                     </el-table-column>
                     <div slot="buttonbar">
@@ -49,7 +49,8 @@
             </el-col>
         </el-row>
         <!-- 弹窗 -->
-        <Add :ajax-proxy="mainurl" name="add-freight"></Add>
+        <Add :ajax-proxy="mainurl" name="add-freight"  @submit-success="handleReload"></Add>
+        <Edit :ajax-proxy="mainurl" name="edit-freight" @submit-success="handleReload"></Edit>
         <District name="add-district"></District>
         <!-- 下半 -->
         <br>
@@ -76,6 +77,7 @@
         components:{
             SubDetail,
             Add,
+            Edit,
             District
         },
         data () {
@@ -104,12 +106,17 @@
                 } else {
                     this.$message.error('点击一行模板');
                 }
-                
             },
             onSelectRow(row){
                 this.currentRow = row;
                 console.log(this.currentRow);
-            }
+            },
+            openEdit(row){
+                this.$modal.show('edit-freight', { model: row});
+            },
+            getAjaxProxy(){
+                return FreightTemplateAjax;
+            },
         },
         computed:{
             ...mapGetters({

@@ -11,7 +11,7 @@
 
                         <el-col :span="12">
                             <el-form-item label="配送中心" prop="entrepot_id">
-                                <el-select     v-model="addForm.entrepot_id" >
+                                <el-select v-model.number="addForm.entrepot_id" >
                                     <el-option v-for="(v,index) in entrepots"
                                         :label="v.name" 
                                         :value="v.id"
@@ -36,7 +36,7 @@
                                 <el-radio class="radio" v-model="addForm.is_unify" :label="1">是</el-radio>
                             </el-form-item>
                         </el-col>
-                        <el-col :span="12" v-show="isUnify">
+                        <el-col :span="8" v-show="isUnify">
                             <el-form-item label="统一运费" prop="unify_fee" >
                                 <el-input v-model="addForm.unify_fee"></el-input>
                             </el-form-item>
@@ -76,14 +76,6 @@
                             </el-col>
                         </el-row>
                     </div>
-
-                    <el-row>
-                        <el-col :span="12">
-                            <el-form-item label="备注" prop="remark" >
-                                <el-input type="textarea" :rows="2" v-model="addForm.remark" placeholder="请输入200个字以内"></el-input>
-                            </el-form-item>
-                        </el-col>
-                    </el-row>
                 </el-form>
         
                 <div slot="dialog-foot" class="dialog-footer">
@@ -117,7 +109,7 @@
                
                 addForm:{
                     entrepot_id:"",
-                    name:"",
+                    name:"默认",
                     express:"",
                     is_unify:0,
                     is_include:0,
@@ -127,7 +119,12 @@
                     basic_fee:"10.00"
                 },
                 rules:{
-                   
+                    name:[
+                        { required: true, message:"请输入模板名", type:'string'}
+                    ],
+                    entrepot_id:[
+                        { required: true, message:"请选择配送中心", type:'number'}
+                    ]
                 },
                 
             }

@@ -63,7 +63,9 @@ const PageList = {
     'SalesQuantization': (resolve) => {require(['./SalesQuantization/Index.vue'], resolve)},
 
     //运费模板
-    'FreightTemplate':(resolve) => { require(['./FreightTemplate/Index.vue'], resolve)}
+    'FreightTemplate':(resolve) => { require(['./FreightTemplate/Index.vue'], resolve)},
+    //OrderType 订单类型 
+    'OrderType':(resolve) => { require(['./OrderType/Index.vue'], resolve)}
 
 };
 

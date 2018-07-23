@@ -71,7 +71,7 @@
     import FreightTemplateAjax from '@/ajaxProxy/FreightTemplate';
 
     export default {
-        name: 'FerightTemplate',
+        name: 'FreightTemplate',
         pageTitle:"物流揽收",
         mixins:[PageMix,SearchTool,DataTable],
         components:{

@@ -12,6 +12,8 @@ import express from './modules/express';
 import entrepots from './modules/entrepot';
 import departments from './modules/department';
 import groups from './modules/groups';
+import freightTemplate from './modules/freightTemplate';
+import orderType from './modules/orderType';
 
 Vue.use(Vuex);
 
@@ -36,7 +38,9 @@ const store = new Vuex.Store({
         express,
         entrepots,
         departments,
-        groups
+        groups,
+        freightTemplate,
+        orderType
     },
     strict: process.env.NODE_ENV !== 'production'
 });

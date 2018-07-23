@@ -71,6 +71,10 @@
                         this.$message.error(response.data.msg);
                     } else {
                         this.$message.success(response.data.msg);
+                        this.freiprxoy.setParam({
+                            fr_id: this.currentRow.id,
+                            with:['province']
+                        }).load();
                     }
                     row.editState = false;
                 }).catch((response)=>{

@@ -75,7 +75,18 @@
                             </el-form-item>
                         </el-col>
                     </el-row>
+
+                    
                 </div>
+                <el-row >
+                        <el-col :span="18">
+                            <el-form-item label="默认模板" prop="is_default" >
+                                <el-radio class="radio" v-model="editForm.is_default" :label="0">否</el-radio>
+                                <el-radio class="radio" v-model="editForm.is_default" :label="1">是</el-radio>
+                                <span>&nbsp;&nbsp;&nbsp;计算运费的默认模板</span>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
             </el-form>
     
             <div slot="dialog-foot" class="dialog-footer">
@@ -116,11 +127,16 @@ export default {
                 unify_fee:"0.00",
                 stand_fee:"268.00",
                 stand_extra:"0.00",
-                basic_fee:"10.00"
+                basic_fee:"10.00",
+                is_default:0
             },
             rules:{
                 name:[
-                    { required: true, message:"请输入模板名", type:'string'}
+                    { required: true, message:"请输入模板名", type:'string'},
+                    { max:20, message:"最长不超过20个字符"}
+                ],
+                express:[
+                    { max: 20 , message:"最长不超过20个字符"}
                 ],
                 entrepot_id:[
                     { required: true, message:"请选择配送中心", type:'number'}

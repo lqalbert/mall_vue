@@ -172,7 +172,7 @@
     export default {
         name: 'Group',
         pageTitle: "团队小组",
-        mixins: [PageMix, SearchTool,DataTable,getUsersByGid],
+        mixins: [PageMix, SearchTool,DataTable],
         components: {
             addDialog,
             editDialog,

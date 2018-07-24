@@ -265,10 +265,11 @@ export default {
             this.operation_data = data.operation_data[0];
         },
         tableRowClassName(row, index){
+            //如果同时有两个颜色呢？ 订单类型 修改 这里也要改
             if (row.is_stop) {
                 return 'erro-row'
             }else if(row.order && row.order.type && row.order.type== 1) {
-                return 'info-row';
+                // return 'info-row';
             } else if(row.order && row.order.express_name && row.order.express_name.length > 0) {
                 return 'warning-row';
             }

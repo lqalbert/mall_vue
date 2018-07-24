@@ -82,34 +82,51 @@
                     
                 </div>
                 <div v-if="active==3">
-                    <!-- <el-row>
-                        <el-col :span="12">
-                            <el-form-item prop="remark" label="指定快递">
-                                <el-radio-group v-model="addOrderForm.express_delivery" @change="setExpressChange">
-                                    <el-radio label="1">是</el-radio>
-                                    <el-radio label="0">否</el-radio>
-                                </el-radio-group>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="12">
-                            <el-form-item prop="express_id" label="快递公司" >
-                                <el-select v-model="addOrderForm.express_id" :disabled="addOrderForm.express_delivery==0" placeholder="请选择快递公司" size="small" @change="expressChange">
-                                    <el-option v-for="v in companys" :value="v.id" :key="v.id" :label="v.company_name">
-                                    </el-option>
-                                </el-select>
-                            </el-form-item>
-                        </el-col>
-                    </el-row> -->
+                    
                     <el-row>
                         <el-col :span="12">
-                            <el-form-item prop="type" label="订单类型">
-                                <el-select v-model="addOrderForm.type">
-                                    <el-option value="0" label="销售订单"></el-option>
-                                    <el-option value="1" label="内部订单"></el-option>
-                                    <el-option value="2" label="商城订单"></el-option>
+                            <el-form-item prop="type" label="订单类型" required>
+                                <el-select v-model="addOrderForm.type" @change="typeChange">
+                                    <el-option v-for="ordertype in orderTypes" :value="ordertype.id" :label="ordertype.name" :key="ordertype.id"></el-option>
                                 </el-select>
                             </el-form-item>
                         </el-col>
+                    </el-row>
+                    <el-row>
+                            <el-col :span="20" >
+                                <el-form-item prop="remark" label="指定快递">
+                                    <el-col :span="11">
+                                        <el-input v-model="addOrderForm.express_delivery" placeholder="不填发默认快递" @change="deliverChange"></el-input>
+                                    </el-col>
+                                    <el-col :span="1">&nbsp;</el-col>
+                                    <el-col :span="12">
+                                        <el-radio-group v-model="set_express" @change="setExpressChange">
+                                            <el-radio-button v-for="item in freitemp" :label="item.id" :key="item.id" >{{ item.express }}</el-radio-button>
+                                        </el-radio-group>
+                                    </el-col>
+                                </el-form-item>
+                            </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="12">
+                            <el-form-item   label="运费">
+                                <!-- 应该是个计算属性 关联订单类型和运费模板 -->
+                                <el-col :span="12" v-show="!isIncludeFreight">
+                                    {{ realfreight }} <span v-show="false">{{ freight() }}</span>
+                                    <!-- <el-input v-model="addOrderForm.freight"></el-input> -->
+                                </el-col>
+                                <el-col :span="12" v-show="isIncludeFreight">包邮</el-col>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="18">
+                            <el-form-item   label="费用">
+                               {{ totalMoney }} * {{ discount() }}% + 运费 = {{payMoney}}
+                               <span>&nbsp;&nbsp;&nbsp;&nbsp;商品金额 * 打折优惠 + 运费 </span>
+                            </el-form-item>
+                        </el-col>
+                        
                     </el-row>
                     <el-row>
                         <el-col :span="16">
@@ -149,15 +166,16 @@
 </template>
 
 <script>
-    import DialogForm from '../../mix/DialogForm';
-    import DataProxy from '../../packages/DataProxy';
-    import SelectProxy from  '../../packages/SelectProxy';
-    import GoodsSelectProxy from '../../packages/GoodsSelectProxy';
+    import DialogForm from '@/mix/DialogForm';
+    import DataProxy from '@/packages/DataProxy';
+    import SelectProxy from  '@/packages/SelectProxy';
+    import GoodsSelectProxy from '@/packages/GoodsSelectProxy';
+    import FreightAlgorithm from '@/packages/Freight';
     import EntrepotProductAjaxProxy from '@/ajaxProxy/EntrepotProduct';
-    import ExpressCompanySelectProxy from '../../packages/ExpressCompanySelectProxy';
+    import ExpressCompanySelectProxy from '@/packages/ExpressCompanySelectProxy';
     import AddGoods from './AddGoods';
 
-    import APP_CONST from '../../config';
+    import APP_CONST from '@/config';
     import { mapGetters, mapMutations } from 'vuex';
 
     const ACTIVE_LAST = 3
@@ -209,12 +227,14 @@
                     cus_name:'',
                     group_id:'',
                     department_id:'',
-                    express_delivery:'0',
+                    express_delivery:'',
                     express_id:'',
                     order_remark:'',
                     express_remark:'',
                     express_name:'',
-                    type:'0',
+                    type:'',
+                    include_freight:0, // 不包邮 包邮,
+                    freight:0.00 //运费
                 },
                 orderData:[],
                 orderAddressData:[],
@@ -224,6 +244,8 @@
                 model:'',
                 deal_name:'',
                 depositMoney:0,
+                set_express:"",
+                realfreight:"",
             }
         },
         computed:{
@@ -233,6 +255,33 @@
             ]),
             cates(){
                 return this.$store.getters.getCates;
+            },
+            // isNotIncludeFreight(){ //不包邮吗
+            //     return true;
+            //     // return !(this.addOrderForm.type != 1 &&  parseInt(this.totalMoney * 100) >= 26800) && this.addOrderForm.express_delivery.length == 0
+            // },
+            isIncludeFreight(){ //包邮吗
+                this.addOrderForm.type;
+                this.totalMoney;
+                let currentOrdertype = this.getCurrentOrderType(); //还没选的时候 currentOrdertype为undefined
+                let template = this.getCurrentFreightTemplate(); //还没选的时候 currentOrdertype为undefined
+                if (currentOrdertype) {
+                    return currentOrdertype.is_include == 1 &&  template.is_include == 1 &&  template.stand_fee *100 <= this.totalMoney*100;
+                } else {
+                    return false;
+                }
+            },
+            
+            freitemp(){
+                return this.$store.getters.getFreightTemplatesByEntrepot(this.$store.getters.userEntrepotId);
+            },
+            orderTypes(){
+                
+                return this.$store.getters.getOrderTypes;
+            },
+            payMoney(){
+                let d = this.totalMoney * this.discount()/100;
+                return parseFloat(d.toFixed(2)) + parseFloat(this.realfreight);
             }
         },
         methods:{
@@ -248,6 +297,8 @@
                 this.addOrderForm.cus_id = this.cus_id;
                 // this.addOrderForm.dep_group_realname = this.setDepGroupRealname(this.user_id);
                 this.getAddress(this.cus_id);
+
+                this.setDefaultTemplate();//设置默认模板
             },
             expressChange(v){
                 let i ='';
@@ -283,8 +334,10 @@
             },
             handleSubmit(){
                 this.addOrderForm.goods_id = this.goodsIds.join(',');
-                this.addOrderForm.order_all_money = this.totalMoney;
-                this.addOrderForm.order_pay_money = this.totalMoney;
+                this.addOrderForm.order_all_money = this.totalMoney; //商品金额
+                this.addOrderForm.order_pay_money = this.payMoney; //计算打折 + 运费
+                this.addGoodsForm.freight = this.realfreight;
+                this.addGoodsForm.include_freight = this.isIncludeFreight;
                 this.addOrderForm.order_goods = this.orderData;
                 // this.addOrderForm.order_address = this.orderAddressData;
 
@@ -385,7 +438,7 @@
                 // this.fullAddressData=data.fullAddress;
             },
             getUsersData(data){
-                console.log(data);
+                // console.log(data);
                 this.users=data.items;
                 //this.usersListData=data.users;
             },
@@ -406,14 +459,72 @@
                 this.companys = data.items;
             },
             setExpressChange(v){
-                if (v == 0) {
-                    this.addOrderForm.express_id = "";
-                    this.addOrderForm.express_name = "";
-                }
+                let cu = this.getCurrentFreightTemplate();
+                this.addOrderForm.express_delivery = cu.express;
+                FreightAlgorithm.setTemplate(cu);
             },
             addressChange(v){
                 this.addressListData = [];
                 this.addressListData.push(v);
+
+                FreightAlgorithm.setAddress(v);
+            },
+            getCurrentOrderType(){
+                let selectedId = this.addOrderForm.type;
+                return  this.orderTypes.find((element)=>{
+                    return element.id == selectedId;
+                });
+            },
+            getCurrentFreightTemplate(){
+                let selectedId = this.set_express;
+                return  this.freitemp.find((element)=>{
+                    return element.id == selectedId;
+                });
+            },
+            setDiscount(money){
+                let currentOrderType = this.getCurrentOrderType();
+                if (currentOrderType) {
+                    return money * currentOrderType.discount / 100;
+                } else {
+                    return money
+                }
+            },
+            setDefaultTemplate(){
+                this.freitemp.forEach(element => {
+                    if (element.is_default == 1) {
+                        // this.addOrderForm.express_delivery = element.express;
+                        this.set_express = element.id;
+                        FreightAlgorithm.setTemplate(element);
+                    }
+                });
+            },
+            typeChange(v){
+                FreightAlgorithm.setOrderType(this.getCurrentOrderType());
+                FreightAlgorithm.setPrice(this.totalMoney);
+            },
+            deliverChange(v){
+                let has = false;
+                this.freitemp.forEach(element => {
+                    if (element.express == v) {
+                        has = true;
+                        this.set_express = element.id;
+                    }
+                });
+                if (!has) {
+                    this.setDefaultTemplate();
+                }
+            },
+
+            freight(){
+                let vmthis =this;
+                this.$nextTick(function(){
+                    vmthis.realfreight =  FreightAlgorithm.getFreight();
+                })
+
+            },
+            discount(){
+                let o = this.getCurrentOrderType();
+                return o ? o.discount : 100;
             }
 
         },
@@ -425,12 +536,15 @@
             // let ExpressCompanySelect = new ExpressCompanySelectProxy({}, this.getExpressCompanySelect, this);
             // ExpressCompanySelect.load();
 
-            this.goodsProxy = new GoodsSelectProxy({}, this.loadGoods, this);
+            // this.goodsProxy = new GoodsSelectProxy({}, this.loadGoods, this);
 
             this.$on('submit-error', this.resetForms)
             let user = this.getUser;
             this.addOrderForm.deal_id =  user.id;
             this.addOrderForm.deal_name = user.realname;
+
+            this.$store.dispatch('initFreightTemplate', this.$store.getters.userEntrepotId);
+            this.$store.dispatch('initOrderTypes');
 
         }
 

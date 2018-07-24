@@ -4,83 +4,75 @@
             <el-form :model="editForm"  :label-width="labelWidth" :rules="rules" ref="editForm" :label-position="labelPosition">
                 <el-row>
                     <el-col :span="12">
-                        <el-form-item label="名称" prop="name" >
-                            <el-input class="name-input" v-model="editForm.name"  auto-complete="off"  placeholder="请填写配送中心名称"></el-input>
+                        <el-form-item label="姓名" prop="name" >
+                            <el-input class="name-input" v-model="editForm.name"  auto-complete="off"  placeholder="请填写收件人姓名"></el-input>
                         </el-form-item>
                     </el-col>
 
                     <el-col :span="12">
-                        <el-form-item label="英文简称" prop="eng_name" >
-                            <el-input class="name-input" v-model="editForm.eng_name"  auto-complete="off" disabled placeholder="请填写英文简称"></el-input>
+                        <el-form-item label="手机号" prop="phone" >
+                            <el-input class="name-input" v-model="editForm.phone"  auto-complete="off"  placeholder="请填写收件人手机号"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row>
                     <el-col :span="12">
-                        <el-form-item label="联系人" prop="contact" >
-                            <el-input class="name-input" v-model="editForm.contact"  auto-complete="off"  placeholder="请填写联系人"></el-input>
+                        <el-form-item prop="express_id" label="快递">
+                            <el-select v-model="editForm.express_id"  placeholder="请选择快递" @change="expressChange">
+                                <el-option v-for="v in companys" :value="v.id" :key="v.id" :label="v.company_name">
+                                </el-option>
+                            </el-select>
                         </el-form-item>
                     </el-col>
-
                     <el-col :span="12">
-                        <el-form-item label="固定电话" prop="fixed_telephone" >
-                            <el-input class="name-input" v-model="editForm.fixed_telephone"  auto-complete="off"  placeholder="请填写固定电话"></el-input>
+                        <el-form-item label="快递单号" prop="express_sn" >
+                            <el-input class="name-input" v-model="editForm.express_sn"  auto-complete="off"  placeholder="请选择"></el-input>
                         </el-form-item>
                     </el-col>
-
                 </el-row>
                 <el-row>
                     <el-col :span="12">
-                        <el-form-item label="联系电话" prop="contact_phone" >
-                            <el-input class="name-input" v-model="editForm.contact_phone"  auto-complete="off"  placeholder="请填写联系人电话"></el-input>
+                        <el-form-item prop="area_province_id" label="省份">
+                            <el-select v-model.number="editForm.area_province_id"
+                                       @change="provinceChange" placeholder="请选择省份"  clearable filterable>
+                                <el-option v-for="province in provinces" :label="province.name"
+                                           :value="province.id" :key="province.id">
+                                </el-option>
+                            </el-select>
                         </el-form-item>
                     </el-col>
-
-                    <!--<el-col :span="12">-->
-                        <!--<el-form-item prop="area_province_id" label="省份">-->
-                            <!--<el-select v-model.number="editForm.area_province_id"-->
-                                       <!--@change="provinceChange" placeholder="请选择省份" size="small" clearable filterable>-->
-                                <!--<el-option v-for="province in provinces" :label="province.name"-->
-                                           <!--:value="province.id" :key="province.id">-->
-                                <!--</el-option>-->
-                            <!--</el-select>-->
-                        <!--</el-form-item>-->
-                    <!--</el-col>-->
+                    <el-col :span="12">
+                        <el-form-item prop="area_city_id" label="市">
+                            <el-select v-model.number="editForm.area_city_id"
+                                       @change="cityChange" placeholder="请选择城市"  clearable filterable>
+                                <el-option v-for="city in cities" :label="city.name"
+                                           :value="city.id" :key="city.id">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
                 </el-row>
-                <!--<el-row>-->
-                    <!--<el-col :span="12">-->
-                        <!--<el-form-item prop="area_city_id" label="市">-->
-                            <!--<el-select v-model.number="editForm.area_city_id"-->
-                                       <!--@change="cityChange" placeholder="请选择城市" size="small" clearable filterable>-->
-                                <!--<el-option v-for="city in cities" :label="city.name"-->
-                                           <!--:value="city.id" :key="city.id">-->
-                                <!--</el-option>-->
-                            <!--</el-select>-->
-                        <!--</el-form-item>-->
-                    <!--</el-col>-->
-                    <!--<el-col :span="12">-->
-                        <!--<el-form-item prop="area_district_id" label="区/县">-->
-                            <!--<el-select v-model.number="editForm.area_district_id"-->
-                                       <!--@change="districtChange" placeholder="区/县" size="small" clearable filterable>-->
-                                <!--<el-option v-for="district in districts" :label="district.name"-->
-                                           <!--:value="district.id" :key="district.id">-->
-                                <!--</el-option>-->
-                            <!--</el-select>-->
-                        <!--</el-form-item>-->
-                    <!--</el-col>-->
-                <!--</el-row>-->
-
-                <!--<el-row>-->
-                    <!--<el-col :span="24">-->
-                        <!--<el-form-item label="详细地址"  prop="address">-->
-                            <!--<el-input type="textarea"  auto-complete="off" v-model="editForm.address" placeholder="请填配送中心详细地址"></el-input>-->
-                        <!--</el-form-item>-->
-                    <!--</el-col>-->
-                <!--</el-row>-->
+                <el-row>
+                    <el-col :span="12">
+                        <el-form-item prop="area_district_id" label="区/县">
+                            <el-select v-model.number="editForm.area_district_id"
+                                       @change="districtChange" placeholder="区/县"  clearable filterable>
+                                <el-option v-for="district in districts" :label="district.name"
+                                           :value="district.id" :key="district.id">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
                 <el-row>
                     <el-col :span="24">
-                        <el-form-item label="备注"  prop="comment">
-                            <el-input type="textarea"  auto-complete="off" v-model="editForm.comment" placeholder="请填写备注(100字以内)"></el-input>
+                        <el-form-item label="详细地址" prop="address" >
+                            <el-input type="textarea"  auto-complete="off" v-model="editForm.address" placeholder="请填写详细地址(100字以内)"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="24">
+                        <el-form-item label="备注"  prop="remark">
+                            <el-input type="textarea"  auto-complete="off" v-model="editForm.remark" placeholder="请填写备注(100字以内)"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -110,9 +102,11 @@
     export default {
         name: 'editDialog',
         mixins:[DialogForm],
-        // props:{
-        //
-        // },
+        props:{
+            companys:{
+                type:Array
+            }
+        },
         // components:{
         //     Dialog
         // },
@@ -125,12 +119,12 @@
                 editForm:{
                     id:'',
                     name: "",
-                    eng_name: "",
-                    contact: "",
-                    contact_phone: "",
-                    fixed_telephone: "",
+                    phone: "",
+                    express_id: "",
+                    express_name: "",
+                    express_sn: "",
                     address: '',
-                    comment:'',
+                    remark:'',
                     area_province_id:'',
                     area_city_id:'',
                     area_district_id:'',
@@ -168,6 +162,14 @@
         methods:{
             getAjaxPromise(model){
                 return this.ajaxProxy.update(model.id, model);
+            },
+            expressChange(v){
+                let i ='';
+                for (i in this.companys){
+                    if(this.companys[i]['id'] == v){
+                        this.editForm.express_name =this.companys[i]['company_name']
+                    }
+                }
             },
             onOpen(param){
                 this.model = param.params.model;

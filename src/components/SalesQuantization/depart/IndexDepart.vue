@@ -3,13 +3,13 @@
         <el-row>
             <el-col :span="24">
                 <el-form :inline="true" ref="searchForm" :model="searchForm">
-                    <el-form-item>
+                    <el-form-item prop="start">
                         <el-date-picker size="small" v-model="searchForm.start" 
                         placeholder="请选择起日期" :picker-options="setPicker"
                         @change="startDateChange" :clearable="false" class="form-item-unique">
                         </el-date-picker>
                     </el-form-item>
-                    <el-form-item>
+                    <el-form-item prop="end">
                         <el-date-picker size="small" 
                         v-model="searchForm.end" 
                         placeholder="请选择止日期" :picker-options="setPicker"
@@ -22,7 +22,7 @@
                         <el-button size="small" @click="setField('week')">本周</el-button>
                         <el-button size="small" @click="setField('month')">本月</el-button>
                     </el-form-item>
-                    <el-form-item>
+                    <el-form-item prop="type">
                         <el-select size="small" class="input-width" v-model="searchForm.type" placeholder="查询类型"
                             @change="saleQueryType">
                             <el-option v-for="item in searchType" :key="item.value" :label="item.key" :value="item.value">

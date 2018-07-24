@@ -58,6 +58,7 @@
                     {id:'1', status:'通过'},
                     {id:'8', status:'未通过'}
                 ],
+                order_sn:null,
 
             }
         },
@@ -84,16 +85,18 @@
             onOpen(param){
                 console.log(param);
                 this.checkForm.id = param.params.row.id;
+                this.order_sn = param.params.row.order_sn;
                 // this.checkForm.status = event.params.row.status;
             },
             getAjaxPromise(model){
                 delete model.cus_name;
                 delete model.user_name;
+                model.order_sn = this.order_sn;
                 return this.ajaxProxy.updateCheckStatus(model.id, model);
             },
         },
         created(){
-            //需要检测 reset 会不会 把下面的置空
+            //需要检测 reset 会不会 把下面的置空-->会清空
             this.checkForm.auditor_id = this.user_id;
             this.checkForm.auditor_name = this.realname;
         }

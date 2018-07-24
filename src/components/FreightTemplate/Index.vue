@@ -72,7 +72,7 @@
 
     export default {
         name: 'FreightTemplate',
-        pageTitle:"物流揽收",
+        pageTitle:"运费模板",
         mixins:[PageMix,SearchTool,DataTable],
         components:{
             SubDetail,

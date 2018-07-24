@@ -49,7 +49,7 @@
                                 <el-form-item label="支持包邮吗" prop="is_include" >
                                     <el-radio class="radio" v-model="addForm.is_include" :label="0">否</el-radio>
                                     <el-radio class="radio" v-model="addForm.is_include" :label="1">是</el-radio>
-                                    <span>&nbsp;&nbsp;&nbsp;如果不支持包邮，则在包邮时不能选择该快递</span>
+                                    <!-- <span>&nbsp;&nbsp;&nbsp;如果不支持包邮，则在包邮时不能选择该快递</span> -->
                                 </el-form-item>
                             </el-col>
                         </el-row>

@@ -82,7 +82,7 @@
 					<el-table-column prop="op_time" label="操作时间" align="center"></el-table-column>
 					<el-table-column prop="user_name" label="操作人" align="center"></el-table-column>
 					<el-table-column prop="type_name" label="操作类型" align="center"></el-table-column>
-					<el-table-column prop="type_name" label="备注" align="center"></el-table-column>
+					<el-table-column prop="remark" label="备注" align="center"></el-table-column>
 				</el-table>
 			</el-tab-pane>
 		</el-tabs>
@@ -109,7 +109,19 @@ export default {
 			tableData3:[],
 			deliveryAddressesData:[],
 			communicationData:[],
-			operationData:[],
+			operationData:[
+                {id:1,op_time:'2018-07-12',user_name:'张三',type_name:'添加发货单',remark:''},
+                // {id:2,op_time:'2018-07-13',user_name:'主管',type_name:'订单审核',remark:''},
+                // {id:2,op_time:'2018-07-13',user_name:'主管',type_name:'订单退货',remark:''},
+                // {id:2,op_time:'2018-07-13',user_name:'主管',type_name:'订单换货',remark:''},
+                // {id:4,op_time:'2018-07-15',user_name:'主管',type_name:'取消订单',remark:''},
+                {id:6,op_time:'2018-07-17',user_name:'主管',type_name:'发货单审核',remark:''},
+                {id:6,op_time:'2018-07-17',user_name:'主管',type_name:'发货单跟新',remark:''},
+
+                {id:3,op_time:'2018-07-14',user_name:'主管',type_name:'返单',remark:''},
+                {id:7,op_time:'2018-07-18',user_name:'主管',type_name:'拦截/取消发货单',remark:''},
+
+			],
 			
 			tabFirst:false,
 			tabSecond:false,

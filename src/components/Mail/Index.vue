@@ -23,8 +23,8 @@
                         </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item prop="contact">
-                    <el-input v-model="searchForm.contact" size="small" placeholder="通用单号"></el-input>
+                <el-form-item prop="express_sn">
+                    <el-input v-model="searchForm.express_sn" size="small" placeholder="快递单号"></el-input>
                 </el-form-item>
 
                 <el-form-item>
@@ -37,33 +37,29 @@
             <el-col>
                  <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" :page-size="20">
                     <el-table-column type="index" width="80" label="序号" align="center"></el-table-column>
-                    <!-- <el-table-column label="ID" align="center" prop="id"></el-table-column> -->
 
-                    <el-table-column prop="name" label="具体地址" align="center" width="140px"></el-table-column>
+                    <!--<el-table-column prop="eng_name" label="客户ID" align="center"></el-table-column>-->
 
-                    <el-table-column prop="eng_name" label="客户ID" align="center"></el-table-column>
+                    <el-table-column prop="name" label="收件人姓名" align="center"></el-table-column>
 
-                    <el-table-column prop="contact" label="客户姓名" align="center"></el-table-column>
+                    <el-table-column prop="phone" label="联系电话" align="center" width="140px"></el-table-column>
 
-                    <el-table-column prop="contact_phone" label="联系电话" align="center" width="140px"></el-table-column>
+                     <el-table-column prop="express_sn" label="快递单号" align="center"></el-table-column>
 
-                    <el-table-column prop="fixed_telephone" label="省份" align="center" width="140px"></el-table-column>
-                    <el-table-column prop="fixed_telephone" label="城市" align="center" width="140px"></el-table-column>
-                    <el-table-column prop="fixed_telephone" label="区县" align="center" width="140px"></el-table-column>
+                    <el-table-column prop="area_province_name" label="省" align="center"></el-table-column>
 
-                    <!--<el-table-column prop="area_province_name" label="省" align="center"></el-table-column>-->
+                    <el-table-column prop="area_city_name" label="市" align="center"></el-table-column>
 
-                    <!--<el-table-column prop="area_city_name" label="市" align="center"></el-table-column>-->
+                    <el-table-column prop="area_district_name" label="区/县" align="center"></el-table-column>
 
-                    <!--<el-table-column prop="area_district_name" label="区/县" align="center"></el-table-column>-->
+                    <el-table-column prop="address" label="具体地址" align="center" ></el-table-column>
 
-                    <!--<el-table-column prop="address" label="地址" align="center" :show-overflow-tooltip="true"></el-table-column>-->
+                    <el-table-column prop="express_name" label="快递名称" align="center" ></el-table-column>
 
-                    <el-table-column prop="comment" label="备注" align="center" :show-overflow-tooltip="true"></el-table-column>
+                    <el-table-column prop="remark" label="备注" align="center" ></el-table-column>
 
                     <el-table-column  label="操作" align="center" width="200">
                         <template slot-scope="scope">
-                            
                             <el-button type="info" size="small" @click="showEdit(scope.row)">编辑</el-button>
                             <el-button type="danger" size="small" @click="handleDelete(scope.row.id)">删除</el-button>
                         </template>
@@ -82,18 +78,21 @@
                 name="add"
                 :ajax-proxy="ajaxProxy"
                 :distributors="distributors"
+                :companys="companys"
                 @submit-success="handleReload">
         </add-dialog>
         <add-split-dialog
                 name="addSplitDialog"
                 :ajax-proxy="ajaxProxy"
                 :distributors="distributors"
+                :companys="companys"
                 @submit-success="handleReload">
         </add-split-dialog>
         <edit-dialog
                 name="edit"
                 :ajax-proxy="ajaxProxy"
                 :distributors="distributors"
+                :companys="companys"
                 @submit-success="handleReload">
         </edit-dialog>
 
@@ -110,12 +109,14 @@ import DataTable from '../../mix/DataTable';
 import { mapGetters } from 'vuex';
 // import Dialog from '../common/Dialog';
 import DistributionCenterAjaxProxy from '../../ajaxProxy/DistributionCenter';
+import MailAjaxProxy from '../../ajaxProxy/Mail';
 import AreaSelect from '@/packages/AreaSelectProxy';
+import ExpressCompanySelectProxy from '../../packages/ExpressCompanySelectProxy';
 
 export default {
     name: 'Mail',
     pageTitle:"寄件",
-    mixins:[PageMix,SearchTool,config,DataTable,DistributionCenterAjaxProxy],
+    mixins:[PageMix,SearchTool,config,DataTable,],
     components:{
         addDialog,
         editDialog,
@@ -129,15 +130,17 @@ export default {
                 }
             },
             mainparam:"",
-            mainurl:DistributionCenterAjaxProxy.getUrl(),
-            ajaxProxy:DistributionCenterAjaxProxy,
+            mainurl:MailAjaxProxy.getUrl(),
+            ajaxProxy:MailAjaxProxy,
             searchForm:{
                 start:'',
                 end:'',
-                contact_phone:'',
+                type:'',
+                express_sn:'',
             },
             distributors:[],
             provinces:[],
+            companys:[],
             types:[
                 {id:1,name:'自行寄件'},
                 {id:2,name:'拆分寄件'},
@@ -174,11 +177,17 @@ export default {
             let areaSelect = new AreaSelect({pid:1},this.getAreaProvinces,this);
             areaSelect.load();
         },
+        getExpressCompanySelect(data){
+            this.companys = data.items;
+        },
     },
     created(){
         this.$on('search-tool-change', this.onSearchChange);
         //    获取省份
         this.setAreaProvinces();
+        //获取物流公司数据
+        let ExpressCompanySelect = new ExpressCompanySelectProxy({}, this.getExpressCompanySelect, this);
+        ExpressCompanySelect.load();
     },
     mounted(){
 

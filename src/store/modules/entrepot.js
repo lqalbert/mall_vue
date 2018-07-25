@@ -24,7 +24,7 @@ const app = {
             }
         },
         setEntrepots(context) {
-            AreaAjaxProxy.get().then((response)=>{
+            AreaAjaxProxy.get({pageSize:100}).then((response)=>{
                 context.commit("addEntrepots", response.data.items)
             }).catch((response)=>{
                 console.log(response);

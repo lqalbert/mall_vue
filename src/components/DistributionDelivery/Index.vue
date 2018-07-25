@@ -267,9 +267,9 @@ export default {
         tableRowClassName(row, index){
             //如果同时有两个颜色呢？ 订单类型 修改 这里也要改
             if (row.is_stop) {
-                return 'erro-row'
-            }else if(row.order && row.order.type && row.order.type== 1) {
-                // return 'info-row';
+                return 'erro-row';
+            }else if(row.order && row.order.order_type && row.order.order_type.name == "内部订单") {
+                return 'info-row';
             } else if(row.order && row.order.express_name && row.order.express_name.length > 0) {
                 return 'warning-row';
             }
@@ -290,7 +290,7 @@ export default {
             // console.log(tab, event);
         },
         onSearchChange(param){
-            param['with'] = ['order','address'];
+            param['with'] = ['order.orderType','address'];
             param['appends'] = ['status_text'];
             this.pstatusChange(param);
             this.mainparam = JSON.stringify(param);

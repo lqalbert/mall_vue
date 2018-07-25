@@ -63,11 +63,12 @@ let o = {
         }
     },
     "includeFreight":function(){
-        if (this.freightTemplate.express == this.express_deliver) {
-            return this.freightTemplate.stand_extra
-        } else {
-            return 0.00
-        }
+        return this.freightTemplate.stand_extra
+        // if (this.freightTemplate.express == this.express_deliver) {
+        //     return this.freightTemplate.stand_extra
+        // } else {
+        //     return 0.00
+        // }
     },
     "notIncludeFreight":function(){
         let basic = this.freightTemplate.basic_fee;

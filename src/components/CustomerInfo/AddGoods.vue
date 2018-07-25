@@ -1,11 +1,10 @@
 <template>
     <div>
         <el-form ref="goodsForm" :model="goodsForm" label-width="80px">
-
             <el-alert
                 title="当库存为缺货时不能添加"
                 type="warning">
-              </el-alert>
+            </el-alert>
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="商品分类" prop="dev">

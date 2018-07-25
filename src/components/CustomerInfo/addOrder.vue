@@ -217,6 +217,7 @@
                     // address_id:"",
                     address:null,
                     order_all_money:0,
+                    discounted_goods_money:0,
                     order_pay_money:0,
                     order_goods:[],
                     order_address:[],
@@ -336,6 +337,7 @@
                 this.addOrderForm.goods_id = this.goodsIds.join(',');
                 this.addOrderForm.order_all_money = this.totalMoney; //商品金额
                 this.addOrderForm.order_pay_money = this.payMoney; //计算打折 + 运费
+                this.addOrderForm.discounted_goods_money = this.addOrderForm.order_pay_money - parseFloat(this.realfreight);
                 this.addOrderForm.freight = this.realfreight;
                 this.addOrderForm.include_freight = this.isIncludeFreight;
                 this.addOrderForm.order_goods = this.orderData;

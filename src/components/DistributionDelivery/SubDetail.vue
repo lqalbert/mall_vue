@@ -230,7 +230,7 @@ export default {
 		getCommunication(data){
 			this.communicationData = data.items;
 		},
-        	getLogisticsInformation(data){
+		getLogisticsInformation(data){
 			this.LogisticsInformationData = data.data[0].data;
 		},
 		getAssignOperation(data){

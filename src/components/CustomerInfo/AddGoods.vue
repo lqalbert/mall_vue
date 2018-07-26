@@ -91,7 +91,7 @@
                 this.data2 = {};
             },
             addGoods(){
-                if (this.entrepot_sum > 0) {
+                //if (this.entrepot_sum > 0) {
                     let vmThis = this;
                     let item = this.data2[vmThis.goodsForm.goods_id];
                     let moneyNotes =parseInt(item.price) * parseInt(this.goodsForm.goods_number);
@@ -116,7 +116,7 @@
                     };
                     this.$emit('add-goods', addData);
                     this.$refs.goodsForm.resetFields();
-                }
+                //}
             },
             getGoodsInfo(goods_id){
                 let goods = this.data2[goods_id];

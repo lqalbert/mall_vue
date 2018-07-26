@@ -112,8 +112,7 @@
                             <el-form-item   label="运费">
                                 <!-- 应该是个计算属性 关联订单类型和运费模板 -->
                                 <el-col :span="12" v-show="!isIncludeFreight">
-                                    {{ realfreight }} <span v-show="false">{{ freight() }}</span>
-                                    <!-- <el-input v-model="addOrderForm.freight"></el-input> -->
+                                    {{ realfreight }}
                                 </el-col>
                                 <el-col :span="12" v-show="isIncludeFreight">包邮</el-col>
                             </el-form-item>
@@ -122,7 +121,7 @@
                     <el-row>
                         <el-col :span="18">
                             <el-form-item   label="费用">
-                               {{ totalMoney }} * {{ discount() }}% + 运费 = {{payMoney}}
+                               {{ totalMoney }} * {{ discount() }}% + {{ realfreight }} = {{payMoney}}
                                <span>&nbsp;&nbsp;&nbsp;&nbsp;商品金额 * 打折优惠 + 运费 </span>
                             </el-form-item>
                         </el-col>
@@ -272,7 +271,12 @@
                     return false;
                 }
             },
-            
+            // calcuFreight(){
+            //     this.addOrderForm.address;
+            //     this.addOrderForm.type;
+            //     this.set_express;
+            //     return FreightAlgorithm.getFreight();
+            // },
             freitemp(){
                 return this.$store.getters.getFreightTemplatesByEntrepot(this.$store.getters.userEntrepotId);
             },
@@ -319,6 +323,8 @@
                 this.orderData.push(goods);
                 this.goodsIds.push(goods.goods_id);
                 this.$refs.addOrderForm.resetFields();
+
+                this.$emit('cacul-freight');
             },
             userChange(deal_id){
                 // console.log(this.users);
@@ -464,12 +470,15 @@
                 let cu = this.getCurrentFreightTemplate();
                 this.addOrderForm.express_delivery = cu.express;
                 FreightAlgorithm.setTemplate(cu);
+
+                this.$emit('cacul-freight');
             },
             addressChange(v){
                 this.addressListData = [];
                 this.addressListData.push(v);
 
                 FreightAlgorithm.setAddress(v);
+                
             },
             getCurrentOrderType(){
                 let selectedId = this.addOrderForm.type;
@@ -503,6 +512,8 @@
             typeChange(v){
                 FreightAlgorithm.setOrderType(this.getCurrentOrderType());
                 FreightAlgorithm.setPrice(this.totalMoney);
+
+                this.$emit('cacul-freight');
             },
             deliverChange(v){
                 let has = false;
@@ -518,11 +529,7 @@
             },
 
             freight(){
-                let vmthis =this;
-                this.$nextTick(function(){
-                    vmthis.realfreight =  FreightAlgorithm.getFreight();
-                })
-
+                this.realfreight =  FreightAlgorithm.getFreight();
             },
             discount(){
                 let o = this.getCurrentOrderType();
@@ -531,14 +538,6 @@
 
         },
         created(){
-            // let userDataProxy = new DataProxy('/employees',this.pageSize,this.getUsersData, this);
-            // userDataProxy.load();
-
-            //获取快递公司数据
-            // let ExpressCompanySelect = new ExpressCompanySelectProxy({}, this.getExpressCompanySelect, this);
-            // ExpressCompanySelect.load();
-
-            // this.goodsProxy = new GoodsSelectProxy({}, this.loadGoods, this);
 
             this.$on('submit-error', this.resetForms)
             let user = this.getUser;
@@ -547,7 +546,10 @@
 
             this.$store.dispatch('initFreightTemplate', this.$store.getters.userEntrepotId);
             this.$store.dispatch('initOrderTypes');
+            
+            FreightAlgorithm.setScope(this);
 
+            this.$on('cacul-freight', this.freight);
         }
 
     }

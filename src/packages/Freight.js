@@ -3,6 +3,7 @@ import FreightExtraAjax from '@/ajaxProxy/FreightExtra';
 
 
 let o = {
+    "scope":null,
     "orderType":null,
     "price":0.00,
     "address":null,
@@ -18,15 +19,18 @@ let o = {
     },
     "setAddress":function(param){ //设置地址
         this.address = param;
-    },
-    "setTemplate":function(param){ //运费模板 
-        this.freightTemplate = param;
+
         //获取特殊区域
-        FreightExtraAjax.get({fr_id:this.freightTemplate.id}).then((response)=>{
+        FreightExtraAjax.get({ province_id: this.address.area_province_id }).then((response)=>{
             this.extra_dis = response.data.items;
+            this.scope.$emit('cacul-freight');
         }).catch(()=>{
             alert('获取特殊地区失败');
         })
+    },
+    "setTemplate":function(param){ //运费模板 
+        this.freightTemplate = param;
+        
     },
     "setExpress":function(param){ //可能选择的快递公司 不在提供的模板之类
         this.express_deliver = param;
@@ -74,7 +78,7 @@ let o = {
         let basic = this.freightTemplate.basic_fee;
         //检查是否在特殊地区
         let item = this.extra_dis.find((element)=>{
-            if(element.province_id == this.address.area_province_id) {
+            if(element.fr_id == this.freightTemplate.id) {
                 return true;
             }
         });
@@ -83,6 +87,9 @@ let o = {
         } else {
             return basic;
         }
+    },
+    "setScope":function(obj){
+        this.scope = obj;
     }
 };
 

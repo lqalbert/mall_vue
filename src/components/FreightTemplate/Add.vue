@@ -12,7 +12,7 @@
                         <el-col :span="12">
                             <el-form-item label="配送中心" prop="entrepot_id">
                                 <el-select v-model.number="addForm.entrepot_id" >
-                                    <el-option v-for="(v,index) in entrepots"
+                                    <el-option v-for="v in entrepots"
                                         :label="v.name" 
                                         :value="v.id"
                                         :key="v.id">

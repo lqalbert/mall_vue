@@ -79,10 +79,17 @@
 			</el-tab-pane> -->
 			<el-tab-pane label="操作记录" name="Sixth">
 				<el-table :data="operationData" border style="width: 100%">
-					<el-table-column prop="op_time" label="操作时间" align="center"></el-table-column>
-					<el-table-column prop="user_name" label="操作人" align="center"></el-table-column>
-					<el-table-column prop="type_name" label="操作类型" align="center"></el-table-column>
-					<el-table-column prop="type_name" label="备注" align="center"></el-table-column>
+					<el-table-column prop="action_text" label="操作动作" align="center">
+					</el-table-column>
+					<el-table-column prop="operator" label="操作员" align="center">
+					</el-table-column>
+					<el-table-column prop="remark" label="操作备注" align="center">
+						<template slot-scope="scope">
+							发货单号{{scope.row.remark}}
+						</template>
+					</el-table-column>
+					<el-table-column prop="created_at" label="操作时间" align="center">
+					</el-table-column>
 				</el-table>
 			</el-tab-pane>
 			<el-tab-pane label="其他联系信息" name="Seventh">
@@ -109,7 +116,7 @@
 	</el-row>
 </template>
 <script>
-// import DistributionDeliveryProxy from '@/packages/DistributionDeliveryProxy';
+import AssignOperationProxy from "@/packages/AssignOperationAjaxProxy";
 import OrderGoodsAjaxProxy from "@/packages/OrderGoodsAjaxProxy";
 import EmployeeSelectProxy from "../../packages/EmployeeSelectProxy";
 
@@ -179,11 +186,10 @@ export default {
 			this.tabFifth = true;
 		},
 		handleSixth(row){
-			let operationProxy = new DistributionDeliveryProxy(null, this.getOperation, this);
-			operationProxy.setParam({
-				id:row.id,
-				business:'operation'
-			}).load()
+			let AssignOperationAjax = new AssignOperationProxy({fields:['*']}, this.getAssignOperation, this);
+			AssignOperationAjax.setParam({
+				assign_id:row.id
+			}).load();
 			this.tabSixth = true;
 		},
 		handleSeventh(row){
@@ -206,49 +212,8 @@ export default {
 		getCommunication(data){
 			this.communicationData = data.items;
 		},
-		getOperation(data){
-			let newData = {};
-			this.operationData = [];
-			if(data[0].sign_at){
-				newData['type_name'] = '客户签收';
-				newData['op_time'] = data[0].sign_at;
-				newData['user_name'] = data[0].user_name;
-				newData['id'] = data[0].id;
-			}
-			if(data[0].communicate_time){
-				newData['type_name'] = '与客户沟通';
-				newData['op_time'] = data[0].communicate_time;
-				newData['user_name'] = data[0].user_name;
-				newData['id'] = data[0].id;
-			}
-			if(data[0].send_time){
-				newData['type_name'] = '操作发货';
-				newData['op_time'] = data[0].send_time;
-				newData['user_name'] = data[0].user_name;
-				newData['id'] = data[0].id;
-			}
-			if(data[0].edit_time){
-				newData['type_name'] = '修改发货';
-				newData['op_time'] = data[0].edit_time;
-				newData['user_name'] = data[0].user_name;
-				newData['id'] = data[0].id;
-			}
-			if(data[0].waste_time){
-				newData['type_name'] = '订单废除';
-				newData['op_time'] = data[0].waste_time;
-				newData['user_name'] = data[0].user_name;
-				newData['id'] = data[0].id;
-			}
-			if(data[0].edit_address_time){
-				newData['type_name'] = '修改收货地址';
-				newData['op_time'] = data[0].edit_address_time;
-				newData['user_name'] = data[0].user_name;
-				newData['id'] = data[0].id;
-			}
-			if(newData['id']){
-				this.operationData.push(newData);
-			}
-			
+		getAssignOperation(data){
+			this.operationData = data.items;
 		},
 		displayCategory(category){
             let cate = [];

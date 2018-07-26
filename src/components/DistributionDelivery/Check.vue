@@ -69,6 +69,7 @@
                 checkForm:{
                     ids:[],
                     express_id:"",
+                    assign_sns:[]
                     // express_sn:"暂时没有",
                     // corrugated_id:"",
                     // corrugated_case:"",
@@ -104,7 +105,8 @@
                 
                 console.log(param);
                 param.params.rows.forEach((element) => {
-                    this.checkForm.ids.push(element.id)
+                    this.checkForm.ids.push(element.id);
+                    this.checkForm.assign_sns.push(element.assign_sn);
                 }, this);
             },
             loadGoods(data){
@@ -157,6 +159,7 @@
             },
             onBeforeClose(){
                 this.checkForm.ids = [];
+                this.checkForm.assign_sns = [];
             }
         },
         created(){

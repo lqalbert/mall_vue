@@ -47,7 +47,7 @@
                 <div class="pull-right">
                     <el-pagination
                         :current-page="currentPage"
-                        :page-size="pageSize"
+                        :page-size="dpagesize"
                         :page-sizes="[15, 20, 30, 40, 50, 100, 200]"
                         :layout="layoutstr"
                         :total="total"

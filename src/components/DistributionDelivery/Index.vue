@@ -283,7 +283,7 @@ export default {
         },
         editAddress(){
             if (this.openDialogCheck()) {
-                this.$modal.show('edit-address',this.currentRow.address);
+                this.$modal.show('edit-address',this.currentRow);//.address
             }
         },  
         handleClick(tab, event){
@@ -482,6 +482,7 @@ export default {
         },
         updateWaybill(){
             if (!this.hasCurrentRow()) {
+                this.$message.error('请勾选一行');
                 return ;
             }
             let row = this.currentRow;
@@ -501,6 +502,8 @@ export default {
                 }).catch((response)=>{
                     this.$message.error('出错了');
                 })
+            }).catch(()=>{
+                
             })
             // console.log('yes');
         }

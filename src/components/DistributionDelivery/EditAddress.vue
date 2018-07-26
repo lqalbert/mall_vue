@@ -18,7 +18,7 @@
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="省份" prop="area_province_id" >
-                            <el-select v-model.unumber="editForm.area_province_id" placeholder="请选择" @change="proviceChange" clearable>
+                            <el-select v-model.number="editForm.area_province_id" placeholder="请选择" @change="proviceChange" clearable>
                                 <el-option v-for="item in provices" :label="item.name" :value="item.id" :key="item.id"></el-option>
                             </el-select>
                         </el-form-item>
@@ -119,16 +119,20 @@ export default {
             return OrderAddressProxySelect.update(model.id, model);
         },
         onBeforeOpen(model) {
+            console.log(model);
             // model.params;
-            this.editForm.id = model.params.id;
-            this.editForm.name = model.params.name;
-            this.editForm.phone = model.params.phone;
-            this.editForm.address = model.params.address;
-            this.editForm.area_province_id = model.params.area_province_id;
-            this.editForm.area_city_id = model.params.area_city_id;
-            this.editForm.area_district_id = model.params.area_district_id;
-
-            
+            this.editForm.id = model.params.address.id;
+            this.editForm.name = model.params.address.name;
+            this.editForm.phone = model.params.address.phone;
+            this.editForm.address = model.params.address.address;
+            this.editForm.area_province_id = model.params.address.area_province_id;
+            this.editForm.area_city_id = model.params.address.area_city_id;
+            this.editForm.area_district_id = model.params.address.area_district_id;
+            this.editForm.area_province_name = model.params.address.area_province_name;
+            this.editForm.area_city_name = model.params.address.area_city_name;
+            this.editForm.area_district_name = model.params.address.area_district_name;
+            this.editForm.assign_id = model.params.id;
+            this.editForm.assign_sn = model.params.assign_sn;
             this.cityProxy.setParam({pid:this.editForm.area_province_id}).load();
             this.districProxy.setParam({pid:this.editForm.area_city_id}).load();
         },
@@ -140,6 +144,7 @@ export default {
                 let index = this.provices.findIndex((element)=>{
                     return element.id == v;
                 });
+                console.log(this.provices[index].name);
                 this.editForm.area_province_name = this.provices[index].name;
             } else {
                 this.editForm.area_city_id = "";

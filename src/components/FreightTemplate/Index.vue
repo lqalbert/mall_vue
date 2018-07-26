@@ -6,7 +6,7 @@
                     <el-input v-model="searchForm.name" size="small" placeholder="模板名"></el-input>
                 </el-form-item>
                 <el-form-item prop="entrepot_id" class="form-item-unique">
-                    <el-select v-model="searchForm.entrepot_id" size="small"placeholder="配送中收">
+                    <el-select v-model="searchForm.entrepot_id" size="small" placeholder="配送中收">
                         <el-option v-for="entre in entrepots" :label="entre.name" :value="entre.id" :key="entre.id"></el-option>
                     </el-select>
                 </el-form-item>
@@ -72,7 +72,7 @@
 
     export default {
         name: 'FreightTemplate',
-        pageTitle:"物流揽收",
+        pageTitle:"运费模板",
         mixins:[PageMix,SearchTool,DataTable],
         components:{
             SubDetail,

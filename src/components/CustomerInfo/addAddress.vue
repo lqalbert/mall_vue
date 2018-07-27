@@ -34,12 +34,12 @@
                     <el-col :span="12">
                         <!-- 交换了一个  收货人手机号 固定电话 面单获取时 固定电话是必填项 手机是选填项-->
                         <el-form-item prop="fixed_telephone" label="收货人手机号">
-                            <el-input class="name-input" v-model="addDeliveryAddressForm.fixed_telephone" size="small" placeholder="固定电话" ></el-input>
+                            <el-input class="name-input" v-model="addDeliveryAddressForm.fixed_telephone" size="small" placeholder="" ></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item prop="phone" label="固定电话">
-                            <el-input class="name-input" v-model.number="addDeliveryAddressForm.phone" size="small" placeholder="收货人手机号" ></el-input>
+                            <el-input class="name-input" v-model="addDeliveryAddressForm.phone" size="small" placeholder="" ></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">

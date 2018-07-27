@@ -67,6 +67,7 @@
                     <el-col :span="6" >
                         <el-button @click="handleClose">取 消</el-button>
                         <submit-button
+                                ref="submitbutton"
                                 @click="handleSubmit"
                                 :observer="dialogThis">
                             保 存
@@ -192,13 +193,22 @@ import { mapGetters, mapMutations } from 'vuex';
 
                 if (this.addOrderForm.order_goods.length == 0) {
                     this.$message.error('商品数量不能为0');
+                    this.$emit('valid-error');
                     return ;
                 }
 
                 if ( Object.entries(this.addOrderForm.address).length==0 ) {
                     this.$message.error('请选地址');
+                    this.$emit('valid-error');
                     return ;
                 }
+                if (this.addOrderForm.type == "") {
+                    this.$message.error("选择订单类型");
+                    this.$emit('valid-error');
+                    return;
+                }
+
+
                 this.formSubmit('addOrderForm');
             },
             getAddress(cus_id){

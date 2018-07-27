@@ -3,7 +3,6 @@
         <div>
             <el-form ref="goodsForm" :model="goodsForm" label-width="90px">
                 <el-row>
-                    
                     <el-col :span="8">
                         <el-form-item label="商品类型" prop="dev">
                             <el-cascader size="small"  v-model="goodsForm.dev" :options="cates" @change="categoryChange"></el-cascader>
@@ -22,7 +21,7 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
-                        <el-form-item label="数量" >
+                        <el-form-item label="数量" prop="goods_number">
                             <el-input-number v-model="goodsForm.goods_number" size="small" :min="1" :max="entrepot_sum"></el-input-number>
                         </el-form-item>
                     </el-col>

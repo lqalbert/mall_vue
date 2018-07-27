@@ -3,6 +3,12 @@
         <div>
             <el-form ref="goodsForm" :model="goodsForm" label-width="90px">
                 <el-row>
+                    
+                    <el-col :span="8">
+                        <el-form-item label="商品类型" prop="dev">
+                            <el-cascader size="small"  v-model="goodsForm.dev" :options="cates" @change="categoryChange"></el-cascader>
+                        </el-form-item>        
+                    </el-col>
                     <el-col :span="8">
                         <el-form-item label="商品名称" prop="goods">
                             <!-- remote 
@@ -14,11 +20,6 @@
                                 <el-option v-for="item in selectableGoods" :key="item.value" :label="item.goods_name" :value="item" >{{ item.goods_name }}</el-option>
                             </el-select>
                         </el-form-item>
-                    </el-col>
-                    <el-col :span="8">
-                        <el-form-item label="商品类型" prop="dev">
-                            <el-cascader size="small"  v-model="goodsForm.dev" :options="cates" @change="categoryChange"></el-cascader>
-                        </el-form-item>        
                     </el-col>
                     <el-col :span="8">
                         <el-form-item label="数量" >
@@ -68,7 +69,7 @@
                         remark:""
                     },
                     goodsSearching:false,
-                    selectableGoods:[{id:1,goods_name:"xxx"}],
+                    selectableGoods:[],
                     entrepot_sum:0,
 
 

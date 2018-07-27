@@ -169,7 +169,6 @@ import { mapGetters, mapMutations } from 'vuex';
             orderTypeChange(v){
                 this.$emit('freight-change');
             }
-            
         },
         methods:{
             onOpen(param){
@@ -197,17 +196,17 @@ import { mapGetters, mapMutations } from 'vuex';
                     return ;
                 }
 
-                if ( Object.entries(this.addOrderForm.address).length==0 ) {
+                if ( !this.addOrderForm.address ) {
                     this.$message.error('请选地址');
                     this.$emit('valid-error');
                     return ;
                 }
+
                 if (this.addOrderForm.type == "") {
                     this.$message.error("选择订单类型");
                     this.$emit('valid-error');
                     return;
                 }
-
 
                 this.formSubmit('addOrderForm');
             },

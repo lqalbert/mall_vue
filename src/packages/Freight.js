@@ -24,6 +24,7 @@ let o = {
         FreightExtraAjax.get({ province_id: this.address.area_province_id }).then((response)=>{
             this.extra_dis = response.data.items;
             this.scope.$emit('cacul-freight');
+            this.scope.$emit('freight-change');
         }).catch(()=>{
             alert('获取特殊地区失败');
         })
@@ -55,7 +56,7 @@ let o = {
 
         if (this.orderType.is_include == 1) { //订单类型是否支持包邮
             //是否满足包邮的条件
-            if( this.freightTemplate.is_include == 1 &&  this.freightTemplate.stand_fee *100 <= this.price*100 ){
+            if( this.freightTemplate.is_include == 1 &&  parseInt(this.freightTemplate.stand_fee *100) <= parseInt(this.price*100) ){
                 //满足
                 return this.includeFreight();
             } else {

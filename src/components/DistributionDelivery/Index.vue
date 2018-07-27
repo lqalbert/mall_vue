@@ -45,7 +45,7 @@
                 <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" :height="400" :page-size="20" :page-sizes="true" :bubble="bubble" :row-class-name="tableRowClassName" @dbclick="dbClick">
                     <el-table-column type="selection" width="55"></el-table-column>
                     <el-table-column label="序号" align="center"  type="index" width="65"></el-table-column>
-                    <el-table-column label="备主" prop="order.express_name" width="200" show-overflow-tooltip></el-table-column>
+                    <el-table-column label="备注" prop="order.express_remark" width="200" show-overflow-tooltip></el-table-column>
                     <el-table-column prop="assign_sn" label="发货单号" align="center" width="230">
                         <template slot-scope="scope">
                             {{ scope.row.assign_sn }} <span v-if="scope.row.is_stop==1">(已拦截)</span>
@@ -93,7 +93,6 @@
                             <span v-if="scope.row.express_print_status==1">已打印</span>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="express_print_at" label="快递单打印时间" align="center" width="200"></el-table-column>
                     <el-table-column prop="weight" label="重量" align="center" width="200">
                     </el-table-column>
                     <el-table-column prop="assign_fee" label="配送费" align="center" width="200">
@@ -270,7 +269,7 @@ export default {
                 return 'erro-row';
             }else if(row.order && row.order.order_type && row.order.order_type.name == "内部订单") {
                 return 'info-row';
-            } else if(row.order && row.order.express_name && row.order.express_name.length > 0) {
+            } else if(row.order && row.order.express_remark && row.order.express_remark.length > 0) {
                 return 'warning-row';
             }
         },

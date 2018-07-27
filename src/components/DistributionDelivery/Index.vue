@@ -118,6 +118,7 @@
 
                         <el-button type="primary" size="small"   @click="showExpress">快递单打印</el-button>
                         <el-button type="primary" size="small"   @click="showAssign">发货单打印</el-button>
+                        <el-button type="primary" size="small"   @click="editExpressFee">修改实付运费</el-button>
                     </div>
                 </TableProxy>
             </el-col>
@@ -136,6 +137,7 @@
         <Advance name="advance"></Advance>
         <Check name="check" :ajax-proxy="ajaxProxy" @submit-success="handleReload"></Check>
         <RepeatOrder name="repeat-order" :ajax-proxy="ajaxProxy" @submit-success="handleReload"></RepeatOrder>
+        <EditExpressFee name="edit-express-free" :ajax-proxy="ajaxProxy" @submit-success="handleReload"></EditExpressFee>
         <StopOrder name="stop-order" :ajax-proxy="ajaxProxy"  @submit-success="handleReload"></StopOrder>
 
         <!-- <el-button @click="printList">获取打印机列表</el-button>
@@ -157,6 +159,7 @@ import Advance from './Advance';
 import Check from './Check';
 import RepeatOrder from './RepeatOrder';
 import StopOrder from './StopOrder';
+import EditExpressFee from './EditExpressFee';
 
 
 import DistributionCenterProxy from '@/packages/DistributionCenterSelectProxy';
@@ -178,7 +181,8 @@ export default {
         Advance,
         Check,
         RepeatOrder,
-        StopOrder
+        StopOrder,
+        EditExpressFee
     },
     data(){
         return {
@@ -346,6 +350,11 @@ export default {
         openRepeat(){
             if (this.openDialogCheck()) {
                 this.$modal.show('repeat-order', { row : this.currentRow });
+            }
+        },
+        editExpressFee(){
+            if (this.openDialogCheck()) {
+                this.$modal.show('edit-express-free', { row : this.currentRow });
             }
         },
         openStop(){

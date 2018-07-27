@@ -31,7 +31,7 @@
                 <el-row>
                     <el-col :span="12">
                         <el-form-item prop="cate_type_id"  label="商品类型">
-                            <el-select v-model="addForm.cate_type_id" size="small" placeholder="商品类型" clearable @change="cate_type_change">
+                            <el-select v-model.number="addForm.cate_type_id" size="small" placeholder="商品类型" clearable @change="cate_type_change">
                                 <el-option v-for="v in CategoryList" :label="v.label"
                                            :value="v.id" :key="v.id">
                                 </el-option>
@@ -40,7 +40,7 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item prop="cate_kind_id"  label="商品种类">
-                            <el-select v-model="addForm.cate_kind_id" size="small" placeholder="商品品类" @change="setKindName">
+                            <el-select v-model.number="addForm.cate_kind_id" size="small" placeholder="商品品类" @change="setKindName">
                                 <el-option v-for="v in CategoryChildrenList" :label="v.label"
                                            :value="v.id" :key="v.id">
                                 </el-option>
@@ -132,10 +132,10 @@
                 },
                 rules:{
                     cate_type_id:[
-                        { required: true, message: '请选择商品类型', trigger: 'blur' }
+                        { required: true, message: '请选择商品类型', trigger: 'blur' ,type:'number'}
                     ],
                     cate_kind_id:[
-                        { required: true, message:'请选择商品种类', trigger: 'blur', }
+                        { required: true, message:'请选择商品种类', trigger: 'blur', type:'number'}
                     ],
                     remarks:[
                         { message:'输入内容最大长度为100个字符', type: 'string', trigger:'blur', max:100}
@@ -161,6 +161,16 @@
             getAjaxPromise(model){
                 return this.ajaxProxy.create(model);
             },
+            validatePass(){
+                this.full_num='';
+                this.deposit_num='';
+                let data ={shelves_id:this.model.id};
+                let that = this;
+                this.ajaxProxy.get(data).then(function(response){
+                    that.$emit('add-submit',response.data);
+                    that.handleClose(name);
+                });
+            },
             setKindName(v){
                 let item = '';
                 for(item in this.CategoryChildrenList){
@@ -176,16 +186,33 @@
 
                 // console.log(this.addForm);
                 // return false;
+                let model = this[name];
+                if (this.$refs[name].rules) {
+                    this.$refs[name].validate((valid)=>{
+                        if (valid) {
+                            this.realSubmit(model, name);
+                            this.validatePass();
+                        } else {
+                            console.log('error submit!!', name);
+                            this.$emit('valid-error', name);
+                            return false;
+                        }
+                    })
+                } else {
+                    this.realSubmit(model, name);
+                }
 
-                this.formSubmit(name);
-                this.full_num='';
-                this.deposit_num='';
-                let data ={shelves_id:this.model.id};
-                let that = this;
-                this.ajaxProxy.get(data).then(function(response){
-                    that.$emit('add-submit',response.data);
-                    that.handleClose(name);
-                });
+
+
+
+
+
+
+
+
+
+                // this.formSubmit(name);
+
 
             },
             cate_type_change(v){

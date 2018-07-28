@@ -55,8 +55,7 @@
                     <el-table-column prop="set_express" label="指定快递" align="center" width="160">
                         <!-- 如果没有指定就不显示 如果指定了就显示快递公司名 -->
                         <template slot-scope="scope">
-                            <span v-if="scope.row.set_express==1">是</span>
-                            <span v-else >否</span>
+                            <span v-if="scope.row.set_express==1">{{ scope.row.set_express_name }}</span>
                         </template>
                     </el-table-column>
                     <el-table-column prop="address.area_province_name" label="省份"></el-table-column>

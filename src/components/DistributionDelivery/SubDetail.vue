@@ -112,6 +112,12 @@
 					<el-table-column prop="m_qq" label="QQ号码(管理员)"></el-table-column>
 				</el-table>
 			</el-tab-pane>
+			<el-tab-pane label="物流信息" name="Eight">
+				<el-table :data="LogisticsInformationData" border style="width: 100%">
+					<el-table-column prop="time" label="时间" align="center"></el-table-column>
+					<el-table-column prop="context" label="详情" align="center"></el-table-column>
+				</el-table>
+			</el-tab-pane>
 		</el-tabs>
 	</el-row>
 </template>
@@ -119,6 +125,7 @@
 import AssignOperationProxy from "@/packages/AssignOperationAjaxProxy";
 import OrderGoodsAjaxProxy from "@/packages/OrderGoodsAjaxProxy";
 import EmployeeSelectProxy from "../../packages/EmployeeSelectProxy";
+import LogisticsInformationAjaxProxy from "@/packages/LogisticsInformationAjaxProxy";
 
 import CommunicateProxy from '@/packages/CommunicateProxy';
 export default {
@@ -138,7 +145,7 @@ export default {
 			deliveryAddressesData:[],
 			communicationData:[],
 			operationData:[],
-			otherContactData:[],
+			LogisticsInformationData:[]
 			
 			tabFirst:false,
 			tabSecond:false,
@@ -147,6 +154,7 @@ export default {
 			tabFifth:false,
 			tabSixth:false,
 			tabSeventh:false,
+                        tabEight:false
 
 			goodsLoading:false,
 		}
@@ -182,7 +190,7 @@ export default {
 			let CommunicateDataProxy = new CommunicateProxy(null, this.getCommunication, this);
             CommunicateDataProxy.setParam({
                 assign_id:row.id,
-			}).load()
+			}).load();
 			this.tabFifth = true;
 		},
 		handleSixth(row){
@@ -202,6 +210,15 @@ export default {
 			}).load();
 			this.tabSeventh = true;
 		},
+		handleEight(row){
+		    //console.log(row);
+		    this.goodsLoading = true;
+		    this.LogisticsInformationProxy.setParam({
+		        express_id:row.express_id,
+		        express_sn:row.express_sn,
+		    }).load();
+		    this.tabEight = true;
+		},
 		getDeliveryDetail(data){
 			this.goodsLoading = false;
 			this.deliveryDetailsData = data.items;
@@ -212,9 +229,13 @@ export default {
 		getCommunication(data){
 			this.communicationData = data.items;
 		},
+        	getLogisticsInformation(data){
+			this.LogisticsInformationData = data.data[0].data;
+		},
 		getAssignOperation(data){
 			this.operationData = data.items;
 		},
+		
 		displayCategory(category){
             let cate = [];
             for (let index = 0; index < category.length; index++) {
@@ -237,6 +258,7 @@ export default {
 			this.tabFifth = false;
 			this.tabSixth = false;
 			this.tabSeventh = false;
+			this.tabEight = false;
 		},
 		activeName:function(val, oldVal){
 			if (!this['tab'+ val] && this.row !== null) {
@@ -248,6 +270,7 @@ export default {
 	created(){
 		this.OrderGoodsProxy = new OrderGoodsAjaxProxy({fields:["*"]},this.getDeliveryDetail,this);
 		this.EmployeeProxy = new EmployeeSelectProxy({},this.getOtherContac,this);
+		this.LogisticsInformationProxy = new LogisticsInformationAjaxProxy({fields:["*"]},    this.getLogisticsInformation,this);
 	}
 }
 </script>

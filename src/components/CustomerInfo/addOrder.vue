@@ -241,7 +241,9 @@ import { mapGetters, mapMutations } from 'vuex';
                 this.$emit('freight-change');
             },
             expressChange(v){
-                FreightAlgorithm.setTemplate(this.getCurrentFreightTemplate());
+                let f = this.getCurrentFreightTemplate();
+                FreightAlgorithm.setTemplate(f);
+                this.addOrderForm.express_delivery = f.express;
                 this.$emit('freight-change');
             },
             addressChange(){

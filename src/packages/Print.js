@@ -251,6 +251,32 @@ function doPrint(printer ,waybillArray)
 
 }
 
+/**
+ * 打印电子面单 批量
+ * printer 指定要使用那台打印机
+ * waybillArray 要打印的电子面单的数组
+ */
+function doPrints(printer ,waybillArray, preview = false)
+{
+    var request = getRequestObject("print");    
+    request.task = new Object();
+    request.task.taskID = getUUID(8,10);
+    request.task.preview = preview;
+    request.task.printer = printer;
+    var documents = new Array();
+    request.task.documents = documents;
+
+    for(let i=0;i<waybillArray.length;i++) {
+         var doc = {};
+         doc.documentID = waybillArray[i].data.waybillCode; //documentID
+         var content = [];
+         content.push(waybillArray[i]);
+         doc.contents = content;
+         documents.push(doc);
+    }
+    wsok.send(request);
+}
+
 function goodsList(contents){
     var request = getRequestObject("print");    
     request.task = new Object();
@@ -381,4 +407,5 @@ ws.getPrinterConfig=getPrinterConfig;
 ws.testView = testView;
 ws.staticPrint = staticPrint;
 ws.goodsList = goodsList;
+ws.doPrints = doPrints;
 export default ws;

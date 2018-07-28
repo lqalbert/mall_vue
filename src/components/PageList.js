@@ -67,12 +67,6 @@ const PageList = {
     'FreightTemplate':(resolve) => { require(['./FreightTemplate/Index.vue'], resolve)},
     //OrderType 订单类型 
     'OrderType':(resolve) => { require(['./OrderType/Index.vue'], resolve)}
-
-    //运费模板
-    'FreightTemplate':(resolve) => { require(['./FreightTemplate/Index.vue'], resolve)},
-    //OrderType 订单类型 
-    'OrderType':(resolve) => { require(['./OrderType/Index.vue'], resolve)}
-
 };
 
 export default PageList;

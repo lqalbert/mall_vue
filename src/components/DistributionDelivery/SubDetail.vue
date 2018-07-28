@@ -145,7 +145,8 @@ export default {
 			deliveryAddressesData:[],
 			communicationData:[],
 			operationData:[],
-			LogisticsInformationData:[]
+			LogisticsInformationData:[],
+			otherContactData:[],
 			
 			tabFirst:false,
 			tabSecond:false,
@@ -154,7 +155,7 @@ export default {
 			tabFifth:false,
 			tabSixth:false,
 			tabSeventh:false,
-                        tabEight:false
+			tabEight:false,
 
 			goodsLoading:false,
 		}

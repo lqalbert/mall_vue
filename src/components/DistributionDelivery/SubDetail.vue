@@ -85,12 +85,19 @@
 					<el-table-column prop="remark" label="备注" align="center"></el-table-column>
 				</el-table>
 			</el-tab-pane>
+			<el-tab-pane label="物流信息" name="Seventh">
+				<el-table :data="LogisticsInformationData" border style="width: 100%">
+					<el-table-column prop="time" label="时间" align="center"></el-table-column>
+					<el-table-column prop="context" label="详情" align="center"></el-table-column>
+				</el-table>
+			</el-tab-pane>
 		</el-tabs>
 	</el-row>
 </template>
 <script>
 // import DistributionDeliveryProxy from '@/packages/DistributionDeliveryProxy';
 import OrderGoodsAjaxProxy from "@/packages/OrderGoodsAjaxProxy";
+import LogisticsInformationAjaxProxy from "@/packages/LogisticsInformationAjaxProxy";
 
 import CommunicateProxy from '@/packages/CommunicateProxy';
 export default {
@@ -109,6 +116,7 @@ export default {
 			tableData3:[],
 			deliveryAddressesData:[],
 			communicationData:[],
+            LogisticsInformationData:[],
 			operationData:[
                 {id:1,op_time:'2018-07-12',user_name:'张三',type_name:'添加发货单',remark:''},
                 // {id:2,op_time:'2018-07-13',user_name:'主管',type_name:'订单审核',remark:''},
@@ -129,6 +137,7 @@ export default {
 			tabFourth:false,
 			tabFifth:false,
 			tabSixth:false,
+            tabSeventh:false,
 
 			goodsLoading:false,
 		}
@@ -141,6 +150,7 @@ export default {
 				appends:['category']
 			}).load();
 			this.tabFirst = true;
+
 		},
 		handleSecond(row){
 			this.tableData2 = [row.order];
@@ -164,7 +174,7 @@ export default {
 			let CommunicateDataProxy = new CommunicateProxy(null, this.getCommunication, this);
             CommunicateDataProxy.setParam({
                 assign_id:row.id,
-			}).load()
+			}).load();
 			this.tabFifth = true;
 		},
 		handleSixth(row){
@@ -172,8 +182,17 @@ export default {
 			operationProxy.setParam({
 				id:row.id,
 				business:'operation'
-			}).load()
+			}).load();
 			this.tabSixth = true;
+		},
+		handleSeventh(row){
+		    console.log(row);
+            this.goodsLoading = true;
+            this.LogisticsInformationProxy.setParam({
+                express_id:row.express_id,
+                express_sn:row.express_sn,
+            }).load();
+            this.tabSeventh = true;
 		},
 		getDeliveryDetail(data){
 			this.goodsLoading = false;
@@ -184,6 +203,9 @@ export default {
 		},
 		getCommunication(data){
 			this.communicationData = data.items;
+		},
+        getLogisticsInformation(data){
+			this.LogisticsInformationData = data.data[0].data;
 		},
 		getOperation(data){
 			let newData = {};
@@ -246,6 +268,7 @@ export default {
 			this.tabFourth = false;
 			this.tabFifth = false;
 			this.tabSixth = false;
+			this.tabSeventh = false;
 		},
 		activeName:function(val, oldVal){
 			if (!this['tab'+ val] && this.row !== null) {
@@ -256,6 +279,7 @@ export default {
 	},
 	created(){
 		this.OrderGoodsProxy = new OrderGoodsAjaxProxy({fields:["*"]},    this.getDeliveryDetail,this);
+		this.LogisticsInformationProxy = new LogisticsInformationAjaxProxy({fields:["*"]},    this.getLogisticsInformation,this);
 	}
 }
 </script>

@@ -48,7 +48,7 @@
                      </el-row>
                         <el-row>
                         <el-col :span="12">
-                            <el-form-item prop="address_id" label="收货地址" >
+                            <el-form-item prop="address" label="收货地址" >
                                 <el-radio-group v-model="addOrderForm.address" @change="addressChange">
                                     <el-radio v-for="v in address" :label="v" :key="v.id" >{{v.id}}-{{v.area_province_name}}-
                                         {{v.area_city_name}}-{{v.area_district_name}}-{{v.name}}-{{v.fixed_telephone}}</el-radio>

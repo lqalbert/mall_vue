@@ -83,10 +83,10 @@
                             </el-table-column>
                             <el-table-column prop="express_name" label="快递公司" align="center">
                             </el-table-column>
-                            <el-table-column prop="express_fee" label="快递费用" align="center">
+                            <el-table-column prop="express_sn" label="快递单号" align="center">
                             </el-table-column>
-                            <el-table-column prop="deliver_name" label="收件人员" align="center">
-                            </el-table-column>
+                            <!-- <el-table-column prop="deliver_name" label="收件人员" align="center">
+                            </el-table-column> -->
                             <el-table-column prop="out_entrepot_at" label="发货时间" align="center">
                             </el-table-column>
                         </el-table>
@@ -102,7 +102,7 @@
     import CustomerSelectAjaxProxy from '@/packages/CustomerSelectProxy';
     import OrderGoodsAjaxProxy from "@/packages/OrderGoodsAjaxProxy";
     import OrderAddressAjaxProxy from "@/packages/OrderAddressAjaxProxy";
-    import OrderAssignAjaxProxy from "@/packages/OrderAssignAjaxProxy";
+    import OrderAssignAjaxProxy from "../../packages/OrderAssignAjaxProxy";
     import OrderOperateAjaxProxy from "@/packages/OrderOperateSelectProxy";
 
     export default {

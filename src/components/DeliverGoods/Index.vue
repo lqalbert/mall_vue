@@ -152,6 +152,7 @@ export default {
 
             autoSubmit:false,
             buttonState:true,
+            range:0
         }
     },
     watch:{
@@ -194,6 +195,7 @@ export default {
             let re_weigth = parseInt(this.model.reckon_weigth);//估
             let range = parseInt(this.checkForm.range);//单位
             let real_weigth = parseInt(this.checkForm.real_weigth);//真
+            this.range = range;
 
             if ( Math.abs(real_weigth-re_weigth) >  range) {
                 this.$confirm('请核实重量是否确认发货?', '提示', {
@@ -240,6 +242,7 @@ export default {
                 }).catch(() => {
                     vmThis.$refs['checkForm'].resetFields();
                     vmThis.buttonState = false;
+                    this.checkForm.range = this.range;
                 });
             }else{
                 this.formSubmit('checkForm');
@@ -253,6 +256,7 @@ export default {
             this.$message.success("提交成功");
             this.rest();
             this.$refs.express.$refs.input.focus();
+            this.checkForm.range = this.range;
         },
         rest(){
             this.model = {}

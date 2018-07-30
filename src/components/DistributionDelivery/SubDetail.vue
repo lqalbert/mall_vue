@@ -271,7 +271,7 @@ export default {
 	created(){
 		this.OrderGoodsProxy = new OrderGoodsAjaxProxy({fields:["*"]},this.getDeliveryDetail,this);
 		this.EmployeeProxy = new EmployeeSelectProxy({},this.getOtherContac,this);
-		this.LogisticsInformationProxy = new LogisticsInformationAjaxProxy({fields:["*"]},    this.getLogisticsInformation,this);
+		this.LogisticsInformationProxy = new LogisticsInformationAjaxProxy({fields:["*"]}, this.getLogisticsInformation,this);
 	}
 }
 </script>

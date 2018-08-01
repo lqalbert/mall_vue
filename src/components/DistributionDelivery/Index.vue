@@ -160,7 +160,7 @@ import EditExpressFee from './EditExpressFee';
 
 
 import DistributionCenterProxy from '@/packages/DistributionCenterSelectProxy';
-import AssignAjaxProxy from '@/ajaxProxy/Assign';
+import AssignAjaxProxy from '../../ajaxProxy/Assign';
 import SelectProxy from  '@/packages/SelectProxy';
 
 //打印

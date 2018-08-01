@@ -37,43 +37,33 @@
             <el-col>
                  <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" :page-size="20">
                     <el-table-column type="index" width="80" label="序号" align="center"></el-table-column>
-
-                    <!--<el-table-column prop="eng_name" label="客户ID" align="center"></el-table-column>-->
-
-                    <el-table-column prop="name" label="收件人姓名" align="center"></el-table-column>
-
-                    <el-table-column prop="phone" label="联系电话" align="center" width="140px"></el-table-column>
-
-                     <el-table-column prop="express_sn" label="快递单号" align="center"></el-table-column>
-
-                    <el-table-column prop="area_province_name" label="省" align="center"></el-table-column>
-
-                    <el-table-column prop="area_city_name" label="市" align="center"></el-table-column>
-
-                    <el-table-column prop="area_district_name" label="区/县" align="center"></el-table-column>
-
-                    <el-table-column prop="address" label="具体地址" align="center" ></el-table-column>
-
                     <el-table-column prop="express_name" label="快递名称" align="center" ></el-table-column>
-
+                    <el-table-column prop="express_sn" label="快递单号" align="center"></el-table-column>
+                    <el-table-column prop="area_province_name" label="省" align="center"></el-table-column>
+                    <el-table-column prop="area_city_name" label="市" align="center"></el-table-column>
+                    <el-table-column prop="area_district_name" label="区/县" align="center"></el-table-column>
+                    <el-table-column prop="address" label="具体地址" align="center" ></el-table-column>
+                    <el-table-column prop="name" label="收件人姓名" align="center"></el-table-column>
+                    <el-table-column prop="phone" label="联系电话" align="center" width="140px"></el-table-column>
                     <el-table-column prop="remark" label="备注" align="center" ></el-table-column>
-
-                    <el-table-column  label="操作" align="center" width="200">
+                    <el-table-column  label="操作" align="center" width="250">
                         <template slot-scope="scope">
                             <el-button type="info" size="small" @click="showEdit(scope.row)">编辑</el-button>
+                            <el-button size="small" @click="editGoods(scope.row)">添加商品</el-button>
                             <el-button type="danger" size="small" @click="handleDelete(scope.row.id)">删除</el-button>
                         </template>
                     </el-table-column>
-
                    <div slot="buttonbar">
                         <el-button type="primary" size="small" @click="add">自行寄件</el-button>
                         <el-button type="primary" size="small" @click="addSplit">拆分寄件</el-button>
+                        <el-button type="primary" size="small" @click="getWaybillCode">获取面单</el-button>
+                        <el-button type="primary" size="small" >打印面单</el-button>
                     </div>
-
                  </TableProxy>
             </el-col>
         </el-row>
-
+        <br>
+        <Subdetail></Subdetail>
         <add-dialog
                 name="add"
                 :ajax-proxy="ajaxProxy"
@@ -96,22 +86,28 @@
                 @submit-success="handleReload">
         </edit-dialog>
 
+        <AddGoods name="mail-add-goods"></AddGoods>
+        
+
     </div>
 </template>
 <script>
 import addDialog from './add.vue';
 import editDialog from './edit.vue';
 import addSplitDialog from './addSplit.vue';
-import config from '../../mix/Delete';
-import PageMix from '../../mix/Page';
-import SearchTool from '../../mix/SearchTool';
-import DataTable from '../../mix/DataTable';
+import config from '@/mix/Delete';
+import PageMix from '@/mix/Page';
+import SearchTool from '@/mix/SearchTool';
+import DataTable from '@/mix/DataTable';
 import { mapGetters } from 'vuex';
 // import Dialog from '../common/Dialog';
-import DistributionCenterAjaxProxy from '../../ajaxProxy/DistributionCenter';
-import MailAjaxProxy from '../../ajaxProxy/Mail';
+import DistributionCenterAjaxProxy from '@/ajaxProxy/DistributionCenter';
+import MailAjaxProxy from '@/ajaxProxy/Mail';
 import AreaSelect from '@/packages/AreaSelectProxy';
-import ExpressCompanySelectProxy from '../../packages/ExpressCompanySelectProxy';
+import ExpressCompanySelectProxy from '@/packages/ExpressCompanySelectProxy';
+import Subdetail from './Subdetail';
+import AddGoods from './Goods';
+
 
 export default {
     name: 'Mail',
@@ -121,6 +117,8 @@ export default {
         addDialog,
         editDialog,
         addSplitDialog,
+        Subdetail,
+        AddGoods
     },
     data(){
         return {
@@ -180,6 +178,12 @@ export default {
         getExpressCompanySelect(data){
             this.companys = data.items;
         },
+        getWaybillCode(){
+            
+        },
+        editGoods(row){
+            this.$modal.show('mail-add-goods', row);
+        }
     },
     created(){
         this.$on('search-tool-change', this.onSearchChange);

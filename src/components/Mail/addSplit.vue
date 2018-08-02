@@ -10,44 +10,38 @@
                     </el-col>
 
                     <el-col :span="12">
-                        <el-form-item label="手机号" prop="eng_name" >
-                            <el-input class="name-input" v-model="addForm.eng_name"  auto-complete="off"  placeholder="请填写收件人手机号"></el-input>
+                        <el-form-item label="手机号" prop="phone" >
+                            <el-input class="name-input" v-model="addForm.phone"  auto-complete="off"  placeholder="请填写收件人手机号"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row>
                     <el-col :span="12">
-                        <el-form-item label="快递" prop="contact" >
-                            <el-input class="name-input" v-model="addForm.contact"  auto-complete="off"  placeholder="请选择"></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
                         <el-form-item prop="area_province_id" label="省份">
                             <el-select v-model.number="addForm.area_province_id"
-                                       @change="provinceChange" placeholder="请选择省份" size="small" clearable filterable>
+                                       @change="provinceChange" placeholder="请选择省份"  clearable filterable>
                                 <el-option v-for="province in provinces" :label="province.name"
                                            :value="province.id" :key="province.id">
                                 </el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
-                </el-row>
-                <el-row>
-
                     <el-col :span="12">
                         <el-form-item prop="area_city_id" label="市">
                             <el-select v-model.number="addForm.area_city_id"
-                                       @change="cityChange" placeholder="请选择城市" size="small" clearable filterable>
+                                       @change="cityChange" placeholder="请选择城市"  clearable filterable>
                                 <el-option v-for="city in cities" :label="city.name"
                                            :value="city.id" :key="city.id">
                                 </el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
+                </el-row>
+                <el-row>
                     <el-col :span="12">
                         <el-form-item prop="area_district_id" label="区/县">
                             <el-select v-model.number="addForm.area_district_id"
-                                       @change="districtChange" placeholder="区/县" size="small" clearable filterable>
+                                       @change="districtChange" placeholder="区/县"  clearable filterable>
                                 <el-option v-for="district in districts" :label="district.name"
                                            :value="district.id" :key="district.id">
                                 </el-option>
@@ -115,6 +109,7 @@
                 districts:[],
                 addForm:{
                     name: "",
+                    phone: "",
                     eng_name: "",
                     contact: "",
                     contact_phone: "",
@@ -131,7 +126,7 @@
 
                 rules:{
                     name:[
-                        { required: true, message: '请输入配送中心名称', trigger: 'blur' }
+                        { required: true, message: '请填写收件人姓名', trigger: 'blur' }
                     ],
                     eng_name:[
                         {  required:true, type:'string', pattern:/^[a-zA-Z]{2}$/, required: true, message:'英文简称2位数', trigger: 'blur', },
@@ -140,9 +135,9 @@
                     fixed_telephone:[
                         { required: true,message:'请输入正确的电话',pattern: /^1[34578]\d{9}$/, trigger:'blur'}
                     ],
-                    contact:[
-                        { required: true,message:'请输入联系人', type: 'string', trigger:'blur'}
-                    ],
+                    // contact:[
+                    //     { required: true,message:'请输入联系人', type: 'string', trigger:'blur'}
+                    // ],
                     contact_phone:[
                         {message:'请输入正确的电话',pattern: /^1[34578]\d{9}$/, trigger:'blur'}
                     ],
@@ -160,7 +155,7 @@
                 this.computedusers = data.items;
             },
             onOpen(param){
-                // this.provinces = param.params.provinces;
+                this.provinces = param.params.provinces;
             },
             onDepartChange(v){
                 this.employeeSelect.setParam({department_id:v, role:'group-captain', group_candidate:1})
@@ -168,6 +163,7 @@
                 this.addForm.manager_id = "";
             },
             provinceChange(id){
+                this.addForm.area_city_id = '';
                 this.getAreaName(this.provinces,'area_province_name',id);
                 let areaSelect = new AreaSelect({pid:id,business:'city'},this.getAreaCities,this);
                 areaSelect.load();
@@ -179,6 +175,7 @@
                 this.districts = data;
             },
             cityChange(id){
+                this.addForm.area_district_id = '';
                 this.getAreaName(this.cities,'area_city_name',id);
                 let areaSelect = new AreaSelect({pid:id,business:'district'},this.getAreaDistricts,this);
                 areaSelect.load();

@@ -36,9 +36,7 @@ const config = {
         realSubmit(model, name){
             let ajaxPromise =  this.getAjaxPromise(model);
             let vmthis = this;
-
             ajaxPromise.then(function(response){
-                
                 if (response.data.status　==　0) {
                     vmthis.$message.error(response.data.msg ? response.data.msg : "操作失败" );
                     vmthis.$emit('submit-error', name);

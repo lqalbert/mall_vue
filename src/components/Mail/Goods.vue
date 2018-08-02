@@ -3,13 +3,13 @@
         <MyDialog title="编辑商品" :name="name" :width="width" :height="height" @before-open="onOpen">
             <el-table
                     border
-                    height="160"
+                    height="250"
                     :data="orderData"
                     style="width: 100%">
                 <el-table-column label="序号" type="index" width="80"></el-table-column>
                 <el-table-column prop="goods_name" label="商品名称"></el-table-column>
                 <el-table-column prop="price" label="商品单价"></el-table-column>
-                <el-table-column prop="goods_number" label="商品数量">
+                <el-table-column prop="goods_number" label="商品数量" width="180">
                     <template slot-scope="scope">
                         <span v-show="!scope.row.edit_state" >{{scope.row.goods_number}}</span>
                         <el-input-number v-show="scope.row.edit_state" size="small" v-model="scope.row.goods_number"></el-input-number> 
@@ -76,11 +76,10 @@ import Dialog from '@/mix/DialogForm';
         },
         loadGoods(){
             MailGoodsAjax.get({mail_id:this.id}).then((response)=>{
-                if (response.data.status ==1) {
-                    this.orderData = response.data.data.forEach(element => {
-                        element.edit_state = false;
-                    });
-                }
+                response.data.items.forEach(element => {
+                    element.edit_state = false;
+                });
+                this.orderData =  response.data.items;
             }).catch((response)=>{
 
             });
@@ -99,19 +98,29 @@ import Dialog from '@/mix/DialogForm';
             })
         },
         deleteRow(row){
-            let index = this.orderData.findIndex(function(element){
-                return element == row ;
-            });
 
-            if (index != -1) {
-                this.orderData.splice(index, 1);
-            }
+            MailGoodsAjax.delete(row.id).then((response)=>{
+                if (response.data.status == 1) {
+                    this.loadGoods();
+                }
+            }).catch((response)=>{
+
+            })
         },
         setEdit(row){
             row.edit_state = true;
         },
         saveGoods(row){
-            row.edit_state = true;
+            let id = row.id;
+            delete row.id;
+            delete row.edit_state;
+            MailGoodsAjax.update(id, row).then((response)=>{
+                if (response.data.status == 1) {
+                    this.loadGoods();
+                }
+            }).catch((response)=>{
+
+            })
         }
     }
   }

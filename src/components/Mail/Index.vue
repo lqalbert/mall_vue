@@ -35,7 +35,8 @@
         </el-row>
         <el-row>
             <el-col>
-                 <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" :page-size="20">
+                 <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" :page-size="20" :bubble="bubble">
+                    <el-table-column type="selection" width="55"> </el-table-column>
                     <el-table-column type="index" width="80" label="序号" align="center"></el-table-column>
                     <el-table-column prop="express_name" label="快递名称" align="center" ></el-table-column>
                     <el-table-column prop="express_sn" label="快递单号" align="center"></el-table-column>
@@ -57,7 +58,7 @@
                         <el-button type="primary" size="small" @click="add">自行寄件</el-button>
                         <el-button type="primary" size="small" @click="addSplit">拆分寄件</el-button>
                         <el-button type="primary" size="small" @click="getWaybillCode">获取面单</el-button>
-                        <el-button type="primary" size="small" >打印面单</el-button>
+                        <el-button type="primary" size="small" @click="prints">打印面单</el-button>
                     </div>
                  </TableProxy>
             </el-col>
@@ -87,7 +88,7 @@
         </edit-dialog>
 
         <AddGoods name="mail-add-goods"></AddGoods>
-        
+        <Waybill name="get-way" :ajax-proxy="ajaxProxy"></Waybill>
 
     </div>
 </template>
@@ -107,7 +108,8 @@ import AreaSelect from '@/packages/AreaSelectProxy';
 import ExpressCompanySelectProxy from '@/packages/ExpressCompanySelectProxy';
 import Subdetail from './Subdetail';
 import AddGoods from './Goods';
-
+import Waybill from './Waybill';
+import Print from '@/packages/Print';
 
 export default {
     name: 'Mail',
@@ -118,7 +120,8 @@ export default {
         editDialog,
         addSplitDialog,
         Subdetail,
-        AddGoods
+        AddGoods,
+        Waybill
     },
     data(){
         return {
@@ -143,6 +146,9 @@ export default {
                 {id:1,name:'自行寄件'},
                 {id:2,name:'拆分寄件'},
             ],
+
+            bubble:null,
+            multiSelection:[]
 
         }
     },
@@ -179,10 +185,40 @@ export default {
             this.companys = data.items;
         },
         getWaybillCode(){
+            if (this.multiSelection.length == 0) {
+                this.$message.error('勾选至少一个');
+            }
             
+            let ids = [];
+            this.multiSelection.forEach(element => {
+                ids.push(element.id);
+            });
+
+            this.$modal.show('get-way', {ids:ids});
         },
         editGoods(row){
             this.$modal.show('mail-add-goods', row);
+        },
+        handleSelectionChange(val){
+            this.multiSelection = val;
+        },
+        prints(){
+            if (this.multiSelection.length == 0) {
+                this.$message.error('勾选至少一个');
+            }
+            let ids = [];
+            this.multiSelection.forEach(element => {
+                ids.push(element.id);
+            });
+
+            MailAjaxProxy.goodsPrint(ids).then((response)=>{
+                if (response.data.status == 1) {
+                    let printsdata = response.data.data.print_data.map((element)=>{
+                        return JSON.parse(element);
+                    })
+                    Print.doPrints(response.data.data.printer, printsdata);
+                }
+            });
         }
     },
     created(){
@@ -192,10 +228,12 @@ export default {
         //获取物流公司数据
         let ExpressCompanySelect = new ExpressCompanySelectProxy({}, this.getExpressCompanySelect, this);
         ExpressCompanySelect.load();
-    },
-    mounted(){
 
+        let o = {};
+        o['selection-change'] = this.handleSelectionChange;
+        this.bubble = o;
     },
+    
     
 }
 </script>

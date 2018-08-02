@@ -1,6 +1,6 @@
 <template>
     <div >
-        <MyDialog title="上传图片" :name="name" :width="width" :height="height">
+        <MyDialog title="上传图片" :name="name" :width="width" :height="height" @before-open="onOpen">
             <el-form :model="addForm"  ref="addForm" :rules="rules" :label-width="labelWidth"   :label-position="labelPosition">
                         <el-row>
                             <el-col :span="12">
@@ -47,6 +47,7 @@
                 <el-button @click="handleClose">取 消</el-button>
                 <submit-button
                         @click="upPicture"
+                        :is_load="is_load"
                         :observer="dialogThis">
                     上 传
                 </submit-button>
@@ -86,6 +87,7 @@ export default {
             labelWidth:'80px',
             dialogImageUrl:'',
             dialogVisible: false,
+            is_load: false,
             uploadUrl:"admin/slide-upload",
             pictureData:{},
             addForm:{
@@ -107,11 +109,20 @@ export default {
             editContent:"",
             editorOption:null,
             selectionGoods:null,
+            fileList:null,
             ctrlNum:0,
         }
     },
     methods:{
-        upPicture(file){
+        upPicture(){
+            if(this.fileList.length == 0){
+                this.$alert('请选先择将要上传的图片', '警告', {
+                    confirmButtonText: '确定',
+                    type:'warning'
+                });
+                this.is_load = false;
+                return ;
+            }
             this.$refs['addForm'].validate((valid) => {
                 if (valid) {
                     this.$refs.upload.submit();
@@ -121,6 +132,9 @@ export default {
                 }
             });
 
+        },
+        onOpen(){
+          this.fileList = [];
         },
         beforeAvatarUpload(){
             this.pictureData.classify = this.addForm.classify;

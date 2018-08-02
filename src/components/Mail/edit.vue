@@ -15,7 +15,7 @@
                         </el-form-item>
                     </el-col>
                 </el-row>
-                <el-row>
+                <!-- <el-row>
                     <el-col :span="12">
                         <el-form-item prop="express_id" label="快递">
                             <el-select v-model="editForm.express_id"  placeholder="请选择快递" @change="expressChange">
@@ -29,7 +29,7 @@
                             <el-input class="name-input" v-model="editForm.express_sn"  auto-complete="off"  placeholder="请选择"></el-input>
                         </el-form-item>
                     </el-col>
-                </el-row>
+                </el-row> -->
                 <el-row>
                     <el-col :span="12">
                         <el-form-item prop="area_province_id" label="省份">

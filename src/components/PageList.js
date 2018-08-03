@@ -67,7 +67,9 @@ const PageList = {
     'FreightTemplate':(resolve) => { require(['./FreightTemplate/Index.vue'], resolve)},
     //OrderType 订单类型 
     'OrderType':(resolve) => { require(['./OrderType/Index.vue'], resolve)},
-    'SlideManage':(resolve) => { require(['./SlideManage/Index.vue'], resolve)}
+    'SlideManage':(resolve) => { require(['./SlideManage/Index.vue'], resolve)},
+    //订单保证金日志
+    'OrderDepositLog': (resolve) => { require(['./OrderDepositLog/Index.vue'], resolve) }
 };
 
 export default PageList;

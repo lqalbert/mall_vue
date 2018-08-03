@@ -2,46 +2,56 @@
     <div >
         <MyDialog title="上传图片" :name="name" :width="width" :height="height" @before-open="onOpen">
             <el-form :model="addForm"  ref="addForm" :rules="rules" :label-width="labelWidth"   :label-position="labelPosition">
-                        <el-row>
-                            <el-col :span="12">
-                                <el-form-item label="图片位置" prop="classify" >
-                                    <el-select v-model.number="addForm.classify" placeholder="请选择图片展示位置">
-                                        <el-option v-for="v in classifys" :label="v.name" :value="v.id" :key="v.id"></el-option>
-                                    </el-select>
-                                </el-form-item>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-form-item label="图片名称" prop="name" >
-                                    <el-input class="name-input" v-model="addForm.name" placeholder="请填写图片名称"></el-input>
-                                </el-form-item>
-                            </el-col>
-                        </el-row>
-                        <el-row>
-                            <el-col :span="12">
-                                <el-form-item label="对应商品" prop="goods_id" >
-                                    <el-select v-model.number="addForm.goods_id" placeholder="请选择对应商品">
-                                        <el-option v-for="v in goods" :label="v.goods_name" :value="v.id" :key="v.id"></el-option>
-                                    </el-select>
-                                </el-form-item>
-                            </el-col>
-                        </el-row>
+                <el-row>
+                    <el-col :span="12">
+                        <el-form-item label="图片位置" prop="classify" >
+                            <el-select v-model.number="addForm.classify" size="small" placeholder="请选择图片展示位置">
+                                <el-option v-for="v in classifys" :label="v.name" :value="v.id" :key="v.id"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="图片名称" prop="name" >
+                            <el-input class="name-input" size="small" v-model="addForm.name" placeholder="请填写图片名称"></el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <!-- <el-col :span="12">
+                        <el-form-item label="对应商品" prop="goods_id" >
+                            <el-select v-model.number="addForm.goods_id" placeholder="请选择对应商品">
+                                <el-option v-for="v in goods" :label="v.goods_name" :value="v.id" :key="v.id"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col> -->
+                    <el-col :span="12">
+                        <el-form-item label="跳转链接" prop="href_url" >
+                            <el-input class="name-input" size="small" v-model="addForm.href_url" placeholder="跳转链接"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="图片描述" prop="description" >
+                            <el-input class="name-input" size="small" v-model="addForm.description" placeholder="图片描述"></el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
 
-                        <el-upload
-                                ref="upload"
-                                name="avatar"
-                                :auto-upload="false"
-                                :action="uploadUrl"
-                                :data="pictureData"
-                                list-type="picture-card"
-                                accept="image/gif, image/jpeg,image/jpg,image/png"
-                                :on-preview="handlePictureCardPreview"
-                                :on-remove="handleRemove"
-                                :on-success="uploadSuccess"
-                                :on-error="uploadError"
-                                :before-upload="beforeAvatarUpload"
-                                :on-change="changefileList">
-                            <i class="el-icon-plus"></i>
-                        </el-upload>
+                <el-upload
+                        ref="upload"
+                        name="avatar"
+                        :auto-upload="false"
+                        :action="uploadUrl"
+                        :data="pictureData"
+                        list-type="picture-card"
+                        accept="image/gif, image/jpeg,image/jpg,image/png"
+                        :on-preview="handlePictureCardPreview"
+                        :on-remove="handleRemove"
+                        :on-success="uploadSuccess"
+                        :on-error="uploadError"
+                        :before-upload="beforeAvatarUpload"
+                        :on-change="changefileList">
+                    <i class="el-icon-plus"></i>
+                </el-upload>
             </el-form>
             <div slot="dialog-foot" class="dialog-footer">
                 <el-button @click="handleClose">取 消</el-button>
@@ -94,6 +104,8 @@ export default {
                 classify:"",
                 name:"",
                 goods_id:"",
+                href_url:'',
+                description:'',
             },
             rules:{
                 classify:[
@@ -102,8 +114,11 @@ export default {
                 name:[
                     { required: true,  message: '请填写图片名称', trigger: 'blur'},
                 ],
-                goods_id:[
-                    { required: true, type:"number", message: '请选择对应商品', trigger: 'blur'},
+                href_url:[
+                    { required: true, message: '请填写跳转链接', trigger: 'blur'},
+                ],
+                description:[
+                    { required: true, message: '请填写图片描述', trigger: 'blur'},
                 ],
             },
             editContent:"",
@@ -141,6 +156,8 @@ export default {
             this.pictureData.user_id = this.getUser.id;
             this.pictureData.goods_id = this.addForm.goods_id;
             this.pictureData.name = this.addForm.name;
+            this.pictureData.href_url = this.addForm.href_url;
+            this.pictureData.description = this.addForm.description;
         },
         handlePictureCardPreview(file) {
             this.dialogImageUrl = file.url;

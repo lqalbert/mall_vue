@@ -35,7 +35,7 @@
                             <span v-else-if="scope.row.classify==3">口碑之选</span>
                             <span v-else-if="scope.row.classify==4">中间展示</span>
                             <span v-else-if="scope.row.classify==5">图文结合</span>
-                            <span v-else="scope.row.classify==6">底部展示</span>
+                            <span v-else-if="scope.row.classify==6">底部展示</span>
                         </template>
                     </el-table-column>
                     <el-table-column   align="center" width="180" fixed="right"  label="操作"  >
@@ -68,7 +68,7 @@
             </el-table-column>
             <el-table-column  label="操作" align="center" width="200">
                 <template slot-scope="scope">
-                    <el-button type="info" size="small" @click="order(scope.row)">改名和排序</el-button>
+                    <el-button type="info" size="small" @click="order(scope.row)">编辑和排序</el-button>
                     <el-button type="danger" size="small" @click="rowDelete(scope.row)">删除</el-button>
                 </template>
             </el-table-column>
@@ -139,7 +139,7 @@ import SlideUploadPicture from '../../ajaxProxy/SlideUploadPicture';
 
 export default {
     name: 'SlideManage',
-    pageTitle:"前端图片管理",
+    pageTitle:"前台图片管理",
     mixins: [PageMix,SearchTool,DataTable,config],
     components: {
         Add,

@@ -5,12 +5,24 @@
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="图片名称" prop="name" >
-                             <el-input class="name-input" type="primary" v-model="orderForm.name" placeholder="请输入该图片名称"></el-input>
+                             <el-input class="name-input" size="small" v-model="orderForm.name" placeholder="请输入该图片名称"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="图片展示顺序" prop="picture_sort" >
-                             <el-input class="name-input" type="primary" v-model.number="orderForm.picture_sort" placeholder="请输入该图片展示顺序"></el-input>
+                             <el-input class="name-input" size="small" v-model.number="orderForm.picture_sort" placeholder="请输入该图片展示顺序"></el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="12">
+                        <el-form-item label="图片描述" prop="description" >
+                            <el-input class="name-input" size="small" v-model="orderForm.description" placeholder="图片描述"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="跳转链接" prop="href_url" >
+                             <el-input class="name-input" size="small" v-model="orderForm.href_url" placeholder="跳转链接"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -49,6 +61,8 @@ export default {
                 id:"",
                 picture_sort:"",
                 name:"",
+                description:'',
+                href_url:'',
             },
             rules:{
                 picture_sort:[

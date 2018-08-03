@@ -251,6 +251,7 @@ export default {
 	},
 	watch:{
 		row:function(val, oldVal){
+            this.LogisticsInformationData = [];
 			this['handle'+ this.activeName].call(this, this.row);
 			this.tabFirst = false;
 			this.tabSecond = false;

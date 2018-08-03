@@ -35,7 +35,7 @@
         </el-row>
         <el-row>
             <el-col>
-                 <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" :page-size="20" :bubble="bubble">
+                 <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" :page-size="20" :bubble="bubble" @dbclick="dbClick">
                     <el-table-column type="selection" width="55"> </el-table-column>
                     <el-table-column type="index" width="80" label="序号" align="center"></el-table-column>
                     <el-table-column prop="express_name" label="快递名称" align="center" ></el-table-column>
@@ -64,7 +64,7 @@
             </el-col>
         </el-row>
         <br>
-        <Subdetail></Subdetail>
+        <Subdetail :row="model"></Subdetail>
         <add-dialog
                 name="add"
                 :ajax-proxy="ajaxProxy"
@@ -148,6 +148,7 @@ export default {
             ],
 
             bubble:null,
+            model:null,
             multiSelection:[]
 
         }
@@ -158,6 +159,9 @@ export default {
         },
         endDateChange(v){
             this.searchForm.end = v;
+        },
+        dbClick(row){
+            this.model=row;
         },
         add(){
             this.$modal.show('add', {model:this.model,provinces: this.provinces});
@@ -187,14 +191,16 @@ export default {
         getWaybillCode(){
             if (this.multiSelection.length == 0) {
                 this.$message.error('勾选至少一个');
+            }else{
+                let ids = [];
+                this.multiSelection.forEach(element => {
+                    ids.push(element.id);
+                });
+
+                this.$modal.show('get-way', {ids:ids});
             }
             
-            let ids = [];
-            this.multiSelection.forEach(element => {
-                ids.push(element.id);
-            });
 
-            this.$modal.show('get-way', {ids:ids});
         },
         editGoods(row){
             this.$modal.show('mail-add-goods', row);

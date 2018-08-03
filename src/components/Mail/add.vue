@@ -143,7 +143,7 @@
 
                 rules:{
                     name:[
-                        { required: true, message: '请输入配送中心名称', trigger: 'blur' }
+                        { required: true, message: '请填写收件人姓名', trigger: 'blur' }
                     ],
                     eng_name:[
                         {  required:true, type:'string', pattern:/^[a-zA-Z]{2}$/, required: true, message:'英文简称2位数', trigger: 'blur', },

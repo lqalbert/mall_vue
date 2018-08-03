@@ -15,16 +15,56 @@
   </template>
   
   <script>
-  export default {
+      import LogisticsInformationAjaxProxy from "@/packages/LogisticsInformationAjaxProxy";
+
+      export default {
     name: 'Subdetail',
+      props:{
+          row:{
+              type: Object,
+              default:{}
+          },
+      },
     data () {
       return {
         activeName: 'Eight',
         deliveryDetailsData:[],
         LogisticsInformationData:[],
-        goodsLoading:false
+        goodsLoading:false,
+        tabEight:false
       }
-    }
+    },
+      methods:{
+          getLogisticsInformation(data){
+              this.LogisticsInformationData = data.data[0].data;
+          },
+          handleEight(row){
+              //console.log(row);
+              this.goodsLoading = true;
+              this.LogisticsInformationProxy.setParam({
+                  express_id:row.express_id,
+                  express_sn:row.express_sn,
+              }).load();
+              this.tabEight = true;
+          },
+      },
+          watch:{
+              row:function(val, oldVal){
+                  this.LogisticsInformationData = [];
+                  this['handle'+ this.activeName].call(this, this.row);
+                  this.tabEight = false;
+              },
+              activeName:function(val, oldVal){
+                  if (!this['tab'+ val] && this.row !== null) {
+                      this['handle'+ val].call(this, this.row);
+                  }
+              },
+
+          },
+      created(){
+          this.LogisticsInformationProxy = new LogisticsInformationAjaxProxy({fields:["*"]}, this.getLogisticsInformation,this);
+
+      }
   }
   </script>
   

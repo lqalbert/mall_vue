@@ -291,6 +291,17 @@ function goodsList(contents){
     wsok.send(request);
 }
 
+function multiGoodsLists(contents){
+    var request = getRequestObject("print");    
+    request.task = new Object();
+    request.task.taskID = getUUID(8,10);
+    request.task.preview = false;
+    request.task.previewType = 'PDF';
+    request.task.printer = '针式打印机';//printer;
+    request.task.documents = contents;
+    wsok.send(request);
+}
+
 function testView(obj){
     obj.requestID = getUUID(8, 16);
     wsok.send(obj);
@@ -408,4 +419,5 @@ ws.testView = testView;
 ws.staticPrint = staticPrint;
 ws.goodsList = goodsList;
 ws.doPrints = doPrints;
+ws.multiGoodsLists = multiGoodsLists;
 export default ws;

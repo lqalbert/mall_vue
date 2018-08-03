@@ -24,8 +24,18 @@ proxy.waybillPrint = function(id){
     return this.getAxios().post('/assign-waybill-print/'+id);
 };
 
+proxy.waybillPrints = function(ids){
+    return this.getAxios().post('/assign-waybill-prints', {params:{ids:ids}});
+};
+
+
+
 proxy.goodsPrint = function(id){
     return this.getAxios().post('/assign-goods-print/'+id);
+};
+
+proxy.goodsPrints = function(ids){
+    return this.getAxios().get('/assign-goods-prints', {params:{ids:ids}});
 };
 
 proxy.getByExpressSn = function(express_sn, param){

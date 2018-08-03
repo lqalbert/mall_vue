@@ -1,7 +1,7 @@
 <template>
     <div>
             <el-tabs v-model="activeName" type="border-card">
-                <el-tab-pane label="订单信息" name="First">
+                <el-tab-pane label="销售订单" name="First">
                     <!--<TableProxy :url="selectOrderUrl" >-->
                         <el-table :data="SalesPerformanceOrderInfoData" border style="width: 100%">
                             <el-table-column prop="order_sn" label="订单号" align="center"></el-table-column>
@@ -13,6 +13,10 @@
                         </el-table>
                     <!--</TableProxy>-->
 
+                </el-tab-pane>
+
+                <el-tab-pane label="内部订单" name="Second">
+                   
                 </el-tab-pane>
             </el-tabs>
             <br>

@@ -142,6 +142,8 @@
         <el-button @click="getPrinterConfig">Fax打印机的配置</el-button>
         <el-button @click="previewPrint">打印预览PDF</el-button>
         <el-button @click="staticPrint">打印静态数据</el-button> -->
+        <el-button @click="printGoods2">批量打印清单</el-button>
+        <el-button @click="showExpress2">批量打印快递单</el-button>
     </div>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
 </template>
 <script>
@@ -514,6 +516,46 @@ export default {
                 
             })
             // console.log('yes');
+        },
+        printGoods2(){
+            if (this.multipleSelection.length == 0) {
+                this.$message.error("勾选多个");
+                return ;
+            }
+
+            let ids = [];
+            this.multipleSelection.forEach((element)=>{
+                ids.push(element.id);
+            });
+
+            AssignAjaxProxy.goodsPrints(ids).then((response)=>{
+                if (response.data.status == 1)  {
+                    ws.multiGoodsLists(response.data.data);
+                }
+            }).catch((response)=>{
+
+            })
+        },
+        showExpress2(){
+            if (this.multipleSelection.length == 0) {
+                this.$message.error("勾选多个");
+                return ;
+            }
+
+            let ids = [];
+            this.multipleSelection.forEach((element)=>{
+                ids.push(element.id);
+            });
+
+            AssignAjaxProxy.waybillPrints(ids).then((response)=>{
+                if (response.data.status == 1)  {
+                    let print_data = response.data.print_data.map((element)=>{
+                        return JSON.parse(element);
+                    })
+
+                    ws.doPrints(response.data.printer, print_data);
+                }
+            })
         }
     },
     created(){
@@ -530,6 +572,7 @@ export default {
     },
     beforeDestroy(){
         ws.close();
+        
     }   
 }
 </script>

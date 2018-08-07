@@ -63,11 +63,19 @@
                     </el-table-column>
                     <el-table-column   label="自付邮费" align="center">
                         <template slot-scope="scope">
-                            {{ scope.row.i_freight + scope.row.s_freight }}
+                            {{ scope.row.i_freight ?  scope.row.i_freight + scope.row.s_freight  : scope.row.s_freight}}
                         </template>
                     </el-table-column>
-                    <el-table-column prop="inner_count"  label="内购单数" align="center"></el-table-column>
-                    <el-table-column prop="inner_sum"  label="内购金额" align="center"></el-table-column>
+                    <el-table-column prop="inner_count"  label="内购单数" align="center">
+                        <template slot-scope="scope">
+                            {{ scope.row.inner_count ? scope.row.inner_count : 0 }}
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="inner_sum"  label="内购金额" align="center">
+                        <template slot-scope="scope">
+                            {{ scope.row.inner_sum ? scope.row.inner_sum : 0 }}
+                        </template>
+                    </el-table-column>
                     <!-- 加两列 客户邮费、公司邮费 -->
                     
                 </TableProxy>

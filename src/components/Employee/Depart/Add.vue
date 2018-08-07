@@ -130,7 +130,7 @@
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
-                                <el-form-item label="QQ昵称">
+                                <el-form-item label="QQ昵称" prop="qq_nickname">
                                     <el-input class="name-input" v-model="addForm.qq_nickname" auto-complet="off"></el-input>
                                 </el-form-item>
                             </el-col>
@@ -142,7 +142,7 @@
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
-                                <el-form-item label="微信昵称">
+                                <el-form-item label="微信昵称" prop="weixin_nickname">
                                     <el-input class="name-input" v-model="addForm.weixin_nickname" auto-complet="off"></el-input>
                                 </el-form-item>
                             </el-col>

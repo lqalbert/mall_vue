@@ -15,4 +15,8 @@ proxy.getCusInfo = function (id) {
     return this.getAxios().get("/cus-all-info/" + id);
 };
 
+proxy.inventory = function(id) {
+    return this.getAxios().put('/order-after-inventory/' + id);
+}
+
 export default proxy;

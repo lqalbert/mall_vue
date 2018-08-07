@@ -49,6 +49,7 @@
                             {{setFieldText(scope.row.status,'statusText')}}
                         </template>
                     </el-table-column>
+                    <el-table-column prop="inventory_state_text" label="库存操作" width="100"></el-table-column>
                     <el-table-column prop="return_unit" label="退款单位" align="center" width="120"></el-table-column>
                     <el-table-column prop="is_special" label="特殊处理" width="100">
                         <template slot-scope="scope">
@@ -60,11 +61,6 @@
                     <el-table-column prop="order.deal_name" label="原成交员工" width="160" align="center">
                     </el-table-column>
 
-                    <!-- <el-table-column prop="type_text" label="原成交单位" align="center"></el-table-column>
-                    <el-table-column prop="type_text" label="订单录入日期" align="center"></el-table-column>
-                    <el-table-column prop="type_text" label="原初成员工" align="center"></el-table-column>
-                    <el-table-column prop="type_text" label="原初成单位" align="center"></el-table-column>
-                    <el-table-column prop="type_text" label="原发货单位" align="center"></el-table-column> -->
 
                     <el-table-column prop="cus_id" label="客户ID" align="center" width="100"></el-table-column>
                     <el-table-column prop="refund_percent" label="退款比例" align="center" width="100">
@@ -80,26 +76,16 @@
                     <el-table-column prop="express" label="退货快递公司" align="center" width="160"></el-table-column>
                     <el-table-column prop="express_sn" label="退货快递单号" align="center" width="160"></el-table-column>
                     <el-table-column prop="return_unit" label="退货收货单位" align="center" width="160"></el-table-column>
-                    <!-- <el-table-column prop="type_text" label="重发单位" align="center"></el-table-column>
-                    <el-table-column prop="type_text" label="原发货快递" align="center"></el-table-column> -->
-                    <!-- <el-table-column prop="type_text" label="提交日期" align="center"></el-table-column> -->
                     <el-table-column prop="resend_fee" label="重发运费" align="center" width="100"></el-table-column>
                     <el-table-column prop="reservice_fee" label="重发服务费" align="center"  width="160"></el-table-column>
                     <el-table-column prop="sure_at" label="确认日期" align="center" width="160"></el-table-column>
                     <el-table-column prop="check_at" label="审核日期" align="center" width="160"></el-table-column>
 
-                    <!-- <el-table-column  label="操作" align="center" width="200">
-                        <template slot-scope="scope">
-                            <el-button type="warning" size="small" @click="handleCheck(scope.row)">审核</el-button>
-                        </template>
-                    </el-table-column> -->
                     <div slot="buttonbar">
-                        <!-- <el-button type="primary" size="small" @click="showAdvancedQuery">高级查询</el-button>
-                        <el-button type="primary" size="small" @click="showAdvancedQuery">退货修改</el-button>
-                        <el-button type="primary" size="small" @click="showAdvancedQuery">退货提交</el-button> -->
                         <el-button type="primary" size="small" v-if="hasSure" @click="handleRefundSure">退换货确认</el-button>
                         <el-button type="primary" size="small" @click="showRefundCheck">审核</el-button>
                         <el-button type="primary" size="small" @click="showEdit">编辑</el-button>
+                        <el-button type="primary" size="small" @click="inventory">入库操作</el-button>
                     </div>
                 </TableProxy>
             </el-col>
@@ -222,13 +208,13 @@
                 return  this.ajaxProxy;
             },
             onSearchChange(param){ 
-                param['load'] = ['order'];  
+                param['load'] = ['order'];
                 
                 //临时写在这里
                 // if (this.$store.user.hasRole('sale-manager')) {
                     
                 // }
-
+                param['appends'] = ['inventory_state_text'];
                 this.mainparam = JSON.stringify(param);
             },
             searchReset:function(){
@@ -278,6 +264,33 @@
             showRow(row){
                 this.dbRow = row;
             },
+            inventory(){
+                if (!this.currentRow) {
+                    this.$message.error('请选择一行');
+                    return ;
+                }
+
+                if (this.currentRow.inventory_state == 1) {
+                    this.$message.error('操作过了');
+                    return ;
+                }
+
+                // if (this.currentRow.status != 2) {
+                //     this.$message.error('还没确认过');
+                //     return ;
+                // }
+
+                this.ajaxProxy.inventory(this.currentRow.id).then((response)=>{
+                    if (response.data.status == 1) {
+                        this.$message.success(response.data.msg);
+                        this.handleReload();
+                    } else {
+                        this.$message.error(response.data.msg);
+                    }
+                }).catch(response=>{
+
+                });
+            }
 
         },
         created(){

@@ -50,7 +50,8 @@
 			<el-tab-pane label="收货地址" name="Fourth">
 				<el-table :data="deliveryAddressesData" border style="width: 100%">
 					<el-table-column prop="name" label="收件人姓名" align="center"></el-table-column>
-					<el-table-column prop="phone" label="收件人手机号" align="center"></el-table-column>
+					<el-table-column prop="fixed_telephone" label="收件人手机号" align="center"></el-table-column>
+					<el-table-column prop="phone" label="收件人坐机号" align="center"></el-table-column>
 					<el-table-column prop="area_province_name" label="省份"></el-table-column>
                     <el-table-column prop="area_city_name" label="城市"></el-table-column>
                     <el-table-column prop="area_district_name" label="区县"></el-table-column>

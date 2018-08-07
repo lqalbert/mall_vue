@@ -84,13 +84,12 @@
                 </TableProxy>
             </el-col>
         </el-row>
+        
         <sub-detail :row="model"
-                    :ajax-proxy="ajaxProxy"
-                    :page_size="page_size"
-                    :SalesPerformanceOrderInfoData="SalesPerformanceOrderInfoData"
-                    :SalesPerformanceOrderInfoTotal="SalesPerformanceOrderInfoTotal"
-                    @getOrderData="getData">
+                    :params="param"
+                    :ajax-proxy="salesPerformanceOrderInfo">
         </sub-detail>
+
     </div>
 </template>
 

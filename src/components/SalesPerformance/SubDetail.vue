@@ -2,41 +2,58 @@
     <div>
             <el-tabs v-model="activeName" type="border-card">
                 <el-tab-pane label="销售订单" name="First">
-                    <!--<TableProxy :url="selectOrderUrl" >-->
-                        <el-table :data="SalesPerformanceOrderInfoData" border style="width: 100%">
-                            <el-table-column prop="order_sn" label="订单号" align="center"></el-table-column>
-                            <el-table-column prop="cus_name" label="成交客户" align="center"></el-table-column>
-                            <el-table-column prop="cus_phone" label="客户电话" align="center"></el-table-column>
-                            <el-table-column prop="trade_money" label="成交金额" align="center"></el-table-column>
-                            <el-table-column prop="track_name" label="跟踪人员" align="center"></el-table-column>
-                            <el-table-column prop="traded_at" label="成交时间" align="center"></el-table-column>
-                            <el-table-column prop="freight" label="自付邮费" align="center"></el-table-column>
-                        </el-table>
-                    <!--</TableProxy>-->
-
+                    <el-table :data="salesmanOrder" border style="width: 100%">
+                        <el-table-column prop="order_sn" label="订单号" align="center"></el-table-column>
+                        <el-table-column prop="cus_name" label="成交客户" align="center"></el-table-column>
+                        <el-table-column prop="cus_phone" label="客户电话" align="center"></el-table-column>
+                        <el-table-column prop="trade_money" label="成交金额" align="center"></el-table-column>
+                        <el-table-column prop="track_name" label="跟踪人员" align="center"></el-table-column>
+                        <el-table-column prop="traded_at" label="成交时间" align="center"></el-table-column>
+                        <el-table-column prop="freight" label="自付邮费" align="center"></el-table-column>
+                    </el-table>
+                    <br>
+                    <el-row type="flex" justify="end">
+                        <el-col :span="12" :offset="12">
+                            <div class="pull-right">
+                                <el-pagination
+                                        :current-page="currentPage"
+                                        :page-size="pageSize"
+                                        layout="total, prev, pager, next, jumper"
+                                        :total="salesmanOrderTotal"
+                                        @current-change="salesmanOrderChange">
+                                </el-pagination>
+                            </div>
+                        </el-col>
+                    </el-row>
                 </el-tab-pane>
 
                 <el-tab-pane label="内部订单" name="Second">
-                   
+                   <el-table :data="internalOrder" border style="width: 100%">
+                        <el-table-column prop="order_sn" label="订单号" align="center"></el-table-column>
+                        <el-table-column prop="cus_name" label="成交客户" align="center"></el-table-column>
+                        <el-table-column prop="cus_phone" label="客户电话" align="center"></el-table-column>
+                        <el-table-column prop="trade_money" label="成交金额" align="center"></el-table-column>
+                        <el-table-column prop="track_name" label="跟踪人员" align="center"></el-table-column>
+                        <el-table-column prop="traded_at" label="成交时间" align="center"></el-table-column>
+                        <el-table-column prop="freight" label="自付邮费" align="center"></el-table-column>
+                    </el-table>
+                    <br>
+                    <el-row type="flex" justify="end">
+                        <el-col :span="12" :offset="12">
+                            <div class="pull-right">
+                                <el-pagination
+                                        :current-page="currentPage"
+                                        :page-size="pageSize"
+                                        layout="total, prev, pager, next, jumper"
+                                        :total="internalOrderTotal"
+                                        @current-change="internalOrderChange">
+                                </el-pagination>
+                            </div>
+                        </el-col>
+                    </el-row>
                 </el-tab-pane>
             </el-tabs>
-            <br>
-            <el-row type="flex" justify="end">
-                <el-col :span="12">
-                    <slot name="buttonbar"></slot>
-                </el-col>
-                <el-col :span="12" >
-                    <div class="pull-right">
-                        <el-pagination
-                                :current-page="currentPage"
-                                :page-size="page_size"
-                                layout="total, prev, pager, next, jumper"
-                                :total="SalesPerformanceOrderInfoTotal"
-                                @current-change="currentChange">
-                        </el-pagination>
-                    </div>
-                </el-col>
-            </el-row>
+            
     </div>
 
 </template>
@@ -48,45 +65,48 @@
     export default {
         name: 'SubDetail',
         props:{
-            ajaxProxy:{
+            row:{
                 type: Object,
+                default:null
+            },
+            params:{
+                type: Object,
+                default:null
+            },
+            ajaxProxy:{
+                type: Function,
                 default: null
-            },
-            SalesPerformanceOrderInfoData:{
-                type: Array,
-                default: []
-            },
-            SalesPerformanceOrderInfoTotal:{
-                type: Number,
-                default: 0
-            },
-            page_size:{
-                type: Number,
-                default: 2
-            },
+            }
         },
         data () {
             return {
+                salesmanOrder:[],
+                internalOrder:[],
                 activeName:'First',
                 tabFirst:false,
+                tabSecond:false,
                 currentPage:1,
+                salesmanOrderTotal:0,
+                internalOrderTotal:0,
+                pageSize:5,
+                salesmanOrderProxy:null,
+                internalOrderProxy:null,
             }
         },
        
         methods:{
             handleFirst(row){
-                // this.tabFirst = true;
+                let param = this.params;
+                param.orderType = 3;//销售订单
+                this.salesmanOrderProxy.setParam(param).setPageSize(this.pageSize).load();
+                this.tabFirst = true;
             },
-            getAjaxProxy(){
-               return this.SalesPerformanceOrderInfoAjaxProxy;
+            handleSecond(row){
+                let param = this.params;
+                param.orderType = 2;//内部订单
+                this.internalOrderProxy.setParam(param).setPageSize(this.pageSize).load();
+                this.tabSecond = true;
             },
-            currentChange(v){
-                this.$emit('getOrderData',v);
-            },
-            // handleSecond(row){
-            //     console.log(row);
-            //     this.tabSecond = true;
-            // },
             // handleThird(row){
             //     console.log(row);
             //     this.tabThird = true;
@@ -95,13 +115,27 @@
             //     console.log(row);
             //     this.tabFourth = true;
             // },
+            getSalesmanOrder(data){
+                this.salesmanOrder = data.items;
+                this.salesmanOrderTotal = data.total;
+            },
+            getInternalOrder(data){
+                this.internalOrder = data.items;
+                this.internalOrderTotal = data.total;
+            },
+            salesmanOrderChange(v){
+                this.salesmanOrderProxy.setPage(v).load();
+            },
+            internalOrderChange(v){
+                this.internalOrderProxy.setPage(v).load();
+            },
             
         },
         watch:{
             row(val, oldVal){
                 this['handle'+ this.activeName].call(this, this.row);
                 this.tabFirst = false;
-                // this.tabSecond = false;
+                this.tabSecond = false;
                 // this.tabThird = false;
                 // this.tabFourth = false;
             },
@@ -113,6 +147,8 @@
 
         },
         created(){
+            this.salesmanOrderProxy = new this.ajaxProxy({},this.getSalesmanOrder,this);
+            this.internalOrderProxy = new this.ajaxProxy({},this.getInternalOrder,this);
         }
     }
 </script>

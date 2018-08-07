@@ -29,7 +29,7 @@
                         <el-table-column prop="order_sn" label="订单号" align="center"></el-table-column>
                         <el-table-column prop="status_text" label="状态" align="center">  </el-table-column>
                         <el-table-column prop="order_all_money" label="金额" align="center"></el-table-column>
-                        <el-table-column prop="type_text" label="类型 " align="center"></el-table-column>
+                        <el-table-column prop="order_type.name" label="订单类型" align="center"></el-table-column>
                     </el-table>
             </el-tab-pane>
 
@@ -107,6 +107,7 @@
                     cus_id:row.id,
                     fields:['order_sn','created_at','order_all_money'],
                     appends:['status_text','type_text'],
+                    with:['orderType']
                 }).load();
                 this.tabThird = true;
             },

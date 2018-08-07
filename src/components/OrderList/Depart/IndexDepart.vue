@@ -276,6 +276,7 @@ export default {
             }
         },
         onSearchChange(param){
+            param['with'] = ['orderType'];
             param.department_id = this.getUser.department_id == 0 ? -1 : this.getUser.department_id;
             this.mainparam = JSON.stringify(param);
         },

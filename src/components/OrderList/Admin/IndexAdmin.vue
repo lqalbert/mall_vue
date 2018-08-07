@@ -110,13 +110,13 @@
                 <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" @cellclick="rowCellClick"  @dbclick="showRow" :page-size="15" :height="500" >
                     <el-table-column prop="order_sn" label="订单号" align="center" width="190">
                     </el-table-column>
-
+                    <el-table-column prop="order_type.name" label="订单类型" ></el-table-column>
                     <el-table-column prop="order_all_money" label="总金额" align="center">
                     </el-table-column>
 
                     <el-table-column prop="order_pay_money" label="应付金额" align="center">
                     </el-table-column>
-
+                    <el-table-column prop="freight" label="自付邮费"></el-table-column>
                     <el-table-column prop="cus_name" label="购买顾客" align="center">
                     </el-table-column>
 
@@ -290,6 +290,7 @@ export default {
             }
         },
         onSearchChange(param){
+            param['with'] = ['orderType'];
             this.mainparam = JSON.stringify(param);
         },
         getDepartment(data){

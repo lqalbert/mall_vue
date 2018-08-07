@@ -64,7 +64,14 @@
                     <el-table-column prop="c_cus_count" sortable="custom" label="成交单数" align="center"></el-table-column>
                     <el-table-column prop="all_pay" sortable="custom" label="成交金额" align="center"></el-table-column>
                     <el-table-column prop="refund" sortable="custom" label="退款金额" align="center"></el-table-column>
-                    内购单数 内购金额
+                    <el-table-column   label="自付邮费" align="center">
+                        <template slot-scope="scope">
+                            {{ scope.row.i_freight + scope.row.s_freight }}
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="inner_count"  label="内购单数" align="center"></el-table-column>
+                    <el-table-column prop="inner_sum"  label="内购金额" align="center"></el-table-column>
+
                     <!-- 加两列 客户邮费、公司邮费 -->
                     <el-table-column prop="deposit"   label="部门充值剩余" >
                         <template slot-scope="scope">

@@ -40,7 +40,7 @@
                     <el-table-column prop="cus_count" sortable='custom' label="录入客户"></el-table-column>
                     <el-table-column prop="obcus_count" sortable='custom' label="购买人数"></el-table-column>
                     <el-table-column prop="ob_count" sortable='custom' label="购买单数"></el-table-column>
-                    <el-table-column  label="成交客户数"></el-table-column>
+                    <el-table-column prop="sobcus_count"  label="成交客户数"></el-table-column>
                     <el-table-column prop="c_cus_count" sortable='custom' label="一般客户数量"></el-table-column>
                     <el-table-column prop="b_cus_count" sortable='custom' label="意向客户数量"></el-table-column>
                     <el-table-column prop="track_count" sortable='custom' label="跟踪数"></el-table-column>

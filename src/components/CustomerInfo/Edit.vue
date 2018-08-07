@@ -20,7 +20,7 @@
                             <el-col :span="12">
                                 <el-form-item label="客户类型" prop="type">
                                     <el-select v-model="editForm.type" placeholder="请选择客户类型" >
-                                        <el-option v-for="(type, key) in customerType" :label="type" :value="key" :key="key"></el-option>
+                                        <el-option v-for="(type, key) in customerType" :label="type" :value="key" :disabled="key=='V'" :key="key"></el-option>
                                     </el-select>
                                 </el-form-item>
                             </el-col>

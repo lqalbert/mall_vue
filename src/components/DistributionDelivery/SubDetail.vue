@@ -33,6 +33,9 @@
 					<el-table-column prop="cus_name" label="客户姓名" align="center"></el-table-column>
 					<el-table-column prop="created_at" label="下单时间" align="center"></el-table-column>
 					<el-table-column prop="deal_name" label="销售人员" align="center"></el-table-column>
+					<el-table-column prop="discounted_goods_money" label="应付金额" align="center"></el-table-column>
+					<el-table-column prop="freight" label="自付邮费" align="center"></el-table-column>
+					 
 				</el-table>
 			</el-tab-pane>
 			<el-tab-pane label="历史快递" name="Third">

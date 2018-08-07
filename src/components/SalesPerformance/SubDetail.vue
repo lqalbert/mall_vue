@@ -10,6 +10,7 @@
                             <el-table-column prop="trade_money" label="成交金额" align="center"></el-table-column>
                             <el-table-column prop="track_name" label="跟踪人员" align="center"></el-table-column>
                             <el-table-column prop="traded_at" label="成交时间" align="center"></el-table-column>
+                            <el-table-column prop="freight" label="自付邮费" align="center"></el-table-column>
                         </el-table>
                     <!--</TableProxy>-->
 

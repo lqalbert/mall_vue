@@ -13,16 +13,16 @@ SalesPerformanceOrderInfoProxy.prototype.setParam = function (param) {
     this.partProxy.setExtraParam(param);
     return this;
 },
-    SalesPerformanceOrderInfoProxy.prototype.setPageSize = function (pageSize) {
+SalesPerformanceOrderInfoProxy.prototype.setPageSize = function (pageSize) {
     this.partProxy.setPageSize(pageSize);
     return this;
 },
-    SalesPerformanceOrderInfoProxy.prototype.setPage = function (page) {
+SalesPerformanceOrderInfoProxy.prototype.setPage = function (page) {
     this.partProxy.setPage(page);
     return this;
 },
 
-    SalesPerformanceOrderInfoProxy.prototype.load = function () {
+SalesPerformanceOrderInfoProxy.prototype.load = function () {
     this.partProxy.load();
 }
 

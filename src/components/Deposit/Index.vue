@@ -86,7 +86,7 @@
                     <el-table-column align="center" width="180" fixed="right" label="操作">
                         <template slot-scope="scope">
                             <el-button type="danger" @click="revoke(scope.row)" size="small">撤销</el-button>
-                            <el-button type="info" @click="openEdit(scope.row)" size="small">编辑</el-button>
+                            <!-- <el-button type="info" @click="openEdit(scope.row)" size="small">编辑</el-button> -->
                             <!-- <el-button type="danger"  @click="handleDelete(scope.row.id)"   size="small" >删除</el-button> -->
                         </template>
                     </el-table-column>

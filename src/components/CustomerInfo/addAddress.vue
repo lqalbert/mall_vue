@@ -14,7 +14,7 @@
                 <el-table-column prop="area_city_name" label="城市" width="80"></el-table-column>
                 <el-table-column prop="area_district_name" label="区/县" width="80"></el-table-column>
                 <el-table-column prop="address" label="详细地址" width="180"></el-table-column>
-                <el-table-column  label="操作" header-align="center" width="150" fixed="right">
+                <el-table-column  label="操作" header-align="center" width="180" fixed="right">
                     <template slot-scope="scope">
                         <el-button size="small" type="primary" @click="handleCurrentChange(scope.row)">编 辑</el-button>
                         <el-button size="small" type="danger" @click="deleteAddress(scope.row)">删 除</el-button>

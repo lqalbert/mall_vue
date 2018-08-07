@@ -98,7 +98,7 @@ export default {
             dialogImageUrl:'',
             dialogVisible: false,
             is_load: false,
-            uploadUrl:"admin/slide-upload",
+            uploadUrl:"/slide-upload",
             pictureData:{},
             addForm:{
                 classify:"",

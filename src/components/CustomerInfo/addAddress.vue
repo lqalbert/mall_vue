@@ -7,8 +7,8 @@
              style="width: 100%">
                 <el-table-column label="序号" type="index" width="65"></el-table-column>
                 <el-table-column prop="name" label="收货人" width="100"></el-table-column>
-                <el-table-column prop="phone" label="手机号" width="130"></el-table-column>
-                <el-table-column prop="fixed_telephone" label="固定电话" width="130"></el-table-column>
+                <el-table-column prop="phone" label="固定电话" width="130"></el-table-column>
+                <el-table-column prop="fixed_telephone" label="手机号" width="130"></el-table-column>
                 <el-table-column prop="zip_code" label="地址邮编" width="110"></el-table-column>
                 <el-table-column prop="area_province_name" label="省" width="80"></el-table-column>
                 <el-table-column prop="area_city_name" label="城市" width="80"></el-table-column>
@@ -231,11 +231,16 @@ export default {
             this.id = param.params.model.id;
             this.getAddress(this.cus_id);
         },
-        handleCurrentChange(row){   
+        handleCurrentChange(row){
+            console.log(row);
             row.zip_code = parseInt(row.zip_code);
             this.showForm();
             this.formstate = FORMSTATE_EDIT;
             this.addDeliveryAddressForm = Object.assign({},row);
+            this.addDeliveryAddressForm.area_city_id = row.area_city_id;
+            console.log(row);
+            console.log(this.addDeliveryAddressForm);
+
         },
         showForm(){
             this.contactFormvisible = true;
@@ -245,6 +250,7 @@ export default {
             this.formstate='';
         },
         handleAdd(){
+            this.$refs['addDeliveryAddressForm'].resetFields();
             this.formReset();
             this.showForm();
             this.formstate = FORMSTATE_ADD;

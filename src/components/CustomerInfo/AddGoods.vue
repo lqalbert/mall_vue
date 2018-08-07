@@ -155,6 +155,7 @@
                         this.data2[kk1] = vv1;
                     }
                 }
+                console.log(this.data2)
             },
             contactItem(goods_id, price, name, num, sku_id, sku, sku_sn,unit_type,len,width,
                 height,barcode,weight,bubble_bag,specifications){

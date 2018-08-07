@@ -2,104 +2,52 @@
     <div >
         <MyDialog title="查看" :name="name" :width="width" :height="height" @before-open="onOpen" @opened="checkEditable">
             <el-form ref="rowInfoForm" :model="rowInfoForm" :label-width="labelWidth" :label-position="labelPosition">
-                
-                <el-tabs v-model="activeName">
-                    <el-tab-pane label="基本信息" name="First">
+                <el-tabs>
                         <el-row>
-                            <el-col :span="12">
-                                <el-form-item  label="订单号" prop="id">
+                            <el-col :span="6">
+                                <el-form-item  label="订单号:" prop="id">
                                     {{ model.order_sn }}
                                 </el-form-item>
                             </el-col>
-                            <el-col :span="12">
+                            <el-col :span="6">
                                 <el-form-item label="总金额" prop="order_all_money">
                                     {{ model.order_all_money }}
                                 </el-form-item>
                             </el-col>
-                        </el-row>
-                        <el-row>
-                            <el-col :span='12'>
-                                <el-form-item label="应付金额" prop="order_pay_money">
-                                    <el-input class="name-input" v-model="rowInfoForm.order_pay_money" size="small"></el-input>
+                            <el-col :span='6'>
+                                <el-form-item label="应付金额:" prop="order_pay_money">
+                                    {{model.order_pay_money}}
                                 </el-form-item>
                             </el-col>
-                            <el-col :span='12'>
-                                <el-form-item label="购买客户"  prop="cus_id">
+                            <el-col :span='6'>
+                                <el-form-item label="购买客户:"  prop="cus_id">
                                     {{ model.cus_name }}
-                                </el-form-item>
-                            </el-col>
-
-                        </el-row>
-                        <el-row>
-                            <el-col :span='12'>
-                                <el-form-item label="成交员工" prop="deal_name">
-                                        {{ model.deal_name }}
-                                </el-form-item>
-                            </el-col>
-                            <!-- <el-col :span="12">
-                                <el-form-item label="发货状态" prop="product_status">
-                                    <el-select v-model='rowInfoForm.product_status' :disabled="true">
-                                        <el-option
-                                                v-for="shipping_status in shipping_statuslist"
-                                                :label="shipping_status.status"
-                                                :value="shipping_status.id"
-                                                :key="shipping_status.id"></el-option>
-                                    </el-select>
-                                </el-form-item>
-                            </el-col> -->
-                        </el-row>
-                        <!-- <el-row> -->
-                            <!-- <el-col :span="12">
-                                <el-form-item label="订单状态" prop="status">
-                                    <el-select v-model='rowInfoForm.status' clearable>
-                                        <el-option
-                                                v-for="order_status in order_statuslist"
-                                                :label="order_status.status"
-                                                :value="order_status.id"
-                                                :key="order_status.id"></el-option>
-                                    </el-select>
-                                </el-form-item>
-                            </el-col> -->
-                            <!-- <el-col :span='12'>
-                                <el-form-item label="配送方式" prop="shipping_name">
-                                    <el-input v-model="rowInfoForm.shipping_name" size="small" :disabled="true"></el-input>
-                                </el-form-item>
-                            </el-col> -->
-                        <!-- </el-row> -->
-                        <!--<el-row>-->
-                        <!--<el-col :span="12">-->
-                            <!--<el-form-item label="审核状态" prop="order_status">-->
-                                <!--<el-select v-model='rowInfoForm.check_status'>-->
-                                    <!--<el-option-->
-                                            <!--v-for="order_status in check_status"-->
-                                            <!--:label="order_status.status"-->
-                                            <!--:value="order_status.id"-->
-                                            <!--:key="order_status.id"-->
-                                            <!--&gt;</el-option>-->
-                                <!--</el-select>-->
-                            <!--</el-form-item>-->
-                        <!--</el-col>-->
-                        <!--</el-row>-->
-                    </el-tab-pane>
-                    <el-tab-pane label="收货地址" name="Second">
-                        <el-row>
-                            <el-col :span='12'>
-                                <el-form-item label="收货人姓名:"  prop="name">
-                                    {{ addresstableData.name }}
-                                </el-form-item>
-                            </el-col>
-                            <el-col :span='12'>
-                                <el-form-item label="收货电话:"  prop="phone">
-                                    {{ addresstableData.phone }}
                                 </el-form-item>
                             </el-col>
                         </el-row>
                         <el-row>
                             <el-col :span='6'>
+                                <el-form-item label="成交员工:" prop="deal_name">
+                                    {{ model.deal_name }}
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span='6'>
+                                <el-form-item label="收货人姓名:"  prop="name">
+                                    {{ addresstableData.name }}
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span='6'>
+                                <el-form-item label="收货电话:"  prop="phone">
+                                    {{ addresstableData.phone }}
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span='6'>
                                 <el-form-item label="省:"  prop="area_province_name">
                                     {{ addresstableData.area_province_name }}
                                 </el-form-item>
                             </el-col>
+                        </el-row>
+                        <el-row>
                             <el-col :span='6'>
                                 <el-form-item label="市:"  prop="area_city_name">
                                     {{ addresstableData.area_city_name }}
@@ -110,23 +58,20 @@
                                     {{ addresstableData.area_district_name }}
                                 </el-form-item>
                             </el-col>
-                        </el-row>
-                        <el-row>
-                            <el-col :span='12'>
+                            <el-col :span='6'>
                                 <el-form-item label="邮编:"  prop="zip_code">
                                     {{ addresstableData.zip_code }}
                                 </el-form-item>
                             </el-col>
                         </el-row>
-                        <el-row>
-                            <el-col :span='20'>
-                                <el-form-item label="详细地址:"  prop="address">
-                                    {{ addresstableData.address }}
-                                </el-form-item>
-                            </el-col>
-                        </el-row>
-                    </el-tab-pane>
-                    <el-tab-pane label="商品明细" name="Third">
+                    <el-row>
+                        <el-col :span='20'>
+                            <el-form-item label="详细地址:"  prop="address">
+                                {{ addresstableData.address }}
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <hr>
                         <el-table
                             v-loading.body="loading"
                             :data="goodstableData"
@@ -170,8 +115,7 @@
                                 <AddGoods :category-list="cates" @add-goods="addGoods"></AddGoods>
                             </el-col>
                         </el-row>
-                    </el-tab-pane>
-                </el-tabs>   
+                </el-tabs>
             </el-form>
             <div slot="dialog-foot" class="dialog-footer">
                 <el-button @click="handleClose">取 消</el-button>
@@ -259,12 +203,11 @@
                 }
             },
             onOpen(param){
-            //   this.rowInfoForm = event.params.rowData;
-                
                 this.model = param.params.rowData;
                 this.row = param.params.rowData;
-
-            },
+                this.handleSecond(this.row);
+                this.handleThird(this.row);
+                },
             getAjaxPromise(model){
                 delete model.cus_name;
                 delete model.buyer;
@@ -274,7 +217,6 @@
                 return this.ajaxProxy.update(model.id, model);
             },
             getOrderAddress(data){
-                console.log(data);
                 this.addresstableData = data.items[0];
             },
             getOrderGoods(data){
@@ -288,16 +230,12 @@
                 
             },
             handleSecond(row){
-                // console.log(row);
-                // console.log('second');//OrderAddressProxy
                 this.OrderAddressProxy.setParam({
                     order_id:row.id,
                 }).load();
                 this.tabSecond = true;
             },
             handleThird(row){
-                // console.log(row);
-                // console.log('third');
                 this.loading =true;
                 this.OrderGoodsProxy.setParam({
                     order_id:row.id,

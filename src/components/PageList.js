@@ -13,7 +13,7 @@ const PageList = {
     'Department':(resolve)=>{ require(['./Department/Index.vue'], resolve)},
     'Group':(resolve)=>{ require(['./Group/Index.vue'], resolve)},
     'Employee':(resolve)=>{ require(['./Employee/Index.vue'], resolve)},
-    'Customer':(resolve)=>{ require(['./CustomerInfo/Index.vue'], resolve)},
+    'CustomerInfo':(resolve)=>{ require(['./CustomerInfo/Index.vue'], resolve)},
 
     // 'BuyOrders': (resolve) => { require(['./BuyOrders/Index.vue'], resolve)},
     'OrderList':(resolve)=>{ require(['./OrderList/Index.vue'], resolve)},

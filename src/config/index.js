@@ -13,6 +13,7 @@ if (process.env.NODE_ENV == 'production') {
 }
 
 let upload_url = domain + "/upload-file";
+let slide_upload_url = domain + "/slide-upload";
 
 
 
@@ -27,6 +28,13 @@ Object.defineProperty(APP_CONST, "DOMAIN", {
 
 Object.defineProperty(APP_CONST, "UPLOAD_URL", {
     value: upload_url,
+    writable: false, //设置属性只读
+    configurable: true,
+    enumerable: true
+});
+
+Object.defineProperty(APP_CONST, "SLIDE_UPLOAD_URL", {
+    value: slide_upload_url,
     writable: false, //设置属性只读
     configurable: true,
     enumerable: true

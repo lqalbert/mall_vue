@@ -260,7 +260,7 @@ export default {
             return  this.ajaxProxy;
         },
         showRowData(row){
-            
+
             this.$modal.show('rowInfo',{rowData:row})
         },
         /** 点击订单列表展示用户信息 */

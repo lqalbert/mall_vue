@@ -27,7 +27,7 @@
                     </el-row>
                 </el-tab-pane>
 
-                <!-- <el-tab-pane label="内部订单" name="Second">
+                <el-tab-pane label="内部订单" name="Second">
                    <el-table :data="internalOrder" border style="width: 100%">
                         <el-table-column prop="order_sn" label="订单号" align="center"></el-table-column>
                         <el-table-column prop="cus_name" label="成交客户" align="center"></el-table-column>
@@ -51,7 +51,7 @@
                             </div>
                         </el-col>
                     </el-row>
-                </el-tab-pane> -->
+                </el-tab-pane>
             </el-tabs>
             
     </div>

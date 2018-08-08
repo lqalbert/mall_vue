@@ -62,9 +62,25 @@ let mix = {
         dbclick(row){
             this.model = row;
             this.param = Object.assign(this.param,this.searchForm);
-            this.param.department_id = row.department_id;
-            this.param.group_id = row.group_id;
-            this.param.user_id = row.user_id;
+            switch (this.param.type) {
+                case 'department_id':
+                    this.param.department_id = row.department_id;
+                    delete this.param.group_id;
+                    delete this.param.user_id;
+                    break;
+                case 'group_id':
+                    this.param.department_id = row.department_id;
+                    this.param.group_id = row.group_id;
+                    delete this.param.user_id;
+                    break
+                case 'user_id':
+                    this.param.department_id = row.department_id;
+                    this.param.group_id = row.group_id;
+                    this.param.user_id = row.user_id
+                    break
+                default:
+                    break;
+            }
         },
     },
     created(){

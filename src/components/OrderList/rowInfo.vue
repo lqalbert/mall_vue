@@ -297,7 +297,7 @@
                 }else{
                     goods.assign_id = '';
                 }
-                console.log(goods);
+                // console.log(goods);
                 OrederGoodsAjax2.create(goods).then((response)=>{
                     if (response.data.status==0) {
                         this.$message.error(response.data.msg);

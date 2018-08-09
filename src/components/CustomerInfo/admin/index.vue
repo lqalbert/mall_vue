@@ -189,7 +189,7 @@
     import APP_CONST from '@/config';
 
     export default {
-        name: 'Customer',
+        name: 'CustomerInfo',
         pageTitle: "客户资料",
         mixins: [localmix],
         components:{

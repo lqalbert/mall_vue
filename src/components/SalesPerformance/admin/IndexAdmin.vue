@@ -140,7 +140,7 @@
                 depClearable:true,
                 groupClearable:true,
                 orderDetail:[],
-                param:{},
+               
                 model:null,
                 dataTotal:null,
             }

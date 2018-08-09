@@ -13,6 +13,7 @@ let mix = {
     },
     data(){
         return {
+            param:{},
             SalesPerformanceOrderInfoAjaxProxy:SalesPerformanceOrderInfoAjaxProxy,
             SalesPerformanceOrderInfoData:[],
             SalesPerformanceOrderInfoTotal:0,

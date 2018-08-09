@@ -305,7 +305,7 @@
                         this.$message.error(response.data.msg);
                     } else {
                         this.$message.success(response.data.msg);
-                        this.goodstableData.push(goods);
+                        this.goodstableData.push(response.data.data);
                     }
                 }).catch((response)=>{
                     this.$message.error('出错了');

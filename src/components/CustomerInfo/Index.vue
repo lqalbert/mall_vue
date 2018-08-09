@@ -17,7 +17,7 @@
     import { mapActions,mapGetters } from 'vuex';
 
     export default {
-        name: 'CustomerInfo',
+        name: 'Customer',
         pageTitle: "客户资料",
         mixins: [PageMix],
         components: {

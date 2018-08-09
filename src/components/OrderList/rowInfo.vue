@@ -2,70 +2,69 @@
     <div >
         <MyDialog title="查看" :name="name" :width="width" :height="height" @before-open="onOpen" @opened="checkEditable">
             <el-form ref="rowInfoForm" :model="rowInfoForm" :label-width="labelWidth" :label-position="labelPosition">
-                <el-tabs>
-                        <el-row>
-                            <el-col :span="6">
+                        <el-row >
+                            <el-col :span="6" class="col">
                                 <el-form-item  label="订单号:" prop="id">
                                     {{ model.order_sn }}
                                 </el-form-item>
                             </el-col>
-                            <el-col :span="6">
+                            <el-col :span="6" class="col">
                                 <el-form-item label="总金额" prop="order_all_money">
                                     {{ model.order_all_money }}
                                 </el-form-item>
                             </el-col>
-                            <el-col :span='6'>
+                            <el-col :span='6' class="col">
                                 <el-form-item label="应付金额:" prop="order_pay_money">
                                     {{model.order_pay_money}}
                                 </el-form-item>
                             </el-col>
-                            <el-col :span='6'>
+                            <el-col :span='6' class="col">
                                 <el-form-item label="购买客户:"  prop="cus_id">
                                     {{ model.cus_name }}
                                 </el-form-item>
                             </el-col>
                         </el-row>
-                        <el-row>
-                            <el-col :span='6'>
+                        <el-row >
+                            <el-col :span='6' class="col">
                                 <el-form-item label="成交员工:" prop="deal_name">
                                     {{ model.deal_name }}
                                 </el-form-item>
                             </el-col>
-                            <el-col :span='6'>
+                            <el-col :span='6' class="col">
                                 <el-form-item label="收货人姓名:"  prop="name">
                                     {{ addresstableData.name }}
                                 </el-form-item>
                             </el-col>
-                            <el-col :span='6'>
+                            <el-col :span='6' class="col">
                                 <el-form-item label="收货电话:"  prop="phone">
                                     {{ addresstableData.phone }}
                                 </el-form-item>
                             </el-col>
-                            <el-col :span='6'>
+                            <el-col :span='6' class="col">
                                 <el-form-item label="省:"  prop="area_province_name">
                                     {{ addresstableData.area_province_name }}
                                 </el-form-item>
                             </el-col>
                         </el-row>
                         <el-row>
-                            <el-col :span='6'>
+                            <el-col :span='6' class="col">
                                 <el-form-item label="市:"  prop="area_city_name">
                                     {{ addresstableData.area_city_name }}
                                 </el-form-item>
                             </el-col>
-                            <el-col :span='6'>
+                            <el-col :span='6' class="col">
                                 <el-form-item label="区/县:"  prop="area_district_name">
                                     {{ addresstableData.area_district_name }}
                                 </el-form-item>
                             </el-col>
-                            <el-col :span='6'>
+                            <el-col :span='6' class="col">
                                 <el-form-item label="邮编:"  prop="zip_code">
                                     {{ addresstableData.zip_code }}
                                 </el-form-item>
                             </el-col>
                         </el-row>
                     <el-row>
-                        <el-col :span='20'>
+                        <el-col :span='20' class="col">
                             <el-form-item label="详细地址:"  prop="address">
                                 {{ addresstableData.address }}
                             </el-form-item>
@@ -115,7 +114,6 @@
                                 <AddGoods :category-list="cates" @add-goods="addGoods"></AddGoods>
                             </el-col>
                         </el-row>
-                </el-tabs>
             </el-form>
             <div slot="dialog-foot" class="dialog-footer">
                 <el-button @click="handleClose">取 消</el-button>
@@ -355,6 +353,9 @@
     }
     .el-input-number {
         width: 100px;
+    }
+    .col{
+        height: 36px;
     }
 </style>
 

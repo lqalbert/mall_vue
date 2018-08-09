@@ -113,7 +113,6 @@
                     <el-table-column prop="order_type.name" label="订单类型" ></el-table-column>
                     <el-table-column prop="order_all_money" label="总金额" align="center">
                     </el-table-column>
-
                     <el-table-column prop="order_pay_money" label="应付金额" align="center">
                     </el-table-column>
                     <el-table-column prop="freight" label="自付邮费"></el-table-column>
@@ -131,7 +130,7 @@
 
                     <el-table-column prop="after_sale_status_text" label="售后状态(未处理)" align="center">
                     </el-table-column> -->
-
+                    <el-table-column prop="express_remark" label="备注" align="center" width="100" :show-overflow-tooltip="true"></el-table-column>
                     <el-table-column prop="created_at" label="下单时间" align="center" width="180">
                     </el-table-column>
 

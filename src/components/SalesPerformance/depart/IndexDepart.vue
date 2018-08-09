@@ -63,7 +63,7 @@
                     </el-table-column>
                     <el-table-column   label="自付邮费" align="center">
                         <template slot-scope="scope">
-                            {{ scope.row.i_freight ?  scope.row.i_freight + scope.row.s_freight  : scope.row.s_freight}}
+                            {{ scope.row.i_freight ?  parseFloat(scope.row.i_freight) + parseFloat(scope.row.s_freight)  : scope.row.s_freight}}
                         </template>
                     </el-table-column>
                     <el-table-column prop="inner_count"  label="内购单数" align="center">

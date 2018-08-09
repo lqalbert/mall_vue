@@ -80,7 +80,7 @@
                             <el-table-column prop="goods_number" label="数量" width="140">
                                 <template slot-scope="scope">
                                     <span v-show="!scope.row.editState" >{{scope.row.goods_number}}</span>
-                                    <el-input-number v-show="scope.row.editState" size="small" v-model="scope.row.goods_number"></el-input-number> 
+                                    <el-input-number v-show="scope.row.editState" size="small" :min="1" v-model="scope.row.goods_number"></el-input-number> 
                                 </template>
                             </el-table-column>
                             <el-table-column prop="unit_type" label="单位" align="center" width="70"> </el-table-column>

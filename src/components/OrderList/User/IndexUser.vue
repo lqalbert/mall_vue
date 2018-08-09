@@ -94,7 +94,7 @@
 
                     <el-table-column prop="order_all_money" label="总金额" align="center">
                     </el-table-column>
-
+                    <el-table-column prop="order_type.name" label="订单类型" ></el-table-column>
                     <el-table-column prop="order_pay_money" label="应付金额" align="center">
                     </el-table-column>
 
@@ -115,7 +115,7 @@
 
                     <el-table-column prop="created_at" label="下单时间" align="center" width="180">
                     </el-table-column>
-
+                    <el-table-column prop="express_remark" label="备注" align="center" width="100" :show-overflow-tooltip="true"></el-table-column>
                     <el-table-column fixed="right" label="操作" align="center" width="210">
                         <template slot-scope="scope">
                             <el-button type="primary" @click="showRowData(scope.row)" size="small">编辑</el-button>

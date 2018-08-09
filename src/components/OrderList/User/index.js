@@ -144,9 +144,9 @@ export default {
                 this.searchForm.end = "";
             }
         },
-       
         onSearchChange(param){
             param.deal_id = this.user_id;
+            param['with'] = ['orderType'];
             this.mainparam = JSON.stringify(param);
         },
        

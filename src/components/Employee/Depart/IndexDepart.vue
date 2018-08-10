@@ -78,18 +78,11 @@
 
                     <el-table-column prop="realname" label="员工姓名" width="150">
                     </el-table-column>
-
-                    <!-- <el-table-column label="部门" width="100">
-                        <template slot-scope="scope">
-                            {{ scope.row.department ? scope.row.department.name : '' }}
-                        </template>
-                    </el-table-column> -->
                     <el-table-column label="团队小组" width="100">
                         <template slot-scope="scope">
                             {{ scope.row.group ? scope.row.group.name : '' }}
                         </template>
                     </el-table-column>
-
                     <el-table-column label="职位" width="120" >
                         <template slot-scope="scope">
                             {{ displayRoleName(scope.row.roles) }}
@@ -170,7 +163,7 @@
                         </template>
                     </el-table-column>
                     <div slot="buttonbar">
-                        <el-button size="small" type="primary" @click="openAdd">添 加</el-button>
+                        <!-- <el-button size="small" type="primary" @click="openAdd">添 加</el-button> -->
                     </div>
                 </TableProxy>
             </el-col>

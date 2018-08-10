@@ -274,7 +274,7 @@
                         if (response.data.status==0) {
                             this.$message.error(response.data.msg);
                         } else {
-                            row.editState = false;
+                            // row.editState = false;
                             this.$message.success(response.data.msg);
                             let index = vmthis.goodstableData.findIndex((element)=>{
                                 return element.id == id;
@@ -285,7 +285,7 @@
                             }
                         }
                     }).catch(response=>{
-                        row.editState = true;
+                        // row.editState = true;
                         this.$message.error(response.data.msg);
                     });
                 })

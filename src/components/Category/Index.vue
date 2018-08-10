@@ -66,7 +66,7 @@
             editDialog,
             addSub
         },
-        mixins: [PageMix,SearchTool,DataTable,config,Category],
+        mixins: [PageMix,SearchTool,DataTable,config],
         data() {
             return {
                 ajaxProxy:Category,

@@ -69,7 +69,9 @@ const PageList = {
     'OrderType':(resolve) => { require(['./OrderType/Index.vue'], resolve)},
     'SlideManage':(resolve) => { require(['./SlideManage/Index.vue'], resolve)},
     //订单保证金日志
-    'OrderDepositLog': (resolve) => { require(['./OrderDepositLog/Index.vue'], resolve) }
+    'OrderDepositLog': (resolve) => { require(['./OrderDepositLog/Index.vue'], resolve) },
+    //前台展示用的分类
+    'FrontCategory' : (resolve) => { require(['./FrontCategory/Index.vue'], resolve)}
 };
 
 export default PageList;

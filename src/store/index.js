@@ -6,6 +6,7 @@ import user from './modules/user';
 import strategy from './modules/strategy';
 import role from './modules/role';
 import goodsCates from './modules/goodsCates';
+import frontCates from './modules/frontCate';
 import area from './modules/area';
 import carton from './modules/carton';
 import express from './modules/express';
@@ -40,7 +41,8 @@ const store = new Vuex.Store({
         departments,
         groups,
         freightTemplate,
-        orderType
+        orderType,
+        frontCates
     },
     strict: process.env.NODE_ENV !== 'production'
 });

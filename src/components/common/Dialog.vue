@@ -62,9 +62,6 @@
             onBeforeOpen(param){
                 this.$emit('before-open', param);
             },
-            onBeforeOpen(param){
-                this.$emit('before-open', param);
-            },
             onOpened(param){
                 this.$emit('opened', param);
             },

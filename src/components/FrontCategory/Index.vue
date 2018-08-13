@@ -47,6 +47,7 @@
         <CateAdd name="front-cate-add" :ajax-proxy="frontCateAjax" @submit-success="handleReload"></CateAdd>
         <addSub name="front-subcate-add" :ajax-proxy="frontCateAjax" @submit-success="handleReload"></addSub>
         <addGoods name="front-add-goods" @submit-success="handleReload2"></addGoods>
+        <Edit name="front-cate-edit" :ajax-proxy="frontCateAjax" @submit-success="handleReload"></Edit>
     </div>
 </template>
 <script>
@@ -58,6 +59,7 @@
     import CateAdd from './CateAdd';
     import addSub from './addSub';
     import addGoods from './addGoods';
+    import Edit from './Edit';
 
     export default {
         name: 'FrontCategory',
@@ -66,7 +68,8 @@
         components:{
             CateAdd,
             addSub,
-            addGoods
+            addGoods,
+            Edit
         },
         data () {
             return {
@@ -100,9 +103,11 @@
                 this.mainparam = JSON.stringify({front_id:data.id})
             },
             showEdit(row) {
-                
+                event.stopPropagation()
+                this.$modal.show('front-cate-edit', row);
             },
             handleDelete(id){
+                event.stopPropagation()
                 FrontCategoryAjax.delete(id).then((response)=>{
                     if (response.data.status == 1) {
                         this.handleReload();
@@ -115,14 +120,18 @@
                 this.$modal.show('front-cate-add');
             },
             showGoodAdd(){
-                this.$modal.show('front-add-goods', {parent: this.currentCate, front_ids: this.currentPath});
+                if (this.currentCate) {
+                    this.$modal.show('front-add-goods', {parent: this.currentCate, front_ids: this.currentPath});
+                } else {
+                    this.$message.error('请选中一个分类');
+                }
+                
             },
             addSub(row){
+                event.stopPropagation()
                 this.$modal.show('front-subcate-add', {parent: row});
             },
-            deleteData(){
-                // console.log('delete one');
-            },
+            
             handleReload(){
                 // console.log('重加载');
                 this.initCates();
@@ -139,7 +148,7 @@
                 <span style="float: right; margin-right: 20px">
                     <el-button size="mini" type="success" on-click={ () => this.showEdit(data) }>编 辑</el-button>
                     <el-button size="mini"  type="success" on-click={ () => this.addSub(data) }> 添加子类 </el-button>
-                    <el-button size="mini" type="danger" on-click={ () => this.deleteData(data.id) }>删除分类</el-button>
+                    <el-button size="mini" type="danger" on-click={ () => this.handleDelete(data.id) }>删除分类</el-button>
                 </span>
                 </span>);
             },

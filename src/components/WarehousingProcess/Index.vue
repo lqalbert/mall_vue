@@ -61,7 +61,7 @@
                                 </template>
                             </el-table-column>
 
-                            <el-table-column prop="goods_purchase_price" label="采购价" align="center">
+                            <el-table-column prop="goods_purchase_price" label="采购单价" align="center">
                                 <template slot-scope="scope">
                                     <el-input v-model="scope.row.goods_purchase_price"></el-input>
                                 </template>

@@ -224,6 +224,9 @@ export default {
 
     methods:{
         pstatusChange(param){
+            param.status = '';
+            param.is_stop = '';
+            param.print_status = "";
             switch(parseInt(param.pstatus)){
                 case 0:
                 case 1:
@@ -237,8 +240,10 @@ export default {
                     param.status = 3;
                     break;
                 case 5:
-                    param.assign_print_status = 1;
-                    param.express_print_status  = 1;
+                    // param.assign_print_status = 1;
+                    // param.express_print_status  = 1;
+                    param.print_status = 1;
+                    param.status = '';
                     break;
                 case 6:
                     param.status = 4;
@@ -246,8 +251,7 @@ export default {
                 default :
                     param.status = '';
                     param.is_stop = '';
-                    param.assign_print_status = '';
-                    param.express_print_status = '';
+                    param.print_status = "";
                     break;
             }
         },

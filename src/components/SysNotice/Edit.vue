@@ -180,5 +180,9 @@
         height: 300px !important;
         max-height: 400px;
     }
+
+    .quill-editor .ql-container {
+        height: 400px !important;
+    }
 </style>
       

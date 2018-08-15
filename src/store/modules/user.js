@@ -111,6 +111,7 @@ const user = {
                 context.commit('logout');
             }).catch(function(){ 
                 alert('出错了');
+                context.commit('logout');
             })
             
         },

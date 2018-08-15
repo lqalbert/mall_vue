@@ -164,7 +164,7 @@
                             :before-upload="beforeAvatarUpload">
                             <i class="el-icon-plus"></i>
                         </el-upload>
-                        <el-dialog v-model="dialogVisible" size="tiny">
+                        <el-dialog v-model="dialogVisible" size="tiny" :modal="false">
                             <img width="100%" :src="dialogImageUrl" alt="">
                         </el-dialog>
                         <div class="el-upload__tip">默认第一张图片为封面图片</div>

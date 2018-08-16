@@ -42,7 +42,7 @@
 
                     <el-table-column prop="produce_in_total" sortable='custom' label="累计入库总数量"></el-table-column>
 
-                    <el-table-column prop="saleable_count"  label="当前库存余量"></el-table-column>
+                    <el-table-column prop="saleable_count" sortable='custom' label="当前库存余量"></el-table-column>
 
                     <el-table-column prop="sales_count" sortable='custom' label="本次销售数量"></el-table-column>
 

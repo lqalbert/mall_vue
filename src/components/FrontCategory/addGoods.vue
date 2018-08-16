@@ -1,6 +1,6 @@
 <template>
         <div >
-            <MyDialog title="添加关联" :name="name" :width="width" :height="height" @before-open="onBeforeOpen">
+            <MyDialog title="添加关联" :name="name" :width="width" :height="height" @before-open="onBeforeOpen" @before-close="onBeforeClose">
                 <el-form :model="addForm"  ref="addForm" :rules="rules" :label-width="labelWidth"   :label-position="labelPosition">
                     <el-row>
                         <el-col :span="12">
@@ -76,6 +76,9 @@
                     let parent = param.params.parent;
                     this.parentName = parent.label;
                     this.addForm.front_id = param.params.front_ids;
+                },
+                onBeforeClose(){
+                    this.goods_id = null;
                 },
                 remoteMethod(q){
                     if (q != "" ) {

@@ -3,21 +3,35 @@
             <MyDialog title="编辑" :name="name" :width="width" :height="height" @before-open="onOpen">
                 <el-form :model="editForm" :rules="rules" :label-width="labelWidth"  ref="editForm" :label-position="labelPosition">
                     <el-row>
-                        <el-col :span="12">
-                            <el-form-item label="访问网址" prop="title" >
-                                <el-input class="name-input" v-model="editForm.title"  auto-complete="off" ></el-input>
+                        <el-col :span="14">
+                            <el-form-item label="测试服务器访问网址" prop="title" >
+                                <el-input  v-model="editForm.title"  auto-complete="off" ></el-input>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="14">
+                            <el-form-item label="开发访问网址" prop="title1" >
+                                <el-input  v-model="editForm.title1"  auto-complete="off" ></el-input>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="14">
+                            <el-form-item label="正式服务器访问网址" prop="title2" >
+                                <el-input  v-model="editForm.title2"  auto-complete="off" ></el-input>
                             </el-form-item>
                         </el-col>
                     </el-row>
                 </el-form>
-                <div slot="dialog-foot" class="dialog-footer">
-                    <el-button @click="handleClose">取 消</el-button>
-                    <submit-button
-                        :observer="dialogThis"
-                        @click="formSubmit('editForm')" >
-                        保 存
-                    </submit-button>
-                </div>
+                <!--<div slot="dialog-foot" class="dialog-footer">-->
+                    <!--<el-button @click="handleClose">取 消</el-button>-->
+                    <!--<submit-button-->
+                        <!--:observer="dialogThis"-->
+                        <!--@click="formSubmit('editForm')" >-->
+                        <!--保 存-->
+                    <!--</submit-button>-->
+                <!--</div>-->
             </MyDialog>
         </div>
     </template>
@@ -35,10 +49,12 @@
                 return {
                     dialogThis:this,
                     labelPosition:"right",
-                    labelWidth:'80px',
+                    labelWidth:'160px',
                     editForm:{
                         id:"",
-                        title:"暂未实现该功能",
+                        title:"http://yanggang112.51vip.biz:50009/questionnaire",
+                        title1:"http://localhost:8000/questionnaire",
+                        title2:"http://pulata.com.cn/questionnaire",
                     },
                     rules:{
 

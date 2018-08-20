@@ -7,6 +7,7 @@ import ReturnGoods from '../ReturnGoods';
 import ExchangeGoods from '../ExchangeGoods';
 import CheckOrder from '../checkOrder';
 import RefundCheck from '../Rcheck';
+import AfterSaleAdd from '../AfterSaleAdd';
 
 const ORDER_ASSIGN = 3;
 
@@ -18,7 +19,8 @@ const mix = {
         ReturnGoods,
         ExchangeGoods,
         CheckOrder,
-        RefundCheck
+        RefundCheck,
+        AfterSaleAdd
     },
     data(){
         return {
@@ -94,6 +96,15 @@ const mix = {
             if (this.openDialogCheck()) {
                  this.$modal.show('returnGoods', this.row_model);
             }
+        },
+        /** 发起退款弹窗  新 */
+        openRefundDialog(){
+            if (this.openDialogCheck()) {
+                this.$modal.show('after-add', this.row_model);
+                console.log('aaa');
+            }
+
+            
         },
         
         // hyf 添加

@@ -99,7 +99,7 @@
 
                     <el-table-column prop="order_all_money" label="总金额" align="center">
                     </el-table-column>
-                    <el-table-column prop="order_type.name" label="订单类型" ></el-table-column>
+                    <el-table-column prop="type_object.name" label="订单类型" ></el-table-column>
                     <el-table-column prop="order_pay_money" label="应付金额" align="center">
                     </el-table-column>
 
@@ -263,7 +263,6 @@ export default {
         onSearchChange(param){
             // param.department_id = this.getUser.department_id;
             param.group_id = this.getUser.group_id == 0 ? -1 : this.getUser.group_id;
-            param['with'] = ['orderType'];
             this.mainparam = JSON.stringify(param);
         },
         getUsers(data){

@@ -103,7 +103,6 @@
                         <el-form-item label="退款收取运费">
                                 <el-input v-model="rowInfoForm.return_fee"><template slot="append">元</template></el-input>
                         </el-form-item>
-                         
                     </el-col>
                 </el-row>
 
@@ -273,7 +272,6 @@
             getAjaxPromise(model) {
                 return AfterSaleAjaxProxy.create(model);
             },
-
             next(){
                 this.active ++ ;
             },
@@ -325,7 +323,20 @@
                 })
             },
             caluRefundAll(){
-                //遍历goods 
+                //遍历goods  退货的 数量 * 退款金额
+                if (this.goods.length > 0) {
+                    let re = 0;
+                    this.goods.forEach(function (value) {
+                        if (value.status == 1) {
+                              re + value.return_num * value.saled_price
+                        } 
+                    });
+
+                   
+                    //this.rowInfoForm.return_fee =  
+                    console.log('caluRefundAll', re );
+                }
+                
             },
             triggerCalculate(){
                 this.caluRefundAll();

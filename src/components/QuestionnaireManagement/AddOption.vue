@@ -96,8 +96,9 @@
 
                     },
                     types:[
-                        {id:1,name:'选择题'},
-                        {id:2,name:'填空题'}
+                        {id:1,name:'单项选择型'},
+                        {id:2,name:'多项选择型'},
+                        {id:3,name:'文字填写型'}
                     ],
                 }
             },
@@ -111,7 +112,7 @@
                     this.getGoods({goods_name: v});
                 },
                 typeChange(v) {
-                    if (v == 2) {
+                    if (v == 3) {
                         this.typeTwo = true;
                     } else {
                         this.typeTwo = false;

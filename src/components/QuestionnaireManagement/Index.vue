@@ -53,8 +53,9 @@
 
                <el-table-column label="题型" prop="problem_type" align="center">
                    <template slot-scope="scope">
-                       <span v-if="scope.row.problem_type==1">选择题</span>
-                       <span v-if="scope.row.problem_type==2">填空题</span>
+                       <span v-if="scope.row.problem_type==1">单项选择型</span>
+                       <span v-if="scope.row.problem_type==2">多项选择型</span>
+                       <span v-if="scope.row.problem_type==3">文字填写型</span>
                    </template>
                </el-table-column>
 

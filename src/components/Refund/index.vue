@@ -89,6 +89,8 @@
 
                         <el-button type="primary" size="small" @click="openRefundInventory">退货入库</el-button>
                         <el-button type="primary" size="small">坏货出库</el-button>
+                       
+                       
                     </div>
                 </TableProxy>
             </el-col>
@@ -303,6 +305,9 @@
                     return ;
                 }
                 this.$modal.show('refund-inventory', this.currentRow);
+            },
+            openFront(){
+                window.open("/front-question/1");
             }
 
         },

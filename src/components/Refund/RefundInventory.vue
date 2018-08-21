@@ -69,7 +69,7 @@
                         </el-col>
                     </el-row>
 
-                    <el-row class="red">
+                    <el-row class="red" id="red_tip1">
                         <el-col :span="24">
                             <el-form-item label="审核结果">
                                 {{ afterModel.check_status_text }}
@@ -77,7 +77,7 @@
                         </el-col>
                     </el-row>
 
-                    <el-row class="red">
+                    <el-row class="red" id="red_tip2">
                         <el-col :span="24">
                             <el-form-item label="审核备注">
                                 {{ afterModel.check_mark }}
@@ -94,17 +94,17 @@
                                 <el-table-column label="退换数量" prop="return_num"  align="center" width="150"  > </el-table-column>
                                 <el-table-column label="入库数量" align="center" width="150">
                                     <template slot-scope="scope">
-                                        <el-input size="small"></el-input>
+                                        <el-input-number :min="0" :max="scope.row.return_num"  size="small" v-model="scope.row.return_inventory" :controls="false"></el-input-number>
                                     </template>
                                 </el-table-column>
                                 <el-table-column label="损坏数量" align="center" width="150">
                                     <template slot-scope="scope">
-                                        <el-input size="small"></el-input>
+                                        <el-input-number :min="0" :max="scope.row.return_num" size="small" v-model="scope.row.destroy_num" :controls="false"></el-input-number>
                                     </template>
                                 </el-table-column>
                                 <el-table-column label="操作"     align="center" width="150">
                                     <template slot-scope="scope">
-                                        <el-button type="danger" size="small">删除</el-button>
+                                        <el-button type="danger" size="small" @click="deleteGoods(scope.row)">删除</el-button>
                                     </template>
                                 </el-table-column>
                             </el-table>
@@ -121,8 +121,8 @@
                     <el-button @click="handleClose">取 消</el-button>
                     <submit-button
                             :observer="dialogThis"
-                            @click="formSubmit('checkForm')" >
-                        保 存
+                            @click="beforeSubmit" >
+                        提交入库
                     </submit-button>
                 </div>
             </MyDialog>
@@ -161,7 +161,8 @@
                     assignModel:{user_name:"", express_name:"", express_sn:"" },
                     afterModel:{ fee:"", return_fee:"" },
                     addressModel:{name:"", fixed_telephone:"", address:"" },
-                    goods:[]
+                    goods:[],
+                    env_url:"http://localhost:8000/"
     
                 }
             },
@@ -179,21 +180,27 @@
                     this.checkForm.id = param.params.id;
                     this.checkForm.status = param.params.status;
                     this.afterModel = param.params;
-                    this.assignModel = param.params;
+                    // this.assignModel = param.params;
     
-                    OrderAjax.find(param.params.order_id, {with:['address']}).then((response)=>{
-                        this.orderModel = response.data;
-                        this.addressModel = this.orderModel.address;
-                    }).catch((response)=>{
+                    // OrderAjax.find(param.params.order_id, {with:['address']}).then((response)=>{
+                    //     this.orderModel = response.data;
+                    //     this.addressModel = this.orderModel.address;
+                    // }).catch((response)=>{
                         
-                    });
+                    // });
+                    this.orderModel = param.params.order;
     
                     OrderGoodsAjax.get({order_id:param.params.order_id, after:1, appends:['status_text']}).then((response)=>{
+                        response.data.items.forEach((element)=>{
+                            element.return_inventory = 0;
+                            element.destroy_num = 0;
+                        });
                         this.goods = response.data.items;
                     })
     
-                    AssignAjax.get({order_id: param.params.order_id, fields:['id','express_name','express_sn']}).then((response)=>{
+                    AssignAjax.get({order_id: param.params.order_id, fields:['id','express_name','express_sn','address_id'], with:['address']}).then((response)=>{
                         this.assignModel = response.data.items[0];
+                        this.addressModel = this.assignModel.address;
                     }).catch(()=>{
     
                     });
@@ -201,16 +208,31 @@
                 getAjaxPromise(model){
                     return this.ajaxProxy.check(model.id, model);
                 },
-            },
-            
-    
+                deleteGoods(row){
+                    this.goods = this.goods.filter((element) => {
+                        return element.id != row.id;
+                    })
+                },
+                beforeSubmit(){
+                    if (this.goods.length == 0) {
+                        this.$message.error('商品数量不能为0');
+                    }
+
+                    this.goods.forEach((element) => {
+
+                    });
+
+
+                    this.formSubmit('checkForm');
+                }
+            }
         }
     </script>
     
     <!-- Add "scoped" attribute to limit CSS to this component only -->
     <style scoped>
-        .red {
-            color: red;
+        #red_tip1, #red_tip2, .red {
+            color: red !important;
         }
         .el-form-item {
             margin-bottom: 5px;

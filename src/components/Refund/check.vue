@@ -160,7 +160,7 @@
                 this.checkForm.id = param.params.id;
                 this.checkForm.status = param.params.status;
                 this.afterModel = param.params;
-                this.assignModel = param.params;
+                // this.assignModel = param.params;
 
                 OrderAjax.find(param.params.order_id, {with:['address']}).then((response)=>{
                     this.orderModel = response.data;

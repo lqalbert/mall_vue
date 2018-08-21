@@ -83,7 +83,7 @@
                             </el-table-column>
                             <el-table-column label="退换金额"   align="center" width="150"  >
                                 <template slot-scope="scope">
-                                    <el-input size="small" v-model="scope.row.saled_price" @blur="triggerCalculate"></el-input>
+                                    <el-input size="small" v-model="scope.row.refund_price" @blur="triggerCalculate"></el-input>
                                 </template>
                             </el-table-column>
                             <el-table-column label="操作" width="100">
@@ -101,7 +101,7 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="退款收取运费">
-                                <el-input v-model="rowInfoForm.return_fee"><template slot="append">元</template></el-input>
+                            <el-input v-model="rowInfoForm.return_fee"><template slot="append">元</template></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -109,7 +109,7 @@
                 <el-row>
                     <el-col :span="24">
                         <el-form-item label="退换原因">
-                            <el-input type="area" :rows="2"></el-input>
+                            <el-input type="textarea" v-model="rowInfoForm.reason" :rows="2"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -117,7 +117,7 @@
                 <el-row>
                     <el-col :span="24">
                         <el-form-item label="备注">
-                            <el-input type="area" :rows="2"></el-input>
+                            <el-input type="textarea" v-model="rowInfoForm.remark" :rows="2"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -161,56 +161,56 @@
                 rowInfoForm: {
                     cus_id:"",
                     order_id: "",
+                    assign_id:"",
                     order_sn: "",
                     user_id:'',
                     user_name:'',     
                     remark:'',
+                    reason:'',
                     entrepot_id:'',
                     return_unit:'',
                     return_fee:'',
-                    receive_unit:'',
-                    resend_unit:'',
-                    express:'',
-                    express_sn:'',
-                    service_fee:'',
-                    pay_at_return:0,
-                    is_special:0,
+                    // receive_unit:'',
+                    // resend_unit:'',
+                    // express:'',
+                    // express_sn:'',
+                    // service_fee:'',
+                    // pay_at_return:0,
+                    // is_special:0,
                     fee:'',
-                    user_name:'',
-                    remark:'',
-                    resend_fee:'',
-                    reservice_fee:''
+                    // resend_fee:'',
+                    // reservice_fee:''
                 },
                 goods:[],
-                return_cause:[
-                    {id:1,name:'a.非常规产品问题(总部担责)'},
-                    {id:2,name:'b.常规产品问题(总部3成交方7担责)'},
-                    {id:3,name:'b1.常规产品过敏问题(总部3成交方7担责)'},
-                    {id:4,name:'b2.常规包装质量问题(总部3成交方7担责)'},
-                    {id:5,name:'c.物流因素及运输破损(发货方担责找快递索赔)'},
-                    {id:6,name:'d.订单录入错误(成交方担责)'},
-                    {id:7,name:'e.错发或漏发(发货方担责)'},
-                    {id:8,name:'f.客户拒收(成交方担责)'},
-                    {id:9,name:'g.其他无理由退换(成交方担责)'},
-                    {id:10,name:'h.产品破损-无理由退换(成交方5发货方5)'},
-                ],
+                // return_cause:[
+                //     {id:1,name:'a.非常规产品问题(总部担责)'},
+                //     {id:2,name:'b.常规产品问题(总部3成交方7担责)'},
+                //     {id:3,name:'b1.常规产品过敏问题(总部3成交方7担责)'},
+                //     {id:4,name:'b2.常规包装质量问题(总部3成交方7担责)'},
+                //     {id:5,name:'c.物流因素及运输破损(发货方担责找快递索赔)'},
+                //     {id:6,name:'d.订单录入错误(成交方担责)'},
+                //     {id:7,name:'e.错发或漏发(发货方担责)'},
+                //     {id:8,name:'f.客户拒收(成交方担责)'},
+                //     {id:9,name:'g.其他无理由退换(成交方担责)'},
+                //     {id:10,name:'h.产品破损-无理由退换(成交方5发货方5)'},
+                // ],
                 model: {},
                 rules:{
-                    return_fee:[
-                        {pattern:PRICE_REG,message: '格式为xx.xx', trigger:'blur'}
-                    ],
-                    service_fee:[
-                        {pattern:PRICE_REG,message: '格式为xx.xx', trigger:'blur'}
-                    ],
+                    // return_fee:[
+                    //     {pattern:PRICE_REG,message: '格式为xx.xx', trigger:'blur'}
+                    // ],
+                    // service_fee:[
+                    //     {pattern:PRICE_REG,message: '格式为xx.xx', trigger:'blur'}
+                    // ],
                     fee:[
                         {required:true,pattern:PRICE_REG,message: '格式为xx.xx', trigger:'blur'}
                     ],
-                    resend_fee:[
-                        {pattern:PRICE_REG,message: '格式为xx.xx', trigger:'blur'}
-                    ],
-                    reservice_fee:[
-                        {pattern:PRICE_REG,message: '格式为xx.xx', trigger:'blur'}
-                    ],
+                    // resend_fee:[
+                    //     {pattern:PRICE_REG,message: '格式为xx.xx', trigger:'blur'}
+                    // ],
+                    // reservice_fee:[
+                    //     {pattern:PRICE_REG,message: '格式为xx.xx', trigger:'blur'}
+                    // ],
                 },
                 assignRow:null,
                 addressRow:null
@@ -246,6 +246,9 @@
                     
                     response.data.items.forEach(element => {
                         element.return_num = parseInt(element.goods_number);
+                        element.refund_price = element.saled_price;
+                        delete element.saled_price;
+                        delete element.order;
                     });
                     this.goods = response.data.items;
                 });
@@ -292,19 +295,19 @@
                 
                 for (let i = 0; i < this.rowInfoForm.goods.length; i++) {
                     let element = this.rowInfoForm.goods[i];
-                    if(element.reason== null|| element.reason== ''){
-                        this.$message.error('请选择退换货原因');
-                        return ;
-                    }
+                    // if(element.reason== null|| element.reason== ''){
+                    //     this.$message.error('请选择退换货原因');
+                    //     return ;
+                    // }
                     if(element.status == 0){
                         this.$message.error('请选择退/换货');
                         return ;
                     }
-                    if(element.inventory == null){
-                        console.log(element);
-                        this.$message.error('请选择入/出货');
-                        return ;
-                    }
+                    // if(element.inventory == null){
+                    //     console.log(element);
+                    //     this.$message.error('请选择入/出货');
+                    //     return ;
+                    // }
                 }
                 // console.log(this.goods);
                 this.formSubmit('rowInfoForm');
@@ -328,13 +331,10 @@
                     let re = 0;
                     this.goods.forEach(function (value) {
                         if (value.status == 1) {
-                              re + value.return_num * value.saled_price
-                        } 
+                            re += value.return_num * value.refund_price
+                        }
                     });
-
-                   
-                    //this.rowInfoForm.return_fee =  
-                    console.log('caluRefundAll', re );
+                    this.rowInfoForm.fee = re; 
                 }
                 
             },
@@ -361,5 +361,8 @@
     }
     .name-input{
         max-width: 217px;
+    }
+    .el-form-item {
+        margin-bottom: 5px;
     }
 </style>

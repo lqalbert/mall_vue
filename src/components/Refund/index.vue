@@ -85,7 +85,10 @@
                         <el-button type="primary" size="small" v-if="hasSure" @click="handleRefundSure">退换货确认</el-button>
                         <el-button type="primary" size="small" @click="showRefundCheck">审核</el-button>
                         <el-button type="primary" size="small" @click="showEdit">编辑</el-button>
-                        <el-button type="primary" size="small" @click="inventory">入库操作</el-button>
+                        <!-- <el-button type="primary" size="small" @click="inventory">入库操作</el-button> -->
+
+                        <el-button type="primary" size="small" @click="openRefundInventory">退货入库</el-button>
+                        <el-button type="primary" size="small">坏货出库</el-button>
                     </div>
                 </TableProxy>
             </el-col>
@@ -102,6 +105,7 @@
             @submit-success="handleReload">
         </refund-check>
 
+        <RefundInventory name="refund-inventory"></RefundInventory>
         <!-- <AdvancedQuery name="show-advanced-query" :ajax-proxy="orderBasicAjaxProxy"/> -->
     </div>
 
@@ -116,6 +120,7 @@
     import refundCheck from "./check";
     import SubDetail from './SubDetail';
     import Edit from './Edit';
+    import RefundInventory from  './RefundInventory';
 
     export default {
         name: 'Refund',
@@ -124,7 +129,8 @@
         components:{
             refundCheck,
             SubDetail,
-            Edit
+            Edit,
+            RefundInventory
         },
         data () {
             return {
@@ -290,6 +296,13 @@
                 }).catch(response=>{
 
                 });
+            },
+            openRefundInventory(){
+                if (!this.currentRow) {
+                    this.$message.error('请选择一行');
+                    return ;
+                }
+                this.$modal.show('refund-inventory', this.currentRow);
             }
 
         },

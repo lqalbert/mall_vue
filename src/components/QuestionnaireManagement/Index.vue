@@ -33,7 +33,7 @@
 
                     <el-table-column width="180" fixed="right"  label="操作" align="center">
                         <template slot-scope="scope">
-                            <el-button type="primary" @click="showEdit(scope.row)" size="small">复制地址</el-button>
+                            <el-button type="primary" @click="showEdit(scope.row)" size="small">地址跳转</el-button>
                             <el-button type="primary" @click="showQuestionnaireDetails(scope.row)"  size="small" >详 情</el-button>
                             <!--<el-button type="danger"  @click="handleDelete(scope.row.id)" size="small" >删除</el-button>-->
                         </template>
@@ -53,8 +53,9 @@
 
                <el-table-column label="题型" prop="problem_type" align="center">
                    <template slot-scope="scope">
-                       <span v-if="scope.row.problem_type==1">选择题</span>
-                       <span v-if="scope.row.problem_type==2">填空题</span>
+                       <span v-if="scope.row.problem_type==1">单项选择型</span>
+                       <span v-if="scope.row.problem_type==2">多项选择型</span>
+                       <span v-if="scope.row.problem_type==3">文字填写型</span>
                    </template>
                </el-table-column>
 

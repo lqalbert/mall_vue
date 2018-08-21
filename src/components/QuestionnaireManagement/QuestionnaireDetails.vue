@@ -19,7 +19,7 @@
                 <el-row type="flex" justify="space-between">
                     <el-col :span="4">客户列表</el-col>
                 </el-row>
-                <el-table :data="users" border :height="200" @row-dblclick="getAnswers">
+                <el-table :data="users" border :height="240" @row-dblclick="getAnswers">
                     <el-table-column label="用户姓名" align="center" prop="name" ></el-table-column>
                     <el-table-column label="手机号" align="center" prop="phone" ></el-table-column>
                     <el-table-column label="微信" align="center" prop="weixin_nickname" ></el-table-column>

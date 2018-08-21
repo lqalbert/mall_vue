@@ -3,23 +3,14 @@
             <MyDialog title="编辑" :name="name" :width="width" :height="height" @before-open="onOpen">
                 <el-form :model="editForm" :rules="rules" :label-width="labelWidth"  ref="editForm" :label-position="labelPosition">
                     <el-row>
-                        <el-col :span="14">
-                            <el-form-item label="测试服务器访问网址" prop="title" >
-                                <el-input  v-model="editForm.title"  auto-complete="off" ></el-input>
+                        <el-col :span="16">
+                            <el-form-item label="访问网址" prop="title" >
+                                <el-input   v-text="title" auto-complete="off" ></el-input>
                             </el-form-item>
                         </el-col>
-                    </el-row>
-                    <el-row>
-                        <el-col :span="14">
-                            <el-form-item label="开发访问网址" prop="title1" >
-                                <el-input  v-model="editForm.title1"  auto-complete="off" ></el-input>
-                            </el-form-item>
-                        </el-col>
-                    </el-row>
-                    <el-row>
-                        <el-col :span="14">
-                            <el-form-item label="正式服务器访问网址" prop="title2" >
-                                <el-input  v-model="editForm.title2"  auto-complete="off" ></el-input>
+                        <el-col :span="4">
+                            <el-form-item>
+                                <el-button type="primary" size="small" @click="goHtml()">跳转到页面</el-button>
                             </el-form-item>
                         </el-col>
                     </el-row>
@@ -39,6 +30,7 @@
     <script>
         import DialogForm from '../../mix/DialogForm';
         import APP_CONST from '../../config';
+        import {QUESTIONNAIRE_URL} from '../../config';
         import { quillRedefine } from 'vue-quill-editor-upload';
         export default {
             name: 'Copy',
@@ -49,7 +41,7 @@
                 return {
                     dialogThis:this,
                     labelPosition:"right",
-                    labelWidth:'160px',
+                    labelWidth:'140px',
                     editForm:{
                         id:"",
                         title:"http://yanggang112.51vip.biz:50009/questionnaire",
@@ -59,16 +51,29 @@
                     rules:{
 
                     },
-                    model:null
+                    title:'',
+                    title1:'',
+                    title2:'',
+                    model:null,
                 }
             },
-    
             methods:{
                 onOpen(param){
+                    this.model = param.params.model;
+                },
+                goHtml(){
+                    window.open(this.title);
                 },
                 getAjaxPromise(model){
                     return this.ajaxProxy.update(model.id, model);
                 } ,
+            },
+            watch:{
+              model:function (val,oldval) {
+                  // this.title = "http://yanggang112.51vip.biz:50009/questionnaire" + '?id=' + val.id;
+                  this.title = QUESTIONNAIRE_URL + val.id;
+                  // this.title2 = "http://pulata.com.cn/questionnaire" + '?id=' + val.id;
+              }
             },
             created(){
             }

@@ -35,6 +35,12 @@
         export default {
             name: 'Copy',
             mixins:[DialogForm],
+            props:{
+                questionnaire_url:{
+                    type:String,
+                    default:'http://localhost:8000/questionnaire/'
+                }
+            },
             components:{
             },
             data () {
@@ -44,9 +50,6 @@
                     labelWidth:'140px',
                     editForm:{
                         id:"",
-                        title:"http://yanggang112.51vip.biz:50009/questionnaire",
-                        title1:"http://localhost:8000/questionnaire",
-                        title2:"http://pulata.com.cn/questionnaire",
                     },
                     rules:{
 
@@ -70,9 +73,7 @@
             },
             watch:{
               model:function (val,oldval) {
-                  // this.title = "http://yanggang112.51vip.biz:50009/questionnaire" + '?id=' + val.id;
-                  this.title = QUESTIONNAIRE_URL + val.id;
-                  // this.title2 = "http://pulata.com.cn/questionnaire" + '?id=' + val.id;
+                  this.title = this.questionnaire_url + val.id;
               }
             },
             created(){

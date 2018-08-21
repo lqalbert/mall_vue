@@ -107,6 +107,7 @@
         <Copy
             name="copy"
             :ajax-proxy="ajaxProxy"
+            :questionnaire_url="questionnaire_url"
             @submit-success="handleReload">
         </Copy>
         <QuestionnaireDetails
@@ -158,6 +159,7 @@
                 },
                 currentRow:null,
                 rowData:null,
+                questionnaire_url:null,
                 questionnaireSurveyResults:null,
                 resultList: [],
             }
@@ -173,7 +175,12 @@
                 this.$modal.show('info', {model:row});
             },
             getQuestionnaireSurveyResults(res) {
-                this.resultList = res.data;
+                if(res.data){
+                    this.resultList = res.data;
+                }
+                if(res.questionnaire_url){
+                    this.questionnaire_url = res.questionnaire_url;
+                }
             },
             loadDepartment(res) {
                 console.log(res);
@@ -203,6 +210,7 @@
             this.$on('search-tool-change', this.onSearchChange);
             let NewObj = new QuestionnaireSurveyResultsSelectProxy({}, this.getQuestionnaireSurveyResults, this);
             this.questionnaireSurveyResults = NewObj;
+            this.questionnaireSurveyResults.load();
         }
     }
 </script>

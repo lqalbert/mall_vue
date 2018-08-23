@@ -14,17 +14,17 @@
                             <el-table-column prop="goods_number" label="数量" align="center">
                             </el-table-column>
 
-                            <el-table-column prop="unit_type" label="单位" align="center">
+                            <el-table-column prop="return_inventory" label="入库数量" align="center">
                             </el-table-column>
 
-                            <el-table-column prop="inventory" label="出/库" width="180" align="center">
-                                <template slot-scope="scope">
-                                    {{setFieldText(scope.row.inventory,'inventoryText')}}
-                                </template>
+                            <el-table-column prop="destroy_num" label="损坏数量" align="center">
                             </el-table-column>
 
-                            <el-table-column prop="reason" label="退货原因" align="center">
+                            <el-table-column prop="status_text" label="状态" width="180" align="center">
                             </el-table-column>
+
+                            <!-- <el-table-column prop="reason" label="退货原因" align="center">
+                            </el-table-column> -->
 
                             <el-table-column prop="created_at" label="订单日期" align="center">
                             </el-table-column>
@@ -218,9 +218,9 @@
                 }
             },
             handleFirst(row){
-                console.log('1');//refundGoodsData
-                console.log(row);
-                OrderGoodsAjaxProxy.get({order_id: row.order_id}).then((response)=>{
+                // console.log('1');//refundGoodsData
+                // console.log(row);
+                OrderGoodsAjaxProxy.get({order_id: row.order_id, appends:['status_text'], after:1}).then((response)=>{
                     
                     response.data.items.forEach(element => {
                         element.return_num = parseInt(element.goods_number);
@@ -230,16 +230,16 @@
                 this.tabFirst = true;
             },
             handleSecond(row){
-                console.log('2');//reSendListData
+                // console.log('2');//reSendListData
             },
             handleThird(row){
-                console.log('3');//oldOrderData
+                // console.log('3');//oldOrderData
                 this.oldOrderData = [];
                 this.oldOrderData.push(row.order);
                 this.tabThird = true;
             },
             handleFourth(row){
-                console.log("4");//refundSendData
+                // console.log("4");//refundSendData
                 this.refundSendData = [];
                 this.refundSendData.push({
                     id:row.id,
@@ -251,8 +251,8 @@
                 this.tabFourth = true;
             },
             handleFifth(row){
-                console.log('5');//refundPayData
-                console.log(row);
+                // console.log('5');//refundPayData
+                // console.log(row);
                 this.refundPayData = [];
                 this.refundPayData.push({
                     id:row.id,
@@ -266,18 +266,18 @@
                 this.tabFifth = true;
             },
             handleSixth(row){
-                console.log('6');//refundOrderCusData
-                console.log(row);
+                //console.log('6');//refundOrderCusData
+                //console.log(row);
                 AfterSaleAjaxProxy.getCusInfo(row.cus_id).then((response)=>{
                     this.refundOrderCusData = response.data.items;
                 });
                 // this.tabSixth = true;
             },
             handleSeventh(row){
-                console.log('7');//refundOperationData
+                // console.log('7');//refundOperationData
             },
             handleEighth(row){
-                console.log('8');//refundExpressData
+                // console.log('8');//refundExpressData
             },
         },
         watch:{

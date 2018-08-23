@@ -86,11 +86,8 @@
                         <el-button type="primary" size="small" @click="showRefundCheck">审核</el-button>
                         <el-button type="primary" size="small" @click="showEdit">编辑</el-button>
                         <!-- <el-button type="primary" size="small" @click="inventory">入库操作</el-button> -->
-
                         <el-button type="primary" size="small" @click="openRefundInventory">退货入库</el-button>
                         <el-button type="primary" size="small" @click="openOutInventory">坏货出库</el-button>
-                       
-                       
                     </div>
                 </TableProxy>
             </el-col>

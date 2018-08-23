@@ -88,7 +88,7 @@
                         <!-- <el-button type="primary" size="small" @click="inventory">入库操作</el-button> -->
 
                         <el-button type="primary" size="small" @click="openRefundInventory">退货入库</el-button>
-                        <el-button type="primary" size="small">坏货出库</el-button>
+                        <el-button type="primary" size="small" @click="openOutInventory">坏货出库</el-button>
                        
                        
                     </div>
@@ -107,7 +107,8 @@
             @submit-success="handleReload">
         </refund-check>
 
-        <RefundInventory name="refund-inventory"></RefundInventory>
+        <RefundInventory name="refund-inventory" :ajax-proxy="ajaxProxy" @submit-success="handleReload"></RefundInventory>
+        <OutInventory name="out-inventory" :ajax-proxy="ajaxProxy" @submit-success="handleReload"></OutInventory>
         <!-- <AdvancedQuery name="show-advanced-query" :ajax-proxy="orderBasicAjaxProxy"/> -->
     </div>
 
@@ -123,6 +124,7 @@
     import SubDetail from './SubDetail';
     import Edit from './Edit';
     import RefundInventory from  './RefundInventory';
+    import OutInventory from './OutInventory';
 
     export default {
         name: 'Refund',
@@ -132,7 +134,8 @@
             refundCheck,
             SubDetail,
             Edit,
-            RefundInventory
+            RefundInventory,
+            OutInventory
         },
         data () {
             return {
@@ -305,6 +308,13 @@
                     return ;
                 }
                 this.$modal.show('refund-inventory', this.currentRow);
+            },
+            openOutInventory(){
+                if (!this.currentRow) {
+                    this.$message.error('请选择一行');
+                    return ;
+                }
+                this.$modal.show('out-inventory', this.currentRow);
             },
             openFront(){
                 window.open("/front-question/1");

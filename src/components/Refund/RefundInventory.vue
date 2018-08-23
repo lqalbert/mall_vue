@@ -1,6 +1,6 @@
 <template>
         <div >
-            <MyDialog title="退换货入库" :name="name" :width="width" :height="height" @before-open="onOpen">
+            <MyDialog title="退换货入库" :name="name" :width="width" :height="height" @before-open="onOpen" @before-close="onBeforeClose">
                 <el-form :model="checkForm" ref="checkForm" :label-width="labelWidth" :label-position="labelPosition">
                     <!-- 订单信息 -->
                     <el-row>
@@ -150,8 +150,6 @@
                     labelWidth:'100px',
                     checkForm:{
                         id:"",
-                        status:"",
-                        reason:""
                     },
                     statusArr:[
                         {id:1, status:'通过'},
@@ -161,15 +159,13 @@
                     assignModel:{user_name:"", express_name:"", express_sn:"" },
                     afterModel:{ fee:"", return_fee:"" },
                     addressModel:{name:"", fixed_telephone:"", address:"" },
-                    goods:[],
-                    env_url:"http://localhost:8000/"
-    
+                    goods:[]
                 }
             },
             methods:{
                 onOpen(param){
-                    if (param.params.status != 0) {
-                        this.$alert("已经审核,不能再次审核", "警告", {
+                    if (param.params.in_inventory != 0) {
+                        this.$alert("已经入库,不能再次入库", "警告", {
                             confirmButtonText: '确定',
                             callback: action=>{
                                 this.handleClose();
@@ -177,8 +173,8 @@
                         });
                         return false;
                     }
+
                     this.checkForm.id = param.params.id;
-                    this.checkForm.status = param.params.status;
                     this.afterModel = param.params;
                     // this.assignModel = param.params;
     
@@ -206,7 +202,7 @@
                     });
                 },
                 getAjaxPromise(model){
-                    return this.ajaxProxy.check(model.id, model);
+                    return this.ajaxProxy.rxinventory(model.id, model);
                 },
                 deleteGoods(row){
                     this.goods = this.goods.filter((element) => {
@@ -216,14 +212,32 @@
                 beforeSubmit(){
                     if (this.goods.length == 0) {
                         this.$message.error('商品数量不能为0');
+                        this.$emit('valid-error');
+                        return ;
+                    }
+                    
+                    for (let index = 0; index < this.goods.length; index++) {
+                        const element = this.goods[index];
+
+                        if (element.return_inventory == 0) {
+                            this.$message.error("入库数量不能为0");
+                            this.$emit('valid-error');
+                            return ;
+                        }
+
+                        if (element.return_inventory + element.destroy_num  > element.return_num) {
+                            this.$message.error("入库或损坏数量不正确");
+                            this.$emit('valid-error');
+                            return ;
+                        } 
                     }
 
-                    this.goods.forEach((element) => {
-
-                    });
-
-
+                    this.checkForm.goods = this.goods;
+                    
                     this.formSubmit('checkForm');
+                },
+                onBeforeClose(){
+                    this.checkForm.goods = [];
                 }
             }
         }

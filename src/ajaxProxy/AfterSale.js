@@ -19,4 +19,12 @@ proxy.inventory = function(id) {
     return this.getAxios().put('/order-after-inventory/' + id);
 }
 
+proxy.rxinventory = function(id, model) {
+    return this.getAxios().put('/order-after-in-inventory/' + id, model);
+}
+
+proxy.outinventory = function(id, model) {
+    return this.getAxios().put('/order-after-out-inventory/' + id, model);
+}
+
 export default proxy;

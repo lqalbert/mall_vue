@@ -117,6 +117,8 @@
                         <el-button type="primary" size="small"   @click="showExpress">快递单打印</el-button>
                         <el-button type="primary" size="small"   @click="showAssign">发货单打印</el-button>
                         <el-button type="primary" size="small"   @click="editExpressFee">修改实付运费</el-button>
+                        <el-button type="primary" size="small"  @click="setParcelOn">设为已揽件</el-button>
+                        <el-button type="primary" size="small" @click="orderSign">设为签收</el-button>
                     </div>
                 </TableProxy>
             </el-col>
@@ -137,6 +139,7 @@
         <RepeatOrder name="repeat-order" :ajax-proxy="ajaxProxy" @submit-success="handleReload"></RepeatOrder>
         <EditExpressFee name="edit-express-free" :ajax-proxy="ajaxProxy" @submit-success="handleReload"></EditExpressFee>
         <StopOrder name="stop-order" :ajax-proxy="ajaxProxy"  @submit-success="handleReload"></StopOrder>
+        <Signature name="signature" :ajax-proxy="ajaxProxy" ></Signature>
 
         <!-- <el-button @click="printList">获取打印机列表</el-button>
         <el-button @click="configprint">弹窗式配置打印机</el-button>
@@ -160,10 +163,11 @@ import Check from './Check';
 import RepeatOrder from './RepeatOrder';
 import StopOrder from './StopOrder';
 import EditExpressFee from './EditExpressFee';
+import Signature from './Signature';
 
 
 import DistributionCenterProxy from '@/packages/DistributionCenterSelectProxy';
-import AssignAjaxProxy from '../../ajaxProxy/Assign';
+import AssignAjaxProxy from '@/ajaxProxy/Assign';
 import SelectProxy from  '@/packages/SelectProxy';
 
 //打印
@@ -182,7 +186,8 @@ export default {
         Check,
         RepeatOrder,
         StopOrder,
-        EditExpressFee
+        EditExpressFee,
+        Signature
     },
     data(){
         return {
@@ -561,6 +566,44 @@ export default {
                     ws.doPrints(response.data.printer, print_data);
                 }
             })
+        },
+        setParcelOn(){
+            if (this.multipleSelection.length == 1) {
+                let one = this.multipleSelection[0];
+                let vmthis = this;
+                this.$confirm('确认?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    AssignAjaxProxy.parcelOn(one.id).then((response)=>{
+                        if (response.data.status == 1) {
+                            vmthis.$message.success(response.data.msg);
+                        } else {
+                            vmthis.$message.error(response.data.msg);
+                        }
+                    })
+                });
+
+
+            } else {
+                this.$message.error("勾选一个");
+                return ;
+            }
+        },
+
+        orderSign(){
+            if (this.multipleSelection.length == 1) {
+                let one = this.multipleSelection[0];
+                let vmthis = this;
+                
+                this.$modal.show('signature', one);
+
+
+            } else {
+                this.$message.error("勾选一个");
+                return ;
+            }
         }
     },
     created(){

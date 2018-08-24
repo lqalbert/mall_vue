@@ -3,14 +3,14 @@
         <MyDialog title="新建问卷" :name="name" :width="width" :height="height"  @before-open="onOpen">
             <el-form :model="addForm" :rules="rules" :label-width="labelWidth" ref="addForm" :label-position="labelPosition">
                 <el-row>
-                    <el-col :span="24" class="col">
+                    <el-col :span="24" >
                         <el-form-item label="标题" prop="title" >
                             <el-input  size="small" v-model="addForm.title"  auto-complete="off" ></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row>
-                    <el-col :span="12" class="col">
+                    <el-col :span="12" >
                         <el-form-item label="发布时间" prop="start_time">
                             <el-date-picker
                                     v-model="addForm.start_time"
@@ -39,10 +39,11 @@
                     <el-col :span="24">
                         <el-table height="300" border :data="dataList">
                             <el-table-column label="序号"  width="80" type="index" align="center"></el-table-column>
-                            <el-table-column label="题目类型" prop="problem_type" width="100" align="center">
+                            <el-table-column label="题目类型" prop="problem_type" width="120" align="center">
                                 <template slot-scope="scope">
-                                    <span v-if="scope.row.problem_type==1">选择题</span>
-                                    <span v-if="scope.row.problem_type==2">填空题</span>
+                                    <span v-if="scope.row.problem_type==1">单项选择型</span>
+                                    <span v-if="scope.row.problem_type==2">多项选择型</span>
+                                    <span v-if="scope.row.problem_type==3">文字填写型</span>
                                 </template>
                             </el-table-column>
                             <el-table-column label="问卷题目" prop="topic_name" show-overflow-tooltip  align="center"></el-table-column>
@@ -99,7 +100,16 @@
                 },
 
                 rules:{
-
+                    title:[
+                        { required: true, message:'请填写标题', trigger:'blur'},
+                        { min: 1, max: 100, message: '长度在 1 到 100 个字符', trigger: 'blur' }
+                    ],
+                    start_time:[
+                        { required: true, message:'请选择开始时间', trigger:'blur'},
+                    ],
+                    end_time:[
+                        { required: true, message:'请选择截止时间', trigger:'blur'},
+                    ],
                 },
 
                 editorOption:{},

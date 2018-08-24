@@ -46,14 +46,11 @@
                 <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" show-summary :page-size="15" @dbclick="dbclick" :default-sort="{prop: 'cus_count', order: 'descending'}">
                     <el-table-column label="序号" align="center" width="65" type="index" ></el-table-column>
                     <el-table-column prop="user_name"  label="员工" width="180"  align="center"></el-table-column>
-                    <el-table-column prop="cus_count" sortable="custom" label="成交客户数" align="center"></el-table-column>
-                    <el-table-column prop="c_cus_count" sortable="custom" label="成交单数" align="center"></el-table-column>
+                    <el-table-column prop="out_cus_cout" sortable="custom" label="成交客户数" align="center"></el-table-column>
+                    <el-table-column prop="all_sale_count" sortable="custom" label="成交单数" align="center"></el-table-column>
                     <el-table-column prop="all_pay" sortable="custom" label="成交金额" align="center"></el-table-column>
                     <el-table-column prop="refund" sortable="custom" label="退款金额" align="center"></el-table-column>
-                    <el-table-column   label="自付邮费" align="center">
-                        <template slot-scope="scope">
-                            {{ scope.row.i_freight ?  parseFloat(scope.row.i_freight) + parseFloat(scope.row.s_freight)  : scope.row.s_freight}}
-                        </template>
+                    <el-table-column prop="i_freight"  label="自付邮费" align="center">
                     </el-table-column>
                     <el-table-column prop="inner_count"  label="内购单数" align="center">
                         <template slot-scope="scope">

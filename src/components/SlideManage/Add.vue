@@ -56,6 +56,7 @@
             <div slot="dialog-foot" class="dialog-footer">
                 <el-button @click="handleClose">取 消</el-button>
                 <submit-button
+                        ref="submit-button"
                         @click="upPicture"
                         :is_load="is_load"
                         :observer="dialogThis">
@@ -73,6 +74,7 @@ import DataProxy from '@/packages/DataProxy';
 import { mapGetters, mapMutations } from 'vuex';
 import APP_CONST from '@/config';
 import { quillRedefine } from 'vue-quill-editor-upload';
+import { uploadFileSize } from '@/utils/size';
 
 export default {
     name: 'Add',
@@ -151,7 +153,14 @@ export default {
         onOpen(){
           this.fileList = [];
         },
-        beforeAvatarUpload(){
+        beforeAvatarUpload(file){
+            let re = uploadFileSize(file);
+            if (re.state == 0) {
+                this.$emit('upload-error');
+                this.$message.error(re.msg);
+                return false;
+            }
+
             this.pictureData.classify = this.addForm.classify;
             this.pictureData.user_id = this.getUser.id;
             this.pictureData.goods_id = this.addForm.goods_id;
@@ -194,10 +203,14 @@ export default {
         },
         onEditorChange(event){
            this.addForm.content =  event.html;
-        }
+        },
+        upimgErr(){
+            this.$refs['submit-button'].$emit('reset');
+        },
     },
     created(){
         this.editorOption = quillRedefine(APP_CONST.editor_option);
+        this.$on('upload-error', this.upimgErr);
     }
 }
 </script>

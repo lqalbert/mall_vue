@@ -24,7 +24,7 @@ const app = {
             }
         },
         setDepartmentss(context) {
-            AreaAjaxProxy.get().then((response)=>{
+            AreaAjaxProxy.get({pageSize:100}).then((response)=>{
                 context.commit("addDepartments", response.data.items)
             }).catch((response)=>{
                 console.log(response);

@@ -55,10 +55,8 @@
                     <el-table-column prop="user_name"  label="员工" width="180" v-if="searchForm.type=='user_id'" align="center"></el-table-column>
                     <el-table-column prop="out_cus_cout" sortable="custom" label="成交客户数" align="center"></el-table-column>
                     <el-table-column prop="all_sale_count" sortable="custom" label="成交单数" align="center"></el-table-column>
-                    <el-table-column prop="all_pay" sortable="custom" label="成交金额" align="center">
-                    </el-table-column>
-                    <el-table-column prop="refund" sortable="custom" label="退款金额" align="center">
-                    </el-table-column>
+                    <el-table-column prop="all_pay2" sortable="custom" label="成交金额" align="center"></el-table-column>
+                    <el-table-column prop="refund2" sortable="custom" label="退款金额" align="center"></el-table-column>
                     <el-table-column prop="i_freight"  label="自付邮费" align="center">
                         
                     </el-table-column>

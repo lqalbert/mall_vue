@@ -64,10 +64,10 @@
                     <el-table-column prop="c_cus_count" sortable="custom" label="成交单数" align="center"></el-table-column>
                     <el-table-column prop="all_pay" sortable="custom" label="成交金额" align="center"></el-table-column>
                     <el-table-column prop="refund" sortable="custom" label="退款金额" align="center"></el-table-column>
-                    <el-table-column   label="自付邮费" align="center">
-                        <template slot-scope="scope">
+                    <el-table-column prop="i_freight" sortable="custom" label="自付邮费" align="center">
+                        <!-- <template slot-scope="scope">
                             {{ scope.row.i_freight + scope.row.s_freight }}
-                        </template>
+                        </template> -->
                     </el-table-column>
                     <el-table-column prop="inner_count"  label="内购单数" align="center"></el-table-column>
                     <el-table-column prop="inner_sum"  label="内购金额" align="center"></el-table-column>

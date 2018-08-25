@@ -25,7 +25,7 @@ proxy.waybillPrint = function(id){
 };
 
 proxy.waybillPrints = function(ids){
-    return this.getAxios().post('/assign-waybill-prints', {params:{ids:ids}});
+    return this.getAxios().post('/assign-waybill-prints', {ids:ids});
 };
 
 

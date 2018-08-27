@@ -71,6 +71,7 @@ const PageList = {
     //订单保证金日志
     'OrderDepositLog': (resolve) => { require(['./OrderDepositLog/Index.vue'], resolve) },
     'QuestionnaireManagement':(resolve)=>{ require(['./QuestionnaireManagement/Index.vue'], resolve)},
+    'AccountSettings':(resolve)=>{ require(['./AccountSettings/Index.vue'], resolve)},
 
 };
 

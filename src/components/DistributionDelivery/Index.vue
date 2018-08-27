@@ -142,9 +142,9 @@
         <el-button @click="configprint">弹窗式配置打印机</el-button>
         <el-button @click="getPrinterConfig">Fax打印机的配置</el-button>
         <el-button @click="previewPrint">打印预览PDF</el-button>
-        <el-button @click="staticPrint">打印静态数据</el-button> -->
+        <el-button @click="staticPrint">打印静态数据</el-button> 
         <el-button @click="printGoods2">批量打印清单</el-button>
-        <el-button @click="showExpress2">批量打印快递单</el-button>
+        <el-button @click="showExpress2">批量打印快递单</el-button>-->
     </div>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
 </template>
 <script>
@@ -551,11 +551,12 @@ export default {
             AssignAjaxProxy.waybillPrints(ids).then((response)=>{
                 if (response.data.status == 1)  {
                     let tmp = response.data.data;
-                    let print_data = tmp.print_data.map((element)=>{
-                        return JSON.parse(element);
-                    })
+                    // let print_data = tmp.print_data.map((element)=>{
+                    //     return JSON.parse(element);
+                    // })
+                    let print_data = tmp.print_data;
 
-                    ws.doPrints(response.data.printer, print_data);
+                    ws.doPrints(tmp.printer, print_data);
                 }
             })
         }

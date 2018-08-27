@@ -51,8 +51,8 @@
                 </el-row>
                 <el-row>
                     <el-col :span="24">
-                        <el-form-item label="详细地址" prop="contact_phone" >
-                            <el-input type="textarea"  auto-complete="off" v-model="addForm.contact_phone" placeholder="请填写详细地址(100字以内)"></el-input>
+                        <el-form-item label="详细地址" prop="address" >
+                            <el-input type="textarea"  auto-complete="off" v-model="addForm.address" placeholder="请填写详细地址(100字以内)"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="24">

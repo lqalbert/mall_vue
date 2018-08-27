@@ -550,11 +550,13 @@ export default {
 
             AssignAjaxProxy.waybillPrints(ids).then((response)=>{
                 if (response.data.status == 1)  {
-                    let print_data = response.data.print_data.map((element)=>{
-                        return JSON.parse(element);
-                    })
+                    let tmp = response.data.data;
+                    // let print_data = tmp.print_data.map((element)=>{
+                    //     return JSON.parse(element);
+                    // })
+                    let print_data = tmp.print_data;
 
-                    ws.doPrints(response.data.printer, print_data);
+                    ws.doPrints(tmp.printer, print_data);
                 }
             })
         }

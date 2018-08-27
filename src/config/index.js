@@ -59,5 +59,11 @@ Object.defineProperty(APP_CONST, 'ATTR',{
 export const PHONE_REG = /^\d+$/;
 export const QQ_REG = /^[0-9]+$/;
 export const PRICE_REG = /^(([1-9]\d{0,9})|0)(\.\d{1,2})?$/;
+//本地开发问卷跳转打开
+export const QUESTIONNAIRE_URL = "http://localhost:8000/questionnaire?id=";
+//测试服务器问卷跳转打开
+// export const QUESTIONNAIRE_URL = "http://192.168.0.10:50004/questionnaire?id=";
+//正式服务器问卷跳转打开
+// export const QUESTIONNAIRE_URL = "http://pulata.com.cn/questionnaire?id=";
 
 export default APP_CONST;

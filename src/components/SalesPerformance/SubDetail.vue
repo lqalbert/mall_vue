@@ -5,7 +5,8 @@
                     <el-table :data="salesmanOrder" border style="width: 100%">
                         <el-table-column prop="order_sn" label="订单号" align="center"></el-table-column>
                         <el-table-column prop="cus_name" label="成交客户" align="center"></el-table-column>
-                        <el-table-column prop="cus_phone" label="客户电话" align="center"></el-table-column>
+                        <el-table-column prop="cus_phone" label="客户固话" align="center"></el-table-column>
+                        <el-table-column prop="telephone" label="客户手机" align="center"></el-table-column>
                         <el-table-column prop="trade_money" label="成交金额" align="center"></el-table-column>
                         <el-table-column prop="track_name" label="跟踪人员" align="center"></el-table-column>
                         <el-table-column prop="traded_at" label="成交时间" align="center"></el-table-column>
@@ -31,7 +32,8 @@
                    <el-table :data="internalOrder" border style="width: 100%">
                         <el-table-column prop="order_sn" label="订单号" align="center"></el-table-column>
                         <el-table-column prop="cus_name" label="成交客户" align="center"></el-table-column>
-                        <el-table-column prop="cus_phone" label="客户电话" align="center"></el-table-column>
+                        <el-table-column prop="cus_phone" label="客户固话" align="center"></el-table-column>
+                        <el-table-column prop="telephone" label="客户手机" align="center"></el-table-column>
                         <el-table-column prop="trade_money" label="成交金额" align="center"></el-table-column>
                         <el-table-column prop="track_name" label="跟踪人员" align="center"></el-table-column>
                         <el-table-column prop="traded_at" label="成交时间" align="center"></el-table-column>

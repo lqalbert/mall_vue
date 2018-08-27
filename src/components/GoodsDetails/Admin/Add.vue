@@ -124,6 +124,14 @@
                                     <el-input class="name-input" v-model="addForm.specifications"  auto-complete="off" placeholder="请填写商品规格"></el-input>
                                 </el-form-item>
                             </el-col>
+                            <el-col :span="12">
+                                <el-form-item label="套餐" prop="combo">
+                                    <el-radio-group v-model="addForm.combo">
+                                        <el-radio :label="0">否</el-radio>
+                                        <el-radio :label="1">是</el-radio>
+                                    </el-radio-group>
+                                </el-form-item>
+                            </el-col>
                         </el-row>
                         <el-row>
                             <el-col>
@@ -355,6 +363,7 @@ export default {
                 weight:'',
                 bubble_bag:10,
                 specifications:'',
+                combo:0
 
             },
             attrForm:[],

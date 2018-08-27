@@ -363,7 +363,7 @@ export default {
                 weight:'',
                 bubble_bag:10,
                 specifications:'',
-                combo:''
+                combo:0
 
             },
             attrForm:[],

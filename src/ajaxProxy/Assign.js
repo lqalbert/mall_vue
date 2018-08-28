@@ -55,4 +55,12 @@ proxy.updateWaybill = function(id){
     return this.getAxios().put('/assign-update-waybill/' +id);
 };
 
+proxy.parcelOn = function(id) {
+    return this.getAxios().put('/assign-percelon/' +id);
+}
+
+proxy.orderSign = function(id, model) {
+    return this.getAxios().put('/assign-sign/' + id, model);
+}
+
 export default proxy;

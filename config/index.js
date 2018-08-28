@@ -14,7 +14,7 @@ module.exports = {
     proxyTable: {
       "**": "http://localhost:8000", // 所有的 本地开发
       // '**':"http://yanggang112.51vip.biz:50004",  // 本地测试服务器
-      // "**":"http://pulata.riign.com/", //正式服务器
+      // "**":"http://pulata.riign.com/", //正式服务器{changeOrigin:true}
 
     },
 

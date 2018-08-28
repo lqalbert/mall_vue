@@ -110,7 +110,7 @@
                 <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" @cellclick="rowCellClick"  @dbclick="showRow" :page-size="15" :height="500" >
                     <el-table-column prop="order_sn" label="订单号" align="center" width="190">
                     </el-table-column>
-                    <el-table-column prop="order_type.name" label="订单类型" ></el-table-column>
+                    <el-table-column prop="type_object.name" label="订单类型" ></el-table-column>
                     <el-table-column prop="order_all_money" label="总金额" align="center">
                     </el-table-column>
                     <el-table-column prop="order_pay_money" label="应付金额" align="center">
@@ -146,7 +146,8 @@
                     <div slot="buttonbar">
                         <!-- 暂时注释添加 等改完后再加回去 -->
 
-                        <el-button type="primary" size="small" @click="open2()">发起退换货</el-button>
+                        <!-- <el-button type="primary" size="small" @click="open2()">发起退换货</el-button> -->
+                        <el-button type="primary" size="small" @click="openRefundDialog()">发起退换货2</el-button>
                         <!-- <el-button type="primary" size="small" @click="showExchange()">发起换货</el-button> -->
                         <!-- <el-button type="primary" size="small" @click="checkOrder()">订单审核</el-button>-->
                         <el-button type="primary" size="small" @click="cancelOrder()">取消订单</el-button>
@@ -169,6 +170,8 @@
             :ajax-proxy="ajaxProxy"  
             @submit-success="handleReload">
         </ReturnGoods>
+        
+        <AfterSaleAdd name="after-add" :ajax-proxy="ajaxProxy"></AfterSaleAdd>
 
         <ExchangeGoods name="exchangeGoods" 
             :ajax-proxy="ajaxProxy"  
@@ -273,11 +276,7 @@ export default {
         },
         loadtest(data){
             this.mainData = data.items;
-            // console.log(data.items);
         },
-        // showAdd:function(){
-        //     this.$modal.show('add-orderBasic');
-        // },
         startDateChange:function(v){
             if (v) {
                 var sdate = v.split(' - ');
@@ -289,7 +288,6 @@ export default {
             }
         },
         onSearchChange(param){
-            param['with'] = ['orderType'];
             this.mainparam = JSON.stringify(param);
         },
         getDepartment(data){

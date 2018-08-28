@@ -94,7 +94,7 @@
 
                     <el-table-column prop="order_all_money" label="总金额" align="center">
                     </el-table-column>
-                    <el-table-column prop="order_type.name" label="订单类型" ></el-table-column>
+                    <el-table-column prop="type_object.name" label="订单类型" ></el-table-column>
                     <el-table-column prop="order_pay_money" label="应付金额" align="center">
                     </el-table-column>
 

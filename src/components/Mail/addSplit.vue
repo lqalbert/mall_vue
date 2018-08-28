@@ -122,6 +122,7 @@
                     area_province_name:'',
                     area_city_name:'',
                     area_district_name:'',
+                    type:2
                 },
 
                 rules:{

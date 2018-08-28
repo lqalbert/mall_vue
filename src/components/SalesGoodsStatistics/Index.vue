@@ -70,8 +70,8 @@
         data(){
             return {
                 mainparam:"",
-                mainurl:SalesGoodsStatisticsAjax,
-                ajaxProxy:{},
+                mainurl:SalesGoodsStatisticsAjax.getUrl(),
+                ajaxProxy:SalesGoodsStatisticsAjax,
                 setPicker:{
                     disabledDate:function(time) {
                         return time.getTime() > Date.now();// - 8.64e7

@@ -71,7 +71,9 @@ const PageList = {
     //订单保证金日志
     'OrderDepositLog': (resolve) => { require(['./OrderDepositLog/Index.vue'], resolve) },
     //商品销售统计
-    'SalesGoodsStatistics': (resolve) => {require(['./SalesGoodsStatistics/Index.vue'], resolve)}
+    'SalesGoodsStatistics': (resolve) => {require(['./SalesGoodsStatistics/Index.vue'], resolve)},
+    //样品申请
+    'SampleApplication': (resolve) => {require(['./SampleApplication/Index.vue'], resolve)},
 };
 
 export default PageList;

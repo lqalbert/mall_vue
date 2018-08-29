@@ -110,11 +110,12 @@
                         </template>
                     </el-table-column>
 
-                    <el-table-column  label="操作" align="center" width="200">
+                    <el-table-column  label="操作" align="center" width="230">
                         <template slot-scope="scope">
                             <el-button-group>
                                 <el-button type="info" size="small" @click="showEdit(scope.row.id)">编辑</el-button>
                                 <el-button type="info" size="small" @click="showSpec(scope.row)">规格</el-button>
+                                <el-button type="info" size="small" @click="showCombDialog(scope.row)" :disabled="scope.row.combo!=1">套餐</el-button>
                                 <el-button type="danger" size="small" @click="handleDelete(scope.row.id)">删除</el-button>
                             </el-button-group>
                         </template>
@@ -147,6 +148,8 @@
             :cate-map="cidMapTypeId"
             :ajax-proxy="ajaxProxy">
         </Spec>
+
+        <Combo name="combo-goods" :cate-options="cateOptions"></Combo>
     </div>
 </template>
 

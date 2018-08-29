@@ -255,6 +255,53 @@
                             </el-col>
                         </el-row>
                     </el-tab-pane>
+                    <el-tab-pane label="套餐项" name="fourth">
+                        <el-row>
+                            <el-col :span="24">
+                                <el-cascader
+                                    size="small"
+                                    expand-trigger="hover"
+                                    :options="cateOptions"
+                                    v-model="comboForm.cate_id"
+                                    @change="changeComboCates"
+                                    change-on-select 
+                                    placeholder="选择分类" >
+                                </el-cascader>
+
+                                <el-select v-model="comboForm.goods" size="small" placeholder="选择套餐包含的商品" @change="changeComboGoods">
+                                    <el-option v-for="item in comboForm.goodsList" :key="item.id"  :label="item.goods_name" :value="item.id"></el-option>
+                                </el-select>
+                            </el-col>
+                        </el-row>
+                        <br>
+                        <el-alert
+                            title="需要改一下价格，使其 所有商品的价格之和等于套餐价"
+                            type="warning">
+                        </el-alert>
+                        <br>
+                        <el-row>
+                            <el-col :span='24'>
+                                <el-table  :data="comboGoods">
+                                    <el-table-column label="名称" prop="name"></el-table-column>
+                                    <el-table-column label="价格" prop="price">
+                                        <template slot-scope="scope">
+                                            <el-input size="small" v-model="scope.row.price"></el-input>
+                                        </template>
+                                    </el-table-column>
+                                    <el-table-column label="数量" prop="num" width="180">
+                                        <template slot-scope="scope">
+                                            <el-input-number size="small" v-model="scope.row.num" :mix="1"></el-input-number>
+                                        </template>
+                                    </el-table-column>
+                                    <el-table-column label="操作">
+                                        <template slot-scope="scope">
+                                            <el-button size="small" type="danger" @click="comboGoodsDelete(scope.row)">删除</el-button>
+                                        </template>
+                                    </el-table-column>
+                                </el-table>
+                            </el-col>
+                        </el-row>
+                    </el-tab-pane>
                 </el-tabs>
             </el-form>
 
@@ -274,11 +321,13 @@
 </template>
 
 <script>
-import DialogForm from '../../../mix/DialogForm';
+import DialogForm from '@/mix/DialogForm';
 import AttrItem from '../../common/AttrFormItem';
 import APP_CONST from '../../../config';
 import GoodsTypeSelectProxy from '../../../packages/GoodsTypeSelectProxy';
 import localMix from '../mix';
+
+import GoodsSelectProxy from '@/packages/GoodsSelectProxy';
 
 import { quillRedefine } from 'vue-quill-editor-upload';
 
@@ -433,6 +482,12 @@ export default {
                 ],
             },
             fileList:[],
+            comboForm:{
+                cate_id:[],
+                goods:null,
+                goodsList:[]
+            },
+            comboGoods:[]
 
         }
     },
@@ -483,7 +538,18 @@ export default {
 
         // //重写formSubmit 因为要先提交图片
         beforeFormSubmit(name){
-            //console.log(this.$refs.upload);
+            
+            if (this.addForm.combo == 1 ) {
+                if (this.comboGoods.length == 0) {
+                    this.$message.error('请添加套餐商品');
+                    this.$emit('valid-error');
+                    return ;
+                } else {
+                    this.addForm.combogoods = this.comboGoods;
+                }
+            }
+
+
             this[name].description = this.editContent;
             this.addForm.img_path = [];
             if(this.fileList.length == 0){
@@ -553,6 +619,49 @@ export default {
         },
         changefileList(file, fileList){
             this.fileList = fileList;
+        },
+        changeComboCates(val){
+            this.goodsProxy.setParam({
+                cate_id:val,
+                fields:['id','goods_name',  'goods_price']
+            }).load();
+            
+        },
+        loadGoods(data){
+            this.comboForm.goods = null;
+            this.comboForm.goodsList = data.items;
+            // console.log(this.comboForm.goodsList);
+        },
+        findGoods(id, goods){
+            return goods.find((element)=>{
+                return element.id == id;
+            })
+        },
+        changeComboGoods(v){
+            let goods = this.findGoods(v, this.comboForm.goodsList);
+            let  o = {
+                goods_id:goods.id,
+                name: goods.goods_name,
+                price: goods.goods_price,
+                num : 1
+            };
+            let hasOne = this.comboGoods.find((item)=>{
+                return item.goods_id == v
+            })
+            if (!hasOne) {
+                this.comboGoods.push(o);
+            } else {
+                this.$message.error('已添加同样的商品');
+            }
+            // this.comboGoods.push(o);
+        },
+        comboGoodsDelete(row){
+            this.comboGoods = this.comboGoods.filter((element)=>{
+                return element.goods_id != row.goods_id;
+            })
+        },
+        clean(){
+
         }
 
     },
@@ -566,11 +675,16 @@ export default {
         this.$on('submit-success', this.resetEditContent);
 
         this.goodsTypeProxy  = new GoodsTypeSelectProxy({}, this.loadGoodsAttr, this);
+        this.goodsProxy = new GoodsSelectProxy({}, this.loadGoods, this);
+        
 
         this.$on('upload-error', this.upimgErr);
+
+        this.$on('submit-success', this.clean);
     },
     beforeDestroy(){
         this.goodsTypeProxy = null;
+        this.goodsProxy = null;
     }
 }
 </script>

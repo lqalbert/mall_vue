@@ -13,8 +13,7 @@
                 </el-cascader>
             </el-form-item>
 
-            <el-form-item label="选择客户">
-                
+            <el-form-item label="选择客户" prop="cus_ids">
                 <el-transfer
                     filterable
                     :filter-method="filterMethod"
@@ -70,6 +69,9 @@
                 rules:{
                     user_id:[
                         {required:true, message:'必须选择要转让的目标员工'}
+                    ],
+                    cus_ids:[
+                        { required:true,  message:' > 要转让的客户', type:"array", min: 1}
                     ]
                 }
             }

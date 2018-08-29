@@ -140,7 +140,7 @@
     import OrderGoodsAjaxProxy from '@/ajaxProxy/Ordergoods';
     import AfterSaleAjaxProxy from '@/ajaxProxy/AfterSale';
     import AssignAjaxProxy from '@/ajaxProxy/Assign';
-    import {PRICE_REG} from '../../config/index';
+    import {PRICE_REG} from '@/config/index';
 
     import { mapGetters } from 'vuex';
     export default {
@@ -290,26 +290,21 @@
                 this.rowInfoForm.goods = this.goods;
                 if (this.rowInfoForm.goods.length == 0) {
                     this.$message.error('不能没有商品');
+                    this.$emit('valid-error'); // 这个事件会重置 button 的状态
                     return ;
                 }
                 
                 for (let i = 0; i < this.rowInfoForm.goods.length; i++) {
                     let element = this.rowInfoForm.goods[i];
-                    // if(element.reason== null|| element.reason== ''){
-                    //     this.$message.error('请选择退换货原因');
-                    //     return ;
-                    // }
+                    
                     if(element.status == 0){
                         this.$message.error('请选择退/换货');
+                        this.$emit('valid-error');
                         return ;
                     }
-                    // if(element.inventory == null){
-                    //     console.log(element);
-                    //     this.$message.error('请选择入/出货');
-                    //     return ;
-                    // }
+                    
                 }
-                // console.log(this.goods);
+                
                 this.formSubmit('rowInfoForm');
             },
             deletes(index){

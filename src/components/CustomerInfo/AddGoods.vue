@@ -90,7 +90,38 @@
                 }).load();
                 this.data2 = {};
             },
+
             addGoods(){
+                if (this.combo) {
+                    let addData = null;
+                    for (let index = 0; index < this.combo.length; index++) {
+                        const element = this.combo[index];
+                        addData = {
+                            moneyNotes:     element.price * element.goods_number,
+                            goods_id:       element.goods_id,
+                            sku_id:         0,
+                            sku_name:       null,
+                            goods_name:     element.goods_name,
+                            price:          element.price,
+                            goods_number:   element.goods_number,
+                            remark:         '',
+                            sku_sn:         element.sku_sn,
+                            unit_type:      element.unit_type,
+                            len:            element.len,
+                            width:          element.width,
+                            height:         element.height,
+                            barcode:        element.barcode,
+                            weight:         element.weight,
+                            bubble_bag:     element.bubble_bag,
+                            specifications: element.specifications,
+                        };
+                        // console.log(addData);
+                        this.$emit('add-goods', addData);
+                    }
+                    delete this.combo;
+                    return ;
+                } 
+
                 if (this.entrepot_sum > 0) {
                     let vmThis = this;
                     let item = this.data2[vmThis.goodsForm.goods_id];
@@ -123,6 +154,9 @@
                 if(goods){
                     EntrepotProductAjax.getEntrepotCount(goods.sku_sn).then((response)=>{
                         this.entrepot_sum = response.data.num;
+                        if (response.data.goods) {
+                            this.combo = response.data.goods;
+                        }
                     })  
                 }
 
@@ -155,7 +189,7 @@
                         this.data2[kk1] = vv1;
                     }
                 }
-                console.log(this.data2)
+                // console.log(this.data2)
             },
             contactItem(goods_id, price, name, num, sku_id, sku, sku_sn,unit_type,len,width,
                 height,barcode,weight,bubble_bag,specifications){

@@ -1,6 +1,8 @@
 import Add from './Add';
 import Edit from './Edit';
 import Spec from './Spec';
+import Combo from './Combo';
+
 
 //import DataProxy from '../../packages/DataProxy';
 import SearchTool from '../../../mix/SearchTool';
@@ -19,6 +21,7 @@ export default {
         Edit,
         Spec,
         quillRedefine,
+        Combo
     },
     data() {
         return {
@@ -145,6 +148,9 @@ export default {
                     }
                 }, this);
             }
+        },
+        showCombDialog(row){
+            this.$modal.show('combo-goods', row);
         }
     },
 
@@ -152,9 +158,7 @@ export default {
         this.$on('search-tool-change', this.onSearchChange);
         this.getCateCascader();
         this.getUnitTypes();
-console.log(URL_CONST.UPLOAD_URL);
         this.mainparam = JSON.stringify({with:['category'], orderField:'id',orderWay:'desc'});
         
-    },
-
+    }
 }

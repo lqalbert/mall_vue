@@ -103,6 +103,37 @@
                     this.getGoods({cate_id:val});
                 },
                 addGoods(){
+                    if (this.combo) {
+                        let addData = null;
+                        for (let index = 0; index < this.combo.length; index++) {
+                            const element = this.combo[index];
+                            addData = {
+                                moneyNotes:     element.price * element.goods_number,
+                                goods_id:       element.goods_id,
+                                sku_id:         0,
+                                sku_name:       null,
+                                goods_name:     element.goods_name,
+                                price:          element.price,
+                                goods_number:   element.goods_number,
+                                remark:         '',
+                                sku_sn:         element.sku_sn,
+                                unit_type:      element.unit_type,
+                                len:            element.len,
+                                width:          element.width,
+                                height:         element.height,
+                                barcode:        element.barcode,
+                                weight:         element.weight,
+                                bubble_bag:     element.bubble_bag,
+                                specifications: element.specifications,
+                            };
+                            // console.log(addData);
+                            this.$emit('add-goods', addData);
+                        }
+                        delete this.combo;
+                        return ;
+                    }
+
+
                     if (this.entrepot_sum > 0) {
                         let item = this.goodsForm.goods;
                         let moneyNotes =parseInt(item.price) * parseInt(this.goodsForm.goods_number);
@@ -160,7 +191,7 @@
                         }
                         
                     }
-                    console.log(tmp);
+                    // console.log(tmp);
                     this.selectableGoods = tmp;
                     this.goodsSearching = false;
                 },
@@ -182,6 +213,9 @@
                     if(goods){
                         EntrepotProductAjax.getEntrepotCount(goods.sku_sn).then((response)=>{
                             this.entrepot_sum = response.data.num;
+                            if (response.data.goods) {
+                                this.combo = response.data.goods;
+                            }
                         })  
                     }
                 },

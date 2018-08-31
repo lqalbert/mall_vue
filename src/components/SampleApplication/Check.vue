@@ -138,6 +138,7 @@ export default {
         },
         handleSubmit(){
             // console.log(this.checkForm);
+            this.checkForm.goods = this.goodsData;
             this.formSubmit('checkForm');
         },
         getAjaxPromise(model){

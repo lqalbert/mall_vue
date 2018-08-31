@@ -593,15 +593,10 @@ export default {
                 return ;
             }
         },
-
         orderSign(){
             if (this.multipleSelection.length == 1) {
                 let one = this.multipleSelection[0];
-                let vmthis = this;
-                
                 this.$modal.show('signature', one);
-
-
             } else {
                 this.$message.error("勾选一个");
                 return ;

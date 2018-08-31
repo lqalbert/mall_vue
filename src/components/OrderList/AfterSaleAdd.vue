@@ -100,7 +100,7 @@
                         合计退款金额：{{ rowInfoForm.fee }} 元
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="退款收取运费">
+                        <el-form-item label="退款收取运费" prop="return_fee">
                             <el-input v-model="rowInfoForm.return_fee"><template slot="append">元</template></el-input>
                         </el-form-item>
                     </el-col>
@@ -108,7 +108,7 @@
 
                 <el-row>
                     <el-col :span="24">
-                        <el-form-item label="退换原因">
+                        <el-form-item label="退换原因" prop="reason">
                             <el-input type="textarea" v-model="rowInfoForm.reason" :rows="2"></el-input>
                         </el-form-item>
                     </el-col>
@@ -116,7 +116,7 @@
 
                 <el-row>
                     <el-col :span="24">
-                        <el-form-item label="备注">
+                        <el-form-item label="备注" prop="remark">
                             <el-input type="textarea" v-model="rowInfoForm.remark" :rows="2"></el-input>
                         </el-form-item>
                     </el-col>
@@ -169,7 +169,7 @@
                     reason:'',
                     entrepot_id:'',
                     return_unit:'',
-                    return_fee:'',
+                    return_fee: 0.00 ,
                     // receive_unit:'',
                     // resend_unit:'',
                     // express:'',
@@ -205,6 +205,10 @@
                     fee:[
                         {required:true,pattern:PRICE_REG,message: '格式为xx.xx', trigger:'blur'}
                     ],
+                    return_fee:[
+                        {required:true,  message: '不能为0', min:0} ,
+                        {required:true, pattern:PRICE_REG, message: '格式为xx.xx', trigger:'blur'}  
+                    ]
                     // resend_fee:[
                     //     {pattern:PRICE_REG,message: '格式为xx.xx', trigger:'blur'}
                     // ],
@@ -242,6 +246,7 @@
         methods: {
             onOpen(param) {
                 this.model = param.params;
+                
                 OrderGoodsAjaxProxy.get({order_id: this.model.id, appends:['saled_price']}).then((response)=>{
                     
                     response.data.items.forEach(element => {
@@ -269,8 +274,8 @@
                 });
             },
             onBeforeClose(){
-                
-                
+                this.$refs.rowInfoForm.resetFields();
+                this.goods = [];
             },
             getAjaxPromise(model) {
                 return AfterSaleAjaxProxy.create(model);

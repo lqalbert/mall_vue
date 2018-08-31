@@ -329,6 +329,11 @@ export default {
 
         this.GroupProxy = new GroupSelectProxy({fields:["*"]},this.getGroup,this);
         this.EmployeeProxy = new EmployeeSelectProxy({ fields:["*"]},this.getUsers,this);
+    },
+    beforeDestroy(){
+        this.DepartmentProxy = null;
+        this.GroupProxy = null;
+        this.EmployeeProxy = null;
     }
 }
 </script>

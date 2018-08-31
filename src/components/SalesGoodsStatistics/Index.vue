@@ -17,10 +17,10 @@
                         </el-date-picker>
                     </el-form-item>
 
-                    <el-form-item label="商品名称" prop="goods_name">
+                    <!-- <el-form-item label="商品名称" prop="goods_name">
                         <el-input size="small" v-model="searchForm.goods_name" placeholder="商品名称" class="form-item-unique">
                         </el-input>
-                    </el-form-item>
+                    </el-form-item> -->
 
                     <el-form-item>
                         <el-button type="info" size="small" @click="searchToolChange('searchForm')" icon="search">统计
@@ -36,19 +36,35 @@
                 <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" :page-size="15" :default-sort="{prop: 'cus_count', order: 'descending'}">
                     <el-table-column label="序号" align="center" width="65" type="index"></el-table-column>
 
-                    <el-table-column prop="sku_sn" sortable='custom' label="商品编号"></el-table-column>
+                    <el-table-column prop="sku_sn"  label="商品编号"></el-table-column>
 
-                    <el-table-column prop="goods_name" sortable='custom' label="商品名称"></el-table-column>
+                    <el-table-column prop="goods_name"  label="商品名称"></el-table-column>
 
-                    <el-table-column prop="produce_in_total" sortable='custom' label="累计入库总数量"></el-table-column>
+                    <el-table-column prop="invent_num" sortable='custom' label="累计入库总数量"></el-table-column>
 
                     <el-table-column prop="saleable_count" sortable='custom' label="当前库存余量"></el-table-column>
 
-                    <el-table-column prop="sales_count" sortable='custom' label="本次销售数量"></el-table-column>
+                    <el-table-column prop="sale_num" sortable='custom' label="本次销售数量"></el-table-column>
 
-                    <el-table-column prop="return_count" sortable='custom' label="本次退货数量"></el-table-column>
+                    <el-table-column prop="ref_num" sortable='custom' label="本次退货数量"></el-table-column>
 
-                    <el-table-column prop="destroy_count" sortable='custom' label="本次损坏数量"></el-table-column>
+                    <el-table-column prop="destroy_count" sortable='custom' label="本次损坏数量">
+                        <template slot-scope="scope">
+                            暂无
+                        </template>
+                    </el-table-column>
+
+                    <el-table-column prop="destroy_count" sortable='custom' label="样品">
+                        <template slot-scope="scope">
+                            暂无
+                        </template>
+                    </el-table-column>
+
+                    <el-table-column prop="destroy_count" sortable='custom' label="内购">
+                        <template slot-scope="scope">
+                            暂无
+                        </template>
+                    </el-table-column>
                 </TableProxy>
             </el-col>
         </el-row>

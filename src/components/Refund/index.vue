@@ -145,7 +145,8 @@
                 searchForm:{
                     start:'',
                     order_sn:"",
-                    return_sn:""
+                    return_sn:"",
+                    value7:[]
                 },
                 pickerOptions2: {
                     shortcuts: [{
@@ -244,6 +245,11 @@
                 if (!this.currentRow) {
                     this.$message.error('请选择一行');
                     return ;
+                }
+
+                if (this.currentRow.status != 0) {
+                    this.$message.error("已经审核，不能再次审核");
+                    return false;
                 }
                 this.$modal.show('refund-check', this.currentRow);
             },

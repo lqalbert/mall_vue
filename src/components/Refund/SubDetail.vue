@@ -4,7 +4,7 @@
             <el-col :span="24">
                 <el-tabs v-model="activeName" type="border-card">
                     <el-tab-pane label="退货明细" name="First">
-                        <el-table :data="refundGoodsData" border empty-text="请双击订单显示信息">
+                        <el-table :data="refundGoodsData" border empty-text="请双击订单显示信息" v-loading="loading">
                             <el-table-column prop="goods_name" label="商品" align="center">
                             </el-table-column>
 
@@ -47,10 +47,10 @@
                     </el-tab-pane> -->
 
                     <el-tab-pane label="原订单信息" name="Third">
-                        <el-table :data="oldOrderData" border empty-text="请双击订单显示信息">
+                        <el-table :data="oldOrderData" border empty-text="请双击订单显示信息" v-loading="loading">
                             <el-table-column prop="deal_name" label="成交员工" align="center"></el-table-column>
-                            <el-table-column prop="dep_group_realname" label="成交单位" align="center"></el-table-column>
-                            <el-table-column prop="auditor_name" label="审核员工" align="center"></el-table-column>
+                            <el-table-column prop="department_name" label="成交单位" align="center"></el-table-column>
+                            <!-- <el-table-column prop="auditor_name" label="审核员工" align="center"></el-table-column> -->
                             <el-table-column prop="order_status" label="订单状态" align="center">
                                 <template slot-scope="scope">
                                     {{setFieldText(scope.row.order_status,'orderStatusText')}}
@@ -83,7 +83,7 @@
                     </el-tab-pane>
 
                     <el-tab-pane label="退货发货信息" name="Fourth">
-                        <el-table :data="refundSendData" empty-text="暂无数据" border style="width: 100%">
+                        <el-table :data="refundSendData" empty-text="暂无数据" border style="width: 100%" v-loading="loading">
                             <!-- <el-table-column prop="order_id" label="订单id" align="center">
                             </el-table-column> -->
                             <el-table-column prop="receive_unit" label="收货单位" align="center"></el-table-column>
@@ -94,7 +94,7 @@
                     </el-tab-pane>
 
                     <el-tab-pane label="退货消费信息" name="Fifth">
-                        <el-table :data="refundPayData" empty-text="暂无数据" border style="width: 100%">
+                        <el-table :data="refundPayData" empty-text="暂无数据" border style="width: 100%" v-loading="loading">
                             <el-table-column prop="refund_percent" label="退款比例" align="center"></el-table-column>
                             <el-table-column prop="return_fee" label="退货运费" align="center"></el-table-column>
                             <el-table-column prop="fee" label="应退总额" align="center"></el-table-column>
@@ -105,7 +105,7 @@
                     </el-tab-pane>
 
                     <el-tab-pane label="退货单客户信息" name="Sixth">
-                        <el-table :data="refundOrderCusData" empty-text="暂无数据" border style="width: 100%">
+                        <el-table :data="refundOrderCusData" empty-text="暂无数据" border style="width: 100%" v-loading="loading">
                             <el-table-column prop="name" label="姓名" align="center"></el-table-column>
                             <el-table-column prop="sex" label="性别" align="center">
                                 <template slot-scope="scope">
@@ -207,6 +207,8 @@
                 refundCheckText:['未审核','通过','未通过'],
                 refundStatusText:['未申请','退款中','退款完成','失败'],
                 sexText:['未定义','男','女'],
+
+                loading:false
             }
         },
         methods:{
@@ -220,12 +222,14 @@
             handleFirst(row){
                 // console.log('1');//refundGoodsData
                 // console.log(row);
+                this.loading = true;
                 OrderGoodsAjaxProxy.get({order_id: row.order_id, appends:['status_text'], after:1}).then((response)=>{
                     
                     response.data.items.forEach(element => {
                         element.return_num = parseInt(element.goods_number);
                     });
                     this.refundGoodsData = response.data.items;
+                    this.loading = false;
                 });
                 this.tabFirst = true;
             },
@@ -234,12 +238,15 @@
             },
             handleThird(row){
                 // console.log('3');//oldOrderData
+                this.loading = true;
                 this.oldOrderData = [];
                 this.oldOrderData.push(row.order);
                 this.tabThird = true;
+                this.loading = false;
             },
             handleFourth(row){
                 // console.log("4");//refundSendData
+                this.loading = true;
                 this.refundSendData = [];
                 this.refundSendData.push({
                     id:row.id,
@@ -249,10 +256,12 @@
                     express_sn:row.express_sn
                 });
                 this.tabFourth = true;
+                this.loading = false;
             },
             handleFifth(row){
                 // console.log('5');//refundPayData
                 // console.log(row);
+                this.loading = true;
                 this.refundPayData = [];
                 this.refundPayData.push({
                     id:row.id,
@@ -264,12 +273,15 @@
                     resend_fee:row.resend_fee,
                 });
                 this.tabFifth = true;
+                this.loading = false;
             },
             handleSixth(row){
                 //console.log('6');//refundOrderCusData
                 //console.log(row);
+                this.loading = true;
                 AfterSaleAjaxProxy.getCusInfo(row.cus_id).then((response)=>{
                     this.refundOrderCusData = response.data.items;
+                    this.loading = false;
                 });
                 // this.tabSixth = true;
             },

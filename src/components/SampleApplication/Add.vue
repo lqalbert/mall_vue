@@ -13,20 +13,22 @@
                     </el-col>
                     <el-col :span="8">
                         <el-form-item label="申请人" prop="applicant">
-                            <el-select size="small" placeholder="请选择" v-model="addForm.applicant" clearable class="form-item-unique">
+                            <el-input size="small" v-model="addForm.applicant"></el-input>
+                            <!-- <el-select size="small" placeholder="请选择" v-model="addForm.applicant" clearable class="form-item-unique">
                                 <el-option value="1" label="文在寅"></el-option>
                                 <el-option value="2" label="朴槿惠"></el-option>
                                 <el-option value="3" label="朴信惠"></el-option>
-                            </el-select>
+                            </el-select> -->
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
                         <el-form-item label="操作人" prop="operator">
-                            <el-select size="small" placeholder="请选择" v-model="addForm.operator" clearable class="form-item-unique">
+                            <el-input size="small" v-model="addForm.operator"></el-input>
+                            <!-- <el-select size="small" placeholder="请选择" v-model="addForm.operator" clearable class="form-item-unique">
                                 <el-option value="1" label="朴成雄"></el-option>
                                 <el-option value="2" label="朴槿惠"></el-option>
                                 <el-option value="3" label="朴信惠"></el-option>
-                            </el-select>
+                            </el-select> -->
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -50,7 +52,7 @@
                             </el-table-column>
                             <el-table-column label="商品单价" prop="price"  width="100">
                             </el-table-column>
-                            <el-table-column label="购买数量" prop="goods_number"  width="100">
+                            <el-table-column label="申请数量" prop="goods_number"  width="100">
                             </el-table-column>
                             <el-table-column label="小记" prop="moneyNotes" width="100" >
                             </el-table-column>
@@ -106,8 +108,8 @@ export default {
                 operator:'',
                 use_remark:'',
                 totalMoney:0,
-                num:0,
-                goods:[]
+                // num:0,
+                goodsData:[]
             },
             goodsData:[],
         }
@@ -150,16 +152,13 @@ export default {
             }
         },
         handleSubmit(){
-            console.log(this.totalMoney);
-            console.log(this.goodsData);
             this.addForm.totalMoney = this.totalMoney;
             this.addForm.num = this.totalNum;
-            this.addForm.goods = this.goodsData;
-            console.log(this.addForm);
-            // this.formSubmit('addForm');
+            this.addForm.goodsData = this.goodsData;
+            this.formSubmit('addForm');
         },
         getAjaxPromise(model){
-            // return this.ajaxProxy.create(model);
+            return this.ajaxProxy.create(model);
         }
     },
     created(){

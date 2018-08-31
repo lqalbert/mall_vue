@@ -18,14 +18,15 @@
                     </el-form-item>
 
                     <el-form-item label="申请人" prop="applicant">
-                        <el-input size="small" v-model="searchForm.applicant" placeholder="商品名称" class="form-item-unique">
+                        <el-input size="small" v-model="searchForm.applicant" placeholder="申请人" class="form-item-unique">
                         </el-input>
                     </el-form-item>
 
                     <el-form-item label="审核状态" prop="check_status">
                         <el-select size="small" placeholder="请选择" v-model="searchForm.check_status" class="form-item-unique" clearable>
-                            <el-option value="1" label="待审核"></el-option>
-                            <el-option value="2" label="已审核"></el-option>
+                            <el-option value="0" label="待审核"></el-option>
+                            <el-option value="1" label="审核通过"></el-option>
+                            <el-option value="2" label="审核未通过"></el-option>
                         </el-select>
                     </el-form-item>
 
@@ -44,11 +45,13 @@
                 <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" @cellclick="rowCellClick" :page-size="15">
                     <el-table-column label="序号" align="center" width="65" type="index"></el-table-column>
 
+                    <el-table-column prop="app_time" label="申请时间" width="180"></el-table-column>
+
                     <el-table-column prop="use_remark" label="用途备注" show-overflow-tooltip></el-table-column>
 
-                    <el-table-column prop="goods_name" label="申请商品"></el-table-column>
+                    <!-- <el-table-column prop="goods_name" label="申请商品"></el-table-column> -->
 
-                    <el-table-column prop="num" label="数量"></el-table-column>
+                    <!-- <el-table-column prop="num" label="数量"></el-table-column> -->
 
                     <el-table-column prop="applicant" label="申请人"></el-table-column>
 
@@ -56,24 +59,29 @@
 
                     <el-table-column prop="check_status" label="审核状态" width="120">
                         <template slot-scope="scope">
-                            <el-tag v-if="scope.row.check_status == 1">待审核</el-tag>
-                            <el-tag v-else type="primary">已审核</el-tag>
+                            <el-tag v-if="scope.row.check_status == 0">待审核</el-tag>
+                            <el-tag v-else-if="scope.row.check_status == 1" type="primary">审核通过</el-tag>
+                            <el-tag v-else-if="scope.row.check_status == 2" type="danger">审核未通过</el-tag>
                         </template>
                     </el-table-column>
 
-                    <el-table-column prop="app_time" label="申请时间" width="180"></el-table-column>
+                    <el-table-column prop="check_remark" label="审核备注" show-overflow-tooltip></el-table-column>
+
+                    <el-table-column prop="check_time" label="审核时间" width="180"></el-table-column>
 
                     <div slot="buttonbar">
                         <el-button type="primary" size="small" @click="sampleAdd">申请</el-button>
                         <el-button type="primary" size="small" @click="sampleCheck">审核</el-button>
+                        <el-button type="info" size="small" @click="showGoods">查看商品</el-button>
                     </div>
 
                 </TableProxy>
             </el-col>
         </el-row>
         <!-- 弹窗 -->
-        <Add :ajax-proxy="ajaxProxy" @submit-success="handleReload"  name="add-sample" ></Add>
-        <Check :ajax-proxy="ajaxProxy" @submit-success="handleReload"  name="check-sample"></Check>
+        <Add :ajax-proxy="ajaxProxy" @submit-success="handleReload" name="add-sample" ></Add>
+        <Check :ajax-proxy="ajaxProxy" @submit-success="handleReload" name="check-sample"></Check>
+        <show-goods name="show-goods"></show-goods>
     </div>
 </template>
 
@@ -85,6 +93,7 @@
     import { mapGetters } from 'vuex';
     import Add from './Add';
     import Check from './Check';
+    import showGoods from './ShowGoods';
 
     export default {
         name:'SampleApplication',
@@ -92,7 +101,8 @@
         mixins: [PageMix, SearchTool,DataTable],
         components:{
             Add,
-            Check
+            Check,
+            showGoods
         },
         data(){
             return {
@@ -108,7 +118,7 @@
                     start:'',
                     end:'',
                     applicant:'',
-                    check_status:'1'
+                    check_status:''
                 },
                 row_model:null,
                 
@@ -135,9 +145,7 @@
             },
             openDialogCheck(){
                 if (!this.hasCurrentRow()) {
-                    this.$alert('请选择一行', '警告', {
-                        confirmButtonText: '确定',
-                    })
+                    this.$message.error('请选择一行');
                     return false;
                 } else {
                     return true;
@@ -157,7 +165,7 @@
             },
             sampleCheck(){
                 if (this.openDialogCheck()) {
-                    if (this.row_model.check_status >1) {
+                    if (this.row_model.check_status >0) {
                         this.$message.error('已审核，不能再审核');
                         return ;
                     }
@@ -168,6 +176,11 @@
             rowCellClick(row){
                 this.row_model=row;
             },
+            showGoods(){
+                if (this.openDialogCheck()) {
+                    this.$modal.show('show-goods', {row: this.row_model});
+                }
+            }
         },
         created(){
             // this.$store.dispatch('initDepartments');

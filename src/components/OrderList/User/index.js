@@ -63,6 +63,10 @@ export default {
             return  this.ajaxProxy;
         },
         showRowData(row){
+            if (row.status >=1) {
+                this.$message.error('已通过审核环节，不能编辑');
+                return false;
+            }
             this.$modal.show('rowInfo',{rowData:row});
         },
         

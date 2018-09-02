@@ -168,21 +168,13 @@
 
                 this.checkForm.id = param.params.id;
                 this.afterModel = param.params;
-                // this.assignModel = param.params;
-
-                // OrderAjax.find(param.params.order_id, {with:['address']}).then((response)=>{
-                //     this.orderModel = response.data;
-                //     this.addressModel = this.orderModel.address;
-                // }).catch((response)=>{
-                    
-                // });
                 this.orderModel = param.params.order;
 
                 OrderGoodsAjax.get({order_id:param.params.order_id, after:1, appends:['status_text']}).then((response)=>{
-                    response.data.items.forEach((element)=>{
-                        element.return_inventory = 0;
-                        element.destroy_num = 0;
-                    });
+                    // response.data.items.forEach((element)=>{
+                    //     element.return_inventory = 0;
+                    //     element.destroy_num = 0;
+                    // });
                     this.goods = response.data.items;
                 })
 
@@ -208,14 +200,18 @@
                     return ;
                 }
                 
+                let re = 0;
                 for (let index = 0; index < this.goods.length; index++) {
                     const element = this.goods[index];
 
-                    if (element.out_inventory == 0) {
-                        this.$message.error("损坏数量不能为0");
-                        this.$emit('valid-error');
-                        return ;
-                    }
+                    re += element.out_inventory;
+                }
+
+
+                if (re == 0) {
+                    this.$message.error("损坏数量不能为0");
+                    this.$emit('valid-error');
+                    return ;
                 }
 
                 this.checkForm.goods = this.goods;

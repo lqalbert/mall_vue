@@ -101,6 +101,9 @@ const user = {
         },
         hasOrderCheckPermission(state, getters){
             return getters.hasRole('sale-manager') ;
+        },
+        isAdmin(state) {
+            return getters.hasRole('super-manager') || getters.hasRole('administrator')
         }
     },
     //异步操作

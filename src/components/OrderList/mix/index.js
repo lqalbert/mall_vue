@@ -102,10 +102,10 @@ const mix = {
             if (this.openDialogCheck()) {
 
                 // todo 6 要改成常量
-                if (this.row_model.status != 6 ) {
-                    this.$message.error('订单完成(客户签收)之后才可以发起退换货');
-                    return false;
-                }
+                // if (this.row_model.status != 6 ) {
+                //     this.$message.error('订单完成(客户签收)之后才可以发起退换货');
+                //     return false;
+                // }
                 //是不是已处理售后的状态
                 if (this.row_model.after_sale_status > 0) {
                     this.$message.error('已经处于售后状态了');
@@ -115,9 +115,7 @@ const mix = {
 
                 this.$modal.show('after-add', this.row_model);
                 // console.log('aaa');
-            }
-
-            
+            }   
         },
         
         // hyf 添加

@@ -1,6 +1,7 @@
 <template>
     <div >
-        <MyDialog title="查看" :name="name" :width="width" :height="height" @before-open="onOpen" @opened="checkEditable">
+        <!-- @opened="checkEditable" 有bug -->
+        <MyDialog title="查看" :name="name" :width="width" :height="height" @before-open="onOpen" >
             <el-form ref="rowInfoForm" :model="rowInfoForm" :label-width="labelWidth" :label-position="labelPosition">
                         <el-row >
                             <el-col :span="6" class="col">
@@ -196,16 +197,17 @@
             checkEditable(){
                 if (this.model.status >=1) {
                     this.$message.error('已通过审核环节，不能编辑');
-                    this.handleClose();
+                    // this.handleClose();
                     return false;
                 }
+                return true;
             },
             onOpen(param){
                 this.model = param.params.rowData;
                 this.row = param.params.rowData;
                 this.handleSecond(this.row);
                 this.handleThird(this.row);
-                },
+            },
             getAjaxPromise(model){
                 delete model.cus_name;
                 delete model.buyer;

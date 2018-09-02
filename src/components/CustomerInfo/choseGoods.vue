@@ -39,7 +39,7 @@
                 </el-row>
                 
                 <el-row type="flex" justify="space-between">
-                    <el-col :span="4">购买商品列表</el-col>
+                    <el-col :span="4">商品列表</el-col>
                     <el-col :span="3"><el-button size="small" @click="addGoods">添加</el-button></el-col>
                 </el-row>
 

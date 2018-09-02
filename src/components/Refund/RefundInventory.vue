@@ -176,14 +176,6 @@
 
                     this.checkForm.id = param.params.id;
                     this.afterModel = param.params;
-                    // this.assignModel = param.params;
-    
-                    // OrderAjax.find(param.params.order_id, {with:['address']}).then((response)=>{
-                    //     this.orderModel = response.data;
-                    //     this.addressModel = this.orderModel.address;
-                    // }).catch((response)=>{
-                        
-                    // });
                     this.orderModel = param.params.order;
     
                     OrderGoodsAjax.get({order_id:param.params.order_id, after:1, appends:['status_text']}).then((response)=>{

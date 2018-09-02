@@ -14,21 +14,11 @@
                     <el-col :span="8">
                         <el-form-item label="申请人" prop="applicant">
                             <el-input size="small" v-model="addForm.applicant"></el-input>
-                            <!-- <el-select size="small" placeholder="请选择" v-model="addForm.applicant" clearable class="form-item-unique">
-                                <el-option value="1" label="文在寅"></el-option>
-                                <el-option value="2" label="朴槿惠"></el-option>
-                                <el-option value="3" label="朴信惠"></el-option>
-                            </el-select> -->
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
                         <el-form-item label="操作人" prop="operator">
                             <el-input size="small" v-model="addForm.operator"></el-input>
-                            <!-- <el-select size="small" placeholder="请选择" v-model="addForm.operator" clearable class="form-item-unique">
-                                <el-option value="1" label="朴成雄"></el-option>
-                                <el-option value="2" label="朴槿惠"></el-option>
-                                <el-option value="3" label="朴信惠"></el-option>
-                            </el-select> -->
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -84,7 +74,9 @@
 <script>
 import DialogForm from '@/mix/DialogForm';
 import { mapGetters } from 'vuex';
-import ChoseGoods from './ChoseGoods';
+// import ChoseGoods from './ChoseGoods';
+import ChoseGoods from '@/components/CustomerInfo/choseGoods';
+
 
 export default {
     name: 'addSample',

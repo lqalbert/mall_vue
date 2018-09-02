@@ -117,7 +117,7 @@
                         <el-button type="primary" size="small"   @click="showExpress">快递单打印</el-button>
                         <el-button type="primary" size="small"   @click="showAssign">发货单打印</el-button>
                         <el-button type="primary" size="small"   @click="editExpressFee">修改实付运费</el-button>
-                        <el-button type="primary" size="small"  @click="setParcelOn">设为已揽件</el-button>
+                        <!-- <el-button type="primary" size="small"  @click="setParcelOn">设为已揽件</el-button> -->
                         <el-button type="primary" size="small" @click="orderSign">设为签收</el-button>
                     </div>
                 </TableProxy>

@@ -109,7 +109,7 @@
                             const element = this.combo[index];
                             addData = {
                                 moneyNotes:     element.price * element.goods_number,
-                                goods_id:       element.goods_id,
+                                goods_id:       element.id,
                                 sku_id:         0,
                                 sku_name:       null,
                                 goods_name:     element.goods_name,

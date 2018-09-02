@@ -204,7 +204,7 @@
                 for (let index = 0; index < this.goods.length; index++) {
                     const element = this.goods[index];
 
-                    re += element.out_inventory;
+                    re += element.destroy_num;
                 }
 
 

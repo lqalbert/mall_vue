@@ -126,7 +126,7 @@ export default {
 		
          
 		onClose(){
-			
+			this.comboGoods = [];
 		},
 
         changeComboCates(val){

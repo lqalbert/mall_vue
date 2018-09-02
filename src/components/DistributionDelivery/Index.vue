@@ -596,6 +596,13 @@ export default {
         orderSign(){
             if (this.multipleSelection.length == 1) {
                 let one = this.multipleSelection[0];
+
+                // if (one.status == 0 || one.status == 2) {
+                //     this.$message.error('审核的状态，不能签收');
+                //     return ;
+                // }
+
+
                 this.$modal.show('signature', one);
             } else {
                 this.$message.error("勾选一个");

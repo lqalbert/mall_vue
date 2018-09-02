@@ -74,7 +74,9 @@ const PageList = {
     'FrontCategory' : (resolve) => { require(['./FrontCategory/Index.vue'], resolve)},
     'QuestionnaireManagement':(resolve)=>{ require(['./QuestionnaireManagement/Index.vue'], resolve)},
     //商品销售统计
-    'SalesGoodsStatistics': (resolve) => {require(['./SalesGoodsStatistics/Index.vue'], resolve)}
+    'SalesGoodsStatistics': (resolve) => {require(['./SalesGoodsStatistics/Index.vue'], resolve)},
+    //样品申请
+    'SampleApplication': (resolve) => {require(['./SampleApplication/Index.vue'], resolve)},
 };
 
 export default PageList;

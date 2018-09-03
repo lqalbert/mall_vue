@@ -71,7 +71,7 @@
                         {required:true, message:'必须选择要转让的目标员工'}
                     ],
                     cus_ids:[
-                        { required:true,  message:' > 要转让的客户', type:"array", min: 1}
+                        { required:true,  message:' &gt; 要转让的客户', type:"array", min: 1}
                     ]
                 }
             }

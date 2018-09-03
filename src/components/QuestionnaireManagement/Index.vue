@@ -21,7 +21,7 @@
                     :reload="dataTableReload" :page-size="15">
                     <el-table-column label="序号" align="center" type="index" width="65"></el-table-column>
 
-                    <el-table-column label="标题" prop="title" align="center"></el-table-column>
+                    <el-table-column label="标题" prop="title" align="center" show-overflow-tooltip></el-table-column>
 
                     <el-table-column label="开始时间" prop="start_time" align="center"></el-table-column>
 

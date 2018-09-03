@@ -155,7 +155,7 @@
                         
                     ],
                     fixed_telephone:[
-                        { required: true,message:'请输入正确的电话',pattern: /^1[34578]\d{9}$/, trigger:'blur'}
+                        { required: true,message:'请输入正确的电话',pattern: /^1[34578]\d{9} || (0\d{2,3}-)\d{7,8}(-(\u8f6c)?\d{1,5})?$/, trigger:'blur'}
                     ],
                     contact:[
                         { required: true,message:'请输入联系人', type: 'string', trigger:'blur'}

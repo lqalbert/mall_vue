@@ -77,6 +77,7 @@ const PageList = {
     'SalesGoodsStatistics': (resolve) => {require(['./SalesGoodsStatistics/Index.vue'], resolve)},
     //样品申请
     'SampleApplication': (resolve) => {require(['./SampleApplication/Index.vue'], resolve)},
+    'AccountSettings':(resolve)=>{ require(['./AccountSettings/Index.vue'], resolve)},
 };
 
 export default PageList;

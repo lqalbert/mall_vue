@@ -28,7 +28,7 @@
                 </el-row>
                 <el-row >
                     <el-col :span="12">
-                            <span style="color:red;">当前库存：{{entrepot_sum>0 ? '充足' : '缺货'}}</span>
+                            <span style="color:red;">当前库存：<span v-if="show_stock">{{entrepot_sum>0 ? '充足' : '缺货'}}</span><span v-else> </span></span>
                     </el-col>
                     <el-col :span="12">
                         <el-alert
@@ -68,6 +68,7 @@
                         remark:""
                     },
                     goodsSearching:false,
+                    show_stock:false,
                     selectableGoods:[],
                     entrepot_sum:0,
 
@@ -100,6 +101,8 @@
 
                 categoryChange(val){
                     this.entrepot_sum = 0;
+                    this.selectableGoods = [];
+                    this.show_stock = false;
                     this.getGoods({cate_id:val});
                 },
                 addGoods(){
@@ -210,6 +213,7 @@
                 },
                 goodsChange(v){
                     let goods = v;
+                    this.show_stock = true;
                     if(goods){
                         EntrepotProductAjax.getEntrepotCount(goods.sku_sn).then((response)=>{
                             this.entrepot_sum = response.data.num;

@@ -19,6 +19,7 @@
                                 type="date"
                                 size="small"
                                 @change="timeChange"
+                                :picker-options="pickerOptions"
                                 placeholder="选择日期时间" style="width:180px">
                         </el-date-picker>
                     </el-form-item>
@@ -141,6 +142,11 @@
         },
         data(){
             return {
+                pickerOptions: {
+                    disabledDate(time) {
+                        return time.getTime() < Date.now() - 8.64e7;
+                    }
+                },
                 mainparam:"",
                 mainurl:WarehousingProcessAjaxProxy.getUrl(),
                 ajaxProxy:WarehousingProcessAjaxProxy,
@@ -173,7 +179,7 @@
                         { min:1,   max: 20, message: '长度不能超过20个字符', trigger: 'blur'  }
                     ],
                     contact_phone:[
-                        { required: true, message: '请填写采购人电话',pattern: /^1[34578]\d{9}$/, trigger: 'blur' },
+                        { required: true, message: '输入的电话号码不正确',pattern: /^1[34578]\d{9}$/, trigger: 'blur' },
                     ],
                     remark:[
                         { min:1,   max: 100, message: '长度不能超过100个字符', trigger: 'blur'}
@@ -218,16 +224,17 @@
                 this.addForm.goods_total = 0;
                 this.addForm.goods_money_total = 0;
                 for(let i=0;i<this.goodsList.length;i++) {
-                    if (this.goodsList[i].goods_purchase_num == undefined || this.goodsList[i].goods_purchase_price == undefined || this.goodsList[i].goods_purchase_num == 0 || this.goodsList[i].goods_purchase_price == 0) {
+                    if (this.goodsList[i].goods_purchase_num == undefined || this.goodsList[i].goods_purchase_price == undefined || this.goodsList[i].goods_purchase_num <= 0 || this.goodsList[i].goods_purchase_price <= 0) {
                         this.is_submit = false;
-                        this.$message.error('请填写采购数量和价格');
+                        this.$message.error('请填写正确的采购数量和价格');
                         return;
                     }
                         this.addForm.goods_total += parseInt(this.goodsList[i].goods_purchase_num);
-                        this.addForm.goods_money_total += parseInt(this.goodsList[i].goods_purchase_num) * parseInt(this.goodsList[i].goods_purchase_price);
+                        this.addForm.goods_money_total += parseInt(this.goodsList[i].goods_purchase_num) * parseFloat(this.goodsList[i].goods_purchase_price);
                 }
                 if(this.is_submit){
                     this.addForm.purchase_goods=this.goodsList;
+                    this.addForm.goods_money_total=this.addForm.goods_money_total.toFixed(2);
                     this.addForm.sku_type=this.goodsList.length;
                     this.formSubmit(name);
                 }

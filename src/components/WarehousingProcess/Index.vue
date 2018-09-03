@@ -234,6 +234,7 @@
                 }
                 if(this.is_submit){
                     this.addForm.purchase_goods=this.goodsList;
+                    this.addForm.goods_money_total=this.addForm.goods_money_total.toFixed(2);
                     this.addForm.sku_type=this.goodsList.length;
                     this.formSubmit(name);
                 }

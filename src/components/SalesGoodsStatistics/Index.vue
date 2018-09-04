@@ -35,32 +35,20 @@
             <el-col>
                 <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" :page-size="15" :default-sort="{prop: 'cus_count', order: 'descending'}">
                     <el-table-column label="序号" align="center" width="65" type="index"></el-table-column>
-
                     <el-table-column prop="sku_sn"  label="商品编号"></el-table-column>
-
                     <el-table-column prop="goods_name"  label="商品名称"></el-table-column>
-
                     <el-table-column prop="invent_num" sortable='custom' label="累计入库总数量"></el-table-column>
-
                     <el-table-column prop="saleable_count" sortable='custom' label="当前库存余量"></el-table-column>
-
                     <el-table-column prop="sale_num" sortable='custom' label="本次销售数量"></el-table-column>
-
+                    <el-table-column prop="inner_num" sortable='custom' label="本次内购数量"></el-table-column>
+                    <el-table-column prop="shop_num"  sortable='custom' label="本次商城数量"></el-table-column>
                     <el-table-column prop="ref_num" sortable='custom' label="本次退货数量"></el-table-column>
-
                     <el-table-column prop="destroy_count" sortable='custom' label="本次损坏数量">
                         <template slot-scope="scope">
                             暂无
                         </template>
                     </el-table-column>
-
                     <el-table-column prop="destroy_count" sortable='custom' label="样品">
-                        <template slot-scope="scope">
-                            暂无
-                        </template>
-                    </el-table-column>
-
-                    <el-table-column prop="destroy_count" sortable='custom' label="内购">
                         <template slot-scope="scope">
                             暂无
                         </template>

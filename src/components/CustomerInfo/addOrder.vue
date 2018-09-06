@@ -233,7 +233,7 @@ import { mapGetters, mapMutations } from 'vuex';
                 let index = this.orderData.indexOf(row);
                 if( index > -1){
                     this.orderData.splice(index,1);
-                    this.totalMoney -= row.moneyNotes;
+                    // this.totalMoney -= row.moneyNotes;
                 }
             },
             orderTypeChange(){

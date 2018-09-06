@@ -20,6 +20,7 @@
                 </el-form-item>
                 <el-form-item prop="pstatus">
                     <el-select v-model="searchForm.pstatus" size="small" placeholder="发货状态" >
+                        <el-option label="所有" value="8"></el-option>
                         <el-option label="未审核" value="0"></el-option>
                         <el-option label="已审核" value="1"></el-option>
                         <el-option label="审核未通过" value="2"></el-option>
@@ -27,6 +28,7 @@
                         <el-option label="已发货" value="4"></el-option>
                         <el-option label="已打印" value="5"></el-option>
                         <el-option label="已验货" value="6"></el-option>
+                        <el-option label="已签收" value="7"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item>
@@ -253,6 +255,11 @@ export default {
                 case 6:
                     param.status = 4;
                     break;
+                case 7:
+                    param.status = 6;
+                    break;
+                case 8:
+                    ;
                 default :
                     param.status = '';
                     param.is_stop = '';

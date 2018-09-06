@@ -155,6 +155,9 @@
                 let NewObj = new QuestionnaireSurveyResultsSelectProxy({}, this.getQuestionnaireSurveyResults, this);
                 this.questionnaireSurveyResults = NewObj;
                 this.questionnaireSurveyResults.setPageSize(this.dpagesize);
+            },
+            beforeDestroy(){
+                this.questionnaireSurveyResults = NewObj;
             }
             
         }

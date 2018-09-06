@@ -36,6 +36,7 @@ module.exports = {
   context: path.resolve(__dirname, '../'),
   entry: {
     'babel-polyfill': 'babel-polyfill',
+    // "vendor1": ["element-ui"], 
     app: './src/main.js'
   },
   output: {
@@ -101,7 +102,9 @@ module.exports = {
     child_process: 'empty'
   },
 
-  // externals:{
-  //   UE: 'window.UE'
-  // }
+  externals:{
+    // UE: 'window.UE'
+    'element-ui' : 'ELEMENT',
+    'vue':'Vue'
+  }
 }

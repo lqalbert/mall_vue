@@ -6,7 +6,7 @@ import store from './store'
 
 
 import ElementUI from 'element-ui'
-// import 'element-ui/lib/theme-default/index.css'
+import 'element-ui/lib/theme-default/index.css'
 
 import VModal from 'vue-js-modal'
 import VueQuillEditor from 'vue-quill-editor'

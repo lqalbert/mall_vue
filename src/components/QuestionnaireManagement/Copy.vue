@@ -1,7 +1,7 @@
 <template>
         <div >
             <MyDialog title="编辑" :name="name" :width="width" :height="height" @before-open="onOpen">
-                <el-form :model="editForm" :rules="rules" :label-width="labelWidth"  ref="editForm" :label-position="labelPosition">
+                <el-form :model="editForm"  :label-width="labelWidth"  ref="editForm" :label-position="labelPosition">
                     <el-row>
                         <el-col :span="16">
                             <el-form-item label="访问网址" prop="title" >
@@ -51,9 +51,7 @@
                     editForm:{
                         id:"",
                     },
-                    rules:{
-
-                    },
+                    
                     title:'',
                     title1:'',
                     title2:'',

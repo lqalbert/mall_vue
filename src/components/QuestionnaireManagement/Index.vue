@@ -34,8 +34,13 @@
                     <el-table-column width="180" fixed="right"  label="操作" align="center">
                         <template slot-scope="scope">
                             <el-button type="primary" @click="showEdit(scope.row)" size="small">地址跳转</el-button>
+<<<<<<< HEAD
                             <el-button type="primary" @click="showQuestionnaireDetails2(scope.row)"  size="small" >详 情</el-button>
                             <!--<el-button type="primary" @click="showTest(scope.row)"  size="small" >测 试</el-button>-->
+=======
+                            <el-button type="primary" @click="showQuestionnaireDetails(scope.row)"  size="small" >详 情</el-button>
+                            <el-button type="primary" @click="showTest(scope.row)"  size="small" >测 试</el-button>
+>>>>>>> 20180906改
                             <!--<el-button type="danger"  @click="handleDelete(scope.row.id)" size="small" >删除</el-button>-->
                         </template>
                     </el-table-column>
@@ -115,10 +120,12 @@
             name="questionnaire-details"
             @submit-success="handleReload">
         </QuestionnaireDetails>
+
         <QuestionnaireDetails2
             name="QuestionnaireDetails2"
             @submit-success="handleReload">
         </QuestionnaireDetails2>
+
         <Info
             name="info"
             @submit-success="handleReload">
@@ -132,7 +139,12 @@
     import QuestionnaireDetails from './QuestionnaireDetails.vue';
     import Info from './Info.vue';
     import PageMix from '@/mix/Page';
+<<<<<<< HEAD
     import QuestionnaireDetails2 from './QuestionnaireDetails2.vue';
+=======
+    import test from './test.vue';
+   
+>>>>>>> 20180906改
     import SearchTool from '@/mix/SearchTool';
     import DataTable from '@/mix/DataTable';
 
@@ -150,7 +162,11 @@
             Copy,
             QuestionnaireDetails,
             Info,
+<<<<<<< HEAD
             QuestionnaireDetails2
+=======
+            test
+>>>>>>> 20180906改
         },
         data() {
             return {
@@ -197,8 +213,13 @@
             showQuestionnaireDetails: function (row) {
                 this.$modal.show('questionnaire-details', {model:row});
             },
+<<<<<<< HEAD
             showQuestionnaireDetails2: function (row) {
                 this.$modal.show('QuestionnaireDetails2', {model:row});
+=======
+            showTest: function (row) {
+                this.$modal.show('test', {model:row});
+>>>>>>> 20180906改
             },
             getAjaxPromise(model){
                 return this.ajaxProxy.getSurveyResults(model.id);

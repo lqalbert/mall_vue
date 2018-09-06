@@ -35,12 +35,17 @@
                         <template slot-scope="scope">
                             <el-button type="primary" @click="showEdit(scope.row)" size="small">地址跳转</el-button>
 <<<<<<< HEAD
+<<<<<<< HEAD
                             <el-button type="primary" @click="showQuestionnaireDetails2(scope.row)"  size="small" >详 情</el-button>
                             <!--<el-button type="primary" @click="showTest(scope.row)"  size="small" >测 试</el-button>-->
 =======
                             <el-button type="primary" @click="showQuestionnaireDetails(scope.row)"  size="small" >详 情</el-button>
                             <el-button type="primary" @click="showTest(scope.row)"  size="small" >测 试</el-button>
 >>>>>>> 20180906改
+=======
+                            <el-button type="primary" @click="showQuestionnaireDetails2(scope.row)"  size="small" >详 情</el-button>
+                            <!--<el-button type="primary" @click="showTest(scope.row)"  size="small" >测 试</el-button>-->
+>>>>>>> 20180906问卷管理展示修改
                             <!--<el-button type="danger"  @click="handleDelete(scope.row.id)" size="small" >删除</el-button>-->
                         </template>
                     </el-table-column>
@@ -163,10 +168,14 @@
             QuestionnaireDetails,
             Info,
 <<<<<<< HEAD
+<<<<<<< HEAD
             QuestionnaireDetails2
 =======
             test
 >>>>>>> 20180906改
+=======
+            QuestionnaireDetails2
+>>>>>>> 20180906问卷管理展示修改
         },
         data() {
             return {
@@ -214,12 +223,17 @@
                 this.$modal.show('questionnaire-details', {model:row});
             },
 <<<<<<< HEAD
+<<<<<<< HEAD
             showQuestionnaireDetails2: function (row) {
                 this.$modal.show('QuestionnaireDetails2', {model:row});
 =======
             showTest: function (row) {
                 this.$modal.show('test', {model:row});
 >>>>>>> 20180906改
+=======
+            showQuestionnaireDetails2: function (row) {
+                this.$modal.show('QuestionnaireDetails2', {model:row});
+>>>>>>> 20180906问卷管理展示修改
             },
             getAjaxPromise(model){
                 return this.ajaxProxy.getSurveyResults(model.id);

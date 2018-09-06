@@ -55,16 +55,6 @@
                     </el-col>
                 </el-row>
 
-                <!--<el-row type="flex" justify="space-between">-->
-                    <!--<el-col :span="4">客户回答</el-col>-->
-                <!--</el-row>-->
-                <!--<el-table :data="answers" border :height="300">-->
-                    <!--<el-table-column label="题号" align="center" prop="questionnaire_options_id" width="65px"></el-table-column>-->
-                    <!--<el-table-column label="题目" align="center" show-overflow-tooltip prop="topic_name" ></el-table-column>-->
-                    <!--<el-table-column label="选择项" align="center" prop="option" ></el-table-column>-->
-                    <!--<el-table-column label="该项描述" align="center" show-overflow-tooltip prop="choice_answer" ></el-table-column>-->
-                    <!--<el-table-column label="填空题答案" align="center" show-overflow-tooltip prop="fill_answer" ></el-table-column>-->
-                <!--</el-table>-->
 
             </MyDialog>
         </div>

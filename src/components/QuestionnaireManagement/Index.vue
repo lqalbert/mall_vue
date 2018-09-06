@@ -35,6 +35,7 @@
                         <template slot-scope="scope">
                             <el-button type="primary" @click="showEdit(scope.row)" size="small">地址跳转</el-button>
                             <el-button type="primary" @click="showQuestionnaireDetails(scope.row)"  size="small" >详 情</el-button>
+                            <el-button type="primary" @click="showTest(scope.row)"  size="small" >测 试</el-button>
                             <!--<el-button type="danger"  @click="handleDelete(scope.row.id)" size="small" >删除</el-button>-->
                         </template>
                     </el-table-column>
@@ -114,6 +115,10 @@
             name="questionnaire-details"
             @submit-success="handleReload">
         </QuestionnaireDetails>
+        <test
+            name="test"
+            @submit-success="handleReload">
+        </test>
         <Info
             name="info"
             @submit-success="handleReload">
@@ -129,6 +134,7 @@
     import Copy from './Copy.vue';
     import QuestionnaireDetails from './QuestionnaireDetails.vue';
     import Info from './Info.vue';
+    import test from './test.vue';
     import PageMix from '../../mix/Page';
    
     import SearchTool from '../../mix/SearchTool';
@@ -147,7 +153,8 @@
             Add,
             Copy,
             QuestionnaireDetails,
-            Info
+            Info,
+            test
         },
         data() {
             return {
@@ -193,6 +200,9 @@
             },
             showQuestionnaireDetails: function (row) {
                 this.$modal.show('questionnaire-details', {model:row});
+            },
+            showTest: function (row) {
+                this.$modal.show('test', {model:row});
             },
             getAjaxPromise(model){
                 return this.ajaxProxy.getSurveyResults(model.id);

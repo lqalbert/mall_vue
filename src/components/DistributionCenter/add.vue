@@ -24,7 +24,7 @@
 
                     <el-col :span="12">
                         <el-form-item label="固定电话" prop="fixed_telephone" >
-                            <el-input class="name-input" v-model="addForm.fixed_telephone"  auto-complete="off"  placeholder="请填写固定电话"></el-input>
+                            <el-input class="name-input" v-model.number="addForm.fixed_telephone"  auto-complete="off"  placeholder="请填写固定电话"></el-input>
                         </el-form-item>
                     </el-col>
 
@@ -32,7 +32,7 @@
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="联系电话" prop="contact_phone" >
-                            <el-input class="name-input" v-model="addForm.contact_phone"  auto-complete="off"  placeholder="请填写联系人电话"></el-input>
+                            <el-input class="name-input" v-model.number="addForm.contact_phone"  auto-complete="off"  placeholder="请填写联系人电话"></el-input>
                         </el-form-item>
                     </el-col>
 
@@ -155,13 +155,13 @@
                         
                     ],
                     fixed_telephone:[
-                        { required: true,message:'请输入正确的电话',pattern: /^1[34578]\d{9} || (0\d{2,3}-)\d{7,8}(-(\u8f6c)?\d{1,5})?$/, trigger:'blur'}
+                        { required: true,type:'number',message:'请输入正确的电话',pattern: /^1[34578]\d{9} || (0\d{2,3}-)\d{7,8}(-(\u8f6c)?\d{1,5})?$/, trigger:'blur'}
                     ],
                     contact:[
                         { required: true,message:'请输入联系人', type: 'string', trigger:'blur'}
                     ],
                     contact_phone:[
-                        {message:'请输入正确的电话',pattern: /^1[34578]\d{9}$/, trigger:'blur'}
+                        {message:'请输入正确的电话',type:'number',pattern: /^1[34578]\d{9}$/, trigger:'blur'}
                     ],
                     comment:[
                         {max: 100, message: '长度不能超过100个字符', trigger: 'blur'  }

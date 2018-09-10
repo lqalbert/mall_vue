@@ -274,20 +274,16 @@
                             </el-col>
                         </el-row>
                         <br>
-                        <el-alert
-                            title="需要改一下价格，使其 所有商品的价格之和等于套餐价"
-                            type="warning">
-                        </el-alert>
-                        <br>
+                        
                         <el-row>
                             <el-col :span='24'>
                                 <el-table  :data="comboGoods">
                                     <el-table-column label="名称" prop="name"></el-table-column>
-                                    <el-table-column label="价格" prop="price">
+                                    <!-- <el-table-column label="价格" prop="price">
                                         <template slot-scope="scope">
                                             <el-input size="small" v-model="scope.row.price"></el-input>
                                         </template>
-                                    </el-table-column>
+                                    </el-table-column> -->
                                     <el-table-column label="数量" prop="num" width="180">
                                         <template slot-scope="scope">
                                             <el-input-number size="small" v-model="scope.row.num" :mix="1"></el-input-number>

@@ -15,5 +15,12 @@ proxy.getEntrepotCount = function(sku_sn){
     return this.getAxios().get(this.url + "-count/" + sku_sn);
 };
 
+proxy.getComboCount = function(sku_sn){
+    return this.getAxios().get("entrepot-combo-count/" + sku_sn);
+}
+
+proxy.addCombo = function(param){
+    return this.getAxios().put("entrepot-combo-operat", param);
+}
 
 export default proxy;

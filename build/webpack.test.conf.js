@@ -14,6 +14,7 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const env = require('../config/test.env')
 
 const webpackConfig = merge(baseWebpackConfig, {
+   
   module: {
     rules: utils.styleLoaders({
       sourceMap: config.test.productionSourceMap,
@@ -83,6 +84,7 @@ const webpackConfig = merge(baseWebpackConfig, {
       name: 'vendor',
       minChunks (module) {
         // any required modules inside node_modules are extracted to vendor
+        console.log('resource', module.resource);
         return (
           module.resource &&
           /\.js$/.test(module.resource) &&

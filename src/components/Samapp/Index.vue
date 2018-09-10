@@ -49,10 +49,6 @@
 
                     <el-table-column prop="use_remark" label="用途备注" show-overflow-tooltip></el-table-column>
 
-                    <!-- <el-table-column prop="goods_name" label="申请商品"></el-table-column> -->
-
-                    <!-- <el-table-column prop="num" label="数量"></el-table-column> -->
-
                     <el-table-column prop="applicant" label="申请人"></el-table-column>
 
                     <el-table-column prop="operator" label="操作人"></el-table-column>

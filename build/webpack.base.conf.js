@@ -35,8 +35,8 @@ function getAssetsPublicPath(env) {
 module.exports = {
   context: path.resolve(__dirname, '../'),
   entry: {
-    'babel-polyfill': 'babel-polyfill',
-    app: './src/main.js'
+    app: './src/main.js',
+    'babel-polyfill': 'babel-polyfill'
   },
   output: {
     path: config.build.assetsRoot,
@@ -102,6 +102,8 @@ module.exports = {
   },
 
   // externals:{
-  //   UE: 'window.UE'
+  //   // UE: 'window.UE'
+  //   'element-ui' : 'ELEMENT',
+  //   'vue':'Vue'
   // }
 }

@@ -19,7 +19,15 @@
                             </el-form-item>
                         </el-col>
                 </el-row>
-               
+                <el-row>
+                    <el-col :span="12">
+                        <el-form-item prop="type" label="订单类型">
+                            <el-select v-model="queryForm.type">
+                                <el-option v-for="item in getOrderTypes" :key="item.id" :label="item.name" :value="item.id"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
                 <el-row>
                     <el-col :span="12">
                         <el-form-item prop="consignee" label="收货人">
@@ -87,7 +95,7 @@
     // import DepartmentSelectProxy from '@/packages/DepartSelectProxy';
     import GroupSelectProxy from '@/packages/GroupSelectProxy';
     import EmployeeSelectProxy from '@/packages/EmployeeSelectProxy';
-
+    import { mapGetters } from 'vuex';
     import status from '../status';
     export default {
         name: 'advance',
@@ -127,6 +135,11 @@
                     deal_id:'',
                 },
             }
+        },
+        computed:{
+            ...mapGetters([
+                'getOrderTypes'
+            ])
         },
         methods:{
             handleReset(){

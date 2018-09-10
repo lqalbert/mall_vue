@@ -45,7 +45,13 @@
                 <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" @cellclick="rowCellClick" :page-size="15">
                     <el-table-column label="序号" align="center" width="65" type="index"></el-table-column>
 
-                    <el-table-column prop="app_time" label="申请时间" width="180"></el-table-column>
+                    <el-table-column prop="app_time" label="申请时间" width="140"></el-table-column>
+
+                    <el-table-column prop="entrepot" label="配送中心" width="140">
+                        <template slot-scope="scope">
+                            {{ scope.row.entrepot.name }}
+                        </template>
+                    </el-table-column>
 
                     <el-table-column prop="use_remark" label="用途备注" show-overflow-tooltip></el-table-column>
 

@@ -9,10 +9,18 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
+                        <el-form-item label="配送中心" prop="entrepot">
+                            {{checkForm.entrepot.name}}
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row>   
+                    <el-col :span="8">
                         <el-form-item label="申请人" prop="applicant">
                             {{checkForm.applicant}}
                         </el-form-item>
                     </el-col>
+                    
                     <el-col :span="8">
                         <el-form-item label="操作人" prop="operator">
                             {{checkForm.operator}}
@@ -115,7 +123,8 @@ export default {
 
                 id:1,
                 check_remark:'',
-                check_status:'1'
+                check_status:'1',
+                entrepot:[],
             },
             goodsData:[],
         }

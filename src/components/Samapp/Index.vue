@@ -98,7 +98,7 @@
     import showGoods from './ShowGoods';
 
     export default {
-        name:'Samapp',
+        name:'SampleApplication',
         pageTitle:"样品申请",
         mixins: [PageMix, SearchTool,DataTable],
         components:{

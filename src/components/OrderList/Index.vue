@@ -99,6 +99,7 @@
             this.setPageAdmin();
 
             this.$store.dispatch('initAllCates');
+            this.$store.dispatch('initOrderTypes');
         }
     }
 </script>

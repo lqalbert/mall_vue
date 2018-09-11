@@ -133,6 +133,7 @@
                     group_id:'',
                     department_id:'',
                     deal_id:'',
+                    type:""
                 },
             }
         },

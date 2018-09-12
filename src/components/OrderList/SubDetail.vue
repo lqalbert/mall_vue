@@ -54,7 +54,7 @@
                             </el-table-column>
                             <el-table-column prop="name" label="收货人姓名" align="center">
                             </el-table-column>
-                            <el-table-column prop="phone" label="收货人电话" align="center">
+                            <el-table-column prop="fixed_telephone" label="收货人电话" align="center">
                             </el-table-column>
                         </el-table>
                     </el-tab-pane>

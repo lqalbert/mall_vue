@@ -54,7 +54,7 @@
                         </template>
                     </el-table-column>
 
-                    <el-table-column prop="destroy_count" sortable='custom' label="样品">
+                    <el-table-column prop="sample_count" sortable='custom' label="样品">
                         <template slot-scope="scope">
                             暂无
                         </template>

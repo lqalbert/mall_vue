@@ -161,6 +161,8 @@
                         };
                         this.$emit('add-goods', addData);
                         this.$refs.goodsForm.resetFields();
+                        this.entrepot_sum = 0;
+                        this.show_stock = false;
                     }
                 },
                 loadGoods(data){

@@ -116,8 +116,10 @@
                         <el-button type="primary" size="small" @click="openStop">拦截/取消</el-button>
                         <el-button type="primary" size="small" @click="editAddress">修改地址</el-button>     
 
-                        <el-button type="primary" size="small"   @click="showExpress">快递单打印</el-button>
-                        <el-button type="primary" size="small"   @click="showAssign">发货单打印</el-button>
+                        <!-- <el-button type="primary" size="small"   @click="showExpress">快递单打印</el-button> -->
+                        <el-button type="primary" size="small"   @click="showExpressMulti">快递单打印</el-button>
+                        <!-- <el-button type="primary" size="small"   @click="showAssign">发货单打印</el-button> -->
+                        <el-button type="primary" size="small"   @click="printGoods2">发货单打印</el-button>
                         <el-button type="primary" size="small"   @click="editExpressFee">修改实付运费</el-button>
                         <!-- <el-button type="primary" size="small"  @click="setParcelOn">设为已揽件</el-button> -->
                         <el-button type="primary" size="small" @click="orderSign">设为签收</el-button>
@@ -388,22 +390,7 @@ export default {
                     return ;
                 }
                 let pr = true;
-                // if (this.currentRow.express_print_status == 1) {
-                //     pr = false;
-                //     this.$confirm('已打印过快递单, 是否继续?', '提示', {
-                //         confirmButtonText: '确定',
-                //         cancelButtonText: '取消',
-                //         type: 'warning'
-                //         }).then(() => {
-                //             pr = true;
-
-                //         }).catch(() => {
-                                
-                        // });
-                // }
-                // todo 
-                // this.$modal.show('express', param);
-                //与打印机通讯 要面单什么的
+                
                 if (pr) {
                     //更新记录的打印时间　打印状态 返回打印的数据？　估计还要设置一下格式
                     AssignAjaxProxy.waybillPrint(this.currentRow.id).then((response)=>{
@@ -425,6 +412,21 @@ export default {
                     });
                 }
             }
+        },
+        //改良版批量打印
+        showExpressMulti(){
+            if (this.multipleSelection.length == 0) {
+                this.$message.error("勾选多个");
+                return ;
+            }
+
+            let ids = [];
+            this.multipleSelection.forEach((element)=>{
+                ids.push(element.id);
+            });
+            
+            ws.doPrintMulti(AssignAjaxProxy, ids, this);
+
         },
         showAssign(){
             if (this.openDialogCheck()) {

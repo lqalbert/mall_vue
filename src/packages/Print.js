@@ -251,6 +251,39 @@ function doPrint(printer ,waybillArray)
 
 }
 
+function doPrintMulti(ajaxProxy, ids, obj)
+{
+    for (let index = 0; index < ids.length; index++) {
+        const element = ids[index];
+        ajaxProxy.waybillPrint(element).then((response)=>{
+            let data = response.data;
+            if (data.status !=1 ) {
+                // this.$message.error('打印数据出错');
+                obj.$notify.error({
+                    title: '错误',
+                    message: data.data.assign_sn + '打印数据出错'
+                });
+                return ;
+            }
+    
+            if(data.data.express_sn.toString().length==0){
+                // this.$message.error('没有面单号');
+                obj.$notify.error({
+                    title: '错误',
+                    message: data.data.assign_sn + '没有面单号'
+                });
+                return ;
+            }
+            delete data.data.print_data.encryptedData;
+            delete data.data.print_data.ver;
+            doPrint(data.data.printer, data.data.print_data);
+        }); 
+    }
+    obj = null;
+    ajaxProxy = null;
+    
+}
+
 /**
  * 打印电子面单 批量
  * printer 指定要使用那台打印机
@@ -420,4 +453,5 @@ ws.staticPrint = staticPrint;
 ws.goodsList = goodsList;
 ws.doPrints = doPrints;
 ws.multiGoodsLists = multiGoodsLists;
+ws.doPrintMulti = doPrintMulti;
 export default ws;

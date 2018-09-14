@@ -101,9 +101,9 @@ module.exports = {
     child_process: 'empty'
   },
 
-  // externals:{
-  //   // UE: 'window.UE'
-  //   'element-ui' : 'ELEMENT',
-  //   'vue':'Vue'
-  // }
+  externals:{
+    // UE: 'window.UE'
+    'element-ui' : 'ELEMENT',
+    'vue':'Vue'
+  }
 }

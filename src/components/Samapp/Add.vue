@@ -3,22 +3,37 @@
         <MyDialog title="样品申请" :name="name" :width="width" :height="height" @before-open="onOpen">
             <el-form ref="addForm" :model="addForm" :label-width="labelWidth" :label-position="labelPosition">
                 <el-row>
-                    <el-col :span="8">
+                    <el-col :span="12">
                         <el-form-item label="申请时间" prop="app_time">
                             <el-date-picker size="small" v-model="addForm.app_time" 
                                 placeholder="申请时间" :picker-options="setPicker"
-                                @change="appTimeChange" :clearable="false" class="form-item-unique">
+                                @change="appTimeChange" :clearable="false" class="name-input">
                             </el-date-picker>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="8">
-                        <el-form-item label="申请人" prop="applicant">
-                            <el-input size="small" v-model="addForm.applicant"></el-input>
+                    <el-col :span="12">
+                        <el-form-item label="配送中心" prop="entrepot_id">
+                            <el-select
+                                    clearable
+                                    v-model="addForm.entrepot_id"
+                                    size="small"
+                                    placeholder="配送中心" class="name-input">
+                                <el-option v-for="v in entrepots" :label="v.name"
+                                        :value="v.id" :key="v.id">
+                                </el-option>
+                            </el-select>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="8">
+                </el-row>
+                <el-row>    
+                    <el-col :span="12">
+                        <el-form-item label="申请人" prop="applicant">
+                            <el-input size="small" v-model="addForm.applicant" class="name-input"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
                         <el-form-item label="操作人" prop="operator">
-                            <el-input size="small" v-model="addForm.operator"></el-input>
+                            <el-input size="small" v-model="addForm.operator" class="name-input"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -77,7 +92,6 @@ import { mapGetters } from 'vuex';
 // import ChoseGoods from './ChoseGoods';
 import ChoseGoods from '@/components/CustomerInfo/choseGoods';
 
-
 export default {
     name: 'addSample',
     mixins:[DialogForm],
@@ -101,16 +115,18 @@ export default {
                 use_remark:'',
                 totalMoney:0,
                 // num:0,
-                goodsData:[]
+                goodsData:[],
+                entrepot_id:''
             },
             goodsData:[],
         }
     },
     computed:{
-        ...mapGetters([
-            'user_id',
-            'getUser',
-        ]),
+        ...mapGetters({
+            'user_id':'user_id',
+            'getUser':'getUser',
+            'entrepots':'getEntrepots'
+        }),
         totalMoney(){
             let s = 0;
             this.goodsData.forEach((element)=>{
@@ -124,7 +140,8 @@ export default {
                 s += element.goods_number;
             })
             return s;
-        }
+        },
+        
     },
     methods:{
         onOpen(param){
@@ -151,12 +168,16 @@ export default {
         },
         getAjaxPromise(model){
             return this.ajaxProxy.create(model);
+        },
+        submitSuccess(){
+            this.$refs.addForm.resetFields();
+            this.addForm.addForm = [];
+            this.goodsData = [];
         }
     },
     created(){
-        // let user = this.getUser;
-        // this.addForm.deal_id =  user.id;
-        // this.addForm.deal_name = user.realname;
+        this.$store.dispatch('initEntrepots');
+        this.$on('submit-success', this.submitSuccess);
     },
 }
 </script>

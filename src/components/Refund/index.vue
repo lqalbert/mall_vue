@@ -23,6 +23,12 @@
                     <el-input size="small" v-model="searchForm.order_sn" placeholder="订单号"></el-input>
                 </el-form-item>
 
+                <el-form-item prop="department_id" v-if="!isSaler">
+                    <el-select v-model="searchForm.department_id" size="small" placeholder="部门">
+                        <el-option v-for="department in getDepartments" :key="department.id" :value="department.id" :label="department.name"></el-option>
+                    </el-select>
+                </el-form-item>
+
                 <!-- <el-form-item prop="consignee">
                     <el-input size="small" v-model="searchForm.consignee" placeholder="请输入客户名称"></el-input>
                 </el-form-item> -->
@@ -84,10 +90,10 @@
                     <div slot="buttonbar">
                         <el-button type="primary" size="small" v-if="hasSure" @click="handleRefundSure">退换货确认</el-button>
                         <el-button type="primary" size="small" @click="showRefundCheck">审核</el-button>
-                        <el-button type="primary" size="small" @click="showEdit">编辑</el-button>
+                        <!-- <el-button type="primary" size="small" @click="showEdit">编辑</el-button> -->
                         <!-- <el-button type="primary" size="small" @click="inventory">入库操作</el-button> -->
-                        <el-button type="primary" size="small" @click="openRefundInventory">退货入库</el-button>
-                        <el-button type="primary" size="small" @click="openOutInventory">坏货出库</el-button>
+                        <el-button type="primary" size="small" @click="openRefundInventory" v-if="isAssignMember" >退货入库</el-button>
+                        <el-button type="primary" size="small" @click="openOutInventory" v-if="isAssignMember">坏货出库</el-button>
                     </div>
                 </TableProxy>
             </el-col>
@@ -122,6 +128,7 @@
     import Edit from './Edit';
     import RefundInventory from  './RefundInventory';
     import OutInventory from './OutInventory';
+    import { mapGetters } from 'vuex';
 
     export default {
         name: 'Refund',
@@ -146,7 +153,8 @@
                     start:'',
                     order_sn:"",
                     return_sn:"",
-                    value7:[]
+                    value7:[],
+                    department_id:""
                 },
                 pickerOptions2: {
                     shortcuts: [{
@@ -183,7 +191,13 @@
         computed:{
             hasSure(){
                 return this.$store.getters.hasRefundSure;
-            }
+            },
+            isSaler(){
+                return this.$store.getters.hasRefundSure;
+            },
+            ...mapGetters([
+                'getDepartments'
+            ])
         },
         methods:{
             setFieldText(field,TextArr){
@@ -332,6 +346,11 @@
             o['current-change'] = this.onCurrentChange;
             o['row-dblclick'] = this.showRow;
             this.bubble = o;
+
+            this.$store.dispatch("initDepartments");
+            if (this.isSaler) {
+                this.searchForm.department_id = this.$store.getters.department_id;
+            }
 
 
         }

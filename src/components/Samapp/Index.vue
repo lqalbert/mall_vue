@@ -45,7 +45,13 @@
                 <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" @cellclick="rowCellClick" :page-size="15">
                     <el-table-column label="序号" align="center" width="65" type="index"></el-table-column>
 
-                    <el-table-column prop="app_time" label="申请时间" width="180"></el-table-column>
+                    <el-table-column prop="app_time" label="申请时间" width="140"></el-table-column>
+
+                    <el-table-column prop="entrepot" label="配送中心" width="140">
+                        <template slot-scope="scope">
+                            {{ scope.row.entrepot.name }}
+                        </template>
+                    </el-table-column>
 
                     <el-table-column prop="use_remark" label="用途备注" show-overflow-tooltip></el-table-column>
 
@@ -67,7 +73,7 @@
 
                     <div slot="buttonbar">
                         <el-button type="primary" size="small" @click="sampleAdd">申请</el-button>
-                        <el-button type="primary" size="small" @click="sampleCheck" if="isAdmin" >审核</el-button>
+                        <el-button type="primary" size="small" @click="sampleCheck" v-if="isAdmin" >审核</el-button>
                         <el-button type="info" size="small" @click="showGoods">查看商品</el-button>
                     </div>
 
@@ -92,7 +98,7 @@
     import showGoods from './ShowGoods';
 
     export default {
-        name:'Samapp',
+        name:'SampleApplication',
         pageTitle:"样品申请",
         mixins: [PageMix, SearchTool,DataTable],
         components:{

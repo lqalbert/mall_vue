@@ -17,7 +17,7 @@
                         </el-form-item> -->
                     </el-col>
                 </el-row>
-                <el-row>
+                <!-- <el-row>
                     <el-col :span="12">
                         <el-form-item label="商品类型" prop="cate_type_id">
                             <el-select
@@ -41,7 +41,7 @@
                             </el-select>
                         </el-form-item>
                     </el-col>
-                </el-row>
+                </el-row> -->
 
                 <el-row>
                     <el-col :span="12">
@@ -103,8 +103,8 @@
                 cate_kinds:[],
                 searchForm:{
                     entrepot_id:'',
-                    cate_type_id:'',
-                    cate_kind_id:'',
+                    // cate_type_id:'',
+                    // cate_kind_id:'',
                     sku_sn:'',
                     goods_name:'',
                 }

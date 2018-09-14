@@ -1,6 +1,10 @@
 {
   "name": "mall-backend-front",
+<<<<<<< HEAD
   "version": "1.2.16",
+=======
+  "version": "1.2.21b",
+>>>>>>> dev
   "description": "A Vue.js project",
   "author": "mcdyqnc <hyfdyx@qq.com>",
   "private": true,

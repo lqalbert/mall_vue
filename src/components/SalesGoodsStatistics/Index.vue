@@ -48,11 +48,18 @@
                             暂无
                         </template>
                     </el-table-column>
+<<<<<<< HEAD
                     <el-table-column prop="destroy_count" sortable='custom' label="样品">
                         <template slot-scope="scope">
                             暂无
                         </template>
                     </el-table-column>
+=======
+
+                    <el-table-column prop="sample_num" sortable='custom' label="样品"></el-table-column>
+
+                    <el-table-column prop="inner_num" sortable='custom' label="内购"></el-table-column>
+>>>>>>> dev
                 </TableProxy>
             </el-col>
         </el-row>

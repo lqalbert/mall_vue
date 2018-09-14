@@ -216,8 +216,8 @@
                             this.$emit('valid-error');
                             return ;
                         }
-
-                        if (element.return_inventory + element.destroy_num  > element.return_num) {
+                        //+ element.destroy_num 
+                        if (element.return_inventory  > element.return_num) {
                             this.$message.error("入库或损坏数量不正确");
                             this.$emit('valid-error');
                             return ;

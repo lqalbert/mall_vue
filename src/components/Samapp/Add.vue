@@ -86,6 +86,13 @@
         </MyDialog>
     </div>
 </template>
+ 
+   
+    
+
+     
+       
+          
 <script>
 import DialogForm from '@/mix/DialogForm';
 import { mapGetters } from 'vuex';

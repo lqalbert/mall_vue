@@ -73,7 +73,7 @@
 
                     <div slot="buttonbar">
                         <el-button type="primary" size="small" @click="sampleAdd">申请</el-button>
-                        <el-button type="primary" size="small" @click="sampleCheck" if="isAdmin" >审核</el-button>
+                        <el-button type="primary" size="small" @click="sampleCheck" v-if="isAdmin" >审核</el-button>
                         <el-button type="info" size="small" @click="showGoods">查看商品</el-button>
                     </div>
 

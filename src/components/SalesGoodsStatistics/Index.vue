@@ -54,7 +54,7 @@
                         </template>
                     </el-table-column>
 
-                    <el-table-column prop="sample_count" sortable='custom' label="样品"></el-table-column>
+                    <el-table-column prop="sample_num" sortable='custom' label="样品"></el-table-column>
 
                     <el-table-column prop="inner_num" sortable='custom' label="内购"></el-table-column>
                 </TableProxy>

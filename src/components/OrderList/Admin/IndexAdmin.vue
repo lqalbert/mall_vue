@@ -119,7 +119,7 @@
                     <el-table-column prop="cus_name" label="购买顾客" align="center">
                     </el-table-column>
 
-                    <el-table-column prop="deal_name" label="成交员工" align="center">
+                    <el-table-column prop="user_name" label="所属员工" align="center">
                     </el-table-column>
 
                     <el-table-column prop="status_text" label="订单状态" align="center">

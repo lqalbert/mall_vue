@@ -55,7 +55,7 @@
                     <el-table-column prop="goods_name" label="商品名称" header-align="center">
                     </el-table-column>
 
-                    <el-table-column prop="cate_type" label="商品类型" align="center">
+                    <!-- <el-table-column prop="cate_type" label="商品类型" align="center">
                         <template slot-scope="scope">
                             {{setFieldType(scope.row)}}
                         </template>
@@ -65,7 +65,7 @@
                         <template slot-scope="scope">
                             {{setFieldKind(scope.row)}}
                         </template>
-                    </el-table-column>
+                    </el-table-column> -->
 
                     <el-table-column prop="entrepot_count" label="库存数量" header-align="center">
                     </el-table-column>

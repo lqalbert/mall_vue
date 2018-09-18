@@ -142,6 +142,7 @@
     import Add from './Add.vue';
     import Copy from './Copy.vue';
     import QuestionnaireDetails from './QuestionnaireDetails.vue';
+    import QuestionnaireDetails2 from './QuestionnaireDetails2.vue';
     import Info from './Info.vue';
     import PageMix from '@/mix/Page';
 <<<<<<< HEAD

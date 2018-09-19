@@ -25,9 +25,16 @@ const config = {
                 type: 'warning'
             }).then(()=>{
                 ajaxProxy.delete(id).then(function(response){
-                    vmthis.$message.success("操作成功");
+                    let data = response.data;
+                    if (data.status == 1) {
+                        vmthis.$message.success("操作成功");
+                        vmthis.$emit('delete-success');
+                    }else {
+                        vmthis.$message.error(data.msg);
+                        vmthis.$emit('delete-error');
+                    }
                     // vmthis.handleReload();
-                    vmthis.$emit('delete-success');
+                    
                 }).catch(function(error){
                     vmthis.$message.error("出错了")
                 });

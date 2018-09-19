@@ -315,9 +315,10 @@ function goodsList(contents){
     request.task = new Object();
     request.task.taskID = getUUID(8,10);
     request.task.preview = false;
-    request.task.previewType = 'PDF';
+    request.task.previewType = 'image';
     request.task.printer = '针式打印机';//printer;
-    // request.task.notifyType = ["render","print"];
+    // request.task.printer = 'OKI MICROLINE 5100F (副本 2)';
+    // request.task.notifyType = ["render","print"]; //
     var documents = new Array();
     request.task.documents = documents;
     documents.push({documentID: getUUID(8,10), 'contents':[contents]});

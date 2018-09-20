@@ -36,7 +36,16 @@
                             </el-select>
                         </el-form-item>
                     </el-col>
-
+                </el-row>
+                <el-row>
+                    <el-col :span="12">
+                        <el-form-item label="前台显示" prop="is_display">
+                            <el-radio-group v-model="editForm.is_display">
+                                <el-radio :label="0">是</el-radio>
+                                <el-radio :label="1">否</el-radio>
+                            </el-radio-group>
+                        </el-form-item>    
+                    </el-col>
                 </el-row>
             </el-form>
 
@@ -94,7 +103,8 @@
                     label:"",
                     pid:'',
                     level:'',
-                    type_id:''
+                    type_id:'',
+                    is_display:''
                 },
                 model:''
 

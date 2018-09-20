@@ -38,6 +38,16 @@
                     </el-col>
 
                 </el-row>
+                <el-row>
+                    <el-col :span="12">
+                        <el-form-item label="前台显示" prop="is_display">
+                            <el-radio-group v-model="addForm.is_display">
+                                <el-radio label="0">是</el-radio>
+                                <el-radio label="1">否</el-radio>
+                            </el-radio-group>
+                        </el-form-item>    
+                    </el-col>
+                </el-row>
             </el-form>
 
             <div slot="dialog-foot" class="dialog-footer">
@@ -93,7 +103,8 @@
                     label:"",
                     pid:'0',
                     level:'1',
-                    type_id:''
+                    type_id:'',
+                    is_display:'0'
                 },
 
 
@@ -126,7 +137,8 @@
                     v = v-1;
                 }
                 this.getData(v)
-            }, getAjaxPromise(model){
+            },
+            getAjaxPromise(model){
                return this.ajaxProxy.create(model);
             },
 

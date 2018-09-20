@@ -115,9 +115,7 @@
             return {
                 dialogThis:this,
                 labelPosition:"right",
-                labelWidth:'100px',
-               
-               
+                labelWidth:'110px',
                 addForm:{
                     entrepot_id:"",
                     name:"默认",
@@ -136,6 +134,7 @@
                         { max:20, message:"最长不超过20个字符"}
                     ],
                     express:[
+                        { required: true, message:"请输入快递公司", type:'string'},
                         { max: 20 , message:"最长不超过20个字符"}
                     ],
                     entrepot_id:[

@@ -33,28 +33,36 @@
         
         <el-row>
             <el-col>
-                <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" :page-size="15" :default-sort="{prop: 'cus_count', order: 'descending'}">
+                <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" :page-size="15" 
+                 @dbclick="showRow" :default-sort="{prop: 'cus_count', order: 'descending'}">
                     <el-table-column label="序号" align="center" width="65" type="index"></el-table-column>
                     <el-table-column prop="sku_sn"  label="商品编号"></el-table-column>
                     <el-table-column prop="goods_name"  label="商品名称"></el-table-column>
                     <el-table-column prop="invent_num" sortable='custom' label="累计入库总数量"></el-table-column>
                     <el-table-column prop="saleable_count" sortable='custom' label="当前库存余量"></el-table-column>
-                    <el-table-column prop="sale_num" sortable='custom' label="本次销售数量"></el-table-column>
-                    <el-table-column prop="inner_num" sortable='custom' label="本次内购数量"></el-table-column>
-                    <el-table-column prop="shop_num"  sortable='custom' label="本次商城数量"></el-table-column>
-                    <el-table-column prop="ref_num" sortable='custom' label="本次退货数量"></el-table-column>
-                    <el-table-column prop="destroy_count" sortable='custom' label="本次损坏数量">
+                    <el-table-column prop="sale_num" sortable='custom' label="销售数量"></el-table-column>
+                    <el-table-column prop="sale_money" sortable='custom' label="销售金额"></el-table-column>
+                    <el-table-column prop="inner_num" sortable='custom' label="内购数量"></el-table-column>
+                    <el-table-column prop="inner_sale_money" sortable='custom' label="内购金额"></el-table-column>
+                    <el-table-column prop="shop_num"  sortable='custom' label="商城数量"></el-table-column>
+                    <el-table-column prop="shop_sale_money"  sortable='custom' label="商城金额"></el-table-column>
+                    <el-table-column prop="ref_num" sortable='custom' label="退货数量"></el-table-column>
+                    <el-table-column prop="destroy_count" sortable='custom' label="损坏数量">
                         <template slot-scope="scope">
                             暂无
                         </template>
                     </el-table-column>
-
-                    <el-table-column prop="sample_num" sortable='custom' label="样品"></el-table-column>
-
-                    <el-table-column prop="inner_num" sortable='custom' label="内购"></el-table-column>
+                    <el-table-column prop="sample_num" sortable='custom' label="样品数量">
+                        <!-- <template slot-scope="scope">
+                            <div v-if="scope.row.sample_num==null">0</div>
+                            <div v-else>{{scope.row.sample_num}}</div>
+                        </template> -->
+                    </el-table-column>
+                    <el-table-column prop="sample_sale_money" sortable='custom' label="样品金额"></el-table-column>
                 </TableProxy>
             </el-col>
         </el-row>
+        <SubDetail :ajax-proxy="ajaxProxy" :row="dbRow"></SubDetail>
     </div>
 </template>
 
@@ -65,11 +73,15 @@
     import SalesGoodsStatisticsAjax from '../../ajaxProxy/SalesGoodsStatistics';
     import Caculate from '@/config/caculate';
     import { mapGetters } from 'vuex';
+    import SubDetail from './SubDetail';
 
     export default {
         name:'SalesGoodsStatistics',
         pageTitle:"商品销售统计",
         mixins: [PageMix, SearchTool,DataTable],
+        components:{
+            SubDetail
+        },
         data(){
             return {
                 mainparam:"",
@@ -85,6 +97,7 @@
                     end:Caculate.showLastWeekLastDay(),
                     goods_name:'',
                 },
+                dbRow:null
                 
             }
         },
@@ -108,6 +121,14 @@
             },
             endDateChange(v){
                 this.searchForm.end = v;
+            },
+            showRow(row){
+                // console.log(row);
+                this.dbRow = {
+                    sku_sn:row.sku_sn,
+                    start:this.searchForm.start,
+                    end:this.searchForm.end
+                }
             },
             
         },

@@ -26,7 +26,10 @@
                 <el-col :span="24">
                     <el-table :data="datas" border v-loading="loading">
                         <el-table-column prop="name" label="客户姓名" align="center"></el-table-column>
-                        <el-table-column prop="mid_relative.user_name" label="所属员工" align="center"></el-table-column>
+                        <el-table-column prop="mid_relative.department_name" label="所属部门" align="center">
+                        </el-table-column>
+                        <el-table-column prop="mid_relative.user_name" label="所属员工" align="center">
+                        </el-table-column>
                     </el-table>
                 </el-col>
             </el-row>
@@ -37,6 +40,8 @@
 <script>
 import DialogForm from '../../mix/DialogForm';
 import CustomerSelectProxy from '@/packages/CustomerSelectProxy';
+import CustomerTrackLog from '../../ajaxProxy/CustomerTrackLog';
+import { mapGetters } from "vuex";
 
 export default {
     name: 'Edit',
@@ -46,7 +51,7 @@ export default {
             datas:[],
             searchForm:{
                 qq:'',
-                weixin:"",
+                weixin:'',
                 phone:'',
                 with:['midRelative'],
                 id:""
@@ -54,6 +59,12 @@ export default {
             loading:false
         }
     },
+    computed:{
+		...mapGetters([
+            'user_id',
+            'realname'
+		]),
+	},
     methods:{
         searchChange(){
             if (this.pro != JSON.stringify(this.searchForm)) {
@@ -68,8 +79,34 @@ export default {
             this.searchChange();
         },
         loadCustomer(data) {
+            let vmThis = this;
+            let content = "用";
             this.loading = false;
             this.datas = data.items;
+            
+            if(this.searchForm.qq!=''){
+                content = content+"qq"+this.searchForm.qq;
+            }
+            if(this.searchForm.weixin!=''){
+                content = content+"微信"+this.searchForm.weixin;
+            }
+            if(this.searchForm.phone!=''){
+                content = content+"电话"+this.searchForm.phone;
+            }
+            if(this.searchForm.qq=='' && this.searchForm.weixin=='' && this.searchForm.phone==''){
+                content = "";
+            }
+            if(data.items && content!=""){
+                let model = {
+                    cus_id:data.items[0].id,
+                    cus_name:data.items[0].name,
+                    user_id:vmThis.user_id,
+                    user_name:vmThis.realname,
+                    content:content+"预查了客户"
+                }
+                CustomerTrackLog.create(model);
+            }
+
         }
     },
     watch:{

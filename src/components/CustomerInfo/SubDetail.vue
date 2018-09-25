@@ -5,9 +5,9 @@
             <el-tab-pane label="跟踪记录" name="First">
                 <el-table :data="TrackLogData" border style="width: 100%" max-height="400">
                     <el-table-column prop="cus_name" label="客户姓名" align="center"></el-table-column>
-                    <el-table-column prop="user_name" label="录入人姓名" align="center"></el-table-column>
-                    <el-table-column prop="content" label="跟踪内容" align="center"></el-table-column>
-                    <el-table-column prop="created_at" label="录入时间" align="center"></el-table-column>
+                    <el-table-column prop="user_name" label="操作人" align="center"></el-table-column>
+                    <el-table-column prop="content" label="操作内容" align="center"></el-table-column>
+                    <el-table-column prop="created_at" label="操作时间" align="center"></el-table-column>
                 </el-table>
             </el-tab-pane>
             <el-tab-pane label="投诉记录" name="Second">

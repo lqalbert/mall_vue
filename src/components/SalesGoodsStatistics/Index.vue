@@ -61,7 +61,7 @@
                     <el-table-column prop="sample_sale_money" sortable='custom' label="样品金额"></el-table-column>
 
                     <div slot="buttonbar">
-                        <el-button type="info" size="small" @click="downloadExcel">下载表格</el-button>
+                        <!-- <el-button type="info" size="small" @click="downloadExcel">下载表格</el-button> -->
                     </div>
                 </TableProxy>
             </el-col>
@@ -141,7 +141,8 @@
                     end:vmThis.searchForm.end
                 }
                 // this.ajaxProxy.downloadExcel({params:data});
-                location.href = "http://localhost:8080/admin/sales-goods-statistics-download-excel?start=2018-09-17&end=2018-09-23";
+                // location.href = "http://localhost:8080/admin/sales-goods-statistics-download-excel?start=2018-09-17&end=2018-09-23";
+                window.open("http://localhost:8080/admin/sales-goods-statistics-download-excel?start=2018-09-17&end=2018-09-23");   
                 
             }
             

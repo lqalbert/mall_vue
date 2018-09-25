@@ -55,7 +55,13 @@
                         </el-form-item>
                     </el-col>
                 </el-row>
-
+                <el-row>
+                    <el-col :span="12">
+                        <el-form-item label="超首重价" prop="second_price">
+                            <el-input class="name-input" v-model="editForm.second_price" placeholder="请填首价"></el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="续重" prop="continued_weight" >
@@ -163,6 +169,7 @@
                     time_limit:'',
                     first_weight:'',
                     first_price:'',
+                    second_price:'',
                     continued_weight:'',
                     continued_price:'',
                     start_time:'',

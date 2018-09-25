@@ -29,8 +29,11 @@ export default {
   },
   methods:{
       handleSelect(key, keyPath) {
-          //console.log(key);
+          // console.log(key);
          // console.log(keyPath);
+         if(key.indexOf("http")==0) {
+           window.open(key);
+         }
         this.$emit("nav-change", key);
       }
   },

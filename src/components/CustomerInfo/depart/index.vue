@@ -105,7 +105,7 @@
     
                             <el-button size="small"  type="info" @click="showDialog('set-transfer')">转让</el-button>
                             <el-button size="small"  type="info" @click="showDialog('quit-depart')" >离职接收</el-button>
-                            <el-button size="small" type="info" @click="$modal.show('allocation')">分配</el-button>
+                            <!-- <el-button size="small" type="info" @click="$modal.show('allocation')">分配</el-button> -->
                             <el-button size="small"  type="info" @click="addComplain">投诉</el-button>
                             <el-button size="small" type="info"  @click="setPlan">计划</el-button>
                             

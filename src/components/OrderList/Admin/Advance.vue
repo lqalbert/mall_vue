@@ -67,7 +67,7 @@
                     </el-col>
                 </el-row>
                 <el-row>
-                    <el-col :span="12">
+                    <!-- <el-col :span="12">
                         <el-form-item prop="product_status" label="货物状态">
                             <el-select v-model="queryForm.product_status">
                                 <el-option
@@ -77,7 +77,7 @@
                                     :key="shipping_status.id"></el-option>
                             </el-select>
                         </el-form-item>
-                    </el-col>
+                    </el-col> -->
                     <el-col :span="12">
                         <el-form-item prop="range" label="购买时间区间">
                             <el-date-picker

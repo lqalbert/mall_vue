@@ -116,12 +116,12 @@
                         <el-button type="primary" size="small" @click="openStop">拦截/取消</el-button>
                         <el-button type="primary" size="small" @click="editAddress">修改地址</el-button>     
 
-                        <!-- <el-button type="primary" size="small"   @click="showExpress">快递单打印</el-button> -->
-                        <el-button type="primary" size="small"   @click="showExpressMulti">快递单打印</el-button>
+                        <el-button type="primary" size="small"   @click="showExpress">快递单打印</el-button>
+                        <!-- <el-button type="primary" size="small"   @click="showExpressMulti">快递单打印</el-button> -->
                         <!-- <el-button type="primary" size="small"   @click="showAssign">发货单打印</el-button> -->
                         <el-button type="primary" size="small"   @click="printGoods2">发货单打印</el-button>
                         <el-button type="primary" size="small"   @click="editExpressFee">修改实付运费</el-button>
-                        <!-- <el-button type="primary" size="small"  @click="setParcelOn">设为已揽件</el-button> -->
+                        <el-button type="primary" size="small"  @click="setParcelOn">设为已揽件</el-button>
                         <el-button type="primary" size="small" @click="orderSign">设为签收</el-button>
                     </div>
                 </TableProxy>
@@ -316,7 +316,9 @@ export default {
         onSearchChange(param){
             param['with'] = ['order.orderType','address'];
             param['appends'] = ['status_text'];
-            this.pstatusChange(param);
+            if (param.pstatus) {
+                this.pstatusChange(param);
+            }
             this.mainparam = JSON.stringify(param);
         },
         onCurrentChange(currentRow) {

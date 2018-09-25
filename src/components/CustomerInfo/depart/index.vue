@@ -105,7 +105,7 @@
     
                             <el-button size="small"  type="info" @click="showDialog('set-transfer')">转让</el-button>
                             <el-button size="small"  type="info" @click="showDialog('quit-depart')" >离职接收</el-button>
-
+                            <el-button size="small" type="info" @click="$modal.show('allocation')">分配</el-button>
                             <el-button size="small"  type="info" @click="addComplain">投诉</el-button>
                             <el-button size="small" type="info"  @click="setPlan">计划</el-button>
                             
@@ -168,7 +168,7 @@
             </preCheck>
 
             <Advance name="advance" :cus-type="cusData.type" :department-id="user_department_id"></Advance>
-    
+            <Allocation name="allocation"></Allocation>
         </div>
     
     </template>
@@ -184,7 +184,7 @@
         import GroupSelect from '@/packages/GroupSelectProxy';
         import EmployeeSelect from '@/packages/EmployeeSelectProxy';
         import CustomerSelect from '@/packages/CustomerSelectProxy';
-    
+        import Allocation from './Allocation';
         import { mapGetters } from 'vuex';
         import APP_CONST from '@/config';
     
@@ -193,7 +193,8 @@
             pageTitle: "客户资料",
             mixins: [localmix],
             components:{
-                Advance
+                Advance,
+                Allocation
             },
             data() {
                 return {

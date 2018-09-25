@@ -112,6 +112,7 @@
                         <el-button size="small"  type="info" @click="addOtherContact">联系方式</el-button>
                         <el-button size="small"  type="info" @click="addTrackLog">录入跟踪</el-button>
                         <el-button size="small"  type="info" @click="showDialog('quit')" >离职接收</el-button>
+                        <el-button size="small"  type="info" @click="$modal.show('allocation')" >前台导入</el-button>
                         <el-button size="small"  type="info" @click="addComplain">投诉</el-button>
                         <el-button size="small"  type="info" @click="setPlan">计划</el-button>
                     </div>
@@ -175,6 +176,7 @@
         </add-complain>
 
         <Advance name="advance" :cus-type="cusData.type"></Advance>
+        <Allocation name="allocation"></Allocation>
     </div>
 
 </template>
@@ -191,13 +193,15 @@
     import CustomerSelect from '@/packages/CustomerSelectProxy';
     import { mapGetters } from 'vuex';
     import APP_CONST from '@/config';
+    import Allocation from '../Allocation';
 
     export default {
         name: 'Customer',
         pageTitle: "客户资料",
         mixins: [localmix],
         components:{
-            Advance
+            Advance,
+            Allocation
         },
         data() {
             return {

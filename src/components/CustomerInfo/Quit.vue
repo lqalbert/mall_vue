@@ -1,5 +1,5 @@
 <template>
-    <!-- 给总经办用的 -->
+    <!-- 给总经办用的  -->
         <MyDialog title="部门经理 离职接收" :name="name" :width="width" :height="height" @before-open="onBeforeOpen">
             <el-row>
                 <el-col :span="24">
@@ -118,6 +118,9 @@
                     { field:['id', 'realname'], role:'department-manager',business:'select'},
                     this.loadDatas,
                     this );
+            },
+            beforeDestroy(){
+                this.employeeSelect = null;
             }
         }
     </script>

@@ -123,7 +123,7 @@ const mix = {
         // hyf 添加
         singlbutton(status, product_status, after_sale_status){
             this.searchForm.status = status,
-            this.searchForm.product_status = product_status;
+            this.searchForm.asisgn_status = product_status;
             this.searchForm.after_sale_status = after_sale_status;
 
             this.searchToolChange('searchForm');

@@ -77,6 +77,9 @@
                                 {{ scope.row.contacts[0].weixin_nickname }}
                             </template>
                         </el-table-column>
+                        <el-table-column label="创建时间" prop="created_at" width="180" align="center"></el-table-column>
+                        <el-table-column label="上次跟踪时间" prop="last_track" width="180" align="center"></el-table-column>
+                        <el-table-column label="最近一次冲突" prop="last_conflict" width="180" align="center"></el-table-column>
                         <el-table-column fixed="right" label="操作" width="200" align="center">
                             <template slot-scope="scope">
                                 <el-button-group>

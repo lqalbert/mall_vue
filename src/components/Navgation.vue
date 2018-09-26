@@ -31,10 +31,11 @@ export default {
       handleSelect(key, keyPath) {
           // console.log(key);
          // console.log(keyPath);
-         if(key.indexOf("http")==0) {
-           window.open(key);
-         }
-        this.$emit("nav-change", key);
+          if(key.indexOf("http")==0) {
+            window.open(key);
+          } else {
+            this.$emit("nav-change", key);
+          }
       }
   },
   created(){

@@ -36,6 +36,7 @@
                             <el-button type="primary" @click="showEdit(scope.row)" size="small">地址跳转</el-button>
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                             <el-button type="primary" @click="showQuestionnaireDetails2(scope.row)"  size="small" >详 情</el-button>
                             <!--<el-button type="primary" @click="showTest(scope.row)"  size="small" >测 试</el-button>-->
 =======
@@ -46,6 +47,10 @@
                             <el-button type="primary" @click="showQuestionnaireDetails2(scope.row)"  size="small" >详 情</el-button>
                             <!--<el-button type="primary" @click="showTest(scope.row)"  size="small" >测 试</el-button>-->
 >>>>>>> 20180906问卷管理展示修改
+=======
+                            <el-button type="primary" @click="showQuestionnaireDetails2(scope.row)"  size="small" >详 情</el-button>
+                            <!--<el-button type="primary" @click="showTest(scope.row)"  size="small" >测 试</el-button>-->
+>>>>>>> 79297c468cac698860b2a4bffff01441ff03acd1
                             <!--<el-button type="danger"  @click="handleDelete(scope.row.id)" size="small" >删除</el-button>-->
                         </template>
                     </el-table-column>
@@ -125,12 +130,18 @@
             name="questionnaire-details"
             @submit-success="handleReload">
         </QuestionnaireDetails>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 79297c468cac698860b2a4bffff01441ff03acd1
         <QuestionnaireDetails2
             name="QuestionnaireDetails2"
             @submit-success="handleReload">
         </QuestionnaireDetails2>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 79297c468cac698860b2a4bffff01441ff03acd1
         <Info
             name="info"
             @submit-success="handleReload">

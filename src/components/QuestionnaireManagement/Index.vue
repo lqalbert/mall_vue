@@ -145,12 +145,6 @@
     import QuestionnaireDetails2 from './QuestionnaireDetails2.vue';
     import Info from './Info.vue';
     import PageMix from '@/mix/Page';
-<<<<<<< HEAD
-    import QuestionnaireDetails2 from './QuestionnaireDetails2.vue';
-=======
-    import test from './test.vue';
-   
->>>>>>> 20180906改
     import SearchTool from '@/mix/SearchTool';
     import DataTable from '@/mix/DataTable';
 
@@ -168,15 +162,7 @@
             Copy,
             QuestionnaireDetails,
             Info,
-<<<<<<< HEAD
-<<<<<<< HEAD
             QuestionnaireDetails2
-=======
-            test
->>>>>>> 20180906改
-=======
-            QuestionnaireDetails2
->>>>>>> 20180906问卷管理展示修改
         },
         data() {
             return {
@@ -223,18 +209,9 @@
             showQuestionnaireDetails: function (row) {
                 this.$modal.show('questionnaire-details', {model:row});
             },
-<<<<<<< HEAD
-<<<<<<< HEAD
+
             showQuestionnaireDetails2: function (row) {
                 this.$modal.show('QuestionnaireDetails2', {model:row});
-=======
-            showTest: function (row) {
-                this.$modal.show('test', {model:row});
->>>>>>> 20180906改
-=======
-            showQuestionnaireDetails2: function (row) {
-                this.$modal.show('QuestionnaireDetails2', {model:row});
->>>>>>> 20180906问卷管理展示修改
             },
             getAjaxPromise(model){
                 return this.ajaxProxy.getSurveyResults(model.id);

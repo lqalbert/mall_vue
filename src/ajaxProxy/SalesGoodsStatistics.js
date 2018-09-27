@@ -10,4 +10,8 @@ proxy.getDepSale = function (sku,model){
 proxy.downloadExcel = function(param){
     return this.getAxios().get(this.url + '-download-excel', param)
 }
+
+proxy.downRouter = function(){
+    return this.url + '-download-excel';
+}
 export default proxy;

@@ -241,7 +241,7 @@
             },
             checkGoodsOne(row){
                 let vmThis = this;
-                if(row.goods_price == '' || row.check_count == ''){
+                if(row.goods_price === '' || row.check_count === ''){
                     this.$message.error('价格或者数量不能为空');
                     return;
                 }
@@ -253,7 +253,7 @@
                         // vmThis.handleReload(row);
                     }
                 }).catch(function(){
-                    console.log(error);
+                    // console.log(error);
                     vmthis.$message.error('出错了');
                 });
             },

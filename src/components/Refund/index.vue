@@ -196,7 +196,8 @@
                 return this.$store.getters.hasRefundSure;
             },
             ...mapGetters([
-                'getDepartments'
+                'getDepartments',
+                'isAssignMember'
             ])
         },
         methods:{

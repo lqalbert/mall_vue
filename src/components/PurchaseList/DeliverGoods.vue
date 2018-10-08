@@ -251,6 +251,7 @@ export default {
                 this.deliverForm.deliverGoodsList = this.selectionGoodsList;
                 console.log(this.deliverForm);
                 this.formSubmit(name);
+                this.selectionGoodsList = [];
             }
 
         }

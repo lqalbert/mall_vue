@@ -33,7 +33,7 @@
         import {QUESTIONNAIRE_URL} from '../../config';
         import { quillRedefine } from 'vue-quill-editor-upload';
         export default {
-            name: 'Copy',
+            name: 'Url',
             mixins:[DialogForm],
             props:{
                 questionnaire_url:{

@@ -53,6 +53,8 @@
                         </template>
                     </el-table-column>
 
+                    <el-table-column prop="department_name" label="所属部门" width="140"></el-table-column>
+
                     <el-table-column prop="use_remark" label="用途备注" show-overflow-tooltip></el-table-column>
 
                     <el-table-column prop="applicant" label="申请人"></el-table-column>

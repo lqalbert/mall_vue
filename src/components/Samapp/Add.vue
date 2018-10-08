@@ -1,7 +1,7 @@
 <template>
     <div>
         <MyDialog title="样品申请" :name="name" :width="width" :height="height" @before-open="onOpen">
-            <el-form ref="addForm" :model="addForm" :label-width="labelWidth" :label-position="labelPosition">
+            <el-form ref="addForm" :model="addForm" :rules="rules" :label-width="labelWidth" :label-position="labelPosition">
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="申请时间" prop="app_time">
@@ -15,7 +15,7 @@
                         <el-form-item label="配送中心" prop="entrepot_id">
                             <el-select
                                     clearable
-                                    v-model="addForm.entrepot_id"
+                                    v-model.number="addForm.entrepot_id"
                                     size="small"
                                     placeholder="配送中心" class="name-input">
                                 <el-option v-for="v in entrepots" :label="v.name"
@@ -26,14 +26,23 @@
                     </el-col>
                 </el-row>
                 <el-row>    
-                    <el-col :span="12">
+                    <el-col :span="8">
                         <el-form-item label="申请人" prop="applicant">
                             <el-input size="small" v-model="addForm.applicant" class="name-input"></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :span="7">
                         <el-form-item label="操作人" prop="operator">
                             <el-input size="small" v-model="addForm.operator" class="name-input"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="9">
+                        <el-form-item label="所属部门" prop="department_id">
+                            <el-select v-model.number="addForm.department_id" size="small" placeholder="部门" @change="departmentChange">
+                                <el-option v-for="department in departments" :key="department.id" 
+                                    :value="department.id" :label="department.name">
+                                </el-option>
+                            </el-select>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -85,13 +94,7 @@
             </div>
         </MyDialog>
     </div>
-</template>
- 
-   
-    
-
-     
-       
+</template>    
           
 <script>
 import DialogForm from '@/mix/DialogForm';
@@ -123,7 +126,25 @@ export default {
                 totalMoney:0,
                 // num:0,
                 goodsData:[],
-                entrepot_id:''
+                entrepot_id:'',
+                department_id:''
+            },
+            rules:{
+                app_time:[
+                    { required: true, message: '选择申请时间', trigger: 'blur' }
+                ],
+                entrepot_id:[
+                    { required: true, type:'number',message: '选择配送中心', trigger: 'blur' }
+                ],
+                applicant:[
+                    { required: true, message: '填写申请人', trigger: 'blur' }
+                ],
+                operator:[
+                    { required: true, message: '填写操作人', trigger: 'blur' }
+                ],
+                department_id:[
+                    { required: true,type:'number', message: '选择所属部门', trigger: 'blur' }
+                ]
             },
             goodsData:[],
         }
@@ -132,7 +153,8 @@ export default {
         ...mapGetters({
             'user_id':'user_id',
             'getUser':'getUser',
-            'entrepots':'getEntrepots'
+            'entrepots':'getEntrepots',
+            'departments':'getDepartments'
         }),
         totalMoney(){
             let s = 0;
@@ -180,10 +202,22 @@ export default {
             this.$refs.addForm.resetFields();
             this.addForm.addForm = [];
             this.goodsData = [];
+            this.addForm.department_name = '';
+        },
+        departmentChange(v){
+            this.getName(this.departments,'department_name',v);
+        },
+        getName(arr,field,id){
+            for (let i = 0; i < arr.length; i++) {
+                if (arr[i]['id'] == id) {
+                    this.addForm[field] = arr[i]['name'] ? arr[i]['name'] : arr[i]['realname'];
+                }
+            }
         }
     },
     created(){
         this.$store.dispatch('initEntrepots');
+        this.$store.dispatch('initDepartments');
         this.$on('submit-success', this.submitSuccess);
     },
 }
@@ -193,7 +227,7 @@ export default {
         width: 140px !important;
     }
     .name-input{
-        max-width: 170px;
+        max-width: 160px;
     }
     .name-input-area{
         max-width: 220px;

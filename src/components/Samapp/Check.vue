@@ -26,6 +26,12 @@
                             {{checkForm.operator}}
                         </el-form-item>
                     </el-col>
+
+                    <el-col :span="8">
+                        <el-form-item label="所属部门" prop="department_name">
+                            {{checkForm.department_name}}
+                        </el-form-item>
+                    </el-col>
                 </el-row>
                 <el-row>
                    <el-col :span="16">

@@ -219,14 +219,19 @@ export default {
             let vmThis = this;
             if(this.express_price){
                 let first_weight = parseInt(this.express_price.first_weight);
-                let first_price = parseInt(this.express_price.first_price);
+                let first_price = parseFloat(this.express_price.first_price);
+                let second_price = parseFloat(this.express_price.second_price);//超过首重时首价
                 let continued_weight = parseInt(this.express_price.continued_weight);
-                let continued_price = parseInt(this.express_price.continued_price);
+                let continued_price = parseFloat(this.express_price.continued_price);
                 
                 if(real_weigth <= first_weight){
                     this.checkForm.express_fee = first_price;
                 }else{
-                    this.checkForm.express_fee = first_price+((real_weigth-first_weight)/continued_weight)*continued_price;
+                    if(second_price){
+                        this.checkForm.express_fee = second_price+(Math.ceil((real_weigth-first_weight)/continued_weight))*continued_price;
+                    }else{
+                        this.checkForm.express_fee = first_price+(Math.ceil((real_weigth-first_weight)/continued_weight))*continued_price;
+                    }
                 }
             }else{
                 this.checkForm.express_fee = 0;

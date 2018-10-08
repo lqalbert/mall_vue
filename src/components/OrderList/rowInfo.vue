@@ -87,18 +87,18 @@
                             <el-table-column prop="unit_type" label="单位" align="center" width="70"> </el-table-column>
                             <el-table-column prop="price" label="价格" width="90"> </el-table-column>
                             <el-table-column prop="sku_sn" label="编号"> </el-table-column>
-                            <el-table-column prop="remark" label="备注" :show-overflow-tooltip="true" width="180">
-                                <template slot-scope="scope">
-                                    <span v-show="!scope.row.editState" >{{scope.row.remark}}</span>
-                                    <el-input
-                                        v-show="scope.row.editState"
-                                        size="small"
-                                        type="textarea"
-                                        autosize
-                                        v-model="scope.row.remark">
-                                    </el-input>
-                                </template>
-                            </el-table-column>
+                            <!--<el-table-column prop="remark" label="备注" :show-overflow-tooltip="true" width="180">-->
+                                <!--<template slot-scope="scope">-->
+                                    <!--<span v-show="!scope.row.editState" >{{scope.row.remark}}</span>-->
+                                    <!--<el-input-->
+                                        <!--v-show="scope.row.editState"-->
+                                        <!--size="small"-->
+                                        <!--type="textarea"-->
+                                        <!--autosize-->
+                                        <!--v-model="scope.row.remark">-->
+                                    <!--</el-input>-->
+                                <!--</template>-->
+                            <!--</el-table-column>-->
                             <el-table-column  label="操作" width="140" >
                                 <template slot-scope="scope">
                                     <el-button-group>

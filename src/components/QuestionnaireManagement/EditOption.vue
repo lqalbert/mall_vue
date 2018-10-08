@@ -1,60 +1,66 @@
 <template>
         <div>
-            <el-form ref="addOptionForm" :model="addOptionForm" :rules="rules" label-width="90px">
+            <MyDialog title="新建问卷" :name="name" :width="width" :height="height"  @before-open="onOpen">
+            <el-form ref="editOptionForm" :model="editOptionForm" :rules="rules" label-width="90px" >
                 <el-row>
                     <el-col :span="12" >
                         <el-form-item label="题目类型" prop="problem_type" >
-                            <el-select v-model.number="addOptionForm.problem_type" size="small" @change="typeChange">
+                            <el-select v-model.number="editOptionForm.problem_type" size="small" @change="typeChange">
                                 <el-option v-for="v in types" :label="v.name" :value="v.id" :key="v.id"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12" >
                         <el-form-item label="问卷题目" prop="topic_name" >
-                            <el-input  size="small" v-model="addOptionForm.topic_name"  auto-complete="off" ></el-input>
+                            <el-input  size="small" v-model="editOptionForm.topic_name"  auto-complete="off" ></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
                     <el-row>
                         <el-col :span="24" class="col">
                             <el-form-item label="选项A" prop="option_a" >
-                                <el-input  size="small" v-model="addOptionForm.option_a" :disabled="typeTwo" auto-complete="off" ></el-input>
+                                <el-input  size="small" v-model="editOptionForm.option_a" :disabled="typeTwo" auto-complete="off" ></el-input>
                             </el-form-item>
                         </el-col>
                     </el-row>
                     <el-row>
                         <el-col :span="24" class="col">
                             <el-form-item label="选项B" prop="option_b" >
-                                <el-input  size="small" v-model="addOptionForm.option_b" :disabled="typeTwo" auto-complete="off" ></el-input>
+                                <el-input  size="small" v-model="editOptionForm.option_b" :disabled="typeTwo" auto-complete="off" ></el-input>
                             </el-form-item>
                         </el-col>
                     </el-row>
                     <el-row>
                         <el-col :span="24" class="col">
                             <el-form-item label="选项C" prop="option_c" >
-                                <el-input  size="small" v-model="addOptionForm.option_c" :disabled="typeTwo" auto-complete="off" ></el-input>
+                                <el-input  size="small" v-model="editOptionForm.option_c" :disabled="typeTwo" auto-complete="off" ></el-input>
                             </el-form-item>
                         </el-col>
                     </el-row>
                     <el-row>
                         <el-col :span="24" class="col">
                             <el-form-item label="选项D" prop="option_d" >
-                                <el-input  size="small" v-model="addOptionForm.option_d" :disabled="typeTwo" auto-complete="off" ></el-input>
+                                <el-input  size="small" v-model="editOptionForm.option_d" :disabled="typeTwo" auto-complete="off" ></el-input>
                             </el-form-item>
                         </el-col>
                     </el-row>
                     <el-row>
                         <el-col :span="24" class="col">
                             <el-form-item label="选项E" prop="option_e" >
-                                <el-input  size="small" v-model="addOptionForm.option_e" :disabled="typeTwo" auto-complete="off" ></el-input>
+                                <el-input  size="small" v-model="editOptionForm.option_e" :disabled="typeTwo" auto-complete="off" ></el-input>
                             </el-form-item>
                         </el-col>
                     </el-row>
-                <el-row type="flex" justify="space-between">
-                    <el-col :span="4">问卷列表</el-col>
-                    <el-col :span="3"><el-button size="small" @click="addOptions" type="primary">添加</el-button></el-col>
-                </el-row>
         </el-form>
+                <div slot="dialog-foot" class="dialog-footer">
+                    <el-button @click="handleClose">取 消</el-button>
+                    <submit-button
+                            :observer="dialogThis"
+                            @click="formSubmit('editOptionForm')" >
+                        保 存
+                    </submit-button>
+                </div>
+            </MyDialog>
         </div>
     </template>
     
@@ -63,15 +69,22 @@
     
         import GoodsSelectProxy from '@/packages/GoodsSelectProxy';
         import EntrepotProductAjax from '@/ajaxProxy/EntrepotProduct';
-    
+        import DialogForm from '../../mix/DialogForm';
+        import QuestionnaireOptionsSelect from '@/packages/QuestionnaireOptionsSelectProxy';
+
         export default {
-            name: 'AddOption',
+            name: 'edit-option',
+            mixins:[DialogForm],
             props:{
                 CategoryList:'',
             },
             data () {
                 return {
-                    addOptionForm:{
+                    dialogThis:this,
+                    labelPosition:"right",
+                    labelWidth:'100px',
+                    editOptionForm:{
+                        id:'',
                         problem_type:"",
                         topic_name:"",
                         option_a:'',
@@ -100,6 +113,9 @@
                         {id:2,name:'多项选择型'},
                         {id:3,name:'文字填写型'}
                     ],
+                    model:null,
+                    row:null,
+                    questionnaireOptionsResults:null,
                 }
             },
             computed:{
@@ -108,8 +124,21 @@
                 }
             },
             methods: {
+                onOpen(param){
+                    this.row = param.params.model;
+                    this.questionnaireOptionsResults.setParam({
+                        questionnaire_options_id:this.row.questionnaire_options_id,
+                    });
+                    this.questionnaireOptionsResults.load();
+                },
                 goodsSearch(v) {
                     this.getGoods({goods_name: v});
+                },
+                getAjaxPromise(model){
+                    return this.ajaxProxy.update(model.id, model);
+                } ,
+                getQuestionnaireOptionsResults(res) {
+                    this.model = res.items[0];
                 },
                 typeChange(v) {
                     if (v == 3) {
@@ -119,9 +148,9 @@
                     }
                 },
                 addOptions() {
-                    this.$refs['addOptionForm'].validate((valid) => {
+                    this.$refs['editOptionForm'].validate((valid) => {
                         if (valid) {
-                            let item = this.addOptionForm;
+                            let item = this.editOptionForm;
                             let addData = {
                                 problem_type: item.problem_type,
                                 topic_name: item.topic_name,
@@ -132,7 +161,7 @@
                                 option_e: item.option_e,
                             };
                             this.$emit('add-options', addData);
-                            this.$refs.addOptionForm.resetFields();
+                            this.$refs.editOptionForm.resetFields();
                             this.typeTwo = false;
                         } else {
                             console.log('error submit!!');
@@ -142,9 +171,18 @@
                 },
 
             },
-
+            watch:{
+                model:function(val, oldVal){
+                    for (const key in this.editOptionForm) {
+                        if (this.editOptionForm.hasOwnProperty(key)) {
+                            this.editOptionForm[key] = val[key];
+                        }
+                    }
+                }
+            },
             created(){
-                // this.goodsProxy = new GoodsSelectProxy({}, this.loadGoods, this);
+                let NewObj = new QuestionnaireOptionsSelect({}, this.getQuestionnaireOptionsResults, this);
+                this.questionnaireOptionsResults = NewObj;
             }
 
         }

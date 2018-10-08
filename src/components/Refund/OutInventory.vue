@@ -201,10 +201,13 @@
                 }
                 
                 let re = 0;
+                let resultGoods = [];
                 for (let index = 0; index < this.goods.length; index++) {
                     const element = this.goods[index];
-
-                    re += element.destroy_num;
+                    if (element.destroy_num != 0) {
+                        resultGoods.push(element);
+                        re += element.destroy_num;
+                    }
                 }
 
 
@@ -214,7 +217,7 @@
                     return ;
                 }
 
-                this.checkForm.goods = this.goods;
+                this.checkForm.goods = resultGoods;
                 
                 this.formSubmit('checkForm');
             },

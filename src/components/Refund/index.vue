@@ -89,7 +89,7 @@
 
                     <div slot="buttonbar">
                         <el-button type="primary" size="small" v-if="hasSure" @click="handleRefundSure">退换货确认</el-button>
-                        <el-button type="primary" size="small" @click="showRefundCheck">审核</el-button>
+                        <el-button type="primary" size="small" @click="showRefundCheck" v-if="hasOrderCheckPermission">审核</el-button>
                         <!-- <el-button type="primary" size="small" @click="showEdit">编辑</el-button> -->
                         <!-- <el-button type="primary" size="small" @click="inventory">入库操作</el-button> -->
                         <el-button type="primary" size="small" @click="openRefundInventory" v-if="isAssignMember" >退货入库</el-button>
@@ -197,7 +197,8 @@
             },
             ...mapGetters([
                 'getDepartments',
-                'isAssignMember'
+                'isAssignMember',
+                'hasOrderCheckPermission'
             ])
         },
         methods:{

@@ -52,9 +52,9 @@
                     <el-table-column prop="shop_sale_money"  sortable='custom' label="商城金额"></el-table-column>
                     <el-table-column prop="ref_num" sortable='custom' label="退货数量"></el-table-column>
                     <el-table-column prop="destroy_count" sortable='custom' label="损坏数量">
-                        <template slot-scope="scope">
-                            暂无
-                        </template>
+                        <!--<template slot-scope="scope">-->
+                            <!--暂无-->
+                        <!--</template>-->
                     </el-table-column>
                     <el-table-column prop="sample_num" sortable='custom' label="样品数量">
                         <!-- <template slot-scope="scope">

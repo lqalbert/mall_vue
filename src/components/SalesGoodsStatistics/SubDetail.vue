@@ -15,7 +15,7 @@
                             <el-table-column prop="shop_sale_money"  label="商城金额"></el-table-column>
                             <el-table-column prop="ref_num" label="退货数量"></el-table-column>
                             <el-table-column prop="destroy_count" label="损坏数量">
-                                <template slot-scope="scope">暂无 </template>
+                                <!--<template slot-scope="scope">暂无 </template>-->
                             </el-table-column>
                             <el-table-column prop="sample_num" label="样品数量"></el-table-column>
                             <el-table-column prop="sample_sale_money" label="样品金额"></el-table-column>

@@ -78,7 +78,18 @@
                     </el-col>
                 </el-row>
             <!-- 审核操作 -->
-            
+                <el-row>
+                    <el-col :span="12">
+                        <el-form-item  label="原因" >
+                            {{ afterModel.reason }}
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item  label="发起备注" >
+                            {{ afterModel.remark }}
+                        </el-form-item>
+                    </el-col>
+                </el-row>
                 <el-row>
                     <el-col :span="12">
                         <el-form-item  label="是否通过" prop="status">

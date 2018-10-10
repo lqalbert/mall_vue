@@ -341,7 +341,7 @@
 
         },
         created(){
-            this.mainparam = JSON.stringify(this.searchForm);
+            
             this.$on('search-tool-change', this.onSearchChange);
 
             let o = {};
@@ -353,6 +353,7 @@
             if (this.isSaler) {
                 this.searchForm.department_id = this.$store.getters.department_id;
             }
+            this.mainparam = JSON.stringify(this.searchForm);
 
 
         }

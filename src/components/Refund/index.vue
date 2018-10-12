@@ -154,7 +154,8 @@
                     order_sn:"",
                     return_sn:"",
                     value7:[],
-                    department_id:""
+                    department_id:"",
+                    
                 },
                 pickerOptions2: {
                     shortcuts: [{
@@ -239,7 +240,7 @@
                 // if (this.$store.user.hasRole('sale-manager')) {
                     
                 // }
-                param['appends'] = ['inventory_state_text'];
+                param['appends'] = ['inventory_state_text','status_text'];
                 this.mainparam = JSON.stringify(param);
             },
             searchReset:function(){
@@ -273,6 +274,10 @@
                 let vmThis = this;
                 if (!this.currentRow) {
                     this.$message.error('请选择一行');
+                    return ;
+                }
+                if (this.currentRow.status == 0) {
+                    this.$message.error('还未审核');
                     return ;
                 }
                 if(this.currentRow.status == 2){

@@ -72,7 +72,7 @@
                 <el-row class="red" id="red_tip1">
                     <el-col :span="24">
                         <el-form-item label="审核结果">
-                            {{ afterModel.check_status_text }}
+                            {{ afterModel.status_text }}
                         </el-form-item>
                     </el-col>
                 </el-row>

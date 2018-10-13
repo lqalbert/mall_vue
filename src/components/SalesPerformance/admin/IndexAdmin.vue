@@ -4,14 +4,14 @@
             <el-col :span="24">
                 <el-form :inline="true" ref="searchForm" :model="searchForm">
                     <el-form-item  prop="start">
-                        <el-date-picker size="small" v-model="searchForm.start" 
+                        <el-date-picker size="small" v-model="view_start" 
                         placeholder="请选择起日期" :picker-options="setPicker"
                         @change="startDateChange" :clearable="false" class="form-item-unique">
                         </el-date-picker>
                     </el-form-item>
                     <el-form-item  prop="end">
                         <el-date-picker size="small" 
-                        v-model="searchForm.end" 
+                        v-model="view_end" 
                         placeholder="请选择止日期" :picker-options="setPicker"
                         @change="endDateChange" :clearable="false" class="form-item-unique">
                         </el-date-picker>
@@ -99,7 +99,7 @@
 </template>
 
 <script>
-    import Caculate from '@/config/caculate';
+    
     import SalesPerformanceAjaxProxy from '@/ajaxProxy/SalesPerformance';
 
     import { mapGetters } from 'vuex';
@@ -122,8 +122,8 @@
                     }
                 },
                 searchForm: {
-                    start:Caculate.showLastWeekFirstDay(),
-                    end:Caculate.showLastWeekLastDay(),
+                    start:"",
+                    end:"",
                     type:'department_id',
                     department_id:'',
                     group_id:''
@@ -139,7 +139,7 @@
                 orderDetail:[],
                 param:{},
                 model:null,
-                dataTotal:null,
+                dataTotal:null,   
             }
         },
         computed:{
@@ -163,29 +163,6 @@
             endDateChange(v){
                 this.searchForm.end = v;
             },
-            setField(v){
-                switch (v) {
-                    case 'week':
-                        this.searchForm.start = Caculate.showWeekFirstDay();
-                        this.searchForm.end   = Caculate.showWeekLastDay();
-                        break;
-                    case 'month':
-                        this.searchForm.start = Caculate.showMonthFirstDay();
-                        this.searchForm.end   = Caculate.showMonthLastDay();
-                        break;
-                    case 'lastMonth':
-                        this.searchForm.start = Caculate.showLastMonthFirstDay();
-                        this.searchForm.end   = Caculate.showLastMonthLastDay(); 
-                        break;
-                    case 'lastWeek':
-                        this.searchForm.start = Caculate.showLastWeekFirstDay();
-                        this.searchForm.end   = Caculate.showLastWeekLastDay(); 
-                        break;
-                    default:
-                        break;
-                }
-                this.onSearchChange(this.searchForm);
-            },
             saleQueryType(v){
                 this.saleCtrlSelect = v=="department_id" ? true : false;
             },
@@ -197,14 +174,18 @@
                 console.log(v);
             },
 
-            onSearchChange(param){
-                this.mainparam = JSON.stringify(param);
-            }
+            // onSearchChange(param){
+                
+            //     this.mainparam = JSON.stringify(param);
+            // }
         },
         created(){
             this.$on('search-tool-change', this.onSearchChange);
             this.$store.dispatch('initDepartments');
-            this.onSearchChange(this.searchForm);
+           
+        },
+        mounted(){
+            
         }
     }
 </script>

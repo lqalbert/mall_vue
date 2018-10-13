@@ -4,14 +4,14 @@
             <el-col :span="24">
                 <el-form :inline="true" ref="searchForm" :model="searchForm">
                     <el-form-item label="开始时间" prop="start">
-                        <el-date-picker size="small" v-model="searchForm.start" 
+                        <el-date-picker size="small" v-model="view_start" 
                         placeholder="请选择起日期" :picker-options="setPicker"
                         @change="startDateChange" :clearable="false" class="form-item-unique">
                         </el-date-picker>
                     </el-form-item>
                     <el-form-item label="截止时间" prop="end">
                         <el-date-picker size="small" 
-                        v-model="searchForm.end" 
+                        v-model="view_end" 
                         placeholder="请选择止日期" :picker-options="setPicker"
                         @change="endDateChange" :clearable="false" class="form-item-unique">
                         </el-date-picker>
@@ -97,11 +97,13 @@
                     }
                 },
                 searchForm: {
-                    start:Caculate.showLastWeekFirstDay(),
-                    end:Caculate.showLastWeekLastDay(),
+                    start:"",
+                    end:"",
                     goods_name:'',
                 },
-                dbRow:null
+                dbRow:null,
+                view_start:"",
+                view_end:"",
                 
             }
         },
@@ -118,6 +120,7 @@
         },
         methods:{
             onSearchChange(param){
+                param.timestamp = Date.now();
                 this.mainparam = JSON.stringify(param);
             },
             startDateChange(v){
@@ -151,6 +154,16 @@
             // this.$store.dispatch('initDepartments');
 
             this.$on('search-tool-change', this.onSearchChange);
+            let vmthis = this;
+            this.$watch('searchForm.start', function(val, oldVal){
+                this.view_start = val;
+            });
+            this.$watch('searchForm.end', function(val, oldVal){
+                this.view_end = val;
+            });
+
+            this.searchForm.start = Caculate.showLastWeekFirstDay();
+            this.searchForm.end = Caculate.showLastWeekLastDay();
             this.onSearchChange(this.searchForm);
         }
     }

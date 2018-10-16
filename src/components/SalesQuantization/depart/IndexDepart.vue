@@ -144,7 +144,7 @@
             this.$store.dispatch('initGroups', {department_id: this.$store.getters.department_id});
 
             this.$on('search-tool-change', this.onSearchChange);
-            // this.onSearchChange(this.searchForm);
+            this.onSearchChange(this.searchForm);
         }
     }
 </script>

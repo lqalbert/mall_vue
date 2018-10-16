@@ -157,7 +157,7 @@
         created(){
             this.searchForm.group_id = this.$store.getters.group_id;
             this.$on('search-tool-change', this.onSearchChange);
-            // this.onSearchChange(this.searchForm);
+            this.onSearchChange(this.searchForm);
         }
     }
 </script>

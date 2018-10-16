@@ -149,7 +149,7 @@
             this.$store.dispatch('initDepartments');
 
             this.$on('search-tool-change', this.onSearchChange);
-            // this.onSearchChange(this.searchForm);
+            this.onSearchChange(this.searchForm);
         }
     }
 </script>

@@ -122,7 +122,7 @@ let mix = {
 
         this.searchForm.start = Caculate.showLastWeekFirstDay();
         this.searchForm.end = Caculate.showLastWeekLastDay();
-        this.onSearchChange(this.searchForm);
+        // this.onSearchChange(this.searchForm);
 
     }
 };

@@ -182,7 +182,7 @@
         created(){
             this.$on('search-tool-change', this.onSearchChange);
             this.$store.dispatch('initDepartments');
-           
+            this.onSearchChange(this.searchForm);
         },
         mounted(){
             

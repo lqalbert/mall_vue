@@ -93,7 +93,7 @@
                     <el-table-column prop="order_channel" label="订单渠道" width="120"></el-table-column>
 
                     <div slot="buttonbar">
-                        <!-- <el-button type="primary" size="small" @click="sampleAdd">申请</el-button> -->
+                        <el-button type="primary" size="small" @click="uploadExcel">上传excel</el-button>
                     </div>
 
                 </TableProxy>
@@ -101,6 +101,7 @@
         </el-row>
 
         <sub-detail :row="dbRow"/>
+        <upload-excel name="upload-excel"/>
 
     </div>
 </template>
@@ -112,13 +113,15 @@ import DataTable from '@/mix/DataTable';
 import JdOrderBasicAjax from '../../ajaxProxy/JdOrderBasic.js';
 import { mapGetters } from 'vuex';
 import SubDetail from './SubDetail';
+import UploadExcel from './UploadExcel';
 
 export default {
     name:"JdOrderBasic",
     pageTitle:"京东订单",
     mixins:[PageMix, SearchTool,DataTable],
     components:{
-        SubDetail
+        SubDetail,
+        UploadExcel
     },
     data(){
         return {
@@ -157,7 +160,7 @@ export default {
             return "火箭一部-火箭一组-火箭超人"
         },
         onSearchChange(param){
-                this.mainparam = JSON.stringify(param);
+            this.mainparam = JSON.stringify(param);
         },
         startDateChange(v){
             this.searchForm.start = v;
@@ -171,6 +174,9 @@ export default {
         },
         rowDbClick(row){
             this.dbRow = row;
+        },
+        uploadExcel(){
+            this.$modal.show('upload-excel');
         }
     },
     created(){

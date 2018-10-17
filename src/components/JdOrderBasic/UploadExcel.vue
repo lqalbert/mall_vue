@@ -15,7 +15,8 @@
                     :on-success="uploadSuccess"
                     :on-error="uploadError"
                     :before-upload="beforeAvatarUpload"
-                    :on-change="handleChange">
+                    :on-change="handleChange"
+                    :on-progress="sbssss">
                     <el-button size="small" type="primary">点击上传</el-button>
                     <div slot="tip" class="el-upload__tip">一次只能上传excel格式的文件一个</div>
                 </el-upload>
@@ -69,7 +70,10 @@ export default {
             this.$refs.upload.submit();
         },
         handleRemove(file, fileList) {
-            console.log(file, fileList);
+            // console.log(file, fileList);
+            console.log(11);
+            console.log(this.$refs.upload.fileList);
+            console.log(22);
         },
         handlePreview(file) {
             console.log(file);
@@ -81,13 +85,18 @@ export default {
             this.$message.error('上传出错：' + err.msg);
         },
         beforeAvatarUpload(file){
-            this.$message.error(re.msg);
+            // this.$message.error(file);
         },
         handleChange(file, fileList) {
-            console.log(fileList);
-            
-            this.fileList = fileList;
-            fileList = [];
+            // console.log(fileList);
+            console.log(33);
+            console.log(this.$refs.upload.fileList);
+            console.log(44);
+            // this.fileList = fileList;
+            // fileList = [];
+        },
+        sbssss(event, file, fileLis){
+            console.log(fileLis);
         }
     },
     created(){

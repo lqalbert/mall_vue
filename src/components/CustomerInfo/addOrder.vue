@@ -36,7 +36,7 @@
                     </el-col>
                 </el-row>
                 <hr>
-                <ChoseGoods  @add-goods="addGoods"></ChoseGoods>
+                <ChoseGoods  @add-goods="addGoods" :fitler-appendage="filterAppendage"></ChoseGoods>
                 <el-row>
                     <el-col :span="24">
                         <el-table height="200" border :data="orderData">
@@ -58,6 +58,15 @@
                                 </template>
                             </el-table-column>
                         </el-table>
+                    </el-col>
+                </el-row>
+
+                <el-row>
+                    <el-col>
+                        <!-- 明天来试一下，重算一下价格 -->
+                        商品金额 200 元 
+                        邮费：
+                        实收金额： 
                     </el-col>
                 </el-row>
 
@@ -130,7 +139,9 @@ import { mapGetters, mapMutations } from 'vuex';
                     book_freight: 0.00 //包邮时的 账面邮费
                 },
                 realfreight:0.00,
-                set_express:""
+                set_express:"",
+
+                filterAppendage: false
             }
         },
         computed:{
@@ -167,9 +178,9 @@ import { mapGetters, mapMutations } from 'vuex';
             orderData(val, oldval){
                 this.$emit('freight-change');
             },
-            orderTypeChange(v){
-                this.$emit('freight-change');
-            }
+            // orderTypeChange(v){
+            //     this.$emit('freight-change');
+            // }
         },
         methods:{
             onOpen(param){
@@ -237,9 +248,15 @@ import { mapGetters, mapMutations } from 'vuex';
                     // this.totalMoney -= row.moneyNotes;
                 }
             },
-            orderTypeChange(){
-                FreightAlgorithm.setOrderType(this.getCurrentOrderType());
+            orderTypeChange(v){
+                let orderType = this.getCurrentOrderType();
+                FreightAlgorithm.setOrderType(orderType);
                 this.$emit('freight-change');
+                if(orderType.name == '内部订单') { //先写死
+                    this.filterAppendage = true;
+                } else {
+                    this.filterAppendage = false;
+                }
             },
             expressChange(v){
                 let f = this.getCurrentFreightTemplate();

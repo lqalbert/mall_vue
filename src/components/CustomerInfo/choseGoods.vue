@@ -57,6 +57,10 @@
             name: 'AddGoods',
             props:{
                 CategoryList:'',
+                fitlerAppendage:{
+                    type: Boolean,
+                    default:false
+                }
             },
             data () {
                 return {
@@ -90,7 +94,8 @@
                         fields:['id','goods_name',
                         'goods_price','goods_number',
                         'sku_sn','unit_type','len','width','height','barcode','weight',
-                        'bubble_bag','specifications']
+                        'bubble_bag','specifications','is_appendage'],
+                        'is_appendage': this.fitlerAppendage ? 1 :0
                     };
                     this.goodsSearching = true;
                     this.goodsProxy.setParam(Object.assign({},obj, originParam)).load();

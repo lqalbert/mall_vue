@@ -8,15 +8,14 @@
                     class="upload-demo"
                     :auto-upload="false"
                     :action="uploadUrl"
-                    accept=".xls,.csv,.xlsx"
+                    accept=".csv,.xls,.xlsx"
                     :file-list="fileList"
                     :on-preview="handlePreview"
                     :on-remove="handleRemove"
                     :on-success="uploadSuccess"
                     :on-error="uploadError"
                     :before-upload="beforeAvatarUpload"
-                    :on-change="handleChange"
-                    :on-progress="sbssss">
+                    :on-change="handleChange">
                     <el-button size="small" type="primary">点击上传</el-button>
                     <div slot="tip" class="el-upload__tip">一次只能上传excel格式的文件一个</div>
                 </el-upload>
@@ -64,40 +63,40 @@ export default {
     methods:{
         onOpen(param){
             console.log(URL_CONST.EXCEL_UPLOAD);
-
         },
         beforeFormSubmit(){
             this.$refs.upload.submit();
         },
         handleRemove(file, fileList) {
-            // console.log(file, fileList);
-            console.log(11);
-            console.log(this.$refs.upload.fileList);
-            console.log(22);
+            console.log(file, fileList);
         },
         handlePreview(file) {
             console.log(file);
         },
         uploadSuccess(response, file, fileList){
-            console.log(response);
+            if(response.status == 0){
+                this.$message.error(response.msg);
+            }else{
+                this.$message.success(response.msg);
+                this.$emit('submit-success');
+            }
+            this.handleClose();
         },
         uploadError(err, file, fileList){
-            this.$message.error('上传出错：' + err.msg);
+            this.$message.error(response.data.msg);
+            this.handleClose();
         },
         beforeAvatarUpload(file){
             // this.$message.error(file);
         },
         handleChange(file, fileList) {
-            // console.log(fileList);
-            console.log(33);
-            console.log(this.$refs.upload.fileList);
-            console.log(44);
-            // this.fileList = fileList;
-            // fileList = [];
+            console.log(fileList);
+            if(fileList.length>1){
+                fileList.splice(0,1);
+            }
+
         },
-        sbssss(event, file, fileLis){
-            console.log(fileLis);
-        }
+
     },
     created(){
 

@@ -101,7 +101,7 @@
         </el-row>
 
         <sub-detail :row="dbRow"/>
-        <upload-excel name="upload-excel"/>
+        <upload-excel name="upload-excel" @submit-success="handleReload"/>
 
     </div>
 </template>

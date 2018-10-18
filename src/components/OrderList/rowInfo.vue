@@ -100,21 +100,21 @@
                                 <!--</template>-->
                             <!--</el-table-column>-->
                             <el-table-column  label="操作" width="140" >
-                                <template slot-scope="scope">
+                                <!-- <template slot-scope="scope">
                                     <el-button-group>
                                         <el-button size="mini" v-if="!scope.row.editState" type="primary" @click="setEdit(scope.row)">编辑</el-button>
                                         <el-button size="mini" v-if="scope.row.editState" @click="saveGoods(scope.row)">保存</el-button>
                                         <el-button size="mini" type="danger" @click="ifDelete(scope.row.id)">删除</el-button>
                                     </el-button-group>
-                                </template>
+                                </template> -->
                             </el-table-column>
                         </el-table>
-                        <el-row>
+                        <!-- <el-row>
                             <el-col :span="24">
                                 <br>
                                 <AddGoods :category-list="cates" @add-goods="addGoods"></AddGoods>
                             </el-col>
-                        </el-row>
+                        </el-row> -->
             </el-form>
             <div slot="dialog-foot" class="dialog-footer">
                 <el-button @click="handleClose">取 消</el-button>

@@ -16,8 +16,8 @@
                                 <el-option v-for="item in freitemp" :value="item.id" :label="item.express" :key="item.id"></el-option>
                             </el-select></el-col>
                             <el-col :span="1">&nbsp;</el-col>
-                            <el-col :span="11"><span>邮费: <span v-if="isIncludeFreight">包邮</span> <span v-else >{{ realfreight }}</span>  
-                                合计 {{payMoney}}元</span></el-col>
+                            <!-- <el-col :span="11"><span>邮费: <span v-if="isIncludeFreight">包邮</span> <span v-else >{{ realfreight }}</span>  
+                                合计 {{payMoney}}元</span></el-col> -->
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -126,7 +126,8 @@ import { mapGetters, mapMutations } from 'vuex';
                     // express_name:'',
                     type:'',
                     include_freight:0, // 不包邮 包邮,
-                    freight:0.00 //运费
+                    freight:0.00, //运费,
+                    book_freight: 0.00 //包邮时的 账面邮费
                 },
                 realfreight:0.00,
                 set_express:""
@@ -269,6 +270,13 @@ import { mapGetters, mapMutations } from 'vuex';
             freight(){
                 FreightAlgorithm.setPrice(this.totalMoney);
                 this.realfreight =  FreightAlgorithm.getFreight();
+                
+                if(this.isIncludeFreight) {
+                    this.addOrderForm.book_freight = FreightAlgorithm.includeFreight();
+                } else {
+                    this.addOrderForm.book_freight = 0.00;
+                }
+
             },
             handleClose(){
                 this.addressList=[];
@@ -295,6 +303,8 @@ import { mapGetters, mapMutations } from 'vuex';
             let user = this.getUser;
             this.addOrderForm.deal_id =  user.id;
             this.addOrderForm.deal_name = user.realname;
+
+            
         },
         
         beforeDestroy(){

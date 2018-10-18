@@ -111,7 +111,7 @@
                         for (let index = 0; index < this.combo.length; index++) {
                             const element = this.combo[index];
                             addData = {
-                                moneyNotes:     element.price * element.goods_number,
+                                moneyNotes:     element.price * parseInt(element.goods_number),
                                 goods_id:       element.id,
                                 sku_id:         0,
                                 sku_name:       null,

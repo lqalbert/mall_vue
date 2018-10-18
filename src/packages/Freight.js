@@ -31,7 +31,7 @@ let o = {
     },
     "setTemplate":function(param){ //运费模板 
         this.freightTemplate = param;
-        
+        console.log(param);
     },
     "setExpress":function(param){ //可能选择的快递公司 不在提供的模板之类
         this.express_deliver = param;
@@ -78,19 +78,59 @@ let o = {
     "notIncludeFreight":function(){
         let basic = this.freightTemplate.basic_fee;
         //检查是否在特殊地区
-        let item = this.extra_dis.find((element)=>{
-            if(element.fr_id == this.freightTemplate.id) {
-                return true;
-            }
-        });
+        let item = this.isExtraEare();
         if(item) {
             return item.fee
         } else {
             return basic;
         }
     },
+
+    "isExtraEare":function(){
+        return this.extra_dis.find((element)=>{
+            if(element.fr_id == this.freightTemplate.id) {
+                return true;
+            }
+        });
+    },
     "setScope":function(obj){
         this.scope = obj;
+    },
+    //
+    /**
+     *  包邮邮费
+     * @todo  写死了的 重改下
+     * 指定顺丰，收12
+     *   指定ems，收18
+     *  不指定，偏远五省  18，一般10块
+     */
+    "includeFreight":function(){
+        switch(this.freightTemplate.name) {
+            case '默认':
+                if(this.isExtraEare()) {
+                    return 18;
+                } else {
+                    return 10;
+                }
+                // console.log(10,18);
+                break;
+            case '顺风':
+                return 12;
+                break;
+            case 'EMS':
+            case 'ems':
+            case 'Ems':
+            case 'eMs':
+            case 'emS':
+            case 'EMs':
+            case 'eMS':
+            case 'EmS':
+                return 18;
+                break;
+            default:
+                // console.log("i没有找到.0")
+                return 0;
+        }   
     }
 };
 

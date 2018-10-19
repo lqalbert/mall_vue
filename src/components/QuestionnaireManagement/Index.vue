@@ -31,15 +31,17 @@
 
                     <el-table-column label="发布人" prop="user_name" align="center"></el-table-column>
 
-                    <el-table-column width="180" fixed="right"  label="操作" align="center">
+                    <el-table-column width="300" fixed="right"  label="操作" align="center">
                         <template slot-scope="scope">
-                            <el-button type="primary" @click="showEdit(scope.row)" size="small">地址跳转</el-button>
-                            <el-button type="primary" @click="showQuestionnaireDetails(scope.row)"  size="small" >详 情</el-button>
-                            <!--<el-button type="danger"  @click="handleDelete(scope.row.id)" size="small" >删除</el-button>-->
+                            <el-button type="primary" @click="showEdit(scope.row)" size="small">编 辑</el-button>
+                            <el-button type="primary" @click="showUrl(scope.row)" size="small">地址跳转</el-button>
+                            <el-button type="primary" @click="showQuestionnaireDetails2(scope.row)"  size="small" >详 情</el-button>
+                            <el-button type="danger"  @click="handleDelete(scope.row.id,false)" size="small" >删 除</el-button>
                         </template>
                     </el-table-column>
                     <div slot="buttonbar">
                         <el-button size="small" type="primary" @click="showAdd" >新建问卷</el-button>
+                        <el-button size="small" type="primary" @click="copy" >复制问卷</el-button>
                     </div>
                 </TableProxy>
             </el-col>
@@ -90,9 +92,11 @@
                             <span v-else> </span>
                         </template>
                     </el-table-column>
-                    <el-table-column label="明细" prop="" align="center">
+                    <el-table-column label="明细" prop="" width="240px" align="center">
                         <template slot-scope="scope">
+                            <el-button type="success"   size="small" @click="editOptions(scope.row)">编 辑</el-button>
                             <el-button type="primary"   size="small" @click="showInfo(scope.row)">查 看</el-button>
+                            <el-button type="danger"   size="small" @click="handleDelete(scope.row.questionnaire_options_id,true)">删 除</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -103,17 +107,32 @@
             :ajax-proxy="ajaxProxy"
             @submit-success="handleReload">
         </Add>
-
-        <Copy
-            name="copy"
+        <Edit
+                name="edit-article"
+                :ajax-proxy="ajaxProxy"
+                @submit-success="handleReload">
+        </Edit>
+        <EditOption
+                name="edit-option"
+                :ajax-proxy="questionnaireOptionsAjaxProxy"
+                @submit-success="handleReload">
+        </EditOption>
+        <Url
+            name="url"
             :ajax-proxy="ajaxProxy"
             :questionnaire_url="questionnaire_url"
             @submit-success="handleReload">
-        </Copy>
+        </Url>
         <QuestionnaireDetails
             name="questionnaire-details"
             @submit-success="handleReload">
         </QuestionnaireDetails>
+
+        <QuestionnaireDetails2
+            name="QuestionnaireDetails2"
+            @submit-success="handleReload">
+        </QuestionnaireDetails2>
+
         <Info
             name="info"
             @submit-success="handleReload">
@@ -123,15 +142,18 @@
 
 <script>
     import Add from './Add.vue';
-    import Copy from './Copy.vue';
+    import Edit from './Edit.vue';
+    import Url from './Url.vue';
+    import EditOption from './EditOption.vue';
     import QuestionnaireDetails from './QuestionnaireDetails.vue';
+    import QuestionnaireDetails2 from './QuestionnaireDetails2.vue';
     import Info from './Info.vue';
     import PageMix from '@/mix/Page';
-   
     import SearchTool from '@/mix/SearchTool';
     import DataTable from '@/mix/DataTable';
 
     import QuestionnaireManagement from '@/ajaxProxy/QuestionnaireManagement';
+    import QuestionnaireOptions from '@/ajaxProxy/QuestionnaireOptions';
     import QuestionnaireManagementSelect from '@/packages/QuestionnaireManagementSelectProxy';
     import QuestionnaireSurveyResultsSelectProxy from '@/packages/QuestionnaireSurveyResultsSelectProxy'
     import DepartSelectProxy from '@/packages/DepartSelectProxy';
@@ -142,13 +164,17 @@
         mixins: [PageMix, SearchTool,DataTable],
         components: {
             Add,
-            Copy,
+            Edit,
+            Url,
+            EditOption,
             QuestionnaireDetails,
-            Info
+            Info,
+            QuestionnaireDetails2
         },
         data() {
             return {
                 ajaxProxy: QuestionnaireManagement,
+                questionnaireOptionsAjaxProxy: QuestionnaireOptions,
                 mainurl:QuestionnaireManagement.getUrl(),
                 mainparam:"",
                 searchForm: {
@@ -159,6 +185,7 @@
                 questionnaire_url:null,
                 questionnaireSurveyResults:null,
                 resultList: [],
+                model: null,
             }
         },
         methods: {
@@ -178,6 +205,9 @@
                 if(res.questionnaire_url){
                     this.questionnaire_url = res.questionnaire_url;
                 }
+                if(res.status){
+                    this.searchToolReset('searchForm');
+                }
             },
             loadDepartment(res) {
                 console.log(res);
@@ -185,17 +215,83 @@
             showAdd(){
                 this.$modal.show('add-article');
             },
+            hasCurrentRow(){
+                if (this.model) {
+                    return true;
+                } else {
+                    return false;
+                }
+            },
+            selectRowCheck(){
+                if (!this.hasCurrentRow()) {
+                    this.$alert('请选择一行', '警告', {
+                        confirmButtonText: '确定',
+                    });
+                    return false;
+                } else {
+                    return true;
+                }
+            },
+            copy(){
+                if (this.selectRowCheck()) {
+                    this.questionnaireSurveyResults.setParam({
+                        questionnaire_managements_id:this.model.id,
+                        type:'copy',
+                    });
+                    this.questionnaireSurveyResults.load();
+                }
+            },
             showEdit: function (row) {
-                this.$modal.show('copy', {model:row});
+                this.$modal.show('edit-article', {model:row});
+            },
+            editOptions: function (row) {
+                this.$modal.show('edit-option', {model:row});
+            },
+            handleDelete(id,is_delete){
+                let vmthis = this;
+                let ajaxProxy = this.getAjaxProxy();
+                if(is_delete){
+                     ajaxProxy = QuestionnaireOptions;
+                }
+                if(!ajaxProxy){
+                    return ;
+                }
+                this.$confirm('确定删除?', '警告',{
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(()=>{
+                    ajaxProxy.delete(id).then(function(response){
+                        let data = response.data;
+                        if (data.status == 1) {
+                            vmthis.$message.success("操作成功");
+                            vmthis.$emit('delete-success');
+                        }else {
+                            vmthis.$message.error(data.msg);
+                            vmthis.$emit('delete-error');
+                        }
+                        // vmthis.handleReload();
+                    }).catch(function(error){
+                        vmthis.$message.error("出错了")
+                    });
+                });
+            },
+            showUrl: function (row) {
+                this.$modal.show('url', {model:row});
             },
             showQuestionnaireDetails: function (row) {
                 this.$modal.show('questionnaire-details', {model:row});
+            },
+
+            showQuestionnaireDetails2: function (row) {
+                this.$modal.show('QuestionnaireDetails2', {model:row});
             },
             getAjaxPromise(model){
                 return this.ajaxProxy.getSurveyResults(model.id);
             },
             doubleClick(row){
                 this.rowData = row;
+                this.model = row;
                 this.questionnaireSurveyResults.setParam({
                     questionnaire_managements_id:this.rowData.id,
                     type:'results_ratio',

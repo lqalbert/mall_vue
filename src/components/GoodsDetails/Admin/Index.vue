@@ -70,7 +70,7 @@
                             {{setUnitTypes(scope.row.unit_type)}}
                         </template>
                     </el-table-column>
-                    <el-table-column prop="new_goods" label="新品首发" align="center">
+                    <!-- <el-table-column prop="new_goods" label="新品首发" align="center">
                         <template slot-scope="scope">
                             <el-switch
                                     v-model="scope.row.new_goods"
@@ -91,6 +91,18 @@
                                     :on-value="1" 
                                     :off-value="0"
                                     @change="setHotgoodsChange(scope.row)">
+                            </el-switch>
+                        </template>
+                    </el-table-column> -->
+                    <el-table-column prop="is_appendage" label="赠品" align="center">
+                        <template slot-scope="scope">
+                            <el-switch
+                                    v-model="scope.row.is_appendage"
+                                    on-color="#13ce66"
+                                    off-color="#ff4949"
+                                    :on-value="1" 
+                                    :off-value="0"
+                                    @change="setAppendageChange(scope.row)">
                             </el-switch>
                         </template>
                     </el-table-column>

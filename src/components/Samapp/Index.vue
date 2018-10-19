@@ -53,6 +53,8 @@
                         </template>
                     </el-table-column>
 
+                    <el-table-column prop="department_name" label="所属部门" width="140"></el-table-column>
+
                     <el-table-column prop="use_remark" label="用途备注" show-overflow-tooltip></el-table-column>
 
                     <el-table-column prop="applicant" label="申请人"></el-table-column>
@@ -72,7 +74,7 @@
                     <el-table-column prop="check_time" label="审核时间" width="180"></el-table-column>
 
                     <div slot="buttonbar">
-                        <el-button type="primary" size="small" @click="sampleAdd">申请</el-button>
+                        <el-button type="primary" size="small" @click="sampleAdd" v-if="!isFinance">申请</el-button>
                         <el-button type="primary" size="small" @click="sampleCheck" v-if="isAdmin" >审核</el-button>
                         <el-button type="info" size="small" @click="showGoods">查看商品</el-button>
                     </div>
@@ -129,7 +131,8 @@
         computed:{
             ...mapGetters([
                 'getUser',
-                'isAdmin'
+                'isAdmin',
+                'isFinance'
             ]),
             // departments(){
             //     return this.$store.getters.getDepartments;

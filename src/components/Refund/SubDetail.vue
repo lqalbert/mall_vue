@@ -11,7 +11,7 @@
                             <el-table-column prop="sku_sn" label="商品编号" align="center">
                             </el-table-column>
 
-                            <el-table-column prop="goods_number" label="数量" align="center">
+                            <el-table-column prop="goods_number" label="原数量" align="center">
                             </el-table-column>
 
                             <el-table-column prop="return_inventory" label="入库数量" align="center">

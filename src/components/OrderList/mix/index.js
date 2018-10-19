@@ -10,6 +10,7 @@ import RefundCheck from '../Rcheck';
 import AfterSaleAdd from '../AfterSaleAdd';
 
 const ORDER_ASSIGN = 3;
+const ORDER_CANCEL = 8;
 
 const mix = {
     mixins: [SearchTool,DataTable,],
@@ -133,7 +134,7 @@ const mix = {
             // console.log(row.status);
 
             if (this.openDialogCheck()){
-                if (this.row_model.status >= ORDER_ASSIGN) {
+                if (this.row_model.status >= ORDER_ASSIGN && this.row_model.status != ORDER_CANCEL )  {
                     this.$alert('不能取消', '警告', {
                         confirmButtonText: '关闭',
                     });

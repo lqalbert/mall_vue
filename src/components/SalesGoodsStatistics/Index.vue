@@ -34,9 +34,13 @@
         <el-row>
             <el-col>
                 <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" :page-size="15" 
-                 @dbclick="showRow" :default-sort="{prop: 'cus_count', order: 'descending'}">
+                 @dbclick="showRow" :default-sort="{prop: 'cus_count', order: 'descending'}" show-summary>
                     <el-table-column label="序号" align="center" width="65" type="index"></el-table-column>
-                    <el-table-column prop="sku_sn"  label="商品编号"></el-table-column>
+                    <el-table-column label="商品编号" width="140">
+                        <template slot-scope="scope">
+                            {{scope.row.sku_sn}}
+                        </template>
+                    </el-table-column>
                     <el-table-column prop="goods_name"  label="商品名称"></el-table-column>
                     <el-table-column prop="invent_num" sortable='custom' label="累计入库总数量"></el-table-column>
                     <el-table-column prop="saleable_count" sortable='custom' label="当前库存余量"></el-table-column>
@@ -48,9 +52,9 @@
                     <el-table-column prop="shop_sale_money"  sortable='custom' label="商城金额"></el-table-column>
                     <el-table-column prop="ref_num" sortable='custom' label="退货数量"></el-table-column>
                     <el-table-column prop="destroy_count" sortable='custom' label="损坏数量">
-                        <template slot-scope="scope">
-                            暂无
-                        </template>
+                        <!--<template slot-scope="scope">-->
+                            <!--暂无-->
+                        <!--</template>-->
                     </el-table-column>
                     <el-table-column prop="sample_num" sortable='custom' label="样品数量">
                         <!-- <template slot-scope="scope">
@@ -61,7 +65,7 @@
                     <el-table-column prop="sample_sale_money" sortable='custom' label="样品金额"></el-table-column>
 
                     <div slot="buttonbar">
-                        <!-- <el-button type="info" size="small" @click="downloadExcel">下载表格</el-button> -->
+                        <el-button type="info" size="small" @click="downloadExcel">下载表格</el-button>
                     </div>
                 </TableProxy>
             </el-col>
@@ -138,15 +142,14 @@
                 }
             },
             downloadExcel(){
-                let vmThis = this;
-                let data = {
-                    start:vmThis.searchForm.start,
-                    end:vmThis.searchForm.end
-                }
+                let start = this.searchForm.start;
+                let end = this.searchForm.end;
                 // this.ajaxProxy.downloadExcel({params:data});
-                // location.href = "http://localhost:8080/admin/sales-goods-statistics-download-excel?start=2018-09-17&end=2018-09-23";
-                window.open("http://localhost:8080/admin/sales-goods-statistics-download-excel?start=2018-09-17&end=2018-09-23");   
-                
+                // window.open("http://localhost:8080/admin/sales-goods-statistics-download-excel?start=2018-09-17&end=2018-09-23");
+                // window.open("admin/sales-goods-statistics-download-excel?start="+start+"&end="+end);
+                //直接访问URL才能下载 用ajax访问不能下载
+                let url = process.env.BASE_URL+this.ajaxProxy.downRouter()+"?start="+start+"&end="+end;
+                window.open(url);
             }
             
         },

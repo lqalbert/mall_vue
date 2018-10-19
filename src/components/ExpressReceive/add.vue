@@ -30,6 +30,7 @@
                                     v-model="addForm.assign_check_time"
                                     type="datetime" size="small"
                                     placeholder="选择日期时间"
+                                    :picker-options="pickerOptions"
                                     @change="checkTime">
                             </el-date-picker>
                         </el-form-item>
@@ -70,6 +71,11 @@
         },
         data () {
             return {
+                pickerOptions: {
+                    disabledDate(time) {
+                        return time.getTime() > Date.now() + 60*60*24*1000 - 8.64e7;
+                    }
+                },
                 dialogThis:this,
                 labelPosition:"right",
                 labelWidth:'120px',

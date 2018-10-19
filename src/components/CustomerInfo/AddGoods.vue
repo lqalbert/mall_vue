@@ -35,11 +35,11 @@
                     <span style="color:red;">当前库存：{{entrepot_sum>0 ? '充足' : '缺货'}}</span>
                 </el-form-item>
             </el-col>
-            <el-col :span="12">
-                <el-form-item prop="remark" label="备注">
-                    <el-input type="textarea" class="name-input" size="small" v-model="goodsForm.remark"  placeholder="备注" ></el-input>
-                </el-form-item>
-            </el-col>
+            <!--<el-col :span="12">-->
+                <!--<el-form-item prop="remark" label="备注">-->
+                    <!--<el-input type="textarea" class="name-input" size="small" v-model="goodsForm.remark"  placeholder="备注" ></el-input>-->
+                <!--</el-form-item>-->
+            <!--</el-col>-->
         </el-row>
         <el-row type="flex" justify="center">
             <el-col :span="12" style="text-align: center">

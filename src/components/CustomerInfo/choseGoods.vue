@@ -57,6 +57,10 @@
             name: 'AddGoods',
             props:{
                 CategoryList:'',
+                fitlerAppendage:{
+                    type: Boolean,
+                    default:false
+                }
             },
             data () {
                 return {
@@ -90,7 +94,8 @@
                         fields:['id','goods_name',
                         'goods_price','goods_number',
                         'sku_sn','unit_type','len','width','height','barcode','weight',
-                        'bubble_bag','specifications']
+                        'bubble_bag','specifications','is_appendage'],
+                        'filter_appendage': this.fitlerAppendage ? 1 :0
                     };
                     this.goodsSearching = true;
                     this.goodsProxy.setParam(Object.assign({},obj, originParam)).load();
@@ -106,40 +111,41 @@
                     this.getGoods({cate_id:val});
                 },
                 addGoods(){
-                    if (this.combo) {
-                        let addData = null;
-                        for (let index = 0; index < this.combo.length; index++) {
-                            const element = this.combo[index];
-                            addData = {
-                                moneyNotes:     element.price * element.goods_number,
-                                goods_id:       element.id,
-                                sku_id:         0,
-                                sku_name:       null,
-                                goods_name:     element.goods_name,
-                                price:          element.price,
-                                goods_number:   element.goods_number,
-                                remark:         '',
-                                sku_sn:         element.sku_sn,
-                                unit_type:      element.unit_type,
-                                len:            element.len,
-                                width:          element.width,
-                                height:         element.height,
-                                barcode:        element.barcode,
-                                weight:         element.weight,
-                                bubble_bag:     element.bubble_bag,
-                                specifications: element.specifications,
-                            };
-                            // console.log(addData);
-                            this.$emit('add-goods', addData);
-                        }
-                        delete this.combo;
-                        return ;
-                    }
+                    // if (this.combo) {
+                    //     let addData = null;
+                    //     for (let index = 0; index < this.combo.length; index++) {
+                    //         const element = this.combo[index];
+                    //         addData = {
+                    //             moneyNotes:     element.price * parseInt(element.goods_number),
+                    //             goods_id:       element.id,
+                    //             sku_id:         0,
+                    //             sku_name:       null,
+                    //             goods_name:     element.goods_name,
+                    //             price:          element.price,
+                    //             goods_number:   element.goods_number,
+                    //             remark:         '',
+                    //             sku_sn:         element.sku_sn,
+                    //             unit_type:      element.unit_type,
+                    //             len:            element.len,
+                    //             width:          element.width,
+                    //             height:         element.height,
+                    //             barcode:        element.barcode,
+                    //             weight:         element.weight,
+                    //             bubble_bag:     element.bubble_bag,
+                    //             specifications: element.specifications,
+                    //             is_appendage:   element.is_appendage
+                    //         };
+                    //         // console.log(addData);
+                    //         this.$emit('add-goods', addData);
+                    //     }
+                    //     delete this.combo;
+                    //     return ;
+                    // }
 
 
                     if (this.entrepot_sum > 0) {
                         let item = this.goodsForm.goods;
-                        let moneyNotes =parseInt(item.price) * parseInt(this.goodsForm.goods_number);
+                        let moneyNotes =  item.price * parseInt(this.goodsForm.goods_number);
                         let addData ={
                             moneyNotes:     moneyNotes,
                             goods_id:       item.goods_id,
@@ -158,6 +164,7 @@
                             weight:         item.weight,
                             bubble_bag:     item.bubble_bag,
                             specifications: item.specifications,
+                            sale_type:   item.sale_type
                         };
                         this.$emit('add-goods', addData);
                         this.$refs.goodsForm.resetFields();
@@ -187,7 +194,8 @@
                             weight: data.items[i].weight,
                             buggle_bag: data.items[i].bubble_bag,
                             specifications: data.items[i].specifications,
-                            value: data.items[i].id + "_" + 0
+                            value: data.items[i].id + "_" + 0,
+                            sale_type: data.items[i].is_appendage
                         };
                         
                         tmp.push(o);

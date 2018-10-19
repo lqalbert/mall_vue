@@ -107,6 +107,9 @@ const user = {
         },
         isAssignMember(state, getters) {
             return getters.hasRole("assign-department-member");
+        },
+        isFinance(state, getters){
+            return getters.hasRole('finance');
         }
     },
     //异步操作

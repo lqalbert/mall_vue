@@ -167,7 +167,7 @@ const mix = {
         setBusiness(value){
             this.resetB();
             this.searchForm.user_business = value;
-            
+            console.log(this.searchForm);
             this.onSearchChange(this.searchForm);
         },
         setType(value){

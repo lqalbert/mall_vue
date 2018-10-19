@@ -110,19 +110,22 @@
                 <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" @cellclick="rowCellClick"  @dbclick="showRow" :page-size="15" :height="500" >
                     <el-table-column prop="order_sn" label="订单号" align="center" width="190">
                     </el-table-column>
-                    <el-table-column prop="type_object.name" label="订单类型" ></el-table-column>
-                    <el-table-column prop="order_all_money" label="总金额" align="center">
+                    <el-table-column prop="type_object.name" label="订单类型" width="100"></el-table-column>
+                    <el-table-column prop="order_all_money" label="总金额"  width="100" align="center">
                     </el-table-column>
-                    <el-table-column prop="order_pay_money" label="应付金额" align="center">
+                    <el-table-column prop="order_pay_money" label="实收金额" width="100"  align="center">
                     </el-table-column>
-                    <el-table-column prop="freight" label="自付邮费"></el-table-column>
-                    <el-table-column prop="cus_name" label="购买顾客" align="center">
+                    <el-table-column prop="freight" label="自付邮费" width="100"></el-table-column>
+                    <!-- <el-table-column prop="book_freight" label="包邮邮费" width="100"></el-table-column>
+                    <el-table-column prop="deposit" label="保证金" width="100"></el-table-column> -->
+                    <!-- <el-table-column prop="return_deposit" label="返还保证金" width="120"></el-table-column> -->
+                    <el-table-column prop="cus_name" label="购买顾客" align="center" width="100">
                     </el-table-column>
 
-                    <el-table-column prop="user_name" label="所属员工" align="center">
+                    <el-table-column prop="user_name" label="所属员工" align="center" width="100">
                     </el-table-column>
 
-                    <el-table-column prop="status_text" label="订单状态" align="center">
+                    <el-table-column prop="status_text" label="订单状态" align="center" width="100">
                     </el-table-column>
 
                     <!-- <el-table-column prop="product_status_text" label="货物状态(未处理)" align="center">
@@ -147,7 +150,7 @@
                         <!-- 暂时注释添加 等改完后再加回去 -->
 
                         <!-- <el-button type="primary" size="small" @click="open2()">发起退换货</el-button> -->
-                        <el-button type="primary" size="small" @click="openRefundDialog()">发起退换货2</el-button>
+                        <!-- <el-button type="primary" size="small" @click="openRefundDialog()">发起退换货2</el-button> -->
                         <!-- <el-button type="primary" size="small" @click="showExchange()">发起换货</el-button> -->
                         <!-- <el-button type="primary" size="small" @click="checkOrder()">订单审核</el-button>-->
                         <el-button type="primary" size="small" @click="cancelOrder()">取消订单</el-button>

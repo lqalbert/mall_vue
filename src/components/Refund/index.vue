@@ -89,7 +89,7 @@
 
                     <div slot="buttonbar">
                         <el-button type="primary" size="small" v-if="hasSure" @click="handleRefundSure">退换货确认</el-button>
-                        <el-button type="primary" size="small" @click="showRefundCheck">审核</el-button>
+                        <el-button type="primary" size="small" @click="showRefundCheck" v-if="hasOrderCheckPermission">审核</el-button>
                         <!-- <el-button type="primary" size="small" @click="showEdit">编辑</el-button> -->
                         <!-- <el-button type="primary" size="small" @click="inventory">入库操作</el-button> -->
                         <el-button type="primary" size="small" @click="openRefundInventory" v-if="isAssignMember" >退货入库</el-button>
@@ -154,7 +154,8 @@
                     order_sn:"",
                     return_sn:"",
                     value7:[],
-                    department_id:""
+                    department_id:"",
+                    
                 },
                 pickerOptions2: {
                     shortcuts: [{
@@ -196,7 +197,9 @@
                 return this.$store.getters.hasRefundSure;
             },
             ...mapGetters([
-                'getDepartments'
+                'getDepartments',
+                'isAssignMember',
+                'hasOrderCheckPermission'
             ])
         },
         methods:{
@@ -237,7 +240,7 @@
                 // if (this.$store.user.hasRole('sale-manager')) {
                     
                 // }
-                param['appends'] = ['inventory_state_text'];
+                param['appends'] = ['inventory_state_text','status_text'];
                 this.mainparam = JSON.stringify(param);
             },
             searchReset:function(){
@@ -271,6 +274,10 @@
                 let vmThis = this;
                 if (!this.currentRow) {
                     this.$message.error('请选择一行');
+                    return ;
+                }
+                if (this.currentRow.status == 0) {
+                    this.$message.error('还未审核');
                     return ;
                 }
                 if(this.currentRow.status == 2){
@@ -339,7 +346,7 @@
 
         },
         created(){
-            this.mainparam = JSON.stringify(this.searchForm);
+            
             this.$on('search-tool-change', this.onSearchChange);
 
             let o = {};
@@ -351,6 +358,7 @@
             if (this.isSaler) {
                 this.searchForm.department_id = this.$store.getters.department_id;
             }
+            this.mainparam = JSON.stringify(this.searchForm);
 
 
         }

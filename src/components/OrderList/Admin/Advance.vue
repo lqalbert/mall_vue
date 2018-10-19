@@ -88,6 +88,11 @@
                             </el-date-picker>
                         </el-form-item> 
                     </el-col>
+                    <el-col :span="12">
+                        <el-form-item prop="order_pay_money" label="应付金额">
+                            <el-input  v-model="queryForm.order_pay_money" class="name-input" placeholder="请输入应付金额"></el-input>
+                        </el-form-item>
+                    </el-col>
                 </el-row>
             </el-form>
             <div slot="dialog-foot" class="dialog-footer">
@@ -128,6 +133,7 @@
                     end:'',
                     condition:'',
                     range:"",
+                    order_pay_money:"",
 
                     // hyf 添加
                     status:"", //订单状态 

@@ -109,8 +109,8 @@
                     <el-table-column prop="order_pay_money" label="实收金额" align="center">
                     </el-table-column>
                     <el-table-column prop="freight" label="自付邮费"></el-table-column>
-                    <el-table-column prop="book_freight" label="包邮邮费"></el-table-column>
-                    <el-table-column prop="deposit" label="保证金" width="100"></el-table-column>
+                    <!-- <el-table-column prop="book_freight" label="包邮邮费"></el-table-column>
+                    <el-table-column prop="deposit" label="保证金" width="100"></el-table-column> -->
                     <!-- <el-table-column prop="return_deposit" label="返还保证金" width="120"></el-table-column> -->
                     <el-table-column prop="cus_name" label="购买顾客" align="center">
                     </el-table-column>

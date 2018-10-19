@@ -229,6 +229,12 @@ import { mapGetters, mapMutations } from 'vuex';
                     return;
                 }
 
+                if (this.totalMoney == this.appendageMoney) {
+                    this.$message.error("不能只选赠品");
+                    this.$emit('valid-error');
+                    return;
+                }
+
                 this.formSubmit('addOrderForm');
             },
             getAddress(cus_id){
@@ -250,6 +256,12 @@ import { mapGetters, mapMutations } from 'vuex';
             addGoods(v){
                 // console.log(v);
                 this.orderData.push(v);
+
+                let orderType = this.getCurrentOrderType();
+                if(orderType.name == '内部订单') { //先写死
+                    //删除赠品
+                    this.deleteAppendage();
+                }
             },
             deleteRow(row){
                 let index = this.orderData.indexOf(row);
@@ -258,15 +270,18 @@ import { mapGetters, mapMutations } from 'vuex';
                     // this.totalMoney -= row.moneyNotes;
                 }
             },
+            deleteAppendage(){
+                this.orderData = this.orderData.filter((element)=>{
+                    return element.sale_type == 0;
+                });
+            },
             orderTypeChange(v){
                 let orderType = this.getCurrentOrderType();
                 FreightAlgorithm.setOrderType(orderType);
                 this.$emit('freight-change');
                 if(orderType.name == '内部订单') { //先写死
                     //删除赠品
-                    this.orderData = this.orderData.filter((element)=>{
-                        return element.sale_type == 0;
-                    });
+                    this.deleteAppendage();
                     this.filterAppendage = true;
                 } else {
                     this.filterAppendage = false;

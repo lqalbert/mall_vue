@@ -131,7 +131,7 @@ export default {
                 row.new_goods = row.new_goods == 1 ? 0 : 1 ;
             });
         },
-        setAppendageChangerow(row){
+        setAppendageChange(row){
             this.ajaxProxy.update(row.id, {is_appendage :row.is_appendage}).catch((response)=>{
                 this.$message.error('更新失败');
                 row.new_goods = row.new_goods == 1 ? 0 : 1 ;

@@ -3,14 +3,14 @@
         <MyDialog title="添加订单" :name="name" :width="width" :height="height" @before-open="onOpen">
             <el-form ref="addOrderForm" :model="addOrderForm" :label-width="labelWidth" :label-position="labelPosition">
                 <el-row>
-                    <el-col :span="8">
+                    <el-col :span="10">
                         <el-form-item prop="type" label="订单类型">
                             <el-select v-model="addOrderForm.type" size="small" @change="orderTypeChange">
                                 <el-option v-for="ordertype in orderTypes" :value="ordertype.id" :label="ordertype.name" :key="ordertype.id"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="14">
+                    <el-col :span="12">
                         <el-form-item prop="express_deliver" label="指定快递">
                             <el-col :span="12"><el-select v-model="set_express" size="small" @change="expressChange">
                                 <el-option v-for="item in freitemp" :value="item.id" :label="item.express" :key="item.id"></el-option>
@@ -64,9 +64,9 @@
                 <el-row>
                     <el-col>
                         <!-- 明天来试一下，重算一下价格 -->
-                        商品金额 200 元 
-                        邮费：
-                        实收金额： 
+                        商品金额 {{totalMoney}} 元 
+                        邮费：<span v-if="isIncludeFreight">包邮</span> <span v-else >{{ realfreight }}</span>  
+                        实收金额： {{ payMoney - appendageMoney }}
                     </el-col>
                 </el-row>
 
@@ -160,9 +160,18 @@ import { mapGetters, mapMutations } from 'vuex';
                 return parseFloat(d.toFixed(2)) + parseFloat(this.realfreight);
             },
             totalMoney(){
-                let s = 0;
+                let s = 0.0;
                 this.orderData.forEach((element)=>{
                     s += element.moneyNotes;
+                })
+                return s;
+            },
+            appendageMoney(){
+                let s = 0.0;
+                this.orderData.forEach((element)=>{
+                    if (element.sale_type ==1) {
+                        s += element.moneyNotes;
+                    }
                 })
                 return s;
             },
@@ -195,8 +204,8 @@ import { mapGetters, mapMutations } from 'vuex';
             handleSubmit(){
                 // this.addOrderForm.goods_id = this.goodsIds.join(',');
                 this.addOrderForm.order_all_money = this.totalMoney; //商品金额
-                this.addOrderForm.order_pay_money = this.payMoney; //计算打折 + 运费
-                this.addOrderForm.discounted_goods_money = this.addOrderForm.order_pay_money - parseFloat(this.realfreight);
+                this.addOrderForm.order_pay_money = this.payMoney - this.appendageMoney; //计算打折 + 运费 -赠品
+                this.addOrderForm.discounted_goods_money = this.payMoney - parseFloat(this.realfreight);
                 this.addOrderForm.freight = this.realfreight;
                 this.addOrderForm.include_freight = this.isIncludeFreight;
                 this.addOrderForm.order_goods = this.orderData;
@@ -239,6 +248,7 @@ import { mapGetters, mapMutations } from 'vuex';
                 });
             },
             addGoods(v){
+                // console.log(v);
                 this.orderData.push(v);
             },
             deleteRow(row){
@@ -253,6 +263,10 @@ import { mapGetters, mapMutations } from 'vuex';
                 FreightAlgorithm.setOrderType(orderType);
                 this.$emit('freight-change');
                 if(orderType.name == '内部订单') { //先写死
+                    //删除赠品
+                    this.orderData = this.orderData.filter((element)=>{
+                        return element.sale_type == 0;
+                    });
                     this.filterAppendage = true;
                 } else {
                     this.filterAppendage = false;
@@ -285,11 +299,12 @@ import { mapGetters, mapMutations } from 'vuex';
                 });
             },
             freight(){
-                FreightAlgorithm.setPrice(this.totalMoney);
+                //总价-赠品价
+                FreightAlgorithm.setPrice(this.totalMoney - this.appendageMoney);
                 this.realfreight =  FreightAlgorithm.getFreight();
                 
                 if(this.isIncludeFreight) {
-                    this.addOrderForm.book_freight = FreightAlgorithm.includeFreight();
+                    this.addOrderForm.book_freight = FreightAlgorithm.bookFreight();
                 } else {
                     this.addOrderForm.book_freight = 0.00;
                 }

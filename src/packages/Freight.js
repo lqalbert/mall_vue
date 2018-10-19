@@ -31,7 +31,7 @@ let o = {
     },
     "setTemplate":function(param){ //运费模板 
         this.freightTemplate = param;
-        console.log(param);
+        // console.log(param);
     },
     "setExpress":function(param){ //可能选择的快递公司 不在提供的模板之类
         this.express_deliver = param;
@@ -104,7 +104,7 @@ let o = {
      *   指定ems，收18
      *  不指定，偏远五省  18，一般10块
      */
-    "includeFreight":function(){
+    "bookFreight":function(){
         switch(this.freightTemplate.name) {
             case '默认':
                 if(this.isExtraEare()) {

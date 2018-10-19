@@ -57,13 +57,13 @@
 
                     <el-table-column label="客户姓名" width="120">
                         <template slot-scope="scope">
-                            {{ scope.row.customer.cus_name }}
+                            {{ scope.row.customer[0].cus_name }}
                         </template>
                     </el-table-column>
 
                     <el-table-column label="联系电话" width="130">
                         <template slot-scope="scope">
-                            {{ scope.row.customer.tel }}
+                            {{ scope.row.customer[0].tel }}
                         </template>
                     </el-table-column>
 
@@ -93,7 +93,8 @@
                     <el-table-column prop="order_channel" label="订单渠道" width="120"></el-table-column>
 
                     <div slot="buttonbar">
-                        <el-button type="primary" size="small" @click="uploadExcel">上传excel</el-button>
+                        <el-button size="small" type="primary" @click="uploadExcel">上传excel</el-button>
+                        <el-button size="small" type="primary" @click="matchTable()">客户匹配</el-button>
                     </div>
 
                 </TableProxy>
@@ -101,8 +102,11 @@
         </el-row>
 
         <sub-detail :row="dbRow"/>
-        <upload-excel name="upload-excel" @submit-success="handleReload"/>
+        <upload-excel name="upload-excel" :ajax-proxy="ajaxProxy"
+            @submit-success="handleReload"/>
 
+        <match-data name="match-table" :ajax-proxy="ajaxProxy"
+            @submit-success="handleReload"/>
     </div>
 </template>
 
@@ -114,6 +118,7 @@ import JdOrderBasicAjax from '../../ajaxProxy/JdOrderBasic.js';
 import { mapGetters } from 'vuex';
 import SubDetail from './SubDetail';
 import UploadExcel from './UploadExcel';
+import MatchData from './Match';
 
 export default {
     name:"JdOrderBasic",
@@ -121,7 +126,8 @@ export default {
     mixins:[PageMix, SearchTool,DataTable],
     components:{
         SubDetail,
-        UploadExcel
+        UploadExcel,
+        MatchData
     },
     data(){
         return {
@@ -157,7 +163,17 @@ export default {
     },
     methods:{
         setDepGroupUser(row){
-            return "火箭一部-火箭一组-火箭超人"
+            let fullName = "";
+            if(row.department){
+                fullName = row.department.name;
+            }
+            if(row.group){
+                fullName +="-"+row.group.name;
+            }
+            if(row.user){
+                fullName +="-"+row.user.realname;
+            }
+            return fullName;
         },
         onSearchChange(param){
             this.mainparam = JSON.stringify(param);
@@ -177,6 +193,10 @@ export default {
         },
         uploadExcel(){
             this.$modal.show('upload-excel');
+        },
+        matchTable(){
+            // this.ajaxProxy.getMatch().then(){}
+            this.$modal.show('match-table');
         }
     },
     created(){

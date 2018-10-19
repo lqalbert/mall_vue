@@ -70,7 +70,7 @@
         },
         methods:{
             addFormSubmit:function(){
-                console.log(this.checkForm);
+                // console.log(this.checkForm);
                 this.state6=false;
             },
             closeDialog:function(){

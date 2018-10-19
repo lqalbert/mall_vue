@@ -72,8 +72,12 @@ const config = {
                     // console.log(x.toString());
                     vmthis.$message.error(message.join());
                 } else {
-                    console.log(error);
-                    vmthis.$message.error('出错了');
+                    // console.log(error);
+                    if(typeof error.response.data == 'object') {
+                        vmthis.$message.error(error.response.data.error);
+                    } else {
+                        vmthis.$message.error('出错了');
+                    }
                 }
                 
             })

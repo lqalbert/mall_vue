@@ -4,17 +4,17 @@
             <el-row>
                 <el-table :data="tableData" empty-text="暂无数据" border style="width: 100%" max-height="500">
                     <el-table-column prop="created_at" label="导入时间" width="180"></el-table-column>
+                    <el-table-column label="匹配状态" width="120">
+                        <template slot-scope="scope">
+                            <el-tag v-if="scope.row.match_status ==0 ">未匹配</el-tag>
+                            <el-tag type="gray" v-else-if="scope.row.match_status ==1 ">匹配中</el-tag>
+                            <el-tag type="primary" v-else-if="scope.row.match_status ==2 ">匹配完成</el-tag>
+                        </template>
+                    </el-table-column>
                     <el-table-column prop="sum" label="导入条数" width="100"></el-table-column>
                     <el-table-column prop="flag" label="批次" width="140"></el-table-column>
                     <el-table-column prop="file_name" label="导入文件名" width="140" show-overflow-tooltip></el-table-column>
-                    <el-table-column label="匹配状态" width="140">
-                        <template slot-scope="scope">
-                            <div v-if="scope.row.match_status ==0 ">未匹配</div>
-                            <div v-else-if="scope.row.match_status ==1 ">匹配中</div>
-                            <div v-else-if="scope.row.match_status ==2 ">匹配完成</div>
-                        </template>
-                    </el-table-column>
-                    <el-table-column label="操作" fixed="right">
+                    <el-table-column label="操作" fixed="right" width="110">
                         <template slot-scope="scope">
                             <el-button v-if="scope.row.match_status ==0" size="small" type="info" 
                                 @click="userMatch(scope.row)">智能匹配</el-button>

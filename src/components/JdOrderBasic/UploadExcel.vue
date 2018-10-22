@@ -16,26 +16,50 @@
                     :on-error="uploadError"
                     :before-upload="beforeAvatarUpload"
                     :on-change="handleChange">
-                    <el-button size="small" type="primary">点击上传</el-button>
+                    <el-button size="small" type="info">选择文件</el-button>
                     <div slot="tip" class="el-upload__tip">一次只能上传excel格式的文件一个</div>
                 </el-upload>
             </el-row>
+            <br>
             <el-row>
-                <br>
-                <div v-show="showButton">
-                    <span>本次导入数据共{{ sum }}条</span>
-                    点击匹配员工<el-button size="small" type="info" @click="matchUser()">智能匹配</el-button>
-                </div>
+                <el-col :span="12">
+                    <el-button size="small" type="primary" @click="beforeFormSubmit()">点击上传</el-button>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="12">
+                    <div v-show="matchButton">
+                        <hr>
+                        <span>本次导入数据共{{ sum }}条</span>
+                        点击匹配员工<el-button size="small" type="info" @click="matchUser()">智能匹配</el-button>
+                    </div>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="12">
+                    <div v-show="minusButton">
+                        <hr>
+                        <el-form ref="addForm" :model="addForm" :rules="rules">
+                            <el-form-item label="配送中心" prop="entrepot_id">
+                                <el-select
+                                        clearable
+                                        v-model.number="addForm.entrepot_id"
+                                        size="small"
+                                        placeholder="配送中心" class="name-input">
+                                    <el-option v-for="vv in entrepots" :label="vv.name"
+                                            :value="vv.id" :key="vv.id">
+                                    </el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-form>
+                        <span>本次导入数据共{{ sum }}条</span>
+                        点击扣除库存<el-button size="small" type="info" @click="inventoryMinus()">扣除库存</el-button>
+                    </div>
+                </el-col>
             </el-row>
             <div slot="dialog-foot" class="dialog-footer">
                 <el-button @click="handleClose">取 消</el-button>
-                <submit-button
-                    ref="submit-button"
-                    @click="beforeFormSubmit()"
-                    :observer="dialogThis"
-                    :is_load="false">
-                    保 存
-                </submit-button>
+                <el-button type="primary" @click="handleClose">确 定</el-button>
             </div>
         </MyDialog>
     </div>
@@ -49,6 +73,13 @@ import URL_CONST from '../../config';
 export default {
     name: 'upload-excel',
     mixins:[DialogForm],
+    props:{
+        entrepots:{
+            required:true,
+            type: Array,
+            default:[]
+        }
+    },
     components:{
         
     },
@@ -59,16 +90,26 @@ export default {
             labelWidth:'80px',
             uploadUrl:URL_CONST.EXCEL_UPLOAD,
             fileList:[],
-            showButton:false,
+            matchButton:false,
+            minusButton:false,
             sum:0,
-            flag:''
+            flag:'',
+            addForm:{
+                entrepot_id:''
+            },
+            rules:{
+                entrepot_id:[
+                    { required: true, type:'number',message: '选择配送中心', trigger: 'blur' }
+                ],
+            }
         }
     },
     computed:{
-        ...mapGetters([
-            'user_id',
-            'getUser',
-        ]),
+        ...mapGetters({
+            'user_id':'user_id',
+            'getUser':'user_id'
+            // 'entrepots':'getEntrepots'
+        }),
     },
     methods:{
         onOpen(param){
@@ -88,7 +129,8 @@ export default {
                 this.$message.error(response.msg);
                 this.handleClose();
             }else{
-                this.showButton = true;
+                this.matchButton = true;
+                this.minusButton = true;
                 this.sum = response.data.sum;
                 this.flag = response.data.flag;
                 this.$message.success(response.msg);
@@ -120,18 +162,45 @@ export default {
                         message: response.data.msg,
                         duration:5000
                     });
-                    vmThis.showButton = false;
+                    vmThis.matchButton = false;
                     vmThis.$emit('submit-success');
                 }
             }).catch(function(error){
                 console.log(error);
                 vmThis.$message.error("出错了");
             });
+        },
+        inventoryMinus(){
+            let vmThis = this;
+            let entrepot_id = this.addForm.entrepot_id;
+            this.$refs.addForm.validate((valid)=>{
+                if (valid) {
+                    this.ajaxProxy.minusInventory(vmThis.flag,entrepot_id).then(function(response){
+                        if(response.data.status == 0){
+                            vmThis.$message.error(response.data.msg ? response.data.msg : "操作失败" );
+                        }else{
+                            vmThis.$message({
+                                message: response.data.msg,
+                                duration:5000
+                            });
+                            vmThis.minusButton = false;
+                            vmThis.$emit('submit-success');
+                        }
+                    }).catch(function(error){
+                        console.log(error);
+                        vmThis.$message.error("出错了");
+                    });
+                    // this.$emit('submit-success');
+                } else {
+                    console.log('error submit!!', name);
+                    return false;
+                }
+            });
         }
 
     },
     created(){
-
+        
     },
     
 }

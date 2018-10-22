@@ -95,6 +95,7 @@
                     <div slot="buttonbar">
                         <el-button size="small" type="primary" @click="uploadExcel">上传excel</el-button>
                         <el-button size="small" type="primary" @click="matchTable()">客户匹配</el-button>
+                        <el-button size="small" type="primary" @click="minusTable()">扣除库存</el-button>
                     </div>
 
                 </TableProxy>
@@ -102,11 +103,14 @@
         </el-row>
 
         <sub-detail :row="dbRow"/>
-        <upload-excel name="upload-excel" :ajax-proxy="ajaxProxy"
+        <upload-excel name="upload-excel" :ajax-proxy="ajaxProxy" :entrepots="entrepots"
             @submit-success="handleReload"/>
 
         <match-data name="match-table" :ajax-proxy="ajaxProxy"
             @submit-success="handleReload"/>
+
+        <minus-inventory name="minus-inventory" :ajax-proxy="ajaxProxy" :entrepots="entrepots"
+        @submit-success="handleReload"/>
     </div>
 </template>
 
@@ -119,6 +123,7 @@ import { mapGetters } from 'vuex';
 import SubDetail from './SubDetail';
 import UploadExcel from './UploadExcel';
 import MatchData from './Match';
+import MinusInventory from './Inventory';
 
 export default {
     name:"JdOrderBasic",
@@ -127,7 +132,8 @@ export default {
     components:{
         SubDetail,
         UploadExcel,
-        MatchData
+        MatchData,
+        MinusInventory
     },
     data(){
         return {
@@ -150,16 +156,17 @@ export default {
         }
     },
     computed:{
-            /* ...mapGetters([
-                'getUser',
-                'isAdmin'
-            ]), */
-            // departments(){
-            //     return this.$store.getters.getDepartments;
-            // },
-            // groups(){
-            //     return this.$store.getters.getGroupsByDepartment(this.searchForm.department_id);
-            // }
+        ...mapGetters({
+            'user_id':'user_id',
+            'getUser':'user_id',
+            'entrepots':'getEntrepots'
+        }),
+        // departments(){
+        //     return this.$store.getters.getDepartments;
+        // },
+        // groups(){
+        //     return this.$store.getters.getGroupsByDepartment(this.searchForm.department_id);
+        // }
     },
     methods:{
         setDepGroupUser(row){
@@ -197,10 +204,14 @@ export default {
         matchTable(){
             // this.ajaxProxy.getMatch().then(){}
             this.$modal.show('match-table');
+        },
+        minusTable(){
+            this.$modal.show('minus-inventory');
         }
     },
     created(){
         // this.$store.dispatch('initDepartments');
+        this.$store.dispatch('initEntrepots');
         this.$on('search-tool-change', this.onSearchChange);
         this.onSearchChange(this.searchForm);
     }

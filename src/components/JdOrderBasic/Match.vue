@@ -58,13 +58,22 @@ export default {
         },
         userMatch(row){
             console.log(row);
-            this.ajaxProxy.matchUser(row.flag);
-            // this.$emit('submit-success');
-            this.$message({
-                message: "数据在后台匹配中,不影响操作其他页面",
-                duration:5000
+            let vmThis = this;
+            this.ajaxProxy.matchUser(row.flag).then(function(response){
+                if(response.data.status == 0){
+                    vmThis.$message.error(response.data.msg ? response.data.msg : "操作失败" );
+                }else{
+                    vmThis.$message({
+                        message: response.data.msg,
+                        duration:5000
+                    });
+                    vmThis.getData();
+                }
+            }).catch(function(error){
+                console.log(error);
+                vmThis.$message.error("出错了");
             });
-            this.getData();
+            // this.$emit('submit-success');
         },
         getData(){
             let vmThis = this;

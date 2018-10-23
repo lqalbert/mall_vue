@@ -1,7 +1,7 @@
 <template>
     <div>
         <MyDialog title="扣除库存操作" :name="name" :width="width" :height="height" @before-open="onOpen">
-            <el-row>
+            <!-- <el-row>
                 <el-form ref="addForm" :model="addForm" :rules="rules">
                     <el-form-item label="配送中心" prop="entrepot_id">
                         <el-select
@@ -15,7 +15,7 @@
                         </el-select>
                     </el-form-item>
                 </el-form>
-            </el-row>
+            </el-row> -->
             <el-row>
                 <el-table :data="tableData" empty-text="暂无数据" border style="width: 100%" max-height="500">
                     <el-table-column prop="created_at" label="导入时间" width="180"></el-table-column>
@@ -90,18 +90,18 @@ export default {
         inventoryMinus(row){
             let vmThis = this;
             let entrepot_id = this.addForm.entrepot_id;
-            this.$refs.addForm.validate((valid)=>{
-                if (valid) {
-                    this.ajaxProxy.minusInventory(row.flag,entrepot_id).then(function(response){
+            // this.$refs.addForm.validate((valid)=>{
+                // if (valid) {
+                    this.ajaxProxy.minusInventory(row.flag).then(function(response){
                         if(response.data.status == 0){
                             vmThis.$message.error(response.data.msg ? response.data.msg : "操作失败" );
-                            vmThis.$refs.addForm.resetFields();
+                            // vmThis.$refs.addForm.resetFields();
                         }else{
                             vmThis.$message({
                                 message: response.data.msg,
                                 duration:5000
                             });
-                            vmThis.$refs.addForm.resetFields();
+                            // vmThis.$refs.addForm.resetFields();
                             vmThis.$emit('submit-success');
                         }
                     }).catch(function(error){
@@ -109,11 +109,11 @@ export default {
                         vmThis.$message.error("出错了");
                     });
                     // this.$emit('submit-success');
-                } else {
-                    console.log('error submit!!', name);
-                    return false;
-                }
-            });
+                // } else {
+                //     console.log('error submit!!', name);
+                //     return false;
+                // }
+            // });
         },
         getData(){
             let vmThis = this;
@@ -123,7 +123,7 @@ export default {
             });
         },
         handleDialogClose(){
-            this.$refs.addForm.resetFields();
+            // this.$refs.addForm.resetFields();
             this.handleClose();
         }
     },

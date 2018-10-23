@@ -2,10 +2,26 @@
     <div>
         <MyDialog title="上传JD订单exdel文件" :name="name" :width="width" :height="height" @before-open="onOpen">
             <el-row>
+                <el-form ref="addForm" :model="addForm" :rules="rules">
+                    <el-form-item label="配送中心" prop="entrepot_id">
+                        <el-select
+                                clearable
+                                v-model.number="addForm.entrepot_id"
+                                size="small"
+                                placeholder="配送中心" class="name-input">
+                            <el-option v-for="vv in entrepots" :label="vv.name"
+                                    :value="vv.id" :key="vv.id">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                </el-form>
+            </el-row>
+            <el-row>
                 <el-upload
                     ref="upload"
                     name="avatar"
                     class="upload-demo"
+                    :data="addForm"
                     :auto-upload="false"
                     :action="uploadUrl"
                     accept=".csv,.xls,.xlsx"
@@ -26,6 +42,7 @@
                     <el-button size="small" type="primary" @click="beforeFormSubmit()">点击上传</el-button>
                 </el-col>
             </el-row>
+            <br>
             <el-row>
                 <el-col :span="12">
                     <div v-show="matchButton">
@@ -39,27 +56,14 @@
                 <el-col :span="12">
                     <div v-show="minusButton">
                         <hr>
-                        <el-form ref="addForm" :model="addForm" :rules="rules">
-                            <el-form-item label="配送中心" prop="entrepot_id">
-                                <el-select
-                                        clearable
-                                        v-model.number="addForm.entrepot_id"
-                                        size="small"
-                                        placeholder="配送中心" class="name-input">
-                                    <el-option v-for="vv in entrepots" :label="vv.name"
-                                            :value="vv.id" :key="vv.id">
-                                    </el-option>
-                                </el-select>
-                            </el-form-item>
-                        </el-form>
                         <span>本次导入数据共{{ sum }}条</span>
                         点击扣除库存<el-button size="small" type="info" @click="inventoryMinus()">扣除库存</el-button>
                     </div>
                 </el-col>
             </el-row>
             <div slot="dialog-foot" class="dialog-footer">
-                <el-button @click="handleClose">取 消</el-button>
-                <el-button type="primary" @click="handleClose">确 定</el-button>
+                <el-button @click="handleDialogClose">取 消</el-button>
+                <el-button type="primary" @click="handleDialogClose">确 定</el-button>
             </div>
         </MyDialog>
     </div>
@@ -116,7 +120,16 @@ export default {
             console.log(URL_CONST.EXCEL_UPLOAD);
         },
         beforeFormSubmit(){
-            this.$refs.upload.submit();
+            let vmThis = this;
+            this.$refs.addForm.validate((valid)=>{
+                if (valid) {
+                    vmThis.$refs.upload.submit();
+                }else{
+                    console.log('error submit!!', name);
+                    return false;
+                }
+            });
+            
         },
         handleRemove(file, fileList) {
             console.log(file, fileList);
@@ -163,7 +176,8 @@ export default {
                         duration:5000
                     });
                     vmThis.matchButton = false;
-                    vmThis.$emit('submit-success');
+                    // vmThis.$refs.addForm.resetFields();
+                    // vmThis.$emit('submit-success');
                 }
             }).catch(function(error){
                 console.log(error);
@@ -173,30 +187,28 @@ export default {
         inventoryMinus(){
             let vmThis = this;
             let entrepot_id = this.addForm.entrepot_id;
-            this.$refs.addForm.validate((valid)=>{
-                if (valid) {
-                    this.ajaxProxy.minusInventory(vmThis.flag,entrepot_id).then(function(response){
-                        if(response.data.status == 0){
-                            vmThis.$message.error(response.data.msg ? response.data.msg : "操作失败" );
-                            vmThis.$refs.addForm.resetFields();
-                        }else{
-                            vmThis.$message({
-                                message: response.data.msg,
-                                duration:5000
-                            });
-                            vmThis.minusButton = false;
-                            vmThis.$emit('submit-success');
-                        }
-                    }).catch(function(error){
-                        console.log(error);
-                        vmThis.$message.error("出错了");
+            this.ajaxProxy.minusInventory(vmThis.flag).then(function(response){
+                if(response.data.status == 0){
+                    vmThis.$message.error(response.data.msg ? response.data.msg : "操作失败" );
+                    // vmThis.$refs.addForm.resetFields();
+                }else{
+                    vmThis.$message({
+                        message: response.data.msg,
+                        duration:5000
                     });
-                    // this.$emit('submit-success');
-                } else {
-                    console.log('error submit!!', name);
-                    return false;
+                    vmThis.minusButton = false;
+                    // vmThis.$refs.addForm.resetFields();
+                    // vmThis.$emit('submit-success');
                 }
+            }).catch(function(error){
+                console.log(error);
+                vmThis.$message.error("出错了");
             });
+            // this.$emit('submit-success');
+        },
+        handleDialogClose(){
+            this.$refs.addForm.resetFields();
+            this.handleClose();
         }
 
     },

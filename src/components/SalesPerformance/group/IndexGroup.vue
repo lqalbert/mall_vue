@@ -50,8 +50,9 @@
                     <el-table-column prop="c_cus_count" sortable="custom" label="成交单数" align="center"></el-table-column>
                     <el-table-column prop="all_pay" sortable="custom" label="成交金额" align="center"></el-table-column>
                     <el-table-column prop="refund" sortable="custom" label="退款金额" align="center"></el-table-column>
-                    <el-table-column prop="i_freight" sortable="custom" label="自付邮费" align="center">
-                    </el-table-column>
+                    <el-table-column prop="i_freight"  label="自付邮费" align="center"></el-table-column>
+                    <el-table-column prop="b_freight"  label="包邮邮费" align="center"></el-table-column>
+                    <el-table-column prop="express_fee"  label="实付邮费" align="center"></el-table-column>
                     <el-table-column prop="inner_count"  label="内购单数" align="center">
                         <template slot-scope="scope">
                             {{ scope.row.inner_count ? scope.row.inner_count : 0 }}

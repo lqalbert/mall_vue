@@ -178,6 +178,7 @@ export default {
                     this.ajaxProxy.minusInventory(vmThis.flag,entrepot_id).then(function(response){
                         if(response.data.status == 0){
                             vmThis.$message.error(response.data.msg ? response.data.msg : "操作失败" );
+                            vmThis.$refs.addForm.resetFields();
                         }else{
                             vmThis.$message({
                                 message: response.data.msg,

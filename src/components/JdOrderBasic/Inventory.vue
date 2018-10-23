@@ -28,7 +28,7 @@
                     </el-table-column>
                     <el-table-column prop="sum" label="导入条数" width="100"></el-table-column>
                     <el-table-column prop="flag" label="批次" width="140"></el-table-column>
-                    <el-table-column prop="file_name" label="导入文件名" width="140" show-overflow-tooltip></el-table-column>
+                    <el-table-column prop="file_name" label="导入文件名" show-overflow-tooltip></el-table-column>
                     <el-table-column label="操作" fixed="right" width="110">
                         <template slot-scope="scope">
                             <el-button v-if="scope.row.inventory_status ==0" size="small" type="info" 
@@ -95,12 +95,14 @@ export default {
                     this.ajaxProxy.minusInventory(row.flag,entrepot_id).then(function(response){
                         if(response.data.status == 0){
                             vmThis.$message.error(response.data.msg ? response.data.msg : "操作失败" );
+                            vmThis.$refs.addForm.resetFields();
                         }else{
                             vmThis.$message({
                                 message: response.data.msg,
                                 duration:5000
                             });
-                            vmThis.getData();
+                            vmThis.$refs.addForm.resetFields();
+                            vmThis.$emit('submit-success');
                         }
                     }).catch(function(error){
                         console.log(error);

@@ -56,7 +56,7 @@
                     <el-table-column prop="goods_price" label="商品价格" align="center">
                     </el-table-column>
 
-                    <el-table-column prop="goods_number" label="商品货号" align="center">
+                    <el-table-column prop="sku_sn" label="商品编号" align="center">
                     </el-table-column>
 
                     <el-table-column prop="goods_type" label="商品分类" width="180" align="center">

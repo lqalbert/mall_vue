@@ -22,7 +22,7 @@
                             <el-table-column prop="goods_price" label="京东价"></el-table-column>
                             <el-table-column prop="goods_num" label="订购数量" width="180"></el-table-column>
                             <el-table-column prop="sku_sn" label="货号" width="180"></el-table-column>
-                            <el-table-column prop="entrepot_name" label="仓库名称" width="180"></el-table-column>
+                            <el-table-column prop="jd_entrepot_name" label="仓库名称" width="180"></el-table-column>
                         </el-table>
                     </el-tab-pane>
                     <!--  / 订单商品信息 -->

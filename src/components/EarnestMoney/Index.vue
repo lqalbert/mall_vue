@@ -42,7 +42,7 @@
                     <el-table-column label="序号" align="center"  type="index" width="65">
                     </el-table-column>
                     <el-table-column label="部门" prop="department_name" width="170"></el-table-column>
-                    <el-table-column label="操作" prop="money" width="140"></el-table-column>
+                    <el-table-column label="操作" prop="type_text" width="140"></el-table-column>
                     <el-table-column label="金额" prop="money" width="140"></el-table-column>
                     <el-table-column label="撤销状态" prop="revoke_status" width="140">
                         <template slot-scope="scope">
@@ -127,6 +127,7 @@
             this.$modal.show('deposti-set');
         },
         onSearchChange(param) {
+            param['append'] = ['type_text'];
             this.mainparam = JSON.stringify(param);
         },
         loadDepartment(data){
@@ -141,13 +142,13 @@
                 this.getGroupsAjax(pid);
             }
         },
-        onGroupChange(gid){
-            this.users=[];
-            this.searchForm.user_id='';
-            if(gid){
-                this.getUsersAjax(gid);
-            }
-        },
+        // onGroupChange(gid){
+        //     this.users=[];
+        //     this.searchForm.user_id='';
+        //     if(gid){
+        //         this.getUsersAjax(gid);
+        //     }
+        // },
         rangeChange(v){
             if (v.length != 0) {
                 let vdate = v.split(" - ");

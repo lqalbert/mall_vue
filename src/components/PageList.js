@@ -80,6 +80,8 @@ const PageList = {
     'AccountSettings':(resolve)=>{ require(['./AccountSettings/Index.vue'], resolve)},
     //京东订单
     'JdOrderBasic': (resolve) => {require(['./JdOrderBasic/Index.vue'], resolve)},
+    //预充值 保证金换个名
+    'EarnestMoney': (resolve) => {require(['./EarnestMoney/Index.vue'], resolve)}
 };
 
 export default PageList;

@@ -4,14 +4,14 @@
             <el-col :span="24">
                 <el-form :inline="true" ref="searchForm" :model="searchForm">
                     <el-form-item label="开始时间" prop="start">
-                        <el-date-picker size="small" v-model="view_start" 
+                        <el-date-picker size="small" v-model="searchForm.start" 
                         placeholder="请选择起日期" :picker-options="setPicker"
                         @change="startDateChange" :clearable="false" class="form-item-unique">
                         </el-date-picker>
                     </el-form-item>
                     <el-form-item label="截止时间" prop="end">
                         <el-date-picker size="small" 
-                        v-model="view_end" 
+                        v-model="searchForm.end" 
                         placeholder="请选择止日期" :picker-options="setPicker"
                         @change="endDateChange" :clearable="false" class="form-item-unique">
                         </el-date-picker>
@@ -52,9 +52,6 @@
                     <el-table-column prop="shop_sale_money"  sortable='custom' label="商城金额"></el-table-column>
                     <el-table-column prop="ref_num" sortable='custom' label="退货数量"></el-table-column>
                     <el-table-column prop="destroy_count" sortable='custom' label="损坏数量">
-                        <!--<template slot-scope="scope">-->
-                            <!--暂无-->
-                        <!--</template>-->
                     </el-table-column>
                     <el-table-column prop="sample_num" sortable='custom' label="样品数量">
                         <!-- <template slot-scope="scope">
@@ -69,6 +66,9 @@
                     </div>
                 </TableProxy>
             </el-col>
+
+
+               
         </el-row>
         <SubDetail :ajax-proxy="ajaxProxy" :row="dbRow"></SubDetail>
     </div>
@@ -101,13 +101,11 @@
                     }
                 },
                 searchForm: {
-                    start:"",
-                    end:"",
+                    start:Caculate.showLastWeekFirstDay(),
+                    end:Caculate.showLastWeekLastDay(),
                     goods_name:'',
                 },
-                dbRow:null,
-                view_start:"",
-                view_end:"",
+                dbRow:null
                 
             }
         },
@@ -124,7 +122,6 @@
         },
         methods:{
             onSearchChange(param){
-                param.timestamp = Date.now();
                 this.mainparam = JSON.stringify(param);
             },
             startDateChange(v){
@@ -157,16 +154,6 @@
             // this.$store.dispatch('initDepartments');
 
             this.$on('search-tool-change', this.onSearchChange);
-            let vmthis = this;
-            this.$watch('searchForm.start', function(val, oldVal){
-                this.view_start = val;
-            });
-            this.$watch('searchForm.end', function(val, oldVal){
-                this.view_end = val;
-            });
-
-            this.searchForm.start = Caculate.showLastWeekFirstDay();
-            this.searchForm.end = Caculate.showLastWeekLastDay();
             this.onSearchChange(this.searchForm);
         }
     }

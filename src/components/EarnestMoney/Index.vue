@@ -4,7 +4,7 @@
         <el-row>
             <el-col :span="12">
                 <el-form :inline="true"  ref="searchForm" :model="searchForm" >
-                    <el-form-item prop="department_id" >
+                    <el-form-item prop="department_id" v-if="isAdmin" >
                         <el-select size="small" placeholder="请选择单位"  v-model="searchForm.department_id" @change="onDepartChange">
                             <el-option v-for="v in departments" 
                                 :label="v.name" 
@@ -44,11 +44,11 @@
                     <el-table-column label="部门" prop="department_name" width="170"></el-table-column>
                     <el-table-column label="操作" prop="type_text" width="140"></el-table-column>
                     <el-table-column label="金额" prop="money" width="140"></el-table-column>
-                    <el-table-column label="撤销状态" prop="revoke_status" width="140">
+                    <!-- <el-table-column label="撤销状态" prop="revoke_status" width="140">
                         <template slot-scope="scope">
                             <div v-if="scope.row.revoke_status == 1">已经撤销</div>
                         </template>
-                    </el-table-column>
+                    </el-table-column> -->
                     <el-table-column label="记录时间" prop="created_at" width="190"></el-table-column>
                     <!-- <el-table-column label="修改时间" prop="updated_at" width="190"></el-table-column> -->
                     <el-table-column label="操作员工" prop="creator" width="140"></el-table-column>
@@ -116,7 +116,8 @@
     },
     computed:{
         ...mapGetters({
-            "isAdmin":"isAdmin"
+            "isAdmin":"isAdmin",
+            "department_id":"department_id"
         })
     },
     methods:{
@@ -128,19 +129,22 @@
         },
         onSearchChange(param) {
             param['append'] = ['type_text'];
+            if (!this.isAdmin) {
+                param['department_id'] = this.department_id;
+            }
             this.mainparam = JSON.stringify(param);
         },
         loadDepartment(data){
             this.departments = data.items;
         },
         onDepartChange(pid){
-            this.groups=[];
-            this.users=[];
-            this.searchForm.group_id='';
-            this.searchForm.user_id='';
-            if(pid){
-                this.getGroupsAjax(pid);
-            }
+            // this.groups=[];
+            // this.users=[];
+            // this.searchForm.group_id='';
+            // this.searchForm.user_id='';
+            // if(pid){
+            //     this.getGroupsAjax(pid);
+            // }
         },
         // onGroupChange(gid){
         //     this.users=[];

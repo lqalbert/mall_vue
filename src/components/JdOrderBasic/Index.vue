@@ -44,60 +44,40 @@
                 <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" @cellclick="rowCellClick" 
                     @dbclick="rowDbClick" :page-size="15">
                     <el-table-column label="序号" align="center" width="65" type="index"></el-table-column>
-
                     <el-table-column prop="order_sn" label="订单号" width="140"></el-table-column>
-
                     <el-table-column prop="entrepot" label="部门小组员工" width="220">
                         <template slot-scope="scope">
                             {{ setDepGroupUser(scope.row) }}
                         </template>
                     </el-table-column>
-
                     <el-table-column prop="order_account" label="下单账号" width="180"></el-table-column>
-
                     <el-table-column label="客户姓名" width="120">
                         <template slot-scope="scope">
                             {{ scope.row.customer[0].cus_name }}
                         </template>
                     </el-table-column>
-
                     <el-table-column label="联系电话" width="130">
                         <template slot-scope="scope">
                             {{ scope.row.customer[0].tel }}
                         </template>
                     </el-table-column>
-
                     <el-table-column prop="order_at" label="下单时间" width="180"></el-table-column>
-
                     <el-table-column prop="order_money" label="订单金额" width="100"></el-table-column>
-
                     <el-table-column prop="all_money" label="结算金额" width="100"></el-table-column>
-
-                    <el-table-column prop="pay_money" label="应付金额" width="100">
-                    </el-table-column>
-
+                    <el-table-column prop="pay_money" label="应付金额" width="100"></el-table-column>
                     <el-table-column prop="pay_balance" label="余额支付" width="100"></el-table-column>
-
                     <el-table-column prop="status" label="订单状态" width="140"></el-table-column>
-
                     <el-table-column prop="type" label="京东订单类型" width="140"></el-table-column>
-
                     <el-table-column prop="remark" label="订单备注" width="140" show-overflow-tooltip></el-table-column>
-
                     <el-table-column prop="express_fee" label="运费金额" width="100"></el-table-column>
-
                     <el-table-column prop="pay_way" label="支付方式" width="120"></el-table-column>
-
                     <el-table-column prop="order_source" label="订单来源" width="120"></el-table-column>
-
                     <el-table-column prop="order_channel" label="订单渠道" width="120"></el-table-column>
-
                     <div slot="buttonbar">
                         <el-button size="small" type="primary" @click="uploadExcel">上传excel</el-button>
                         <el-button size="small" type="primary" @click="matchTable()">客户匹配</el-button>
                         <el-button size="small" type="primary" @click="minusTable()">扣除库存</el-button>
                     </div>
-
                 </TableProxy>
             </el-col>
         </el-row>

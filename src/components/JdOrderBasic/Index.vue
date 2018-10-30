@@ -29,6 +29,12 @@
                         </el-input>
                     </el-form-item>
 
+                    <el-form-item label="批次号" prop="flag">
+                        <el-input size="small" v-model="searchForm.flag" placeholder="导入批次号" 
+                            class="form-item-unique">
+                        </el-input>
+                    </el-form-item>
+
                     <el-form-item>
                         <el-button type="info" size="small" @click="searchToolChange('searchForm')" 
                             icon="search">查询
@@ -41,15 +47,31 @@
         
         <el-row>
             <el-col>
-                <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" @cellclick="rowCellClick" 
-                    @dbclick="rowDbClick" :page-size="15">
-                    <el-table-column label="序号" align="center" width="65" type="index"></el-table-column>
+                <!-- @cellclick="rowCellClick" -->
+                <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload"  
+                    @dbclick="rowDbClick" :page-size="15" :bubble="bubble" >
+                    <el-table-column type="selection" width="55"></el-table-column>
+                    <!-- <el-table-column label="序号" align="center" width="65" type="index"></el-table-column> -->
+
+                    <el-table-column prop="flag" label="导入批次号" width="140"></el-table-column>
 
                     <el-table-column prop="order_sn" label="订单号" width="140"></el-table-column>
 
                     <el-table-column prop="entrepot" label="部门小组员工" width="220">
                         <template slot-scope="scope">
                             {{ setDepGroupUser(scope.row) }}
+                        </template>
+                    </el-table-column>
+                    
+                    <el-table-column prop="order_account" label="是否刷单" width="100">
+                        <template slot-scope="scope">
+                            <el-switch
+                                v-model="scope.row.is_brusher"
+                                :on-value="1" 
+                                :off-value="0"
+                                on-text="是"
+                                off-text="否" @change="setBrusherChange(scope.row)">
+                            </el-switch>
                         </template>
                     </el-table-column>
 
@@ -94,7 +116,9 @@
 
                     <div slot="buttonbar">
                         <el-button size="small" type="primary" @click="uploadExcel">上传excel</el-button>
-                        <el-button size="small" type="primary" @click="matchTable()">客户匹配</el-button>
+                        <el-button size="small" type="primary" @click="matchTable()">过滤匹配</el-button>
+                        <el-button size="small" type="primary" @click="handleMatch()">手选匹配</el-button>
+                        <!-- <el-button size="small" type="primary" @click="matchTable()">手动匹配</el-button> -->
                         <el-button size="small" type="primary" @click="minusTable()">扣除库存</el-button>
                     </div>
 
@@ -149,10 +173,13 @@ export default {
                 start:'',
                 end:'',
                 order_sn:'',
-                order_account:''
+                order_account:'',
+                flag:''
             },
             row_model:null,
-            dbRow:null
+            dbRow:null,
+            bubble:null,
+            multipleSelection:[]
         }
     },
     computed:{
@@ -207,13 +234,69 @@ export default {
         },
         minusTable(){
             this.$modal.show('minus-inventory');
+        },
+        setBrusherChange(row){
+            console.log(row);//setBrusher
+            let vmThis = this;
+            this.ajaxProxy.setBrusher(row.flag,row.order_sn).then(function(response){
+                if(response.data.status == 0){
+                    vmThis.$message.error(response.data.msg ? response.data.msg : "操作失败" );
+                }else{
+                    vmThis.$message.success(response.data.msg);
+                }
+            }).catch(function(error){
+                vmThis.$message.error("出错了");
+            });
+        },
+        handleSelectionChange(val){
+            // this.multipleSelection = val;
+            if(val.length != 0){
+                if(val[val.length-1].is_brusher == 1){
+                    val.pop();
+                }
+                this.multipleSelection = val;
+            }
+        },
+        handleSelectionAll(val){
+            if(val.length != 0){
+                for (let i = 0; i < val.length; i++) {
+                    if(val[i].is_brusher == 1){
+                        val.splice(i,1);
+                    }
+                }
+            }
+            this.multipleSelection = val;
+        },
+        handleMatch(){
+            let vmThis = this;
+            if(this.multipleSelection.length == 0){
+                this.$message.error('请勾选要匹配的订单');
+                return ;
+            }
+
+            this.ajaxProxy.manualMatch(this.multipleSelection).then(function(response){
+                if(response.data.status == 0){
+                    vmThis.$message.error(response.data.msg ? response.data.msg : "操作失败" );
+                }else{
+                    vmThis.$message.success(response.data.msg);
+                    vmThis.handleReload();
+                }
+            }).catch(function(error){
+                vmThis.$message.error("出错了");
+            });
         }
     },
     created(){
+        let o = {};
         // this.$store.dispatch('initDepartments');
         this.$store.dispatch('initEntrepots');
         this.$on('search-tool-change', this.onSearchChange);
         this.onSearchChange(this.searchForm);
+        
+        // o['current-change'] = this.onCurrentChange;
+        o['selection-change'] = this.handleSelectionChange;
+        o['select-all'] = this.handleSelectionAll;
+        this.bubble = o;
     }
 }
 </script>

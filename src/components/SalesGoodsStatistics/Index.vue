@@ -36,33 +36,33 @@
                 <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" :page-size="15" 
                  @dbclick="showRow" :default-sort="{prop: 'cus_count', order: 'descending'}" show-summary>
                     <el-table-column label="序号" align="center" width="65" type="index"></el-table-column>
-                    <el-table-column label="商品编号" width="140">
+                    <el-table-column label="商品编号" width="100">
                         <template slot-scope="scope">
                             {{scope.row.sku_sn}}
                         </template>
                     </el-table-column>
-                    <el-table-column prop="goods_name"  label="商品名称"></el-table-column>
-                    <el-table-column prop="invent_num" sortable='custom' label="累计入库总数量"></el-table-column>
-                    <el-table-column prop="saleable_count" sortable='custom' label="当前库存余量"></el-table-column>
-                    <el-table-column prop="sale_num" sortable='custom' label="销售数量"></el-table-column>
-                    <el-table-column prop="sale_money" sortable='custom' label="销售金额"></el-table-column>
-                    <el-table-column prop="inner_num" sortable='custom' label="内购数量"></el-table-column>
-                    <el-table-column prop="inner_sale_money" sortable='custom' label="内购金额"></el-table-column>
-                    <el-table-column prop="shop_num"  sortable='custom' label="商城数量"></el-table-column>
-                    <el-table-column prop="shop_sale_money"  sortable='custom' label="商城金额"></el-table-column>
-                    <el-table-column prop="ref_num" sortable='custom' label="退货数量"></el-table-column>
-                    <el-table-column prop="destroy_count" sortable='custom' label="损坏数量">
+                    <el-table-column prop="goods_name"  label="商品名称" width="150"></el-table-column>
+                    <el-table-column prop="invent_num" sortable='custom' label="入库总数量" width="130"></el-table-column>
+                    <el-table-column prop="saleable_count" sortable='custom' label="当前库存余量" width="150"></el-table-column>
+                    <el-table-column prop="sale_num" sortable='custom' label="销售数量" width="120"></el-table-column>
+                    <el-table-column prop="sale_money" sortable='custom' label="销售金额" width="120"></el-table-column>
+                    <el-table-column prop="inner_num" sortable='custom' label="内购数量" width="120"></el-table-column>
+                    <el-table-column prop="inner_sale_money" sortable='custom' label="内购金额" width="120"></el-table-column>
+                    <el-table-column prop="shop_num"  sortable='custom' label="商城数量" width="120"></el-table-column>
+                    <el-table-column prop="shop_sale_money"  sortable='custom' label="商城金额" width="120"></el-table-column>
+                    <el-table-column prop="ref_num" sortable='custom' label="退货数量" width="120"></el-table-column>
+                    <el-table-column prop="destroy_count" sortable='custom' label="损坏数量" width="120">
                         <!--<template slot-scope="scope">-->
                             <!--暂无-->
                         <!--</template>-->
                     </el-table-column>
-                    <el-table-column prop="sample_num" sortable='custom' label="样品数量">
+                    <el-table-column prop="sample_num" sortable='custom' label="样品数量" width="120">
                         <!-- <template slot-scope="scope">
                             <div v-if="scope.row.sample_num==null">0</div>
                             <div v-else>{{scope.row.sample_num}}</div>
                         </template> -->
                     </el-table-column>
-                    <el-table-column prop="sample_sale_money" sortable='custom' label="样品金额"></el-table-column>
+                    <el-table-column prop="sample_sale_money" sortable='custom' label="样品金额" width="120"></el-table-column>
 
                     <div slot="buttonbar">
                         <el-button type="info" size="small" @click="downloadExcel">下载表格</el-button>

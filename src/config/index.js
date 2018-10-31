@@ -14,6 +14,7 @@ if (process.env.NODE_ENV == 'production') {
 
 let upload_url = domain + "/upload-file";
 let slide_upload_url = domain + "/slide-upload";
+let excel_upload = domain + "/jd-import-order";
 
 
 
@@ -38,6 +39,13 @@ Object.defineProperty(APP_CONST, "SLIDE_UPLOAD_URL", {
     writable: false, //设置属性只读
     configurable: true,
     enumerable: true
+});
+
+Object.defineProperty(APP_CONST, "EXCEL_UPLOAD", {
+  value: excel_upload,
+  writable: false, //设置属性只读
+  configurable: true,
+  enumerable: true
 });
 
 editor_config.uploadConfig.action = upload_url;

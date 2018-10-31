@@ -4,7 +4,7 @@ const URL = '/sales-goods-statistics';
 const proxy = new RestfulProxy(URL);
 
 proxy.getDepSale = function (sku,model){
-     return this.getAxios().put(this.url + "-dep/" + sku, model);
+    return this.getAxios().put(this.url + "-dep/" + sku, model);
 }
 
 proxy.downloadExcel = function(param){
@@ -12,6 +12,7 @@ proxy.downloadExcel = function(param){
 }
 
 proxy.downRouter = function(){
-    return this.url + '-download-excel';
+    const url = this.url + '-download-excel';
+    return url.indexOf("//") ==0 ? url.substring(1) : url ;
 }
 export default proxy;

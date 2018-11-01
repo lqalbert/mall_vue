@@ -50,7 +50,7 @@
                     <el-table-column label="备注" prop="order.express_remark" width="200" show-overflow-tooltip></el-table-column>
                     <el-table-column label="订单类型" prop="order.order_type.name" width="100"></el-table-column>
                     <el-table-column prop="assign_sn" label="发货单号" align="center" width="230">
-                        <template slot-scope="scope">
+                        <template slot-scope="scope" >
                             {{ scope.row.assign_sn }} <span v-if="scope.row.is_stop==1">(已拦截)</span>
                         </template>
                     </el-table-column>

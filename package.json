@@ -1,6 +1,10 @@
 {
   "name": "mall-backend-front",
+<<<<<<< HEAD
   "version": "1.3.3",
+=======
+  "version": "1.3.2",
+>>>>>>> f 修改显示
   "description": "A Vue.js project",
   "author": "mcdyqnc <hyfdyx@qq.com>",
   "private": true,

@@ -10,7 +10,7 @@
                     </el-col>
                     <el-col :span="8">
                         <el-form-item label="销售人员" >
-                            {{ rowInfoForm.user_name }}
+                            {{ model.user_name }}
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
@@ -194,7 +194,7 @@
                 //     {id:9,name:'g.其他无理由退换(成交方担责)'},
                 //     {id:10,name:'h.产品破损-无理由退换(成交方5发货方5)'},
                 // ],
-                model: {},
+                model: {user_name:""},
                 rules:{
                     // return_fee:[
                     //     {pattern:PRICE_REG,message: '格式为xx.xx', trigger:'blur'}

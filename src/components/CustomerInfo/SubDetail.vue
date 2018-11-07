@@ -34,19 +34,22 @@
             </el-tab-pane>
 
             <el-tab-pane label="退/换货记录" name="Fourth">
-               <el-table :data="AfterData" border style="width: 100%" max-height="400">
-                   <el-table-column prop="created_at" label="换货时间" align="center"></el-table-column>
-                   <el-table-column prop="goods_name" label="商品名称" align="center"></el-table-column>
-                   <el-table-column prop="type_text" label="状态" align="center"></el-table-column>
-                   <el-table-column prop="type" label="审核状态" align="center">
-                       <template slot-scope="scope">
-                           {{ check_status_text(scope.row.after_sale.check_status) }}
-                       </template>
-                   </el-table-column>
-                   <!-- <el-table-column prop="created_at" label="发货时间" align="center"></el-table-column>
-                   <el-table-column prop="created_at" label="签收时间" align="center"></el-table-column> -->
-               </el-table>
-       </el-tab-pane>
+                <el-table :data="AfterData" border style="width: 100%" max-height="400">
+                    <el-table-column prop="created_at" label="换货时间" align="center"></el-table-column>
+                    <el-table-column prop="goods_name" label="商品名称" align="center"></el-table-column>
+                    <el-table-column prop="type_text" label="状态" align="center"></el-table-column>
+                    <el-table-column prop="type" label="审核状态" align="center">
+                        <template slot-scope="scope">
+                            {{ check_status_text(scope.row.after_sale.check_status) }}
+                        </template>
+                    </el-table-column>
+                    <!-- <el-table-column prop="created_at" label="发货时间" align="center"></el-table-column>
+                    <el-table-column prop="created_at" label="签收时间" align="center"></el-table-column> -->
+                </el-table>
+            </el-tab-pane>
+
+            
+
         </el-tabs>
     </el-row>
 </template>
@@ -77,10 +80,12 @@
                 ComplainData:[],
                 BuyData:[],
                 AfterData:[],
+                
                 tabFirst:false,
                 tabSecond:false,
                 tabThird:false,
-                tabFourth:false
+                tabFourth:false,
+                
             }
         },
        
@@ -118,6 +123,7 @@
                 }).load();
                 this.tabFourth = true;
             },
+            
             getTrackLog(data){
                 this.TrackLogData = data;
             },
@@ -143,6 +149,8 @@
                 this.tabSecond = false;
                 this.tabThird = false;
                 this.tabFourth = false;
+                this.tabFive = false;
+
             },
             activeName(val,oldVal){
                 if (!this['tab'+ val] && this.row !== null) {

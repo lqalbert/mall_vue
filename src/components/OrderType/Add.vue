@@ -16,7 +16,7 @@
                             </el-form-item>
                         </el-col>
                     </el-row>
-                    <el-row>
+                    <!-- <el-row>
                         <el-col :span="12">
                             <el-form-item label="折扣" prop="discount" >
                                 <el-input-number v-model="addForm.discount"  :min="1" :max="100" :step="10"></el-input-number>
@@ -24,7 +24,7 @@
                             </el-form-item>
                         </el-col>
                         
-                    </el-row>
+                    </el-row> -->
                     <!-- <el-row>
                         <el-col :span="12">
                             <el-form-item label="状态" prop="status" >

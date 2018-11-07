@@ -98,6 +98,20 @@
                             <el-table-column prop="context" label="详情" align="center"></el-table-column>
                         </el-table>
                     </el-tab-pane>
+
+                    <el-tab-pane label="扣返明细" name="Seventh">
+                        <el-table :data="sevenData" border style="width: 100%" max-height="400">
+                            <el-table-column label="商品类型" prop="type_text"  align="center"></el-table-column>
+                            <el-table-column label="金额" prop="amount"  align="center"></el-table-column>
+                            <el-table-column label="扣款" prop="deposit"  align="center"></el-table-column>
+                            <el-table-column label="运营费" prop="saler_point"  align="center"></el-table-column>
+                            <el-table-column label="仓储费" prop="entrepot_point"  align="center"></el-table-column>
+                            <el-table-column label="快递费" prop="freight"  align="center"></el-table-column>
+                            <el-table-column label="店铺扣点" prop="thirdpart_point"  align="center"></el-table-column>
+                            <el-table-column label="返还" prop="return_deposit"  align="center"></el-table-column>
+                        </el-table>
+                    </el-tab-pane>
+
                 </el-tabs>
             </el-col>
         </el-row>
@@ -108,9 +122,10 @@
     import CustomerSelectAjaxProxy from '@/packages/CustomerSelectProxy';
     import OrderGoodsAjaxProxy from "@/packages/OrderGoodsAjaxProxy";
     import OrderAddressAjaxProxy from "@/packages/OrderAddressAjaxProxy";
-    import OrderAssignAjaxProxy from "../../packages/OrderAssignAjaxProxy";
+    import OrderAssignAjaxProxy from "@/packages/OrderAssignAjaxProxy";
     import OrderOperateAjaxProxy from "@/packages/OrderOperateSelectProxy";
     import LogisticsInformationAjaxProxy from "@/packages/LogisticsInformationAjaxProxy";
+    import DepositDetialProxy from '@/packages/DepositDetailProxy';
 
     export default {
         name: 'SubDetail',
@@ -128,6 +143,7 @@
                 LogisticsInformationData:[],
                 manageData:[],
                 assignData:[],
+                sevenData:[],
                 activeName:'First',
                 order_id:0,
                 tabFirst:false,
@@ -135,6 +151,7 @@
                 tabThird:false,
                 tabFourth:false,
                 tabFifth:false,
+                tabSeventh:false,
                 express_id:null,
                 express_sn:null,
             }
@@ -158,6 +175,9 @@
             },
             getOrderOperate(data){
                 this.manageData = data.items;
+            },
+            getDepositDetail(data){
+                this.sevenData = data.items;
             },
             handleFirst(row){
                 this.customerProxy.setParam({
@@ -201,6 +221,13 @@
                 }).load();
                 this.tabSixth = true;
             },
+            handleSeventh(row){
+                this.depositDetialProxy.setParam({
+                    order_id:row.id,
+                    append:['type_text']
+                }).load();
+                this.tabSeventh = true;
+            },
             getLogisticsInformation(data){
                 this.LogisticsInformationData = data.data[0].data;
             },
@@ -215,6 +242,7 @@
                 this.tabFourth = false;
                 this.tabFifth = false;
                 this.tabSixth = false;
+                this.tabSeventh = false;
             },
             activeName:function(val, olvVal){
                 // console.log(this.activeName);
@@ -232,7 +260,7 @@
             this.OrderAssignProxy = new OrderAssignAjaxProxy({fields:["*"]},    this.getOrderAssign,this);
             this.orderOperateProxy = new OrderOperateAjaxProxy({fields:['*']}, this.getOrderOperate, this);
             this.LogisticsInformationProxy = new LogisticsInformationAjaxProxy({fields:["*"]}, this.getLogisticsInformation,this);
-
+            this.depositDetialProxy = new DepositDetialProxy({fields:['*'],append:['type_text']}, this.getDepositDetail, this);
         }
     }
 </script>

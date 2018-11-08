@@ -63,7 +63,7 @@
                         </template>
                     </el-table-column>
                     
-                    <el-table-column prop="order_account" label="是否刷单" width="100">
+                    <el-table-column prop="order_account" label="订单是否无效" width="130">
                         <template slot-scope="scope">
                             <el-switch
                                 v-model="scope.row.is_brusher"

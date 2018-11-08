@@ -62,21 +62,20 @@
                     <el-table-column prop="user_name"  label="员工" width="180" align="center" v-if="searchForm.type=='user_id'"></el-table-column>
                     <el-table-column prop="out_cus_cout" sortable="custom" label="成交客户数" align="center"></el-table-column>
                     <el-table-column prop="all_sale_count" sortable="custom" label="成交单数" align="center"></el-table-column>
-                    <el-table-column prop="all_pay2" sortable="custom" label="成交金额" align="center"></el-table-column>
+                    <el-table-column prop="all_pay2" sortable="custom" label="销售金额" align="center"></el-table-column>
+                    <el-table-column prop="append_sum" sortable="custom" label="赠品金额" align="center"></el-table-column>
                     <el-table-column prop="refund2" sortable="custom" label="退款金额" align="center"></el-table-column>
+
+                    <el-table-column prop="inner_count"  label="内购单数" align="center"></el-table-column>
+                    <el-table-column prop="inner_sum"  label="内购金额" align="center"></el-table-column>
+
+                    <el-table-column prop="jd_count" label="京东单数" ></el-table-column>
+                    <el-table-column prop="jd_sum" label="京东金额" ></el-table-column>
+
                     <el-table-column prop="i_freight"  label="自付邮费" align="center"></el-table-column>
                     <el-table-column prop="b_freight"  label="包邮邮费" align="center"></el-table-column>
                     <!-- <el-table-column prop="express_fee"  label="实付邮费" align="center"></el-table-column> -->
-                    <el-table-column prop="inner_count"  label="内购单数" align="center">
-                        <template slot-scope="scope">
-                            {{ scope.row.inner_count ? scope.row.inner_count : 0 }}
-                        </template>
-                    </el-table-column>
-                    <el-table-column prop="inner_sum"  label="内购金额" align="center">
-                        <template slot-scope="scope">
-                            {{ scope.row.inner_sum ? scope.row.inner_sum : 0 }}
-                        </template>
-                    </el-table-column>
+                    
 
                     <!-- 加两列 客户邮费、公司邮费 -->
                     <el-table-column prop="deposit"   label="部门充值剩余" >

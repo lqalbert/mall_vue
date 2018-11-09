@@ -117,7 +117,7 @@
                     <div slot="buttonbar">
                         <el-button size="small" type="primary" @click="uploadExcel">上传excel</el-button>
                         <el-button size="small" type="primary" @click="matchTable()">过滤匹配</el-button>
-                        <el-button size="small" type="primary" @click="handleMatch()">手选匹配</el-button>
+                        <el-button size="small" type="primary" @click="handleMatch()">手动匹配</el-button>
                         <!-- <el-button size="small" type="primary" @click="matchTable()">手动匹配</el-button> -->
                         <el-button size="small" type="primary" @click="minusTable()">扣除库存</el-button>
                     </div>
@@ -135,6 +135,8 @@
 
         <minus-inventory name="minus-inventory" :ajax-proxy="ajaxProxy" :entrepots="entrepots"
         @submit-success="handleReload"/>
+
+        <manual-match name="manual-match" :ajax-proxy="ajaxProxy" @submit-success="handleReload"/>
     </div>
 </template>
 
@@ -148,6 +150,7 @@ import SubDetail from './SubDetail';
 import UploadExcel from './UploadExcel';
 import MatchData from './Match';
 import MinusInventory from './Inventory';
+import ManualMatch from './ManualMatch';
 
 export default {
     name:"JdOrderBasic",
@@ -157,7 +160,8 @@ export default {
         SubDetail,
         UploadExcel,
         MatchData,
-        MinusInventory
+        MinusInventory,
+        ManualMatch
     },
     data(){
         return {
@@ -269,21 +273,28 @@ export default {
         },
         handleMatch(){
             let vmThis = this;
+            let ids = [];
             if(this.multipleSelection.length == 0){
                 this.$message.error('请勾选要匹配的订单');
                 return ;
             }
-
-            this.ajaxProxy.manualMatch(this.multipleSelection).then(function(response){
-                if(response.data.status == 0){
-                    vmThis.$message.error(response.data.msg ? response.data.msg : "操作失败" );
-                }else{
-                    vmThis.$message.success(response.data.msg);
-                    vmThis.handleReload();
+            for (let i = 0; i < this.multipleSelection.length; i++) {
+                if(this.multipleSelection[i].id){
+                    ids.push(this.multipleSelection[i].id);
                 }
-            }).catch(function(error){
-                vmThis.$message.error("出错了");
-            });
+            }
+            
+            this.$modal.show('manual-match',{ids:ids});
+            // this.ajaxProxy.manualMatch(this.multipleSelection).then(function(response){
+            //     if(response.data.status == 0){
+            //         vmThis.$message.error(response.data.msg ? response.data.msg : "操作失败" );
+            //     }else{
+            //         vmThis.$message.success(response.data.msg);
+            //         vmThis.handleReload();
+            //     }
+            // }).catch(function(error){
+            //     vmThis.$message.error("出错了");
+            // });
         }
     },
     created(){

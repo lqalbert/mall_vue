@@ -99,7 +99,7 @@
                         </el-table>
                     </el-tab-pane>
 
-                    <el-tab-pane label="扣返明细" name="Seventh">
+                    <el-tab-pane label="扣返明细" name="Seventh"  v-if="isAdmin || isSaleManager">
                         <el-table :data="sevenData" border style="width: 100%" max-height="400">
                             <el-table-column label="商品类型" prop="type_text"  align="center"></el-table-column>
                             <el-table-column label="金额" prop="amount"  align="center"></el-table-column>
@@ -126,6 +126,7 @@
     import OrderOperateAjaxProxy from "@/packages/OrderOperateSelectProxy";
     import LogisticsInformationAjaxProxy from "@/packages/LogisticsInformationAjaxProxy";
     import DepositDetialProxy from '@/packages/DepositDetailProxy';
+    import { mapGetters } from 'vuex';
 
     export default {
         name: 'SubDetail',
@@ -155,6 +156,12 @@
                 express_id:null,
                 express_sn:null,
             }
+        },
+        computed:{
+            ...mapGetters([
+                'isAdmin',
+                'isSaleManager'
+            ])
         },
         methods:{
             loadCustomer(data){

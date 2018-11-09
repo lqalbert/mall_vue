@@ -163,7 +163,7 @@
                         </template>
                     </el-table-column>
                     <div slot="buttonbar">
-                        <!-- <el-button size="small" type="primary" @click="openAdd">添 加</el-button> -->
+                        <el-button size="small" type="primary" @click="openAdd">添 加</el-button>
                     </div>
                 </TableProxy>
             </el-col>

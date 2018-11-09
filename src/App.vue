@@ -19,7 +19,8 @@
       },
       computed:{
         ...mapGetters([
-          'isLogin'
+          'isLogin',
+          'getUser'
         ])
       },
       methods:{
@@ -31,8 +32,7 @@
         const vmThis = this;
         window.onclose  = function(){
           vmThis.logout();
-        }
-        
+        };
       }
   }
 </script>

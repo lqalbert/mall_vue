@@ -105,6 +105,9 @@ const user = {
         isAdmin(state, getters) {
             return getters.hasRole('super-manager') || getters.hasRole('administrator')
         },
+        isSaleManager(state, getters) {
+            return getters.hasRole('sale-manager');
+        },
         isAssignMember(state, getters) {
             return getters.hasRole("assign-department-member");
         },

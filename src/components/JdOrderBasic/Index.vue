@@ -79,13 +79,13 @@
 
                     <el-table-column label="客户姓名" width="120">
                         <template slot-scope="scope">
-                            {{ scope.row.customer[0].cus_name }}
+                            {{ scope.row.customer.cus_name }}
                         </template>
                     </el-table-column>
 
                     <el-table-column label="联系电话" width="130">
                         <template slot-scope="scope">
-                            {{ scope.row.customer[0].tel }}
+                            {{ scope.row.customer.tel }}
                         </template>
                     </el-table-column>
 
@@ -113,13 +113,18 @@
                     <el-table-column prop="order_source" label="订单来源" width="120"></el-table-column>
 
                     <el-table-column prop="order_channel" label="订单渠道" width="120"></el-table-column>
-
+                    <el-table-column label="操作" width="200" align="center">
+                        <template slot-scope="scope">
+                            <el-button size="small">退回返还</el-button>
+                            <el-button size="small">退回库存</el-button>
+                        </template>
+                    </el-table-column>
                     <div slot="buttonbar">
                         <el-button size="small" type="primary" @click="uploadExcel">上传excel</el-button>
-                        <el-button size="small" type="primary" @click="matchTable()">过滤匹配</el-button>
+                        <el-button size="small" type="primary" @click="matchTable()">自动匹配</el-button>
                         <el-button size="small" type="primary" @click="handleMatch()">手动匹配</el-button>
                         <!-- <el-button size="small" type="primary" @click="matchTable()">手动匹配</el-button> -->
-                        <el-button size="small" type="primary" @click="minusTable()">扣除库存</el-button>
+                        <!-- <el-button size="small" type="primary" @click="minusTable()">扣除库存</el-button> -->
                     </div>
 
                 </TableProxy>

@@ -43,12 +43,13 @@
                 </el-col>
             </el-row>
             <br>
+            <span>本次导入数据共{{ sum }}条</span>
             <el-row>
                 <el-col :span="12">
                     <div v-show="matchButton">
                         <hr>
                         <span>本次导入数据共{{ sum }}条</span>
-                        点击匹配员工<el-button size="small" type="info" @click="matchUser()">智能匹配</el-button>
+                        点击匹配全部员工<el-button size="small" type="info" @click="matchUser()">智能匹配</el-button>
                     </div>
                 </el-col>
             </el-row>
@@ -142,8 +143,8 @@ export default {
                 this.$message.error(response.msg);
                 this.handleClose();
             }else{
-                this.matchButton = true;
-                this.minusButton = true;
+                // this.matchButton = true;
+                // this.minusButton = true;
                 this.sum = response.data.sum;
                 this.flag = response.data.flag;
                 this.$message.success(response.msg);

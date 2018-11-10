@@ -10,7 +10,7 @@
                         </el-date-picker>
                     </el-form-item>
                     <el-form-item  prop="end">
-                        <el-date-picker size="small" 
+                        <el-date-picker size="small"
                         v-model="view_end" 
                         placeholder="请选择止日期" :picker-options="setPicker"
                         @change="endDateChange" :clearable="false" class="form-item-unique">

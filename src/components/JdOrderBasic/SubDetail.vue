@@ -53,6 +53,19 @@
                         </el-table>
                     </el-tab-pane>
                     <!-- /其他信息 -->
+
+                    <el-tab-pane label="扣返明细" name="Seventh"  v-if="isAdmin || isSaleManager">
+                        <el-table :data="sevenData" border style="width: 100%" max-height="400">
+                            <el-table-column label="商品类型" prop="type_text"  align="center"></el-table-column>
+                            <el-table-column label="金额" prop="amount"  align="center"></el-table-column>
+                            <el-table-column label="扣款" prop="deposit"  align="center"></el-table-column>
+                            <el-table-column label="运营费" prop="saler_point"  align="center"></el-table-column>
+                            <el-table-column label="仓储费" prop="entrepot_point"  align="center"></el-table-column>
+                            <el-table-column label="快递费" prop="freight"  align="center"></el-table-column>
+                            <el-table-column label="店铺扣点" prop="thirdpart_point"  align="center"></el-table-column>
+                            <el-table-column label="返还" prop="return_deposit"  align="center"></el-table-column>
+                        </el-table>
+                    </el-tab-pane>
                 </el-tabs>
             </el-col>
         </el-row>
@@ -64,7 +77,8 @@
     // import OrderGoodsAjaxProxy from "@/packages/OrderGoodsAjaxProxy";
     // import OrderAddressAjaxProxy from "@/packages/OrderAddressAjaxProxy";
     // import OrderAssignAjaxProxy from "../../packages/OrderAssignAjaxProxy";
-
+    import JdOrderBasicAjax from '../../ajaxProxy/JdOrderBasic.js';
+    import { mapGetters } from 'vuex';
     export default {
         name: 'SubDetail',
         props:{
@@ -79,18 +93,19 @@
                 goodsTableData:[],
                 addressTableData:[],
                 otherTableData:[],
-
+                sevenData:[],
                 activeName:'First',
                 order_id:0,
                 tabFirst:false,
                 tabSecond:false,
                 tabThird:false,
-                tabFourth:false
+                tabFourth:false,
+                tabSeventh:false,
             }
         },
         methods:{
             handleFirst(row){
-                this.cusTableData = row.customer;
+                this.cusTableData = [row.customer];
                 this.tabFirst = true;
             },
             handleSecond(row){
@@ -100,14 +115,30 @@
             },
             handleThird(row){
                 // console.log('third');
-                this.addressTableData = row.address;
+                this.addressTableData = [row.address];
                 this.tabThird = true;
             },
             handleFourth(row){
                 // console.log("fourth");
-                this.otherTableData = row.other;
+                this.otherTableData = [row.other];
                 this.tabFourth = true;
             },
+            handleSeventh(row){
+                //试一下不用packages的方式写 会不会更简单点
+                JdOrderBasicAjax.depositDetail(row.id).then((response)=>{
+                    let data = response.data;
+                    this.sevenData = data.items;
+                }).catch((response)=>{
+
+                });
+                this.tabSeventh = true;
+            }
+        },
+        computed:{
+            ...mapGetters([
+                'isAdmin',
+                'isSaleManager'
+            ])
         },
         watch:{
             row:function(val, oldVal) {
@@ -116,6 +147,7 @@
                 this.tabSecond = false;
                 this.tabThird = false;
                 this.tabFourth = false;
+                this.tabSeventh = false;
             },
             activeName:function(val, olvVal){
                 // console.log(this.activeName);
@@ -125,7 +157,6 @@
             }
 
         },
-
         created(){
 
         }

@@ -62,7 +62,8 @@
                             {{ setDepGroupUser(scope.row) }}
                         </template>
                     </el-table-column>
-                    
+                    <el-table-column label="库存" prop="is_deduce_inventory"></el-table-column>
+                    <el-table-column label="返还" prop="return_deposit"></el-table-column>
                     <el-table-column prop="order_account" label="订单是否无效" width="130">
                         <template slot-scope="scope">
                             <el-switch
@@ -115,8 +116,8 @@
                     <el-table-column prop="order_channel" label="订单渠道" width="120"></el-table-column>
                     <el-table-column label="操作" width="200" align="center">
                         <template slot-scope="scope">
-                            <el-button size="small">退回返还</el-button>
-                            <el-button size="small">退回库存</el-button>
+                            <el-button size="small" @click="returnDeposit(scope.row.id)">退回返还</el-button>
+                            <el-button size="small" @click="returnInventory(scope.row.id)">退回库存</el-button>
                         </template>
                     </el-table-column>
                     <div slot="buttonbar">
@@ -245,7 +246,7 @@ export default {
             this.$modal.show('minus-inventory');
         },
         setBrusherChange(row){
-            console.log(row);//setBrusher
+            // console.log(row);//setBrusher
             let vmThis = this;
             this.ajaxProxy.setBrusher(row.flag,row.order_sn).then(function(response){
                 if(response.data.status == 0){
@@ -300,6 +301,20 @@ export default {
             // }).catch(function(error){
             //     vmThis.$message.error("出错了");
             // });
+        },
+        returnInventory(id){
+            this.ajaxProxy.returnInventory(id).then((response)=>{
+                this.$message.success(response.data.msg);
+            }).catch((response)=>{
+                this.$message.errot('操作失败');
+            })
+        },
+        returnDeposit(id){
+            this.ajaxProxy.returnDeposit(id).then((response)=>{
+                this.$message.success(response.data.msg);
+            }).catch((response)=>{
+                this.$message.errot('操作失败');
+            })
         }
     },
     created(){

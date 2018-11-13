@@ -61,7 +61,7 @@
                     <el-table-column prop="group_name" label="小组" width="180" align="center" v-if="searchForm.type=='user_id' || searchForm.type=='group_id'"></el-table-column>
                     <el-table-column prop="user_name"  label="员工" width="180" align="center" v-if="searchForm.type=='user_id'"></el-table-column>
                     <el-table-column prop="out_cus_cout" sortable="custom" label="成交客户数" align="center"></el-table-column>
-                    <el-table-column prop="all_sale_count" sortable="custom" label="成交单数" align="center"></el-table-column>
+                    <el-table-column prop="all_sale_count" sortable="custom" label="销售单数" align="center"></el-table-column>
                     <el-table-column prop="all_pay2" sortable="custom" label="销售金额" align="center"></el-table-column>
                     <el-table-column prop="append_sum" sortable="custom" label="赠品金额" align="center"></el-table-column>
                     <el-table-column prop="refund2" sortable="custom" label="退款金额" align="center"></el-table-column>

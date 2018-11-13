@@ -113,6 +113,9 @@ const user = {
         },
         isFinance(state, getters){
             return getters.hasRole('finance');
+        },
+        isStration(state, getters){
+            return getters.hasRole('stration');
         }
     },
     //异步操作

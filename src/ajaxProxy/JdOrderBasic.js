@@ -35,6 +35,10 @@ proxy.depositDetail = function (id){
     return this.getAxios().get("/jd-deposit-detail/" + id);
 }
 
+proxy.cancelMatch = function(ids){
+    return this.getAxios().put("/jd-order-cancel", ids)
+}
+
 
 
 export default proxy;

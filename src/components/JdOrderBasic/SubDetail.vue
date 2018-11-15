@@ -66,6 +66,19 @@
                             <el-table-column label="返还" prop="return_deposit"  align="center"></el-table-column>
                         </el-table>
                     </el-tab-pane>
+
+                    <el-tab-pane label="归属" name="Fifth"  >
+                        <el-table :data="userData" border style="width: 100%" max-height="400">
+                            <el-table-column label="订单编号" prop="order_sn"  align="center"></el-table-column>
+                            <el-table-column label="客户姓名" prop="customer.cus_name"  align="center"></el-table-column>
+                            <el-table-column label="电话" prop="customer.tel"  align="center"></el-table-column>
+                            <el-table-column label="归属员工"   align="center">
+                                <template slot-scope="scope">
+                                    {{ setDepGroupUser(scope.row) }}
+                                </template>
+                            </el-table-column>
+                        </el-table>
+                    </el-tab-pane>
                 </el-tabs>
             </el-col>
         </el-row>
@@ -73,11 +86,7 @@
 </template>
   
 <script>
-    // import CustomerSelectAjaxProxy from '@/packages/CustomerSelectProxy';
-    // import OrderGoodsAjaxProxy from "@/packages/OrderGoodsAjaxProxy";
-    // import OrderAddressAjaxProxy from "@/packages/OrderAddressAjaxProxy";
-    // import OrderAssignAjaxProxy from "../../packages/OrderAssignAjaxProxy";
-    import JdOrderBasicAjax from '../../ajaxProxy/JdOrderBasic.js';
+    import JdOrderBasicAjax from '@/ajaxProxy/JdOrderBasic';
     import { mapGetters } from 'vuex';
     export default {
         name: 'SubDetail',
@@ -93,6 +102,7 @@
                 goodsTableData:[],
                 addressTableData:[],
                 otherTableData:[],
+                userData:[],
                 sevenData:[],
                 activeName:'First',
                 order_id:0,
@@ -132,7 +142,24 @@
 
                 });
                 this.tabSeventh = true;
-            }
+            },
+            handleFifth(row){
+                this.userData = [row];
+                this.tabFifth = true;
+            },
+            setDepGroupUser(row){
+                let fullName = "";
+                if(row.department){
+                    fullName = row.department.name;
+                }
+                if(row.group){
+                    fullName +="-"+row.group.name;
+                }
+                if(row.user){
+                    fullName +="-"+row.user.realname;
+                }
+                return fullName;
+            },
         },
         computed:{
             ...mapGetters([
@@ -148,6 +175,7 @@
                 this.tabThird = false;
                 this.tabFourth = false;
                 this.tabSeventh = false;
+                this.tabFifth = false;
             },
             activeName:function(val, olvVal){
                 // console.log(this.activeName);

@@ -17,25 +17,28 @@
                         </el-date-picker>
                     </el-form-item>
 
-                    <el-form-item label="订单号" prop="order_sn">
+                    <el-form-item label="京东订单号" prop="order_sn">
                         <el-input size="small" v-model="searchForm.order_sn" placeholder="订单号" 
                             class="form-item-unique">
                         </el-input>
                     </el-form-item>
 
-                    <el-form-item label="下单帐号" prop="order_account">
+                    <!-- <el-form-item label="下单帐号" prop="order_account">
                         <el-input size="small" v-model="searchForm.order_account" placeholder="下单帐号" 
                             class="form-item-unique">
                         </el-input>
-                    </el-form-item>
+                    </el-form-item> -->
 
                     <el-form-item label="批次号" prop="flag">
                         <el-input size="small" v-model="searchForm.flag" placeholder="导入批次号" 
                             class="form-item-unique">
                         </el-input>
                     </el-form-item>
-
+                    <el-form-item label="包含删除" prop="drash">
+                            <el-checkbox v-model="searchForm.drash" true-label="1" false-label="0"></el-checkbox>
+                    </el-form-item>
                     <el-form-item>
+                        
                         <el-button type="info" size="small" @click="searchToolChange('searchForm')" 
                             icon="search">查询
                         </el-button>
@@ -52,16 +55,10 @@
                     @dbclick="rowDbClick" :page-size="15" :bubble="bubble" >
                     <el-table-column type="selection" width="55"></el-table-column>
                     <!-- <el-table-column label="序号" align="center" width="65" type="index"></el-table-column> -->
-
-                    <el-table-column prop="flag" label="导入批次号" width="140"></el-table-column>
-
-                    <el-table-column prop="order_sn" label="订单号" width="140"></el-table-column>
-
-                    <el-table-column prop="entrepot" label="部门小组员工" width="220">
-                        <template slot-scope="scope">
-                            {{ setDepGroupUser(scope.row) }}
-                        </template>
-                    </el-table-column>
+                    <el-table-column prop="flag" label="导入批次" width="140"></el-table-column>
+                    <el-table-column prop="prefix_order_sn" label="订单号" width="180"></el-table-column>
+                    <el-table-column prop="order_sn" label="京东订单号" width="140"></el-table-column>
+                    <el-table-column label="分配状态" prop="match_text" width="100"></el-table-column>
                     <el-table-column label="库存" prop="is_deduce_inventory"></el-table-column>
                     <el-table-column label="返还" prop="return_deposit"></el-table-column>
                     <el-table-column prop="order_account" label="订单是否无效" width="130">
@@ -75,55 +72,46 @@
                             </el-switch>
                         </template>
                     </el-table-column>
-
                     <el-table-column prop="order_account" label="下单账号" width="180"></el-table-column>
-
                     <el-table-column label="客户姓名" width="120">
                         <template slot-scope="scope">
                             {{ scope.row.customer.cus_name }}
                         </template>
                     </el-table-column>
-
                     <el-table-column label="联系电话" width="130">
                         <template slot-scope="scope">
                             {{ scope.row.customer.tel }}
                         </template>
                     </el-table-column>
-
                     <el-table-column prop="order_at" label="下单时间" width="180"></el-table-column>
-
-                    <el-table-column prop="order_money" label="订单金额" width="100"></el-table-column>
-
-                    <el-table-column prop="all_money" label="结算金额" width="100"></el-table-column>
-
-                    <el-table-column prop="pay_money" label="应付金额" width="100">
+                    <el-table-column prop="order_money" label="商品金额" width="100"></el-table-column>
+                    <el-table-column prop="all_money" label="应收金额" width="100"></el-table-column>
+                    <el-table-column prop="pay_money" label="实付金额" width="100">
                     </el-table-column>
-
                     <el-table-column prop="pay_balance" label="余额支付" width="100"></el-table-column>
-
                     <el-table-column prop="status" label="订单状态" width="140"></el-table-column>
-
                     <el-table-column prop="type" label="京东订单类型" width="140"></el-table-column>
-
                     <el-table-column prop="remark" label="订单备注" width="140" show-overflow-tooltip></el-table-column>
-
-                    <el-table-column prop="express_fee" label="运费金额" width="100"></el-table-column>
-
+                    <el-table-column prop="express_fee" label="自付邮费" width="100"></el-table-column>
+                    <el-table-column label="快递公司" prop="express_name" width="140"></el-table-column>
+                    <el-table-column label="快递号"   prop="express_sn" width="140"></el-table-column>
                     <el-table-column prop="pay_way" label="支付方式" width="120"></el-table-column>
-
                     <el-table-column prop="order_source" label="订单来源" width="120"></el-table-column>
-
                     <el-table-column prop="order_channel" label="订单渠道" width="120"></el-table-column>
-                    <el-table-column label="操作" width="200" align="center">
+                    <el-table-column label="操作" width="180" align="center" fixed="right">
                         <template slot-scope="scope">
-                            <el-button size="small" @click="returnDeposit(scope.row.id)">退回返还</el-button>
-                            <el-button size="small" @click="returnInventory(scope.row.id)">退回库存</el-button>
+                            <!-- <el-button size="small" @click="returnDeposit(scope.row.id)">退回返还</el-button>
+                            <el-button size="small" @click="returnInventory(scope.row.id)">退回库存</el-button> -->
+                            <el-button size="small" type="primary" @click="$modal.show('jd-edit', {model:scope.row} )">录入快递</el-button>
+                            <el-button size="small" type="danger" @click="handleDelete(scope.row.id)">删除</el-button>
                         </template>
                     </el-table-column>
                     <div slot="buttonbar">
                         <el-button size="small" type="primary" @click="uploadExcel">上传excel</el-button>
                         <el-button size="small" type="primary" @click="matchTable()">自动匹配</el-button>
                         <el-button size="small" type="primary" @click="handleMatch()">手动匹配</el-button>
+                        <el-button size="small" type="primary" @click="cancelMatch()">取消分匹配</el-button>
+                        
                         <!-- <el-button size="small" type="primary" @click="matchTable()">手动匹配</el-button> -->
                         <!-- <el-button size="small" type="primary" @click="minusTable()">扣除库存</el-button> -->
                     </div>
@@ -143,6 +131,8 @@
         @submit-success="handleReload"/>
 
         <manual-match name="manual-match" :ajax-proxy="ajaxProxy" @submit-success="handleReload"/>
+
+        <EditExpress name="jd-edit" :ajax-proxy="ajaxProxy" @submit-success="handleReload"></EditExpress>
     </div>
 </template>
 
@@ -150,24 +140,27 @@
 import PageMix from '@/mix/Page';
 import SearchTool from '@/mix/SearchTool';
 import DataTable from '@/mix/DataTable';
-import JdOrderBasicAjax from '../../ajaxProxy/JdOrderBasic.js';
+import JdOrderBasicAjax from '@/ajaxProxy/JdOrderBasic';
 import { mapGetters } from 'vuex';
 import SubDetail from './SubDetail';
 import UploadExcel from './UploadExcel';
 import MatchData from './Match';
 import MinusInventory from './Inventory';
 import ManualMatch from './ManualMatch';
+import deleteMix from '@/mix/Delete';
+import EditExpress from './EditExpress';
 
 export default {
     name:"JdOrderBasic",
     pageTitle:"京东订单",
-    mixins:[PageMix, SearchTool,DataTable],
+    mixins:[PageMix, SearchTool,DataTable,deleteMix],
     components:{
         SubDetail,
         UploadExcel,
         MatchData,
         MinusInventory,
-        ManualMatch
+        ManualMatch,
+        EditExpress
     },
     data(){
         return {
@@ -184,7 +177,8 @@ export default {
                 end:'',
                 order_sn:'',
                 order_account:'',
-                flag:''
+                flag:'',
+                drash:'0'
             },
             row_model:null,
             dbRow:null,
@@ -315,6 +309,35 @@ export default {
             }).catch((response)=>{
                 this.$message.errot('操作失败');
             })
+        },
+        getAjaxProxy(){
+            return  this.ajaxProxy;
+        },
+        cancelMatch(){
+
+            this.$confirm('确定取消?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                if (this.multipleSelection.length == 0) {
+                    this.$message.error('请勾选');
+                    return ;
+                }
+                let ids = this.multipleSelection.map((item)=>{
+                    return item.id
+                });
+                this.ajaxProxy.cancelMatch({ids:ids}).then((response)=>{
+                    this.$message.success(response.data.msg);
+                    this.handleReload();
+                }).catch((response)=>{
+                    this.$message.error(response.data.msg);
+                });
+            }).catch(() => {
+                     
+            });
+
+            
         }
     },
     created(){

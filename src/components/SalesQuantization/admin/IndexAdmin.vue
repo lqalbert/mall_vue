@@ -146,9 +146,9 @@
             },
         },
         created(){
+            this.$on('search-tool-change', this.onSearchChange);
             this.$store.dispatch('initDepartments');
 
-            this.$on('search-tool-change', this.onSearchChange);
             this.onSearchChange(this.searchForm);
         }
     }

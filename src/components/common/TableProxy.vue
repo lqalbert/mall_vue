@@ -94,7 +94,10 @@
                 default:''
             },
             rowClassName:[String, Function],
-            defaultSort: Object,
+            defaultSort: {
+                type:Object,
+                default:null
+            },
             showSummary: {
                 type :Boolean,
                 default:false
@@ -139,6 +142,7 @@
           },
 
           sortChange(prop){
+            //   console.log('asdf');
               this.dataLoad = true;
               this.mainProxy.setOrder(prop.prop, prop.order).load();
           },
@@ -166,8 +170,10 @@
               if (this.realParam) {
                   this.mainProxy.setExtraParam(this.realParam);
               }
-              this.toggleTableLoad();
-              this.mainProxy.load();
+            //   console.log(this.defaultSort);
+            this.toggleTableLoad();
+            this.mainProxy.load();
+              
           },
           handleSizeChange(v){
             this.dpagesize = v;

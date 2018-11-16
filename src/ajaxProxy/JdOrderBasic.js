@@ -24,7 +24,7 @@ proxy.manualMatch = function (data){
 }
 
 proxy.reMatch = function (data){
-    return this.getAxios().post("/jd-re-match", data);
+    return this.getAxios().put("/jd-re-match", data);
 }
 
 proxy.returnInventory = function (id){

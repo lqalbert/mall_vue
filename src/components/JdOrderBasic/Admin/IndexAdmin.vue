@@ -115,7 +115,7 @@
 
         <sub-detail :row="dbRow"/>
         <EditExpress name="jd-edit" :ajax-proxy="ajaxProxy" @submit-success="handleReload"></EditExpress>
-        <ReMatch name="jd-rematch" @submit-success="handleReload"></ReMatch>
+        <ReMatch name="re-match" :ajax-proxy="ajaxProxy" @submit-success="handleReload"></ReMatch>
     </div>
 </template>
 

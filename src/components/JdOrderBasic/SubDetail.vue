@@ -6,10 +6,10 @@
                     <!--  订单客户信息 -->
                     <el-tab-pane label="订单客户" name="First">
                         <el-table :data="cusTableData" border empty-text="请双击订单显示信息">
-                            <el-table-column prop="order_sn" label="订单号"></el-table-column>
+                            <el-table-column prop="prefix_order_sn" label="订单号"></el-table-column>
+                            <el-table-column prop="order_sn" label="京东订单号"></el-table-column>
                             <el-table-column prop="cus_name" label="客户姓名"></el-table-column>
                             <el-table-column prop="tel" label="联系电话"></el-table-column>
-                            <el-table-column prop="order_account" label="下单帐号"></el-table-column>
                         </el-table>
                     </el-tab-pane>
                     <!-- /订单客户信息 -->
@@ -17,8 +17,8 @@
                     <el-tab-pane label="订单商品" name="Second">
                         <el-table :data="goodsTableData" border empty-text="请双击订单显示信息">
                             <el-table-column prop="order_sn" label="订单号"></el-table-column>
-                            <el-table-column prop="goods_name" label="商品名称" width="250" show-overflow-tooltip></el-table-column>
-                            <el-table-column prop="goods_id" label="商品ID" width="180"></el-table-column>
+                            <el-table-column prop="origin_goods.goods_name" label="商品名称" width="250" show-overflow-tooltip></el-table-column>
+                            <!-- <el-table-column prop="goods_id" label="商品ID" width="180"></el-table-column> -->
                             <el-table-column prop="goods_price" label="京东价"></el-table-column>
                             <el-table-column prop="goods_num" label="订购数量" width="180"></el-table-column>
                             <el-table-column prop="sku_sn" label="货号" width="180"></el-table-column>
@@ -29,12 +29,12 @@
                     <!--  订单收货地址 -->
                     <el-tab-pane label="收货地址" name="Third">
                         <el-table :data="addressTableData" border empty-text="请双击订单显示信息">
-                            <el-table-column prop="order_sn" label="订单号"></el-table-column>
+                            <!-- <el-table-column prop="order_sn" label="订单号"></el-table-column> -->
                             <el-table-column prop="address" label="客户地址" width="250" show-overflow-tooltip></el-table-column>
                             <el-table-column prop="cus_name" label="客户姓名"></el-table-column>
                             <el-table-column prop="tel" label="联系电话"></el-table-column>
-                            <el-table-column prop="zip_code" label="邮政编码"></el-table-column>
-                            <el-table-column prop="email" label="邮箱地址"></el-table-column>
+                            <!-- <el-table-column prop="zip_code" label="邮政编码"></el-table-column>
+                            <el-table-column prop="email" label="邮箱地址"></el-table-column> -->
                         </el-table>
                     </el-tab-pane>
                     <!--  / 订单收货地址 -->
@@ -54,7 +54,7 @@
                     </el-tab-pane>
                     <!-- /其他信息 -->
 
-                    <el-tab-pane label="扣返明细" name="Seventh"  v-if="isAdmin || isSaleManager">
+                    <el-tab-pane label="扣返明细" name="Seventh"  v-if="showdetail && (isAdmin || isSaleManager) ">
                         <el-table :data="sevenData" border style="width: 100%" max-height="400">
                             <el-table-column label="商品类型" prop="type_text"  align="center"></el-table-column>
                             <el-table-column label="金额" prop="amount"  align="center"></el-table-column>
@@ -87,6 +87,7 @@
   
 <script>
     import JdOrderBasicAjax from '@/ajaxProxy/JdOrderBasic';
+    import JdOrderGoodsAjax from '@/ajaxProxy/JdOrderGoods';
     import { mapGetters } from 'vuex';
     export default {
         name: 'SubDetail',
@@ -94,6 +95,10 @@
             row :{
                 type: Object,
                 default:null
+            },
+            showdetail:{
+                type: Boolean,
+                default: true
             }
         },
         data () {
@@ -115,13 +120,20 @@
         },
         methods:{
             handleFirst(row){
-                this.cusTableData = [row.customer];
+                let cus = row.customer;
+                cus.prefix_order_sn = row.prefix_order_sn;
+                this.cusTableData = [cus];
                 this.tabFirst = true;
             },
             handleSecond(row){
                 // console.log('second');
-                this.goodsTableData = row.goods;
-                this.tabSecond = true;
+                JdOrderGoodsAjax.get({order_sn:row.order_sn}).then((response)=>{
+                    let data = response.data;
+                    this.goodsTableData = data.items;
+                    this.tabSecond = true;
+                }).catch((response)=>{
+
+                })
             },
             handleThird(row){
                 // console.log('third');

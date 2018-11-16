@@ -23,6 +23,10 @@ proxy.manualMatch = function (data){
     return this.getAxios().post("/manual-match", data);
 }
 
+proxy.reMatch = function (data){
+    return this.getAxios().post("/jd-re-match", data);
+}
+
 proxy.returnInventory = function (id){
     return this.getAxios().put("/jd-inventory-return/" + id);
 }

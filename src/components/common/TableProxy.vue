@@ -95,8 +95,7 @@
             },
             rowClassName:[String, Function],
             defaultSort: {
-                type:Object,
-                default:null
+                type:Object
             },
             showSummary: {
                 type :Boolean,
@@ -142,7 +141,6 @@
           },
 
           sortChange(prop){
-            //   console.log('asdf');
               this.dataLoad = true;
               this.mainProxy.setOrder(prop.prop, prop.order).load();
           },
@@ -170,7 +168,6 @@
               if (this.realParam) {
                   this.mainProxy.setExtraParam(this.realParam);
               }
-            //   console.log(this.defaultSort);
             this.toggleTableLoad();
             this.mainProxy.load();
               
@@ -232,12 +229,7 @@
                       this.$refs.proxyTable.$on(key, this.bubble[key]);
                   }
               }
-              // for (let index = 0; index < this.bubble.length; index++) {
-              //     console.log(this.bubble[index]);
-              //     // const element = array[index];
-              //     console.log(this.$refs);
-              //     this.$refs.proxyTable.$on(this.bubble[index], this.bubleEvents, this.bubble[index]);
-              // }
+             
 
           }
       }

@@ -45,61 +45,7 @@
             <br>
             <span>本次导入数据共{{ sum }}条</span>
             <span>批次号:{{ flag }}</span>
-            <el-row>
-                <el-col :span="24">
-                    <el-table
-                    :data="tableData"
-                    style="width: 100%">
-                        <el-table-column prop="flag" label="导入批次" width="140"></el-table-column>
-                        <el-table-column prop="order_sn" label="京东订单号" width="140"></el-table-column>
-                        <el-table-column label="客户姓名" prop="cus_name" width="120">
-                            <template slot-scope="scope">
-                                {{ scope.row.customer.cus_name }}
-                            </template>
-                        </el-table-column>
-                        <el-table-column label="联系电话" width="130">
-                            <template slot-scope="scope">
-                                {{ scope.row.customer.tel }}
-                            </template>
-                        </el-table-column>
-                        <el-table-column prop="order_at" label="下单时间" width="180"></el-table-column>
-                        <el-table-column prop="order_money" label="商品金额" width="100"></el-table-column>
-                        <el-table-column prop="all_money" label="应收金额" width="100"></el-table-column>
-                        <el-table-column prop="pay_money" label="实付金额" width="100"></el-table-column>
-                        <el-table-column prop="pay_balance" label="余额支付" width="100"></el-table-column>
-                        <el-table-column prop="status" label="订单状态" width="140"></el-table-column>
-                        <el-table-column prop="type" label="京东订单类型" width="140"></el-table-column>
-                        <el-table-column prop="remark" label="订单备注" width="140" show-overflow-tooltip></el-table-column>
-                        <el-table-column prop="express_fee" label="自付邮费" width="100"></el-table-column>
-                        <el-table-column prop="order_source" label="订单来源" width="120"></el-table-column>
-                    </el-table>
-                    <el-pagination
-                        small
-                        layout="prev, pager, next"
-                        :total="sum"
-                        @current-change="setPager">
-                        </el-pagination>
-                </el-col>
-            </el-row>
-            <!-- <el-row>
-                <el-col :span="12">
-                    <div v-show="matchButton">
-                        <hr>
-                        <span>本次导入数据共{{ sum }}条</span>
-                        
-                        点击匹配全部员工<el-button size="small" type="info" @click="matchUser()">智能匹配</el-button>
-                    </div>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="12">
-                    <div v-show="minusButton">
-                        <hr>
-                        <span>本次导入数据共{{ sum }}条</span>
-                        点击扣除库存<el-button size="small" type="info" @click="inventoryMinus()">扣除库存</el-button>
-                    </div>
-                </el-col>
-            </el-row> -->
+
             <div slot="dialog-foot" class="dialog-footer">
                 <el-button @click="handleDialogClose">取 消</el-button>
                 <el-button type="primary" @click="handleDialogClose">确 定</el-button>
@@ -112,7 +58,6 @@
 import DialogForm from '@/mix/DialogForm';
 import { mapGetters } from 'vuex';
 import URL_CONST from '../../config';
-import JdOrderAjaxProxy from '@/packages/JdOrderBasicProxy';
 
 export default {
     name: 'upload-excel',
@@ -187,7 +132,7 @@ export default {
                 // this.minusButton = true;
                 this.sum = response.data.sum;
                 this.flag = response.data.flag;
-                this.tableDataProxy.setParam({'flag':this.flag}).load();
+                this.$emit('flag-change', this.flag);
                 this.$message.success(response.msg);
                 // console.log(response);//data{sum: 9, flag: 1539917338}
                 // this.$emit('submit-success');
@@ -257,16 +202,10 @@ export default {
             this.flag = 0;
             this.tableData = [];
         },
-        loadData(data){
-            this.tableData = data.items;
-            this.sum = data.total;
-        },
-        setPager(v){
-            this.tableDataProxy.setPage(v).load();
-        }
+        
     },
     created(){
-        this.tableDataProxy = new JdOrderAjaxProxy({}, this.loadData, this);
+       
     },
     
 }

@@ -29,10 +29,11 @@
  
 <script>
 import DialogForm from '@/mix/DialogForm';
+import deleteMix from '@/mix/Delete';
 
 export default {
     name: 'match-table',
-    mixins:[DialogForm],
+    mixins:[DialogForm,deleteMix],
     data(){
         return {
             dialogThis:this,
@@ -42,22 +43,28 @@ export default {
                 id:'',
                 express_name:'',
                 express_sn:""
-            }
+            },
+            model:null
         }
     },
     methods:{
         onOpen(param){
-            this.model = param.params.model;
+            this.model = param.params;
         },
         handleDialogClose(){
             this.handleClose();
-        }
+        },
+        //需要实现一个
+        getAjaxPromise(model){
+            let id = model.id;
+            return this.ajaxProxy.update(id, model) 
+        },
     },
     watch:{
         model:function(val, oldVal){
             for (const key in this.addForm) {
                 if (this.addForm.hasOwnProperty(key)) {
-                    this.addForm[key] = val[key]
+                    this.addForm[key] = val[key];
                 }
             }
         }

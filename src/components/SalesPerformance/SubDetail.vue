@@ -105,7 +105,7 @@
 <script>
 // import  SalesPerformanceOrderInfo from '@/packages/SalesPerformanceOrderInfoProxy';
 // import SalesPerformanceOrderInfoAjaxProxy from '@/ajaxProxy/SalesPerformanceOrderInfo';
-import JdOrderBasicAjax from '@/packages/jdOrderBasicProxy';
+import JdOrderBasicAjaxProxy from '@/packages/JdOrderBasicProxy';
 
     export default {
         name: 'SubDetail',
@@ -206,7 +206,7 @@ import JdOrderBasicAjax from '@/packages/jdOrderBasicProxy';
         created(){
             this.salesmanOrderProxy = new this.ajaxProxy({},this.getSalesmanOrder,this);
             this.internalOrderProxy = new this.ajaxProxy({},this.getInternalOrder,this);
-            this.jdOrderProxy = new JdOrderBasicAjax({}, this.getJdOrder, this);
+            this.jdOrderProxy = new JdOrderBasicAjaxProxy({}, this.getJdOrder, this);
         }
     }
 </script>

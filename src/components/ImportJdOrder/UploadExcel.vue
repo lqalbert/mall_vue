@@ -1,6 +1,6 @@
 <template>
     <div>
-        <MyDialog title="上传JD订单exdel文件" :name="name" :width="width" :height="height" @before-open="onOpen">
+        <MyDialog title="上传JD订单exdel文件" :name="name" :width="width" :height="height" @before-open="onOpen" @before-close="onClose">
             <el-row>
                 <el-form ref="addForm" :model="addForm" :rules="rules">
                     <el-form-item label="配送中心" prop="entrepot_id">
@@ -43,24 +43,9 @@
                 </el-col>
             </el-row>
             <br>
-            <el-row>
-                <el-col :span="12">
-                    <div v-show="matchButton">
-                        <hr>
-                        <span>本次导入数据共{{ sum }}条</span>
-                        点击匹配员工<el-button size="small" type="info" @click="matchUser()">智能匹配</el-button>
-                    </div>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="12">
-                    <div v-show="minusButton">
-                        <hr>
-                        <span>本次导入数据共{{ sum }}条</span>
-                        点击扣除库存<el-button size="small" type="info" @click="inventoryMinus()">扣除库存</el-button>
-                    </div>
-                </el-col>
-            </el-row>
+            <span>本次导入数据共{{ sum }}条</span>
+            <span>批次号:{{ flag }}</span>
+
             <div slot="dialog-foot" class="dialog-footer">
                 <el-button @click="handleDialogClose">取 消</el-button>
                 <el-button type="primary" @click="handleDialogClose">确 定</el-button>
@@ -105,7 +90,8 @@ export default {
                 entrepot_id:[
                     { required: true, type:'number',message: '选择配送中心', trigger: 'blur' }
                 ],
-            }
+            },
+            tableData:[]
         }
     },
     computed:{
@@ -142,12 +128,13 @@ export default {
                 this.$message.error(response.msg);
                 this.handleClose();
             }else{
-                this.matchButton = true;
-                this.minusButton = true;
+                // this.matchButton = true;
+                // this.minusButton = true;
                 this.sum = response.data.sum;
                 this.flag = response.data.flag;
+                this.$emit('flag-change', this.flag);
                 this.$message.success(response.msg);
-                console.log(response);//data{sum: 9, flag: 1539917338}
+                // console.log(response);//data{sum: 9, flag: 1539917338}
                 // this.$emit('submit-success');
             } 
         },
@@ -209,11 +196,16 @@ export default {
         handleDialogClose(){
             this.$refs.addForm.resetFields();
             this.handleClose();
-        }
-
+        },
+        onClose(){
+            this.sum = 0;
+            this.flag = 0;
+            this.tableData = [];
+        },
+        
     },
     created(){
-        
+       
     },
     
 }

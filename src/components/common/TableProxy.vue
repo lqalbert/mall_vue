@@ -94,7 +94,9 @@
                 default:''
             },
             rowClassName:[String, Function],
-            defaultSort: Object,
+            defaultSort: {
+                type:Object
+            },
             showSummary: {
                 type :Boolean,
                 default:false
@@ -166,8 +168,13 @@
               if (this.realParam) {
                   this.mainProxy.setExtraParam(this.realParam);
               }
-              this.toggleTableLoad();
-              this.mainProxy.load();
+            //   console.log(this.defaultSort);
+            if (!this.defaultSort) {
+                this.toggleTableLoad();
+                this.mainProxy.load();
+            }
+            
+              
           },
           handleSizeChange(v){
             this.dpagesize = v;
@@ -226,12 +233,7 @@
                       this.$refs.proxyTable.$on(key, this.bubble[key]);
                   }
               }
-              // for (let index = 0; index < this.bubble.length; index++) {
-              //     console.log(this.bubble[index]);
-              //     // const element = array[index];
-              //     console.log(this.$refs);
-              //     this.$refs.proxyTable.$on(this.bubble[index], this.bubleEvents, this.bubble[index]);
-              // }
+             
 
           }
       }

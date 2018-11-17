@@ -10,7 +10,7 @@
                         </el-date-picker>
                     </el-form-item>
                     <el-form-item  prop="end">
-                        <el-date-picker size="small" 
+                        <el-date-picker size="small"
                         v-model="view_end" 
                         placeholder="请选择止日期" :picker-options="setPicker"
                         @change="endDateChange" :clearable="false" class="form-item-unique">
@@ -55,13 +55,13 @@
         
         <el-row>
             <el-col>
-                <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" show-summary :page-size="15" @dbclick="dbclick" :default-sort="{prop: 'cus_count', order: 'descending'}">
+                <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" show-summary :page-size="15" @dbclick="dbclick" :default-sort="{prop: 'out_cus_cout', order: 'descending'}">
                     <el-table-column label="序号" align="center" width="65" type="index"></el-table-column>
                     <el-table-column prop="department_name" label="部门" width="180" align="center"></el-table-column>
                     <el-table-column prop="group_name" label="小组" width="180" align="center" v-if="searchForm.type=='user_id' || searchForm.type=='group_id'"></el-table-column>
                     <el-table-column prop="user_name"  label="员工" width="180" align="center" v-if="searchForm.type=='user_id'"></el-table-column>
                     <el-table-column prop="out_cus_cout" sortable="custom" label="成交客户数" align="center"></el-table-column>
-                    <el-table-column prop="all_sale_count" sortable="custom" label="成交单数" align="center"></el-table-column>
+                    <el-table-column prop="all_sale_count" sortable="custom" label="销售单数" align="center"></el-table-column>
                     <el-table-column prop="all_pay2" sortable="custom" label="销售金额" align="center"></el-table-column>
                     <el-table-column prop="append_sum" sortable="custom" label="赠品金额" align="center"></el-table-column>
                     <el-table-column prop="refund2" sortable="custom" label="退款金额" align="center"></el-table-column>

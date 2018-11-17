@@ -1,6 +1,6 @@
 <template>
     <div>
-        <MyDialog title="客户匹配" :name="name" :width="width" :height="height" @before-open="onOpen">
+        <MyDialog title="全部客户匹配" :name="name" :width="width" :height="height" @before-open="onOpen">
             <el-row>
                 <el-table :data="tableData" empty-text="暂无数据" border style="width: 100%" max-height="500">
                     <el-table-column prop="created_at" label="导入时间" width="180"></el-table-column>
@@ -18,6 +18,7 @@
                         <template slot-scope="scope">
                             <el-button v-if="scope.row.match_status ==0" size="small" type="info" 
                                 @click="userMatch(scope.row)">智能匹配</el-button>
+                            <el-button v-else size="small" type="info" disabled>智能匹配</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -78,7 +79,7 @@ export default {
         getData(){
             let vmThis = this;
             this.ajaxProxy.getMatch().then(function(response){
-                console.log(response);
+                // console.log(response);
                 vmThis.tableData = response.data;
             });
         }

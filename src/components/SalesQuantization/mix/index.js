@@ -90,6 +90,9 @@ const mix = {
 
         this.searchForm.start = Caculate.showLastWeekFirstDay();
         this.searchForm.end = Caculate.showLastWeekLastDay();
+
+        // this.$on('search-tool-change', this.onSearchChange);
+        // this.onSearchChange(this.searchForm);
         
     }
 };

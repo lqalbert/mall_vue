@@ -75,6 +75,7 @@
                     <el-table-column prop="exchange_in" label="换货入库" align="center"></el-table-column>
                     <el-table-column prop="return_in" label="退货入库" align="center" ></el-table-column>
                     <el-table-column prop="send_ing" label="发货在途" align="center" ></el-table-column>
+                    <el-table-column prop="jd_num" label="京东" align="center" ></el-table-column>
                     <el-table-column prop="sample" label="样品" align="center" ></el-table-column>
                     <el-table-column prop="destroy_num" label="损坏数量" align="center" ></el-table-column>
                     <el-table-column prop="created_at" label="时间" align="center" width="200"></el-table-column>

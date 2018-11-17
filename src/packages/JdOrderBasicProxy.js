@@ -1,6 +1,6 @@
 import SelectProxy from './SelectProxy';
 // let departProxy = new SelectProxy("/departments");
-import JdOrderBasicAjax from '@/ajaxProxy/JdOrderBasic.js';
+import JdOrderBasicAjax from '@/ajaxProxy/JdOrderBasic';
 
 const inventorySelect = function(param, callback, scope){
     this.extraParm = param || null;

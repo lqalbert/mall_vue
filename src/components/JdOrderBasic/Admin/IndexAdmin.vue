@@ -106,7 +106,7 @@
                         <el-button size="small" type="primary" @click="matchTable()">自动匹配</el-button>
                         <el-button size="small" type="primary" @click="handleMatch()">手动匹配</el-button>
                         <el-button size="small" type="primary" @click="cancelMatch()">取消分匹配</el-button> -->
-                        <el-button size="small" type="primary" @click="reMatch()" >重新分配</el-button>
+                        <el-button size="small" type="primary" @click="reMatch()" v-if="isAdmin" >重新分配</el-button>
                     </div>
 
                 </TableProxy>

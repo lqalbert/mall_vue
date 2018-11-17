@@ -59,17 +59,17 @@
                         <el-table-column prop="order_sn" label="订单号" align="center"></el-table-column>
                         <el-table-column prop="cus_name" label="成交客户" align="center">
                             <template slot-scope="scope">
-                                {{ scope.row.customer[0] ? scope.row.customer[0].cus_name :"" }}
+                                {{ scope.row.customer ? scope.row.customer.cus_name :"" }}
                             </template>
                         </el-table-column>
                         <el-table-column prop="cus_phone" label="客户固话" align="center">
                             <template slot-scope="scope">
-                                {{ scope.row.customer[0] ? scope.row.customer[0].tel :"" }}
+                                {{ scope.row.customer ? scope.row.customer.tel :"" }}
                             </template>
                         </el-table-column>
                         <el-table-column prop="telephone" label="客户手机" align="center">
                             <template slot-scope="scope">
-                                {{ scope.row.customer[0] ? scope.row.customer[0].tel :"" }}
+                                {{ scope.row.customer ? scope.row.customer.tel :"" }}
                             </template>
                         </el-table-column>
                         <el-table-column prop="all_money" label="成交金额" align="center"></el-table-column>
@@ -79,7 +79,7 @@
                             </template>
                         </el-table-column>
                         <el-table-column prop="order_at" label="成交时间" align="center"></el-table-column>
-                        <el-table-column prop="freight" label="邮费" align="center"></el-table-column>
+                        <!-- <el-table-column prop="freight" label="邮费" align="center"></el-table-column> -->
                     </el-table>
                     <br>
                     <el-row type="flex" justify="end">

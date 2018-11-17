@@ -3,16 +3,16 @@
             <el-row>
                 <el-col :span="24">
                     <el-form :inline="true" ref="searchForm" :model="searchForm">
-                        <el-form-item label="京东订单号" prop="order_sn">
+                        <!-- <el-form-item label="京东订单号" prop="order_sn">
                             <el-input size="small" v-model="searchForm.order_sn" placeholder="订单号" 
                                 class="form-item-unique">
                             </el-input>
-                        </el-form-item>
-                        <!-- <el-form-item label="批次号" prop="flag">
+                        </el-form-item> -->
+                        <el-form-item label="批次号" prop="flag">
                             <el-input size="small" v-model="searchForm.flag" placeholder="导入批次号" 
                                 class="form-item-unique">
                             </el-input>
-                        </el-form-item> -->
+                        </el-form-item>
                         <el-form-item>
                             <el-button type="info" size="small" @click="searchToolChange('searchForm')" 
                                 icon="search">查询

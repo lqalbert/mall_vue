@@ -168,8 +168,12 @@
               if (this.realParam) {
                   this.mainProxy.setExtraParam(this.realParam);
               }
-            this.toggleTableLoad();
-            this.mainProxy.load();
+            //   console.log(this.defaultSort);
+            if (!this.defaultSort) {
+                this.toggleTableLoad();
+                this.mainProxy.load();
+            }
+            
               
           },
           handleSizeChange(v){

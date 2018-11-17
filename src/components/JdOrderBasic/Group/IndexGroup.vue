@@ -69,11 +69,11 @@
                     <el-table-column label="快递号"   prop="express_sn" width="140"></el-table-column>
                     <el-table-column prop="status" label="订单状态" width="140"></el-table-column>
                     <el-table-column prop="remark" label="订单备注" width="140" show-overflow-tooltip></el-table-column>
-                    <el-table-column label="操作" width="140" align="center" fixed="right">
+                    <!-- <el-table-column label="操作" width="140" align="center" fixed="right">
                         <template slot-scope="scope">
                             <el-button size="small" type="primary" @click="$modal.show('jd-edit', scope.row )">录入快递</el-button>
                         </template>
-                    </el-table-column>
+                    </el-table-column> -->
                     <div slot="buttonbar">
                     </div>
                 </TableProxy>

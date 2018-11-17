@@ -34,7 +34,7 @@
         <el-row>
             <el-col>
                 <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" :page-size="15" 
-                 @dbclick="showRow" :default-sort="{prop: 'cus_count', order: 'descending'}" show-summary>
+                 @dbclick="showRow" :default-sort="{prop: 'invent_num', order: 'descending'}" show-summary>
                     <el-table-column label="序号" align="center" width="65" type="index"></el-table-column>
                     <el-table-column label="商品编号" width="100">
                         <template slot-scope="scope">

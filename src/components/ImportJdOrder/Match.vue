@@ -16,7 +16,7 @@
                     <el-table-column prop="file_name" label="导入文件名" show-overflow-tooltip></el-table-column>
                     <el-table-column label="操作" fixed="right" width="110">
                         <template slot-scope="scope">
-                            <el-button v-if="scope.row.match_status ==0" size="small" type="info" 
+                            <el-button v-if="scope.row.match_status != 3" size="small" type="info"
                                 @click="userMatch(scope.row)">智能匹配</el-button>
                             <el-button v-else size="small" type="info" disabled>智能匹配</el-button>
                         </template>

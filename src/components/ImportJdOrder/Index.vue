@@ -113,7 +113,7 @@
                 },
                 searchForm: {
                     order_sn:'',
-                    flag:'000',
+                    flag:'',
                     // drash:'0'
                 },
                 row_model:null,

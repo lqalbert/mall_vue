@@ -115,6 +115,7 @@
                         <!-- <el-button size="small"  type="info" @click="$modal.show('allocation')" >前台导入</el-button> -->
                         <el-button size="small"  type="info" @click="addComplain">投诉</el-button>
                         <el-button size="small"  type="info" @click="setPlan">计划</el-button>
+                        <el-button size="small"  type="info" @click="setEfficacy">护理方案</el-button>
                     </div>
                 </TableProxy>
             </el-col>
@@ -162,6 +163,10 @@
               :ajax-proxy="planAjaxProxy"
               @submit-success="handleReload">
         </plan>
+
+        <efficacy name="efficacy"
+              @submit-success="handleReload">
+        </efficacy>
 
         <preCheck name="preCheck"
                   width="60%">

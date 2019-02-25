@@ -203,7 +203,7 @@
             getDistributionCenter(data){
                 this.distributors = data.items;
             },
-            getTypes(data){
+            s(data){
                 this.types = data.items;
             },
             deleteAddress(row){
@@ -266,7 +266,7 @@
             let DistributionCenterSelect = new DistributionCenterProxy({}, this.getDistributionCenter, this);
             DistributionCenterSelect.load();
             //获取商品类型数据
-            let CategorySelect = new CategorySelectProxy({}, this.getTypes, this);
+            let CategorySelect = new CategorySelectProxy({}, this.s, this);
             CategorySelect.load();
             //获取仓库商品
             this.inventoryGoodsProxy = new InventoryGoodsSelectProxy({}, this.getInventoryGoods, this);

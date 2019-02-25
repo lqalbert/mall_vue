@@ -116,7 +116,7 @@
             loadEntrepot(data){
                 this.distributors = data.items;
             },
-            getTypes(data){
+            s(data){
                 this.types = data.items;
             },
             typeChange(v){
@@ -146,9 +146,9 @@
             this.entrepotSelect =  new DistributionCenterSelectProxy({}, this.loadEntrepot, this);
             this.entrepotSelect.load();
 
-            this.CategorySelect = new CategorySelectProxy({}, this.getTypes, this);
+            this.CategorySelect = new CategorySelectProxy({}, this.s, this);
             this.CategorySelect.load();
-            
+
         }
     }
 </script>

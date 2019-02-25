@@ -136,6 +136,13 @@
                                 </el-form-item>
                             </el-col>
                         </el-row>
+                        <el-row>
+                            <el-col :span="12">
+                                <el-form-item label="商品功效" prop="efficacy" >
+                                    <el-input class="name-input" v-model="editForm.efficacy"  auto-complete="off" placeholder="请填写商品功效"></el-input>
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
 
                         <el-row>
                             <el-col>
@@ -293,7 +300,7 @@ export default {
                 comments:"",
                 sale_count:"",
                 sale_able_count:"",
-
+                efficacy:"",
                 len:'',
                 width:'',
                 height:'',

@@ -53,6 +53,9 @@
                     <el-table-column prop="specifications" label="商品规格" align="center">
                     </el-table-column>
 
+                    <el-table-column prop="efficacy" label="商品功效" align="center">
+                    </el-table-column>
+
                     <el-table-column prop="goods_price" label="商品价格" align="center">
                     </el-table-column>
 

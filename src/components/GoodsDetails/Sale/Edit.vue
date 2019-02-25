@@ -58,6 +58,11 @@
                                         <el-input class="name-input" v-model="editForm.goods_number"  auto-complete="off" placeholder="请填写商品货号"></el-input>
                                     </el-form-item>
                                 </el-col>
+                                <el-col :span="12">
+                                    <el-form-item label="商品功效"  prop="efficacy">
+                                        <el-input class="name-input" v-model="editForm.efficacy"  auto-complete="off" placeholder="请填写商品功效"></el-input>
+                                    </el-form-item>
+                                </el-col>
                             </el-row>
                             <el-row>
                                 <el-col :span="12">
@@ -160,7 +165,7 @@
                     imgs:[],
                     category:[],
                     skus:[],
-    
+                    efficacy:'',
                 },
                 attrForm:{
                     value:"",

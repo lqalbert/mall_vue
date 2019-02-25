@@ -82,7 +82,9 @@ const PageList = {
     'JdOrderBasic': (resolve) => {require(['./JdOrderBasic/Index.vue'], resolve)},
     'ImportJdOrder': (resolve) => {require(['./ImportJdOrder/Index.vue'], resolve)},
     //预充值 保证金换个名
-    'EarnestMoney': (resolve) => {require(['./EarnestMoney/Index.vue'], resolve)}
+    'EarnestMoney': (resolve) => {require(['./EarnestMoney/Index.vue'], resolve)},
+    //护理方案
+    'Efficacy': (resolve) => {require(['./Efficacy/Index.vue'], resolve)}
 };
 
 export default PageList;

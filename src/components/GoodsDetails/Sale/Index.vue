@@ -53,6 +53,9 @@
                         </template>
                     </el-table-column>
 
+                    <el-table-column prop="efficacy" label="商品功效" align="center">
+                    </el-table-column>
+
                     <el-table-column prop="unit_type" label="商品单位" align="center">
                         <template slot-scope="scope">
                             {{setUnitTypes(scope.row.unit_type)}}

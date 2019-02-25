@@ -202,7 +202,7 @@
             getDistributionCenter(data){
                 this.distributors = data.items;
             },
-            getTypes(data){
+            s(data){
                 this.types = data.items;
             },
             dateRangeChange(v){

@@ -227,7 +227,7 @@
             getDistributionCenter(data){
                 this.distributors = data.items;
             },
-            getTypes(data){
+            s(data){
                 this.types = data.items;
             },
             setCateKind(pid){

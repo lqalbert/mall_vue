@@ -2,6 +2,7 @@ import Add from "../Add";
 import Edit from "../Edit";
 // import Chat from "../Chat";
 import Plan from "../Plan";
+import Efficacy from "../Efficacy";
 import addOrder from "../addOrder";
 import addAddress from "../addAddress";
 import Transfer from '../Transfer';
@@ -43,6 +44,7 @@ const mix = {
         AddTrack,
         SubDetail,
         Plan,
+        Efficacy,
         preCheck,
 	    AddComplain,
     },
@@ -191,6 +193,11 @@ const mix = {
                 this.$modal.show('plan', {model: this.model});
             }
         },
+      setEfficacy(){
+        if (this.selectRowCheck()) {
+          this.$modal.show('efficacy', {model: this.model});
+        }
+      },
 	    preCheck(){
             this.$modal.show('preCheck');
         },

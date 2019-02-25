@@ -134,6 +134,13 @@
                             </el-col>
                         </el-row>
                         <el-row>
+                            <el-col :span="12">
+                                <el-form-item label="商品功效" prop="efficacy" >
+                                    <el-input class="name-input" v-model="addForm.efficacy"  auto-complete="off" placeholder="请填写商品功效"></el-input>
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+                        <el-row>
                             <el-col>
                                 <quill-editor v-model="editContent"
                                     ref="myQuillEditor"
@@ -400,7 +407,7 @@ export default {
                 comments:"0",
                 sale_count:"0",
                 sale_able_count:"0",
-
+                efficacy:'',
                 len:'',
                 width:'',
                 height:'',

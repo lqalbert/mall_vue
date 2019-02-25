@@ -92,6 +92,7 @@
                             
                             <el-button size="small" type="info" @click="addComplain">投诉</el-button>
                             <el-button size="small" type="info" @click="setPlan">计划</el-button>
+                            <el-button size="small" type="info" @click="setEfficacy">护理方案</el-button>
                         </div>
                     </TableProxy>
                 </el-col>
@@ -141,7 +142,10 @@
 	        <plan name="plan"
                   :ajax-proxy="planAjaxProxy"
                   @submit-success="handleReload">
-            </plan>     
+            </plan>
+            <efficacy name="efficacy"
+                      @submit-success="handleReload">
+            </efficacy>
             <preCheck name="preCheck"
                   width="60%">
             </preCheck>   

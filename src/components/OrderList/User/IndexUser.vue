@@ -94,7 +94,12 @@
 
                     <el-table-column prop="order_all_money" label="总金额" align="center">
                     </el-table-column>
-                    <el-table-column prop="type_object.name" label="订单类型" ></el-table-column>
+                    <el-table-column prop="type_object.name" label="订单类型" >
+                        <template slot-scope="scope">
+                            <span  v-if="scope.row.type_object">{{scope.row.type_object.name}}</span>
+                            <span  v-else>销售订单</span>
+                        </template>
+                    </el-table-column>
                     <el-table-column prop="order_pay_money" label="实收金额" align="center">
                     </el-table-column>
                     <el-table-column prop="freight" label="自付邮费"></el-table-column>

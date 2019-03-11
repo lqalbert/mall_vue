@@ -34,13 +34,13 @@
                     <el-table-column label="方案名称" align="center" prop="name" header-align="center">
                     </el-table-column>
 
-                    <el-table-column label="关键字" align="center" prop="key_words" header-align="center">
+                    <el-table-column label="关键字" show-overflow-tooltip align="center" prop="key_words" header-align="center">
                     </el-table-column>
 
-                    <el-table-column label="适用情况" align="center" prop="situation" header-align="center">
+                    <el-table-column label="适用情况" show-overflow-tooltip align="center" prop="situation" header-align="center">
                     </el-table-column>
 
-                    <el-table-column label="搭配建议" align="center" prop="suggestion" header-align="center">
+                    <el-table-column label="搭配建议" show-overflow-tooltip align="center" prop="suggestion" header-align="center">
                     </el-table-column>
 
                     <el-table-column label="修改时间" align="center" prop="updated_at" header-align="center">

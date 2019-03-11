@@ -131,7 +131,7 @@
                             <el-table-column label="方案名称" align="center" prop="name" header-align="center">
                             </el-table-column>
 
-                            <el-table-column label="关键字" align="center" prop="key_words" header-align="center">
+                            <el-table-column label="关键字" show-overflow-tooltip align="center" prop="key_words" header-align="center">
                             </el-table-column>
 
                             <el-table-column label="编写人员" align="center" prop="user.realname" header-align="center">
@@ -170,7 +170,7 @@
                                 <el-table-column label="数量" align="center" prop="number" header-align="center" width="80">
                                 </el-table-column>
 
-                                <el-table-column label="功效" align="center" prop="efficacy" header-align="center">
+                                <el-table-column label="功效" show-overflow-tooltip align="center" prop="efficacy" header-align="center">
                                 </el-table-column>
                             </el-table>
                         </el-row>
@@ -499,6 +499,9 @@
           this.addForm.sum = allMoney;
           PersonalCareAjax.create(this.addForm).then((response)=>{
             this.$message.success('方案生成成功');
+            //清空输入的商品信息
+            this.comboGoods = [];
+            this.addForm = [];
             let id = this.params.id;
             let url = process.env.BASE_URL+ '/personal-care-show/'+ id;
             window.open(url);

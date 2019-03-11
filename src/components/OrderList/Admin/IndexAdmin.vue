@@ -110,7 +110,13 @@
                 <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" @cellclick="rowCellClick"  @dbclick="showRow" :page-size="15" :height="500" >
                     <el-table-column prop="order_sn" label="订单号" align="center" width="190">
                     </el-table-column>
-                    <el-table-column prop="type_object.name" label="订单类型" width="100"></el-table-column>
+                    <el-table-column prop="type_object.name" label="订单类型" width="100">
+                        <template slot-scope="scope">
+                            <span  v-if="scope.row.type_object">{{scope.row.type_object.name}}</span>
+                            <span  v-else>销售订单</span>
+                        </template>
+                    </el-table-column>
+
                     <el-table-column prop="order_all_money" label="总金额"  width="100" align="center">
                     </el-table-column>
                     <el-table-column prop="order_pay_money" label="实收金额" width="100"  align="center">

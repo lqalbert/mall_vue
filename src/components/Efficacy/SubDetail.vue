@@ -3,7 +3,7 @@
         <el-row>
             <el-col :span="24">
                 <el-table :data="cusTableData" border>
-                    <el-table-column align="center" prop="plan_id" label="商品编码" width="120" header-align="center"></el-table-column>
+                    <el-table-column align="center" prop="sku_sn" label="商品编号" width="120" header-align="center"></el-table-column>
                     <el-table-column align="center" prop="realname" label="商品名称" width="140" header-align="center">
                         <!--<template scope="scope">
                             {{ getName(scope.row.name, comboForm.goodsList) }}

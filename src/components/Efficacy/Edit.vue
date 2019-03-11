@@ -62,7 +62,7 @@
             <P>商品组合列表</P>
             <el-row>
                 <el-col :span='24'>
-                    <el-table  :data="comboGoods" border>
+                    <el-table  :data="comboGoods" border max-height="300">
                         <el-table-column label="商品类型" prop="type" width="120">
                             <template scope="scope">
                                 {{ getType(scope.row.type, cateOptions) }}

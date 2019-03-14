@@ -429,6 +429,8 @@
             obj.goods_name = goods_name;
             obj.efficacy = efficacy;
             obj.price = del_price;
+            //判断是否库存充足
+
             this.comboGoods.push(obj);
           }else{
             this.$message.error('请先选择商品');

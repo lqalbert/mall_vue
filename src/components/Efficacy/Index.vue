@@ -67,6 +67,7 @@
             name="add-efficacy"
             :ajax-proxy="ajaxProxy"
             :cate-options="cateOptions"
+            :combo-goods = "comboGoods"
             @submit-success="handleReload">
         </Add>
 
@@ -111,6 +112,7 @@
           situation: ""
         },
         cateOptions:[],
+        comboGoods:[],
         currentRow:null,
         tableData1: [],
         getCateCascaderUrl:"/tree",
@@ -126,6 +128,7 @@
       },
       showAdd(){
         this.$modal.show('add-efficacy');
+        this.comboGoods = [];
       },
       showEdit: function (row) {
         // this.currentRow = row;

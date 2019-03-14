@@ -114,6 +114,10 @@
       cateOptions:{
         type:Array,
         default:[]
+      },
+      comboGoods:{
+        type:Array,
+        default:[]
       }
     },
     computed:{
@@ -167,13 +171,13 @@
           allGoodsList:[],
           number:1
         },
-        comboGoods:[]
+        // comboGoods:[]
       }
     },
     methods:{
       onOpen(param){
         this.showTypes = param.params.model;
-        //console.log(this.showTypes);
+        console.log(param);
       },
       getAjaxPromise(model){
         // console.log(model);
@@ -265,10 +269,10 @@
     },
     mounted(){
       console.log(this.showTypes);
+      console.log(323)
     },
     created(){
       this.goodsProxy = new GoodsSelectProxy({}, this.loadGoods, this);
-
       this.getGoodsName();
       this.resetAddFormField();
       this.$on('submit-final', this.resetAddFormField);
